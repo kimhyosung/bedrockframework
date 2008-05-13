@@ -10,9 +10,6 @@
    </settings>
    <layout>
       <container>
-         <name>background</name>
-      </container>
-      <container>
          <name>shared</name>
       </container>
       <container>
@@ -22,19 +19,10 @@
          <name>section</name>
       </container>
       <container>
-         <name>footer</name>
-      </container>
-      <container>
-         <name>wiper</name>
-      </container>
-      <container>
          <name>preloader</name>
       </container>
       <container>
          <name>navigation</name>
-      </container>
-      <container>
-         <name>logo</name>
       </container>
       <container>
          <name>blocker</name>
@@ -69,7 +57,7 @@
          <remoting>
             <service>
                <alias>image_transfer</alias>
-               <gateway>http://coke.dev.ichameleongroup.com/cokeburn/Gateway.aspx</gateway>
+               <gateway>http://www.someurl.com/gateway.aspx</gateway>
                <path>ServiceLibrary.ImageTransfer</path>
             </service>
          </remoting>
