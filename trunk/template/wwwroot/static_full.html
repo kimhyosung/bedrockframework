@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		<title>Template</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<style type="text/css" media="screen">
+			html, body, #content	{ height:100%; }
+			body					{ margin:0; padding:0; overflow:hidden; }
+			#altContent				{ /* style alt content */ }
+		</style>
+		<script type="text/javascript" src="assets/scripts/swfobject.js"></script>
+		<script type="text/javascript">
+			swfobject.registerObject("flash_content", "9.0.0", "assets/swfs/expressInstall.swf");
+		</script>
+	</head>
+	<body>
+		<div id="content">
+			<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%" id="flash_content">
+				<param name="movie" value="assets/swfs/splash.swf" />
+				<param name="menu" value="false" />
+				<param name="quality" value="high" />
+				<param name="scale" value="noscale" />
+				<param name="salign" value="tl" />
+				<param name="allowfullscreen" value="true" />
+				<!--[if !IE]>-->
+				<object type="application/x-shockwave-flash" data="assets/swfs/splash.swf" width="100%" height="100%">
+					<param name="menu" value="false" />
+					<param name="quality" value="high" />
+					<param name="scale" value="noscale" />
+					<param name="salign" value="tl" />
+					<param name="allowfullscreen" value="true" />
+					<param name="base" value="assets/swfs/" />
+				<!--<![endif]-->
+					<a href="http://www.adobe.com/go/getflashplayer">
+						<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+					</a>
+				<!--[if !IE]>-->
+				</object>
+				<!--<![endif]-->
+			</object>
+		</div>
+	</body>
+</html>

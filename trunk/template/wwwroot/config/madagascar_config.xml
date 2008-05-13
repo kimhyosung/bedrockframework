@@ -1,0 +1,106 @@
+<config>
+   <settings>
+      <auto_intro>true</auto_intro>
+      <preloader_time>3</preloader_time>
+      <deep_linking>true</deep_linking>
+      <cache_prevention>false</cache_prevention>
+      <stylesheet>true</stylesheet>
+      <copy_deck>true</copy_deck>
+      <languages/>
+   </settings>
+   <layout>
+      <container>
+         <name>background</name>
+      </container>
+      <container>
+         <name>shared</name>
+      </container>
+      <container>
+         <name>site</name>
+      </container>
+      <container>
+         <name>section</name>
+      </container>
+      <container>
+         <name>footer</name>
+      </container>
+      <container>
+         <name>wiper</name>
+      </container>
+      <container>
+         <name>preloader</name>
+      </container>
+      <container>
+         <name>navigation</name>
+      </container>
+      <container>
+         <name>logo</name>
+      </container>
+      <container>
+         <name>blocker</name>
+      </container>
+      <container>
+         <name>overlay</name>
+      </container>
+   </layout>
+   <sections>
+      <section default="true">
+         <label>Homepage</label>
+         <alias>homepage</alias>
+      </section>
+      <section>
+         <label>Sub Page</label>
+         <alias>sub_page</alias>
+      </section>
+   </sections>
+   <environments>
+      <environment name="default">
+         <!--General Settings-->
+         <output_level>2</output_level>
+         <tracking_enabled>false</tracking_enabled>
+         <!--Path Information-->
+         <image_path>../images/</image_path>
+         <audio_path>../audio/</audio_path>
+         <video_path>../video/</video_path>
+         <xml_path>../xml/</xml_path>
+         <css_path>../css/</css_path>
+         <swf_path/>
+         <!--Remoting-->
+         <remoting>
+            <service>
+               <alias>image_transfer</alias>
+               <gateway>http://coke.dev.ichameleongroup.com/cokeburn/Gateway.aspx</gateway>
+               <path>ServiceLibrary.ImageTransfer</path>
+            </service>
+         </remoting>
+      </environment>
+      <environment name="local">
+         <patterns>
+            <pattern>file://</pattern>
+         </patterns>
+         <remoting>
+            <service>
+               <alias>image_transfer</alias>
+               <gateway>http:/notjkfaahlskfsd</gateway>
+               <path>ServiceLibrary.ImageTransfer</path>
+            </service>
+         </remoting>
+      </environment>
+      <environment name="development">
+         <patterns>
+            <pattern>ichameleongroup</pattern>
+         </patterns>
+      </environment>
+      <environment name="localhost">
+         <patterns>
+            <pattern>localhost</pattern>
+         </patterns>
+      </environment>
+      <environment name="staging">
+         <patterns>
+            <pattern>staging</pattern>
+         </patterns>
+      </environment>
+      <environment name="production"/>
+   </environments>
+</config>
