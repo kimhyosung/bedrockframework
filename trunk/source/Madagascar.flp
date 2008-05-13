@@ -1,0 +1,85 @@
+﻿<flash_project name="Madagascar" version="1">
+    <project_folder name="madagascar" expanded="true">
+        <project_folder name="base" expanded="true">
+            <project_file path="./com/icg/madagascar/base/BasicWidget.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/base/StandardWidget.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/base/DispatcherWidget.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/base/MovieClipWidget.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/base/SpriteWidget.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/base/StaticWidget.as" filetype="as" />
+        </project_folder>
+        <project_folder name="command" expanded="true">
+            <project_file path="./com/icg/madagascar/command/ICommand.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/command/SetQueueCommand.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/command/DoChangeCommand.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/command/DoDefaultCommand.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/command/RenderViewCommand.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/command/LoadQueueCommand.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/command/RenderPreloaderCommand.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/command/Command.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/command/URLChangeCommand.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/command/StateChangeCommand.as" filetype="as" />
+        </project_folder>
+        <project_folder name="controller" expanded="true">
+            <project_file path="./com/icg/madagascar/controller/Controller.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/controller/IController.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/controller/MadagascarController.as" filetype="as" />
+        </project_folder>
+        <project_folder name="dispatcher" expanded="true">
+            <project_file path="./com/icg/madagascar/dispatcher/MadagascarDispatcher.as" filetype="as" />
+        </project_folder>
+        <project_folder name="events" expanded="true">
+            <project_file path="./com/icg/madagascar/events/ViewEvent.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/events/MadagascarEvent.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/events/GenericEvent.as" filetype="as" />
+        </project_folder>
+        <project_folder name="util" expanded="true">
+            <project_file path="./com/icg/util/ClassUtil.as" filetype="as" />
+            <project_file path="./com/icg/util/MathUtil.as" filetype="as" />
+            <project_file path="./com/icg/util/ArrayUtil.as" filetype="as" />
+            <project_file path="./com/icg/util/StringUtil.as" filetype="as" />
+            <project_file path="./com/icg/util/XMLUtil.as" filetype="as" />
+            <project_file path="./com/icg/util/ButtonUtil.as" filetype="as" />
+            <project_file path="./com/icg/util/VariableUtil.as" filetype="as" />
+        </project_folder>
+        <project_folder name="view" expanded="true">
+            <project_file path="./com/icg/madagascar/view/IView.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/view/View.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/view/IPreloader.as" filetype="as" />
+        </project_folder>
+        <project_folder name="gadget" expanded="true">
+            <project_file path="./com/icg/madagascar/gadget/LayoutBuilder.as" filetype="as" />
+        </project_folder>
+        <project_folder name="tools" expanded="true">
+            <project_file path="./com/icg/tools/ChainLoader.as" filetype="as" />
+            <project_file path="./com/icg/tools/VisualLoader.as" filetype="as" />
+            <project_file path="./com/icg/tools/BackgroundLoader.as" filetype="as" />
+        </project_folder>
+        <project_folder name="factory" expanded="true">
+            <project_file path="./com/icg/madagascar/factory/AssetFactory.as" filetype="as" />
+        </project_folder>
+        <project_folder name="model" expanded="true">
+            <project_file path="./com/icg/madagascar/model/Config.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/model/SectionStorage.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/model/State.as" filetype="as" />
+        </project_folder>
+        <project_folder name="output" expanded="true">
+            <project_file path="./com/icg/madagascar/output/OutputManager.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/output/LocalAgent.as" filetype="as" />
+        </project_folder>
+        <project_folder name="manager" expanded="true">
+            <project_file path="./com/icg/madagascar/manager/ContainerManager.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/manager/PreloaderManager.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/manager/LoadManager.as" filetype="as" />
+            <project_file path="./com/icg/madagascar/manager/SectionManager.as" filetype="as" />
+        </project_folder>
+        <project_file path="./com/icg/madagascar/MadagascarBuilder.as" filetype="as" />
+        <project_file path="./com/icg/madagascar/AssetBuilder.as" filetype="as" />
+    </project_folder>
+    <project_file path="../template/flash/homepage.fla" filetype="fla" profile="" />
+    <project_file path="../template/flash/navigation.fla" filetype="fla" profile="" />
+    <project_file path="../template/flash/shared.fla" filetype="fla" profile="" />
+    <project_file path="../template/flash/shell.fla" filetype="fla" profile="" def_file="true" />
+    <project_file path="../template/flash/site.fla" filetype="fla" profile="" />
+    <project_file path="../template/flash/sub_page.fla" filetype="fla" profile="" />
+</flash_project>
