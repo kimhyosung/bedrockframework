@@ -7,7 +7,7 @@
 	import com.autumntactics.tools.Pagination;
 	import flash.display.DisplayObjectContainer;
 	import com.autumntactics.util.ArrayUtil;
-	import com.autumntactics.tools.ArrayBrowser;
+	import com.autumntactics.storage.ArrayBrowser;
 	import com.autumntactics.tools.IPageable;
 
 	public class PaginationCloner extends DispatcherWidget implements IPageable

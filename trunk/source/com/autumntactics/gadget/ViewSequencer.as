@@ -6,7 +6,7 @@
 	import com.autumntactics.bedrock.events.ViewEvent;
 	import com.autumntactics.bedrock.view.IView;
 	import com.autumntactics.bedrock.view.View;
-	import com.autumntactics.tools.ArrayBrowser;
+	import com.autumntactics.storage.ArrayBrowser;
 	
 	import flash.display.Sprite;
 

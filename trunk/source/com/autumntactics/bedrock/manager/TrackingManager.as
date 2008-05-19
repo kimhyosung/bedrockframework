@@ -1,12 +1,13 @@
 ﻿package com.autumntactics.bedrock.manager
 {
-	import com.autumntactics.events.DelayEvent;
 	import com.autumntactics.bedrock.base.StaticWidget;
-	import com.autumntactics.bedrock.logging.Logger;
 	import com.autumntactics.bedrock.logging.LogLevel;
+	import com.autumntactics.bedrock.logging.Logger;
+	import com.autumntactics.events.DelayEvent;
 	import com.autumntactics.storage.HashMap;
 	import com.autumntactics.timer.Delay;
-	import com.autumntactics.tracking.TrackingService;
+	
+	import com.autumntactics.tracking.ITrackingService;
 
 	public class TrackingManager extends StaticWidget
 	{
@@ -62,7 +63,7 @@
 		/*
 		Add/ Get Services
 		*/
-		public static function addService($name:String, $service:TrackingService):void
+		public static function addService($name:String, $service:ITrackingService):void
 		{
 			TrackingManager.OBJ_SERVICES.saveValue($name, $service);
 		}

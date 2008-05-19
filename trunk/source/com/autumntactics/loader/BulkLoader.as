@@ -4,6 +4,7 @@
 	import com.autumntactics.events.LoaderEvent;
 	import com.autumntactics.bedrock.base.DispatcherWidget;
 	import com.autumntactics.storage.ArrayCollection;
+	import com.autumntactics.storage.ArrayBrowser;
 	import com.autumntactics.util.MathUtil;
 	
 	import flash.system.LoaderContext;

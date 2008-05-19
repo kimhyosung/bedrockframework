@@ -19,7 +19,7 @@
 		/*
 		Parse Values
 		*/
-		public static function parse($values:String, $variableSeparator:String ="&" , $valueSeparator:String =  "=")
+		public static function parse($values:String, $variableSeparator:String ="&", $valueSeparator:String =  "="):void
 		{
 			if ($values != null) {
 				var strValues:String = $values;

@@ -1,10 +1,8 @@
-package com.autumntactics.data
+﻿package com.autumntactics.data
 {
 	import flash.display.BitmapData;
 	import flash.display.GradientType;
 	import flash.geom.Matrix;
-	
-	import mx.utils.StringUtil;
 	
 	public class BackgroundData
 	{

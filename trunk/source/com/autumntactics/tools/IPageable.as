@@ -1,4 +1,4 @@
-package com.autumntactics.tool
+package com.autumntactics.tools
 {
 	public interface IPageable
 	{

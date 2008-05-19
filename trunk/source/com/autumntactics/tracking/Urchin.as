@@ -1,17 +1,23 @@
 ﻿package com.autumntactics.tracking
 {
+	import com.autumntactics.bedrock.base.BasicWidget;
+	
 	import flash.external.ExternalInterface;
 	
-	public class Urchin extends TrackingService
+	import com.autumntactics.tracking.ITrackingService;
+	
+	public class Urchin extends BasicWidget implements ITrackingService
 	{
 		public function Urchin()
 		{
 		}
-		override public function track($section:String, $item:String):void
+		public function track(...$arguments:Array):void
 		{
-			this.status("/" + $section + "/" + $item);
-			if (ExternalInterface.available) {
-				ExternalInterface.call("urchinTracker", $section + "/" + $item);
+			if ($arguments.length == 2) {
+				this.status("/" + $arguments[0] + "/" + $arguments[1]);
+				if (ExternalInterface.available) {
+					ExternalInterface.call("urchinTracker", $arguments[0] + "/" + $arguments[1]);
+				}
 			}
 		}
 	}
