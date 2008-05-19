@@ -1,5 +1,5 @@
 ﻿<flash_project name="Template" version="1">
-    <project_folder name="project" expanded="true">
+    <project_folder name="project" expanded="false">
         <project_folder name="view" expanded="true">
             <project_file path="./com/icg/project/template/view/HomepageView.as" filetype="as" />
             <project_file path="./com/icg/project/template/view/SiteView.as" filetype="as" />

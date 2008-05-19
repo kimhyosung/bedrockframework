@@ -4,8 +4,8 @@
 	import com.autumntactics.bedrock.view.IView;
 	
 	import caurina.transitions.Tweener;
-	import com.autumntactics.bedrock.dispatcher.MadagascarDispatcher;
-	import com.autumntactics.bedrock.events.MadagascarEvent;
+	import com.autumntactics.bedrock.dispatcher.BedrockDispatcher;
+	import com.autumntactics.bedrock.events.BedrockEvent;
 	import com.autumntactics.bedrock.manager.ContainerManager;
 	import com.autumntactics.project.template.view.NavigationView;
 	public class SiteView extends View implements IView
@@ -41,7 +41,7 @@
 		private function onIntroTweenComplete():void
 		{
 			this.introComplete();
-			MadagascarDispatcher.dispatchEvent(new MadagascarEvent(MadagascarEvent.DO_DEFAULT,this));
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DO_DEFAULT,this));
 		}
 	}
 }

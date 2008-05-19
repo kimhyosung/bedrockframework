@@ -46,13 +46,13 @@
          <!--General Settings-->
          <output_level>2</output_level>
          <tracking_enabled>false</tracking_enabled>
-         <!--Path Information-->
-         <image_path>../images/</image_path>
-         <audio_path>../audio/</audio_path>
-         <video_path>../video/</video_path>
-         <xml_path>../xml/</xml_path>
-         <css_path>../css/</css_path>
-         <swf_path/>
+	<!--Path Information-->
+         <image_path>assets/images/</image_path>
+         <audio_path>assets/audio/</audio_path>
+         <video_path>assets/video/</video_path>
+         <xml_path>assets/xml/</xml_path>
+         <css_path>assets/css/</css_path>
+         <swf_path>assets/swfs/</swf_path>
          <!--Remoting-->
          <remoting>
             <service>
@@ -66,6 +66,13 @@
          <patterns>
             <pattern>file://</pattern>
          </patterns>
+	<!--Path Information-->
+         <image_path>../images/</image_path>
+         <audio_path>../audio/</audio_path>
+         <video_path>../video/</video_path>
+         <xml_path>../xml/</xml_path>
+         <css_path>../css/</css_path>
+         <swf_path>../swfs/</swf_path>
          <remoting>
             <service>
                <alias>image_transfer</alias>

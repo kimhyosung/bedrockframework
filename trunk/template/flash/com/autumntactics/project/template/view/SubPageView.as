@@ -6,8 +6,8 @@
 	import com.autumntactics.bedrock.view.IView;
 	
 	import caurina.transitions.Tweener;
-	import com.autumntactics.bedrock.dispatcher.MadagascarDispatcher;
-	import com.autumntactics.bedrock.events.MadagascarEvent;
+	import com.autumntactics.bedrock.dispatcher.BedrockDispatcher;
+	import com.autumntactics.bedrock.events.BedrockEvent;
 	import com.autumntactics.project.template.events.SiteEvent;
 	import flash.events.MouseEvent;
 	import com.autumntactics.util.ButtonUtil;
@@ -28,7 +28,7 @@
 		}
 		public function initialize($properties:Object=null):void
 		{
-			MadagascarDispatcher.addEventListener(SiteEvent.DATA_RESPONSE,this.onResponse);
+			BedrockDispatcher.addEventListener(SiteEvent.DATA_RESPONSE,this.onResponse);
 			ButtonUtil.addListeners(this.mcChangeButton,{down:this.onChangeClicked});
 			ButtonUtil.addListeners(this.mcRequestButton,{down:this.onRequestClicked});
 			this.initializeComplete();
@@ -45,15 +45,15 @@
 		}
 		public function clear():void
 		{
-			MadagascarDispatcher.removeEventListener(SiteEvent.DATA_RESPONSE,this.onResponse);
+			BedrockDispatcher.removeEventListener(SiteEvent.DATA_RESPONSE,this.onResponse);
 		}
 		private function onChangeClicked($event:MouseEvent):void
 		{
-			MadagascarDispatcher.dispatchEvent(new MadagascarEvent(MadagascarEvent.DO_CHANGE,this,{alias:"homepage"}));
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DO_CHANGE,this,{alias:"homepage"}));
 		}
 		private function onRequestClicked($event:MouseEvent):void
 		{
-			MadagascarDispatcher.dispatchEvent(new SiteEvent(SiteEvent.DATA_REQUEST,this, {form:"registration"}));
+			BedrockDispatcher.dispatchEvent(new SiteEvent(SiteEvent.DATA_REQUEST,this, {form:"registration"}));
 		}
 		private function onResponse($event:SiteEvent):void
 		{

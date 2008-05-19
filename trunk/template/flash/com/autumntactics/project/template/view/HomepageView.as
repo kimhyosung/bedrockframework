@@ -5,8 +5,8 @@
 	import com.autumntactics.bedrock.view.IView;
 	
 	import caurina.transitions.Tweener;
-	import com.autumntactics.bedrock.dispatcher.MadagascarDispatcher;
-	import com.autumntactics.bedrock.events.MadagascarEvent;
+	import com.autumntactics.bedrock.dispatcher.BedrockDispatcher;
+	import com.autumntactics.bedrock.events.BedrockEvent;
 	import flash.events.MouseEvent;
 	import com.autumntactics.util.ButtonUtil;
 	public class HomepageView extends View implements IView
@@ -39,12 +39,12 @@
 		}
 		public function clear():void
 		{
-			output("clear");
+			this.status("clear");
 		}
 		
 		private function onChangeClicked($event:MouseEvent):void
 		{
-			MadagascarDispatcher.dispatchEvent(new MadagascarEvent(MadagascarEvent.DO_CHANGE,this,{alias:"sub_page"}));
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DO_CHANGE,this,{alias:"sub_page"}));
 		}
 	}
 }

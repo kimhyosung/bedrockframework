@@ -4,7 +4,7 @@
 	import com.autumntactics.bedrock.view.View;
 	import com.autumntactics.bedrock.view.IView;
 	import com.autumntactics.bedrock.view.IPreloader;
-	import com.autumntactics.bedrock.events.MadagascarEvent;
+	import com.autumntactics.bedrock.events.BedrockEvent;
 	
 	import caurina.transitions.Tweener;
 	import flash.text.TextField;
