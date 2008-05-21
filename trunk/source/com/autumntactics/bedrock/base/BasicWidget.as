@@ -1,10 +1,8 @@
 ﻿package com.autumntactics.bedrock.base
 {
 	import com.autumntactics.bedrock.logging.ILogable;
-	import com.autumntactics.bedrock.logging.ILogable;
 	import com.autumntactics.bedrock.logging.LogLevel;
 	import com.autumntactics.bedrock.logging.Logger;
-	import com.autumntactics.util.ClassUtil;
 
 	public class BasicWidget implements ILogable
 	{
@@ -19,36 +17,43 @@
 		{
 			this.bolSilenceLogging=false;
 		}
-		public function log($level:int, ...$arguments):void
+		/*
+		Logging Functions
+	 	*/
+		private function sendLogMessage($level:int, $arguments:Array):void
 		{
 			if (!this.bolSilenceLogging) {
-				Logger.log(this, $level, $arguments);
-			}			
+				Logger.send(this, $level, $arguments);
+			}
+		}
+		public function log($level:int, ...$arguments):void
+		{
+			this.sendLogMessage(LogLevel.DEBUG, $arguments);		
 		}
 		
 		public function debug(...$arguments):void
 		{
-			this.log(LogLevel.DEBUG, $arguments);
+			this.sendLogMessage(LogLevel.DEBUG, $arguments);
 		}
 		
 		public function error(...$arguments):void
 		{
-			this.log(LogLevel.ERROR, $arguments);
+			this.sendLogMessage(LogLevel.ERROR, $arguments);
 		}
 		
 		public function fatal(...$arguments):void
 		{
-			this.log(LogLevel.FATAL, $arguments);
+			this.sendLogMessage(LogLevel.FATAL, $arguments);
 		}
 		
 		public function status(...$arguments):void
 		{
-			this.log(LogLevel.STATUS, $arguments);
+			this.sendLogMessage(LogLevel.STATUS, $arguments);
 		}
 		
 		public function warning(...$arguments):void
 		{
-			this.log(LogLevel.WARNING, $arguments);
+			this.sendLogMessage(LogLevel.WARNING, $arguments);
 		}
 		/*
 		Property Definitions

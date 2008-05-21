@@ -18,7 +18,7 @@
 		public static var remoteLogger:ILogger = new RemoteLogger;
 		
 		
-		private static function send($target:* = null, $category:int = 0, $arguments:Array = null):void
+		public static function send($target:* = null, $category:int = 0, $arguments:Array = null):void
 		{
 			if ($arguments.length > 0) {
 				var strMessage:String  = Logger.formatter.format($target, $category, $arguments);

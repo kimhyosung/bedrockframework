@@ -12,32 +12,32 @@ package com.autumntactics.bedrock.logging
 
 		public function log($level:int, ...$arguments):void
 		{
-			Logger.log(this, $level, $arguments);
+			Logger.send(this, $level, $arguments);
 		}
 		
 		public function debug(...$arguments):void
 		{
-			this.log(LogLevel.DEBUG, $arguments);
+			Logger.send(this, LogLevel.DEBUG, $arguments);
 		}
 		
 		public function error(...$arguments):void
 		{
-			this.log(LogLevel.ERROR, $arguments);
+			Logger.send(this, LogLevel.ERROR, $arguments);
 		}
 		
 		public function fatal(...$arguments):void
 		{
-			this.log(LogLevel.FATAL, $arguments);
+			Logger.send(this, LogLevel.FATAL, $arguments);
 		}
 		
 		public function status(...$arguments):void
 		{
-			this.log(LogLevel.STATUS, $arguments);
+			Logger.send(this, LogLevel.STATUS, $arguments);
 		}
 		
 		public function warning(...$arguments):void
 		{
-			this.log(LogLevel.WARNING, $arguments);
+			Logger.send(this, LogLevel.WARNING, $arguments);
 		}
 		
 		public function set silenceLogging($value:Boolean):void

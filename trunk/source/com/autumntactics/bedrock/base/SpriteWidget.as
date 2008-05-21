@@ -38,36 +38,40 @@
 		/*
 		Logging Functions
 	 	*/
-		public function log($level:int, ...$arguments):void
+	 	private function sendLogMessage($level:int, $arguments:Array):void
 		{
 			if (!this.bolSilenceLogging) {
-				Logger.log(this, $level, $arguments);
+				Logger.send(this, $level, $arguments);
 			}
+		}
+		public function log($level:int, ...$arguments:Array):void
+		{
+			this.sendLogMessage($level, $arguments);
 		}
 		
 		public function debug(...$arguments):void
 		{
-			this.log(LogLevel.DEBUG, $arguments);
+			this.sendLogMessage(LogLevel.DEBUG, $arguments);
 		}
 		
 		public function error(...$arguments):void
 		{
-			this.log(LogLevel.ERROR, $arguments);
+			this.sendLogMessage(LogLevel.ERROR, $arguments);
 		}
 		
 		public function fatal(...$arguments):void
 		{
-			this.log(LogLevel.FATAL, $arguments);
+			this.sendLogMessage(LogLevel.FATAL, $arguments);
 		}
 		
 		public function status(...$arguments):void
 		{
-			this.log(LogLevel.STATUS, $arguments);
+			this.sendLogMessage(LogLevel.STATUS, $arguments);
 		}
 		
 		public function warning(...$arguments):void
 		{
-			this.log(LogLevel.WARNING, $arguments);
+			this.sendLogMessage(LogLevel.WARNING, $arguments);
 		}
 		/*
 		Property Definitions
