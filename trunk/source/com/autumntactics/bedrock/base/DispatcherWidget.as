@@ -17,10 +17,10 @@
 		/*
 		Constructor
 		*/
-		public function DispatcherWidget($silenceConstruction:Boolean = true)
+		public function DispatcherWidget($silenceConstruction:Boolean = false)
 		{
 			this.bolSilenceLogging = false;
-			if ($silenceConstruction) {
+			if (!$silenceConstruction) {
 				this.log(LogLevel.CONSTRUCTOR, "Constructed");
 			}
 		}

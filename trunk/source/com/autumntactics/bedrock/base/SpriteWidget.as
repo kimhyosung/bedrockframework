@@ -16,11 +16,11 @@
 		/*
 		Constructor
 		*/
-		public function SpriteWidget($silenceConstruction:Boolean = true)
+		public function SpriteWidget($silenceConstruction:Boolean = false)
 		{
 			super();
 			this.bolSilenceLogging = false;
-			if ($silenceConstruction) {
+			if (!$silenceConstruction) {
 				this.log(LogLevel.CONSTRUCTOR, "Constructed");
 			}
 		}

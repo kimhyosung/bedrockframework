@@ -3,6 +3,7 @@
       <auto_intro>true</auto_intro>
       <preloader_time>3</preloader_time>
       <deep_linking>true</deep_linking>
+      <remoting>true</remoting>
       <cache_prevention>false</cache_prevention>
       <stylesheet>true</stylesheet>
       <copy_deck>true</copy_deck>
@@ -46,7 +47,7 @@
          <!--General Settings-->
          <output_level>2</output_level>
          <tracking_enabled>false</tracking_enabled>
-	<!--Path Information-->
+         <!--Path Information-->
          <image_path>assets/images/</image_path>
          <audio_path>assets/audio/</audio_path>
          <video_path>assets/video/</video_path>
@@ -66,7 +67,7 @@
          <patterns>
             <pattern>file://</pattern>
          </patterns>
-	<!--Path Information-->
+         <!--Path Information-->
          <image_path>../images/</image_path>
          <audio_path>../audio/</audio_path>
          <video_path>../video/</video_path>

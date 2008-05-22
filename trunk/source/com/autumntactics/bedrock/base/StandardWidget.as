@@ -4,10 +4,10 @@
 
 	public class StandardWidget extends BasicWidget
 	{
-		public function StandardWidget($silenceConstruction:Boolean = true)
+		public function StandardWidget($silenceConstruction:Boolean = false)
 		{
 			super();
-			if ($silenceConstruction) {
+			if (!$silenceConstruction) {
 				this.log(LogLevel.CONSTRUCTOR, "Constructed");
 			}
 		}

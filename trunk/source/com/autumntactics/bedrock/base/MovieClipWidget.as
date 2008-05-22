@@ -16,11 +16,11 @@
 		/*
 		Constructor
 		*/
-		public function MovieClipWidget($silenceConstruction:Boolean = true)
+		public function MovieClipWidget($silenceConstruction:Boolean = false)
 		{
 			super();
 			this.bolSilenceLogging = false;
-			if ($silenceConstruction) {
+			if (!$silenceConstruction) {
 				this.log(LogLevel.CONSTRUCTOR, "Constructed");
 			}
 		}
