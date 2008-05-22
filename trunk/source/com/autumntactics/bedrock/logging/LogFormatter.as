@@ -33,7 +33,7 @@
 			if ($arguments.length > 1) {
 				return this.getSimpleFormat(strTarget, strCategory, $arguments);
 			} else {
-				if (LogFormatter.isObject($arguments[0])) {
+				if (LogFormatter.isObject($arguments[0]) || LogFormatter.isArray($arguments[0])) {
 					return this.getComplexFormat(strTarget, strCategory, $arguments[0]);
 				} else {
 					return this.getSimpleFormat(strTarget, strCategory, $arguments);
@@ -67,7 +67,7 @@
 			var strReturn:String = "";
 			for (var i in objTrace) {
 				
-				if (LogFormatter.isObject(objTrace[i])) {
+				if (LogFormatter.isObject(objTrace[i]) || LogFormatter.isArray(objTrace[i])) {
 					strReturn += this.getVariableFormat(i, objTrace[i], $tabs + 1, "+");
 					for (var o in objTrace[i]) {
 						strReturn += this.getVariableFormat(o, objTrace[i][o], $tabs + 2);						
@@ -113,6 +113,10 @@
 	 	private static function isObject($target:*):Boolean
 		{
 			return (getQualifiedClassName($target) == "Object") ? true : false;
+		}
+		private static function isArray($target:*):Boolean
+		{
+			return (getQualifiedClassName($target) == "Array") ? true : false;
 		}
 	}
 }
