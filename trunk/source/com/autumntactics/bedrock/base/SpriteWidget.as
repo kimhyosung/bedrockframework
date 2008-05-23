@@ -49,27 +49,27 @@
 			this.sendLogMessage($level, $arguments);
 		}
 		
-		public function debug(...$arguments):void
+		public function debug(...$arguments:Array):void
 		{
 			this.sendLogMessage(LogLevel.DEBUG, $arguments);
 		}
 		
-		public function error(...$arguments):void
+		public function error(...$arguments:Array):void
 		{
 			this.sendLogMessage(LogLevel.ERROR, $arguments);
 		}
 		
-		public function fatal(...$arguments):void
+		public function fatal(...$arguments:Array):void
 		{
 			this.sendLogMessage(LogLevel.FATAL, $arguments);
 		}
 		
-		public function status(...$arguments):void
+		public function status(...$arguments:Array):void
 		{
 			this.sendLogMessage(LogLevel.STATUS, $arguments);
 		}
 		
-		public function warning(...$arguments):void
+		public function warning(...$arguments:Array):void
 		{
 			this.sendLogMessage(LogLevel.WARNING, $arguments);
 		}

@@ -7,6 +7,7 @@
 	import com.autumntactics.bedrock.dispatcher.BedrockDispatcher;
 	import com.autumntactics.bedrock.events.BedrockEvent;
 	import com.autumntactics.bedrock.gadget.*;
+	import com.autumntactics.bedrock.logging.Logger;
 	import com.autumntactics.bedrock.manager.*;
 	import com.autumntactics.bedrock.model.*;
 	import com.autumntactics.bedrock.output.OutputManager;
@@ -28,7 +29,7 @@
 		private var numLoadIndex:Number;		
 		private var objConfigLoader:URLLoader;
 	
-		private const arrLoadSequence:Array=new Array("loadDispatcher","loadParams","loadConfig","loadCacheSettings", "loadOutput","loadController","loadServices","loadTracking","loadEngineClasses","loadEngineCommands","loadEngineContainers","loadCSS", "loadCopy", "buildDefaultPanel","loadModels","loadCommands","loadViews","loadCustomization","loadComplete");
+		private const arrLoadSequence:Array=new Array("loadDispatcher","loadParams","loadConfig","loadCacheSettings", "loadLogging","loadController","loadServices","loadTracking","loadEngineClasses","loadEngineCommands","loadEngineContainers","loadCSS", "loadCopy", "buildDefaultPanel","loadModels","loadCommands","loadViews","loadCustomization","loadComplete");
 		private var objBedrockController:BedrockController;
 		public var params:String
 		
@@ -111,9 +112,9 @@
 			}
 			this.next();
 		}
-		final private function loadOutput():void
+		final private function loadLogging():void
 		{
-			OutputManager.outputLevel=Config.getValue("output_level");
+			Logger.localLevel = Params.getValue("local_level")  || Config.getValue("local_level");
 			this.next();
 		}
 		final private function loadCSS():void

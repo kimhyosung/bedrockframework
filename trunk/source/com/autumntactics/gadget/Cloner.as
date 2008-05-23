@@ -118,8 +118,8 @@ package com.autumntactics.gadget
 		*/
 		public function createClone():DisplayObjectContainer
 		{
-			this.objCurrentClone=new this.clsChild  ;
-			this.objCloneMap.saveValue(this.numIndex,this.objCurrentClone);
+			this.objCurrentClone=new this.clsChild;
+			this.objCloneMap.saveValue(this.numIndex.toString(), this.objCurrentClone);
 
 			this.applyProperties(this.objCurrentClone,this.getProperties());
 			this.objContainer.addChild(this.objCurrentClone);
@@ -260,7 +260,7 @@ package com.autumntactics.gadget
 		*/
 		public function getClone($index:int):*
 		{
-			return this.objCloneMap.getValue($index);
+			return this.objCloneMap.getValue($index.toString());
 		}
 
 		/*
