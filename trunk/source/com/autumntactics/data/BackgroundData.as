@@ -3,6 +3,7 @@
 	import flash.display.BitmapData;
 	import flash.display.GradientType;
 	import flash.geom.Matrix;
+	import flash.geom.Rectangle;
 	
 	public class BackgroundData
 	{
@@ -24,6 +25,7 @@
 		public var matchStageSize:Boolean;
 		public var matrix:Matrix;
 		public var rotation:Number;
+		public var rectangle:Rectangle;
 		
 		// Fill Properties
 		public var fillColor:uint;

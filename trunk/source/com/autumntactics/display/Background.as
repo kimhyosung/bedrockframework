@@ -1,12 +1,12 @@
 ﻿package com.autumntactics.display
 {
-	import com.autumntactics.data.BackgroundData;
 	import com.autumntactics.bedrock.base.SpriteWidget;
+	import com.autumntactics.data.BackgroundData;
 	import com.autumntactics.util.MathUtil;
 	
-	import flash.display.Graphics;
 	import flash.events.Event;
 	import flash.geom.Matrix;
+	import flash.geom.Rectangle;
 
 	public class Background extends SpriteWidget
 	{
@@ -21,12 +21,15 @@
 		public function initialize($data:BackgroundData):void
 		{
 			this.objData = $data;
+			this.objData.rectangle = (this.objData.rectangle != null) ? this.objData.rectangle : new Rectangle(0, 0, this.objData.width, this.objData.height);
 			this.objData.matrix =  (this.objData.rotation != 0 && objData.matrix == null) ? this.getMatrix() : objData.matrix;
-			this.draw(this.objData.width, this.objData.height);
+			
 			if (this.objData.matchStageSize) {
 				this.stage.addEventListener(Event.RESIZE, this.onResize);
-				this.draw(this.stage.stageWidth, this.stage.stageHeight);
-			}			
+				this.draw(this.getStageRectangle());
+			} else  {
+				this.draw(this.objData.rectangle);
+			}
 		}
 		public function clear():void
 		{
@@ -35,13 +38,13 @@
 		private function getMatrix():Matrix
 		{
 			var objMatrix:Matrix = new Matrix();
-			objMatrix.createGradientBox(this.objData.width, this.objData.height, MathUtil.degreesToRadians(this.objData.rotation));
+			objMatrix.createGradientBox(this.objData.rectangle.width, this.objData.height, MathUtil.degreesToRadians(this.objData.rotation));
 			return objMatrix;
 		}
 		/*
 		Draw the Shape
 		*/
-		public function draw($width:uint, $height:uint):void
+		public function draw($rectangle:Rectangle):void
 		{
 			this.graphics.clear();
 			
@@ -56,17 +59,22 @@
 					this.graphics.beginGradientFill(this.objData.gradientType, this.objData.colors, this.objData.alphas, this.objData.ratios, this.objData.matrix, this.objData.spreadMethod, this.objData.interpolationMethod, this.objData.focalPointRatio);
 					break;
 			}			
-			this.graphics.drawRect(0, 0, $width, $height);
+			this.graphics.drawRect($rectangle.x, $rectangle.y, $rectangle.width, $rectangle.height);
 			this.graphics.endFill();
+		}
+		/*
+		Get Stage rectangle
+	 	*/
+	 	private function getStageRectangle():Rectangle
+		{
+			return new Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight);
 		}
 		/*
 		Property Definitions
 		*/
 		public function set data($data:BackgroundData):void
 		{
-			this.objData = $data;
-			this.objData.matrix =  (this.objData.rotation != 0 && objData.matrix == null) ? this.getMatrix() : objData.matrix;
-			this.draw(this.objData.width, this.objData.height)
+			this.initialize($data);
 		}
 		public function get data():BackgroundData
 		{
@@ -77,7 +85,7 @@
 		*/
 		private function onResize($event:Event):void
 		{
-			this.draw(this.stage.stageWidth, this.stage.stageHeight);
+			this.draw(this.getStageRectangle());
 		}
 	}
 }
