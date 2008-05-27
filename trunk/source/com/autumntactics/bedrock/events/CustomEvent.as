@@ -1,4 +1,4 @@
-package source.com.autumntactics.bedrock.events
+package com.autumntactics.bedrock.events
 {
 	import com.autumntactics.bedrock.events.GenericEvent;
 
