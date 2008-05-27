@@ -1,17 +1,21 @@
 ﻿package com.autumntactics.events
 {
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import com.autumntactics.bedrock.events.GenericEvent;
+	import flash.display.DisplayObjectContainer;
+	
+	import source.com.autumntactics.bedrock.events.CustomEvent;
 
-	public class ClonerEvent extends GenericEvent
+	public class ClonerEvent extends CustomEvent
 	{
 		public static  const INIT:String = "ClonerEvent.onInitialize";
 		public static  const CREATE:String = "ClonerEvent.onCreate";
 		public static  const REMOVE:String = "ClonerEvent.onRemove";		
 		public static  const COMPLETE:String = "ClonerEvent.onComplete";		
 		public static  const CLEAR:String = "ClonerEvent.onClear";
-
+		
+		public var total:int;
+		public var id:int;
+		public var child:DisplayObjectContainer;
+		public var children:Array;
 
 		public function ClonerEvent($type:String, $origin:Object, $details:Object=null, $bubbles:Boolean=false, $cancelable:Boolean=true)
 		{

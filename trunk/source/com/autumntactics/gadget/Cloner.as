@@ -124,7 +124,7 @@ package com.autumntactics.gadget
 			this.applyProperties(this.objCurrentClone,this.getProperties());
 			this.objContainer.addChild(this.objCurrentClone);
 
-			this.dispatchEvent(new ClonerEvent(ClonerEvent.CREATE,this,{clone:this.objCurrentClone,id:this.numIndex}));
+			this.dispatchEvent(new ClonerEvent(ClonerEvent.CREATE,this,{child:this.objCurrentClone,id:this.numIndex}));
 			this.numIndex++;
 			return this.objCurrentClone;
 		}
