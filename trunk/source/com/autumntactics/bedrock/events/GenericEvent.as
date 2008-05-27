@@ -15,7 +15,6 @@
 			super($type,$bubbles,$cancelable);
 			this.origin=$origin;
 			this.details=$details;
-			this.injectDetails(this.details);
 		}
 
 		override public function clone():Event

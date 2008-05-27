@@ -2,7 +2,7 @@
 {
 	import flash.display.DisplayObjectContainer;
 	
-	import source.com.autumntactics.bedrock.events.CustomEvent;
+	import com.autumntactics.bedrock.events.CustomEvent;
 
 	public class ClonerEvent extends CustomEvent
 	{
