@@ -10,13 +10,13 @@
 	import com.autumntactics.bedrock.logging.Logger;
 	import com.autumntactics.bedrock.manager.*;
 	import com.autumntactics.bedrock.model.*;
-	import com.autumntactics.bedrock.output.OutputManager;
 	import com.autumntactics.bedrock.view.*;
 	import com.autumntactics.display.Blocker;
 	import com.autumntactics.loader.BackgroundLoader;
 	import com.autumntactics.loader.VisualLoader;
 	import com.autumntactics.storage.ArrayBrowser;
 	
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.events.SecurityErrorEvent;
@@ -194,10 +194,13 @@
 		final private function loadEngineContainers():void
 		{
 			LayoutBuilder.buildLayout(Config.getSetting("layout"));
-			SectionManager.set(ContainerManager.getContainer("site") as VisualLoader);
+			SectionManager.container = ContainerManager.getContainer("site") as VisualLoader;
+			ContainerManager.buildContainer("preloader", new Sprite);			
+			
 			var objBlocker:Blocker=new Blocker();
 			ContainerManager.buildContainer("blocker",objBlocker);
 			objBlocker.show();
+			
 			this.next();
 		}
 		final private function loadServices():void

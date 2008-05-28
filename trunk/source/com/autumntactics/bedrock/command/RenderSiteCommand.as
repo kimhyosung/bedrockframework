@@ -1,13 +1,10 @@
 ﻿package com.autumntactics.bedrock.command
 {
 	import com.autumntactics.bedrock.events.GenericEvent;
-	import com.autumntactics.bedrock.events.BedrockEvent;
-	import com.autumntactics.bedrock.factory.AssetFactory;
 	import com.autumntactics.bedrock.manager.ContainerManager;
-	import com.autumntactics.bedrock.manager.LoadManager;
 	import com.autumntactics.bedrock.manager.PreloaderManager;
-	import com.autumntactics.bedrock.model.SectionStorage;
-	import com.autumntactics.bedrock.view.IPreloader;
+	
+	import flash.display.DisplayObjectContainer;
 	
 	public class RenderSiteCommand extends Command implements ICommand
 	{
@@ -17,8 +14,9 @@
 		public  function execute($event:GenericEvent):void
 		{
 			var objPreloader:*  = new SitePreloader;
-			ContainerManager.buildContainer("preloader",objPreloader);
-			PreloaderManager.set(objPreloader);
+			var objContainer:DisplayObjectContainer = ContainerManager.getContainer("preloader");
+			objContainer.addChild(objPreloader);
+			PreloaderManager.container = objPreloader;
 		}
 	}
 }

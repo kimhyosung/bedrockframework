@@ -33,6 +33,7 @@
 			numDepth=$depth > -1?$depth:numDepth;
 			
 			var objChild:DisplayObjectContainer=$child || new VisualLoader;
+		
 			var numActualDepth:int=ContainerManager.addChild($container || ContainerManager.OBJ_SCOPE,objChild,numDepth);
 			ContainerManager.applyProperties(objChild,$properties);
 

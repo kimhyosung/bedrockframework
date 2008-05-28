@@ -39,7 +39,7 @@
 					}
 				}
 				this.status("Transitioning to - " + strDefaultAlias);
-				SectionManager.set(ContainerManager.getContainer("section") as VisualLoader);
+				SectionManager.container = ContainerManager.getContainer("section") as VisualLoader;
 				BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.SET_QUEUE,this,{alias:strDefaultAlias}));
 				BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RENDER_PRELOADER,this));
 			}

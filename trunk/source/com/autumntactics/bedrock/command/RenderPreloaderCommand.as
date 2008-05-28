@@ -23,7 +23,7 @@
 				objPreloader=AssetFactory.getPreloader("default");
 			}
 			ContainerManager.buildContainer("preloader",objPreloader);
-			PreloaderManager.set(objPreloader);
+			PreloaderManager.container = objPreloader;
 		}
 	}
 }

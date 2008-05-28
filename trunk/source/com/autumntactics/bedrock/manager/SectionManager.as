@@ -30,10 +30,6 @@
 			BedrockDispatcher.addEventListener(BedrockEvent.DO_INITIALIZE,SectionManager.onDoInitialize);
 			BedrockDispatcher.addEventListener(BedrockEvent.LOAD_COMPLETE,SectionManager.onLoadComplete);
 		}
-		public static function set($loader:VisualLoader):void
-		{
-			SectionManager.OBJ_LOADER=$loader;
-		}
 		/*
 		Manager Event Listening
 		*/
@@ -52,6 +48,19 @@
 		public static function outro():void
 		{
 			SectionManager.OBJ_SECTION.outro();
+		}
+		/*
+		Create a detail object to be sent out with events
+	 	*/
+	 	private static function getDetailObject():Object
+		{
+			var objDetail:Object = new Object();
+			try {
+				objDetail.section = SectionStorage.current;
+			} catch ($e:Error) {
+			}
+			objDetail.view = SectionManager.OBJ_SECTION;
+			return objDetail;
 		}
 		/*
 		Framework Event Handlers
@@ -86,15 +95,16 @@
 			SectionManager.reset();
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RENDER_PRELOADER,SectionManager.OBJ_LOADER));
 		}
-		private static function getDetailObject():Object
+		/*
+		Set the current container to load content into
+	 	*/
+	 	public static function set container($loader:VisualLoader):void
 		{
-			var objDetail:Object = new Object();
-			try {
-				objDetail.section = SectionStorage.current;
-			} catch ($e:Error) {
-			}
-			objDetail.view = SectionManager.OBJ_SECTION;
-			return objDetail;
+			SectionManager.OBJ_LOADER=$loader;
+		}
+		public static function get container():VisualLoader
+		{
+			return SectionManager.OBJ_LOADER;
 		}
 	}
 

@@ -21,12 +21,6 @@
 			BedrockDispatcher.addEventListener(BedrockEvent.LOAD_PROGRESS,PreloaderManager.onLoadProgress);
 			BedrockDispatcher.addEventListener(BedrockEvent.LOAD_COMPLETE,PreloaderManager.onLoadComplete);
 		}
-		public static function set($preloader:IPreloader):void
-		{
-			PreloaderManager.OBJ_PRELOADER=$preloader;
-			PreloaderManager.addListeners(PreloaderManager.OBJ_PRELOADER);
-			PreloaderManager.OBJ_PRELOADER.initialize();
-		}
 		/*
 		Manager Event Listening
 		*/
@@ -74,6 +68,19 @@
 			PreloaderManager.removeListeners(PreloaderManager.OBJ_PRELOADER);
 			PreloaderManager.OBJ_PRELOADER.remove();
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DO_INITIALIZE, PreloaderManager));
+		}
+		/*
+		Set the display for the preloader
+	 	*/
+	 	public static function set container($preloader:IPreloader):void
+		{
+			PreloaderManager.OBJ_PRELOADER=$preloader;
+			PreloaderManager.addListeners(PreloaderManager.OBJ_PRELOADER);
+			PreloaderManager.OBJ_PRELOADER.initialize();
+		}
+		public static function get container():IPreloader
+		{
+			return PreloaderManager.OBJ_PRELOADER;
 		}
 	}
 

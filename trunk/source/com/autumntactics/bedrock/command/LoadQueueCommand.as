@@ -30,7 +30,7 @@
 					strPath = Config.getValue("swf_path") + objSection.alias + ".swf"
 				}				
 				LoadManager.addToQueue(strPath,ContainerManager.getContainer("section"));
-				SectionManager.set(ContainerManager.getContainer("section") as VisualLoader);
+				SectionManager.container = ContainerManager.getContainer("section") as VisualLoader;
 			}
 			LoadManager.loadQueue();
 		}
