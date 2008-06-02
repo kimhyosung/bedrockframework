@@ -7,6 +7,7 @@
 	import com.autumntactics.bedrock.dispatcher.BedrockDispatcher;
 	import com.autumntactics.bedrock.events.BedrockEvent;
 	import com.autumntactics.bedrock.gadget.*;
+	import com.autumntactics.bedrock.logging.LogLevel;
 	import com.autumntactics.bedrock.logging.Logger;
 	import com.autumntactics.bedrock.manager.*;
 	import com.autumntactics.bedrock.model.*;
@@ -114,7 +115,8 @@
 		}
 		final private function loadLogging():void
 		{
-			Logger.localLevel = Params.getValue("local_level")  || Config.getValue("local_level");
+			Logger.localLevel = LogLevel[Params.getValue("local_level")  || Config.getValue("local_level")];
+			Logger.loggerURL = Config.getValue("logger_url");
 			this.next();
 		}
 		final private function loadCSS():void
@@ -195,9 +197,9 @@
 		{
 			LayoutBuilder.buildLayout(Config.getSetting("layout"));
 			SectionManager.container = ContainerManager.getContainer("site") as VisualLoader;
-			ContainerManager.buildContainer("preloader", new Sprite);			
-			
-			var objBlocker:Blocker=new Blocker();
+			ContainerManager.buildContainer("preloader", new Sprite);
+				
+			var objBlocker:Blocker=new Blocker(Params.getValue("blocker_alpha"));
 			ContainerManager.buildContainer("blocker",objBlocker);
 			objBlocker.show();
 			

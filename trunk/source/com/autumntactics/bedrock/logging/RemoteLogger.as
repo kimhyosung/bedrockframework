@@ -3,16 +3,20 @@
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 
-	public class RemoteLogger implements ILogger
+	public class RemoteLogger implements IRemoteLogger
 	{
-		
+		/*
+		Variable Declarations
+		*/
 		public var connection:URLLoader;
 		public var request:URLRequest;
-		
+		/*
+		Constructor
+		*/
 		public function RemoteLogger()
 		{
 			this.connection = new URLLoader;
-			this.request = new URLRequest("http://localhost/bedrock/dynamic_fixed.html");
+			this.request = new URLRequest();
 		}
 
 		public function log($target:*, $category:int, $message:String):void
@@ -21,6 +25,16 @@
 				this.connection.load(this.request);
 			}
 		}
-	
+		/*
+		Property Definitions
+	 	*/
+		public function set loggerURL($url:String):void
+		{
+			this.request.url = $url;
+		}
+		public function get loggerURL():String
+		{
+			return this.request.url;
+		}
 	}
 }

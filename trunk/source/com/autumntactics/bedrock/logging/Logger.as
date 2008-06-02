@@ -15,7 +15,7 @@
 		
 		public static var localLogger:ILogger = new LocalLogger;
 		public static var eventLogger:ILogger = new EventLogger;
-		public static var remoteLogger:ILogger = new RemoteLogger;
+		public static var remoteLogger:IRemoteLogger = new RemoteLogger;
 		
 		
 		public static function send($target:* = null, $category:int = 0, $arguments:Array = null):void
@@ -66,13 +66,21 @@
 			Logger.send($target, LogLevel.WARNING, $arguments);
 		}
 		
-
+		/*
+		Property Definitions
+	 	*/
 		public static function set filter($value:String):void
 		{
 		}
 		public static function get filter():String 
 		{
 			return ""
+		}
+		
+		
+		public static function set loggerURL($url:String):void
+		{
+			Logger.remoteLogger.loggerURL = $url;
 		}
 	}
 }
