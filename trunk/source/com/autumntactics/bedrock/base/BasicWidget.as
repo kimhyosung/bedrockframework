@@ -28,7 +28,7 @@
 		}
 		public function log($level:int, ...$arguments:Array):void
 		{
-			this.sendLogMessage(LogLevel.DEBUG, $arguments);		
+			this.sendLogMessage($level, $arguments);		
 		}
 		
 		public function debug(...$arguments:Array):void

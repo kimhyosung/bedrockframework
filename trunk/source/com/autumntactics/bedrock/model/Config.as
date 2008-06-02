@@ -14,8 +14,8 @@
 		/*
 		Variable Declarations
 		*/			
-		private static var OBJ_FRAMEWORK_SETTINGS:ConfigData;
-		private static var OBJ_ENVIRONMENT_SETTINGS:ConfigData;
+		private static var OBJ_FRAMEWORK_SETTINGS:Object;
+		private static var OBJ_ENVIRONMENT_SETTINGS:Object;
 		
 		Logger.log(Config, LogLevel.CONSTRUCTOR, "Constructed");
 		/*
@@ -23,8 +23,8 @@
 		*/
 		public static function initialize($data:String, $url:String, $stage:Stage):void
 		{
-			Config.OBJ_FRAMEWORK_SETTINGS = new ConfigData();
-			Config.OBJ_ENVIRONMENT_SETTINGS = new ConfigData();
+			Config.OBJ_FRAMEWORK_SETTINGS = new Object;
+			Config.OBJ_ENVIRONMENT_SETTINGS = new Object;
 			//
 			Config.saveSetting("url", $url);			
 			Config.saveSetting("manufacturer", Capabilities.manufacturer);
@@ -110,7 +110,7 @@
 			Config.parseItems(xmlDefaultSettings);
 			Config.parseItems(xmlEnvironmentSettings);
 			
-			Config.OBJ_ENVIRONMENT_SETTINGS.deleteValue("patterns");
+			delete Config.OBJ_ENVIRONMENT_SETTINGS["patterns"];
 		} 
 		
 		private static function saveCacheSettings():void
@@ -214,41 +214,25 @@
 		/*
 		Setters
 		*/
-		private static function saveSetting($key:String, $value:Object):void
+		private static function saveSetting($key:String, $value:*):void
 		{
-			Config.OBJ_FRAMEWORK_SETTINGS.setValue($key, $value);
+			Config.OBJ_FRAMEWORK_SETTINGS[$key] = $value;
 		}
-		private static function saveValue($key:String, $value:Object):void
+		private static function saveValue($key:String, $value:*):void
 		{
-			Config.OBJ_ENVIRONMENT_SETTINGS.setValue($key, $value);
+			Config.OBJ_ENVIRONMENT_SETTINGS[$key] = $value;
 		}		
 		/*
 		Getters
 		*/
 		public static function getSetting($key:String):*
 		{
-			return Config.OBJ_FRAMEWORK_SETTINGS.getValue($key);
+			return Config.OBJ_FRAMEWORK_SETTINGS[$key];
 		}
 		public static function getValue($key:String):*
 		{
-			return Config.OBJ_ENVIRONMENT_SETTINGS.getValue($key); 
+			return Config.OBJ_ENVIRONMENT_SETTINGS[$key]; 
 		}
-	}
-}
-dynamic class ConfigData
-{
-	public function setValue($key:String, $value:*):void
-	{
-		this[$key] = $value;
-	}
-	
-	public function getValue($key:String):*
-	{
-		return this[$key];
-	}
-	public function deleteValue($key):void
-	{
-		delete this[$key];
 	}
 }
 
