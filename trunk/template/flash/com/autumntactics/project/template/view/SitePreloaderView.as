@@ -10,18 +10,20 @@
 	import flash.text.TextField;
 	public class SitePreloaderView extends View implements IPreloader
 	{
-
 		/*
-		Variable Declarations
+		* Variable Declarations
 		*/
 		public var txtDisplay:TextField;
 		/*
-		Constructor
+		* Constructor
 		*/
 		public function SitePreloaderView()
 		{
 			this.alpha = 0 ;
 		}
+		/*
+		* Basic view functions
+	 	*/
 		public function initialize($properties:Object=null):void
 		{
 			this.displayProgress(0);
@@ -42,6 +44,10 @@
 		{
 			Tweener.addTween(this, {alpha:0, transition:"linear", time:1, onComplete:this.outroComplete});
 			//this.outroComplete();
+		}
+		
+		public function clear():void
+		{
 		}
 		
 

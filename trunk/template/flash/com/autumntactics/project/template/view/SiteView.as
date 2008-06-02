@@ -10,10 +10,16 @@
 	import com.autumntactics.project.template.view.NavigationView;
 	public class SiteView extends View implements IView
 	{
+		/*
+		* Constructor
+	 	*/
 		public function SiteView()
 		{
 			this.alpha=0;
 		}
+		/*
+		* Basic view functions
+	 	*/
 		public function initialize($properties:Object=null):void
 		{
 			this.initializeComplete();
@@ -37,7 +43,9 @@
 		{
 
 		}
-		
+		/*
+		* Event Handlers
+		*/
 		private function onIntroTweenComplete():void
 		{
 			this.introComplete();

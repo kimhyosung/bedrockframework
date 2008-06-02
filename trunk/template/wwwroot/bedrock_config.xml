@@ -44,9 +44,11 @@
    </sections>
    <environments>
       <environment name="default">
+         <!--Logger Settings-->
+         <local_level>ALL</local_level>
+         <logger_url>http://localhost/bedrock/dynamic_full.html</logger_url>
          <!--General Settings-->
-         <output_level>2</output_level>
-         <tracking_enabled>false</tracking_enabled>
+         <tracking_enabled>true</tracking_enabled>
          <!--Path Information-->
          <image_path>assets/images/</image_path>
          <audio_path>assets/audio/</audio_path>
@@ -64,6 +66,8 @@
          </remoting>
       </environment>
       <environment name="local">
+         <!--General Settings-->
+         <tracking_enabled>false</tracking_enabled>
          <patterns>
             <pattern>file://</pattern>
          </patterns>
@@ -74,6 +78,7 @@
          <xml_path>../xml/</xml_path>
          <css_path>../css/</css_path>
          <swf_path>../swfs/</swf_path>
+         <!--Remoting-->
          <remoting>
             <service>
                <alias>image_transfer</alias>
