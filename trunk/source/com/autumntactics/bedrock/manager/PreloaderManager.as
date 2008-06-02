@@ -66,6 +66,7 @@
 		private static function onOutroComplete($event:ViewEvent):void
 		{
 			PreloaderManager.removeListeners(PreloaderManager.OBJ_PRELOADER);
+			PreloaderManager.OBJ_PRELOADER.clear();
 			PreloaderManager.OBJ_PRELOADER.remove();
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DO_INITIALIZE, PreloaderManager));
 		}

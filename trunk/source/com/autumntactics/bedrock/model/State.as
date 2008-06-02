@@ -1,19 +1,20 @@
 ﻿package com.autumntactics.bedrock.model
 {
 	import com.autumntactics.bedrock.base.StaticWidget;
-	
-	import com.autumntactics.bedrock.logging.Logger;
 	import com.autumntactics.bedrock.logging.LogLevel;
-	import com.autumntactics.storage.HashMap;
+	import com.autumntactics.bedrock.logging.Logger;
 	import com.autumntactics.util.*;
 	public class State extends StaticWidget
 	{
 
 		private static  var STR_CURRENT:String;
 		private static  var STR_PREVIOUS:String;
-		public static  var INITIALIZED:String="initialized";
-		public static  var AVAILABLE:String="available";
-		public static  var UNAVAILABLE:String="unavailable";
+		public static const INITIALIZED:String="initialized";
+		public static const AVAILABLE:String="available";
+		public static const UNAVAILABLE:String="unavailable";
+		
+		public static var siteRendered:Boolean = false;
+		public static var doneDefault:Boolean = false;
 		
 		Logger.log(State, LogLevel.CONSTRUCTOR, "Constructed");
 		

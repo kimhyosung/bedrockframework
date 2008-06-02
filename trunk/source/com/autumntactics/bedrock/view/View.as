@@ -36,7 +36,8 @@
 		/*
 		Section shortcuts
 		*/
-		public function remove():void{
+		public function remove():void
+		{
 			this.parent.removeChild(this);
 		}
 		/*
