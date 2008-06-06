@@ -255,7 +255,7 @@ package com.autumntactics.gadget
 		*/
 		private function inFocus():Boolean
 		{
-			return this.sprMask.hitTestPoint(this.root.mouseX,this.root.mouseY);
+			return this.sprMask.hitTestPoint(this.sprContainer.stage.mouseX,this.sprContainer.stage.mouseY);
 		}
 		/*
 		Reset the positioning of the scroll bar
