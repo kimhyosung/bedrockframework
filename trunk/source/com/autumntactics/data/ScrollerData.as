@@ -1,6 +1,7 @@
 ﻿package com.autumntactics.data
 {
 	import flash.display.Sprite;
+	import flash.display.DisplayObjectContainer;
 	public class ScrollerData
 	{
 		public static  var HORIZONTAL:String = "horizontal";
@@ -11,8 +12,8 @@
 		public static  var LEFT:String = "top";
 		public static  var RIGHT:String = "bottom";
 
-		public var trackContainer:Sprite;
-		public var trackBackground:Sprite;
+		public var trackContainer:DisplayObjectContainer;
+		public var trackBackground:DisplayObjectContainer;
 		public var drag:Sprite;
 		public var content:Sprite;
 		public var mask:Sprite;

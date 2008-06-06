@@ -15,6 +15,7 @@ package com.autumntactics.gadget
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
+	import flash.display.DisplayObjectContainer;
 	
 	public class Scroller extends DispatcherWidget
 	{
@@ -24,11 +25,11 @@ package com.autumntactics.gadget
 		private var objScrollerTrigger:Trigger;
 		private var objManualTrigger:Trigger;
 
-		private var mcContainer:MovieClip;
-		private var mcTrack:MovieClip;
-		private var mcContent:MovieClip;
-		private var mcMask:MovieClip;
-		private var mcDrag:MovieClip;
+		private var objContainer:DisplayObjectContainer;
+		private var objTrack:DisplayObjectContainer;
+		private var objContent:DisplayObjectContainer;
+		private var objMask:DisplayObjectContainer;
+		private var objDrag:DisplayObjectContainer;
 
 		private var strDirection:String;
 		private var strAlignment:String;
@@ -64,12 +65,12 @@ package com.autumntactics.gadget
 		public function setup($data:ScrollerData)
 		{
 			var objData:ScrollerData=$data;
-			this.mcContainer=objData.trackContainer;
-			this.mcTrack=objData.trackBackground;
-			this.mcContent=objData.content;
-			this.mcMask=objData.mask;
-			this.mcDrag=objData.drag;
-			this.mcContent.addEventListener(MouseEvent.MOUSE_WHEEL,this.onMouseWheel);
+			this.objContainer=objData.trackContainer;
+			this.objTrack=objData.trackBackground;
+			this.objContent=objData.content;
+			this.objMask=objData.mask;
+			this.objDrag=objData.drag;
+			this.objContent.addEventListener(MouseEvent.MOUSE_WHEEL,this.onMouseWheel);
 			//
 			this.bolResize=objData.resize;
 			this.bolAutoHide=objData.autohide;
@@ -78,10 +79,10 @@ package com.autumntactics.gadget
 			this.setDirection(objData.direction);
 			this.setAlignment(objData.alignment);
 			//
-			this.numOriginalPosition=this.getLocation(this.mcContent);
+			this.numOriginalPosition=this.getLocation(this.objContent);
 			//
-			this.applyDrag(this.mcDrag);
-			this.applyJumpActions(this.mcTrack);
+			this.applyDrag(this.objDrag);
+			this.applyJumpActions(this.objTrack);
 			this.update();
 		}
 		/*
@@ -116,7 +117,7 @@ package com.autumntactics.gadget
 		*/
 		public function startDragMovement($event:MouseEvent):void
 		{
-			this.mcDrag.stage.addEventListener(MouseEvent.MOUSE_UP, this.stopDragMovement);
+			this.objDrag.stage.addEventListener(MouseEvent.MOUSE_UP, this.stopDragMovement);
 			if (this.bolUpdateOnDrag) {
 				this.update();
 			}
@@ -130,7 +131,7 @@ package com.autumntactics.gadget
 					objRectangle=new Rectangle(0,0,0,this.numDragBottom);
 					break;
 			}
-			this.mcDrag.startDrag(false,objRectangle);
+			this.objDrag.startDrag(false,objRectangle);
 			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.START_DRAG,this));
 		}
 		/*
@@ -138,9 +139,9 @@ package com.autumntactics.gadget
 		*/
 		public function stopDragMovement($event:MouseEvent):void
 		{
-			this.mcDrag.stage.removeEventListener(MouseEvent.MOUSE_UP, this.stopDragMovement);
+			this.objDrag.stage.removeEventListener(MouseEvent.MOUSE_UP, this.stopDragMovement);
 			this.objScrollerTrigger.stop();
-			this.mcDrag.stopDrag();
+			this.objDrag.stopDrag();
 			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.STOP_DRAG,this));
 		}
 		/*
@@ -165,7 +166,7 @@ package com.autumntactics.gadget
 		*/
 		public function update():void
 		{
-			if (this.getSize(this.mcContent) < this.getSize(this.mcTrack) && this.bolAutoHide) {
+			if (this.getSize(this.objContent) < this.getSize(this.objTrack) && this.bolAutoHide) {
 				this.hideScroller();
 			} else {
 				this.showScroller();
@@ -179,21 +180,21 @@ package com.autumntactics.gadget
 				}
 				this.calculateAlignment();
 			}
-			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.UPDATE,this,{content:this.mcContent,drag:this.numDragSize}));
+			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.UPDATE,this,{content:this.objContent,drag:this.numDragSize}));
 		}
 		/*
 		Calculate 
 		*/
 		private function calculateMaxValues():void
 		{
-			this.numContentBottom=Math.round(this.getSize(this.mcContent) - this.getSize(this.mcMask));
+			this.numContentBottom=Math.round(this.getSize(this.objContent) - this.getSize(this.objMask));
 		}
 		/*
 		Calculate stactic drag position
 		*/
 		private function calcualteStaticDrag():void
 		{
-			this.numDragBottom=Math.round(this.getSize(this.mcTrack) - this.getSize(this.mcDrag));
+			this.numDragBottom=Math.round(this.getSize(this.objTrack) - this.getSize(this.objDrag));
 			this.numRatio=this.numContentBottom / this.numDragBottom;
 		}
 		/*
@@ -201,30 +202,30 @@ package com.autumntactics.gadget
 		*/
 		private function calcualteResizableDrag():void
 		{
-			var numTCRatio:Number=this.getSize(this.mcContent) / this.getSize(this.mcTrack);
+			var numTCRatio:Number=this.getSize(this.objContent) / this.getSize(this.objTrack);
 
-			this.numDragSize=Math.floor(this.getSize(this.mcTrack) / numTCRatio);
+			this.numDragSize=Math.floor(this.getSize(this.objTrack) / numTCRatio);
 
-			if (this.numDragSize > this.getSize(this.mcTrack)) {
-				this.numDragSize=this.getSize(this.mcTrack);
+			if (this.numDragSize > this.getSize(this.objTrack)) {
+				this.numDragSize=this.getSize(this.objTrack);
 			}
-			this.setSize(this.mcDrag,this.numDragSize);
-			this.numDragBottom=Math.round(this.getSize(this.mcTrack) - this.getSize(this.mcDrag));
+			this.setSize(this.objDrag,this.numDragSize);
+			this.numDragBottom=Math.round(this.getSize(this.objTrack) - this.getSize(this.objDrag));
 			this.numRatio=this.numContentBottom / this.numDragBottom;
 		}
-		private function getLocation($clip:MovieClip):Number
+		private function getLocation($clip:DisplayObjectContainer):Number
 		{
 			return $clip[this.strDirectionOrientation];
 		}
-		private function getSize($clip:MovieClip):Number
+		private function getSize($clip:DisplayObjectContainer):Number
 		{
 			return $clip[this.strSizeOrientation];
 		}
-		private function setLocation($clip:MovieClip,$value:Number):void
+		private function setLocation($clip:DisplayObjectContainer,$value:Number):void
 		{
 			$clip[this.strDirectionOrientation]=$value;
 		}
-		private function setSize($clip:MovieClip,$value:Number):void
+		private function setSize($clip:DisplayObjectContainer,$value:Number):void
 		{
 			$clip[this.strSizeOrientation]=$value;
 		}
@@ -237,50 +238,50 @@ package com.autumntactics.gadget
 		{
 			switch (this.strAlignment) {
 				case ScrollerData.TOP :
-					this.setLocation(this.mcDrag,0);
+					this.setLocation(this.objDrag,0);
 					break;
 				case ScrollerData.BOTTOM :
-					this.setLocation(this.mcDrag,this.numDragBottom);
+					this.setLocation(this.objDrag,this.numDragBottom);
 					break;
 				case ScrollerData.CENTER :
-					var numLocation:Number = (this.getSize(this.mcTrack) /2) - (this.numDragSize /2);
-					this.setLocation(this.mcDrag,numLocation);
+					var numLocation:Number = (this.getSize(this.objTrack) /2) - (this.numDragSize /2);
+					this.setLocation(this.objDrag,numLocation);
 					break;
 			}
-			this.positionContent(this.getLocation(this.mcDrag));
+			this.positionContent(this.getLocation(this.objDrag));
 		}
 		/* 
 		Check to see if the mouse is making contact with the mask clip.
 		*/
 		private function inFocus():Boolean
 		{
-			return this.mcMask.hitTestPoint(this.root.mouseX,this.root.mouseY);
+			return this.objMask.hitTestPoint(this.root.mouseX,this.root.mouseY);
 		}
 		/*
 		Reset the positioning of the scroll bar
 		*/
 		public function reset():void
 		{
-			this.setLocation(this.mcContent,this.numOriginalPosition);
-			this.setLocation(this.mcDrag,0);
-			this.setSize(this.mcDrag,0);
+			this.setLocation(this.objContent,this.numOriginalPosition);
+			this.setLocation(this.objDrag,0);
+			this.setSize(this.objDrag,0);
 			//this.dispatchEvent(new ScrollerEvent("onReset", this));
 		}
 		/*
 		Apply button events the the drag button
 		*/
-		public function applyDrag($clip:MovieClip):void
+		public function applyDrag($clip:DisplayObjectContainer):void
 		{
 			ButtonUtil.addListeners($clip,{down:this.startDragMovement,up:this.stopDragMovement});
 		}
-		private function applyJumpActions($clip:MovieClip):void
+		private function applyJumpActions($clip:DisplayObjectContainer):void
 		{
 			ButtonUtil.addListeners($clip,{up:this.jumpTo},false);
 		}
 		private function jumpTo($event:MouseEvent)
 		{
 			this.positionDrag($event.localY);
-			this.positionContent(this.getLocation(this.mcDrag));
+			this.positionContent(this.getLocation(this.objDrag));
 		}
 
 
@@ -292,7 +293,7 @@ package com.autumntactics.gadget
 		*/
 		public function positionContent($draglocation:Number):void
 		{
-			this.setLocation(this.mcContent,- Math.round($draglocation * this.numRatio) + this.numOriginalPosition);
+			this.setLocation(this.objContent,- Math.round($draglocation * this.numRatio) + this.numOriginalPosition);
 			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.CHANGE, this));
 		}
 		/*
@@ -301,31 +302,31 @@ package com.autumntactics.gadget
 		public function positionDrag($location:Number):void
 		{
 			if ($location > 0 && $location < this.numDragBottom) {
-				this.setLocation(this.mcDrag,$location);
+				this.setLocation(this.objDrag,$location);
 			} else if ($location < 0) {
-				this.setLocation(this.mcDrag,0);
+				this.setLocation(this.objDrag,0);
 			} else if ($location > this.numDragBottom) {
-				this.setLocation(this.mcDrag,this.numDragBottom);
+				this.setLocation(this.objDrag,this.numDragBottom);
 			}
 			//this.dispatchEvent(new ScrollerEvent("onDragChange", this));
 		}
 		public function positionManual($increment:int = 0):void
 		{
 			var numMovement:int = ($increment != 0) ? $increment : this.numIncrement;
-			this.positionDrag(this.getLocation(this.mcDrag) - numMovement);
-			this.positionContent(this.getLocation(this.mcDrag));
+			this.positionDrag(this.getLocation(this.objDrag) - numMovement);
+			this.positionContent(this.getLocation(this.objDrag));
 		}
 		/*
 		Show/Hide Scroller Functions
 		*/
 		public function showScroller():void
 		{
-			this.mcContainer.visible = true;
+			this.objContainer.visible = true;
 			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.SHOW_SCROLLER, this));
 		}
 		public function hideScroller():void
 		{
-			this.mcContainer.visible = false;
+			this.objContainer.visible = false;
 			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.HIDE_SCROLLER, this));
 		}
 		/*
@@ -333,7 +334,7 @@ package com.autumntactics.gadget
 		*/
 		private function onScrollerTrigger($event:TriggerEvent):void
 		{
-			this.positionContent(this.getLocation(this.mcDrag));
+			this.positionContent(this.getLocation(this.objDrag));
 
 		}
 		private function onManualTrigger($event:TriggerEvent):void
