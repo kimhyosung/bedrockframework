@@ -1,8 +1,8 @@
 ﻿package com.yourdomain.project.template
 {
-	import com.yourdomain.bedrock.engine.BedrockBuilder;
-	import com.yourdomain.bedrock.engine.manager.*;
-	import com.yourdomain.bedrock.engine.model.Config;
+	import com.bedrockframework.engine.BedrockBuilder;
+	import com.bedrockframework.engine.manager.*;
+	import com.bedrockframework.engine.model.Config;
 	import com.yourdomain.project.template.command.*;
 	import com.yourdomain.project.template.event.*;
 	import com.yourdomain.project.template.model.*;
