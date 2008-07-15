@@ -1,0 +1,1 @@
+﻿import com.bedrockframework.core.event.GenericEvent;interface com.bedrockframework.core.command.ICommand{	function execute($event:GenericEvent):Void;}
