@@ -6,7 +6,7 @@
 	import com.bedrockframework.engine.event.ViewEvent;
 	import com.bedrockframework.engine.view.IView;
 	import com.bedrockframework.engine.view.View;
-	import com.bedrockframework.plugin.storage.ArrayOperator;
+	import com.bedrockframework.plugin.storage.ArrayBrowser;
 	
 	import flash.display.Sprite;
 
@@ -15,7 +15,7 @@
 
 		private var _objContainer:Sprite;
 		private var _objCurrent:View;
-		private var _objArrayBrowser:ArrayOperator;
+		private var _objArrayBrowser:ArrayBrowser;
 		private var _bolAutoPilot:Boolean;
 		private var _bolRunning:Boolean;
 		private var _strDirection:String;
@@ -23,7 +23,7 @@
 		public function ViewSequencer()
 		{
 			this._bolRunning = false;
-			this._objArrayBrowser = new ArrayOperator();
+			this._objArrayBrowser = new ArrayBrowser();
 		}
 		public function initialize($data:ViewSequencerData):void
 		{

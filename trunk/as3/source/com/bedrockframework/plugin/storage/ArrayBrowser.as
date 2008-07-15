@@ -2,7 +2,7 @@
 {
 	import flash.utils.Proxy;
 	
-	public class ArrayOperator extends Proxy
+	public class ArrayBrowser extends Proxy
 	{
 		import com.bedrockframework.plugin.util.MathUtil;
 		import com.bedrockframework.plugin.util.ArrayUtil;
@@ -17,7 +17,7 @@
 		/*
 		Constructor
 		*/
-		public function ArrayOperator($data:Array = null)
+		public function ArrayBrowser($data:Array = null)
 		{
 			this.data = $data;
 			this._bolWrapIndex=false;
