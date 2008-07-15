@@ -84,7 +84,7 @@
 		/*
 		Search: Returns New Array
 		*/
-		public static function search($array:Array,$value,$field:String=null):Array
+		public static function filter($array:Array,$value,$field:String=null):Array
 		{
 			var arrResults:Array=new Array;
 			var i:Number;
@@ -107,7 +107,7 @@
 		/*
 		Search for and remove an item from an array
 		*/
-		public static function searchAndRemove($array:Array,$value,$field:String=null):Array
+		public static function filterAndRemove($array:Array,$value,$field:String=null):Array
 		{
 			var arrResults:Array=new Array;
 			var numLength:Number=$array.length;

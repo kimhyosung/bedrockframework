@@ -10,20 +10,21 @@
 
 	public class StyleManager extends StaticWidget
 	{
-		
 		/*
-		Variable Declarations
+		* Variable Declarations
 		*/
-		private static var OBJ_STYLE_SHEET:StyleSheet = new StyleSheet();
-		
+		private static var __objStyleSheet:StyleSheet = new StyleSheet();
+		/*
+		* Constructor
+		*/
 		Logger.log(StyleManager, LogLevel.CONSTRUCTOR, "Constructed");
 		/*
 		Parse the StyleSheet
 		*/
 		private static function parseCSS($stylesheet:String):void
 		{
-			StyleManager.OBJ_STYLE_SHEET = new StyleSheet();
-			StyleManager.OBJ_STYLE_SHEET.parseCSS($stylesheet);
+			StyleManager.__objStyleSheet = new StyleSheet();
+			StyleManager.__objStyleSheet.parseCSS($stylesheet);
 		}
 		/*
 		Apply Tag
@@ -44,14 +45,14 @@
 		*/
 		public static function getStyle($style:String):Object
 		{
-			return StyleManager.OBJ_STYLE_SHEET.getStyle($style);
+			return StyleManager.__objStyleSheet.getStyle($style);
 		}
 		/*
 		Get Format Object
 		*/
 		public static function getFormat($style:String):TextFormat
 		{
-			return StyleManager.OBJ_STYLE_SHEET.transform(StyleManager.getStyle($style));
+			return StyleManager.__objStyleSheet.transform(StyleManager.getStyle($style));
 		}
 		/*
 		Event Handlers
@@ -65,11 +66,11 @@
 		*/
 		public static function get styleNames():Array
 		{
-			return StyleManager.OBJ_STYLE_SHEET.styleNames;
+			return StyleManager.__objStyleSheet.styleNames;
 		}
 		public static function get styleSheet():StyleSheet
 		{
-			return StyleManager.OBJ_STYLE_SHEET;
+			return StyleManager.__objStyleSheet;
 		}
 	}
 }

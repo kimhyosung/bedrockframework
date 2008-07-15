@@ -7,7 +7,7 @@
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.core.logging.Logger;
 	import com.bedrockframework.core.logging.LogLevel;
-	import com.bedrockframework.plugin.storage.SimpleMap;
+	import com.bedrockframework.plugin.storage.HashMap;
 	import com.bedrockframework.plugin.loader.ChainLoader;
 	import com.bedrockframework.plugin.loader.VisualLoader;
 	
@@ -16,17 +16,19 @@
 	public class LoadManager extends StaticWidget
 	{
 		/*
-		Variable Declarations
+		* Variable Declarations
 		*/
-		private static var OBJ_CHAIN_LOADER:ChainLoader;
-		
+		private static var __objChainLoader:ChainLoader;
+		/*
+		* Constructor
+		*/
 		Logger.log(LoadManager, LogLevel.CONSTRUCTOR, "Constructed");
 		
-		private static var OBJ_EVENT_MAP:SimpleMap;
+		private static var OBJ_EVENT_MAP:HashMap;
 
 		public static function initialize():void
 		{
-			LoadManager.OBJ_CHAIN_LOADER = new ChainLoader();
+			LoadManager.__objChainLoader = new ChainLoader();
 			LoadManager.setupReplacements();
 		}
 		/*
@@ -34,27 +36,27 @@
 		*/
 		public static function reset():void
 		{
-			LoadManager.OBJ_CHAIN_LOADER.reset();
+			LoadManager.__objChainLoader.reset();
 		}
 		public static function close():void
 		{
-			LoadManager.OBJ_CHAIN_LOADER.close();
+			LoadManager.__objChainLoader.close();
 		}
 		public static function loadQueue():void
 		{
-			LoadManager.OBJ_CHAIN_LOADER.loadQueue();
+			LoadManager.__objChainLoader.loadQueue();
 		}
 		public static function addToQueue($path:String,$loader:VisualLoader=null,$completeHandler:Function=null, $errorHandler:Function=null):void
 		{
-			LoadManager.OBJ_CHAIN_LOADER.addToQueue($path,$loader,$completeHandler, $errorHandler);
+			LoadManager.__objChainLoader.addToQueue($path,$loader,$completeHandler, $errorHandler);
 		}
 		public static function getFile($index:int):String
 		{
-			return LoadManager.OBJ_CHAIN_LOADER.getFile($index);
+			return LoadManager.__objChainLoader.getFile($index);
 		}
 		public static function getLoader($index:int):*
 		{
-			return LoadManager.OBJ_CHAIN_LOADER.getLoader($index);
+			return LoadManager.__objChainLoader.getLoader($index);
 		}
 		/*
 		Event Replacements
@@ -63,7 +65,7 @@
 		{
 			var arrChainEvents:Array=new Array("BEGIN","ERROR","COMPLETE","CLOSE","PROGRESS","NEXT","RESET", "FILE_ADDED", "FILE_OPEN","FILE_PROGRESS","FILE_COMPLETE","FILE_INIT","FILE_UNLOAD","FILE_ERROR","FILE_SECURITY_ERROR","FILE_HTTP_STATUS");
 			var arrManagerEvents:Array=new Array("LOAD_BEGIN","LOAD_ERROR","LOAD_COMPLETE","LOAD_CLOSE","LOAD_PROGRESS","LOAD_NEXT","LOAD_RESET", "FILE_ADDED","FILE_OPEN","FILE_PROGRESS","FILE_COMPLETE","FILE_INIT","FILE_UNLOAD","FILE_ERROR","FILE_SECURITY_ERROR","FILE_HTTP_STATUS");
-			LoadManager.OBJ_EVENT_MAP=new SimpleMap;
+			LoadManager.OBJ_EVENT_MAP=new HashMap;
 			//
 			var numLength:Number=arrChainEvents.length;
 			for (var i:Number=0; i < numLength; i++) {
@@ -75,7 +77,7 @@
 		{
 			var numLength:int = $events.length;
 			for (var i:int = 0 ; i < numLength; i++) {
-				LoadManager.OBJ_CHAIN_LOADER.addEventListener(ChainLoaderEvent[$events[i]], LoadManager.onGenericHandler);
+				LoadManager.__objChainLoader.addEventListener(ChainLoaderEvent[$events[i]], LoadManager.onGenericHandler);
 			}
 		}
 		private static function onGenericHandler($event:Event):void
@@ -91,7 +93,7 @@
 		*/
 		public static function get running():Boolean 
 		{
-			return LoadManager.OBJ_CHAIN_LOADER.running;
+			return LoadManager.__objChainLoader.running;
 		}
 	}
 
