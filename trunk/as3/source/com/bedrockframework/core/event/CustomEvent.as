@@ -4,9 +4,9 @@ package com.bedrockframework.core.event
 
 	public class CustomEvent extends GenericEvent
 	{
-		public function CustomEvent($type:String, $origin:Object, $details:Object=null, $bubbles:Boolean=false, $cancelable:Boolean=true)
+		public function CustomEvent($type:String, $details:Object=null, $bubbles:Boolean=false, $cancelable:Boolean=true)
 		{
-			super($type, $origin, $details, $bubbles, $cancelable);
+			super($type, this.target, $details, $bubbles, $cancelable);
 			this.injectDetails(this.details);
 		}
 		private function injectDetails($details:Object):void
