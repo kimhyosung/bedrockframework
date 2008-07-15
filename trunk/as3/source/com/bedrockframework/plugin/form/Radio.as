@@ -7,8 +7,7 @@
 	//import com.bedrockframework.plugin.event.RadioEvent;
 	import com.bedrockframework.plugin.util.ButtonUtil;
 	import com.bedrockframework.core.base.DispatcherWidget;
-	import com.bedrockframework.plugin.storage.ArrayCollection;
-
+	
 	public class Radio extends DispatcherWidget
 	{
 		// Variables
@@ -20,7 +19,7 @@
 		public function Radio()
 		{
 			this._numLength = 0;
-			this._arrRadioCollection = new ArrayCollection();
+			this._arrRadioCollection = new Array();
 		}
 		// Add new radio button
 		public function addButton($mcButton):void
