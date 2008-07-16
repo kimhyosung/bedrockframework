@@ -9,7 +9,7 @@ package com.bedrockframework.core.event
 	    public static const ERROR:String = "LogEvent.onError";
 	    public static const WARNING:String = "LogEvent.onWarning";
 	    public static const DEBUG:String = "LogEvent.onDebug";
-	    public static const INFO:String = "LogEvent.onInfo";	
+	    public static const STATUS:String = "LogEvent.onStatus";	
 	    public static const CONSTRUCTOR:String = "LogEvent.onConstructor";	
 		
 		
