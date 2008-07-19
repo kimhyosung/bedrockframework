@@ -7,7 +7,7 @@
 	* @version 1.0.0
 	* @created Sat Apr 3 2008 19:16:40 GMT-0400 (EDT)
 	*/
-	import com.bedrockframework.base.StandardWidget;
+	import com.bedrockframework.core.base.StandardWidget;
 	import flash.media.SoundMixer;
 	import flash.media.SoundTransform;
 

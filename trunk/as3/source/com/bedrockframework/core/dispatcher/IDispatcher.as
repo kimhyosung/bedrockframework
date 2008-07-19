@@ -1,4 +1,4 @@
-﻿package com.bedrockframework.dispatcher
+﻿package com.bedrockframework.core.dispatcher
 {
 	import flash.events.Event;
 	public interface IDispatcher
