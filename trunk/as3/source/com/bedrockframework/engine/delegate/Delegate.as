@@ -1,6 +1,7 @@
-package com.bedrockframework.engine.remoting
+package com.bedrockframework.engine.delegate
 {
 	import com.bedrockframework.core.base.BasicWidget;
+	import com.bedrockframework.plugin.remoting.IResponder;
 	
 	public class Delegate extends BasicWidget
 	{
