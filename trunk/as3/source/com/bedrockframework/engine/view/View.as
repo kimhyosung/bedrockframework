@@ -19,28 +19,28 @@
 		{
 			this.dispatchEvent(new ViewEvent(ViewEvent.INITIALIZE_COMPLETE,this));
 		}
-		/*
-		Intro Functions
+		/**
+		 * 
 		*/
 		final protected  function introComplete():void
 		{
 			this.dispatchEvent(new ViewEvent(ViewEvent.INTRO_COMPLETE,this));
 		}
-		/*
+		/**
 		Outro Functions
 		*/
 		final protected  function outroComplete():void
 		{
 			this.dispatchEvent(new ViewEvent(ViewEvent.OUTRO_COMPLETE,this));
 		}
-		/*
-		Section shortcuts
+		/**
+		Remove this instance from it's parent's display list.
 		*/
 		public function remove():void
 		{
 			this.parent.removeChild(this);
 		}
-		/*
+		/**
 		Section shortcuts
 		*/
 		final protected  function get current():Object

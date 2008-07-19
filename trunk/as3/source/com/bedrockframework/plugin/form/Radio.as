@@ -1,60 +1,64 @@
 ﻿package com.bedrockframework.plugin.form
 {
-	// alex, you need to clean this up
-	import flash.events.MouseEvent;
-	import flash.events.Event;
-
-	//import com.bedrockframework.plugin.event.RadioEvent;
-	import com.bedrockframework.plugin.util.ButtonUtil;
+	// Alex, you need to clean this up
 	import com.bedrockframework.core.base.DispatcherWidget;
+	import com.bedrockframework.plugin.util.ButtonUtil;
+	
+	import flash.display.DisplayObject;
+	import flash.events.MouseEvent;
 	
 	public class Radio extends DispatcherWidget
 	{
-		// Variables
+		/*
+		 * Variable Declarations
+		*/
 		private var _arrRadioCollection:Array;
 		private var _numLength:Number;
 		private var _numSelected:int;
 
-		// Constructor
+		/*
+		 * Constructor
+		*/		
 		public function Radio()
 		{
 			this._numLength = 0;
 			this._arrRadioCollection = new Array();
 		}
-		// Add new radio button
-		public function addButton($mcButton):void
+		/**
+		 * Add a new button to the radio button array.
+		 * This function will also add listeners for mouse events.
+	 	*/
+		public function addButton($button:DisplayObject):void
 		{
-			if ($mcButton) {
-				this._arrRadioCollection.push($mcButton);
+			if ($button) {
+				this._arrRadioCollection.push($button);
 				this._numLength = this._arrRadioCollection.length-1;
-				$mcButton.index = this._numLength;
+				$button.index = this._numLength;
 
-				ButtonUtil.addListeners($mcButton,{down:this.select});
+				ButtonUtil.addListeners($button,{down:this.onSelection});
 				//
-				if ($mcButton.index == 0) {
+				if ($button.index == 0) {
 					this.selectInital();
 				}
 			}
 		}
-		// Select
-		public function select($event:Event):void
-		{
-			$event.target.play();
-			this._selected = $event.target.index;
-			this.manageSelection();
-		}
-		// Select initial radio
+
+		/*
+		 * Sets the default selection for the radio buttons
+	 	*/
 		private function selectInital():void
 		{
-			this._selected = 0;
+			this.selected = 0;
 			this._arrRadioCollection[0].play();
 			this.manageSelection();
 		}
-		// Manage selection enable
+		/*
+		 * Manages the states of the radio buttons
+	 	*/
 		private function manageSelection():void
 		{
 			for (var a:int = 0; a < this._arrRadioCollection.length; a++) {
-				if (this._selected != a) {
+				if (this.selected != a) {
 					this._arrRadioCollection[a].gotoAndStop(1);
 					ButtonUtil.addListeners(this._arrRadioCollection[a],{down:this.select});
 				} else {
@@ -62,12 +66,26 @@
 				}
 			}
 		}
-		// Getters and setters
-		public function set _selected($numIndex:int):void
+		/*
+		 * Event Handlers
+	 	*/
+		public function onSelection($event:MouseEvent):void
+		{
+			$event.target.play();
+			this.selected = $event.target.index;
+			this.manageSelection();
+		}
+		/*
+		 * Property Definitions
+	 	*/
+	 	/**
+		 * Returns the index of the selected radio button.
+	 	*/
+		public function set selected($numIndex:int):void
 		{
 			this._numSelected = $numIndex;
 		}
-		public function get _selected():int
+		public function get selected():int
 		{
 			return this._numSelected;
 		}
