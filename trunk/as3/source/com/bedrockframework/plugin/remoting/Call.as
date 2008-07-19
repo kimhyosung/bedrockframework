@@ -1,4 +1,4 @@
-﻿package com.bedrockframework.engine.remoting
+﻿package com.bedrockframework.plugin.remoting
 {
 
 	import com.bedrockframework.core.base.DispatcherWidget;

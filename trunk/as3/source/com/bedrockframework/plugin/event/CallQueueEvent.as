@@ -1,4 +1,4 @@
-package com.bedrockframework.engine.event
+﻿package com.bedrockframework.plugin.event
 {
 	import com.bedrockframework.core.event.GenericEvent;
 
