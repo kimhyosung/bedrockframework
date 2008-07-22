@@ -11,17 +11,17 @@
 	public class StyleManager extends StaticWidget
 	{
 		/*
-		* Variable Declarations
+		Variable Declarations
 		*/
 		private static var __objStyleSheet:StyleSheet = new StyleSheet();
 		/*
-		* Constructor
+		Constructor
 		*/
 		Logger.log(StyleManager, LogLevel.CONSTRUCTOR, "Constructed");
 		/*
 		Parse the StyleSheet
 		*/
-		private static function parseCSS($stylesheet:String):void
+		public static function parseCSS($stylesheet:String):void
 		{
 			StyleManager.__objStyleSheet = new StyleSheet();
 			StyleManager.__objStyleSheet.parseCSS($stylesheet);
@@ -53,13 +53,6 @@
 		public static function getFormat($style:String):TextFormat
 		{
 			return StyleManager.__objStyleSheet.transform(StyleManager.getStyle($style));
-		}
-		/*
-		Event Handlers
-		*/
-		public static function onCSSLoaded($event:LoaderEvent):void
-		{
-			StyleManager.parseCSS($event.details.data);
 		}
 		/*
 		Property Definitions

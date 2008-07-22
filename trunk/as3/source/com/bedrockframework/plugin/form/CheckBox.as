@@ -15,7 +15,7 @@
 		private var _bolSelected:Boolean;
 
 		/*
-		* Constructor
+Constructor
 		*/
 		public function CheckBox()
 		{

@@ -7,17 +7,22 @@
 	
 	public class Urchin extends BasicWidget implements ITrackingService
 	{
+		/*
+		Constructor
+		*/
 		public function Urchin()
 		{
 		}
-		public function track(...$arguments:Array):void
+		/**
+		 * Will make the call to javascript using the external interface.
+		 * @param $details Generic object will all of the necessary information for the tracking.
+		 */
+		public function track($details:Object):void
 		{
-			if ($arguments.length == 2) {
-				this.status("/" + $arguments[0] + "/" + $arguments[1]);
-				if (ExternalInterface.available) {
-					ExternalInterface.call("urchinTracker", $arguments[0] + "/" + $arguments[1]);
-				}
-			}
+			if (ExternalInterface.available) {
+				this.status("/" + $details.item + "/" + $details.title);
+				ExternalInterface.call("urchinTracker", $details.item + "/" + $details.title);
+			}		
 		}
 	}
 }
