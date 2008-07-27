@@ -51,11 +51,11 @@ package com.bedrockframework.plugin.gadget
 		*/
 		public function Scroller()
 		{
-			this._objScrollerTrigger=new Trigger("Scroller");
+			this._objScrollerTrigger=new Trigger;
 			this._objScrollerTrigger.silenceLogging=true;
 			this._objScrollerTrigger.addEventListener(TriggerEvent.TRIGGER,this.onScrollerTrigger);
 			//
-			this._objManualTrigger=new Trigger("Manual");
+			this._objManualTrigger=new Trigger;
 			this._objManualTrigger.silenceLogging=true;
 			this._objScrollerTrigger.addEventListener(TriggerEvent.TRIGGER,this.onManualTrigger);
 		}

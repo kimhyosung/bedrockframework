@@ -2,7 +2,7 @@
 {
 	public interface IResponder
 	{
-		function result($data:Object):void;
-		function fault($data:Object):void;
+		function result($data:Object = null):void;
+		function fault($data:Object  = null):void;
 	}
 }

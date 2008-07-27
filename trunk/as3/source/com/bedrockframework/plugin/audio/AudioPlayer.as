@@ -31,7 +31,6 @@
 		private var _objTransform:SoundTransform;
 		private var _strURL:String;
 		private var _objPositionTrigger:Trigger;
-		private var _numInterval:Number;
 		private var _numResumeTime:Number;
 		private var _bolPaused:Boolean;
 		/*
@@ -40,9 +39,8 @@
 		public function AudioPlayer($sound:Sound = null)
 		{
 			this._bolPaused = false;
-			this._numInterval = 0.05;
 			this.setSound($sound);
-			this._objPositionTrigger = new Trigger("Position");
+			this._objPositionTrigger = new Trigger(0.05);
 			this._objPositionTrigger.addEventListener(TriggerEvent.TRIGGER, this.onProgressTrigger);
 			this._objPositionTrigger.silenceLogging = true;
 		}
@@ -75,7 +73,7 @@
 		public function play($startTime:Number = 0, $loops:int = 0, $transform:SoundTransform = null):SoundChannel 
 		{
 			this._bolPaused = false;
-			this._objPositionTrigger.start(this._numInterval);
+			this._objPositionTrigger.start();
 			this._objChannel = this._objSound.play($startTime, $loops, $transform);
 			this._objChannel.addEventListener(Event.SOUND_COMPLETE, this.onPlayComplete);
 			this.setTransform($transform);
@@ -122,7 +120,7 @@
 			if (this._bolPaused) {
 				this._bolPaused = false;
 				this.play(this._numResumeTime);
-				this._objPositionTrigger.start(this._numInterval);
+				this._objPositionTrigger.start();
 				this.dispatchEvent(new AudioEvent(AudioEvent.RESUME, this));
 			}			
 		}

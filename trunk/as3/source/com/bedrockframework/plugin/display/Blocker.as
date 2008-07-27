@@ -1,11 +1,12 @@
 ﻿package com.bedrockframework.plugin.display
 {
-	import flash.display.Stage;
 	import com.bedrockframework.core.base.SpriteWidget;
 	import com.bedrockframework.plugin.event.BlockerEvent;
-	import flash.events.MouseEvent;
-	import com.bedrockframework.plugin.util.ButtonUtil;
 	import com.bedrockframework.plugin.storage.HashMap;
+	import com.bedrockframework.plugin.util.ButtonUtil;
+	
+	import flash.events.Event;
+	import flash.events.MouseEvent;
 	/*
 	Class Declarations
 	*/
@@ -42,22 +43,29 @@
 				this.status("Show");
 				this._bolActive=true;
 				this.stage.focus = this;
-				this.drawBlocker();
+				this.stage.addEventListener(Event.RESIZE, this.onStageResize);
+				this.draw();
 				this.dispatchEvent(new BlockerEvent(BlockerEvent.SHOW,this));
 			}
 		}
 		public function hide():void
 		{
 			this.status("Hide");
-			this.clearBlocker();
-			this.stage.focus = null;
 			this._bolActive=false;
+			this.clear();
+			this.stage.focus = null;
+			this.stage.removeEventListener(Event.RESIZE, this.onStageResize);
 			this.dispatchEvent(new BlockerEvent(BlockerEvent.HIDE,this));
+		}
+		public function clear()
+		{
+			this.graphics.clear();
+			ButtonUtil.removeListeners(this,{down:this.onMouseInteraction,up:this.onMouseInteraction,over:this.onMouseInteraction,out:this.onMouseInteraction},false);
 		}
 		/*
 		Draw the blocker
 		*/
-		public function drawBlocker():void
+		public function draw():void
 		{
 			if (this.stage) {
 				this.graphics.moveTo(0,0);
@@ -67,7 +75,7 @@
 				this.graphics.lineTo(0,this.stage.stageHeight);
 				this.graphics.endFill();
 				//
-				ButtonUtil.addListeners(this,{down:this.mouseHandler,up:this.mouseHandler,over:this.mouseHandler,out:this.mouseHandler},false);
+				ButtonUtil.addListeners(this,{down:this.onMouseInteraction,up:this.onMouseInteraction,over:this.onMouseInteraction,out:this.onMouseInteraction},false);
 				//
 			} else {
 				this.error("Blocker must be added to stage before it can be shown!");
@@ -76,15 +84,18 @@
 		/*
 		Mouse Handlers
 		*/
-		private function mouseHandler($event:MouseEvent):void
+		private function onMouseInteraction($event:MouseEvent):void
 		{
 			this.dispatchEvent(new BlockerEvent(Blocker.__objReplacements.getValue($event.type),this));
 		}
-		public function clearBlocker()
+		private function onStageResize($event:Event):void
 		{
-			this.graphics.clear();
-			ButtonUtil.removeListeners(this,{down:this.mouseHandler,up:this.mouseHandler,over:this.mouseHandler,out:this.mouseHandler},false);
+			this.draw();
 		}
+		/*
+		Property Definitions
+		*/
+		
 		public function get active():Boolean
 		{
 			return this._bolActive;

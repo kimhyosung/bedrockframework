@@ -1,4 +1,4 @@
-﻿package com.icg.project.coke.fanta.tracking
+﻿package com.bedrockframework.plugin.tracking
 {
 	import com.bedrockframework.core.base.BasicWidget;
 	import com.bedrockframework.engine.tracking.ITrackingService;
