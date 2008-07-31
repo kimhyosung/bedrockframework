@@ -75,15 +75,17 @@
 			return VariableUtil.sanitize($node.toString());
 		}
 		
-		public static function filterByAttribute($node:*, $attribute:String, $value:String):XMLList
+		public static function filterByAttribute($node:*, $attribute:String, $value:String):XML
 		{
 			var xmlData:XML = new XML($node);
-			return xmlData.children().(attribute($attribute) == $value);
+			var xmlList:XMLList = xmlData.children().(attribute($attribute) == $value);
+			return new XML("<root>" + xmlList.toString() + "</root>");
 		}
-		public static function filterByNode($node:*, $name:String, $value:String):XMLList
+		public static function filterByNode($node:*, $name:String, $value:String):XML
 		{
 			var xmlData:XML = new XML($node);
-			return xmlData.children().(child($name) == $value);
+			var xmlList:XMLList = xmlData.children().(child($name) == $value);
+			return new XML("<root>" + xmlList.toString() + "</root>");
 		}
 	}
 }
