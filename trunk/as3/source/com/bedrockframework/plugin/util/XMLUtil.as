@@ -79,7 +79,7 @@
 		{
 			var xmlData:XML = new XML($node);
 			var xmlList:XMLList = xmlData.children().(attribute($attribute) == $value);
-			return new XML("<root>" + xmlList.toString() + "</root>");
+			return new XML(xmlList);
 		}
 		public static function filterByNode($node:*, $name:String, $value:String):XML
 		{
