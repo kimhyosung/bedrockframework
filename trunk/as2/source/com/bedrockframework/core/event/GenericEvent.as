@@ -23,4 +23,8 @@ class com.bedrockframework.core.event.GenericEvent
 		this.target = $target;	
 		this.details = $details;
 	}
+	public function toString():String
+	{
+		return "[" + this._strClassName + "]";
+	}
 }
