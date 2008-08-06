@@ -1,7 +1,8 @@
 ﻿package com.bedrockframework.plugin.util
 {
-	import flash.utils.*;
 	import com.bedrockframework.core.base.StaticWidget;
+	
+	import flash.utils.*;
 	
 	public class MathUtil extends StaticWidget
 	{
@@ -137,7 +138,7 @@
 		*/
 		public static  function getSign($number:Number):Number
 		{
-			return $number / Math.abs($number);
+			return ($number == 0) ? 1 : $number / Math.abs($number);
 		}
 		/*
 		Generate a random number in range

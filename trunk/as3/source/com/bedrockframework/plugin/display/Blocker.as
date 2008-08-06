@@ -68,6 +68,7 @@
 		public function draw():void
 		{
 			if (this.stage) {
+				this.graphics.clear();
 				this.graphics.moveTo(0,0);
 				this.graphics.beginFill(0xFF00FF);
 				this.graphics.lineTo(this.stage.stageWidth,0);
