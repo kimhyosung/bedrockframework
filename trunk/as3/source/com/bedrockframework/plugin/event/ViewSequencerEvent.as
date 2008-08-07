@@ -4,8 +4,12 @@ package com.bedrockframework.plugin.event
 
 	public class ViewSequencerEvent extends GenericEvent
 	{		
-		public static  const NEXT:String = "ViewSequencerEvent.onNext";
-		public static  const PREVIOUS:String = "ViewSequencerEvent.onPrevious";
+		public static  const INITIALIZE_COMPLETE:String = "ViewSequencerEvent.onNext";
+		public static  const INTRO_COMPLETE:String = "ViewSequencerEvent.onNext";
+		public static  const OUTRO_COMPLETE:String = "ViewSequencerEvent.onPrevious";
+	
+		public static const NEXT:String = "ViewSequencerEvent.onNext";
+		public static const PREVIOUS:String = "ViewSequencerEvent.onPrevious";
 		public static const COMPLETE:String =  "ViewSequencerEvent.onComplete";
 		public static const BEGINNING:String =  "ViewSequencerEvent.onBeginning";
 		public static const ENDING:String =  "ViewSequencerEvent.onEnding";

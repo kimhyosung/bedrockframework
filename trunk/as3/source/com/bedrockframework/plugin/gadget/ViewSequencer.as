@@ -156,10 +156,12 @@
 		private  function onInitializeComplete($event:ViewEvent):void
 		{
 			IView(this._objCurrent).intro();
+			this.dispatchEvent(new ViewSequencerEvent(ViewSequencerEvent.INITIALIZE_COMPLETE, this, this.getDetailObject()))
 		}
 		private  function onIntroComplete($event:ViewEvent):void
 		{
 			// do something
+			this.dispatchEvent(new ViewSequencerEvent(ViewSequencerEvent.INTRO_COMPLETE, this, this.getDetailObject()))
 		}
 		private function onOutroComplete($event:ViewEvent):void
 		{
@@ -169,7 +171,8 @@
 				this.nextInternal();
 			}else{
 				this.previousInternal();
-			}			
+			}
+			this.dispatchEvent(new ViewSequencerEvent(ViewSequencerEvent.OUTRO_COMPLETE, this, this.getDetailObject()))
 		}
 		/*
 		Property Definitions
