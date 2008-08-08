@@ -1,8 +1,8 @@
 ﻿package com.bedrockframework.plugin.util
 {
-	import flash.utils.*;
-	import com.bedrockframework.plugin.util.MathUtil;
 	import com.bedrockframework.core.base.StaticWidget;
+	
+	import flash.utils.*;
 	
 	public class ArrayUtil extends StaticWidget
 	{
@@ -189,6 +189,20 @@
 		public static function duplicate($array:Array):Array
 		{
 			return $array.concat();
+		}
+		/*
+		Duplicate Shuffle
+		*/
+		
+
+		public static function shuffle($array:Array):void
+		{
+			for(var i=0;i<$array.length;i++){
+		      var objTemp:*=$array[i];
+		      var numRandom = MathUtil.random($array.length);
+		      $array[i]=$array[numRandom];
+		      $array[numRandom]=objTemp;
+		   }
 		}
 		/*
 		Get random items based on a total
