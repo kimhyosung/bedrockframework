@@ -3,7 +3,7 @@
       <auto_intro>true</auto_intro>
       <preloader_time>3</preloader_time>
       <deep_linking>true</deep_linking>
-      <remoting>true</remoting>
+      <remoting>false</remoting>
       <cache_prevention>false</cache_prevention>
       <stylesheet>true</stylesheet>
       <copy_deck>true</copy_deck>
@@ -50,11 +50,11 @@
          <!--General Settings-->
          <tracking_enabled>true</tracking_enabled>
          <!--Path Information-->
-         <image_path>assets/images/</image_path>
-         <audio_path>assets/audio/</audio_path>
-         <video_path>assets/video/</video_path>
-         <xml_path>assets/xml/</xml_path>
-         <css_path>assets/css/</css_path>
+         <image_path>../images/</image_path>
+         <audio_path>../audio/</audio_path>
+         <video_path>../video/</video_path>
+         <xml_path>../xml/</xml_path>
+         <css_path>../css/</css_path>
          <swf_path>assets/swfs/</swf_path>
          <!--Remoting-->
          <remoting>
@@ -72,12 +72,6 @@
             <pattern>file://</pattern>
          </patterns>
          <!--Path Information-->
-         <image_path>../images/</image_path>
-         <audio_path>../audio/</audio_path>
-         <video_path>../video/</video_path>
-         <xml_path>../xml/</xml_path>
-         <css_path>../css/</css_path>
-         <swf_path>../swfs/</swf_path>
          <!--Remoting-->
          <remoting>
             <service>
