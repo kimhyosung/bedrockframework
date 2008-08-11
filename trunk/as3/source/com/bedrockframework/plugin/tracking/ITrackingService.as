@@ -9,7 +9,7 @@
  * By using the Bedrock Framework, you agree to keep the above contact information in the source code.
  *
 */
-package com.bedrockframework.engine.tracking
+package com.bedrockframework.plugin.tracking
 {
 	public interface ITrackingService
 	{

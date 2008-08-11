@@ -278,7 +278,7 @@
 		}
 		private function onPlayStatus($info:Object):void
 		{
-			trace("onPlayStatus");
+			this.status("onPlayStatus");
 		}		
 		/*
 		Property Definitions
