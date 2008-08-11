@@ -55,7 +55,7 @@
          <video_path>../video/</video_path>
          <xml_path>../xml/</xml_path>
          <css_path>../css/</css_path>
-         <swf_path>assets/swfs/</swf_path>
+         <swf_path>../swfs/</swf_path>
          <!--Remoting-->
          <remoting>
             <service>
@@ -73,13 +73,6 @@
          </patterns>
          <!--Path Information-->
          <!--Remoting-->
-         <remoting>
-            <service>
-               <alias>image_transfer</alias>
-               <gateway>http:/notjkfaahlskfsd</gateway>
-               <path>ServiceLibrary.ImageTransfer</path>
-            </service>
-         </remoting>
       </environment>
       <environment name="development">
          <patterns>
