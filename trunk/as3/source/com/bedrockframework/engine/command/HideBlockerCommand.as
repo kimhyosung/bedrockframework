@@ -3,7 +3,6 @@
 	import com.bedrockframework.core.command.*;
 	import com.bedrockframework.core.event.GenericEvent;
 	import com.bedrockframework.engine.manager.ContainerManager;
-	import com.bedrockframework.engine.model.SectionStorage;
 
 	public class HideBlockerCommand extends Command implements ICommand
 	{

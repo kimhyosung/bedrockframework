@@ -12,11 +12,8 @@
 package com.bedrockframework.engine.view
 {
 	import com.bedrockframework.core.base.MovieClipWidget;
-	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.engine.event.ViewEvent;
-	import com.bedrockframework.engine.model.SectionStorage;
-	
-	import flash.display.DisplayObject;
+	import com.bedrockframework.engine.model.Queue;
 	
 	public class View extends MovieClipWidget
 	{
@@ -69,7 +66,7 @@ package com.bedrockframework.engine.view
 		*/
 		final protected  function get current():Object
 		{
-			return SectionStorage.current;
+			return Queue.current;
 		}
 		/**
 		 * This will return the config details for the previously shown section.
@@ -77,7 +74,7 @@ package com.bedrockframework.engine.view
 		*/
 		final protected  function get previous():Object
 		{
-			return SectionStorage.previous;
+			return Queue.previous;
 		}
 	}
 

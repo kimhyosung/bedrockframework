@@ -2,9 +2,9 @@
 {
 	import com.bedrockframework.core.command.*;
 	import com.bedrockframework.core.event.GenericEvent;
-	import com.bedrockframework.plugin.loader.VisualLoader;
 	import com.bedrockframework.engine.manager.*;
 	import com.bedrockframework.engine.model.*;
+	import com.bedrockframework.plugin.loader.VisualLoader;
 
 	public class LoadQueueCommand extends Command implements ICommand
 	{
@@ -13,7 +13,7 @@
 		}
 		public  function execute($event:GenericEvent):void
 		{
-			var objSection:Object=SectionStorage.loadQueue();
+			var objSection:Object=Queue.loadQueue();
 			
 			if (objSection) {
 				if (objSection.files != null) {

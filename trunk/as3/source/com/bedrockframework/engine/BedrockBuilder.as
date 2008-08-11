@@ -199,7 +199,6 @@ package com.bedrockframework.engine
 		}
 		final private function loadEngineClasses():void
 		{
-			SectionStorage.save(Config.getSetting("sections"));
 			State.initialize();
 
 			if (Config.getSetting("deep_linking")) {

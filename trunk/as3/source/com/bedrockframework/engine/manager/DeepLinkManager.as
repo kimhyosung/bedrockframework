@@ -8,7 +8,7 @@ package com.bedrockframework.engine.manager
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.core.logging.LogLevel;
 	import com.bedrockframework.core.logging.Logger;
-	import com.bedrockframework.engine.model.SectionStorage;
+	import com.bedrockframework.engine.model.Queue;
 	import com.bedrockframework.plugin.util.VariableUtil;
 	
 	public class DeepLinkManager extends StaticWidget
@@ -248,7 +248,7 @@ package com.bedrockframework.engine.manager
 		private static function onInitializeComplete($event:BedrockEvent)
 		{
 			DeepLinkManager.clearPath();
-			DeepLinkManager.setPath(SectionStorage.current.alias);
+			DeepLinkManager.setPath(Queue.current.alias);
 			SWFAddress.setStatus("Ready");
 			DeepLinkManager.enableChangeHandler();		
 		}

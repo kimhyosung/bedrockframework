@@ -1,12 +1,12 @@
 ﻿package com.bedrockframework.engine.command
 {
 	import com.bedrockframework.core.command.*;
-	import com.bedrockframework.core.event.GenericEvent;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
+	import com.bedrockframework.core.event.GenericEvent;
 	import com.bedrockframework.engine.event.BedrockEvent;
-	import com.bedrockframework.plugin.loader.VisualLoader;
 	import com.bedrockframework.engine.manager.*;
 	import com.bedrockframework.engine.model.*;
+	import com.bedrockframework.plugin.loader.VisualLoader;
 
 	public class DoDefaultCommand extends Command implements ICommand
 	{
