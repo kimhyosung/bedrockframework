@@ -10,8 +10,8 @@
 	import com.bedrockframework.core.base.DispatcherWidget;
 	import com.bedrockframework.plugin.util.MathUtil;
 	import com.bedrockframework.plugin.event.AudioEvent;
-	import com.bedrockframework.plugin.event.TriggerEvent;
-	import com.bedrockframework.plugin.timer.Trigger;
+	import com.bedrockframework.plugin.event.IntervalTriggerEvent;
+	import com.bedrockframework.plugin.timer.IntervalTrigger;
 	
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
@@ -30,7 +30,7 @@
 		private var _objChannel:SoundChannel;
 		private var _objTransform:SoundTransform;
 		private var _strURL:String;
-		private var _objPositionTrigger:Trigger;
+		private var _objPositionTrigger:IntervalTrigger;
 		private var _numResumeTime:Number;
 		private var _bolPaused:Boolean;
 		/*
@@ -40,8 +40,8 @@
 		{
 			this._bolPaused = false;
 			this.setSound($sound);
-			this._objPositionTrigger = new Trigger(0.05);
-			this._objPositionTrigger.addEventListener(TriggerEvent.TRIGGER, this.onProgressTrigger);
+			this._objPositionTrigger = new IntervalTrigger(0.05);
+			this._objPositionTrigger.addEventListener(IntervalTriggerEvent.TRIGGER, this.onProgressTrigger);
 			this._objPositionTrigger.silenceLogging = true;
 		}
 		/*
@@ -210,7 +210,7 @@
 			this._objPositionTrigger.stop();
 			this.dispatchEvent(new AudioEvent(AudioEvent.PLAY_COMPLETE, this, {}));			
 		}
-		private function onProgressTrigger($event:TriggerEvent):void
+		private function onProgressTrigger($event:IntervalTriggerEvent):void
 		{
 			var objDetails :Object = new Object();
 			objDetails.position = this._objChannel.position;

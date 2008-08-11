@@ -1,9 +1,9 @@
 ﻿package com.bedrockframework.plugin.video
 {
-	import com.bedrockframework.plugin.event.TriggerEvent;
+	import com.bedrockframework.plugin.event.IntervalTriggerEvent;
 	import com.bedrockframework.plugin.event.VideoEvent;
 	import com.bedrockframework.core.base.SpriteWidget;
-	import com.bedrockframework.plugin.timer.Trigger;
+	import com.bedrockframework.plugin.timer.IntervalTrigger;
 	import com.bedrockframework.plugin.util.MathUtil;
 	
 	import flash.events.AsyncErrorEvent;
@@ -26,9 +26,9 @@
         private var _objStream:NetStream;
         private var _bolPaused:Boolean;
         private var _objTransform:SoundTransform;
-        private var _objBufferTrigger:Trigger;
-        private var _objLoadTrigger:Trigger;
-        private var _objProgressTrigger:Trigger;
+        private var _objBufferTrigger:IntervalTrigger;
+        private var _objLoadTrigger:IntervalTrigger;
+        private var _objProgressTrigger:IntervalTrigger;
         private var _numDuration:Number;
         private var _bolJustLoad:Boolean;
         /*
@@ -38,14 +38,14 @@
 		{
 			this._bolPaused = false;
 			
-			this._objBufferTrigger = new Trigger();
-			this._objBufferTrigger.addEventListener(TriggerEvent.TRIGGER, this.onBufferTrigger);
+			this._objBufferTrigger = new IntervalTrigger();
+			this._objBufferTrigger.addEventListener(IntervalTriggerEvent.TRIGGER, this.onBufferTrigger);
 			this._objBufferTrigger.silenceLogging = true;
-			this._objLoadTrigger = new Trigger();
-			this._objLoadTrigger.addEventListener(TriggerEvent.TRIGGER, this.onLoadTrigger);
+			this._objLoadTrigger = new IntervalTrigger();
+			this._objLoadTrigger.addEventListener(IntervalTriggerEvent.TRIGGER, this.onLoadTrigger);
 			this._objLoadTrigger.silenceLogging = true;
-			this._objProgressTrigger = new Trigger();
-			this._objProgressTrigger.addEventListener(TriggerEvent.TRIGGER, this.onProgressTrigger);
+			this._objProgressTrigger = new IntervalTrigger();
+			this._objProgressTrigger.addEventListener(IntervalTriggerEvent.TRIGGER, this.onProgressTrigger);
 			this._objProgressTrigger.silenceLogging = true;
 			
 			this._objConnection = new NetConnection();
@@ -233,7 +233,7 @@
 		/*
 		Trigger Handlers
 		*/
-		private function onBufferTrigger($event:TriggerEvent):void
+		private function onBufferTrigger($event:IntervalTriggerEvent):void
 		{
 			var numPercent:int = MathUtil.calculatePercentage(this._objStream.bufferLength, this._objStream.bufferTime);
 			
@@ -244,7 +244,7 @@
 
 			this.dispatchEvent(new VideoEvent(VideoEvent.BUFFER_PROGRESS, this, objDetails));
 		}
-		private function onLoadTrigger($event:TriggerEvent):void
+		private function onLoadTrigger($event:IntervalTriggerEvent):void
 		{
 			var numPercent:int = MathUtil.calculatePercentage(this._objStream.bytesLoaded, this._objStream.bytesTotal);
 			
@@ -255,7 +255,7 @@
 
 			this.dispatchEvent(new VideoEvent(VideoEvent.LOAD_PROGRESS, this, objDetails));
 		}
-		private function onProgressTrigger($event:TriggerEvent):void
+		private function onProgressTrigger($event:IntervalTriggerEvent):void
 		{
 			var numPercent:int = MathUtil.calculatePercentage(this._objStream.time, this._numDuration);
 			

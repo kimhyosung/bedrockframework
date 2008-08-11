@@ -7,9 +7,9 @@ package com.bedrockframework.plugin.gadget
 {
 	import com.bedrockframework.plugin.data.ScrollerData;
 	import com.bedrockframework.plugin.event.ScrollerEvent;
-	import com.bedrockframework.plugin.event.TriggerEvent;
+	import com.bedrockframework.plugin.event.IntervalTriggerEvent;
 	import com.bedrockframework.core.base.DispatcherWidget;
-	import com.bedrockframework.plugin.timer.Trigger;
+	import com.bedrockframework.plugin.timer.IntervalTrigger;
 	import com.bedrockframework.plugin.util.ButtonUtil;
 	
 	import flash.display.MovieClip;
@@ -22,8 +22,8 @@ package com.bedrockframework.plugin.gadget
 		/*
 		Variable Decarations
 		*/
-		private var _objScrollerTrigger:Trigger;
-		private var _objManualTrigger:Trigger;
+		private var _objScrollerTrigger:IntervalTrigger;
+		private var _objManualTrigger:IntervalTrigger;
 
 		private var sprContainer:Sprite;
 		private var sprTrack:Sprite;
@@ -51,13 +51,13 @@ package com.bedrockframework.plugin.gadget
 		*/
 		public function Scroller()
 		{
-			this._objScrollerTrigger=new Trigger;
+			this._objScrollerTrigger=new IntervalTrigger;
 			this._objScrollerTrigger.silenceLogging=true;
-			this._objScrollerTrigger.addEventListener(TriggerEvent.TRIGGER,this.onScrollerTrigger);
+			this._objScrollerTrigger.addEventListener(IntervalTriggerEvent.TRIGGER,this.onScrollerTrigger);
 			//
-			this._objManualTrigger=new Trigger;
+			this._objManualTrigger=new IntervalTrigger;
 			this._objManualTrigger.silenceLogging=true;
-			this._objScrollerTrigger.addEventListener(TriggerEvent.TRIGGER,this.onManualTrigger);
+			this._objScrollerTrigger.addEventListener(IntervalTriggerEvent.TRIGGER,this.onManualTrigger);
 		}
 		/*
 		Setup the scroller
@@ -332,12 +332,12 @@ package com.bedrockframework.plugin.gadget
 		/*
 		Event Handlers
 		*/
-		private function onScrollerTrigger($event:TriggerEvent):void
+		private function onScrollerTrigger($event:IntervalTriggerEvent):void
 		{
 			this.positionContent(this.getLocation(this.sprDrag));
 
 		}
-		private function onManualTrigger($event:TriggerEvent):void
+		private function onManualTrigger($event:IntervalTriggerEvent):void
 		{
 			this.positionManual(this._numIncrement);
 		}
