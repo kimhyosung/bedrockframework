@@ -1,17 +1,17 @@
 ﻿/*
 
-Delay
+TimeoutTrigger
 
 
 */
 import mx.utils.Delegate;
-import com.bedrockframework.plugin.event.DelayEvent;
-class com.bedrockframework.plugin.timer.Delay extends com.bedrockframework.core.base.DispatcherWidget
+import com.bedrockframework.plugin.event.TimeoutTriggerEvent;
+class com.bedrockframework.plugin.timer.TimeoutTrigger extends com.bedrockframework.core.base.DispatcherWidget
 {
 	/*
 	Variable Decarations
 	*/
-	private var _strClassName:String = "Delay";
+	private var _strClassName:String = "TimeoutTrigger";
 	private var _bolRunning:Boolean;
 	private var _numSeconds:Number;
 	private var _numMilliseconds:Number;
@@ -19,7 +19,7 @@ class com.bedrockframework.plugin.timer.Delay extends com.bedrockframework.core.
 	/*
 	Constructor
 	*/
-	public function Delay($seconds:Number)
+	public function TimeoutTrigger($seconds:Number)
 	{
 		this._numSeconds = $seconds || 0.5;
 		this._bolRunning = false;
@@ -34,31 +34,31 @@ class com.bedrockframework.plugin.timer.Delay extends com.bedrockframework.core.
 			this._bolRunning = true;
 			this._numSeconds = $seconds || 0.5;
 			this._numMilliseconds = $seconds * 1000;
-			_global["setTimeout"](Delegate.create(this, this.timerDelay), this._numMilliseconds);
-			this.dispatchEvent(new DelayEvent(DelayEvent.START, this));
+			_global["setTimeout"](Delegate.create(this, this.timerTimeoutTrigger), this._numMilliseconds);
+			this.dispatchEvent(new TimeoutTriggerEvent(TimeoutTriggerEvent.START, this));
 		}
 	}
 	public function stop():Void
 	{
 		output("Stop");
 		this._bolRunning = false;
-		this.dispatchEvent(new DelayEvent(DelayEvent.STOP, this));
+		this.dispatchEvent(new TimeoutTriggerEvent(TimeoutTriggerEvent.STOP, this));
 	}
-	private function timerDelay():Void
+	private function timerTimeoutTrigger():Void
 	{
 		if (this._bolRunning) {
 			this._bolRunning = false;
-			this.dispatchEvent(new DelayEvent(DelayEvent.TRIGGER, this));
+			this.dispatchEvent(new TimeoutTriggerEvent(TimeoutTriggerEvent.TRIGGER, this));
 		}
 	}
 	/*
 	Property Definitions
 	*/
-	public function get _delay():Number
+	public function get delay():Number
 	{
 		return (this._numMilliseconds / 1000);
 	}
-	public function get _running():Boolean
+	public function get running():Boolean
 	{
 		return this._bolRunning;
 	}

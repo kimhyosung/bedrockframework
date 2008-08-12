@@ -1,17 +1,17 @@
-﻿class com.bedrockframework.plugin.event.TriggerEvent extends com.bedrockframework.core.event.GenericEvent
+﻿class com.bedrockframework.plugin.event.IntervalTriggerEvent extends com.bedrockframework.core.event.GenericEvent
 {
 	/*
 	Variable Decarations
 	*/
-	private var _strClassName:String = "TriggerEvent";
+	private var _strClassName:String = "IntervalTriggerEvent";
 	
-	public static var START:String = "TriggerEvent.onStart";
-	public static var STOP:String = "TriggerEvent.onStop";
-	public static var TRIGGER:String = "TriggerEvent.onTrigger";
+	public static var START:String = "IntervalTriggerEvent.onStart";
+	public static var STOP:String = "IntervalTriggerEvent.onStop";
+	public static var TRIGGER:String = "IntervalTriggerEvent.onIntervalTrigger";
 	/*
 	Constructor
 	*/
-	public function TriggerEvent($type:String, $target:Object, $details:Object)
+	public function IntervalTriggerEvent($type:String, $target:Object, $details:Object)
 	{
 		super($type, $target, $details)
 	}

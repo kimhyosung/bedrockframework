@@ -1,17 +1,17 @@
 ﻿/*
 
-Trigger
+IntervalTrigger
 - Manages a single interval.
 
 */
 import mx.utils.Delegate;
-import com.bedrockframework.plugin.event.TriggerEvent;
-class com.bedrockframework.plugin.timer.Trigger extends com.bedrockframework.core.base.DispatcherWidget
+import com.bedrockframework.plugin.event.IntervalTriggerEvent;
+class com.bedrockframework.plugin.timer.IntervalTrigger extends com.bedrockframework.core.base.DispatcherWidget
 {
 	/*
 	Variable Decarations
 	*/
-	private var _strClassName:String = "Trigger";
+	private var _strClassName:String = "IntervalTrigger";
 	private var _numInterval:Number;
 	private var _numSeconds:Number;
 	private var _numMilliseconds:Number;
@@ -21,7 +21,7 @@ class com.bedrockframework.plugin.timer.Trigger extends com.bedrockframework.cor
 	/*
 	Constructor
 	*/
-	public function Trigger($seconds:Number)
+	public function IntervalTrigger($seconds:Number)
 	{
 		this._numSeconds = $seconds || 0.5;
 		this._numLoops = -1;
@@ -37,10 +37,10 @@ class com.bedrockframework.plugin.timer.Trigger extends com.bedrockframework.cor
 			this._bolRunning = true;
 			this._numSeconds = $seconds || this._numSeconds;
 			this._numMilliseconds = $seconds * 1000;
-			this._numInterval = setInterval(Delegate.create(this, this.timerTrigger), this._numMilliseconds);
+			this._numInterval = setInterval(Delegate.create(this, this.timerIntervalTrigger), this._numMilliseconds);
 			this._numLoops = $total || -1;
 			this._numIndex = 0;
-			this.dispatchEvent(new TriggerEvent(TriggerEvent.START, this));
+			this.dispatchEvent(new IntervalTriggerEvent(IntervalTriggerEvent.START, this));
 		}
 	}
 	public function stop():Void
@@ -49,11 +49,11 @@ class com.bedrockframework.plugin.timer.Trigger extends com.bedrockframework.cor
 		this._numIndex = 0;
 		this._bolRunning = false;
 		clearInterval(this._numInterval);
-		this.dispatchEvent(new TriggerEvent(TriggerEvent.STOP, this));
+		this.dispatchEvent(new IntervalTriggerEvent(IntervalTriggerEvent.STOP, this));
 	}
-	public function timerTrigger():Void
+	public function timerIntervalTrigger():Void
 	{
-		this.dispatchEvent(new TriggerEvent(TriggerEvent.TRIGGER, this, {index:this._numIndex}));
+		this.dispatchEvent(new IntervalTriggerEvent(IntervalTriggerEvent.TRIGGER, this, {index:this._numIndex}));
 		this._numIndex++;
 		if (this._numLoops > 0) {
 			if (this._numIndex >= this._numLoops) {
@@ -64,19 +64,19 @@ class com.bedrockframework.plugin.timer.Trigger extends com.bedrockframework.cor
 	/*
 	Property Definitions
 	*/
-	public function get _seconds():Number
+	public function get seconds():Number
 	{
 		return this._numSeconds;
 	}
-	public function get _milliseconds():Number
+	public function get milliseconds():Number
 	{
 		return this._numMilliseconds;
 	}
-	public function get _running():Boolean
+	public function get running():Boolean
 	{
 		return this._bolRunning;
 	}
-	public function get _elapsed():Number
+	public function get elapsed():Number
 	{
 		return (this._numIndex * (this._numMilliseconds / 1000));
 	}

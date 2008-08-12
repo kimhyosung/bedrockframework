@@ -1,18 +1,18 @@
-﻿class com.bedrockframework.plugin.event.DelayEvent extends com.bedrockframework.core.event.GenericEvent
+﻿class com.bedrockframework.plugin.event.TimeoutTriggerEvent extends com.bedrockframework.core.event.GenericEvent
 {
 	/*
 	Variable Decarations
 	*/
-	private var _strClassName:String = "DelayEvent";
+	private var _strClassName:String = "TimeoutTriggerEvent";
 	
-	public static var START:String = "DelayEvent.onStart";
-	public static var STOP:String = "DelayEvent.onStop";
-	public static var TRIGGER:String = "DelayEvent.onDelay";
+	public static var START:String = "TimeoutTriggerEvent.onStart";
+	public static var STOP:String = "TimeoutTriggerEvent.onStop";
+	public static var TRIGGER:String = "TimeoutTriggerEvent.onTimeoutTrigger";
 	/*
 	Constructor
 	*/
-	public function DelayEvent($type:String, $target:Object, $details:Object)
+	public function TimeoutTriggerEvent($type:String, $target:Object, $details:Object)
 	{
-		super($type, $target, $details)
+		super($type, $target, $details);
 	}
 }
