@@ -16,8 +16,7 @@
 		public  function execute($event:GenericEvent):void
 		{
 			if (!State.doneDefault) {
-				// Alex!
-				// Have this class be the one that references other places to get the default value... hope that made sense.
+				
 				var strDefaultAlias:String;
 				try {
 					strDefaultAlias=$event.details.alias;

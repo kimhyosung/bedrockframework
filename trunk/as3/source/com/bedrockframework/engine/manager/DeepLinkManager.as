@@ -5,9 +5,9 @@ package com.bedrockframework.engine.manager
 	import com.asual.swfaddress.SWFAddressEvent;
 	import com.bedrockframework.core.base.StaticWidget;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
-	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.core.logging.LogLevel;
 	import com.bedrockframework.core.logging.Logger;
+	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.engine.model.Queue;
 	import com.bedrockframework.plugin.util.VariableUtil;
 	
@@ -26,6 +26,7 @@ package com.bedrockframework.engine.manager
 
 		public static function initialize():void
 		{
+			SWFAddress.addEventListener(SWFAddressEvent.INIT, DeepLinkManager.onSWFAddressInit);
 			BedrockDispatcher.addEventListener(BedrockEvent.DO_DEFAULT, DeepLinkManager.onDoSetup, false, 1);
 			DeepLinkManager.enableChangeHandler();
 		}
@@ -108,7 +109,7 @@ package com.bedrockframework.engine.manager
 		}
 		public static function clearPath():void
 		{
-			SWFAddress.setValue("")
+			SWFAddress.setValue("");
 		}
 		public static function getCleanPath():String
 		{
@@ -255,6 +256,11 @@ package com.bedrockframework.engine.manager
 		private static function onPauseChangeHandler($event:BedrockEvent)
 		{
 			DeepLinkManager.disableChangeHandler();
+		}
+		private static function onSWFAddressInit($event:SWFAddressEvent):void
+		{
+			SWFAddress.removeEventListener(SWFAddressEvent.INIT, DeepLinkManager.onSWFAddressInit);
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DEEPLINK_INITIALIZE, DeepLinkManager));
 		}
 		/*
 		

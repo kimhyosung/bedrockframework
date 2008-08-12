@@ -25,6 +25,7 @@
 		public static const BEDROCK_COMPLETE:String="BedrockEvent.onBedrockComplete";
 
 		public static const URL_CHANGE:String="BedrockEvent.onURLChange";
+		public static const DEEPLINK_INITIALIZE:String="BedrockEvent.onDeepLinkInitialize";
 
 		public static const LOAD_BEGIN:String="BedrockEvent.onLoadBegin";
 		public static const LOAD_ERROR:String="BedrockEvent.onLoadError";

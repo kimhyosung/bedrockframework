@@ -47,7 +47,7 @@ package com.bedrockframework.engine
 		
 		private var _numLoadIndex:Number;		
 		private var _objConfigLoader:URLLoader;
-		private const _arrLoadSequence:Array=new Array("loadDispatcher","loadParams","loadConfig","loadCacheSettings", "loadLogging","loadController","loadServices","loadTracking","loadEngineClasses","loadEngineCommands","loadEngineContainers","loadCSS", "loadCopy", "buildDefaultPanel","loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
+		private const _arrLoadSequence:Array=new Array("loadDispatcher","loadParams","loadConfig","loadDeepLinking","loadCacheSettings", "loadLogging","loadController","loadServices","loadTracking","loadEngineClasses","loadEngineCommands","loadEngineContainers","loadCSS", "loadCopy", "buildDefaultPanel","loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
 		private var _objBedrockController:BedrockController;
 		
 		/*
@@ -114,11 +114,21 @@ package com.bedrockframework.engine
 			Params.save(this.loaderInfo.parameters);
 			this.next();
 		}
+		
 		final private function loadConfig():void
 		{
 			var strConfigURL:String;
 			this.loadXML(Params.getValue("configURL") ||this.configURL);
 			this.status(this.loaderInfo.url);
+		}
+		final private function loadDeepLinking():void
+		{
+			if (Config.getSetting("deep_linking")) {
+				DeepLinkManager.initialize();
+				BedrockDispatcher.addEventListener(BedrockEvent.DEEPLINK_INITIALIZE, this.onDeepLinkInitialized);
+			} else {
+				this.next();
+			}	
 		}
 		final private function loadCacheSettings():void
 		{
@@ -200,12 +210,6 @@ package com.bedrockframework.engine
 		final private function loadEngineClasses():void
 		{
 			State.initialize();
-
-			if (Config.getSetting("deep_linking")) {
-				
-				DeepLinkManager.initialize();
-				
-			}
 			ContainerManager.initialize(this);
 			LayoutManager.initialize();
 			LoadManager.initialize();
@@ -214,7 +218,7 @@ package com.bedrockframework.engine
 			
 			TrackingManager.initialize(Config.getValue("tracking_enabled"));
 			
-			this.next();
+			this.next();			
 		}
 		final private function loadEngineContainers():void
 		{
@@ -371,6 +375,12 @@ package com.bedrockframework.engine
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.CONFIG_LOADED,this));
 			this.next();
 		}
+		final private function onDeepLinkInitialized($event:Event):void
+		{
+			Params.save(DeepLinkManager.getParameterObject());
+			this.next();
+		}
+		
 		final private function onConfigError($event:Event):void
 		{
 			this.fatal("Could not parse config!");
