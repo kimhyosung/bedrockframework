@@ -12,21 +12,21 @@ class com.bedrockframework.plugin.gadget.Cloner extends com.bedrockframework.cor
 	*/
 	public var data:ClonerData;
 	
-	private var strClassName:String = "Cloner";
-	private var mcContainer:MovieClip;
-	private var mcCurrentClone:MovieClip;
-	private var strLinkage:String;
+	private var _strClassName:String = "Cloner";
+	private var _mcContainer:MovieClip;
+	private var _mcCurrentClone:MovieClip;
+	private var _strLinkage:String;
 	
-	private var numXposition:Number;
-	private var numYposition:Number;
+	private var _numXposition:Number;
+	private var _numYposition:Number;
 	
-	private var numWrap:Number;
+	private var _numWrap:Number;
 	
-	private var numColumn:Number;
-	private var numRow:Number;
+	private var _numColumn:Number;
+	private var _numRow:Number;
 	
-	private var mcDummy:MovieClip;
-	private var numWrapIndex:Number;
+	private var _mcDummy:MovieClip;
+	private var _numWrapIndex:Number;
 
 	private var numCurrentIndex:Number;
 	/*
@@ -37,22 +37,22 @@ class com.bedrockframework.plugin.gadget.Cloner extends com.bedrockframework.cor
 	}
 	public function setup($container:MovieClip, $linkage:String):Void
 	{
-		this.mcContainer = $container;
+		this._mcContainer = $container;
 			
-		this.mcDummy = this.mcContainer.createEmptyMovieClip("mcDummy", 1);
-		this.strLinkage = $linkage;
+		this._mcDummy = this._mcContainer.createEmptyMovieClip("_mcDummy", 1);
+		this._strLinkage = $linkage;
 	}
 	public function initialize($data:ClonerData):Void
 	{
 		if ($data) {
 			this.data = $data;
 			
-			this.numXposition = 0;
-			this.numYposition = 0;
+			this._numXposition = 0;
+			this._numYposition = 0;
 			//
-			this.numColumn = 0;
-			this.numRow = 0;
-			this.numWrapIndex = 1;
+			this._numColumn = 0;
+			this._numRow = 0;
+			this._numWrapIndex = 1;
 			this.numCurrentIndex = 0;
 			this.setDirection(this.data.direction.toLowerCase());
 			this.setPattern(this.data.pattern.toLowerCase());
@@ -65,67 +65,67 @@ class com.bedrockframework.plugin.gadget.Cloner extends com.bedrockframework.cor
 	*/
 	public function create():MovieClip
 	{
-		this.mcCurrentClone = this.mcDummy.attachMovie(this.strLinkage, this.strLinkage + this.numCurrentIndex, this.numCurrentIndex, this.getProperties());
-		this.dispatchEvent(new ClonerEvent(ClonerEvent.CREATE, this, {id:this.numCurrentIndex, child:this.mcCurrentClone}));
+		this._mcCurrentClone = this._mcDummy.attachMovie(this._strLinkage, this._strLinkage + this.numCurrentIndex, this.numCurrentIndex, this.getProperties());
+		this.dispatchEvent(new ClonerEvent(ClonerEvent.CREATE, this, {id:this.numCurrentIndex, child:this._mcCurrentClone}));
 		this.numCurrentIndex++;
-		return this.mcCurrentClone;
+		return this._mcCurrentClone;
 	}
 	private function getProperties():Object
 	{
 		if (this.numCurrentIndex != 0) {
-			this.numWrapIndex++;
+			this._numWrapIndex++;
 			switch (this.data.pattern) {
 				case ClonerData.GRID :
 					switch (this.data.direction) {
 						case ClonerData.HORIZONTAL :
-							this.numXposition += this.data.spaceX;
-							if (this.numWrapIndex > this.data.wrap) {
-								this.numXposition = 0;
-								this.numYposition += this.data.spaceY;
-								this.numWrapIndex = 1;
-								this.numRow += 1;
+							this._numXposition += this.data.spaceX;
+							if (this._numWrapIndex > this.data.wrap) {
+								this._numXposition = 0;
+								this._numYposition += this.data.spaceY;
+								this._numWrapIndex = 1;
+								this._numRow += 1;
 							}
-							this.numColumn = this.numWrapIndex;
+							this._numColumn = this._numWrapIndex;
 							break;
 						case ClonerData.VERTICAL :
-							this.numYposition += this.data.spaceY;
-							if (this.numWrapIndex > this.data.wrap) {
-								this.numYposition = 0;
-								this.numXposition += this.data.spaceX;
-								this.numWrapIndex = 1;
-								this.numColumn += 1;
+							this._numYposition += this.data.spaceY;
+							if (this._numWrapIndex > this.data.wrap) {
+								this._numYposition = 0;
+								this._numXposition += this.data.spaceX;
+								this._numWrapIndex = 1;
+								this._numColumn += 1;
 							}
-							this.numRow = this.numWrapIndex;
+							this._numRow = this._numWrapIndex;
 							break;
 					}
-					return {_x:this.numXposition, _y:this.numYposition, _column:this.numColumn, _row:this.numRow, _id:this.numCurrentIndex};
+					return {_x:this._numXposition, _y:this._numYposition, _column:this._numColumn, _row:this._numRow, _id:this.numCurrentIndex};
 					break;
 				case ClonerData.LINEAR :
 					switch (this.data.direction) {
 						case ClonerData.HORIZONTAL :
-							this.numXposition += this.data.spaceX;
+							this._numXposition += this.data.spaceX;
 							break;
 						case ClonerData.VERTICAL :
-							this.numYposition += this.data.spaceY;
+							this._numYposition += this.data.spaceY;
 							break;
 					}
-					return {_x:this.numXposition, _y:this.numYposition, _id:this.numCurrentIndex};
+					return {_x:this._numXposition, _y:this._numYposition, _id:this.numCurrentIndex};
 					break;
 				case ClonerData.RANDOM :
 					return {_x:random(this.data.rangeX), _y:random(this.data.rangeY), _id:this.numCurrentIndex};
 					break;
 			}
 		} else if (this.data.pattern == ClonerData.GRID) {
-			return {_x:this.numXposition, _y:this.numYposition, _column:this.numColumn, _row:this.numRow, _id:this.numCurrentIndex};
+			return {_x:this._numXposition, _y:this._numYposition, _column:this._numColumn, _row:this._numRow, _id:this.numCurrentIndex};
 		} else if (this.data.pattern == ClonerData.LINEAR) {
-			return {_x:this.numXposition, _y:this.numYposition, _id:this.numCurrentIndex};
+			return {_x:this._numXposition, _y:this._numYposition, _id:this.numCurrentIndex};
 		} else if (this.data.pattern == ClonerData.RANDOM) {
 			return {_x:random(this.data.rangeX), _y:random(this.data.rangeY), _id:this.numCurrentIndex};
 		}
 	}
 	public function remove($id:Number):Void
 	{
-		this.mcContainer.removeMovieClip([this.strLinkage + $id]);
+		this._mcContainer.removeMovieClip([this._strLinkage + $id]);
 		this.dispatchEvent(new ClonerEvent(ClonerEvent.REMOVE, this, {id:$id}));
 	}
 	/*
@@ -145,12 +145,12 @@ class com.bedrockframework.plugin.gadget.Cloner extends com.bedrockframework.cor
 	public function clear($resetPosition:Boolean, $resetIndex:Boolean):Void
 	{
 		output("Cleared");
-		this.numColumn = 1;
-		this.numRow = 1;
-		this.mcDummy = this.mcContainer.createEmptyMovieClip("mcDummy", 1);
+		this._numColumn = 1;
+		this._numRow = 1;
+		this._mcDummy = this._mcContainer.createEmptyMovieClip("_mcDummy", 1);
 		if ($resetPosition || $resetPosition == undefined) {
-			this.numXposition = 0;
-			this.numYposition = 0;
+			this._numXposition = 0;
+			this._numYposition = 0;
 		}
 		if ($resetIndex || $resetIndex == undefined) {
 			this.numCurrentIndex = 0;
@@ -169,8 +169,8 @@ class com.bedrockframework.plugin.gadget.Cloner extends com.bedrockframework.cor
 
 	public function setOffset($offsetX:Number, $offsetY:Number):Void
 	{
-		this.numXposition = $offsetX || 0;
-		this.numYposition = $offsetY || 0;
+		this._numXposition = $offsetX || 0;
+		this._numYposition = $offsetY || 0;
 	}
 	public function setWrap($wrap:Number):Void
 	{
@@ -212,7 +212,7 @@ class com.bedrockframework.plugin.gadget.Cloner extends com.bedrockframework.cor
 	*/
 	public function get currentClone():MovieClip
 	{
-		return this.mcCurrentClone;
+		return this._mcCurrentClone;
 	}
 	public function set direction($direction:String)
 	{
