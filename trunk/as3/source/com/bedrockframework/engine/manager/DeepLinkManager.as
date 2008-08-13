@@ -27,8 +27,16 @@ package com.bedrockframework.engine.manager
 		public static function initialize():void
 		{
 			SWFAddress.addEventListener(SWFAddressEvent.INIT, DeepLinkManager.onSWFAddressInit);
-			BedrockDispatcher.addEventListener(BedrockEvent.DO_DEFAULT, DeepLinkManager.onDoSetup, false, 1);
+			BedrockDispatcher.addEventListener(BedrockEvent.DO_DEFAULT, DeepLinkManager.onDoSetup);
 			DeepLinkManager.enableChangeHandler();
+		}
+		
+		public static function clear():void
+		{
+			BedrockDispatcher.removeEventListener(BedrockEvent.INITIALIZE_COMPLETE, DeepLinkManager.onInitializeComplete);
+			BedrockDispatcher.removeEventListener(BedrockEvent.SET_QUEUE, DeepLinkManager.onPauseChangeHandler);
+			SWFAddress.removeEventListener(SWFAddressEvent.INIT, DeepLinkManager.onSWFAddressInit);
+			SWFAddress.removeEventListener(SWFAddressEvent.CHANGE, DeepLinkManager.onChangeNotification);
 		}
 		/*
 		Set Mode
@@ -234,26 +242,26 @@ package com.bedrockframework.engine.manager
 		/*
 		Event Handlers
 		*/
-		public static function onDoSetup($event:BedrockEvent):void
+		private static function onDoSetup($event:BedrockEvent):void
 		{
 			BedrockDispatcher.removeEventListener(BedrockEvent.DO_DEFAULT, DeepLinkManager.onDoSetup);
 			DeepLinkManager.setMode(DeepLinkManager.AUTO);
 		}	
-		private static function onChangeNotification($event:SWFAddressEvent)
+		private static function onChangeNotification($event:SWFAddressEvent):void
 		{
 			var objDetails:Object = new Object();
 			objDetails.query = DeepLinkManager.getParameterObject();
 			objDetails.path = DeepLinkManager.getCleanPath();
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.URL_CHANGE,DeepLinkManager, objDetails));
 		}		
-		private static function onInitializeComplete($event:BedrockEvent)
+		private static function onInitializeComplete($event:BedrockEvent):void
 		{
 			DeepLinkManager.clearPath();
 			DeepLinkManager.setPath(Queue.current.alias);
 			SWFAddress.setStatus("Ready");
 			DeepLinkManager.enableChangeHandler();		
 		}
-		private static function onPauseChangeHandler($event:BedrockEvent)
+		private static function onPauseChangeHandler($event:BedrockEvent):void
 		{
 			DeepLinkManager.disableChangeHandler();
 		}

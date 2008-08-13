@@ -78,17 +78,6 @@ package com.bedrockframework.engine
 			this[strFunction]();
 		}
 		/*
-		Determine General Location
-	 	*/
-	 	private function determineLocation($url:String):String
-		{
-			if ($url.indexOf("http") != -1) {
-				return "remote";
-			} else {
-				return "local";
-			}
-		}
-		/*
 		Calculate Percentage
 		*/
 		private function getProgressObject():Object
@@ -235,7 +224,9 @@ package com.bedrockframework.engine
 		final private function loadServices():void
 		{
 			try{
-				ServiceManager.createServices(Config.getValue("remoting"))
+				if (Config.getSetting("remoting")) {
+					ServiceManager.createServices(Config.getValue("remoting"))
+				}				
 			}catch($error:Error){
 			}		
 			this.next();
@@ -378,6 +369,7 @@ package com.bedrockframework.engine
 		final private function onDeepLinkInitialized($event:Event):void
 		{
 			Params.save(DeepLinkManager.getParameterObject());
+			BedrockDispatcher.removeEventListener(BedrockEvent.DEEPLINK_INITIALIZE, this.onDeepLinkInitialized);
 			this.next();
 		}
 		

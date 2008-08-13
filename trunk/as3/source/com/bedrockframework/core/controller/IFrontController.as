@@ -11,7 +11,7 @@
 */
 package com.bedrockframework.core.controller
 {
-	public interface IController
+	public interface IFrontController
 	{
 		function initialize():void;
 		function addCommand($type:String,$command:Class):void;
