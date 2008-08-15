@@ -34,6 +34,9 @@
 		public static const URL:String = "url";
 		public static const OS:String = "os";
 		
+		public static  const AUTO_DEEP_LINK:String = "auto";
+		public static  const MANUAL_DEEP_LINK:String = "manual";
+		
 		public static const LOCAL_LOG_LEVEL:String = "local_log_level";
 		public static const EVENT_LOG_LEVEL:String = "event_log_level";
 		public static const REMOTE_LOG_LEVEL:String = "remote_log_level";
@@ -56,7 +59,6 @@
 		public static const PRELOADER_CONTAINER:String = "preloader";
 		public static const SECTION_CONTAINER:String = "section";
 		public static const SHARED_CONTAINER:String = "shared";
-		
 		/*
 		Constant Environments
 		*/

@@ -7,6 +7,7 @@ package com.bedrockframework.engine.manager
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.core.logging.LogLevel;
 	import com.bedrockframework.core.logging.Logger;
+	import com.bedrockframework.engine.data.BedrockData;
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.engine.model.Queue;
 	import com.bedrockframework.plugin.util.DeepLinkUtil;
@@ -14,15 +15,9 @@ package com.bedrockframework.engine.manager
 	public class DeepLinkManager extends StaticWidget
 	{
 		/*
-		Variable Decarations
-		*/
-		public static  var AUTO:String = "auto";
-		public static  var MANUAL:String = "manual";
-		
-		Logger.log(DeepLinkManager, LogLevel.CONSTRUCTOR, "Constructed");
-		/*
 		Constructor
 		*/
+		Logger.log(DeepLinkManager, LogLevel.CONSTRUCTOR, "Constructed");
 
 		public static function initialize():void
 		{
@@ -44,11 +39,11 @@ package com.bedrockframework.engine.manager
 		public static function setMode($mode:String):void
 		{
 			switch ($mode.toLowerCase()) {
-				case DeepLinkManager.AUTO :
+				case BedrockData.AUTO_DEEP_LINK :
 					BedrockDispatcher.addEventListener(BedrockEvent.INITIALIZE_COMPLETE, DeepLinkManager.onInitializeComplete);
 					BedrockDispatcher.addEventListener(BedrockEvent.SET_QUEUE, DeepLinkManager.onPauseChangeHandler);
 					break;
-				case DeepLinkManager.MANUAL :
+				case BedrockData.MANUAL_DEEP_LINK :
 					BedrockDispatcher.removeEventListener(BedrockEvent.INITIALIZE_COMPLETE, DeepLinkManager.onInitializeComplete);
 					BedrockDispatcher.removeEventListener(BedrockEvent.SET_QUEUE, DeepLinkManager.onPauseChangeHandler);
 					break;
@@ -84,7 +79,7 @@ package com.bedrockframework.engine.manager
 		private static function onDoSetup($event:BedrockEvent):void
 		{
 			BedrockDispatcher.removeEventListener(BedrockEvent.DO_DEFAULT, DeepLinkManager.onDoSetup);
-			DeepLinkManager.setMode(DeepLinkManager.AUTO);
+			DeepLinkManager.setMode(BedrockData.AUTO_DEEP_LINK);
 		}	
 		private static function onChangeNotification($event:SWFAddressEvent):void
 		{
