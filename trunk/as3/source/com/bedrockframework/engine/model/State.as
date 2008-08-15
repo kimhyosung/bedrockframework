@@ -7,14 +7,16 @@
 	public class State extends StaticWidget
 	{
 
-		private static  var STR_CURRENT:String;
-		private static  var STR_PREVIOUS:String;
+		private static  var __strCurrent:String;
+		private static  var __strPrevious:String;
 		public static const INITIALIZED:String="initialized";
 		public static const AVAILABLE:String="available";
 		public static const UNAVAILABLE:String="unavailable";
 		
 		public static var siteRendered:Boolean = false;
+		public static var siteInitialized:Boolean = false;
 		public static var doneDefault:Boolean = false;
+		
 		
 		Logger.log(State, LogLevel.CONSTRUCTOR, "Constructed");
 		
@@ -30,10 +32,10 @@
 		{
 			try {
 				var strState:String=$identifier;
-				if (strState != State.STR_CURRENT) {
-					State.STR_PREVIOUS=State.STR_CURRENT;
-					State.STR_CURRENT=strState;
-					Logger.status(State, "Changing state to - " + State.STR_CURRENT);
+				if (strState != State.__strCurrent) {
+					State.__strPrevious=State.__strCurrent;
+					State.__strCurrent=strState;
+					Logger.status(State, "Changing state to - " + State.__strCurrent);
 				} else {
 					Logger.warning(State, "No stage change!");
 				}
@@ -46,22 +48,22 @@
 		*/
 		public static  function clear():void
 		{
-			State.STR_CURRENT=null;
-			State.STR_PREVIOUS=null;
+			State.__strCurrent=null;
+			State.__strPrevious=null;
 		}
 		/*
 		Get Current 
 		*/
 		public static  function get current():String
 		{
-			return State.STR_CURRENT;
+			return State.__strCurrent;
 		}
 		/*
 		Get Previous 
 		*/
 		public static  function get previous():String
 		{
-			return State.STR_PREVIOUS;
+			return State.__strPrevious;
 		}
 	}
 }

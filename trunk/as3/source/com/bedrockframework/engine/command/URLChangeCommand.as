@@ -5,6 +5,7 @@
 	import com.bedrockframework.core.event.GenericEvent;
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.engine.manager.*;
+	import com.bedrockframework.engine.model.Config;
 	import com.bedrockframework.engine.model.Queue;
 	import com.bedrockframework.engine.model.State;
 
@@ -17,11 +18,13 @@
 		{
 			if (State.current !=State.INITIALIZED && State.current != State.UNAVAILABLE ) {
 				try {
-					var strPath:String = $event.details.path;
+					var strPath:String = $event.details.paths[0];
 					var strCurrentAlias:String = Queue.current.alias;
-					if (strPath && strPath != strCurrentAlias) {
-						BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DO_CHANGE, this, {alias:strPath}));
-					}
+					if (Config.getSection(strPath) != null) {
+						if (strPath && strPath != strCurrentAlias) {
+							BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DO_CHANGE, this, {alias:strPath}));
+						}
+					}					
 				} catch ($e:Error) {
 				}
 			}

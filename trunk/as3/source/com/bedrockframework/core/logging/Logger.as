@@ -89,7 +89,7 @@ package com.bedrockframework.core.logging
 		}
 		
 		
-		public static function set loggerURL($url:String):void
+		public static function set remoteLogURL($url:String):void
 		{
 			Logger.remoteLogger.loggerURL = $url;
 		}

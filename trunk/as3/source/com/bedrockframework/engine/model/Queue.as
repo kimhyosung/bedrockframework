@@ -32,7 +32,7 @@
 		/*
 		Load Queue
 		*/
-		public static function loadQueue():Object
+		public static function getQueue():Object
 		{
 			var objTemp:Object=Queue.current;
 			if (objTemp == null) {

@@ -20,7 +20,7 @@
 				objContainer.addChild(objPreloader);
 				PreloaderManager.container = objPreloader;
 				State.siteRendered = true;
-			}		
+			}
 		}
 	}
 }

@@ -14,6 +14,7 @@ package com.bedrockframework.engine.model
 	import com.bedrockframework.core.base.StaticWidget;
 	import com.bedrockframework.core.logging.LogLevel;
 	import com.bedrockframework.core.logging.Logger;
+	import com.bedrockframework.engine.data.BedrockData;
 	import com.bedrockframework.plugin.util.StringUtil;
 	import com.bedrockframework.plugin.util.XMLUtil;
 	
@@ -41,10 +42,10 @@ package com.bedrockframework.engine.model
 			Config.__objEnvironmentSettings = new Object;
 			Config.__objSectionSettings = new Object;
 			//
-			Config.saveSetting("url", $url);			
+			Config.saveSetting(BedrockData.URL, $url);
 			Config.saveSetting("manufacturer", Capabilities.manufacturer);
-			Config.saveSetting("language", Capabilities.language);
-			Config.saveSetting("os", Capabilities.os);
+			Config.saveSetting(BedrockData.DEFAULT_LANGUAGE, Capabilities.language);
+			Config.saveSetting(BedrockData.OS, Capabilities.os);
 			Config.saveSetting("stage", $stage);
 			
 			Config.parseXML($data);
@@ -55,12 +56,12 @@ package com.bedrockframework.engine.model
 		{
 			var xmlConfig:XML = Config.getXML($data);
 			
-			Config.saveSetting("layout", XMLUtil.getObjectArray(xmlConfig.layout));
+			Config.saveSetting(BedrockData.LAYOUT, XMLUtil.getObjectArray(xmlConfig.layout));
 			
-			Config.saveSetting("default_section", Config.getDefaultSection(xmlConfig.sections));
-			Config.saveSetting("environment", Config.getEnvironment(xmlConfig.environments, Config.getSetting("url")));
+			Config.saveSetting(BedrockData.DEFAULT_SECTION, Config.getDefaultSection(xmlConfig.sections));
+			Config.saveSetting(BedrockData.ENVIRONMENT, Config.getEnvironment(xmlConfig.environments, Config.getSetting(BedrockData.URL)));
 			Config.saveFrameworkSettings(xmlConfig.settings);
-			Config.saveEnvironmentSettings(xmlConfig.environments, Config.getSetting("environment"));
+			Config.saveEnvironmentSettings(xmlConfig.environments, Config.getSetting(BedrockData.ENVIRONMENT));
 			Config.saveCacheSettings();
 			Config.saveLanguageSettings();
 			
@@ -69,7 +70,7 @@ package com.bedrockframework.engine.model
 			Logger.status(Config, Config.__objFrameworkSettings);
 			Logger.status(Config, Config.__objEnvironmentSettings);
 			
-			Logger.status(Config, "Environment - " + Config.getSetting("environment"));
+			Logger.status(Config, "Environment - " + Config.getSetting(BedrockData.ENVIRONMENT));
 		}
 		private static function getXML($data:String):XML
 		{
@@ -101,11 +102,8 @@ package com.bedrockframework.engine.model
 					}
 				} catch ($e:Error) {}
 			}			
-			return "production";
+			return BedrockData.PRODUCTION;
 		}
-		
-		
-	
 		/*
 		Parsing Functions
 		*/
@@ -121,7 +119,7 @@ package com.bedrockframework.engine.model
 		{
 			var xmlData:XML = new XML($node);
 			
-			Config.parseItems(XMLUtil.filterByAttribute(xmlData, "name", "default"));
+			Config.parseItems(XMLUtil.filterByAttribute(xmlData, "name", BedrockData.DEFAULT));
 			Config.parseItems(XMLUtil.filterByAttribute(xmlData, "name", $environment));
 			
 			delete Config.__objEnvironmentSettings["patterns"];
@@ -129,24 +127,24 @@ package com.bedrockframework.engine.model
 		
 		private static function saveCacheSettings():void
 		{
-			if (Config.getSetting("cache_prevention")) {
-				Config.saveSetting("cache_key", Config.createCacheKey());
+			if (Config.getSetting(BedrockData.CACHE_PREVENTION_ENABLED)) {
+				Config.saveSetting(BedrockData.CACHE_KEY, Config.createCacheKey());
 			} else {
-				Config.saveSetting("cache_key", "");
+				Config.saveSetting(BedrockData.CACHE_KEY, "");
 			}
 		}		
 		
 		private static function saveLanguageSettings():void
 		{
-			var strLanguages:String = Config.getSetting("languages");
+			var strLanguages:String = Config.getSetting(BedrockData.LANGUAGES);
 			var arrLanguages:Array = strLanguages.split(",")
 			var numLength:int = arrLanguages.length;
 			for (var i:int = 0; i < numLength; i ++) {
 				arrLanguages[i] = StringUtil.trim(arrLanguages[i]);
 			}
-			Config.saveSetting("languages", arrLanguages);
+			Config.saveSetting(BedrockData.LANGUAGES, arrLanguages);
 			if (numLength>0) {
-				Config.saveSetting("default_language", arrLanguages[0]);	
+				Config.saveSetting(BedrockData.DEFAULT_LANGUAGE, arrLanguages[0]);	
 			}			
 		}
 		
@@ -191,7 +189,7 @@ package com.bedrockframework.engine.model
 		private static function getDefaultSection($node:XMLList):String
 		{
 			var xmlData:XML = new XML($node);
-			var xmlDefaultSection:XML = XMLUtil.filterByAttribute($node, "default", "true");
+			var xmlDefaultSection:XML = XMLUtil.filterByAttribute($node, BedrockData.DEFAULT_SECTION, "true");
 			return XMLUtil.sanitizeValue(xmlDefaultSection.alias);
 		}
 		
