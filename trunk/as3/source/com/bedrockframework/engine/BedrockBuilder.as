@@ -213,7 +213,6 @@ package com.bedrockframework.engine
 		}
 		final private function loadEngineContainers():void
 		{
-			AssetManager.initialize();
 			LayoutManager.buildLayout(Config.getSetting(BedrockData.LAYOUT));
 			TransitionManager.siteLoader = ContainerManager.getContainer(BedrockData.SITE_CONTAINER) as VisualLoader;
 			TransitionManager.sectionLoader = ContainerManager.getContainer(BedrockData.SECTION_CONTAINER) as VisualLoader;
