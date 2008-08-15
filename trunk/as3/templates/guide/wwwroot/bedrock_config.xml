@@ -1,0 +1,97 @@
+<config>
+   <settings>
+      <auto_intro_enabled>true</auto_intro_enabled>
+      <auto_default_enabled>false</auto_default_enabled>
+      <preloader_time_enabled>3</preloader_time_enabled>
+      <deep_linking_enabled>true</deep_linking_enabled>
+      <remoting_enabled>false</remoting_enabled>
+      <cache_prevention_enabled>false</cache_prevention_enabled>
+      <stylesheet_enabled>true</stylesheet_enabled>
+      <copy_deck_enabled>true</copy_deck_enabled>
+      <languages/>
+   </settings>
+   <layout>
+      <container>
+         <name>shared</name>
+      </container>
+      <container>
+         <name>site</name>
+      </container>
+      <container>
+         <name>section</name>
+      </container>
+      <container>
+         <name>preloader</name>
+      </container>
+      <container>
+         <name>navigation</name>
+      </container>
+      <container>
+         <name>blocker</name>
+      </container>
+      <container>
+         <name>overlay</name>
+      </container>
+   </layout>
+   <sections>
+      <section default_section="true">
+         <label>Homepage</label>
+         <alias>homepage</alias>
+      </section>
+      <section>
+         <label>Sub Page</label>
+         <alias>sub_page</alias>
+      </section>
+   </sections>
+   <environments>
+      <environment name="default">
+         <!--Logger Settings-->
+         <local_log_level>ALL</local_log_level>
+         <event_log_level>ERROR</event_log_level>
+         <remote_log_level>NONE</remote_log_level>
+         <remote_log_url/>
+         <!--General Settings-->
+         <tracking_enabled>true</tracking_enabled>
+         <!--Path Information-->
+         <swf_path>../swfs/</swf_path>
+         <xml_path>../xml/</xml_path>
+         <css_path>../css/</css_path>
+         <image_path>../images/</image_path>
+         <video_path>../video/</video_path>
+         <audio_path>../audio/</audio_path>
+         <!--Remoting-->
+         <remoting>
+            <service>
+               <alias>image_transfer</alias>
+               <gateway>http://www.someurl.com/gateway.aspx</gateway>
+               <path>ServiceLibrary.ImageTransfer</path>
+            </service>
+         </remoting>
+      </environment>
+      <environment name="local">
+         <!--General Settings-->
+         <tracking_enabled>false</tracking_enabled>
+         <patterns>
+            <pattern>file://</pattern>
+         </patterns>
+         <!--Path Information-->
+         <!--Remoting-->
+      </environment>
+      <environment name="development">
+         <patterns>
+            <pattern>ichameleongroup</pattern>
+         </patterns>
+      </environment>
+      <environment name="localhost">
+         <patterns>
+            <pattern>localhost</pattern>
+         </patterns>
+      </environment>
+      <environment name="staging">
+         <patterns>
+            <pattern>staging</pattern>
+         </patterns>
+      </environment>
+      <environment name="production"/>
+   </environments>
+</config>
