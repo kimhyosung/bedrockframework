@@ -1,4 +1,4 @@
-﻿package com.sapient.project.keybank.tracking
+﻿package com.bedrockframework.plugin.tracking
 {
 	import com.bedrockframework.core.base.BasicWidget;
 	import flash.external.ExternalInterface;
