@@ -1,12 +1,14 @@
-﻿package 
+﻿package com.bedrockframework.plugin.util
 {
 	import com.bedrockframework.core.base.StaticWidget;
 	
 	import flash.display.MovieClip;
 	public class MovieClipUtil extends StaticWidget
 	{
-		/*
-		Returns the frame number of a specific frame label.
+		/**
+		 * $clip MovieClip targeted.
+		 * $label Frame label requested.
+		 * return Returns the frame number of a specific frame label.
 		*/
 		public static function getFrame($clip:MovieClip, $label:String):int
 		{
@@ -18,11 +20,11 @@
 			}
 			return ($clip.currentFrame);
 		}           
-		/*
-		 * Returns the suggested tweening time based on the current frame and the frame number specified.
-		 * $clip - MovieClip targeted.
-		 * $frame - Frame or frame label targeted.
-		 * $compression - Optional parameter that allows you to modify the time returned (speed up the timing).
+		/**
+		 * $clip MovieClip targeted.
+		 * $frame Frame or frame label targeted.
+		 * $compression Optional parameter that allows you to modify the time returned (speed up the timing).
+		 * return Returns the suggested tweening time based on the current frame and the frame number specified.
 		*/
 		public static function getTweenTime($clip:MovieClip, $frame:*, $compression:Number=1):Number
 		{
