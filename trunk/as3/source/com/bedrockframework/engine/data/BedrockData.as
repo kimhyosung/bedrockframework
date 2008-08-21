@@ -9,7 +9,7 @@
 		public static const AUTO_DEFAULT_ENABLED:String = "auto_default_enabled";
 		public static const AUTO_INTRO_ENABLED:String = "auto_intro_enabled";
 		
-		public static const PRELOADER_TIME_ENABLED:String = "preloader_time_enabled";
+		public static const PRELOADER_TIME:String = "preloader_time";
 		public static const DEEP_LINKING_ENABLED:String = "deep_linking_enabled";
 		public static const REMOTING_ENABLED:String = "remoting_enabled";
 		public static const CACHE_PREVENTION_ENABLED:String = "cache_prevention_enabled";
