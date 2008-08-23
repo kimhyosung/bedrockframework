@@ -120,7 +120,7 @@
 		{
 			var arrResults:Array = new Array();
 			var numLength:int = this._arrQueue.length;
-			for (var i = 0; i < numLength; i ++){
+			for (var i:int = 0; i < numLength; i ++){
 				arrResults.push(this._arrQueue[i].result)
 			}
 			return arrResults;
@@ -129,7 +129,7 @@
 		{
 			var objResult:Object = new Object();
 			var numLength:int = this._arrQueue.length;
-			for (var i = 0; i < numLength; i ++){
+			for (var i:int = 0; i < numLength; i ++){
 				objResult[this._arrQueue[i].call] = this._arrQueue[i].result;
 			}
 			return objResult;

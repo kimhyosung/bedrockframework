@@ -29,7 +29,7 @@
 		public function clear():void
 		{
 			var numLength:Number=this._arrData.length;
-			for (var i=0; i < numLength; i++) {
+			for (var i:int=0; i < numLength; i++) {
 				this._arrData.pop();
 			}
 			this.reset();
@@ -51,7 +51,7 @@
 		/*
 		Insert new data at index
 		*/
-		public function insert($location:Number,$item):Array
+		public function insert($location:Number,$item:*):Array
 		{
 			return ArrayUtil.insert(this._arrData,$location,$item);
 		}
@@ -72,20 +72,20 @@
 		/*
 		Add to end
 		*/
-		public function automaticPush($array:Array)
+		public function automaticPush($array:Array):void
 		{
 			var numLength:Number=$array.length;
-			for (var i=0; i < numLength; i++) {
+			for (var i:int=0; i < numLength; i++) {
 				this._arrData.push($array[i]);
 			}
 		}
 		/*
 		Loop through an array unshift each item in
 		*/
-		public function automaticUnshift($array:Array)
+		public function automaticUnshift($array:Array):void
 		{
 			var numLength:Number=$array.length;
-			for (var i=0; i < numLength; i++) {
+			for (var i:int=0; i < numLength; i++) {
 				this._arrData.unshift($array[i]);
 			}
 		}
@@ -101,7 +101,7 @@
 			if (this._numLimit != 0) {
 				if (this._arrData.length > this._arrData._numLimit) {
 					var numLoop:Number=this._numLimit - this._arrData.length;
-					for (var i=0; i < numLoop; i++) {
+					for (var i:int=0; i < numLoop; i++) {
 						this._arrData.shift();
 					}
 				}
@@ -116,7 +116,7 @@
 			if (this._numLimit != 0) {
 				if (this._arrData.length > this._numLimit) {
 					var numLoop:Number=this._numLimit - this._arrData.length;
-					for (var i=0; i < numLoop; i++) {
+					for (var i:int=0; i < numLoop; i++) {
 						this._arrData.pop();
 					}
 				}
@@ -172,7 +172,7 @@
 		/*
 		Select a random item in the array
 		*/
-		public function selectRandom()
+		public function selectRandom():*
 		{
 			if (this._arrData.length > 0) {
 				return this.setSelected(ArrayUtil.randomIndex(this._numSelectedIndex,this._arrData.length));
@@ -206,7 +206,7 @@
 		/*
 		Get random items based on a total
 		*/
-		public function getRandomItems($total:Number)
+		public function getRandomItems($total:Number):*
 		{
 			if (this._arrData.length > 0) {
 				return ArrayUtil.getRandomItems(this._arrData,$total);
@@ -219,7 +219,7 @@
 		{
 			var numLength:Number=this._arrData.length;
 			var arrReturn:Array=new Array;
-			for (var i=0; i < numLength; i++) {
+			for (var i:int=0; i < numLength; i++) {
 				arrReturn.push(this._arrData[i][$property]);
 			}
 			return arrReturn;
@@ -318,7 +318,7 @@
 		/*
 		Set the wrapping properties of the array
 		*/
-		public function set wrapIndex($status:Boolean)
+		public function set wrapIndex($status:Boolean):void
 		{
 			this._bolWrapIndex=$status;
 		}

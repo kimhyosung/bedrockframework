@@ -8,10 +8,10 @@
 	 * @created	
 	 */
 	import com.bedrockframework.core.base.DispatcherWidget;
-	import com.bedrockframework.plugin.util.MathUtil;
 	import com.bedrockframework.plugin.event.AudioEvent;
 	import com.bedrockframework.plugin.event.IntervalTriggerEvent;
 	import com.bedrockframework.plugin.timer.IntervalTrigger;
+	import com.bedrockframework.plugin.util.MathUtil;
 	
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
@@ -36,13 +36,17 @@
 		/*
 		Constructor
 		*/
-		public function AudioPlayer($sound:Sound = null)
+		public function AudioPlayer()
 		{
-			this._bolPaused = false;
-			this.setSound($sound);
+			this._bolPaused = false;			
 			this._objPositionTrigger = new IntervalTrigger(0.05);
 			this._objPositionTrigger.addEventListener(IntervalTriggerEvent.TRIGGER, this.onProgressTrigger);
 			this._objPositionTrigger.silenceLogging = true;
+		}
+		
+		public function initialize($sound:Sound = null):void
+		{
+			this.setSound($sound);
 		}
 		/*
 		Setting Sound
@@ -249,14 +253,6 @@
 		 public function get transform():SoundTransform
 		 {
 		 	return this._objTransform;
-		 }
-		 public function set interval($value:int):void
-		 {
-		 	this._numInterval = $value;
-		 }
-		 public function get interval():int
-		 {
-		 	return this._numInterval;
 		 }
 	}
 }

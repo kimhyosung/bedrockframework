@@ -12,10 +12,10 @@
 package com.bedrockframework.engine.model
 {
 	import com.bedrockframework.core.base.StaticWidget;
+	import com.bedrockframework.core.logging.LogLevel;
+	import com.bedrockframework.core.logging.Logger;
 	import com.bedrockframework.plugin.storage.HashMap;
 	import com.bedrockframework.plugin.util.VariableUtil;
-	import com.bedrockframework.core.logging.Logger;
-	import com.bedrockframework.core.logging.LogLevel;
 
 	public class Params extends StaticWidget
 	{
@@ -43,7 +43,7 @@ package com.bedrockframework.engine.model
 				var strOutput:String = "Parse Result";
 				//
 				
-				for (var v = 0; v < arrValues.length; v++) {
+				for (var v:int = 0; v < arrValues.length; v++) {
 					var arrVariable:Array = arrValues[v].split(strValueSeparator);
 					Params.__objValueMap.saveValue(arrVariable[0],  arrVariable[1]);
 					strOutput += ("\n   - " + arrVariable[0] + " = " + arrVariable[1]);
@@ -55,7 +55,7 @@ package com.bedrockframework.engine.model
 		}
 		public static function save($data:Object):void
 		{
-			for (var d in $data){
+			for (var d:String in $data){
 				Params.__objValueMap.saveValue(d, VariableUtil.sanitize($data[d]));
 			}
 		}

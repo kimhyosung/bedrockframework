@@ -110,7 +110,7 @@ package com.bedrockframework.plugin.util
 		public static function populateParameters($query:Object):void
 		{
 			DeepLinkUtil.clearQueryString();
-			for (var q in $query) {
+			for (var q:String in $query) {
 				DeepLinkUtil.addParameter(q,$query[q]);
 			}
 		}
@@ -140,7 +140,7 @@ package com.bedrockframework.plugin.util
 			var objQuery:Object=new Object;
 			var arrValuePairs:Array=strQuery.split("&");
 			var tmpPreviousResult:*;
-			for (var i in arrValuePairs) {
+			for (var i:* in arrValuePairs) {
 				var arrPair:Array=arrValuePairs[i].split("=");
 
 

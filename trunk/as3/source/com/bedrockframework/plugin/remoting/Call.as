@@ -77,7 +77,7 @@
 		{
 			if (this.responder != null) this.responder.result($data);
 			if (this.result != null) this.result($data);
-			this.dispatchEvent(new CallEvent(CallEvent.RESULT, this, objResult));			
+			this.dispatchEvent(new CallEvent(CallEvent.RESULT, this, $data));			
 		}
 		private function callFault($data:Object):void
 		{

@@ -62,7 +62,7 @@ package com.bedrockframework.plugin.gadget
 			var arrCloneClips:Array=new Array;
 			
 			if ($data.total > 0) {
-				for (var i=0; i < this.data.total; i++) {
+				for (var i:int=0; i < this.data.total; i++) {
 					arrCloneClips.push(this.createClone());
 				}
 			}
@@ -100,10 +100,10 @@ package com.bedrockframework.plugin.gadget
 		{
 			try {
 				var numLength:int = this._objCloneMap.size;
-				for (var i =0; i <numLength; i++) {
+				for (var i:int =0; i <numLength; i++) {
 					this.removeClone(i);
 				}
-			} catch ($e) {
+			} catch ($e:Error) {
 			}
 		}
 		/*
@@ -239,7 +239,7 @@ package com.bedrockframework.plugin.gadget
 				delete objData.column;
 				delete objData.row;
 			} finally {
-				for (var i in objData) {
+				for (var i:String in objData) {
 					$target[i]=objData[i];
 				}
 			}

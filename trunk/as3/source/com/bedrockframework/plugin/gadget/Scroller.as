@@ -62,7 +62,7 @@ package com.bedrockframework.plugin.gadget
 		/*
 		Setup the scroller
 		*/
-		public function setup($data:ScrollerData)
+		public function setup($data:ScrollerData):void
 		{
 			var objData:ScrollerData=$data;
 			this.sprContainer=objData.trackContainer;
@@ -276,18 +276,9 @@ package com.bedrockframework.plugin.gadget
 		}
 		private function applyJumpActions($clip:Sprite):void
 		{
-			ButtonUtil.addListeners($clip,{up:this.jumpTo},false);
+			ButtonUtil.addListeners($clip,{up:this.onJump},false);
 		}
-		private function jumpTo($event:MouseEvent)
-		{
-			this.positionDrag($event.localY);
-			this.positionContent(this.getLocation(this.sprDrag));
-		}
-
-
-		//
-
-
+		
 		/*
 		Move the content into position
 		*/
@@ -346,6 +337,11 @@ package com.bedrockframework.plugin.gadget
 			if (this.inFocus()) {
 				this.positionManual($delta);
 			}
+		}
+		private function onJump($event:MouseEvent):void
+		{
+			this.positionDrag($event.localY);
+			this.positionContent(this.getLocation(this.sprDrag));
 		}
 	}
 }

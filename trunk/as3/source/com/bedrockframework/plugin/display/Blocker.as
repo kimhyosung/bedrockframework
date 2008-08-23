@@ -57,7 +57,7 @@
 			this.stage.removeEventListener(Event.RESIZE, this.onStageResize);
 			this.dispatchEvent(new BlockerEvent(BlockerEvent.HIDE,this));
 		}
-		public function clear()
+		public function clear():void
 		{
 			this.graphics.clear();
 			ButtonUtil.removeListeners(this,{down:this.onMouseInteraction,up:this.onMouseInteraction,over:this.onMouseInteraction,out:this.onMouseInteraction},false);

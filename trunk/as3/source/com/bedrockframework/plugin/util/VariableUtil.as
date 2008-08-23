@@ -17,7 +17,7 @@
 
 			if (!isNaN(numValue)) return numValue;
 			
-			if (BooleanUtil.sanitize(strValue) != null) return BooleanUtil.sanitize(strValue);
+			if (VariableUtil.sanitizeBoolean(strValue) != null) return VariableUtil.sanitizeBoolean(strValue);
 			
 			return strValue;
 		}
@@ -36,7 +36,15 @@
 			return objResult;
 		}
 		
-	
+		public static function sanitizeBoolean($boolean:*):*
+		{
+			var strBoolean:String =  $boolean.toLowerCase();
+			if (strBoolean.search("true") == -1 && strBoolean.search("false") == -1 ) {
+				return null;
+			} else {
+				return (strBoolean.search("true") != -1)?true:false;
+			}
+		}
 		 /**
          * 
          * Creates a deep copy (clone) of a reference object to a new 

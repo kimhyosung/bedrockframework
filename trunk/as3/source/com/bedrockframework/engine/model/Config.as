@@ -110,7 +110,7 @@ package com.bedrockframework.engine.model
 		private static function saveFrameworkSettings($node:XMLList):void
 		{
 			var objData:Object = XMLUtil.getObject($node);
-			for (var d in objData) {
+			for (var d:String in objData) {
 				Config.saveSetting(d, objData[d]);
 			}
 		}

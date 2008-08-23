@@ -15,7 +15,7 @@
 			var numLength:Number = xmlTemp.children().length();
 			var arrReturn:Array = new Array();
 			if (xmlTemp.hasComplexContent()) {
-				for (var i = 0; i < numLength; i ++) {
+				for (var i:int = 0; i < numLength; i ++) {
 					if (xmlTemp.child(i).hasComplexContent()) {
 						arrReturn.push(XMLUtil.getObject(xmlTemp.child(i)));
 					} else {
@@ -31,7 +31,7 @@
 			var objTemp:Object = new Object();
 			if (xmlTemp.hasComplexContent()) {
 				var numLength:Number = xmlTemp.children().length();
-				for (var i = 0; i  < numLength; i++) {
+				for (var i:int = 0; i  < numLength; i++) {
 					if (!xmlTemp.child(i).hasComplexContent()) {
 						objTemp[xmlTemp.child(i).name()] = XMLUtil.sanitizeValue(xmlTemp.child(i));
 					}else{
@@ -49,7 +49,7 @@
 			
 			var numLength:Number = xmlTemp.children().length();
 			if (xmlTemp.hasComplexContent()) {
-				for (var i = 0; i < numLength; i ++) {
+				for (var i:int = 0; i < numLength; i ++) {
 					arrReturn.push(XMLUtil.sanitizeValue(xmlTemp.child(i)));
 				}
 			}
@@ -64,7 +64,7 @@
 			var xmlAttributes:XMLList = xmlTemp.attributes();
 			
 			var numLength:int = xmlAttributes.length();		
-			for (var i = 0; i < numLength; i ++) {
+			for (var i:int = 0; i < numLength; i ++) {
 				objResult[xmlAttributes[i].name().toString()] = XMLUtil.sanitizeValue(xmlAttributes[i]);
 			}	
 				

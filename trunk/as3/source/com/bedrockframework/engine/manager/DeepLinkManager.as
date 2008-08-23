@@ -55,12 +55,12 @@ package com.bedrockframework.engine.manager
 		/*
 		Enable/ Disable Change Event
 		*/
-		private static function enableChangeHandler()
+		private static function enableChangeHandler():void
 		{
 			Logger.status(DeepLinkManager, "Change handler enabled!")
 			SWFAddress.addEventListener(SWFAddressEvent.CHANGE, DeepLinkManager.onChangeNotification);
 		}
-		private static function disableChangeHandler()
+		private static function disableChangeHandler():void
 		{
 			Logger.status(DeepLinkManager, "Change handler disabled!")
 			SWFAddress.removeEventListener(SWFAddressEvent.CHANGE, DeepLinkManager.onChangeNotification);

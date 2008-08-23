@@ -23,7 +23,7 @@ package com.bedrockframework.core.event
 		private function injectDetails($details:Object):void
 		{
 			try {
-				for (var d in $details) {
+				for (var d:String in $details) {
 					this[d] = $details[d];
 				}
 			} catch($e:Error) {

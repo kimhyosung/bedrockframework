@@ -9,7 +9,7 @@
 		/*
 		Search: Returns Matching Index
 		*/
-		public static function findIndex($array:Array,$value,$field:String=null):Number
+		public static function findIndex($array:Array,$value:*,$field:String=null):Number
 		{
 			var i:Number;
 			var numLength:Number=$array.length;
@@ -54,7 +54,7 @@
 		/*
 		Search: Returns Single Item
 		*/
-		public static function findItem($array:Array,$value,$field:String=null):*
+		public static function findItem($array:Array,$value:*,$field:String=null):*
 		{
 			var i:Number;
 			var numLength:Number=$array.length;
@@ -76,7 +76,7 @@
 		/*
 		Search: Returns Single Item
 		*/
-		public static function containsItem($array:Array,$value,$field:String=null):Boolean
+		public static function containsItem($array:Array,$value:*,$field:String=null):Boolean
 		{
 			return (ArrayUtil.findIndex($array, $value, $field) == -1) ? false : true;
 		}
@@ -84,7 +84,7 @@
 		/*
 		Search: Returns New Array
 		*/
-		public static function filter($array:Array,$value,$field:String=null):Array
+		public static function filter($array:Array,$value:*,$field:String=null):Array
 		{
 			var arrResults:Array=new Array;
 			var i:Number;
@@ -107,12 +107,12 @@
 		/*
 		Search for and remove an item from an array
 		*/
-		public static function filterAndRemove($array:Array,$value,$field:String=null):Array
+		public static function filterAndRemove($array:Array,$value:*,$field:String=null):Array
 		{
 			var arrResults:Array=new Array;
 			var numLength:Number=$array.length;
 			var i:Number;
-			var objTemp;
+			var objTemp:*;
 			if ($field == null) {
 				for (i=numLength; i > -1; i--) {
 					if ($array[i] == $value) {
@@ -138,7 +138,7 @@
 			var arrOutput:Array=new Array;
 			var numItems:Number=$count;
 			var numGroups:Number=Math.ceil($array.length / numItems);
-			for (var i:Number=0; i < numGroups; i++) {
+			for (var i:int=0; i < numGroups; i++) {
 				var numStartIndex:Number=numItems * i;
 				var numEndIndex:Number=numItems * i + numItems;
 				var arrResult:Array=$array.slice(numStartIndex,numEndIndex);
@@ -160,7 +160,7 @@
 		/*
 		Insert new data at location
 		*/
-		public static function insert($array:Array,$location:Number,$item):Array
+		public static function insert($array:Array,$location:Number,$item:*):Array
 		{
 			$array.splice($location,0,$item);
 			return $array;
@@ -171,8 +171,8 @@
 		public static function move($array:Array,$index:Number,$location:Number):Array
 		{
 			var arrTemp:Array=$array;
-			var objItem=remove(arrTemp,$index);
-			insert($array,$location,objItem);
+			var objItem:*=ArrayUtil.remove(arrTemp,$index);
+			ArrayUtil.insert($array,$location,objItem);
 			return $array;
 		}
 		/*
@@ -180,7 +180,7 @@
 		*/
 		public static function remove($array:Array,$index:Number):*
 		{
-			var item=$array.splice($index,1);
+			var item:*=$array.splice($index,1);
 			return item[0];
 		}
 		/*
@@ -191,15 +191,13 @@
 			return $array.concat();
 		}
 		/*
-		Duplicate Shuffle
+		Shuffle Array
 		*/
-		
-
 		public static function shuffle($array:Array):void
 		{
-			for(var i=0;i<$array.length;i++){
+			for(var i:int=0;i<$array.length;i++){
 		      var objTemp:*=$array[i];
-		      var numRandom = MathUtil.random($array.length);
+		      var numRandom:Number = MathUtil.random($array.length);
 		      $array[i]=$array[numRandom];
 		      $array[numRandom]=objTemp;
 		   }
@@ -213,7 +211,7 @@
 			var arrNewItems:Array=new Array;
 			//
 			arrTemp=arrTemp.concat();
-			for (var i=0; i < $total; i++) {
+			for (var i:int=0; i < $total; i++) {
 				var numLength:Number=arrTemp.length;
 				var objPackage:Object=remove(arrTemp,MathUtil.random(numLength));
 				arrNewItems.push(objPackage);

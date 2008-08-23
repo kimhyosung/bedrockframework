@@ -8,6 +8,7 @@
 	* @created Sat Apr 3 2008 19:16:40 GMT-0400 (EDT)
 	*/
 	import com.bedrockframework.core.base.StandardWidget;
+	
 	import flash.media.SoundMixer;
 	import flash.media.SoundTransform;
 
@@ -17,22 +18,26 @@
 		Variable Declarations
 		*/
 		private var _objSoundTransform:SoundTransform;
+		private var _numVolume:Number;
 		/*
 		Constructor
 		*/
 		public function GlobalSound()
 		{
-			this._objSoundTransform = new SoundTransform(1, 0);
+			this._numVolume = 1;
+			this._objSoundTransform = new SoundTransform(this._numVolume, 0);
 		}
 		
 		public function mute():void
 		{
+			this._numVolume = this._objSoundTransform.volume;
 			this._objSoundTransform.volume = 0;
 			SoundMixer.soundTransform = this._objSoundTransform;
 		}
 		public function unmute():void
 		{
-			this.setVolume(this._volume);
+			this._objSoundTransform.volume = this._numVolume;
+			SoundMixer.soundTransform = this._objSoundTransform;
 		}
 		public function toggleMute():Boolean
 		{

@@ -201,7 +201,6 @@ package com.bedrockframework.engine
 		{
 			State.initialize();
 			ContainerManager.initialize(this);
-			LayoutManager.initialize();
 			LoadManager.initialize();
 			PreloaderManager.initialize();
 			TransitionManager.initialize();
@@ -321,7 +320,7 @@ package com.bedrockframework.engine
 		/*
 		Event Handlers
 		*/
-		final private function onBootUp($event:Event)
+		final private function onBootUp($event:Event):void
 		{
 			this.initialize();
 		}
@@ -342,7 +341,7 @@ package com.bedrockframework.engine
 		{
 			this.fatal("Could not parse config!");
 		}
-		final private function onCSSLoaded($event:LoaderEvent)
+		final private function onCSSLoaded($event:LoaderEvent):void
 		{
 			StyleManager.parseCSS($event.details.data);
 		}

@@ -222,7 +222,7 @@
 			this.status("Could not find - " + this.getFile(this._numLoadIndex) + "!","warning");
 			this.loadNext();
 		}
-		private function onProgress($event:LoaderEvent)
+		private function onProgress($event:LoaderEvent):void
 		{
 			this.calculateOverallPercentage($event.details.percent);
 			//
@@ -235,7 +235,7 @@
 			objDetails.totalFiles=this._numTotalFiles;
 			this.dispatchEvent(new ChainLoaderEvent(ChainLoaderEvent.PROGRESS,this,objDetails));
 		}
-		private function onFileComplete($event:LoaderEvent)
+		private function onFileComplete($event:LoaderEvent):void
 		{
 			this.removeListeners($event.target);
 			this.loadNext();
