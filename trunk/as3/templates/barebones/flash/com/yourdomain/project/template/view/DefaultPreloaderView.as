@@ -11,18 +11,17 @@
 	public class DefaultPreloaderView extends View implements IPreloader
 	{
 		/*
-		* Variable Declarations
+		Variable Declarations
 		*/
 		public var txtDisplay:TextField;
 		/*
-		* Constructor
+		Constructor
 		*/
 		public function DefaultPreloaderView()
 		{
-			this.alpha = 0 ;
 		}
 		/*
-		* Basic view functions
+		Basic view functions
 	 	*/
 		public function initialize($properties:Object=null):void
 		{
@@ -33,8 +32,7 @@
 		}
 		public function intro($properties:Object=null):void
 		{
-			Tweener.addTween(this, {alpha:1, transition:"linear", time:1, onComplete:this.introComplete});
-			//this.introComplete();
+			this.introComplete();
 		}
 		public function displayProgress($percent:uint):void
 		{
@@ -42,10 +40,8 @@
 		}
 		public function outro($properties:Object=null):void
 		{
-			Tweener.addTween(this, {alpha:0, transition:"linear", time:1, onComplete:this.outroComplete});
-			//this.outroComplete();
+			this.outroComplete();
 		}
-		
 		public function clear():void
 		{
 		}

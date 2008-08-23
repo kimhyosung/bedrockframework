@@ -11,7 +11,7 @@
 */
 package com.bedrockframework.engine
 {
-
+	
 	import com.bedrockframework.core.base.MovieClipWidget;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.core.logging.LogLevel;
@@ -50,7 +50,6 @@ package com.bedrockframework.engine
 		private var _objConfigLoader:URLLoader;
 		private const _arrLoadSequence:Array=new Array("loadDispatcher","loadParams","loadConfig","loadDeepLinking","loadCacheSettings", "loadLogging","loadController","loadServices","loadTracking","loadEngineClasses","loadEngineCommands","loadEngineContainers","loadCSS", "loadCopy", "loadDefaultSection", "buildDefaultPanel","loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
 		private var _objBedrockController:BedrockController;
-		
 		/*
 		Constructor
 		*/
@@ -249,52 +248,7 @@ package com.bedrockframework.engine
 		/*
 		Site Customization Functions
 		*/
-		/**
-		 * Overide this function in the SiteBuilder file specific to your project.
-		 * Use this function to load any Models you'll need throughout your project.
-		 * Make sure the next ( this.next() ) function is called in the last line of the function otherwise the next function in the sequence will not be called.
-		 */
-		public function loadModels():void
-		{
-			this.next();
-		}
-		/**
-		 * Overide this function in the SiteBuilder file specific to your project.
-		 * Use this function to add any event command relationships you'll need throughout your project.
-		 * Use the addCommand function to add additional commands to the BedrockController. This is the only place you can add commands to the BedrockController throughout the framework.
-		 * Optionally you also have the option of creating your own FrontControllers by extending the FrontController located in the core package.
-		 * Make sure the <code>next()</code> function is called in the last line of the function otherwise the next function in the sequence will not be called.
-		 */
-		public function loadCommands():void
-		{
-			this.next();
-		}
-		public function loadContainers():void
-		{
-			this.next();
-		}
-		public function loadViews():void
-		{
-			this.next();
-		}
-		/**
-		 * Overide this function in the SiteBuilder file specific to your project.
-		 * Use this function to add new services to the TrackingManager. Use the addTracking function to add additional tracking services.
-		 * Make sure the <code>next()</code> function is called in the last line of the function otherwise the next function in the sequence will not be called.
-		 */
-		public function loadTracking():void
-		{
-			this.next();
-		}
-		/**
-		 * Overide this function in the SiteBuilder file specific to your project.
-		 * Use this function to apply any additional customization you may need for your project. For example, stage setting up alignment or a class you'll need throughout your project but doesnt fall into any specific category.
-		 * Make sure the <code>next()</code> function is called in the last line of the function otherwise the next function in the sequence will not be called.
-		 */
-		public function loadCustomization():void
-		{
-			this.next();
-		}
+		
 		/*
 		Load Completion Notice
 		*/

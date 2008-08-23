@@ -15,21 +15,31 @@
 		{
 			super();
 		}
-		override public function loadModels():void
+		public function loadModels():void
 		{
 			this.status("Loading Models");
 			this.next();
 		}
-		override public function loadCommands():void
+		public function loadCommands():void
 		{
 			this.addCommand(SiteEvent.DATA_REQUEST, DataRequestCommand)
 			this.status("Loading Commands");
 			this.next();
 		}
-		override public function loadViews():void
+		public function loadViews():void
 		{
 			this.status("Loading Views");
 			this.addToQueue(Config.getValue("swf_path") + "navigation.swf",ContainerManager.getContainer("navigation"));
+			this.next();
+		}
+		public function loadTracking():void
+		{
+			this.status("Loading Tracking");
+			this.next();
+		}
+		public function loadCustomization():void
+		{
+			this.status("Loading Customization");
 			this.next();
 		}
 	}
