@@ -16,7 +16,7 @@
 		<antcall target="checkProperties"/>
 		<antcall target="initialize"/>
 		
-		<antcall target="destroyDirectories"/>
+		<antcall target="cleanDirectories"/>
 		<antcall target="createDirectories"/>
 		<antcall target="generateDocumentation"/>
 		<!--
@@ -47,13 +47,13 @@
 	</target>
 	
 
-	<target name="destroyDirectories" description="remove all directories">
-		<delete dir="${docs.dir}" />
-		<delete dir="${binary.dir}" />
-		<delete dir="${deploy.dir}" />
+	<target name="cleanDirectories" description="remove all directories">
+		<delete includeemptydirs="true">
+			<fileset dir="${docs.dir}" includes="**/*"/>
+		</delete>
 	</target>
 	
-	<target name="createDirectories" depends="destroyDirectories" description="remove all directories">
+	<target name="createDirectories" description="remove all directories">
 		<mkdir dir="${docs.dir}" />
 		<mkdir dir="${binary.dir}" />
 		<mkdir dir="${deploy.dir}" />
