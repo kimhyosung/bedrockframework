@@ -1,130 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="Bedrock" default="build-all" basedir=".">
+<project name="Bedrock" default="compile" basedir=".">
 	
-	<description>Build File for the Madagascar Framework</description>
+	<description>Build File for the Bedrock Framework</description>
 	
 	<property file="build.properties" description="defines all of the values for this build" />
-
-	<target name="build-all" depends="destroy, create, lib, docs, package-source, package-binary, package-docs" />
 	
-	<target name="init" description="Initializes the build" >
-		<tstamp/>
-		<echo message="============================================="/>
-		<echo message="${project.name}-${project.version} [${TODAY}]"/>
-		<echo message="Copyright (c) ${project.year} ${project.owner}"/>
-		<echo message="OS : ${os.name}" />
-		<echo message="Author: ${author}" />
-		<echo message="=============================================="/>
+	<target name="setupExcludes" description="double check system level tools">
+		<defaultexcludes add="${exclude.debug}"/>
+		<defaultexcludes add="${exclude.actionscript}"/>
+		<defaultexcludes add="${exclude.project}"/>
+		<defaultexcludes add="${exclude.prefs}"/>
 	</target>
 	
-	<target name="properties" depends="init" description="double check system level tools">
+	<target name="compile" depends="setupExcludes">
+		<antcall target="checkProperties"/>
+		<antcall target="initialize"/>
+		
+		<antcall target="destroyDirectories"/>
+		<antcall target="createDirectories"/>
+		<antcall target="generateDocumentation"/>
+		<!--
+		<antcall target="generateSWC"/>
+		<antcall target="generateSWF"/>
+		-->
+		<antcall target="packageAll"/>
+		<antcall target="createBranch"/>
+	</target>
+	
+	<target name="initialize" description="Initializes the build" >
+		<tstamp/>
+		<echo message="-----------------------------------------------------------------------------"/>
+		<echo message=" "/>
+		<echo message="${project.fullname}  ${project.version} ${TODAY}"/>
+		<echo message="Copyright (c) ${project.year} ${project.owner}"/>
+		<echo message="Author: ${project.author}" />
+		<echo message=" "/>
+		<echo message="-----------------------------------------------------------------------------"/>
+	</target>
+	
+	
+	
+	<target name="checkProperties" description="double check system level tools">
 		<fail unless="asdoc.exe">The "asdoc.exe" property must be set in build.properties.</fail>
 		<fail unless="compc.exe">The "compc.exe" property must be set in build.properties.</fail>
 		<fail unless="mxmlc.exe">The "mxmlc.exe" property must be set in build.properties.</fail>
 	</target>
 	
 
-	<target name="clean" depends="properties" description="clean all generated files">
-		<delete includeemptydirs="true">
-			<fileset dir="${docs.dir}" includes="**/*"/>
-			<fileset dir="${bin.dir}" includes="**/*" />
-			<fileset dir="${deploy.dir}" includes="**/*" />
-		</delete>		
-	</target>  
-	
-	<target name="destroy" description="remove all directories">
+	<target name="destroyDirectories" description="remove all directories">
 		<delete dir="${docs.dir}" />
-		<delete dir="${bin.dir}" />
+		<delete dir="${binary.dir}" />
 		<delete dir="${deploy.dir}" />
 	</target>
 	
-	<target name="create" depends="destroy" description="remove all directories">
+	<target name="createDirectories" depends="destroyDirectories" description="remove all directories">
 		<mkdir dir="${docs.dir}" />
-		<mkdir dir="${bin.dir}" />
+		<mkdir dir="${binary.dir}" />
 		<mkdir dir="${deploy.dir}" />
 	</target>
 	
-	<target name="manifest" description="Creates the manifest file">
-		<java jar="${manifest.writer}" fork="true"  >
-			<arg value="${src.dir} ${src.dir}/manifest.xml"/>
-		</java>
-	</target>
-
 	
-	<target name="lib" description="Compiles all of the classes into an .swc file">
+	<target name="generateDocumentation"  description="Generates the asdoc of the source files">
+
+		<exec executable="${asdoc.exe}" failonerror="false">
+			<!-- Include all of the classes in the "source" tree -->
+			<arg line="-doc-sources ${base.dir}/${root.dir}/${source.dir}"/>
+			
+			<arg value="-window-title" />
+            <arg value="'${project.fullname}'"/>
+			
+			<arg value="-output" />
+            <arg value="${docs.dir}"/>
+			
+			<arg value="-main-title" />
+            <arg value="${docs.docsname}"/>
+			
+			<arg value="-footer" />
+            <arg value="${project.copyright}"/>
+			
+			<arg value="-left-frameset-width" />
+            <arg value="300"/>
+			
+			<arg value="-show-binding-warnings=false" />
+			<arg value="-show-actionscript-warnings=false" />
+			<arg value="-strict=false" />
+			
+			<arg value="-templates-path" />
+			<arg value="${docs.template}"/>
+						
+			<arg value="-exclude-classes" />
+			<arg value="com.asual.swfaddress.SWFAddress"/>
+			<arg value="com.asual.swfaddress.SWFAddressEvent"/>
+			<arg value="--" />
+						
+		</exec>
 		
-		<mkdir dir="${bin.dir}" />
+	</target>
+	
+	<!--
+	
+	Binary Creator
+		
+ 	-->
+	
+	<target name="generateSWC" description="Compiles all of the classes into an .swc file">
+	
 		<exec executable="${compc.exe}" dir=".">
 			<!-- Specify the name of the output file -->
-			<arg line="-o '${bin.dir}/${project.name}-${project.version}.swc'
-					-sp '${src.dir}'
-					-is '${src.dir}'
-					-show-binding-warnings=false
-					-show-actionscript-warnings=false
-					-namespace http://www.autumntactics.com ${src.dir}/manifest.xml
-					-strict=false"/>
+			<arg line="-output" />
+			<arg value="${binary.dir}/${project.deployname}.swc"/>
+			
+			<arg value="-source-path" />
+			<arg value="${source.dir}"/>
+			
+			<arg value="-include-classes" />
+			<arg value="${source.dir}"/>
+			
+			<arg value="-show-binding-warnings=false" />
+			<arg value="-show-actionscript-warnings=false" />
+			<arg value="-strict=false" />
 		</exec>
 		
 	</target>
 	
-	<target name="lib_bak" depends="manifest" description="comiles all of the classes into an .swf file">
-			
-			<mkdir dir="${bin.dir}" />
-			<exec executable="${mxmlc.exe}" dir=".">
-				<!-- Specify the name of the output file -->
-				<arg line="-o '${bin.dir}/${project.name}-${project.version}.swf'
-						-sp '${src.dir}'
-						-show-binding-warnings=false
-						-show-actionscript-warnings=false
-						-strict=false"/>
-			</exec>
-		</target>
-		
 	
-	<target name="docs"  description="Generates the asdoc of the source files">
-		<mkdir dir="${docs.asdoc.dir}" />
-		<exec executable="${asdoc.exe}" failonerror="false">
-			<!-- Include all of the classes in the "src" tree -->
-			<arg line="-doc-sources 'source'" />
+	<target name="generateSWF" description="comiles all of the classes into an .swf file">
+		<exec executable="${mxmlc.exe}" dir=".">
+			<!-- Specify the name of the output file -->
+			<arg line="-output" />
+			<arg value="${binary.dir}/${project.deployname}.swf"/>
 			
-			<arg line="-source-path+='source'
-			                -window-title '${project.fullname}'
-			                -output '${docs.asdoc.dir}'
-			                -main-title '${asdoc.docsname}'
-			                -footer 'Copyright 2008 AutumnTactics. All Rights Reserved.'
-			                -show-binding-warnings=false
-			                -show-actionscript-warnings=false
-				
-				-strict=false
-							"/>
-		
+			<arg value="-source-path" />
+			<arg value="${source.dir}"/>
 			
+			
+			
+			<arg value="-show-binding-warnings=false" />
+			<arg value="-show-actionscript-warnings=false" />
+			<arg value="-strict=false" />
 		</exec>
+	</target>
+	
+	<target name="createBranch" description="Create a branch and tag is with the version number.">
+		<copy todir="${base.dir}/${branch.dir}/${project.deployname}/"  includeEmptyDirs="false">
+			<fileset dir="${base.dir}/${root.dir}" excludes="${exclude.debug}, ${exclude.prefs}, ${exclude.actionscript}, ${exclude.project}"/>
+		</copy>
+		<copy todir="${base.dir}/${branch.dir}/${project.deployname}/${docs.dir}/">
+			<fileset dir="${docs.dir}"/>
+		</copy>
+	</target>
+	
+	<!--
+	
+	Zip Packaging
+		
+ 	-->
+	<target name="packageAll" description="Packages the source">
+		<zip destfile="${deploy.dir}/${project.deployname}.zip">
+			<fileset dir="${base.dir}/${root.dir}" excludes="${exclude.debug}, ${exclude.prefs}, ${exclude.actionscript}, ${exclude.project}"/>
+			<zipfileset dir="${docs.dir}" prefix="docs"/>
+		</zip>
 		
 	</target>
- 
-	<target name="package-source" description="Packages the source">
-		<mkdir dir="${deploy.dir}"/>
+	
+	<target name="packageBinary" description="Packages the binary">
 		<zip 
-			basedir="."
-			includes="source/**/**, template/**/**, samples/**/**, docs/**/**"
-			excludes="source/manifest.xml"
-			destfile="${deploy.dir}/${project.name}-${project.version}-src.zip" />
-	</target>
-		
-	<target name="package-binary" description="Packages the binary">
-		<mkdir dir="${deploy.dir}"/>
-		<zip 
-			basedir="${bin.dir}"
+			basedir="${binary.dir}"
 			includes="**/*.*"
-			destfile="${deploy.dir}/${project.name}-${project.version}-bin.zip" />
+			destfile="${deploy.dir}/${project.deployname}-bin.zip" />
 	</target>
 		
-	<target name="package-docs" description="Packages the docs">
-		<mkdir dir="${deploy.dir}"/>
+	<target name="packageDocs" description="Packages the docs">
 		<zip 
-			basedir="${docs.asdoc.dir}"
+			basedir="${docs.dir}"
 			includes="**/**" 
-			destfile="${deploy.dir}/${project.name}-${project.version}-doc.zip" />
+			destfile="${deploy.dir}/${project.deployname}-docs.zip" />
 	</target>
+	
 </project>
