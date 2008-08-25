@@ -1,16 +1,16 @@
 ﻿package com.bedrockframework.plugin.gadget
 {
-	import com.bedrockframework.plugin.data.ViewSequencerData;
-	import com.bedrockframework.plugin.event.ViewSequencerEvent;
-	import com.bedrockframework.core.base.DispatcherWidget;
+	import com.bedrockframework.core.base.SpriteWidget;
 	import com.bedrockframework.engine.event.ViewEvent;
 	import com.bedrockframework.engine.view.IView;
 	import com.bedrockframework.engine.view.View;
+	import com.bedrockframework.plugin.data.ViewSequencerData;
+	import com.bedrockframework.plugin.event.ViewSequencerEvent;
 	import com.bedrockframework.plugin.storage.ArrayBrowser;
 	
 	import flash.display.Sprite;
 
-	public class ViewSequencer extends DispatcherWidget
+	public class ViewSequencer extends SpriteWidget
 	{
 
 		private var _objContainer:Sprite;
@@ -28,6 +28,7 @@
 		public function initialize($data:ViewSequencerData):void
 		{
 			this._objArrayBrowser.data = $data.sequence;
+			this._objArrayBrowser.setSelected($data.startAt);
 			this._objArrayBrowser.wrapIndex = $data.wrap;
 			this._strDirection = $data.direction;
 			this.setContainer($data.container);
@@ -49,8 +50,9 @@
 		/*
 		Set the container when the views will be showing up
 		*/
-		public function setContainer($container:Sprite):void{
-				this._objContainer=$container;
+		public function setContainer($container:Sprite =null):void
+		{
+				this._objContainer=$container || this;
 		}
 		/*
 		
@@ -177,6 +179,10 @@
 		/*
 		Property Definitions
 		*/
+		public function get currentView():*
+		{
+			return this._objArrayBrowser.getSelected();
+		}
 		public function set direction($direction:String):void
 		{
 			this._strDirection = $direction;
