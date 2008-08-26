@@ -32,10 +32,13 @@
 			switch(typeof($frame)){
 				case "number":
 					numFrame = $frame;
+					break;
 				case "string":
 					numFrame = MovieClipUtil.getFrame($clip, $frame);
+					break;
 				default:
 					throw new Error("Frame parameter must be a label or a string!");
+					break;
 			}
 			return (Math.abs(numFrame - $clip.currentFrame)) / $clip.stage.frameRate;
 		}
