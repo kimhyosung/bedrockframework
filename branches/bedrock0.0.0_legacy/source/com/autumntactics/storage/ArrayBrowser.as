@@ -1,9 +1,9 @@
-﻿package com.autumntactics.storage
+﻿package com.builtonbedrock.storage
 {
 	public class ArrayBrowser
 	{
-		import com.autumntactics.util.MathUtil;
-		import com.autumntactics.util.ArrayUtil;
+		import com.builtonbedrock.util.MathUtil;
+		import com.builtonbedrock.util.ArrayUtil;
 		/*
 		Variable Declarations
 		*/

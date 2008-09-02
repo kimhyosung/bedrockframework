@@ -1,6 +1,6 @@
 ﻿package 
 {
-	import com.autumntactics.loader.VisualLoader;
+	import com.builtonbedrock.loader.VisualLoader;
 	
 	import flash.display.MovieClip;
 

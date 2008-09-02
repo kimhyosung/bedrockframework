@@ -1,9 +1,9 @@
-﻿package com.autumntactics.bedrock.dispatcher
+﻿package com.builtonbedrock.bedrock.dispatcher
 {
-	import com.autumntactics.bedrock.base.StaticWidget;
-	import com.autumntactics.bedrock.events.GenericEvent;
-	import com.autumntactics.bedrock.logging.LogLevel;
-	import com.autumntactics.bedrock.logging.Logger;
+	import com.builtonbedrock.bedrock.base.StaticWidget;
+	import com.builtonbedrock.bedrock.events.GenericEvent;
+	import com.builtonbedrock.bedrock.logging.LogLevel;
+	import com.builtonbedrock.bedrock.logging.Logger;
 	
 	import flash.events.EventDispatcher;
 

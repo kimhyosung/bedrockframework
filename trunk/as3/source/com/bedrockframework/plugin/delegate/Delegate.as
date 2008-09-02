@@ -1,4 +1,4 @@
-package com.bedrockframework.engine.delegate
+package com.bedrockframework.plugin.delegate
 {
 	import com.bedrockframework.core.base.BasicWidget;
 	import com.bedrockframework.plugin.remoting.IResponder;

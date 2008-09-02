@@ -1,4 +1,4 @@
-﻿package com.autumntactics.gadget
+﻿package com.builtonbedrock.gadget
 {
 	public interface IClonable
 	{

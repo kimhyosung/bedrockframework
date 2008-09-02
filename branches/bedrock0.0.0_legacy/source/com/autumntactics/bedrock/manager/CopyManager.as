@@ -1,13 +1,13 @@
-﻿package com.autumntactics.bedrock.manager
+﻿package com.builtonbedrock.bedrock.manager
 {
-	import com.autumntactics.bedrock.base.StaticWidget;
-	import com.autumntactics.bedrock.dispatcher.BedrockDispatcher;
-	import com.autumntactics.bedrock.events.BedrockEvent;
-	import com.autumntactics.bedrock.output.Outputter;
-	import com.autumntactics.storage.HashMap;
-	import com.autumntactics.util.XMLUtil;
-	import com.autumntactics.bedrock.logging.Logger;
-	import com.autumntactics.bedrock.logging.LogLevel;
+	import com.builtonbedrock.bedrock.base.StaticWidget;
+	import com.builtonbedrock.bedrock.dispatcher.BedrockDispatcher;
+	import com.builtonbedrock.bedrock.events.BedrockEvent;
+	import com.builtonbedrock.bedrock.output.Outputter;
+	import com.builtonbedrock.storage.HashMap;
+	import com.builtonbedrock.util.XMLUtil;
+	import com.builtonbedrock.bedrock.logging.Logger;
+	import com.builtonbedrock.bedrock.logging.LogLevel;
 	
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;

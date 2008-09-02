@@ -1,13 +1,13 @@
-﻿package com.autumntactics.project.template.view
+﻿package com.builtonbedrock.project.template.view
 {
-	import com.autumntactics.bedrock.view.View;
-	import com.autumntactics.bedrock.view.IView;
+	import com.builtonbedrock.bedrock.view.View;
+	import com.builtonbedrock.bedrock.view.IView;
 	
 	import caurina.transitions.Tweener;
-	import com.autumntactics.bedrock.dispatcher.BedrockDispatcher;
-	import com.autumntactics.bedrock.events.BedrockEvent;
-	import com.autumntactics.bedrock.manager.ContainerManager;
-	import com.autumntactics.project.template.view.NavigationView;
+	import com.builtonbedrock.bedrock.dispatcher.BedrockDispatcher;
+	import com.builtonbedrock.bedrock.events.BedrockEvent;
+	import com.builtonbedrock.bedrock.manager.ContainerManager;
+	import com.builtonbedrock.project.template.view.NavigationView;
 	public class SiteView extends View implements IView
 	{
 		/*

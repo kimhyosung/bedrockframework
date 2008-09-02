@@ -1,4 +1,4 @@
-﻿package com.bedrockframework.engine.event
+﻿package com.bedrockframework.plugin.event
 {
 	import flash.events.Event;
 	import com.bedrockframework.core.event.GenericEvent;

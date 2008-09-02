@@ -6,11 +6,11 @@ Output stand in for static classes.
 
 
 */
-package com.autumntactics.bedrock.output
+package com.builtonbedrock.bedrock.output
 {
-	import com.autumntactics.util.ClassUtil;
-	import com.autumntactics.bedrock.base.BasicWidget;
-	import com.autumntactics.bedrock.output.OutputManager;
+	import com.builtonbedrock.util.ClassUtil;
+	import com.builtonbedrock.bedrock.base.BasicWidget;
+	import com.builtonbedrock.bedrock.output.OutputManager;
 	public class Outputter extends BasicWidget
 	{
 		/*

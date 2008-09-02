@@ -1,10 +1,10 @@
-﻿package com.autumntactics.project.template.view
+﻿package com.builtonbedrock.project.template.view
 {
-	import com.autumntactics.bedrock.base.MovieClipWidget;
-	import com.autumntactics.bedrock.view.View;
-	import com.autumntactics.bedrock.view.IView;
-	import com.autumntactics.bedrock.view.IPreloader;
-	import com.autumntactics.bedrock.events.BedrockEvent;
+	import com.builtonbedrock.bedrock.base.MovieClipWidget;
+	import com.builtonbedrock.bedrock.view.View;
+	import com.builtonbedrock.bedrock.view.IView;
+	import com.builtonbedrock.bedrock.view.IPreloader;
+	import com.builtonbedrock.bedrock.events.BedrockEvent;
 	
 	import caurina.transitions.Tweener;
 	import flash.text.TextField;

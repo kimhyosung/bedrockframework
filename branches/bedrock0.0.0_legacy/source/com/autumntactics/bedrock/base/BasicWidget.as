@@ -1,8 +1,8 @@
-﻿package com.autumntactics.bedrock.base
+﻿package com.builtonbedrock.bedrock.base
 {
-	import com.autumntactics.bedrock.logging.ILogable;
-	import com.autumntactics.bedrock.logging.LogLevel;
-	import com.autumntactics.bedrock.logging.Logger;
+	import com.builtonbedrock.bedrock.logging.ILogable;
+	import com.builtonbedrock.bedrock.logging.LogLevel;
+	import com.builtonbedrock.bedrock.logging.Logger;
 
 	public class BasicWidget implements ILogable
 	{

@@ -1,17 +1,17 @@
-﻿package com.autumntactics.loader
+﻿package com.builtonbedrock.loader
 {
 	/*
 	Imports
 	*/
-	import com.autumntactics.loader.VisualLoader;
-	import com.autumntactics.loader.BackgroundLoader;
+	import com.builtonbedrock.loader.VisualLoader;
+	import com.builtonbedrock.loader.BackgroundLoader;
 	import flash.display.Loader;
-	import com.autumntactics.events.ChainLoaderEvent;
-	import com.autumntactics.events.LoaderEvent;
-	import com.autumntactics.bedrock.base.DispatcherWidget;
+	import com.builtonbedrock.events.ChainLoaderEvent;
+	import com.builtonbedrock.events.LoaderEvent;
+	import com.builtonbedrock.bedrock.base.DispatcherWidget;
 	import flash.events.Event;
 	import flash.events.ProgressEvent;
-	import com.autumntactics.util.MathUtil;
+	import com.builtonbedrock.util.MathUtil;
 	import flash.system.LoaderContext;
 	/*
 	Class Declaration

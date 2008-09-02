@@ -1,6 +1,6 @@
-package com.autumntactics.bedrock.events
+package com.builtonbedrock.bedrock.events
 {
-	import com.autumntactics.bedrock.events.GenericEvent;
+	import com.builtonbedrock.bedrock.events.GenericEvent;
 
 	public class LogEvent extends GenericEvent
 	{

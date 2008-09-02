@@ -2,18 +2,17 @@
  * Bedrock Framework for Adobe Flash ©2007-2008
  * 
  * Written by: Alex Toledo
- * email: alex@autumntactics.com
- * website: http://www.autumntactics.com/
- * blog: http://blog.autumntactics.com/
+ * email: alex@builtonbedrock.com
+ * website: http://www.builtonbedrock.com/
+ * blog: http://blog.builtonbedrock.com/
  * 
  * By using the Bedrock Framework, you agree to keep the above contact information in the source code.
  *
 */
-package com.bedrockframework.engine.view
+package com.bedrockframework.plugin.view
 {
 	import com.bedrockframework.core.base.MovieClipWidget;
-	import com.bedrockframework.engine.event.ViewEvent;
-	import com.bedrockframework.engine.model.Queue;
+	import com.bedrockframework.plugin.event.ViewEvent;
 	
 	public class View extends MovieClipWidget
 	{
@@ -57,25 +56,7 @@ package com.bedrockframework.engine.view
 		{
 			this.parent.removeChild(this);
 		}
-		/*
-		Property Definitions
-		*/
-		/**
-		 * This will return the config details for the currently shown section.
-		 * This information can also be accessed from the SectionStorage class.
-		*/
-		final protected  function get current():Object
-		{
-			return Queue.current;
-		}
-		/**
-		 * This will return the config details for the previously shown section.
-		 * This information can also be accessed from the SectionStorage class.
-		*/
-		final protected  function get previous():Object
-		{
-			return Queue.previous;
-		}
+		
 	}
 
 }

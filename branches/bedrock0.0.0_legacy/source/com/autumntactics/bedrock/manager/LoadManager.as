@@ -1,15 +1,15 @@
-﻿package com.autumntactics.bedrock.manager
+﻿package com.builtonbedrock.bedrock.manager
 {
-	import com.autumntactics.events.ChainLoaderEvent;
-	import com.autumntactics.bedrock.base.StaticWidget;
-	import com.autumntactics.bedrock.dispatcher.BedrockDispatcher;
-	import com.autumntactics.bedrock.events.GenericEvent;
-	import com.autumntactics.bedrock.events.BedrockEvent;
-	import com.autumntactics.bedrock.logging.Logger;
-	import com.autumntactics.bedrock.logging.LogLevel;
-	import com.autumntactics.storage.SimpleMap;
-	import com.autumntactics.loader.ChainLoader;
-	import com.autumntactics.loader.VisualLoader;
+	import com.builtonbedrock.events.ChainLoaderEvent;
+	import com.builtonbedrock.bedrock.base.StaticWidget;
+	import com.builtonbedrock.bedrock.dispatcher.BedrockDispatcher;
+	import com.builtonbedrock.bedrock.events.GenericEvent;
+	import com.builtonbedrock.bedrock.events.BedrockEvent;
+	import com.builtonbedrock.bedrock.logging.Logger;
+	import com.builtonbedrock.bedrock.logging.LogLevel;
+	import com.builtonbedrock.storage.SimpleMap;
+	import com.builtonbedrock.loader.ChainLoader;
+	import com.builtonbedrock.loader.VisualLoader;
 	
 	import flash.events.Event;
 

@@ -1,8 +1,8 @@
-package com.autumntactics.bedrock.logging
+package com.builtonbedrock.bedrock.logging
 {
-	import com.autumntactics.bedrock.logging.ILogable;
-	import com.autumntactics.bedrock.logging.LogLevel;
-	import com.autumntactics.bedrock.logging.Logger;
+	import com.builtonbedrock.bedrock.logging.ILogable;
+	import com.builtonbedrock.bedrock.logging.LogLevel;
+	import com.builtonbedrock.bedrock.logging.Logger;
 
 	public class SimpleLogger implements ILogable
 	{

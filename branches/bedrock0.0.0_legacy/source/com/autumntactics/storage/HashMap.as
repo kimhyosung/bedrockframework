@@ -1,8 +1,8 @@
 ﻿
-package com.autumntactics.storage
+package com.builtonbedrock.storage
 {
 	import flash.utils.Dictionary;
-	import com.autumntactics.storage.IMap;
+	import com.builtonbedrock.storage.IMap;
 
 	public class HashMap implements IMap
 	{

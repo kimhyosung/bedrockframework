@@ -1,9 +1,9 @@
-﻿package com.autumntactics.bedrock.command
+﻿package com.builtonbedrock.bedrock.command
 {
-	import com.autumntactics.bedrock.command.ICommand;
-	import com.autumntactics.bedrock.events.GenericEvent;
-	import com.autumntactics.bedrock.manager.*;
-	import com.autumntactics.bedrock.model.SectionStorage;
+	import com.builtonbedrock.bedrock.command.ICommand;
+	import com.builtonbedrock.bedrock.events.GenericEvent;
+	import com.builtonbedrock.bedrock.manager.*;
+	import com.builtonbedrock.bedrock.model.SectionStorage;
 
 	public class HideBlockerCommand extends Command implements ICommand
 	{

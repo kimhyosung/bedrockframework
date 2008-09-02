@@ -1,11 +1,11 @@
-﻿package com.autumntactics.bedrock.model
+﻿package com.builtonbedrock.bedrock.model
 {
-	import com.autumntactics.bedrock.base.StaticWidget;
-	import com.autumntactics.bedrock.output.Outputter;
-	import com.autumntactics.util.StringUtil;
-	import com.autumntactics.util.XMLUtil;
-	import com.autumntactics.bedrock.logging.LogLevel;
-	import com.autumntactics.bedrock.logging.Logger;
+	import com.builtonbedrock.bedrock.base.StaticWidget;
+	import com.builtonbedrock.bedrock.output.Outputter;
+	import com.builtonbedrock.util.StringUtil;
+	import com.builtonbedrock.util.XMLUtil;
+	import com.builtonbedrock.bedrock.logging.LogLevel;
+	import com.builtonbedrock.bedrock.logging.Logger;
 	import flash.display.Stage;
 	import flash.system.Capabilities;	
 	

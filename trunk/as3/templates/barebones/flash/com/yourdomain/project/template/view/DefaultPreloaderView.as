@@ -1,14 +1,10 @@
 ﻿package com.yourdomain.project.template.view
 {
-	import caurina.transitions.Tweener;
-	
-	import com.bedrockframework.core.base.MovieClipWidget;
-	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.engine.view.*;
 	
 	import flash.text.TextField;
 	
-	public class DefaultPreloaderView extends View implements IPreloader
+	public class DefaultPreloaderView extends BedrockView implements IPreloader
 	{
 		/*
 		Variable Declarations

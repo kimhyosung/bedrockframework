@@ -1,13 +1,13 @@
-﻿package com.autumntactics.bedrock.gadget
+﻿package com.builtonbedrock.bedrock.gadget
 {
 
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.display.DisplayObjectContainer;
 
-	import com.autumntactics.bedrock.manager.ContainerManager;
-	import com.autumntactics.bedrock.base.StaticWidget;
-	import com.autumntactics.loader.VisualLoader;
+	import com.builtonbedrock.bedrock.manager.ContainerManager;
+	import com.builtonbedrock.bedrock.base.StaticWidget;
+	import com.builtonbedrock.loader.VisualLoader;
 
 	public class LayoutBuilder extends StaticWidget
 	{

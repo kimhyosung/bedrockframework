@@ -1,6 +1,6 @@
-﻿package com.autumntactics.project.template.events
+﻿package com.builtonbedrock.project.template.events
 {
-	import com.autumntactics.bedrock.events.GenericEvent;
+	import com.builtonbedrock.bedrock.events.GenericEvent;
 	
 	public class SiteEvent extends GenericEvent
 	{

@@ -1,9 +1,9 @@
-﻿package com.autumntactics.project.template.command
+﻿package com.builtonbedrock.project.template.command
 {
-	import com.autumntactics.bedrock.command.*;
-	import com.autumntactics.bedrock.events.GenericEvent;
-	import com.autumntactics.bedrock.dispatcher.BedrockDispatcher;
-	import com.autumntactics.project.template.events.SiteEvent;
+	import com.builtonbedrock.bedrock.command.*;
+	import com.builtonbedrock.bedrock.events.GenericEvent;
+	import com.builtonbedrock.bedrock.dispatcher.BedrockDispatcher;
+	import com.builtonbedrock.project.template.events.SiteEvent;
 
 	public class DataRequestCommand extends Command implements ICommand
 	{

@@ -1,11 +1,11 @@
-﻿package com.autumntactics.bedrock.command
+﻿package com.builtonbedrock.bedrock.command
 {
-	import com.autumntactics.bedrock.dispatcher.BedrockDispatcher;
-	import com.autumntactics.bedrock.events.GenericEvent;
-	import com.autumntactics.bedrock.events.BedrockEvent;
-	import com.autumntactics.bedrock.manager.*;
-	import com.autumntactics.bedrock.model.SectionStorage;
-	import com.autumntactics.bedrock.model.State;
+	import com.builtonbedrock.bedrock.dispatcher.BedrockDispatcher;
+	import com.builtonbedrock.bedrock.events.GenericEvent;
+	import com.builtonbedrock.bedrock.events.BedrockEvent;
+	import com.builtonbedrock.bedrock.manager.*;
+	import com.builtonbedrock.bedrock.model.SectionStorage;
+	import com.builtonbedrock.bedrock.model.State;
 
 	public class URLChangeCommand extends Command implements ICommand
 	{

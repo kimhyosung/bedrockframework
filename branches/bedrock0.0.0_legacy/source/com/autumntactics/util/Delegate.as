@@ -1,6 +1,6 @@
-﻿package com.autumntactics.util
+﻿package com.builtonbedrock.util
 {
-	import com.autumntactics.bedrock.base.StaticWidget;
+	import com.builtonbedrock.bedrock.base.StaticWidget;
 	import flash.events.Event;
 	public class Delegate extends StaticWidget
 	{

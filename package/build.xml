@@ -11,6 +11,7 @@
 		<defaultexcludes add="${exclude.project}"/>
 		<defaultexcludes add="${exclude.prefs}"/>
 	</target>
+
 	
 	<target name="compile" depends="setupExcludes">
 		<antcall target="checkProperties"/>

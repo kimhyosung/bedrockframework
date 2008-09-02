@@ -3,13 +3,13 @@
 Cloner
 
 */
-package com.autumntactics.gadget
+package com.builtonbedrock.gadget
 {
-	import com.autumntactics.data.ClonerData;
-	import com.autumntactics.events.ClonerEvent;
-	import com.autumntactics.bedrock.base.DispatcherWidget;
-	import com.autumntactics.storage.HashMap;
-	import com.autumntactics.util.MathUtil;
+	import com.builtonbedrock.data.ClonerData;
+	import com.builtonbedrock.events.ClonerEvent;
+	import com.builtonbedrock.bedrock.base.DispatcherWidget;
+	import com.builtonbedrock.storage.HashMap;
+	import com.builtonbedrock.util.MathUtil;
 	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;

@@ -1,4 +1,4 @@
-﻿package com.autumntactics.errors
+﻿package com.builtonbedrock.errors
 {
 	public class SingletonError extends Error
 	{

@@ -1,14 +1,14 @@
-﻿package com.autumntactics.gadget
+﻿package com.builtonbedrock.gadget
 {
-	import com.autumntactics.data.ClonerData;
-	import com.autumntactics.events.ClonerEvent;
-	import com.autumntactics.events.PaginationEvent;
-	import com.autumntactics.bedrock.base.DispatcherWidget;
-	import com.autumntactics.tools.Pagination;
+	import com.builtonbedrock.data.ClonerData;
+	import com.builtonbedrock.events.ClonerEvent;
+	import com.builtonbedrock.events.PaginationEvent;
+	import com.builtonbedrock.bedrock.base.DispatcherWidget;
+	import com.builtonbedrock.tools.Pagination;
 	import flash.display.DisplayObjectContainer;
-	import com.autumntactics.util.ArrayUtil;
-	import com.autumntactics.storage.ArrayBrowser;
-	import com.autumntactics.tools.IPageable;
+	import com.builtonbedrock.util.ArrayUtil;
+	import com.builtonbedrock.storage.ArrayBrowser;
+	import com.builtonbedrock.tools.IPageable;
 
 	public class PaginationCloner extends DispatcherWidget implements IPageable
 	{

@@ -1,13 +1,13 @@
-﻿package com.autumntactics.bedrock.manager
+﻿package com.builtonbedrock.bedrock.manager
 {
-	import com.autumntactics.bedrock.base.StaticWidget;
-	import com.autumntactics.bedrock.logging.LogLevel;
-	import com.autumntactics.bedrock.logging.Logger;
-	import com.autumntactics.events.DelayEvent;
-	import com.autumntactics.storage.HashMap;
-	import com.autumntactics.timer.Delay;
+	import com.builtonbedrock.bedrock.base.StaticWidget;
+	import com.builtonbedrock.bedrock.logging.LogLevel;
+	import com.builtonbedrock.bedrock.logging.Logger;
+	import com.builtonbedrock.events.DelayEvent;
+	import com.builtonbedrock.storage.HashMap;
+	import com.builtonbedrock.timer.Delay;
 	
-	import com.autumntactics.tracking.ITrackingService;
+	import com.builtonbedrock.tracking.ITrackingService;
 
 	public class TrackingManager extends StaticWidget
 	{

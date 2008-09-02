@@ -1,6 +1,6 @@
-package com.autumntactics.remoting
+package com.builtonbedrock.remoting
 {
-	import com.autumntactics.bedrock.base.BasicWidget;
+	import com.builtonbedrock.bedrock.base.BasicWidget;
 	
 	import flash.net.Responder;
 	

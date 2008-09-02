@@ -2,9 +2,10 @@
 {
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.engine.event.BedrockEvent;
-	import com.bedrockframework.engine.view.*;
+	import com.bedrockframework.engine.view.BedrockView;
+	import com.bedrockframework.plugin.view.IView;
 	
-	public class SiteView extends View implements IView
+	public class SiteView extends BedrockView implements IView
 	{
 		/*
 		Variable Declarations

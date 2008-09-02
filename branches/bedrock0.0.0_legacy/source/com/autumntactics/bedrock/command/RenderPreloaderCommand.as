@@ -1,14 +1,14 @@
-﻿package com.autumntactics.bedrock.command
+﻿package com.builtonbedrock.bedrock.command
 {
-	import com.autumntactics.bedrock.command.ICommand;
-	import com.autumntactics.bedrock.events.GenericEvent;
-	import com.autumntactics.bedrock.events.BedrockEvent;
-	import com.autumntactics.bedrock.manager.ContainerManager;
-	import com.autumntactics.bedrock.manager.LoadManager;
-	import com.autumntactics.bedrock.manager.PreloaderManager;
-	import com.autumntactics.bedrock.view.IPreloader;
-	import com.autumntactics.bedrock.factory.AssetFactory;
-	import com.autumntactics.bedrock.model.SectionStorage;
+	import com.builtonbedrock.bedrock.command.ICommand;
+	import com.builtonbedrock.bedrock.events.GenericEvent;
+	import com.builtonbedrock.bedrock.events.BedrockEvent;
+	import com.builtonbedrock.bedrock.manager.ContainerManager;
+	import com.builtonbedrock.bedrock.manager.LoadManager;
+	import com.builtonbedrock.bedrock.manager.PreloaderManager;
+	import com.builtonbedrock.bedrock.view.IPreloader;
+	import com.builtonbedrock.bedrock.factory.AssetFactory;
+	import com.builtonbedrock.bedrock.model.SectionStorage;
 	public class RenderPreloaderCommand extends Command implements ICommand
 	{
 		public function RenderPreloaderCommand()

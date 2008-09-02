@@ -1,11 +1,11 @@
-﻿package com.autumntactics.bedrock.command
+﻿package com.builtonbedrock.bedrock.command
 {
-	import com.autumntactics.bedrock.command.ICommand;
-	import com.autumntactics.bedrock.events.GenericEvent;
-	import com.autumntactics.bedrock.events.BedrockEvent;
-	import com.autumntactics.bedrock.manager.SectionManager;
-	import com.autumntactics.bedrock.dispatcher.BedrockDispatcher;
-	import com.autumntactics.bedrock.model.SectionStorage;
+	import com.builtonbedrock.bedrock.command.ICommand;
+	import com.builtonbedrock.bedrock.events.GenericEvent;
+	import com.builtonbedrock.bedrock.events.BedrockEvent;
+	import com.builtonbedrock.bedrock.manager.SectionManager;
+	import com.builtonbedrock.bedrock.dispatcher.BedrockDispatcher;
+	import com.builtonbedrock.bedrock.model.SectionStorage;
 	
 	public class DoChangeCommand extends Command implements ICommand
 	{

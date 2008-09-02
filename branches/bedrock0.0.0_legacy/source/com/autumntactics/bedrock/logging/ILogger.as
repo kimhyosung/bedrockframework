@@ -1,4 +1,4 @@
-﻿package com.autumntactics.bedrock.logging
+﻿package com.builtonbedrock.bedrock.logging
 {
 	public interface ILogger
 	{

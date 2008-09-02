@@ -1,4 +1,4 @@
-﻿package com.autumntactics.bedrock.dispatcher
+﻿package com.builtonbedrock.bedrock.dispatcher
 {
 	import flash.events.Event;
 	public interface IDispatcher

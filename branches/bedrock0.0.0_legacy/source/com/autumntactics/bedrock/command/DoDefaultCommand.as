@@ -1,15 +1,15 @@
-﻿package com.autumntactics.bedrock.command
+﻿package com.builtonbedrock.bedrock.command
 {
-	import com.autumntactics.bedrock.dispatcher.BedrockDispatcher;
-	import com.autumntactics.bedrock.events.BedrockEvent;
-	import com.autumntactics.bedrock.events.GenericEvent;
-	import com.autumntactics.bedrock.manager.ContainerManager;
-	import com.autumntactics.bedrock.manager.SectionManager;
-	import com.autumntactics.bedrock.manager.URLManager;
-	import com.autumntactics.bedrock.model.Config;
-	import com.autumntactics.bedrock.model.Params;
-	import com.autumntactics.bedrock.model.State;
-	import com.autumntactics.loader.VisualLoader;
+	import com.builtonbedrock.bedrock.dispatcher.BedrockDispatcher;
+	import com.builtonbedrock.bedrock.events.BedrockEvent;
+	import com.builtonbedrock.bedrock.events.GenericEvent;
+	import com.builtonbedrock.bedrock.manager.ContainerManager;
+	import com.builtonbedrock.bedrock.manager.SectionManager;
+	import com.builtonbedrock.bedrock.manager.URLManager;
+	import com.builtonbedrock.bedrock.model.Config;
+	import com.builtonbedrock.bedrock.model.Params;
+	import com.builtonbedrock.bedrock.model.State;
+	import com.builtonbedrock.loader.VisualLoader;
 
 	public class DoDefaultCommand extends Command implements ICommand
 	{

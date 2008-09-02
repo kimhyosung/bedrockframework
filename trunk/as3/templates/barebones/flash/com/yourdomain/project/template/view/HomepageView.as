@@ -1,8 +1,9 @@
 ﻿package com.yourdomain.project.template.view
 {
-	import com.bedrockframework.engine.view.IView;
-	import com.bedrockframework.engine.view.View;
-	public class HomepageView extends View implements IView
+	import com.bedrockframework.plugin.view.IView;
+	import com.bedrockframework.engine.view.BedrockView;
+	
+	public class HomepageView extends BedrockView implements IView
 	{
 		/*
 		Variable Declarations

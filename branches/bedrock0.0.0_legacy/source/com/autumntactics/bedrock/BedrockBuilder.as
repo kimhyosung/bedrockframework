@@ -1,21 +1,21 @@
-﻿package com.autumntactics.bedrock
+﻿package com.builtonbedrock.bedrock
 {
 
-	import com.autumntactics.bedrock.base.MovieClipWidget;
-	import com.autumntactics.bedrock.command.*;
-	import com.autumntactics.bedrock.controller.*;
-	import com.autumntactics.bedrock.dispatcher.BedrockDispatcher;
-	import com.autumntactics.bedrock.events.BedrockEvent;
-	import com.autumntactics.bedrock.gadget.*;
-	import com.autumntactics.bedrock.logging.LogLevel;
-	import com.autumntactics.bedrock.logging.Logger;
-	import com.autumntactics.bedrock.manager.*;
-	import com.autumntactics.bedrock.model.*;
-	import com.autumntactics.bedrock.view.*;
-	import com.autumntactics.display.Blocker;
-	import com.autumntactics.loader.BackgroundLoader;
-	import com.autumntactics.loader.VisualLoader;
-	import com.autumntactics.storage.ArrayBrowser;
+	import com.builtonbedrock.bedrock.base.MovieClipWidget;
+	import com.builtonbedrock.bedrock.command.*;
+	import com.builtonbedrock.bedrock.controller.*;
+	import com.builtonbedrock.bedrock.dispatcher.BedrockDispatcher;
+	import com.builtonbedrock.bedrock.events.BedrockEvent;
+	import com.builtonbedrock.bedrock.gadget.*;
+	import com.builtonbedrock.bedrock.logging.LogLevel;
+	import com.builtonbedrock.bedrock.logging.Logger;
+	import com.builtonbedrock.bedrock.manager.*;
+	import com.builtonbedrock.bedrock.model.*;
+	import com.builtonbedrock.bedrock.view.*;
+	import com.builtonbedrock.display.Blocker;
+	import com.builtonbedrock.loader.BackgroundLoader;
+	import com.builtonbedrock.loader.VisualLoader;
+	import com.builtonbedrock.storage.ArrayBrowser;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;

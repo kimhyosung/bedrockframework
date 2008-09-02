@@ -1,4 +1,4 @@
-﻿package com.autumntactics.bedrock.controller
+﻿package com.builtonbedrock.bedrock.controller
 {
 
 	public class BedrockController extends Controller implements IController

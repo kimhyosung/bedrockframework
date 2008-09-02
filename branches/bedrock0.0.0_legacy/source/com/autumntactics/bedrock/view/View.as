@@ -1,12 +1,12 @@
-﻿package com.autumntactics.bedrock.view
+﻿package com.builtonbedrock.bedrock.view
 {
 	import flash.display.DisplayObject;
-	import com.autumntactics.bedrock.base.MovieClipWidget;
-	import com.autumntactics.bedrock.view.IView;
-	import com.autumntactics.bedrock.dispatcher.BedrockDispatcher;
+	import com.builtonbedrock.bedrock.base.MovieClipWidget;
+	import com.builtonbedrock.bedrock.view.IView;
+	import com.builtonbedrock.bedrock.dispatcher.BedrockDispatcher;
 	
-	import com.autumntactics.bedrock.events.ViewEvent;
-	import com.autumntactics.bedrock.model.SectionStorage;
+	import com.builtonbedrock.bedrock.events.ViewEvent;
+	import com.builtonbedrock.bedrock.model.SectionStorage;
 	public class View extends MovieClipWidget
 	{
 		/*

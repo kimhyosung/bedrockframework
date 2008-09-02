@@ -1,7 +1,7 @@
-﻿package com.autumntactics.bedrock.events
+﻿package com.builtonbedrock.bedrock.events
 {
 	import flash.events.Event;
-	import com.autumntactics.bedrock.events.GenericEvent;
+	import com.builtonbedrock.bedrock.events.GenericEvent;
 	public dynamic class ViewEvent extends GenericEvent
 	{
 		public static const INITIALIZE_COMPLETE:String="ViewEvent.onInitializeComplete";

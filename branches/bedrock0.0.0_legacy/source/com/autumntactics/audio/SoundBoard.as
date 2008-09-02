@@ -1,7 +1,7 @@
-﻿package com.autumntactics.audio
+﻿package com.builtonbedrock.audio
 {
-	import com.autumntactics.bedrock.base.StandardWidget;
-	import com.autumntactics.storage.HashMap;
+	import com.builtonbedrock.bedrock.base.StandardWidget;
+	import com.builtonbedrock.storage.HashMap;
 	
 	import flash.media.Sound;
 	import flash.media.SoundChannel;

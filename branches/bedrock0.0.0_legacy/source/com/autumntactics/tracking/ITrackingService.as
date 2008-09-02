@@ -1,4 +1,4 @@
-﻿package com.autumntactics.tracking
+﻿package com.builtonbedrock.tracking
 {
 	public interface ITrackingService
 	{

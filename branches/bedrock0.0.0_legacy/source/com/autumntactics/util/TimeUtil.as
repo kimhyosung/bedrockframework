@@ -1,6 +1,6 @@
-﻿package com.autumntactics.util
+﻿package com.builtonbedrock.util
 {
-	import com.autumntactics.bedrock.base.StaticWidget;
+	import com.builtonbedrock.bedrock.base.StaticWidget;
 
 	public class TimeUtil extends StaticWidget
 	{

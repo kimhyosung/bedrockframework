@@ -1,6 +1,6 @@
-﻿package com.autumntactics.bedrock.base
+﻿package com.builtonbedrock.bedrock.base
 {
-	import com.autumntactics.bedrock.logging.LogLevel;
+	import com.builtonbedrock.bedrock.logging.LogLevel;
 
 	public class StandardWidget extends BasicWidget
 	{

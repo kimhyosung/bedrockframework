@@ -3,14 +3,14 @@
 Scroller
 
 */
-package com.autumntactics.gadget
+package com.builtonbedrock.gadget
 {
-	import com.autumntactics.data.ScrollerData;
-	import com.autumntactics.events.ScrollerEvent;
-	import com.autumntactics.events.TriggerEvent;
-	import com.autumntactics.bedrock.base.DispatcherWidget;
-	import com.autumntactics.timer.Trigger;
-	import com.autumntactics.util.ButtonUtil;
+	import com.builtonbedrock.data.ScrollerData;
+	import com.builtonbedrock.events.ScrollerEvent;
+	import com.builtonbedrock.events.TriggerEvent;
+	import com.builtonbedrock.bedrock.base.DispatcherWidget;
+	import com.builtonbedrock.timer.Trigger;
+	import com.builtonbedrock.util.ButtonUtil;
 	
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;

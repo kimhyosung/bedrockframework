@@ -1,6 +1,6 @@
-﻿package com.autumntactics.util
+﻿package com.builtonbedrock.util
 {
-	import com.autumntactics.bedrock.base.StaticWidget;
+	import com.builtonbedrock.bedrock.base.StaticWidget;
 	import flash.display.DisplayObject;
 	import flash.display.StageAlign;
 	public class AlignmentUtil extends StaticWidget

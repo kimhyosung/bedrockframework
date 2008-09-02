@@ -1,10 +1,10 @@
-﻿package com.autumntactics.bedrock.factory
+﻿package com.builtonbedrock.bedrock.factory
 {
 	/*
 	Imports
 	*/
-	import com.autumntactics.bedrock.base.StandardWidget;
-	import com.autumntactics.storage.HashMap;
+	import com.builtonbedrock.bedrock.base.StandardWidget;
+	import com.builtonbedrock.storage.HashMap;
 	
 	import flash.display.BitmapData;
 	import flash.display.MovieClip;

@@ -7,7 +7,7 @@ Central processing point for all traces going to the output panel.
 
 */
 
-package com.autumntactics.bedrock.output
+package com.builtonbedrock.bedrock.output
 {
 	public class LocalAgent
 	{

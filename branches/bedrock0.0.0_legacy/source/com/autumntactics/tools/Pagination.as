@@ -1,8 +1,8 @@
-﻿package com.autumntactics.tools
+﻿package com.builtonbedrock.tools
 {
-	import com.autumntactics.bedrock.base.DispatcherWidget;
-	import com.autumntactics.events.PaginationEvent;
-	import com.autumntactics.util.MathUtil;
+	import com.builtonbedrock.bedrock.base.DispatcherWidget;
+	import com.builtonbedrock.events.PaginationEvent;
+	import com.builtonbedrock.util.MathUtil;
 
 	public class Pagination extends DispatcherWidget implements IPageable
 	{

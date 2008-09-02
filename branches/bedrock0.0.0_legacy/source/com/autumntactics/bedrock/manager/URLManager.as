@@ -1,15 +1,15 @@
 ﻿
-package com.autumntactics.bedrock.manager
+package com.builtonbedrock.bedrock.manager
 {
 	import com.asual.swfaddress.SWFAddress;
 	import com.asual.swfaddress.SWFAddressEvent;
-	import com.autumntactics.bedrock.base.StaticWidget;
-	import com.autumntactics.bedrock.dispatcher.BedrockDispatcher;
-	import com.autumntactics.bedrock.events.BedrockEvent;
-	import com.autumntactics.bedrock.logging.LogLevel;
-	import com.autumntactics.bedrock.logging.Logger;
-	import com.autumntactics.bedrock.model.SectionStorage;
-	import com.autumntactics.util.VariableUtil;
+	import com.builtonbedrock.bedrock.base.StaticWidget;
+	import com.builtonbedrock.bedrock.dispatcher.BedrockDispatcher;
+	import com.builtonbedrock.bedrock.events.BedrockEvent;
+	import com.builtonbedrock.bedrock.logging.LogLevel;
+	import com.builtonbedrock.bedrock.logging.Logger;
+	import com.builtonbedrock.bedrock.model.SectionStorage;
+	import com.builtonbedrock.util.VariableUtil;
 	
 	public class URLManager extends StaticWidget
 	{

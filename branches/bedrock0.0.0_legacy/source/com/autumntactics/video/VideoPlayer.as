@@ -1,10 +1,10 @@
-﻿package com.autumntactics.video
+﻿package com.builtonbedrock.video
 {
-	import com.autumntactics.events.TriggerEvent;
-	import com.autumntactics.events.VideoEvent;
-	import com.autumntactics.bedrock.base.SpriteWidget;
-	import com.autumntactics.timer.Trigger;
-	import com.autumntactics.util.MathUtil;
+	import com.builtonbedrock.events.TriggerEvent;
+	import com.builtonbedrock.events.VideoEvent;
+	import com.builtonbedrock.bedrock.base.SpriteWidget;
+	import com.builtonbedrock.timer.Trigger;
+	import com.builtonbedrock.util.MathUtil;
 	
 	import flash.events.AsyncErrorEvent;
 	import flash.events.IOErrorEvent;

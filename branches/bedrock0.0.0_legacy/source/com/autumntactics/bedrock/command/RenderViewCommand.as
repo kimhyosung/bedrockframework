@@ -1,9 +1,9 @@
-﻿package com.autumntactics.bedrock.command
+﻿package com.builtonbedrock.bedrock.command
 {
-	import com.autumntactics.bedrock.command.ICommand;
-	import com.autumntactics.bedrock.events.GenericEvent;
-	import com.autumntactics.bedrock.manager.ContainerManager;
-	import com.autumntactics.bedrock.factory.AssetFactory;
+	import com.builtonbedrock.bedrock.command.ICommand;
+	import com.builtonbedrock.bedrock.events.GenericEvent;
+	import com.builtonbedrock.bedrock.manager.ContainerManager;
+	import com.builtonbedrock.bedrock.factory.AssetFactory;
 
 	public class RenderViewCommand extends Command implements ICommand
 	{

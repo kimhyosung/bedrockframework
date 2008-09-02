@@ -1,8 +1,8 @@
-﻿package com.autumntactics.display
+﻿package com.builtonbedrock.display
 {
-	import com.autumntactics.bedrock.base.SpriteWidget;
-	import com.autumntactics.data.BackgroundData;
-	import com.autumntactics.util.MathUtil;
+	import com.builtonbedrock.bedrock.base.SpriteWidget;
+	import com.builtonbedrock.data.BackgroundData;
+	import com.builtonbedrock.util.MathUtil;
 	
 	import flash.events.Event;
 	import flash.geom.Matrix;

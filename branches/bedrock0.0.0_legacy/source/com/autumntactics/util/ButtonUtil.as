@@ -1,9 +1,9 @@
-﻿package com.autumntactics.util
+﻿package com.builtonbedrock.util
 {
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
-	import com.autumntactics.bedrock.base.StaticWidget;
+	import com.builtonbedrock.bedrock.base.StaticWidget;
 	import flash.events.Event;
 
 	public class ButtonUtil extends StaticWidget

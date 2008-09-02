@@ -6,11 +6,11 @@
 	import com.bedrockframework.core.logging.Logger;
 	import com.bedrockframework.engine.data.BedrockData;
 	import com.bedrockframework.engine.event.BedrockEvent;
-	import com.bedrockframework.engine.event.ViewEvent;
+	import com.bedrockframework.plugin.event.ViewEvent;
 	import com.bedrockframework.engine.model.Config;
 	import com.bedrockframework.engine.model.Queue;
 	import com.bedrockframework.engine.model.State;
-	import com.bedrockframework.engine.view.IView;
+	import com.bedrockframework.plugin.view.IView;
 	import com.bedrockframework.plugin.event.LoaderEvent;
 	import com.bedrockframework.plugin.loader.VisualLoader;
 	

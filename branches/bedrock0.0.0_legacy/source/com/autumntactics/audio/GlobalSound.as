@@ -1,4 +1,4 @@
-﻿package com.autumntactics.audio
+﻿package com.builtonbedrock.audio
 {
 	/**
 	* Manages the global sound within the flash application.
@@ -7,7 +7,7 @@
 	* @version 1.0.0
 	* @created Sat Apr 3 2008 19:16:40 GMT-0400 (EDT)
 	*/
-	import com.autumntactics.bedrock.base.StandardWidget;
+	import com.builtonbedrock.bedrock.base.StandardWidget;
 	import flash.media.SoundMixer;
 	import flash.media.SoundTransform;
 
