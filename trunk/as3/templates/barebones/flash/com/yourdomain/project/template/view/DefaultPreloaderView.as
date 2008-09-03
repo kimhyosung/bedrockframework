@@ -1,6 +1,7 @@
 ﻿package com.yourdomain.project.template.view
 {
-	import com.bedrockframework.engine.view.*;
+	import com.bedrockframework.engine.view.IPreloader;
+	import com.bedrockframework.engine.view.BedrockView;
 	
 	import flash.text.TextField;
 	

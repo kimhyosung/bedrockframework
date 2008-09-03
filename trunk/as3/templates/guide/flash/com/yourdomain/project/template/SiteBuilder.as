@@ -11,6 +11,12 @@
 	
 	public class SiteBuilder extends BedrockBuilder
 	{
+		/*
+		Variable Declarations
+		*/
+		/*
+		Constructor
+	 	*/
 		public function SiteBuilder()
 		{
 			super();

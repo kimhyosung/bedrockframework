@@ -2,8 +2,8 @@
 {
 	import com.bedrockframework.core.base.SpriteWidget;
 	import com.bedrockframework.engine.event.ViewEvent;
-	import com.bedrockframework.engine.view.IView;
-	import com.bedrockframework.engine.view.View;
+	import com.bedrockframework.plugin.view.IView;
+	import com.bedrockframework.plugin.view.View;
 	import com.bedrockframework.plugin.data.ViewSequencerData;
 	import com.bedrockframework.plugin.event.ViewSequencerEvent;
 	import com.bedrockframework.plugin.storage.ArrayBrowser;

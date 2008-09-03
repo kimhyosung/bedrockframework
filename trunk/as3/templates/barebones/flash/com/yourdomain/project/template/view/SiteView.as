@@ -15,7 +15,6 @@
 	 	*/
 		public function SiteView()
 		{
-			this.alpha=0;
 		}
 		/*
 		Basic view functions

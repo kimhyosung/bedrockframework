@@ -2,8 +2,8 @@
 {
 	import caurina.transitions.Tweener;
 	
-	import com.bedrockframework.engine.view.IView;
-	import com.bedrockframework.engine.view.View;
+	import com.bedrockframework.plugin.view.IView;
+	import com.bedrockframework.plugin.view.View;
 
 	public class NavigationView extends View implements IView
 	{
