@@ -1,6 +1,6 @@
-﻿package com.builtonbedrock.storage
+﻿package com.autumntactics.storage
 {
-	import com.builtonbedrock.bedrock.base.StandardWidget;
+	import com.autumntactics.bedrock.base.StandardWidget;
 	import flash.net.SharedObject;
 	import flash.net.SharedObjectFlushStatus;
 

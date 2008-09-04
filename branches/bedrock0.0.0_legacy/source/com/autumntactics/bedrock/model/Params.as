@@ -1,11 +1,11 @@
-﻿package com.builtonbedrock.bedrock.model
+﻿package com.autumntactics.bedrock.model
 {
-	import com.builtonbedrock.bedrock.base.StaticWidget;
-	import com.builtonbedrock.bedrock.output.Outputter;
-	import com.builtonbedrock.storage.SimpleMap;
-	import com.builtonbedrock.util.VariableUtil;
-	import com.builtonbedrock.bedrock.logging.Logger;
-	import com.builtonbedrock.bedrock.logging.LogLevel;
+	import com.autumntactics.bedrock.base.StaticWidget;
+	import com.autumntactics.bedrock.output.Outputter;
+	import com.autumntactics.storage.SimpleMap;
+	import com.autumntactics.util.VariableUtil;
+	import com.autumntactics.bedrock.logging.Logger;
+	import com.autumntactics.bedrock.logging.LogLevel;
 
 	public class Params extends StaticWidget
 	{

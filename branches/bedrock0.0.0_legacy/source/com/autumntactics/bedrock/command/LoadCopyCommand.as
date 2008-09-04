@@ -1,7 +1,7 @@
-﻿package com.builtonbedrock.bedrock.command
+﻿package com.autumntactics.bedrock.command
 {
-	import com.builtonbedrock.bedrock.events.GenericEvent;
-	import com.builtonbedrock.bedrock.manager.CopyManager;
+	import com.autumntactics.bedrock.events.GenericEvent;
+	import com.autumntactics.bedrock.manager.CopyManager;
 
 	public class LoadCopyCommand extends Command implements ICommand
 	{

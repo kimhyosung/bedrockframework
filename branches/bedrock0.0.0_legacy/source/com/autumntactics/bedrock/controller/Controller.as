@@ -1,12 +1,12 @@
-﻿package com.builtonbedrock.bedrock.controller
+﻿package com.autumntactics.bedrock.controller
 {
-	import com.builtonbedrock.bedrock.dispatcher.BedrockDispatcher;
-	import com.builtonbedrock.bedrock.events.GenericEvent;
+	import com.autumntactics.bedrock.dispatcher.BedrockDispatcher;
+	import com.autumntactics.bedrock.events.GenericEvent;
 	import flash.events.Event;
-	import com.builtonbedrock.storage.ArrayCollection;
-	import com.builtonbedrock.bedrock.base.StandardWidget;
-	import com.builtonbedrock.bedrock.command.ICommand;
-	import com.builtonbedrock.util.ClassUtil;
+	import com.autumntactics.storage.ArrayCollection;
+	import com.autumntactics.bedrock.base.StandardWidget;
+	import com.autumntactics.bedrock.command.ICommand;
+	import com.autumntactics.util.ClassUtil;
 
 	public class Controller extends StandardWidget implements IController
 	{

@@ -1,12 +1,12 @@
-﻿package com.builtonbedrock.project.template
+﻿package com.autumntactics.project.template
 {
-	import com.builtonbedrock.bedrock.BedrockBuilder;
-	import com.builtonbedrock.bedrock.model.Config;
-	import com.builtonbedrock.project.template.view.*;
-	import com.builtonbedrock.project.template.model.*;
-	import com.builtonbedrock.project.template.command.*;
-	import com.builtonbedrock.project.template.events.*;
-	import com.builtonbedrock.bedrock.manager.*;
+	import com.autumntactics.bedrock.BedrockBuilder;
+	import com.autumntactics.bedrock.model.Config;
+	import com.autumntactics.project.template.view.*;
+	import com.autumntactics.project.template.model.*;
+	import com.autumntactics.project.template.command.*;
+	import com.autumntactics.project.template.events.*;
+	import com.autumntactics.bedrock.manager.*;
 	
 	
 	public class SiteBuilder extends BedrockBuilder

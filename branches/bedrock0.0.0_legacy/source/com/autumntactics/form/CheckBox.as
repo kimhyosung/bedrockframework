@@ -1,11 +1,11 @@
-﻿package com.builtonbedrock.form
+﻿package com.autumntactics.form
 {
 	import flash.events.MouseEvent;
 	import flash.events.Event;
 	
-	import com.builtonbedrock.events.CheckBoxEvent;
-	import com.builtonbedrock.util.ButtonUtil;
-	import com.builtonbedrock.bedrock.base.MovieClipWidget ;
+	import com.autumntactics.events.CheckBoxEvent;
+	import com.autumntactics.util.ButtonUtil;
+	import com.autumntactics.bedrock.base.MovieClipWidget ;
 	
 	public class CheckBox extends MovieClipWidget{
 		// Varibales

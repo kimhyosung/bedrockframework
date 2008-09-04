@@ -1,13 +1,13 @@
-﻿package com.builtonbedrock.bedrock.manager
+﻿package com.autumntactics.bedrock.manager
 {
-	import com.builtonbedrock.bedrock.base.StaticWidget;
-	import com.builtonbedrock.bedrock.dispatcher.BedrockDispatcher;
-	import com.builtonbedrock.bedrock.events.BedrockEvent;
-	import com.builtonbedrock.bedrock.events.ViewEvent;
-	import com.builtonbedrock.bedrock.output.Outputter;
-	import com.builtonbedrock.bedrock.view.IPreloader;
-	import com.builtonbedrock.bedrock.logging.Logger;
-	import com.builtonbedrock.bedrock.logging.LogLevel;
+	import com.autumntactics.bedrock.base.StaticWidget;
+	import com.autumntactics.bedrock.dispatcher.BedrockDispatcher;
+	import com.autumntactics.bedrock.events.BedrockEvent;
+	import com.autumntactics.bedrock.events.ViewEvent;
+	import com.autumntactics.bedrock.output.Outputter;
+	import com.autumntactics.bedrock.view.IPreloader;
+	import com.autumntactics.bedrock.logging.Logger;
+	import com.autumntactics.bedrock.logging.LogLevel;
 	
 	public class PreloaderManager extends StaticWidget
 	{

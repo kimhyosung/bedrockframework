@@ -1,10 +1,10 @@
-﻿package com.builtonbedrock.timer
+﻿package com.autumntactics.timer
 {
-	import com.builtonbedrock.bedrock.base.DispatcherWidget;
+	import com.autumntactics.bedrock.base.DispatcherWidget;
 
 	import flash.utils.getTimer;
-	import com.builtonbedrock.events.StopWatchEvent;
-	import com.builtonbedrock.util.TimeUtil;
+	import com.autumntactics.events.StopWatchEvent;
+	import com.autumntactics.util.TimeUtil;
 
 	public class StopWatch extends DispatcherWidget
 	{

@@ -1,7 +1,7 @@
-﻿package com.builtonbedrock.project.template
+﻿package com.autumntactics.project.template
 {
 	import flash.display.MovieClip;
-	import com.builtonbedrock.bedrock.AssetBuilder;
+	import com.autumntactics.bedrock.AssetBuilder;
 
 	public class SharedBuilder extends AssetBuilder
 	{

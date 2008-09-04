@@ -1,7 +1,7 @@
-﻿package com.builtonbedrock.util
+﻿package com.autumntactics.util
 {
 	import flash.utils.*;
-	import com.builtonbedrock.util.MathUtil;
+	import com.autumntactics.util.MathUtil;
 	public class ArrayUtil
 	{
 		/*

@@ -1,8 +1,8 @@
-package com.builtonbedrock.bedrock.logging
+package com.autumntactics.bedrock.logging
 {
-	import com.builtonbedrock.bedrock.dispatcher.BedrockDispatcher;
-	import com.builtonbedrock.bedrock.events.LogEvent;
-	import com.builtonbedrock.storage.SimpleMap;
+	import com.autumntactics.bedrock.dispatcher.BedrockDispatcher;
+	import com.autumntactics.bedrock.events.LogEvent;
+	import com.autumntactics.storage.SimpleMap;
 
 	public class EventLogger implements ILogger
 	{

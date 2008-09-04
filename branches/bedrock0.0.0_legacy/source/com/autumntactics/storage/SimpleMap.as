@@ -1,4 +1,4 @@
-﻿package com.builtonbedrock.storage
+﻿package com.autumntactics.storage
 {
 
 	public dynamic class SimpleMap

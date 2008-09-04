@@ -1,11 +1,11 @@
-﻿package com.builtonbedrock.storage
+﻿package com.autumntactics.storage
 {
 
 	public dynamic class ArrayCollection extends Array
 	{
-		import com.builtonbedrock.util.MathUtil;
-		import com.builtonbedrock.util.ArrayUtil;
-		import com.builtonbedrock.util.ClassUtil;
+		import com.autumntactics.util.MathUtil;
+		import com.autumntactics.util.ArrayUtil;
+		import com.autumntactics.util.ClassUtil;
 		/*
 		Variable Definitions
 		*/

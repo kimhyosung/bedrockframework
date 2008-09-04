@@ -1,12 +1,12 @@
-﻿package com.builtonbedrock.bedrock.manager
+﻿package com.autumntactics.bedrock.manager
 {
-	import com.builtonbedrock.storage.HashMap;
+	import com.autumntactics.storage.HashMap;
 	import flash.display.Sprite;
 	import flash.display.DisplayObjectContainer;
-	import com.builtonbedrock.bedrock.base.StaticWidget;
-	import com.builtonbedrock.bedrock.logging.LogLevel;
-	import com.builtonbedrock.bedrock.logging.Logger;
-	import com.builtonbedrock.loader.VisualLoader;
+	import com.autumntactics.bedrock.base.StaticWidget;
+	import com.autumntactics.bedrock.logging.LogLevel;
+	import com.autumntactics.bedrock.logging.Logger;
+	import com.autumntactics.loader.VisualLoader;
 
 	public class ContainerManager extends StaticWidget
 	{

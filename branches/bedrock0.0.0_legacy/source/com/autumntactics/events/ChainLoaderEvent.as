@@ -1,12 +1,12 @@
-﻿package com.builtonbedrock.events
+﻿package com.autumntactics.events
 {
 	import flash.events.Event;
 	import flash.events.ProgressEvent;
 	import flash.events.HTTPStatusEvent;
 	import flash.events.IOErrorEvent;
 	import flash.events.SecurityErrorEvent;
-	import com.builtonbedrock.bedrock.events.GenericEvent;
-	import com.builtonbedrock.events.LoaderEvent;
+	import com.autumntactics.bedrock.events.GenericEvent;
+	import com.autumntactics.events.LoaderEvent;
 
 	public dynamic class ChainLoaderEvent extends GenericEvent
 	{

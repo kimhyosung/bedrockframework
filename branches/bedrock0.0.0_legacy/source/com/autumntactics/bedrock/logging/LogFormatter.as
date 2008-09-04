@@ -1,7 +1,7 @@
-﻿package com.builtonbedrock.bedrock.logging
+﻿package com.autumntactics.bedrock.logging
 {
-	import com.builtonbedrock.storage.SimpleMap;
-	import com.builtonbedrock.util.ClassUtil;
+	import com.autumntactics.storage.SimpleMap;
+	import com.autumntactics.util.ClassUtil;
 	
 	import flash.utils.*;
 	

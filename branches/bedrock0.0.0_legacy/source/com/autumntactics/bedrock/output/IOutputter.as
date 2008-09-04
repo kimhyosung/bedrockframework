@@ -1,4 +1,4 @@
-package com.builtonbedrock.bedrock.output
+package com.autumntactics.bedrock.output
 {
 	public interface IOutputter
 	{

@@ -1,10 +1,10 @@
-﻿package com.builtonbedrock.bedrock.command
+﻿package com.autumntactics.bedrock.command
 {
-	import com.builtonbedrock.bedrock.events.GenericEvent;
-	import com.builtonbedrock.bedrock.manager.*;
-	import com.builtonbedrock.bedrock.model.Config;
-	import com.builtonbedrock.bedrock.model.SectionStorage;
-	import com.builtonbedrock.loader.VisualLoader;
+	import com.autumntactics.bedrock.events.GenericEvent;
+	import com.autumntactics.bedrock.manager.*;
+	import com.autumntactics.bedrock.model.Config;
+	import com.autumntactics.bedrock.model.SectionStorage;
+	import com.autumntactics.loader.VisualLoader;
 
 	public class LoadQueueCommand extends Command implements ICommand
 	{

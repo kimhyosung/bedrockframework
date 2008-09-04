@@ -1,4 +1,4 @@
-﻿package com.builtonbedrock.audio
+﻿package com.autumntactics.audio
 {
 	/**
 	 * Generic, auxiliary functions
@@ -7,11 +7,11 @@
 	 * @version	1.0.0
 	 * @created	
 	 */
-	import com.builtonbedrock.events.AudioEvent;
-	import com.builtonbedrock.events.TriggerEvent;
-	import com.builtonbedrock.bedrock.base.DispatcherWidget;
-	import com.builtonbedrock.timer.Trigger;
-	import com.builtonbedrock.util.MathUtil;
+	import com.autumntactics.events.AudioEvent;
+	import com.autumntactics.events.TriggerEvent;
+	import com.autumntactics.bedrock.base.DispatcherWidget;
+	import com.autumntactics.timer.Trigger;
+	import com.autumntactics.util.MathUtil;
 	
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;

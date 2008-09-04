@@ -1,7 +1,7 @@
-﻿package com.builtonbedrock.bedrock
+﻿package com.autumntactics.bedrock
 {
-	import com.builtonbedrock.bedrock.base.MovieClipWidget;
-	import com.builtonbedrock.bedrock.factory.AssetFactory;
+	import com.autumntactics.bedrock.base.MovieClipWidget;
+	import com.autumntactics.bedrock.factory.AssetFactory;
 	
 	public class AssetBuilder extends MovieClipWidget
 	{

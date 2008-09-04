@@ -1,6 +1,6 @@
-﻿package com.builtonbedrock.bedrock.command
+﻿package com.autumntactics.bedrock.command
 {
-	import com.builtonbedrock.bedrock.events.GenericEvent;
+	import com.autumntactics.bedrock.events.GenericEvent;
 
 	public interface ICommand
 	{

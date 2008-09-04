@@ -1,4 +1,4 @@
-﻿package com.builtonbedrock.bedrock.controller
+﻿package com.autumntactics.bedrock.controller
 {
 	public interface IController
 	{

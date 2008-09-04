@@ -1,7 +1,7 @@
 ﻿package 
 {
 	import flash.display.MovieClip;
-	import com.builtonbedrock.gadget.IClonable;
+	import com.autumntactics.gadget.IClonable;
 	public class ClonedClip extends MovieClip implements IClonable
 	{
 		private var numID:int;

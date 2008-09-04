@@ -1,14 +1,14 @@
-﻿package com.builtonbedrock.project.template.view
+﻿package com.autumntactics.project.template.view
 {
 	import flash.display.MovieClip;
-	import com.builtonbedrock.bedrock.view.View;
-	import com.builtonbedrock.bedrock.view.IView;
+	import com.autumntactics.bedrock.view.View;
+	import com.autumntactics.bedrock.view.IView;
 	
 	import caurina.transitions.Tweener;
-	import com.builtonbedrock.bedrock.dispatcher.BedrockDispatcher;
-	import com.builtonbedrock.bedrock.events.BedrockEvent;
+	import com.autumntactics.bedrock.dispatcher.BedrockDispatcher;
+	import com.autumntactics.bedrock.events.BedrockEvent;
 	import flash.events.MouseEvent;
-	import com.builtonbedrock.util.ButtonUtil;
+	import com.autumntactics.util.ButtonUtil;
 	public class HomepageView extends View implements IView
 	{
 		/*

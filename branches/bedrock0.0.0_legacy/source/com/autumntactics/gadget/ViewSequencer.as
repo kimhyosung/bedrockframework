@@ -1,12 +1,12 @@
-﻿package com.builtonbedrock.gadget
+﻿package com.autumntactics.gadget
 {
-	import com.builtonbedrock.data.ViewSequencerData;
-	import com.builtonbedrock.events.ViewSequencerEvent;
-	import com.builtonbedrock.bedrock.base.DispatcherWidget;
-	import com.builtonbedrock.bedrock.events.ViewEvent;
-	import com.builtonbedrock.bedrock.view.IView;
-	import com.builtonbedrock.bedrock.view.View;
-	import com.builtonbedrock.storage.ArrayBrowser;
+	import com.autumntactics.data.ViewSequencerData;
+	import com.autumntactics.events.ViewSequencerEvent;
+	import com.autumntactics.bedrock.base.DispatcherWidget;
+	import com.autumntactics.bedrock.events.ViewEvent;
+	import com.autumntactics.bedrock.view.IView;
+	import com.autumntactics.bedrock.view.View;
+	import com.autumntactics.storage.ArrayBrowser;
 	
 	import flash.display.Sprite;
 

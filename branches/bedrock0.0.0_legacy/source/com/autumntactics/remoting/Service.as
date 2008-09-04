@@ -1,7 +1,7 @@
-﻿package com.builtonbedrock.remoting {
+﻿package com.autumntactics.remoting {
 	
-	import com.builtonbedrock.bedrock.base.DispatcherWidget;
-	import com.builtonbedrock.events.ServiceEvent;
+	import com.autumntactics.bedrock.base.DispatcherWidget;
+	import com.autumntactics.events.ServiceEvent;
 	
 	import flash.events.ErrorEvent;
 	import flash.events.Event;

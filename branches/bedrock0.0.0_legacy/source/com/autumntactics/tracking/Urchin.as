@@ -1,10 +1,10 @@
-﻿package com.builtonbedrock.tracking
+﻿package com.autumntactics.tracking
 {
-	import com.builtonbedrock.bedrock.base.BasicWidget;
+	import com.autumntactics.bedrock.base.BasicWidget;
 	
 	import flash.external.ExternalInterface;
 	
-	import com.builtonbedrock.tracking.ITrackingService;
+	import com.autumntactics.tracking.ITrackingService;
 	
 	public class Urchin extends BasicWidget implements ITrackingService
 	{

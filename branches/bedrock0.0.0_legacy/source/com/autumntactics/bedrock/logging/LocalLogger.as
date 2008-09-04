@@ -1,6 +1,6 @@
-﻿package com.builtonbedrock.bedrock.logging
+﻿package com.autumntactics.bedrock.logging
 {
-	import com.builtonbedrock.bedrock.logging.ILogger;
+	import com.autumntactics.bedrock.logging.ILogger;
 	
 	
 

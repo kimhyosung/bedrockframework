@@ -1,12 +1,12 @@
-﻿package com.builtonbedrock.form
+﻿package com.autumntactics.form
 {
 	import flash.events.MouseEvent;
 	import flash.events.Event;
 
-	//import com.builtonbedrock.events.RadioEvent;
-	import com.builtonbedrock.util.ButtonUtil;
-	import com.builtonbedrock.bedrock.base.DispatcherWidget;
-	import com.builtonbedrock.storage.ArrayCollection;
+	//import com.autumntactics.events.RadioEvent;
+	import com.autumntactics.util.ButtonUtil;
+	import com.autumntactics.bedrock.base.DispatcherWidget;
+	import com.autumntactics.storage.ArrayCollection;
 
 	public class Radio extends DispatcherWidget
 	{

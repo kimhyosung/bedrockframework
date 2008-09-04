@@ -1,10 +1,10 @@
-﻿package com.builtonbedrock.bedrock.manager
+﻿package com.autumntactics.bedrock.manager
 {
-	import com.builtonbedrock.bedrock.base.StaticWidget;
-	import com.builtonbedrock.bedrock.logging.LogLevel;
-	import com.builtonbedrock.bedrock.logging.Logger;
-	import com.builtonbedrock.remoting.Service;
-	import com.builtonbedrock.storage.HashMap;
+	import com.autumntactics.bedrock.base.StaticWidget;
+	import com.autumntactics.bedrock.logging.LogLevel;
+	import com.autumntactics.bedrock.logging.Logger;
+	import com.autumntactics.remoting.Service;
+	import com.autumntactics.storage.HashMap;
 	
 	public class ServiceManager extends StaticWidget
 	{

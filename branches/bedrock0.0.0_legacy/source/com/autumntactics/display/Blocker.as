@@ -1,11 +1,11 @@
-﻿package com.builtonbedrock.display
+﻿package com.autumntactics.display
 {
 	import flash.display.Stage;
-	import com.builtonbedrock.bedrock.base.SpriteWidget;
-	import com.builtonbedrock.events.BlockerEvent;
+	import com.autumntactics.bedrock.base.SpriteWidget;
+	import com.autumntactics.events.BlockerEvent;
 	import flash.events.MouseEvent;
-	import com.builtonbedrock.util.ButtonUtil;
-	import com.builtonbedrock.storage.SimpleMap;
+	import com.autumntactics.util.ButtonUtil;
+	import com.autumntactics.storage.SimpleMap;
 	/*
 	Class Declarations
 	*/

@@ -1,9 +1,9 @@
-﻿package com.builtonbedrock.bedrock.base
+﻿package com.autumntactics.bedrock.base
 {
-	import com.builtonbedrock.util.ClassUtil;
-	import com.builtonbedrock.bedrock.base.BasicWidget;
-	import com.builtonbedrock.bedrock.logging.Logger;
-	import com.builtonbedrock.bedrock.logging.LogLevel;
+	import com.autumntactics.util.ClassUtil;
+	import com.autumntactics.bedrock.base.BasicWidget;
+	import com.autumntactics.bedrock.logging.Logger;
+	import com.autumntactics.bedrock.logging.LogLevel;
 	
 	public class StaticWidget extends BasicWidget
 	{

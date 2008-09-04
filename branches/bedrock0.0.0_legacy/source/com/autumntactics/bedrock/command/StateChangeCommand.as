@@ -1,9 +1,9 @@
-﻿package com.builtonbedrock.bedrock.command
+﻿package com.autumntactics.bedrock.command
 {
-	import com.builtonbedrock.bedrock.command.ICommand;
-	import com.builtonbedrock.bedrock.events.GenericEvent;
-	import com.builtonbedrock.bedrock.events.BedrockEvent;
-	import com.builtonbedrock.bedrock.model.State;
+	import com.autumntactics.bedrock.command.ICommand;
+	import com.autumntactics.bedrock.events.GenericEvent;
+	import com.autumntactics.bedrock.events.BedrockEvent;
+	import com.autumntactics.bedrock.model.State;
 
 	public class StateChangeCommand extends Command implements ICommand
 	{

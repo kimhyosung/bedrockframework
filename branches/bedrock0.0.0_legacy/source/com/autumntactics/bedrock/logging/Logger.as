@@ -1,6 +1,6 @@
-﻿package com.builtonbedrock.bedrock.logging
+﻿package com.autumntactics.bedrock.logging
 {
-	import com.builtonbedrock.bedrock.base.StaticWidget;
+	import com.autumntactics.bedrock.base.StaticWidget;
 
 	public class Logger extends StaticWidget
 	{

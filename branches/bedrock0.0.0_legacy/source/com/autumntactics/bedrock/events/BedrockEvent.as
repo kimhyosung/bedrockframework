@@ -1,7 +1,7 @@
-﻿package com.builtonbedrock.bedrock.events
+﻿package com.autumntactics.bedrock.events
 {
-	import com.builtonbedrock.bedrock.events.GenericEvent;
-	import com.builtonbedrock.events.ChainLoaderEvent;
+	import com.autumntactics.bedrock.events.GenericEvent;
+	import com.autumntactics.events.ChainLoaderEvent;
 
 	public class BedrockEvent extends GenericEvent
 	{

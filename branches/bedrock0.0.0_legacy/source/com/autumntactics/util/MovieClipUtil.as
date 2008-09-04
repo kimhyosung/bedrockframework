@@ -1,6 +1,6 @@
-package com.builtonbedrock.util
+package com.autumntactics.util
 {
-	import com.builtonbedrock.bedrock.base.StaticWidget;
+	import com.autumntactics.bedrock.base.StaticWidget;
 	import flash.display.MovieClip;
 
 	public class MovieClipUtil extends StaticWidget

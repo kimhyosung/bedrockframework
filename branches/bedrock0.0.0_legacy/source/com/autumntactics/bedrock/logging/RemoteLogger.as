@@ -1,4 +1,4 @@
-﻿package com.builtonbedrock.bedrock.logging
+﻿package com.autumntactics.bedrock.logging
 {
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;

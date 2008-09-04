@@ -1,4 +1,4 @@
-package com.builtonbedrock.remoting
+package com.autumntactics.remoting
 {
 	public interface IResponder
 	{

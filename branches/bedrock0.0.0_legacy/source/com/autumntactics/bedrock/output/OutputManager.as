@@ -6,13 +6,13 @@ Central routing point for all traces going to various mediums.
 
 
 */
-package com.builtonbedrock.bedrock.output
+package com.autumntactics.bedrock.output
 {
 	
 	public class OutputManager 
 	{
-		import com.builtonbedrock.util.ArrayUtil;
-		import com.builtonbedrock.util.StringUtil;
+		import com.autumntactics.util.ArrayUtil;
+		import com.autumntactics.util.StringUtil;
 		/*
 		Variable Definitions
 		*/

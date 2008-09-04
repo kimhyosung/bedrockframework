@@ -1,11 +1,11 @@
-﻿package com.builtonbedrock.timer
+﻿package com.autumntactics.timer
 {
 	/*
 	imports
 	*/
 	import flash.display.Sprite;
-	import com.builtonbedrock.bedrock.base.DispatcherWidget;
-	import com.builtonbedrock.events.DelayEvent;
+	import com.autumntactics.bedrock.base.DispatcherWidget;
+	import com.autumntactics.events.DelayEvent;
 	import flash.utils.*;
 	/*
 	class

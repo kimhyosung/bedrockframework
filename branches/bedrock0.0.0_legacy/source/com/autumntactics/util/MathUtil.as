@@ -1,4 +1,4 @@
-﻿package com.builtonbedrock.util
+﻿package com.autumntactics.util
 {
 	import flash.utils.*;
 	public class MathUtil

@@ -1,10 +1,10 @@
-﻿package com.builtonbedrock.loader
+﻿package com.autumntactics.loader
 {
-	import com.builtonbedrock.events.LoaderEvent;
-	import com.builtonbedrock.bedrock.output.OutputManager;
-	import com.builtonbedrock.storage.SimpleMap;
-	import com.builtonbedrock.util.ClassUtil;
-	import com.builtonbedrock.util.MathUtil;
+	import com.autumntactics.events.LoaderEvent;
+	import com.autumntactics.bedrock.output.OutputManager;
+	import com.autumntactics.storage.SimpleMap;
+	import com.autumntactics.util.ClassUtil;
+	import com.autumntactics.util.MathUtil;
 	
 	import flash.events.Event;
 	import flash.events.HTTPStatusEvent;

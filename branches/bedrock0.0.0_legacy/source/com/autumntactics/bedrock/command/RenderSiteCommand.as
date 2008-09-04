@@ -1,9 +1,9 @@
-﻿package com.builtonbedrock.bedrock.command
+﻿package com.autumntactics.bedrock.command
 {
-	import com.builtonbedrock.bedrock.events.GenericEvent;
-	import com.builtonbedrock.bedrock.manager.ContainerManager;
-	import com.builtonbedrock.bedrock.manager.PreloaderManager;
-	import com.builtonbedrock.bedrock.model.State;
+	import com.autumntactics.bedrock.events.GenericEvent;
+	import com.autumntactics.bedrock.manager.ContainerManager;
+	import com.autumntactics.bedrock.manager.PreloaderManager;
+	import com.autumntactics.bedrock.model.State;
 	
 	import flash.display.DisplayObjectContainer;
 	

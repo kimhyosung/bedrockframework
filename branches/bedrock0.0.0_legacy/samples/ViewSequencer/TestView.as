@@ -1,8 +1,8 @@
 ﻿package 
 {
-	import com.builtonbedrock.bedrock.view.View;
-	import com.builtonbedrock.bedrock.view.IView;
-	import com.builtonbedrock.bedrock.events.BedrockEvent;
+	import com.autumntactics.bedrock.view.View;
+	import com.autumntactics.bedrock.view.IView;
+	import com.autumntactics.bedrock.events.BedrockEvent;
 	import caurina.transitions.Tweener;
 	import flash.text.TextField;
 	import flash.events.MouseEvent;

@@ -1,6 +1,6 @@
 package 
 {
-	import com.builtonbedrock.bedrock.base.StandardWidget;
+	import com.autumntactics.bedrock.base.StandardWidget;
 
 	public class SingletonTemplate extends StandardWidget
 	{

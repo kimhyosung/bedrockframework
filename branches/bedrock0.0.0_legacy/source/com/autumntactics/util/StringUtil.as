@@ -1,4 +1,4 @@
-﻿package com.builtonbedrock.util
+﻿package com.autumntactics.util
 {
 	public class StringUtil
 	{

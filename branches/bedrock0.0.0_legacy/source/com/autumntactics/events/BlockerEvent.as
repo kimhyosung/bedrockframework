@@ -1,7 +1,7 @@
-﻿package com.builtonbedrock.events
+﻿package com.autumntactics.events
 {
 	import flash.events.MouseEvent;
-	import com.builtonbedrock.bedrock.events.GenericEvent;
+	import com.autumntactics.bedrock.events.GenericEvent;
 
 	public class BlockerEvent extends GenericEvent
 	{

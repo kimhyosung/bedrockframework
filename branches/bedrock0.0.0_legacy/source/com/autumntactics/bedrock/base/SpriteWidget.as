@@ -1,8 +1,8 @@
-﻿package com.builtonbedrock.bedrock.base
+﻿package com.autumntactics.bedrock.base
 {
-	import com.builtonbedrock.bedrock.logging.ILogable;
-	import com.builtonbedrock.bedrock.logging.LogLevel;
-	import com.builtonbedrock.bedrock.logging.Logger;
+	import com.autumntactics.bedrock.logging.ILogable;
+	import com.autumntactics.bedrock.logging.LogLevel;
+	import com.autumntactics.bedrock.logging.Logger;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;

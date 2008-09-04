@@ -1,7 +1,7 @@
-﻿package com.builtonbedrock.project.template.view
+﻿package com.autumntactics.project.template.view
 {
-	import com.builtonbedrock.bedrock.view.View;
-	import com.builtonbedrock.bedrock.view.IView;
+	import com.autumntactics.bedrock.view.View;
+	import com.autumntactics.bedrock.view.IView;
 	import caurina.transitions.Tweener;
 
 	public class NavigationView extends View implements IView

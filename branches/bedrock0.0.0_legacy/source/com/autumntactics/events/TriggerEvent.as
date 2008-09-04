@@ -1,6 +1,6 @@
-﻿package com.builtonbedrock.events
+﻿package com.autumntactics.events
 {
-	import com.builtonbedrock.bedrock.events.GenericEvent;
+	import com.autumntactics.bedrock.events.GenericEvent;
 
 	public class TriggerEvent extends GenericEvent
 	{
