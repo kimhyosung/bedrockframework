@@ -5,7 +5,7 @@ Cloner
 */
 package com.bedrockframework.plugin.gadget
 {
-	import com.bedrockframework.core.base.DispatcherWidget;
+	import com.bedrockframework.core.base.SpriteWidget;
 	import com.bedrockframework.plugin.data.ClonerData;
 	import com.bedrockframework.plugin.event.ClonerEvent;
 	import com.bedrockframework.plugin.storage.HashMap;
@@ -15,7 +15,7 @@ package com.bedrockframework.plugin.gadget
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 
-	public class Cloner extends DispatcherWidget
+	public class Cloner extends SpriteWidget
 	{
 
 		/*
@@ -42,9 +42,9 @@ package com.bedrockframework.plugin.gadget
 		/*
 		Constructor
 		*/
-		public function Cloner($parent:DisplayObjectContainer,$child:Class,$useDummy:Boolean=true)
+		public function Cloner($child:Class, $parent:DisplayObjectContainer = null,$useDummy:Boolean=true)
 		{
-			this._objParent=$parent;
+			this._objParent=$parent || this;
 			this._clsChild=$child;
 			this._bolUseDummy=$useDummy;
 		}
