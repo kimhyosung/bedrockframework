@@ -79,7 +79,7 @@
       </environment>
       <environment name="development">
          <patterns>
-            <pattern>ichameleongroup</pattern>
+            <pattern>dev</pattern>
          </patterns>
       </environment>
       <environment name="localhost">

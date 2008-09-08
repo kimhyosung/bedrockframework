@@ -1,9 +1,8 @@
 <config>
    <settings>
-<preloader_time>3</preloader_time>
+      <preloader_time>3</preloader_time>
       <auto_intro_enabled>true</auto_intro_enabled>
       <auto_default_enabled>false</auto_default_enabled>
-      
       <deep_linking_enabled>false</deep_linking_enabled>
       <remoting_enabled>false</remoting_enabled>
       <cache_prevention_enabled>false</cache_prevention_enabled>
@@ -68,7 +67,7 @@
       </environment>
       <environment name="development">
          <patterns>
-            <pattern>ichameleongroup</pattern>
+            <pattern>dev</pattern>
          </patterns>
          <!--Path Information-->
          <!--Remoting-->
