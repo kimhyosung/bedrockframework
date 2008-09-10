@@ -44,6 +44,7 @@ package com.bedrockframework.plugin.gadget
 		*/
 		public function Cloner($child:Class, $parent:DisplayObjectContainer = null,$useDummy:Boolean=true)
 		{
+			this._objCloneMap=new HashMap  ;
 			this._objParent=$parent || this;
 			this._clsChild=$child;
 			this._bolUseDummy=$useDummy;
@@ -55,7 +56,6 @@ package com.bedrockframework.plugin.gadget
 			//
 			this.status("Initialize");
 			this.dispatchEvent(new ClonerEvent(ClonerEvent.INITIALIZE,this,{total:$data.total}));
-			this._objCloneMap=new HashMap  ;
 			//
 			this.setOffset($data.offset);
 			//
@@ -87,6 +87,7 @@ package com.bedrockframework.plugin.gadget
 			}
 			//
 			this.destroyClones();
+			this._objCloneMap.clear();
 			//
 			this.recreateContainer();
 			//
@@ -318,20 +319,10 @@ package com.bedrockframework.plugin.gadget
 			return this._objCloneMap.getValues();
 		}
 		
-		public function get numChildren():int
+		public function get totalChildren():int
 		{
 			return this._objCloneMap.size;
 		}
-		/*
-		Returns DisplayObject Info
-		*/
-		public function get parent():DisplayObjectContainer
-		{
-			return this._objParent;
-		}
-		public function get container():DisplayObjectContainer
-		{
-			return this._objContainer;
-		}
+		
 	}
 }

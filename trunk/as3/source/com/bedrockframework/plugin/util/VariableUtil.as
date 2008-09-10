@@ -39,10 +39,10 @@
 		public static function sanitizeBoolean($boolean:*):*
 		{
 			var strBoolean:String =  $boolean.toLowerCase();
-			if (strBoolean.search("true") == -1 && strBoolean.search("false") == -1 ) {
+			if (strBoolean != "true" && strBoolean != "false") {
 				return null;
 			} else {
-				return (strBoolean.search("true") != -1)?true:false;
+				return (strBoolean != "true") ? true:false;
 			}
 		}
 		 /**

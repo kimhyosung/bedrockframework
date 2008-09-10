@@ -48,7 +48,7 @@ package com.bedrockframework.engine
 		
 		private var _numLoadIndex:Number;		
 		private var _objConfigLoader:URLLoader;
-		private const _arrLoadSequence:Array=new Array("loadDispatcher","loadParams","loadConfig","loadDeepLinking","loadCacheSettings", "loadLogging","loadController","loadServices","loadTracking","loadEngineClasses","loadEngineCommands","loadEngineContainers","loadCSS", "loadCopy", "loadDefaultSection", "buildDefaultPanel","loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
+		private const _arrLoadSequence:Array=new Array("loadDispatcher","loadParams","loadConfig","loadDeepLinking","loadCacheSettings", "loadLogging","loadController","loadServices","loadEngineClasses","loadEngineCommands","loadEngineContainers","loadCSS", "loadCopy", "loadDefaultSection", "buildDefaultPanel","loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
 		private var _objBedrockController:BedrockController;
 		/*
 		Constructor

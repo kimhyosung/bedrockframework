@@ -22,14 +22,9 @@ package com.bedrockframework.plugin.gadget
 		/*
 		Variable Decarations
 		*/
+		private var _objData:ScrollerData;
 		private var _objScrollerTrigger:IntervalTrigger;
 		private var _objManualTrigger:IntervalTrigger;
-
-		private var sprContainer:Sprite;
-		private var sprTrack:Sprite;
-		private var sprContent:Sprite;
-		private var sprMask:Sprite;
-		private var sprDrag:Sprite;
 
 		private var _strDirection:String;
 		private var _strAlignment:String;
@@ -42,14 +37,14 @@ package com.bedrockframework.plugin.gadget
 		private var _numOriginalPosition:Number;
 		private var _numDragBottom:Number;
 		private var _numContentBottom:Number;
-
-		private var _bolResize:Boolean;
-		private var _bolAutoHide:Boolean;
-		private var _bolUpdateOnDrag:Boolean;
 		/*
 		Constructor
 		*/
 		public function Scroller()
+		{
+			this.createTriggers();
+		}
+		private function createTriggers():void
 		{
 			this._objScrollerTrigger=new IntervalTrigger;
 			this._objScrollerTrigger.silenceLogging=true;
@@ -64,25 +59,19 @@ package com.bedrockframework.plugin.gadget
 		*/
 		public function setup($data:ScrollerData):void
 		{
-			var objData:ScrollerData=$data;
-			this.sprContainer=objData.trackContainer;
-			this.sprTrack=objData.trackBackground;
-			this.sprContent=objData.content;
-			this.sprMask=objData.mask;
-			this.sprDrag=objData.drag;
-			this.sprContent.addEventListener(MouseEvent.MOUSE_WHEEL,this.onMouseWheel);
+			this._objData = $data;
+			this._objData.content.addEventListener(MouseEvent.MOUSE_WHEEL,this.onMouseWheel);
 			//
-			this._bolResize=objData.resize;
-			this._bolAutoHide=objData.autohide;
-			this._bolAutoHide=objData.updateOnDrag;
-			this._numIncrement = objData.manualIncrement ;
-			this.setDirection(objData.direction);
-			this.setAlignment(objData.alignment);
+			this._numIncrement = this._objData.manualIncrement ;
+			this.setDirection(this._objData.direction);
+			this.setAlignment(this._objData.alignment);
 			//
-			this._numOriginalPosition=this.getLocation(this.sprContent);
+			this._numOriginalPosition=this.getLocation(this._objData.content);
 			//
-			this.applyDrag(this.sprDrag);
-			this.applyJumpActions(this.sprTrack);
+			this._objData.content.mask = this._objData.mask;
+			//
+			this.applyDrag(this._objData.drag);
+			this.applyJumpActions(this._objData.trackBackground);
 			this.update();
 		}
 		/*
@@ -117,8 +106,8 @@ package com.bedrockframework.plugin.gadget
 		*/
 		public function startDragMovement($event:MouseEvent):void
 		{
-			this.sprDrag.stage.addEventListener(MouseEvent.MOUSE_UP, this.stopDragMovement);
-			if (this._bolUpdateOnDrag) {
+			this._objData.drag.stage.addEventListener(MouseEvent.MOUSE_UP, this.stopDragMovement);
+			if (this._objData.updateOnDrag) {
 				this.update();
 			}
 			this._objScrollerTrigger.start(0.001);
@@ -131,7 +120,7 @@ package com.bedrockframework.plugin.gadget
 					objRectangle=new Rectangle(0,0,0,this._numDragBottom);
 					break;
 			}
-			this.sprDrag.startDrag(false,objRectangle);
+			this._objData.drag.startDrag(false,objRectangle);
 			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.START_DRAG,this));
 		}
 		/*
@@ -139,9 +128,9 @@ package com.bedrockframework.plugin.gadget
 		*/
 		public function stopDragMovement($event:MouseEvent):void
 		{
-			this.sprDrag.stage.removeEventListener(MouseEvent.MOUSE_UP, this.stopDragMovement);
+			this._objData.drag.stage.removeEventListener(MouseEvent.MOUSE_UP, this.stopDragMovement);
 			this._objScrollerTrigger.stop();
-			this.sprDrag.stopDrag();
+			this._objData.drag.stopDrag();
 			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.STOP_DRAG,this));
 		}
 		/*
@@ -166,35 +155,37 @@ package com.bedrockframework.plugin.gadget
 		*/
 		public function update():void
 		{
-			if (this.getSize(this.sprContent) < this.getSize(this.sprTrack) && this._bolAutoHide) {
+			this.debug(this.getSize(this._objData.content));
+			this.debug(this.getSize(this._objData.trackBackground));
+			if (this.getSize(this._objData.content) < this.getSize(this._objData.trackBackground) && this._objData.autohide) {
 				this.hideScroller();
 			} else {
 				this.showScroller();
 				//
 				this.calculateMaxValues();
 				//
-				if (this._bolResize) {
+				if (this._objData.resize) {
 					this.calcualteResizableDrag();
 				} else {
 					this.calcualteStaticDrag();
 				}
 				this.calculateAlignment();
 			}
-			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.UPDATE,this,{content:this.sprContent,drag:this._numDragSize}));
+			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.UPDATE,this,{content:this._objData.content,drag:this._numDragSize}));
 		}
 		/*
 		Calculate 
 		*/
 		private function calculateMaxValues():void
 		{
-			this._numContentBottom=Math.round(this.getSize(this.sprContent) - this.getSize(this.sprMask));
+			this._numContentBottom=Math.round(this.getSize(this._objData.content) - this.getSize(this._objData.mask));
 		}
 		/*
 		Calculate stactic drag position
 		*/
 		private function calcualteStaticDrag():void
 		{
-			this._numDragBottom=Math.round(this.getSize(this.sprTrack) - this.getSize(this.sprDrag));
+			this._numDragBottom=Math.round(this.getSize(this._objData.trackBackground) - this.getSize(this._objData.drag));
 			this._numRatio=this._numContentBottom / this._numDragBottom;
 		}
 		/*
@@ -202,15 +193,15 @@ package com.bedrockframework.plugin.gadget
 		*/
 		private function calcualteResizableDrag():void
 		{
-			var numTCRatio:Number=this.getSize(this.sprContent) / this.getSize(this.sprTrack);
+			var numTCRatio:Number=this.getSize(this._objData.content) / this.getSize(this._objData.trackBackground);
 
-			this._numDragSize=Math.floor(this.getSize(this.sprTrack) / numTCRatio);
+			this._numDragSize=Math.floor(this.getSize(this._objData.trackBackground) / numTCRatio);
 
-			if (this._numDragSize > this.getSize(this.sprTrack)) {
-				this._numDragSize=this.getSize(this.sprTrack);
+			if (this._numDragSize > this.getSize(this._objData.trackBackground)) {
+				this._numDragSize=this.getSize(this._objData.trackBackground);
 			}
-			this.setSize(this.sprDrag,this._numDragSize);
-			this._numDragBottom=Math.round(this.getSize(this.sprTrack) - this.getSize(this.sprDrag));
+			this.setSize(this._objData.drag,this._numDragSize);
+			this._numDragBottom=Math.round(this.getSize(this._objData.trackBackground) - this.getSize(this._objData.drag));
 			this._numRatio=this._numContentBottom / this._numDragBottom;
 		}
 		private function getLocation($clip:Sprite):Number
@@ -238,33 +229,33 @@ package com.bedrockframework.plugin.gadget
 		{
 			switch (this._strAlignment) {
 				case ScrollerData.TOP :
-					this.setLocation(this.sprDrag,0);
+					this.setLocation(this._objData.drag,0);
 					break;
 				case ScrollerData.BOTTOM :
-					this.setLocation(this.sprDrag,this._numDragBottom);
+					this.setLocation(this._objData.drag,this._numDragBottom);
 					break;
 				case ScrollerData.CENTER :
-					var numLocation:Number = (this.getSize(this.sprTrack) /2) - (this._numDragSize /2);
-					this.setLocation(this.sprDrag,numLocation);
+					var numLocation:Number = (this.getSize(this._objData.trackBackground) /2) - (this._numDragSize /2);
+					this.setLocation(this._objData.drag,numLocation);
 					break;
 			}
-			this.positionContent(this.getLocation(this.sprDrag));
+			this.positionContent(this.getLocation(this._objData.drag));
 		}
 		/* 
 		Check to see if the mouse is making contact with the mask clip.
 		*/
 		private function inFocus():Boolean
 		{
-			return this.sprMask.hitTestPoint(this.sprContainer.stage.mouseX,this.sprContainer.stage.mouseY);
+			return this._objData.mask.hitTestPoint(this._objData.trackContainer.stage.mouseX,this._objData.trackContainer.stage.mouseY);
 		}
 		/*
 		Reset the positioning of the scroll bar
 		*/
 		public function reset():void
 		{
-			this.setLocation(this.sprContent,this._numOriginalPosition);
-			this.setLocation(this.sprDrag,0);
-			this.setSize(this.sprDrag,0);
+			this.setLocation(this._objData.content,this._numOriginalPosition);
+			this.setLocation(this._objData.drag,0);
+			this.setSize(this._objData.drag,0);
 			//this.dispatchEvent(new ScrollerEvent("onReset", this));
 		}
 		/*
@@ -284,7 +275,7 @@ package com.bedrockframework.plugin.gadget
 		*/
 		public function positionContent($draglocation:Number):void
 		{
-			this.setLocation(this.sprContent,- Math.round($draglocation * this._numRatio) + this._numOriginalPosition);
+			this.setLocation(this._objData.content,- Math.round($draglocation * this._numRatio) + this._numOriginalPosition);
 			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.CHANGE, this));
 		}
 		/*
@@ -293,31 +284,31 @@ package com.bedrockframework.plugin.gadget
 		public function positionDrag($location:Number):void
 		{
 			if ($location > 0 && $location < this._numDragBottom) {
-				this.setLocation(this.sprDrag,$location);
+				this.setLocation(this._objData.drag,$location);
 			} else if ($location < 0) {
-				this.setLocation(this.sprDrag,0);
+				this.setLocation(this._objData.drag,0);
 			} else if ($location > this._numDragBottom) {
-				this.setLocation(this.sprDrag,this._numDragBottom);
+				this.setLocation(this._objData.drag,this._numDragBottom);
 			}
 			//this.dispatchEvent(new ScrollerEvent("onDragChange", this));
 		}
 		public function positionManual($increment:int = 0):void
 		{
 			var numMovement:int = ($increment != 0) ? $increment : this._numIncrement;
-			this.positionDrag(this.getLocation(this.sprDrag) - numMovement);
-			this.positionContent(this.getLocation(this.sprDrag));
+			this.positionDrag(this.getLocation(this._objData.drag) - numMovement);
+			this.positionContent(this.getLocation(this._objData.drag));
 		}
 		/*
 		Show/Hide Scroller Functions
 		*/
 		public function showScroller():void
 		{
-			this.sprContainer.visible = true;
+			this._objData.trackContainer.visible = true;
 			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.SHOW_SCROLLER, this));
 		}
 		public function hideScroller():void
 		{
-			this.sprContainer.visible = false;
+			this._objData.trackContainer.visible = false;
 			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.HIDE_SCROLLER, this));
 		}
 		/*
@@ -325,7 +316,7 @@ package com.bedrockframework.plugin.gadget
 		*/
 		private function onScrollerTrigger($event:IntervalTriggerEvent):void
 		{
-			this.positionContent(this.getLocation(this.sprDrag));
+			this.positionContent(this.getLocation(this._objData.drag));
 
 		}
 		private function onManualTrigger($event:IntervalTriggerEvent):void
@@ -341,7 +332,7 @@ package com.bedrockframework.plugin.gadget
 		private function onJump($event:MouseEvent):void
 		{
 			this.positionDrag($event.localY);
-			this.positionContent(this.getLocation(this.sprDrag));
+			this.positionContent(this.getLocation(this._objData.drag));
 		}
 	}
 }

@@ -87,10 +87,6 @@
 			}
 		}
 		
-		override public  function addEventListener($type:String,$listener:Function,$capture:Boolean=false,$priority:int=0,$weak:Boolean=true):void
-		{
-			super.addEventListener($type,$listener,$capture,$priority,$weak);
-		}
 		override public function dispatchEvent($event:Event):Boolean
 		{
 			return super.dispatchEvent(this.recastEvent($event));

@@ -22,9 +22,13 @@
 
 		public var direction:String;
 		public var pattern:String;
+		
+		public var autoSpacing:Boolean;
 
 		public function ClonerData():void
 		{
+			this.autoSpacing = false;
+			
 			this.wrap = 0;
 			this.total = 0;
 			
