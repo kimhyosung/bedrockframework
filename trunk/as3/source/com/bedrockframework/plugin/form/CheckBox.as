@@ -1,29 +1,31 @@
 ﻿package com.bedrockframework.plugin.form
 {
-	import flash.events.MouseEvent;
-	import flash.events.Event;
-	
+	import com.bedrockframework.core.base.MovieClipWidget;
 	import com.bedrockframework.plugin.event.CheckBoxEvent;
 	import com.bedrockframework.plugin.util.ButtonUtil;
-	import com.bedrockframework.core.base.MovieClipWidget ;
+	
+	import flash.events.Event;
+	import flash.text.TextField;
 	
 	public class CheckBox extends MovieClipWidget
 	{
 		/*
-		* Variable Declarations
+		Variable Declarations
 		*/		
 		private var _bolSelected:Boolean;
-
+		private var _objData:Object;
+		public var label:TextField;		
 		/*
-Constructor
+		Constructor
 		*/
 		public function CheckBox()
 		{
+			this.stop();
 			this._bolSelected = false;
 			this.setup();
 		}
 		/*
-		* Setup mouse events
+		Setup mouse events
 	 	*/
 		private function setup():void
 		{
@@ -39,7 +41,7 @@ Constructor
 			this.dispatchEvent(new CheckBoxEvent(CheckBoxEvent.CHECK, this));
 		}
 		/*
-		* Sets the check box status to deselected and changes it's appearance
+		Sets the check box status to deselected and changes it's appearance
 	 	*/
 		public function uncheck():void
 		{
@@ -48,7 +50,7 @@ Constructor
 			this.dispatchEvent(new CheckBoxEvent(CheckBoxEvent.UNCHECK, this));
 		}
 		/*
-		* Event Handlers
+		Event Handlers
 	 	*/
 		private function onClicked($event:Event):void
 		{
@@ -59,11 +61,21 @@ Constructor
 			}
 		}
 		/*
-		* Property Definitions
+		Property Definitions
 	 	*/
 		public function get selected():Boolean
 		{
 			return this._bolSelected;
 		}
+		
+		public function set data($data:Object):void
+	 	{
+	 		this._objData = $data;
+	 		this.label.text = $data.label;
+	 	}
+	 	public function get data():Object
+	 	{
+	 		return this._objData;
+	 	}
 	}
 }

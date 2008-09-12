@@ -62,6 +62,9 @@ package com.bedrockframework.plugin.gadget
 			this._objData = $data;
 			this._objData.content.addEventListener(MouseEvent.MOUSE_WHEEL,this.onMouseWheel);
 			//
+			this._objData.content.graphics.drawRect(0,0,1,1);
+			this._objData.content.graphics.endFill();
+			//
 			this._numIncrement = this._objData.manualIncrement ;
 			this.setDirection(this._objData.direction);
 			this.setAlignment(this._objData.alignment);
@@ -155,8 +158,6 @@ package com.bedrockframework.plugin.gadget
 		*/
 		public function update():void
 		{
-			this.debug(this.getSize(this._objData.content));
-			this.debug(this.getSize(this._objData.trackBackground));
 			if (this.getSize(this._objData.content) < this.getSize(this._objData.trackBackground) && this._objData.autohide) {
 				this.hideScroller();
 			} else {

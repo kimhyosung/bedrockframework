@@ -7,8 +7,9 @@
 	
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	import com.bedrockframework.plugin.event.RadioEvent;
 	
-	public class Radio extends DispatcherWidget
+	public class RadioGroup extends DispatcherWidget
 	{
 		/*
 		 * Variable Declarations
@@ -20,41 +21,40 @@
 		/*
 		 * Constructor
 		*/		
-		public function Radio()
+		public function RadioGroup()
 		{
 			this._arrRadios = new Array();
 		}
 		/**
 		 * Add a new button to the radio button array.
-		 * This function will also add listeners for mouse events.
 	 	*/
-		public function addButton($button:Sprite):void
+		public function addButton($radio:RadioButton, $data:Object):void
 		{
-			this._arrRadios.push($button);
-			ButtonUtil.addListeners($button,{down:this.onSelection});
+			$radio.id = this._arrRadios.length;
+			$radio.group = this;
+			$radio.data = $data;
+			this._arrRadios.push({radio:$radio, data:$data});			
 		}
 		/*
 		 * Manages the states of the radio buttons
 	 	*/
 		private function manageSelection():void
 		{
-			for (var a:int = 0; a < this._arrRadios.length; a++) {
-				if (this.selected != a) {
-					this._arrRadios[a].gotoAndStop(1);
-					ButtonUtil.addListeners(this._arrRadios[a],{down:this.onSelection});
+			var numLength:int = this._arrRadios.length;
+			for (var i:int = 0 ; i < numLength; i++) {
+				if (i == this.selected) {
+					this.getRadioButton(i).select();
 				} else {
-					this._arrRadios[a].play();
-					ButtonUtil.removeListeners(this._arrRadios[a],{down:this.onSelection});
+					this.getRadioButton(i).deselect();
 				}
 			}
 		}
 		/*
-		 * Event Handlers
-	 	*/
-		public function onSelection($event:MouseEvent):void
+		Get Radio Button
+		*/
+		private function getRadioButton($id:Number):RadioButton
 		{
-			$event.target.play();
-			this.selected = ArrayUtil.findIndex(this._arrRadios, $event.target);
+			return this._arrRadios[$id].radio;
 		}
 		/*
 		 * Property Definitions
@@ -62,10 +62,11 @@
 	 	/**
 		 * Returns the index of the selected radio button.
 	 	*/
-		public function set selected($numIndex:int):void
+		public function set selected($id:int):void
 		{
-			this._numSelected = $numIndex;
+			this._numSelected = $id;
 			this.manageSelection();
+			this.dispatchEvent(new RadioEvent(RadioEvent.SELECTED, this, this._arrRadios[$id].data));
 		}
 		public function get selected():int
 		{
