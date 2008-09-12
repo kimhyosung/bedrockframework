@@ -6,6 +6,7 @@
 	
 	import flash.events.Event;
 	import flash.text.TextField;
+	import flash.text.TextFieldAutoSize;
 	
 	public class CheckBox extends MovieClipWidget
 	{
@@ -29,6 +30,14 @@
 	 	*/
 		private function setup():void
 		{
+			this.createMouseListeners();
+			this.label.autoSize = TextFieldAutoSize.LEFT;
+		}
+		/*
+		Create Mouse Listeners
+		*/
+		private function createMouseListeners():void
+		{
 			ButtonUtil.addListeners(this,{down:this.onClicked});
 		}
 		/**
@@ -38,7 +47,7 @@
 		{
 			this._bolSelected = true;
 			this.gotoAndStop(2);
-			this.dispatchEvent(new CheckBoxEvent(CheckBoxEvent.CHECK, this));
+			this.dispatchEvent(new CheckBoxEvent(CheckBoxEvent.CHECK, this, this._objData));
 		}
 		/*
 		Sets the check box status to deselected and changes it's appearance
@@ -47,7 +56,7 @@
 		{
 			this._bolSelected = false;
 			this.gotoAndStop(1);
-			this.dispatchEvent(new CheckBoxEvent(CheckBoxEvent.UNCHECK, this));
+			this.dispatchEvent(new CheckBoxEvent(CheckBoxEvent.UNCHECK, this, this._objData));
 		}
 		/*
 		Event Handlers
