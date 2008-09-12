@@ -3,6 +3,7 @@
 	import com.bedrockframework.engine.BedrockBuilder;
 	import com.bedrockframework.engine.IBedrockBuilder;
 	import com.bedrockframework.engine.manager.*;
+	import com.bedrockframework.plugin.tracking.BridgeTrack;
 	import com.yourdomain.project.template.command.*;
 	import com.yourdomain.project.template.event.*;
 	import com.yourdomain.project.template.model.*;
@@ -38,7 +39,7 @@
 		}
 		public function loadTracking():void
 		{
-			this.status("Loading Tracking");
+			this.status("Loading Tracking");			
 			this.next();
 		}
 		public function loadCustomization():void

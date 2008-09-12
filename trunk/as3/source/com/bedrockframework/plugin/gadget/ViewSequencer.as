@@ -1,7 +1,7 @@
 ﻿package com.bedrockframework.plugin.gadget
 {
 	import com.bedrockframework.core.base.SpriteWidget;
-	import com.bedrockframework.engine.event.ViewEvent;
+	import com.bedrockframework.plugin.event.ViewEvent;
 	import com.bedrockframework.plugin.view.IView;
 	import com.bedrockframework.plugin.view.View;
 	import com.bedrockframework.plugin.data.ViewSequencerData;

@@ -255,8 +255,8 @@ package com.bedrockframework.engine
 		{
 			this.addToQueue(Config.getValue(BedrockData.SWF_PATH) + BedrockData.SITE_FILENAME + ".swf", ContainerManager.getContainer(BedrockData.SITE_CONTAINER));
 			this.addToQueue(Config.getValue(BedrockData.SWF_PATH) + BedrockData.SHARED_FILENAME + ".swf", ContainerManager.getContainer(BedrockData.SHARED_CONTAINER));			
-			this.status("Initialization Complete!");
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.BEDROCK_COMPLETE,this));
+			this.status("Initialization Complete!");
 		}
 		/*
 		Add Command

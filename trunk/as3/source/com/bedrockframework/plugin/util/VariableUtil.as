@@ -42,7 +42,7 @@
 			if (strBoolean != "true" && strBoolean != "false") {
 				return null;
 			} else {
-				return (strBoolean != "true") ? true:false;
+				return (strBoolean == "true") ? true:false;
 			}
 		}
 		 /**
