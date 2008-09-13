@@ -64,7 +64,7 @@ class com.bedrockframework.core.dispatcher.EventDispatcher extends com.bedrockfr
 				var fnDelegate:Function = Delegate.createHandler($object, ($handler));
 				this.objListeners[$type].unshift({scope:$object, handler:$handler, delegate:fnDelegate});
 			} else {
-				throw new Error("Undefined Handler!");
+				throw new Error($object + " : " + $type  + " : Undefined Handler!");
 			}
 
 		};
