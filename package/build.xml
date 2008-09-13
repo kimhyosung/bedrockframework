@@ -25,7 +25,7 @@
 		<antcall target="generateSWF"/>
 		-->
 		<antcall target="packageAll"/>
-		<antcall target="createBranch"/>
+		<antcall target="createTag"/>
 	</target>
 	
 	<target name="initialize" description="Initializes the build" >
@@ -142,11 +142,11 @@
 		</exec>
 	</target>
 	
-	<target name="createBranch" description="Create a branch and tag is with the version number.">
-		<copy todir="${base.dir}/${branch.dir}/${project.deployname}/"  includeEmptyDirs="false">
+	<target name="createTag" description="Create a branch and tag is with the version number.">
+		<copy todir="${base.dir}/${tags.dir}/${project.deployname}/"  includeEmptyDirs="false">
 			<fileset dir="${base.dir}/${root.dir}" excludes="${exclude.debug}, ${exclude.prefs}, ${exclude.actionscript}, ${exclude.project}"/>
 		</copy>
-		<copy todir="${base.dir}/${branch.dir}/${project.deployname}/${docs.dir}/">
+		<copy todir="${base.dir}/${tags.dir}/${project.deployname}/${docs.dir}/">
 			<fileset dir="${docs.dir}"/>
 		</copy>
 	</target>
