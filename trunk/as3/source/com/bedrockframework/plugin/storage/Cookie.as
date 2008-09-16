@@ -35,7 +35,7 @@
 			try {
 				return this.processResult(this._objShared.flush());
 			} catch($error:Error){
-				this.status("Cannot save!", "warning");
+				this.warning("Cannot save!");
 			}
 			return false;
 		}

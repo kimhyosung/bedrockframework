@@ -98,7 +98,7 @@
 		}
 		private function onFault($data:Object):void
 		{
-			this.status("Call failed!", "warning");
+			this.warning("Call failed!");
 			clearTimeout(this._numID);
 			var objResult:Object = $data || {};
 			objResult.call = this._strCall;
@@ -106,7 +106,7 @@
 		}
 		private function onTimeout():void
 		{
-			this.status("Connection Error - Call timed out!", "warning");
+			this.warning("Connection Error - Call timed out!");
 			this.callFault({text:"Connection Error: Call timed out!"});
 		}
 		/*

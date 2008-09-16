@@ -45,9 +45,9 @@
 			this._objConnection.objectEncoding = Service.objectEncoding;
 			try{
 				this._objConnection.connect(this._strGateway);
-				this.status("Connected to - " + this._strGateway)
+				this.status("Connected to - " + this._strGateway);
 			}catch($error:Error){
-				this.status("Could not connect to remote service!", "warning")
+				this.warning("Could not connect to remote service!");
 			}finally{
 				//this._objConnection.connect(strGateway);
 			}
