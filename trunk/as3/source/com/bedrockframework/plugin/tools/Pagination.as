@@ -2,17 +2,16 @@
 {
 	import com.bedrockframework.core.base.DispatcherWidget;
 	import com.bedrockframework.plugin.event.PaginationEvent;
-	import com.bedrockframework.plugin.util.MathUtil;
 
 	public class Pagination extends DispatcherWidget implements IPageable
 	{
 		/*
 		Variable Decarations
 		*/
-		private var _numTotalItems:int;
-		private var _numTotalPages:int;
-		private var _numPageSize:int;
-		private var _numSelectedPage:int;
+		private var _numTotalItems:uint;
+		private var _numTotalPages:uint;
+		private var _numPageSize:uint;
+		private var _numSelectedPage:uint;
 		/*
 		Constructor
 		*/
@@ -24,7 +23,7 @@
 		/*
 		Public Functions
 		*/
-		public function update($total:int = 0, $pagesize:int = 0):void
+		public function update($total:uint = 0, $pagesize:uint = 0):void
 		{
 			this._numTotalItems =  $total;
 			this._numPageSize = $pagesize;
@@ -45,7 +44,7 @@
 		/*
 		Page Selection Functions
 		*/
-		public function selectPage($index:int):int
+		public function selectPage($index:uint):uint
 		{
 			if ($index > (this._numTotalPages-1)) {
 				this._numSelectedPage = this._numTotalPages;
@@ -70,13 +69,21 @@
 		/*
 		Navigate Pages
 		*/
-		public function nextPage():int
+		public function nextPage():uint
 		{
-			return this.selectPage(this._numSelectedPage + 1);
+			if (this.hasNextPage()) {
+				return this.selectPage(this._numSelectedPage + 1);
+			} else {
+				return this._numSelectedPage;
+			}
 		}
-		public function previousPage():int
+		public function previousPage():uint
 		{
-			return this.selectPage(this._numSelectedPage - 1);
+			if (this.hasPreviousPage()) {
+				return this.selectPage(this._numSelectedPage - 1);
+			} else {
+				return this._numSelectedPage;
+			}
 		}
 		/*
 		Has Pages
@@ -92,15 +99,15 @@
 		/*
 		Property Definitions
 		*/
-		public function get totalItems():int
+		public function get totalItems():uint
 		{
 			return this._numTotalItems;
 		}
-		public function get selectedPage():int
+		public function get selectedPage():uint
 		{
 			return this._numSelectedPage;
 		}
-		public function get totalPages():int
+		public function get totalPages():uint
 		{
 			return this._numTotalPages;
 		}

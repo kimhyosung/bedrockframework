@@ -5,13 +5,13 @@ package com.bedrockframework.plugin.tools
 		function hasNextPage():Boolean;
 		function hasPreviousPage():Boolean;
 		
-		function selectPage($index:int):int;
-		function nextPage():int;
-		function previousPage():int;
+		function selectPage($index:uint):uint;
+		function nextPage():uint;
+		function previousPage():uint;
 		
-		function get totalItems():int;
-		function get selectedPage():int;
-		function get totalPages():int;
+		function get totalItems():uint;
+		function get selectedPage():uint;
+		function get totalPages():uint;
 		
 	}
 }

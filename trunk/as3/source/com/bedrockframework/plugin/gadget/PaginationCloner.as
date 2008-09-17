@@ -28,10 +28,10 @@
 		{
 			this._objArrayBrowser = new ArrayBrowser()
 			this._objCloner = new Cloner($child, $parent, $useDummy);
-			this._objCloner.addEventListener(ClonerEvent.CREATE, this.redispatchClonerEvent);
-			this._objCloner.addEventListener(ClonerEvent.COMPLETE, this.redispatchClonerEvent);
+			this._objCloner.addEventListener(ClonerEvent.CREATE, this.onDispatchClonerEvent);
+			this._objCloner.addEventListener(ClonerEvent.COMPLETE, this.onDispatchClonerEvent);
 			this._objPagination = new Pagination();
-			this._objPagination.addEventListener(PaginationEvent.SELECT_PAGE, this.redispatchPaginationEvent);
+			this._objPagination.addEventListener(PaginationEvent.SELECT_PAGE, this.onDispatchPaginationEvent);
 			this._objPagination.addEventListener(PaginationEvent.SELECT_PAGE, this.onPageChange);
 			this._objCloner.silenceLogging = true;
 		}
@@ -77,15 +77,15 @@
 		/*
 		Next/ Previous Functionality
 		*/
-		public function nextPage():int
+		public function nextPage():uint
 		{
 			return this._objPagination.nextPage();
 		}
-		public function previousPage():int
+		public function previousPage():uint
 		{
 			return this._objPagination.previousPage();
 		}
-		public function selectPage($index:int):int
+		public function selectPage($index:uint):uint
 		{
 			return this._objPagination.selectPage($index);
 		}
@@ -101,35 +101,35 @@
 			return this._objPagination.hasPreviousPage();
 		}	
 		/*
-		Rebroadcast Functions
-		*/
-		private function redispatchClonerEvent($event:ClonerEvent):void
-		{
-			this.dispatchEvent(new ClonerEvent($event.type, $event.origin, $event.details));
-		}
-		private function redispatchPaginationEvent($event:PaginationEvent):void
-		{
-			this.dispatchEvent(new PaginationEvent($event.type, $event.origin, $event.details));
-		}
-		/*
 		Event Handlers
 		*/
 		private function onPageChange($event:PaginationEvent):void
 		{
 			this.createPage(this._objPagination.selectedPage);
-		}		
+		}
+		/*
+		Rebroadcast Functions
+		*/
+		private function onDispatchClonerEvent($event:ClonerEvent):void
+		{
+			this.dispatchEvent(new ClonerEvent($event.type, $event.origin, $event.details));
+		}
+		private function onDispatchPaginationEvent($event:PaginationEvent):void
+		{
+			this.dispatchEvent(new PaginationEvent($event.type, $event.origin, $event.details));
+		}	
 		/*
 		Property Definitions
 		*/
-		public function get totalItems():int
+		public function get totalItems():uint
 		{
 			return this._objPagination.totalItems;
 		}
-		public function get selectedPage():int
+		public function get selectedPage():uint
 		{
 			return this._objPagination.selectedPage;
 		}
-		public function get totalPages():int
+		public function get totalPages():uint
 		{
 			return this._objPagination.totalPages;
 		}
