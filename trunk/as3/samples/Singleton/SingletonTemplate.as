@@ -7,7 +7,7 @@
 		/*
 		Variable Declarations
 		*/
-		private static var OBJ_INSTANCE:SingletonTemplate;
+		private static var __objInstance:SingletonTemplate;
 		/*
 		Constructor
 		*/
@@ -17,10 +17,10 @@
 		}
 		public static function getInstance():SingletonTemplate
 		{
-			if (OBJ_INSTANCE == null) {
-				OBJ_INSTANCE = new SingletonTemplate(new SingletonEnforcer());
+			if (SingletonTemplate.__objInstance == null) {
+				SingletonTemplate.__objInstance = new SingletonTemplate(new SingletonEnforcer());
 			}
-			return OBJ_INSTANCE;
+			return SingletonTemplate.__objInstance;
 		}
 	}
 }

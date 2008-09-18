@@ -19,16 +19,18 @@
 		public var mask:Sprite;
 
 		public var resize:Boolean;
-		public var autohide:Boolean;
+		public var autoHide:Boolean;
 		public var updateOnDrag:Boolean;
+		public var enableJumpActions:Boolean;
 		public var direction:String;
 		public var alignment:String;
 		public var manualIncrement:int
 
 		public function ScrollerData():void
 		{
+			this.enableJumpActions = true;
 			this.resize = true;
-			this.autohide = true;
+			this.autoHide = true;
 			this.updateOnDrag = false;
 			this.direction = ScrollerData.VERTICAL;
 			this.alignment = ScrollerData.TOP;

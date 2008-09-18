@@ -74,7 +74,9 @@ package com.bedrockframework.plugin.gadget
 			this._objData.content.mask = this._objData.mask;
 			//
 			this.applyDrag(this._objData.drag);
-			this.applyJumpActions(this._objData.trackBackground);
+			if (this._objData.enableJumpActions) {
+				this.applyJumpActions(this._objData.trackBackground);	
+			}			
 			this.update();
 		}
 		/*
@@ -158,7 +160,7 @@ package com.bedrockframework.plugin.gadget
 		*/
 		public function update():void
 		{
-			if (this.getSize(this._objData.content) < this.getSize(this._objData.trackBackground) && this._objData.autohide) {
+			if (this.getSize(this._objData.content) < this.getSize(this._objData.trackBackground) && this._objData.autoHide) {
 				this.hideScroller();
 			} else {
 				this.showScroller();
@@ -318,7 +320,6 @@ package com.bedrockframework.plugin.gadget
 		private function onScrollerTrigger($event:IntervalTriggerEvent):void
 		{
 			this.positionContent(this.getLocation(this._objData.drag));
-
 		}
 		private function onManualTrigger($event:IntervalTriggerEvent):void
 		{
