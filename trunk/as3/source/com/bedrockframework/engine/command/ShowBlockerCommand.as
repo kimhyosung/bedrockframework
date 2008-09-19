@@ -2,7 +2,7 @@
 {
 	import com.bedrockframework.core.command.*;
 	import com.bedrockframework.core.event.GenericEvent;
-	import com.bedrockframework.engine.manager.*;
+	import com.bedrockframework.engine.manager.ContainerManager;
 
 	public class ShowBlockerCommand extends Command implements ICommand
 	{

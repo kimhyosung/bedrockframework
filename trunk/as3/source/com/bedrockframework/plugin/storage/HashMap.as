@@ -2,18 +2,35 @@
 package com.bedrockframework.plugin.storage
 {
 	import flash.utils.Dictionary;
-	import com.bedrockframework.plugin.storage.IMap;
 
 	public class HashMap implements IMap
 	{
-
+		/*
+		Variable Declarations
+		*/
 		private var _objDictionary:Dictionary;
-
-
+		/*
+		Constructor
+		*/
 		public function HashMap($weakReferences:Boolean = true)
 		{
-			this._objDictionary = new Dictionary( $weakReferences );
+			this._objDictionary = new Dictionary($weakReferences);
 		}
+		
+		public function importObject($keyValue:String, $data:Object):void
+		{
+			for (var i:String in $data) {
+				this.saveValue($data[i][$keyValue], $data[i]);
+			}
+		}
+		public function importObjectArray($keyValue:String, $data:Array):void
+		{
+			var numLength:int = $data.length;
+			for (var i:int = 0 ; i < numLength; i++) {
+				this.saveValue($data[i][$keyValue], $data[i]);
+			}
+		}
+		
 		public function saveValue($key:*, $value:*):void
 		{
 			this._objDictionary[$key] = $value;
@@ -80,15 +97,7 @@ package com.bedrockframework.plugin.storage
 			return arrValues;
 		}
 
-		public function get size():int
-		{
-			var numLength:int = 0;
-
-			for (var k:* in this._objDictionary) {
-				numLength++;
-			}
-			return numLength;
-		}
+		
 		
 		public function isEmpty():Boolean
 		{
@@ -121,6 +130,18 @@ package com.bedrockframework.plugin.storage
 					this.removeValue( k );
 				}
 			}
+		}
+		/*
+		Property Definitions
+	 	*/
+		public function get size():int
+		{
+			var numLength:int = 0;
+
+			for (var k:* in this._objDictionary) {
+				numLength++;
+			}
+			return numLength;
 		}
 	}
 }
