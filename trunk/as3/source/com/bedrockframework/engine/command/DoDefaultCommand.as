@@ -17,7 +17,7 @@
 		{
 			if (!Config.getSetting(BedrockData.AUTO_DEFAULT_ENABLED)) {
 				if (!State.doneDefault) {
-					var strDefaultAlias:String = SectionManager.getDefaultSection($event.details);
+					var strDefaultAlias:String = PageManager.getDefaultPage($event.details);
 					this.status("Transitioning to - " + strDefaultAlias);
 					BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.SET_QUEUE,this,{alias:strDefaultAlias}));
 					BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RENDER_PRELOADER,this));

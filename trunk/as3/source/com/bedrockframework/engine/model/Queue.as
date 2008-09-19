@@ -15,16 +15,16 @@
 		/*
 		Set Queue
 		*/
-		public static function setQueue($section:Object):Boolean
+		public static function setQueue($page:Object):Boolean
 		{
 			var bolFirstRun:Boolean = (Queue.__objCurrent == null);
-			var objSection:Object = $section;
-			if (objSection != null) {
-				if (objSection != Queue.__objCurrent) {
+			var objPage:Object = $page;
+			if (objPage != null) {
+				if (objPage != Queue.__objCurrent) {
 					Queue.__objPrevious = Queue.__objCurrent;
-					Queue.__objCurrent=objSection;
+					Queue.__objCurrent=objPage;
 				} else {
-					Logger.warning(Queue, "Section already in queue!");
+					Logger.warning(Queue, "Page already in queue!");
 				}
 			}
 			return bolFirstRun;

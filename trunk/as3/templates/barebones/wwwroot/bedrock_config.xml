@@ -33,12 +33,12 @@
          <name>overlay</name>
       </container>
    </layout>
-   <sections>
-      <section default_section="true">
+   <pages>
+      <page default_page="true">
          <label>Homepage</label>
          <alias>homepage</alias>
-      </section>
-   </sections>
+      </page>
+   </pages>
    <environments>
       <environment name="default">
          <!--Logger Settings-->

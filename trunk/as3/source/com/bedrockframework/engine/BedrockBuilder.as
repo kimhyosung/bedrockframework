@@ -48,7 +48,7 @@ package com.bedrockframework.engine
 		
 		private var _numLoadIndex:Number;		
 		private var _objConfigLoader:URLLoader;
-		private const _arrLoadSequence:Array=new Array("loadDispatcher","loadParams","loadConfig","loadDeepLinking","loadCacheSettings", "loadLogging","loadController","loadServices","loadEngineClasses","loadEngineCommands","loadEngineContainers","loadCSS", "loadCopy", "loadDefaultSection", "buildDefaultPanel","loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
+		private const _arrLoadSequence:Array=new Array("loadDispatcher","loadParams","loadConfig","loadDeepLinking","loadCacheSettings", "loadLogging","loadController","loadServices","loadEngineClasses","loadEngineCommands","loadEngineContainers","loadCSS", "loadCopy", "loadDefaultPage", "buildDefaultPanel","loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
 		private var _objBedrockController:BedrockController;
 		/*
 		Constructor
@@ -213,7 +213,7 @@ package com.bedrockframework.engine
 		{
 			LayoutManager.buildLayout(Config.getSetting(BedrockData.LAYOUT));
 			TransitionManager.siteLoader = ContainerManager.getContainer(BedrockData.SITE_CONTAINER) as VisualLoader;
-			TransitionManager.sectionLoader = ContainerManager.getContainer(BedrockData.SECTION_CONTAINER) as VisualLoader;
+			TransitionManager.pageLoader = ContainerManager.getContainer(BedrockData.PAGE_CONTAINER) as VisualLoader;
 			
 			ContainerManager.buildContainer(BedrockData.PRELOADER_CONTAINER, new Sprite);
 				
@@ -237,10 +237,10 @@ package com.bedrockframework.engine
 		{
 			this.next();
 		}
-		final private function loadDefaultSection():void
+		final private function loadDefaultPage():void
 		{
 			if (Config.getSetting(BedrockData.AUTO_DEFAULT_ENABLED)) {
-				SectionManager.setupSectionLoad(Config.getSection(SectionManager.getDefaultSection()));
+				PageManager.setupPageLoad(Config.getPage(PageManager.getDefaultPage()));
 			}
 			this.next();
 		}

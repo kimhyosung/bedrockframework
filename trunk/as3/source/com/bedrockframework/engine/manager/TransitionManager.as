@@ -21,16 +21,16 @@
 		private static var __objSiteLoader:VisualLoader;
 		private static var __objSiteView:IView;
 		
-		private static var __objSectionLoader:VisualLoader;
-		private static var __objSectionView:IView;
+		private static var __objPageLoader:VisualLoader;
+		private static var __objPageView:IView;
 		
 
 		Logger.log(TransitionManager, LogLevel.CONSTRUCTOR, "Constructed");
 		
 		public static function reset():void
 		{
-			TransitionManager.__objSectionLoader=null;
-			TransitionManager.__objSectionView=null;
+			TransitionManager.__objPageLoader=null;
+			TransitionManager.__objPageView=null;
 		}
 		public static function initialize():void
 		{
@@ -45,17 +45,17 @@
 			$target.addEventListener(ViewEvent.INTRO_COMPLETE,TransitionManager.onSiteIntroComplete);
 		}
 		
-		private static function addSectionListeners($target:*):void
+		private static function addPageListeners($target:*):void
 		{
-			$target.addEventListener(ViewEvent.INITIALIZE_COMPLETE,TransitionManager.onSectionInitializeComplete);
-			$target.addEventListener(ViewEvent.INTRO_COMPLETE,TransitionManager.onSectionIntroComplete);
-			$target.addEventListener(ViewEvent.OUTRO_COMPLETE,TransitionManager.onSectionOutroComplete);
+			$target.addEventListener(ViewEvent.INITIALIZE_COMPLETE,TransitionManager.onPageInitializeComplete);
+			$target.addEventListener(ViewEvent.INTRO_COMPLETE,TransitionManager.onPageIntroComplete);
+			$target.addEventListener(ViewEvent.OUTRO_COMPLETE,TransitionManager.onPageOutroComplete);
 		}
-		private static function removeSectionListeners($target:*):void
+		private static function removePageListeners($target:*):void
 		{
-			$target.removeEventListener(ViewEvent.INITIALIZE_COMPLETE,TransitionManager.onSectionInitializeComplete);
-			$target.removeEventListener(ViewEvent.INTRO_COMPLETE,TransitionManager.onSectionIntroComplete);
-			$target.removeEventListener(ViewEvent.OUTRO_COMPLETE,TransitionManager.onSectionOutroComplete);
+			$target.removeEventListener(ViewEvent.INITIALIZE_COMPLETE,TransitionManager.onPageInitializeComplete);
+			$target.removeEventListener(ViewEvent.INTRO_COMPLETE,TransitionManager.onPageIntroComplete);
+			$target.removeEventListener(ViewEvent.OUTRO_COMPLETE,TransitionManager.onPageOutroComplete);
 		}
 		/*
 		Create a detail object to be sent out with events
@@ -64,10 +64,10 @@
 		{
 			var objDetail:Object = new Object();
 			try {
-				objDetail.section = Queue.current;
+				objDetail.page = Queue.current;
 			} catch ($e:Error) {
 			}
-			objDetail.view = TransitionManager.sectionView;
+			objDetail.view = TransitionManager.pageView;
 			return objDetail;
 		}
 		/*
@@ -79,7 +79,7 @@
 				TransitionManager.siteView.initialize();
 				State.siteInitialized = true;
 			} else {
-				TransitionManager.sectionView.initialize();
+				TransitionManager.pageView.initialize();
 			}			
 		}
 		/*
@@ -94,29 +94,29 @@
 		{
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INTRO_COMPLETE, TransitionManager.siteView));
 			if (Config.getSetting(BedrockData.AUTO_DEFAULT_ENABLED)) {
-				TransitionManager.sectionView.initialize();
+				TransitionManager.pageView.initialize();
 			}
 		}
 		/*
-		Individual Section View Handlers
+		Individual Page View Handlers
 		*/
-		private static function onSectionInitializeComplete($event:ViewEvent):void
+		private static function onPageInitializeComplete($event:ViewEvent):void
 		{
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INITIALIZE_COMPLETE, TransitionManager.sectionView, TransitionManager.getDetailObject()));
-			TransitionManager.sectionView.intro();
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INITIALIZE_COMPLETE, TransitionManager.pageView, TransitionManager.getDetailObject()));
+			TransitionManager.pageView.intro();
 		}
-		private static function onSectionIntroComplete($event:ViewEvent):void
+		private static function onPageIntroComplete($event:ViewEvent):void
 		{
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INTRO_COMPLETE, TransitionManager.sectionView, TransitionManager.getDetailObject()));
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INTRO_COMPLETE, TransitionManager.pageView, TransitionManager.getDetailObject()));
 		}
-		private static function onSectionOutroComplete($event:ViewEvent):void
+		private static function onPageOutroComplete($event:ViewEvent):void
 		{
-			TransitionManager.removeSectionListeners(TransitionManager.sectionView);
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.OUTRO_COMPLETE, TransitionManager.sectionView, TransitionManager.getDetailObject()));			
-			TransitionManager.sectionView.clear();
-			TransitionManager.sectionLoader.unload();
+			TransitionManager.removePageListeners(TransitionManager.pageView);
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.OUTRO_COMPLETE, TransitionManager.pageView, TransitionManager.getDetailObject()));			
+			TransitionManager.pageView.clear();
+			TransitionManager.pageLoader.unload();
 			TransitionManager.reset();
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RENDER_PRELOADER,TransitionManager.sectionLoader));
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RENDER_PRELOADER,TransitionManager.pageLoader));
 		}
 		/*
 		Load Handlers
@@ -126,10 +126,10 @@
 			TransitionManager.__objSiteView = TransitionManager.__objSiteLoader.content  as IView;
 			TransitionManager.addSiteListeners(TransitionManager.__objSiteView);
 		}
-		private static function onSectionLoadComplete($event:LoaderEvent):void
+		private static function onPageLoadComplete($event:LoaderEvent):void
 		{
-			TransitionManager.__objSectionView = TransitionManager.__objSectionLoader.content as IView;
-			TransitionManager.addSectionListeners(TransitionManager.__objSectionView);
+			TransitionManager.__objPageView = TransitionManager.__objPageLoader.content as IView;
+			TransitionManager.addPageListeners(TransitionManager.__objPageView);
 		}
 		/*
 		Set the current container to load content into
@@ -143,23 +143,23 @@
 		{
 			return TransitionManager.__objSiteLoader;
 		}
-		public static function set sectionLoader($loader:VisualLoader):void
+		public static function set pageLoader($loader:VisualLoader):void
 		{
-			TransitionManager.__objSectionLoader=$loader;
-			TransitionManager.__objSectionLoader.addEventListener(LoaderEvent.COMPLETE, TransitionManager.onSectionLoadComplete);
+			TransitionManager.__objPageLoader=$loader;
+			TransitionManager.__objPageLoader.addEventListener(LoaderEvent.COMPLETE, TransitionManager.onPageLoadComplete);
 		}
-		public static function get sectionLoader():VisualLoader
+		public static function get pageLoader():VisualLoader
 		{
-			return TransitionManager.__objSectionLoader;
+			return TransitionManager.__objPageLoader;
 		}
 		
 		public static function get siteView():IView
 		{
 			return TransitionManager.__objSiteView;
 		}
-		public static function get sectionView():IView
+		public static function get pageView():IView
 		{
-			return TransitionManager.__objSectionView;
+			return TransitionManager.__objPageView;
 		}
 	}
 

@@ -18,7 +18,7 @@
          <name>site</name>
       </container>
       <container>
-         <name>section</name>
+         <name>page</name>
       </container>
       <container>
          <name>preloader</name>
@@ -33,16 +33,16 @@
          <name>overlay</name>
       </container>
    </layout>
-   <sections>
-      <section default_section="true">
+   <pages>
+      <page default_page="true">
          <label>Homepage</label>
          <alias>homepage</alias>
-      </section>
-      <section>
+      </page>
+      <page>
          <label>Sub Page</label>
          <alias>sub_page</alias>
-      </section>
-   </sections>
+      </page>
+   </pages>
    <environments>
       <environment name="default">
          <!--Logger Settings-->

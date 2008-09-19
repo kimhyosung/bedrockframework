@@ -20,7 +20,7 @@
 				try {
 					var strPath:String = $event.details.paths[0];
 					var strCurrentAlias:String = Queue.current.alias;
-					if (Config.getSection(strPath) != null) {
+					if (Config.getPage(strPath) != null) {
 						if (strPath && strPath != strCurrentAlias) {
 							BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DO_CHANGE, this, {alias:strPath}));
 						}

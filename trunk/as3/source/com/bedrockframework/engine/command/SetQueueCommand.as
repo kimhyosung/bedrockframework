@@ -12,7 +12,7 @@
 		}
 		public  function execute($event:GenericEvent):void
 		{
-			Queue.setQueue(Config.getSection($event.details.alias));
+			Queue.setQueue(Config.getPage($event.details.alias));
 		}
 	}
 

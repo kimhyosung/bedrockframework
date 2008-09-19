@@ -20,8 +20,8 @@
 		{
 			
 			if (ExternalInterface.available) {
-				this.status($details.section + " : " + $details.item + " : " + $details.title);
-				ExternalInterface.call("dcsMultiTrack", "DCS.dcsuri", $details.section + "/" + $details.item, "WT.ti", $details.title);
+				this.status($details.page + " : " + $details.item + " : " + $details.title);
+				ExternalInterface.call("dcsMultiTrack", "DCS.dcsuri", $details.page + "/" + $details.item, "WT.ti", $details.title);
 			}
 		}
 		

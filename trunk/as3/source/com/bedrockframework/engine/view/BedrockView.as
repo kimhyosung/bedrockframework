@@ -31,16 +31,16 @@ package com.bedrockframework.engine.view
 		Property Definitions
 		*/
 		/**
-		 * This will return the config details for the currently shown section.
-		 * This information can also be accessed from the SectionStorage class.
+		 * This will return the config details for the currently shown page.
+		 * This information can also be accessed from the PageStorage class.
 		*/
 		final protected  function get current():Object
 		{
 			return Queue.current;
 		}
 		/**
-		 * This will return the config details for the previously shown section.
-		 * This information can also be accessed from the SectionStorage class.
+		 * This will return the config details for the previously shown page.
+		 * This information can also be accessed from the PageStorage class.
 		*/
 		final protected  function get previous():Object
 		{

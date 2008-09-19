@@ -12,9 +12,9 @@
 		}
 		public  function execute($event:GenericEvent):void
 		{
-			var objSection:Object=Queue.getQueue();
-			if (objSection) {
-				SectionManager.setupSectionLoad(objSection);
+			var objPage:Object=Queue.getQueue();
+			if (objPage) {
+				PageManager.setupPageLoad(objPage);
 			}
 			LoadManager.loadQueue();
 		}

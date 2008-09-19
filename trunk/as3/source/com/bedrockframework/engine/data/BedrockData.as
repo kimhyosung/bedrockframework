@@ -29,7 +29,7 @@
 		public static const LAYOUT:String = "layout";
 		public static const REMOTING:String = "remoting";
 		public static const BLOCKER_ALPHA:String = "blocker_alpha";
-		public static const DEFAULT_SECTION:String = "default_section";
+		public static const DEFAULT_PAGE:String = "default_page";
 		
 		public static const URL:String = "url";
 		public static const OS:String = "os";
@@ -57,7 +57,7 @@
 		public static const SITE_CONTAINER:String = "site";
 		public static const BLOCKER_CONTAINER:String = "blocker";
 		public static const PRELOADER_CONTAINER:String = "preloader";
-		public static const SECTION_CONTAINER:String = "section";
+		public static const PAGE_CONTAINER:String = "page";
 		public static const SHARED_CONTAINER:String = "shared";
 		/*
 		Constant Environments

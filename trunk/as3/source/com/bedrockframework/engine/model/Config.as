@@ -28,7 +28,7 @@ package com.bedrockframework.engine.model
 		*/		
 		private static var __objFrameworkSettings:Object;
 		private static var __objEnvironmentSettings:Object;
-		private static var __objSectionSettings:Object;
+		private static var __objPageSettings:Object;
 		/*
 		Constructor
 		*/
@@ -40,7 +40,7 @@ package com.bedrockframework.engine.model
 		{
 			Config.__objFrameworkSettings = new Object;
 			Config.__objEnvironmentSettings = new Object;
-			Config.__objSectionSettings = new Object;
+			Config.__objPageSettings = new Object;
 			//
 			Config.saveSetting(BedrockData.URL, $url);
 			Config.saveSetting("manufacturer", Capabilities.manufacturer);
@@ -58,14 +58,14 @@ package com.bedrockframework.engine.model
 			
 			Config.saveSetting(BedrockData.LAYOUT, XMLUtil.getObjectArray(xmlConfig.layout));
 			
-			Config.saveSetting(BedrockData.DEFAULT_SECTION, Config.getDefaultSection(xmlConfig.sections));
+			Config.saveSetting(BedrockData.DEFAULT_PAGE, Config.getDefaultPage(xmlConfig.pages));
 			Config.saveSetting(BedrockData.ENVIRONMENT, Config.getEnvironment(xmlConfig.environments, Config.getSetting(BedrockData.URL)));
 			Config.saveFrameworkSettings(xmlConfig.settings);
 			Config.saveEnvironmentSettings(xmlConfig.environments, Config.getSetting(BedrockData.ENVIRONMENT));
 			Config.saveCacheSettings();
 			Config.saveLanguageSettings();
 			
-			Config.saveSections(Config.getSections(xmlConfig.sections));			
+			Config.savePages(Config.getPages(xmlConfig.pages));			
 			
 			Logger.status(Config, Config.__objFrameworkSettings);
 			Logger.status(Config, Config.__objEnvironmentSettings);
@@ -160,37 +160,37 @@ package com.bedrockframework.engine.model
 			}
 		}
 
-		private static function getSections($node:XMLList):Object
+		private static function getPages($node:XMLList):Object
 		{
-			var objSections:Object = new Object  ;
-			var xmlSections:XML=new XML($node);
-			var xmlSection:XMLList;
+			var objPages:Object = new Object  ;
+			var xmlPages:XML=new XML($node);
+			var xmlPage:XMLList;
 			//
-			var objSection:Object;
-			for (var s:String in xmlSections.children()) {
-				objSection=new Object();
-				xmlSection=xmlSections.child(s);
-				for (var d:String in xmlSection.children()) {
-					if (! xmlSection.child(d).hasComplexContent()) {
-						objSection[xmlSection.child(d).name()]=XMLUtil.sanitizeValue(xmlSection.child(d));
+			var objPage:Object;
+			for (var s:String in xmlPages.children()) {
+				objPage=new Object();
+				xmlPage=xmlPages.child(s);
+				for (var d:String in xmlPage.children()) {
+					if (! xmlPage.child(d).hasComplexContent()) {
+						objPage[xmlPage.child(d).name()]=XMLUtil.sanitizeValue(xmlPage.child(d));
 					} else {
-						if (xmlSection.child(d).name() == "files") {
-							objSection[xmlSection.child(d).name()]=Config.sanitizePaths(xmlSection.child(d));
+						if (xmlPage.child(d).name() == "files") {
+							objPage[xmlPage.child(d).name()]=Config.sanitizePaths(xmlPage.child(d));
 						} else {
-							objSection[xmlSection.child(d).name()]=XMLUtil.getArray(xmlSection.child(d));
+							objPage[xmlPage.child(d).name()]=XMLUtil.getArray(xmlPage.child(d));
 						}
 					}
 				}
-				objSections[objSection.alias] = objSection;
+				objPages[objPage.alias] = objPage;
 			}
-			return objSections;
+			return objPages;
 		}
 		
-		private static function getDefaultSection($node:XMLList):String
+		private static function getDefaultPage($node:XMLList):String
 		{
 			var xmlData:XML = new XML($node);
-			var xmlDefaultSection:XML = XMLUtil.filterByAttribute($node, BedrockData.DEFAULT_SECTION, "true");
-			return XMLUtil.sanitizeValue(xmlDefaultSection.alias);
+			var xmlDefaultPage:XML = XMLUtil.filterByAttribute($node, BedrockData.DEFAULT_PAGE, "true");
+			return XMLUtil.sanitizeValue(xmlDefaultPage.alias);
 		}
 		
 		/*
@@ -226,9 +226,9 @@ package com.bedrockframework.engine.model
 		/*
 		Save the page information for later use.
 		*/
-		private static function saveSections($value:*):void
+		private static function savePages($value:*):void
 		{
-			Config.__objSectionSettings = $value;
+			Config.__objPageSettings = $value;
 		}
 		private static function saveSetting($key:String, $value:*):void
 		{
@@ -259,13 +259,13 @@ package com.bedrockframework.engine.model
 		/*
 		Pull the information for a specific page.
 		*/
-		public static function getSection($key:String):Object
+		public static function getPage($key:String):Object
 		{
-			var objSection:Object= Config.__objSectionSettings[$key];
-			if (objSection == null) {
-				Logger.warning(Config, "Section \'" + $key + "\' does not exist!");
+			var objPage:Object= Config.__objPageSettings[$key];
+			if (objPage == null) {
+				Logger.warning(Config, "Page \'" + $key + "\' does not exist!");
 			}
-			return objSection;
+			return objPage;
 		}
 	}
 }
