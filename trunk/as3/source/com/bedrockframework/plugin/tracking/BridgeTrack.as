@@ -10,9 +10,9 @@
 		}
 		public function track($details:Object):void
 		{
-			this.status("/" + $details.page);
+			this.status($details.event);
 			if (ExternalInterface.available) {
-				ExternalInterface.call("doBridgeTrackMovieEvent", $details.page);
+				ExternalInterface.call("doBridgeTrackMovieEvent", $details.event);
 			}
 		}
 	}
