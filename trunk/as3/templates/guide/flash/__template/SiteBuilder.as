@@ -1,12 +1,11 @@
-﻿package com.yourdomain.project.template
+﻿package __template
 {
+	import __template.command.DataRequestCommand;
+	import __template.event.SiteEvent;
+	
 	import com.bedrockframework.engine.BedrockBuilder;
-	import com.bedrockframework.engine.manager.*;
+	import com.bedrockframework.engine.manager.ContainerManager;
 	import com.bedrockframework.engine.model.Config;
-	import com.yourdomain.project.template.command.*;
-	import com.yourdomain.project.template.event.*;
-	import com.yourdomain.project.template.model.*;
-	import com.yourdomain.project.template.view.*;
 	
 	
 	public class SiteBuilder extends BedrockBuilder

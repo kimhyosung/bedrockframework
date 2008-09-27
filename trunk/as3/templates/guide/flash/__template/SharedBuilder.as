@@ -1,4 +1,4 @@
-﻿package com.yourdomain.project.template
+﻿package __template
 {
 	import com.bedrockframework.engine.AssetBuilder;
 	import com.bedrockframework.engine.data.BedrockData;

@@ -1,18 +1,20 @@
-﻿package com.yourdomain.project.template.view
+﻿package __template.view
 {
-	import com.bedrockframework.plugin.view.IView;
+	import com.bedrockframework.engine.view.IPreloader;
 	import com.bedrockframework.engine.view.BedrockView;
 	
-	public class HomepageView extends BedrockView implements IView
+	import flash.text.TextField;
+	
+	public class DefaultPreloaderView extends BedrockView implements IPreloader
 	{
 		/*
 		Variable Declarations
 		*/
-		
+		public var txtDisplay:TextField;
 		/*
 		Constructor
 		*/
-		public function HomepageView()
+		public function DefaultPreloaderView()
 		{
 		}
 		/*
@@ -20,11 +22,18 @@
 	 	*/
 		public function initialize($properties:Object=null):void
 		{
+			this.displayProgress(0);
+			this.x=this.stage.stageWidth / 2;
+			this.y=this.stage.stageHeight / 2;
 			this.initializeComplete();
 		}
 		public function intro($properties:Object=null):void
 		{
 			this.introComplete();
+		}
+		public function displayProgress($percent:uint):void
+		{
+			this.txtDisplay.text=$percent + " %";
 		}
 		public function outro($properties:Object=null):void
 		{
@@ -32,7 +41,8 @@
 		}
 		public function clear():void
 		{
-			this.status("clear");
 		}
+		
+
 	}
 }

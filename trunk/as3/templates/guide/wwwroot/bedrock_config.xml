@@ -51,7 +51,7 @@
          <remote_log_level>NONE</remote_log_level>
          <remote_log_url/>
          <!--General Settings-->
-         <tracking_enabled>true</tracking_enabled>
+         <tracking_enabled>false</tracking_enabled>
          <!--Path Information-->
          <swf_path>../swfs/</swf_path>
          <xml_path>../xml/</xml_path>

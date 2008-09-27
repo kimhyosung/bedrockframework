@@ -1,19 +1,18 @@
-﻿package com.yourdomain.project.template.view
+﻿package __template.view
 {
-	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
-	import com.bedrockframework.engine.event.BedrockEvent;
-	import com.bedrockframework.engine.view.BedrockView;
 	import com.bedrockframework.plugin.view.IView;
+	import com.bedrockframework.engine.view.BedrockView;
 	
-	public class SiteView extends BedrockView implements IView
+	public class HomepageView extends BedrockView implements IView
 	{
 		/*
 		Variable Declarations
 		*/
+		
 		/*
 		Constructor
-	 	*/
-		public function SiteView()
+		*/
+		public function HomepageView()
 		{
 		}
 		/*
@@ -25,7 +24,6 @@
 		}
 		public function intro($properties:Object=null):void
 		{
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DO_DEFAULT,this));
 			this.introComplete();
 		}
 		public function outro($properties:Object=null):void
@@ -34,6 +32,7 @@
 		}
 		public function clear():void
 		{
+			this.status("clear");
 		}
 	}
 }

@@ -1,13 +1,13 @@
-﻿package com.yourdomain.project.template
+﻿package __template
 {
 	import com.bedrockframework.engine.BedrockBuilder;
 	import com.bedrockframework.engine.IBedrockBuilder;
 	import com.bedrockframework.engine.manager.*;
 	import com.bedrockframework.plugin.tracking.BridgeTrack;
-	import com.yourdomain.project.template.command.*;
-	import com.yourdomain.project.template.event.*;
-	import com.yourdomain.project.template.model.*;
-	import com.yourdomain.project.template.view.*;
+	import __template.command.*;
+	import __template.event.*;
+	import __template.model.*;
+	import __template.view.*;
 	
 	
 	public class SiteBuilder extends BedrockBuilder implements IBedrockBuilder

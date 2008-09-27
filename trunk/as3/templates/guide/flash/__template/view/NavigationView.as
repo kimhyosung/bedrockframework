@@ -1,4 +1,4 @@
-﻿package com.yourdomain.project.template.view
+﻿package __template.view
 {
 	import caurina.transitions.Tweener;
 	
