@@ -2,8 +2,6 @@
 {
 	import com.bedrockframework.engine.AssetBuilder;
 	import com.bedrockframework.engine.data.BedrockData;
-	
-	import flash.display.MovieClip;
 
 	public class SharedBuilder extends AssetBuilder
 	{
