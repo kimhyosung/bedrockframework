@@ -1,7 +1,7 @@
 <config>
    <settings>
       <auto_intro_enabled>true</auto_intro_enabled>
-      <auto_default_enabled>false</auto_default_enabled>
+      <auto_default_enabled>true</auto_default_enabled>
       <preloader_time_enabled>3</preloader_time_enabled>
       <deep_linking_enabled>true</deep_linking_enabled>
       <remoting_enabled>false</remoting_enabled>
@@ -51,7 +51,7 @@
          <remote_log_level>NONE</remote_log_level>
          <remote_log_url/>
          <!--General Settings-->
-         <tracking_enabled>false</tracking_enabled>
+         <tracking_enabled>true</tracking_enabled>
          <!--Path Information-->
          <swf_path>../swfs/</swf_path>
          <xml_path>../xml/</xml_path>
