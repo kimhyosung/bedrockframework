@@ -226,7 +226,7 @@ package com.bedrockframework.engine.model
 		/*
 		Save the page information for later use.
 		*/
-		private static function addPage($alias:String, $data:Object):void
+		public static function addPage($alias:String, $data:Object):void
 		{
 			Config.__objPageSettings[$alias] = $data;
 		}
