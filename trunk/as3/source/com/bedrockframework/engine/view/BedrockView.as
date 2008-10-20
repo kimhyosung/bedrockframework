@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Bedrock Framework for Adobe Flash ©2007-2008
  * 
  * Written by: Alex Toledo
@@ -11,8 +11,11 @@
 */
 package com.bedrockframework.engine.view
 {
-	import com.bedrockframework.engine.model.Queue;
+	import com.bedrockframework.engine.BedrockEngine;
+	import com.bedrockframework.engine.manager.PageManager;
 	import com.bedrockframework.plugin.view.View;
+	
+	import com.bedrockframework.engine.bedrock;
 
 	public class BedrockView extends View
 	{
@@ -36,7 +39,7 @@ package com.bedrockframework.engine.view
 		*/
 		final protected  function get current():Object
 		{
-			return Queue.current;
+			return BedrockEngine.getInstance().bedrock::pageManager.current;
 		}
 		/**
 		 * This will return the config details for the previously shown page.
@@ -44,7 +47,7 @@ package com.bedrockframework.engine.view
 		*/
 		final protected  function get previous():Object
 		{
-			return Queue.previous;
+			return BedrockEngine.getInstance().bedrock::pageManager.previous;
 		}
 		
 	}

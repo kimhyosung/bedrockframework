@@ -1,11 +1,13 @@
 ﻿package com.bedrockframework.engine.command
 {
-	import com.bedrockframework.core.command.*;
+	import com.bedrockframework.core.command.Command;
+	import com.bedrockframework.core.command.ICommand;
 	import com.bedrockframework.core.event.GenericEvent;
+	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.manager.*;
-	import com.bedrockframework.engine.model.State;
 	
 	import flash.display.DisplayObjectContainer;
+	import com.bedrockframework.engine.bedrock;
 	
 	public class RenderSiteCommand extends Command implements ICommand
 	{
@@ -14,12 +16,13 @@
 		}
 		public  function execute($event:GenericEvent):void
 		{
-			if (!State.siteRendered) {
+			var objBedrockEngine:BedrockEngine =  BedrockEngine.getInstance()
+			if (!objBedrockEngine.bedrock::state.siteRendered) {
 				var objPreloader:*  = new SitePreloader;
-				var objContainer:DisplayObjectContainer = ContainerManager.getContainer("preloader");
+				var objContainer:DisplayObjectContainer = objBedrockEngine.containerManager.getContainer("preloader");
 				objContainer.addChild(objPreloader);
-				PreloaderManager.container = objPreloader;
-				State.siteRendered = true;
+				objBedrockEngine.bedrock::preloaderManager.container = objPreloader;
+				objBedrockEngine.bedrock::state.siteRendered = true;
 			}
 		}
 	}

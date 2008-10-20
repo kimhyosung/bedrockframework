@@ -1,4 +1,4 @@
-﻿package com.bedrockframework.engine
+﻿package com.bedrockframework.engine.api
 {
 	public interface IBedrockBuilder
 	{

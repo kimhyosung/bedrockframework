@@ -3,70 +3,69 @@ package com.bedrockframework.engine.manager
 {
 	import com.asual.swfaddress.SWFAddress;
 	import com.asual.swfaddress.SWFAddressEvent;
-	import com.bedrockframework.core.base.StaticWidget;
+	import com.bedrockframework.core.base.StandardWidget;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
-	import com.bedrockframework.core.logging.LogLevel;
-	import com.bedrockframework.core.logging.Logger;
+	import com.bedrockframework.engine.BedrockEngine;
+	import com.bedrockframework.engine.api.IDeepLinkManager;
 	import com.bedrockframework.engine.data.BedrockData;
 	import com.bedrockframework.engine.event.BedrockEvent;
-	import com.bedrockframework.engine.model.Queue;
 	import com.bedrockframework.plugin.util.DeepLinkUtil;
+	import com.bedrockframework.engine.bedrock;
 	
-	public class DeepLinkManager extends StaticWidget
+	public class DeepLinkManager extends StandardWidget implements IDeepLinkManager
 	{
 		/*
 		Constructor
 		*/
-		Logger.log(DeepLinkManager, LogLevel.CONSTRUCTOR, "Constructed");
 
-		public static function initialize():void
+		public function initialize():void
 		{
-			SWFAddress.addEventListener(SWFAddressEvent.INIT, DeepLinkManager.onSWFAddressInit);
-			BedrockDispatcher.addEventListener(BedrockEvent.DO_DEFAULT, DeepLinkManager.onDoSetup);
-			DeepLinkManager.enableChangeHandler();
+			SWFAddress.addEventListener(SWFAddressEvent.INIT, this.onSWFAddressInit);
+			BedrockDispatcher.addEventListener(BedrockEvent.DO_DEFAULT, this.onDoSetup);
+			this.enableChangeHandler();
 		}
 		
-		public static function clear():void
+		public function clear():void
 		{
-			BedrockDispatcher.removeEventListener(BedrockEvent.INITIALIZE_COMPLETE, DeepLinkManager.onInitializeComplete);
-			BedrockDispatcher.removeEventListener(BedrockEvent.SET_QUEUE, DeepLinkManager.onPauseChangeHandler);
-			SWFAddress.removeEventListener(SWFAddressEvent.INIT, DeepLinkManager.onSWFAddressInit);
-			SWFAddress.removeEventListener(SWFAddressEvent.CHANGE, DeepLinkManager.onChangeNotification);
+			BedrockDispatcher.removeEventListener(BedrockEvent.INITIALIZE_COMPLETE, this.onInitializeComplete);
+			BedrockDispatcher.removeEventListener(BedrockEvent.SET_QUEUE, this.onPauseChangeHandler);
+			SWFAddress.removeEventListener(SWFAddressEvent.INIT, this.onSWFAddressInit);
+			SWFAddress.removeEventListener(SWFAddressEvent.CHANGE, this.onChangeNotification);
 		}
 		/*
 		Set Mode
 		*/
-		public static function setMode($mode:String):void
+		public function setMode($mode:String):void
 		{
 			switch ($mode.toLowerCase()) {
 				case BedrockData.AUTO_DEEP_LINK :
-					BedrockDispatcher.addEventListener(BedrockEvent.INITIALIZE_COMPLETE, DeepLinkManager.onInitializeComplete);
-					BedrockDispatcher.addEventListener(BedrockEvent.SET_QUEUE, DeepLinkManager.onPauseChangeHandler);
+					BedrockDispatcher.addEventListener(BedrockEvent.INITIALIZE_COMPLETE, this.onInitializeComplete);
+					BedrockDispatcher.addEventListener(BedrockEvent.SET_QUEUE, this.onPauseChangeHandler);
 					break;
 				case BedrockData.MANUAL_DEEP_LINK :
-					BedrockDispatcher.removeEventListener(BedrockEvent.INITIALIZE_COMPLETE, DeepLinkManager.onInitializeComplete);
-					BedrockDispatcher.removeEventListener(BedrockEvent.SET_QUEUE, DeepLinkManager.onPauseChangeHandler);
+					BedrockDispatcher.removeEventListener(BedrockEvent.INITIALIZE_COMPLETE, this.onInitializeComplete);
+					BedrockDispatcher.removeEventListener(BedrockEvent.SET_QUEUE, this.onPauseChangeHandler);
 					break;
 				default :
-					Logger.error(DeepLinkManager, "Invalid mode!");
+					this.error("Invalid mode!");
 					break;
 			}
 		}
 		/*
 		Enable/ Disable Change Event
 		*/
-		private static function enableChangeHandler():void
+		private function enableChangeHandler():void
 		{
-			Logger.status(DeepLinkManager, "Change handler enabled!")
-			SWFAddress.addEventListener(SWFAddressEvent.CHANGE, DeepLinkManager.onChangeNotification);
+			this.status("Change handler enabled!")
+			SWFAddress.addEventListener(SWFAddressEvent.CHANGE, this.onChangeNotification);
 		}
-		private static function disableChangeHandler():void
+		private function disableChangeHandler():void
 		{
-			Logger.status(DeepLinkManager, "Change handler disabled!")
-			SWFAddress.removeEventListener(SWFAddressEvent.CHANGE, DeepLinkManager.onChangeNotification);
+			this.status("Change handler disabled!")
+			SWFAddress.removeEventListener(SWFAddressEvent.CHANGE, this.onChangeNotification);
 		}
 		
-		private static function getDetailObject():Object
+		private function getDetailObject():Object
 		{
 			var objDetails:Object = new Object();
 			objDetails.query = DeepLinkUtil.getParameterObject();
@@ -76,30 +75,30 @@ package com.bedrockframework.engine.manager
 		/*
 		Event Handlers
 		*/
-		private static function onDoSetup($event:BedrockEvent):void
+		private function onDoSetup($event:BedrockEvent):void
 		{
-			BedrockDispatcher.removeEventListener(BedrockEvent.DO_DEFAULT, DeepLinkManager.onDoSetup);
-			DeepLinkManager.setMode(BedrockData.AUTO_DEEP_LINK);
+			BedrockDispatcher.removeEventListener(BedrockEvent.DO_DEFAULT, this.onDoSetup);
+			this.setMode(BedrockData.AUTO_DEEP_LINK);
 		}	
-		private static function onChangeNotification($event:SWFAddressEvent):void
+		private function onChangeNotification($event:SWFAddressEvent):void
 		{
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.URL_CHANGE,DeepLinkManager, DeepLinkManager.getDetailObject()));
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.URL_CHANGE,DeepLinkManager, this.getDetailObject()));
 		}		
-		private static function onInitializeComplete($event:BedrockEvent):void
+		private function onInitializeComplete($event:BedrockEvent):void
 		{
 			DeepLinkUtil.clearPath();
-			DeepLinkUtil.setPath(Queue.current.alias);
+			DeepLinkUtil.setPath(BedrockEngine.getInstance().bedrock::pageManager.current.alias);
 			SWFAddress.setStatus("Ready");
-			DeepLinkManager.enableChangeHandler();		
+			this.enableChangeHandler();		
 		}
-		private static function onPauseChangeHandler($event:BedrockEvent):void
+		private function onPauseChangeHandler($event:BedrockEvent):void
 		{
-			DeepLinkManager.disableChangeHandler();
+			this.disableChangeHandler();
 		}
-		private static function onSWFAddressInit($event:SWFAddressEvent):void
+		private function onSWFAddressInit($event:SWFAddressEvent):void
 		{
-			SWFAddress.removeEventListener(SWFAddressEvent.INIT, DeepLinkManager.onSWFAddressInit);
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DEEP_LINK_INITIALIZE, DeepLinkManager,DeepLinkManager.getDetailObject()));
+			SWFAddress.removeEventListener(SWFAddressEvent.INIT, this.onSWFAddressInit);
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DEEP_LINK_INITIALIZE, this, this.getDetailObject()));
 		}
 		
 	}

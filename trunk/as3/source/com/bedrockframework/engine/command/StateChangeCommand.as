@@ -1,9 +1,13 @@
 ﻿package com.bedrockframework.engine.command
 {
-	import com.bedrockframework.core.command.*;
+	import com.bedrockframework.core.command.Command;
+	import com.bedrockframework.core.command.ICommand;
 	import com.bedrockframework.core.event.GenericEvent;
+	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.engine.model.State;
+	
+	import com.bedrockframework.engine.bedrock;
 
 	public class StateChangeCommand extends Command implements ICommand
 	{
@@ -14,10 +18,10 @@
 		{
 			switch ($event.type) {
 				case BedrockEvent.SET_QUEUE :
-					State.change(State.UNAVAILABLE);
+					BedrockEngine.getInstance().bedrock::state.change(State.UNAVAILABLE);
 					break;
 				case BedrockEvent.INITIALIZE_COMPLETE :
-					State.change(State.AVAILABLE);
+					BedrockEngine.getInstance().bedrock::state.change(State.AVAILABLE);
 					break;
 			}
 

@@ -1,1 +1,0 @@
-﻿package com.bedrockframework.engine.controller{	import com.bedrockframework.core.controller.*;		public class BedrockController extends FrontController implements IFrontController	{		/*		Constructor		*/		public function BedrockController()		{			super();		}	}}

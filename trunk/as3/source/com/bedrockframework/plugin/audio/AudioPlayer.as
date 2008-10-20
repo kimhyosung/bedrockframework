@@ -143,13 +143,13 @@
 		/*
 		Set Panning
 		*/
-		private function setPan($value:Number):void
+		public function setPan($value:Number):void
 		{
 			this.setTransform(new SoundTransform(this.getVolume(), $value));
 			this.dispatchEvent(new AudioEvent(AudioEvent.PAN, this, {volume:$value}));
 		}
 		
-		private function getPan():Number
+		public function getPan():Number
 		{
 			return this._objTransform.pan;
 		}

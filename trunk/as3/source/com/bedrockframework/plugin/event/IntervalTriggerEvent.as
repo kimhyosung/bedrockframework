@@ -4,9 +4,9 @@
 
 	public class IntervalTriggerEvent extends GenericEvent
 	{
-		public static  const START:String = "TriggerEvent.onStart";
-		public static  const STOP:String = "TriggerEvent.onStop";
-		public static  const TRIGGER:String = "TriggerEvent.onTrigger";
+		public static  const START:String = "IntervalTriggerEvent.onStart";
+		public static  const STOP:String = "IntervalTriggerEvent.onStop";
+		public static  const TRIGGER:String = "IntervalTriggerEvent.onTrigger";
 		
 		public function IntervalTriggerEvent($type:String, $origin:Object, $details:Object=null, $bubbles:Boolean=false, $cancelable:Boolean=true)
 		{

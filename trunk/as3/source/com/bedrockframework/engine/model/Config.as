@@ -11,78 +11,81 @@
 */
 package com.bedrockframework.engine.model
 {
-	import com.bedrockframework.core.base.StaticWidget;
-	import com.bedrockframework.core.logging.LogLevel;
-	import com.bedrockframework.core.logging.Logger;
+	import com.bedrockframework.core.base.StandardWidget;
+	import com.bedrockframework.engine.api.IConfig;
 	import com.bedrockframework.engine.data.BedrockData;
 	import com.bedrockframework.plugin.util.StringUtil;
+	import com.bedrockframework.plugin.util.VariableUtil;
 	import com.bedrockframework.plugin.util.XMLUtil;
 	
 	import flash.display.Stage;
 	import flash.system.Capabilities;	
 	
-	public class Config extends StaticWidget
+	public class Config extends StandardWidget implements IConfig
 	{
 		/*
 		Variable Declarations
 		*/		
-		private static var __objFrameworkSettings:Object;
-		private static var __objEnvironmentSettings:Object;
-		private static var __objPageSettings:Object;
+		private var _objFrameworkSettings:Object;
+		private var _objEnvironmentSettings:Object;
+		private var _objPageSettings:Object;
+		private var _objParamSettings:Object;
 		/*
 		Constructor
 		*/
-		Logger.log(Config, LogLevel.CONSTRUCTOR, "Constructed");
+		public function Config()
+		{
+			this._objFrameworkSettings = new Object;
+			this._objEnvironmentSettings = new Object;
+			this._objPageSettings = new Object;
+			this._objParamSettings = new Object;
+		}
 		/*
 		Initialize
 		*/
-		public static function initialize($data:String, $url:String, $stage:Stage):void
+		public function initialize($data:String, $url:String, $stage:Stage):void
 		{
-			Config.__objFrameworkSettings = new Object;
-			Config.__objEnvironmentSettings = new Object;
-			Config.__objPageSettings = new Object;
-			//
-			Config.saveSetting(BedrockData.URL, $url);
-			Config.saveSetting("manufacturer", Capabilities.manufacturer);
-			Config.saveSetting(BedrockData.DEFAULT_LANGUAGE, Capabilities.language);
-			Config.saveSetting(BedrockData.OS, Capabilities.os);
-			Config.saveSetting("stage", $stage);
+			this.saveSetting(BedrockData.URL, $url);
+			this.saveSetting("manufacturer", Capabilities.manufacturer);
+			this.saveSetting(BedrockData.DEFAULT_LANGUAGE, Capabilities.language);
+			this.saveSetting(BedrockData.OS, Capabilities.os);
+			this.saveSetting("stage", $stage);
 			
-			Config.parseXML($data);
+			this.parseXML($data);
 		}
 
 		
-		private static function parseXML($data:String):void
+		private function parseXML($data:String):void
 		{
-			var xmlConfig:XML = Config.getXML($data);
+			var xmlConfig:XML = this.getXML($data);
 			
-			Config.saveSetting(BedrockData.LAYOUT, XMLUtil.getObjectArray(xmlConfig.layout));
+			this.saveSetting(BedrockData.LAYOUT, XMLUtil.getObjectArray(xmlConfig.layout));
 			
-			Config.saveSetting(BedrockData.DEFAULT_PAGE, Config.getDefaultPage(xmlConfig.pages));
-			Config.saveSetting(BedrockData.ENVIRONMENT, Config.getEnvironment(xmlConfig.environments, Config.getSetting(BedrockData.URL)));
-			Config.saveFrameworkSettings(xmlConfig.settings);
-			Config.saveEnvironmentSettings(xmlConfig.environments, Config.getSetting(BedrockData.ENVIRONMENT));
-			Config.saveCacheSettings();
-			Config.saveLanguageSettings();
+			this.saveSetting(BedrockData.DEFAULT_PAGE, this.getDefaultPage(xmlConfig.pages));
+			this.saveSetting(BedrockData.ENVIRONMENT, this.getEnvironment(xmlConfig.environments, this.getSetting(BedrockData.URL)));
+			this.saveFrameworkSettings(xmlConfig.settings);
+			this.saveEnvironmentSettings(xmlConfig.environments, this.getSetting(BedrockData.ENVIRONMENT));
+			this.saveCacheSettings();
+			this.saveLanguageSettings();
 			
-			Config.savePages(Config.getPages(xmlConfig.pages));			
+			this.savePages(this.parsePages(xmlConfig.pages));			
 			
-			Logger.status(Config, Config.__objFrameworkSettings);
-			Logger.status(Config, Config.__objEnvironmentSettings);
+			this.status(this._objFrameworkSettings);
+			this.status(this._objEnvironmentSettings);
 			
-			Logger.status(Config, "Environment - " + Config.getSetting(BedrockData.ENVIRONMENT));
+			this.status("Environment - " + this.getSetting(BedrockData.ENVIRONMENT));
 		}
-		private static function getXML($data:String):XML
+		private function getXML($data:String):XML
 		{
 			var xmlConfig:XML = new XML($data);
-			xmlConfig.ignoreComments=true;
-			xmlConfig.ignoreWhitespace=true;
+			XML.ignoreComments=true;
+			XML.ignoreWhitespace=true;
 			return xmlConfig;
 		}		
 		/*
 		Environment Determination
 	 	*/
-	 	private static function getEnvironment($node:XMLList, $url:String):String
+	 	private function getEnvironment($node:XMLList, $url:String):String
 		{
 			var strURL:String = $url;
 			var xmlEnvironments:XML=new XML($node);
@@ -107,60 +110,61 @@ package com.bedrockframework.engine.model
 		/*
 		Parsing Functions
 		*/
-		private static function saveFrameworkSettings($node:XMLList):void
+		private function saveFrameworkSettings($node:XMLList):void
 		{
 			var objData:Object = XMLUtil.getObject($node);
 			for (var d:String in objData) {
-				Config.saveSetting(d, objData[d]);
+				this.saveSetting(d, objData[d]);
 			}
 		}
 		
-		private static function saveEnvironmentSettings($node:XMLList, $environment:String):void
+		private function saveEnvironmentSettings($node:XMLList, $environment:String):void
 		{
 			var xmlData:XML = new XML($node);
 			
-			Config.parseItems(XMLUtil.filterByAttribute(xmlData, "name", BedrockData.DEFAULT));
-			Config.parseItems(XMLUtil.filterByAttribute(xmlData, "name", $environment));
+			this.parseItems(XMLUtil.filterByAttribute(xmlData, "name", BedrockData.DEFAULT));
+			this.parseItems(XMLUtil.filterByAttribute(xmlData, "name", $environment));
 			
-			delete Config.__objEnvironmentSettings["patterns"];
+			delete this._objEnvironmentSettings["patterns"];
 		} 
 		
-		private static function saveCacheSettings():void
+		private function saveCacheSettings():void
 		{
-			if (Config.getSetting(BedrockData.CACHE_PREVENTION_ENABLED)) {
-				Config.saveSetting(BedrockData.CACHE_KEY, Config.createCacheKey());
+			if (this.getSetting(BedrockData.CACHE_PREVENTION_ENABLED)) {
+				this.saveSetting(BedrockData.CACHE_KEY, this.createCacheKey());
 			} else {
-				Config.saveSetting(BedrockData.CACHE_KEY, "");
+				this.saveSetting(BedrockData.CACHE_KEY, "");
 			}
 		}		
 		
-		private static function saveLanguageSettings():void
+		private function saveLanguageSettings():void
 		{
-			var strLanguages:String = Config.getSetting(BedrockData.LANGUAGES);
+			var strLanguages:String = this.getSetting(BedrockData.LANGUAGES);
 			var arrLanguages:Array = strLanguages.split(",")
 			var numLength:int = arrLanguages.length;
 			for (var i:int = 0; i < numLength; i ++) {
 				arrLanguages[i] = StringUtil.trim(arrLanguages[i]);
 			}
-			Config.saveSetting(BedrockData.LANGUAGES, arrLanguages);
+			this.saveSetting(BedrockData.LANGUAGES, arrLanguages);
 			if (numLength>0) {
-				Config.saveSetting(BedrockData.DEFAULT_LANGUAGE, arrLanguages[0]);	
+				this.saveSetting(BedrockData.DEFAULT_LANGUAGE, arrLanguages[0]);	
 			}			
 		}
-		
-		private static function parseItems($xml:XML):void
+		/*
+		Parse Functions
+		*/
+		private function parseItems($xml:XML):void
 		{
 			var xmlTemp:XML= $xml;
 			for (var s:String in xmlTemp.children()) {
 				if (! xmlTemp.child(s).hasComplexContent()) {
-					Config.saveValue(xmlTemp.child(s).name(), XMLUtil.sanitizeValue(xmlTemp.child(s)));
+					this.saveValue(xmlTemp.child(s).name(), XMLUtil.sanitizeValue(xmlTemp.child(s)));
 				} else {
-					Config.saveValue(xmlTemp.child(s).name(), XMLUtil.getObjectArray(xmlTemp.child(s)));
+					this.saveValue(xmlTemp.child(s).name(), XMLUtil.getObjectArray(xmlTemp.child(s)));
 				}
 			}
 		}
-
-		private static function getPages($node:XMLList):Object
+		private function parsePages($node:XMLList):Object
 		{
 			var objPages:Object = new Object  ;
 			var xmlPages:XML=new XML($node);
@@ -175,7 +179,7 @@ package com.bedrockframework.engine.model
 						objPage[xmlPage.child(d).name()]=XMLUtil.sanitizeValue(xmlPage.child(d));
 					} else {
 						if (xmlPage.child(d).name() == "files") {
-							objPage[xmlPage.child(d).name()]=Config.sanitizePaths(xmlPage.child(d));
+							objPage[xmlPage.child(d).name()]=this.sanitizePaths(xmlPage.child(d));
 						} else {
 							objPage[xmlPage.child(d).name()]=XMLUtil.getArray(xmlPage.child(d));
 						}
@@ -185,38 +189,53 @@ package com.bedrockframework.engine.model
 			}
 			return objPages;
 		}
-		
-		private static function getDefaultPage($node:XMLList):String
+		public function parseParamString($values:String, $variableSeparator:String ="&", $valueSeparator:String =  "="):void
 		{
-			var xmlData:XML = new XML($node);
-			var xmlDefaultPage:XML = XMLUtil.filterByAttribute($node, BedrockData.DEFAULT_PAGE, "true");
-			return XMLUtil.sanitizeValue(xmlDefaultPage.alias);
+			if ($values != null) {
+				var strValues:String = $values;
+				var strVariableSeparator:String = $variableSeparator;
+				var strValueSeparator:String = $valueSeparator;
+				//
+				var arrValues:Array = strValues.split(strVariableSeparator);
+				//
+				var strOutput:String = "Parse Result";
+				//				
+				for (var v:int = 0; v < arrValues.length; v++) {
+					var arrVariable:Array = arrValues[v].split(strValueSeparator);
+					this._objParamSettings[arrVariable[0]] =   arrVariable[1];
+					strOutput += ("\n   - " + arrVariable[0] + " = " + arrVariable[1]);
+				}
+				this.status(strOutput);
+			} else {
+				this.warning("Nothing to parse!");
+			}
 		}
+		
 		
 		/*
 		Internal string replacement functions
 		*/
-		private static function sanitizePaths($node:XMLList):Array
+		private function sanitizePaths($node:XMLList):Array
 		{
 			var arrFiles:Array=XMLUtil.getArray($node);
 			var numLength:Number=arrFiles.length;
 			for (var i:Number=0; i < numLength; i++) {
-				arrFiles[i]=Config.replacePathFlag(arrFiles[i]);
+				arrFiles[i]=this.replacePathFlag(arrFiles[i]);
 			}
 			return arrFiles;
 		}
-		private static function replacePathFlag($path:String):String
+		private function replacePathFlag($path:String):String
 		{
 			var numLastIndex:int=$path.lastIndexOf("]");
 			var strName:String=$path.substring(1,numLastIndex);
 			var strFile:String=$path.substring(numLastIndex + 1,$path.length);
-			var strPath:String=Config.getValue(strName) + strFile;
+			var strPath:String=this.getValue(strName) + strFile;
 			return strPath;
 		}
 		/*
 		Create Cache Key
 		*/
-		private static function createCacheKey():String
+		private function createCacheKey():String
 		{
 			return StringUtil.generateUniqueKey(10);
 		}
@@ -226,50 +245,68 @@ package com.bedrockframework.engine.model
 		/*
 		Save the page information for later use.
 		*/
-		public static function addPage($alias:String, $data:Object):void
+		public function addPage($alias:String, $data:Object):void
 		{
-			Config.__objPageSettings[$alias] = $data;
+			this._objPageSettings[$alias] = $data;
 		}
-		private static function savePages($value:*):void
+		private function savePages($value:*):void
 		{
-			Config.__objPageSettings = $value;
+			this._objPageSettings = $value;
 		}
-		private static function saveSetting($key:String, $value:*):void
+		private function saveSetting($key:String, $value:*):void
 		{
-			Config.__objFrameworkSettings[$key] = $value;
+			this._objFrameworkSettings[$key] = $value;
 		}
-		private static function saveValue($key:String, $value:*):void
+		private function saveValue($key:String, $value:*):void
 		{
-			Config.__objEnvironmentSettings[$key] = $value;
-		}		
+			this._objEnvironmentSettings[$key] = $value;
+		}
+		public function saveParams($data:Object):void
+		{
+			for (var d:String in $data){
+				this._objParamSettings[d] =VariableUtil.sanitize($data[d]);
+			}
+		}
 		/*
 		Getters
 		*/
 		/**
 		 * Returns a framework setting independent of environment.
 	 	*/
-		public static function getSetting($key:String):*
+		public function getSetting($key:String):*
 		{
-			return Config.__objFrameworkSettings[$key];
+			return this._objFrameworkSettings[$key];
 		}
 		/**
 		 * Returns a environment value that will change depending on the current environment.
 		 * Environment values are declared in the config xml file.
 	 	*/
-		public static function getValue($key:String):*
+		public function getValue($key:String):*
 		{
-			return Config.__objEnvironmentSettings[$key]; 
+			return this._objEnvironmentSettings[$key]; 
 		}
 		/*
 		Pull the information for a specific page.
 		*/
-		public static function getPage($key:String):Object
+		public function getPage($key:String):Object
 		{
-			var objPage:Object= Config.__objPageSettings[$key];
+			var objPage:Object= this._objPageSettings[$key];
 			if (objPage == null) {
-				Logger.warning(Config, "Page \'" + $key + "\' does not exist!");
+				this.warning("Page \'" + $key + "\' does not exist!");
 			}
 			return objPage;
+		}
+		public function getParam($key:String):*
+		{
+			return this._objParamSettings[$key];
+		}
+		
+		
+		private function getDefaultPage($node:XMLList):String
+		{
+			var xmlData:XML = new XML($node);
+			var xmlDefaultPage:XML = XMLUtil.filterByAttribute($node, BedrockData.DEFAULT_PAGE, "true");
+			return XMLUtil.sanitizeValue(xmlDefaultPage.alias);
 		}
 	}
 }

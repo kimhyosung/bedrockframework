@@ -1,8 +1,9 @@
 ﻿package com.bedrockframework.engine.command
 {
-	import com.bedrockframework.core.command.*;
+	import com.bedrockframework.core.command.Command;
+	import com.bedrockframework.core.command.ICommand;
 	import com.bedrockframework.core.event.GenericEvent;
-	import com.bedrockframework.engine.manager.CopyManager;
+	import com.bedrockframework.engine.BedrockEngine;
 
 	public class LoadCopyCommand extends Command implements ICommand
 	{
@@ -13,7 +14,7 @@
 		
 		public function execute($event:GenericEvent):void
 		{
-			CopyManager.loadXML($event.details.url);
+			BedrockEngine.getInstance().copyManager.loadXML($event.details.url);
 		}
 		
 	}

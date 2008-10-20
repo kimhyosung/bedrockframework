@@ -1,91 +1,94 @@
 ﻿package com.bedrockframework.engine.manager
 {
-	import com.bedrockframework.core.base.StaticWidget;
+	import com.bedrockframework.core.base.StandardWidget;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
-	import com.bedrockframework.engine.event.BedrockEvent;
-	import com.bedrockframework.plugin.event.ViewEvent;
-	import com.bedrockframework.engine.view.IPreloader;
-	import com.bedrockframework.core.logging.Logger;
 	import com.bedrockframework.core.logging.LogLevel;
+	import com.bedrockframework.core.logging.Logger;
+	import com.bedrockframework.engine.api.IPreloaderManager;
+	import com.bedrockframework.engine.event.BedrockEvent;
+	import com.bedrockframework.engine.view.IPreloader;
+	import com.bedrockframework.plugin.event.ViewEvent;
 	
-	public class PreloaderManager extends StaticWidget
+	public class PreloaderManager extends StandardWidget implements IPreloaderManager
 	{
 		/*
-		* Variable Declarations
+		Variable Declarations
 		*/
-		private static var __objPreloader:IPreloader;
+		private var _objPreloader:IPreloader;
 		/*
-		* Constructor
+		Constructor
 		*/
-		Logger.log(PreloaderManager, LogLevel.CONSTRUCTOR, "Constructed");
-		
-		public static function initialize():void
+		public function PreloaderManager()
 		{
-			BedrockDispatcher.addEventListener(BedrockEvent.LOAD_BEGIN,PreloaderManager.onLoadBegin);
-			BedrockDispatcher.addEventListener(BedrockEvent.LOAD_PROGRESS,PreloaderManager.onLoadProgress);
-			BedrockDispatcher.addEventListener(BedrockEvent.LOAD_COMPLETE,PreloaderManager.onLoadComplete);
+			
+		}
+		public function initialize():void
+		{
+			BedrockDispatcher.addEventListener(BedrockEvent.LOAD_BEGIN,this.onLoadBegin);
+			BedrockDispatcher.addEventListener(BedrockEvent.LOAD_PROGRESS,this.onLoadProgress);
+			BedrockDispatcher.addEventListener(BedrockEvent.LOAD_COMPLETE,this.onLoadComplete);
 		}
 		/*
 		Manager Event Listening
 		*/
-		private static function addListeners($target:*):void
+		private function addListeners($target:*):void
 		{
-			$target.addEventListener(ViewEvent.INITIALIZE_COMPLETE,PreloaderManager.onInitializeComplete);
-			$target.addEventListener(ViewEvent.INTRO_COMPLETE,PreloaderManager.onIntroComplete);
-			$target.addEventListener(ViewEvent.OUTRO_COMPLETE,PreloaderManager.onOutroComplete);
+			$target.addEventListener(ViewEvent.INITIALIZE_COMPLETE,this.onInitializeComplete);
+			$target.addEventListener(ViewEvent.INTRO_COMPLETE,this.onIntroComplete);
+			$target.addEventListener(ViewEvent.OUTRO_COMPLETE,this.onOutroComplete);
 		}
-		private static function removeListeners($target:*):void
+		private function removeListeners($target:*):void
 		{
-			$target.removeEventListener(ViewEvent.INITIALIZE_COMPLETE,PreloaderManager.onInitializeComplete);
-			$target.removeEventListener(ViewEvent.INTRO_COMPLETE,PreloaderManager.onIntroComplete);
-			$target.removeEventListener(ViewEvent.OUTRO_COMPLETE,PreloaderManager.onOutroComplete);
+			$target.removeEventListener(ViewEvent.INITIALIZE_COMPLETE,this.onInitializeComplete);
+			$target.removeEventListener(ViewEvent.INTRO_COMPLETE,this.onIntroComplete);
+			$target.removeEventListener(ViewEvent.OUTRO_COMPLETE,this.onOutroComplete);
 		}
 		/*
 		Framework Event Handlers
 		*/
-		private static function onLoadBegin($event:BedrockEvent):void
+		private function onLoadBegin($event:BedrockEvent):void
 		{
-			PreloaderManager.__objPreloader.displayProgress(0);
+			this._objPreloader.displayProgress(0);
 		}
-		private static function onLoadProgress($event:BedrockEvent):void
+		private function onLoadProgress($event:BedrockEvent):void
 		{
-			PreloaderManager.__objPreloader.displayProgress($event.details.overallPercent);
+			this._objPreloader.displayProgress($event.details.overallPercent);
 		}
-		private static function onLoadComplete($event:BedrockEvent):void
+		private function onLoadComplete($event:BedrockEvent):void
 		{
-			PreloaderManager.__objPreloader.displayProgress(100);
-			PreloaderManager.__objPreloader.outro();
+			this._objPreloader.displayProgress(100);
+			this._objPreloader.outro();
 		}
 		/*
 		Individual Preloader Handlers
 		*/
-		private static function onInitializeComplete($event:ViewEvent):void
+		private function onInitializeComplete($event:ViewEvent):void
 		{
-			PreloaderManager.__objPreloader.intro();
+			this._objPreloader.intro();
 		}
-		private static function onIntroComplete($event:ViewEvent):void
+		private function onIntroComplete($event:ViewEvent):void
 		{
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.LOAD_QUEUE, PreloaderManager));
 		}
-		private static function onOutroComplete($event:ViewEvent):void
+		private function onOutroComplete($event:ViewEvent):void
 		{
-			PreloaderManager.removeListeners(PreloaderManager.__objPreloader);
-			PreloaderManager.__objPreloader.clear();
-			PreloaderManager.__objPreloader.remove();
+			this.removeListeners(this._objPreloader);
+			this._objPreloader.clear();
+			this._objPreloader.remove();
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DO_INITIALIZE, PreloaderManager));
 		}
 		/*
 		Set the display for the preloader
 	 	*/
-	 	public static function set container($preloader:IPreloader):void
+	 	public function set container($preloader:IPreloader):void
 		{
-			PreloaderManager.__objPreloader=$preloader;
-			PreloaderManager.addListeners(PreloaderManager.__objPreloader);
-			PreloaderManager.__objPreloader.initialize();
+			this._objPreloader=$preloader;
+			this.addListeners(this._objPreloader);
+			this._objPreloader.initialize();
 		}
-		public static function get container():IPreloader
+		public function get container():IPreloader
 		{
-			return PreloaderManager.__objPreloader;
+			return this._objPreloader;
 		}
 	}
 

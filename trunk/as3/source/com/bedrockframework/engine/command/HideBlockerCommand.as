@@ -1,8 +1,9 @@
 ﻿package com.bedrockframework.engine.command
 {
-	import com.bedrockframework.core.command.*;
+	import com.bedrockframework.core.command.Command;
+	import com.bedrockframework.core.command.ICommand;
 	import com.bedrockframework.core.event.GenericEvent;
-	import com.bedrockframework.engine.manager.ContainerManager;
+	import com.bedrockframework.engine.BedrockEngine;
 
 	public class HideBlockerCommand extends Command implements ICommand
 	{
@@ -11,7 +12,7 @@
 		}
 		public  function execute($event:GenericEvent):void
 		{
-			ContainerManager.getContainer("blocker").hide();
+			BedrockEngine.getInstance().containerManager.getContainer("blocker").hide();
 		}
 	}
 

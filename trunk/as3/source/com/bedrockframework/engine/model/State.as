@@ -1,69 +1,102 @@
 ﻿package com.bedrockframework.engine.model
 {
-	import com.bedrockframework.core.base.StaticWidget;
-	import com.bedrockframework.core.logging.LogLevel;
-	import com.bedrockframework.core.logging.Logger;
-	import com.bedrockframework.plugin.util.*;
-	public class State extends StaticWidget
+	import com.bedrockframework.core.base.StandardWidget;
+	import com.bedrockframework.engine.api.IState;
+		
+	public class State extends StandardWidget implements IState
 	{
-
-		private static  var __strCurrent:String;
-		private static  var __strPrevious:String;
+		/*
+		Variable Declarations
+		*/
 		public static const INITIALIZED:String="initialized";
 		public static const AVAILABLE:String="available";
 		public static const UNAVAILABLE:String="unavailable";
 		
-		public static var siteRendered:Boolean = false;
-		public static var siteInitialized:Boolean = false;
-		public static var doneDefault:Boolean = false;
+		private var _strCurrent:String;
+		private var _strPrevious:String;
 		
-		
-		Logger.log(State, LogLevel.CONSTRUCTOR, "Constructed");
-		
-		public static  function initialize():void
+		private var _bolSiteRendered:Boolean;
+		private var _bolSiteInitialized:Boolean;
+		private var _bolDoneDefault:Boolean;
+		/*
+		Constructor
+		*/
+		public function State()
 		{
-			State.clear();
-			State.change(State.INITIALIZED);
+			this._bolSiteRendered = false;
+			this._bolSiteInitialized = false;
+			this._bolDoneDefault = false;
+			
+			this.clear();
+			this.change(State.INITIALIZED);
 		}
 		/*
 		Set 
 		*/
-		public static  function change($identifier:String):void
+		public function change($identifier:String):void
 		{
 			try {
 				var strState:String=$identifier;
-				if (strState != State.__strCurrent) {
-					State.__strPrevious=State.__strCurrent;
-					State.__strCurrent=strState;
-					Logger.status(State, "Changing state to - " + State.__strCurrent);
+				if (strState != this._strCurrent) {
+					this._strPrevious=this._strCurrent;
+					this._strCurrent=strState;
+					this.status("Changing state to - " + this._strCurrent);
 				} else {
-					Logger.warning(State, "No stage change!");
+					this.warning("No stage change!");
 				}
 			} catch ($e:Error) {
-				Logger.error("State does not exist!");
+				this.error("State does not exist!");
 			}
 		}
 		/*
 		Clear 
 		*/
-		public static  function clear():void
+		public function clear():void
 		{
-			State.__strCurrent=null;
-			State.__strPrevious=null;
+			this._strCurrent=null;
+			this._strPrevious=null;
 		}
 		/*
 		Get Current 
 		*/
-		public static  function get current():String
+		public function get current():String
 		{
-			return State.__strCurrent;
+			return this._strCurrent;
 		}
 		/*
 		Get Previous 
 		*/
-		public static  function get previous():String
+		public function get previous():String
 		{
-			return State.__strPrevious;
+			return this._strPrevious;
+		}
+		/*
+		*/
+		public function set siteRendered($status:Boolean):void
+		{
+			this._bolSiteRendered = $status;
+		}
+		public function get siteRendered():Boolean
+		{
+			return this._bolSiteRendered;
+		}
+		
+		public function set siteInitialized($status:Boolean):void
+		{
+			this._bolSiteInitialized = $status;
+		}
+		public function get siteInitialized():Boolean
+		{
+			return this._bolSiteInitialized;
+		}
+		
+		public function set doneDefault($status:Boolean):void
+		{
+			this._bolDoneDefault = $status;
+		}
+		public function get doneDefault():Boolean
+		{
+			return this._bolDoneDefault;
 		}
 	}
 }

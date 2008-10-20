@@ -1,165 +1,172 @@
 ﻿package com.bedrockframework.engine.manager
 {
-	import com.bedrockframework.core.base.StaticWidget;
+	import com.bedrockframework.core.base.StandardWidget;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
-	import com.bedrockframework.core.logging.LogLevel;
-	import com.bedrockframework.core.logging.Logger;
+	import com.bedrockframework.engine.BedrockEngine;
+	import com.bedrockframework.engine.api.ITransitionManger;
 	import com.bedrockframework.engine.data.BedrockData;
 	import com.bedrockframework.engine.event.BedrockEvent;
-	import com.bedrockframework.plugin.event.ViewEvent;
 	import com.bedrockframework.engine.model.Config;
-	import com.bedrockframework.engine.model.Queue;
 	import com.bedrockframework.engine.model.State;
-	import com.bedrockframework.plugin.view.IView;
 	import com.bedrockframework.plugin.event.LoaderEvent;
+	import com.bedrockframework.plugin.event.ViewEvent;
 	import com.bedrockframework.plugin.loader.VisualLoader;
+	import com.bedrockframework.plugin.view.IView;
 	
 	import flash.utils.*;
+	import com.bedrockframework.engine.bedrock;
 
-	public class TransitionManager extends StaticWidget
+	public class TransitionManager extends StandardWidget implements ITransitionManger
 	{
-		private static var __objSiteLoader:VisualLoader;
-		private static var __objSiteView:IView;
+		/*
+		Variable Declarations
+		*/
+		private var _objSiteLoader:VisualLoader;
+		private var _objSiteView:IView;
 		
-		private static var __objPageLoader:VisualLoader;
-		private static var __objPageView:IView;
-		
-
-		Logger.log(TransitionManager, LogLevel.CONSTRUCTOR, "Constructed");
-		
-		public static function reset():void
+		private var _objPageLoader:VisualLoader;
+		private var _objPageView:IView;
+		/*
+		Constructor
+		*/
+		public function TransitionManager()
 		{
-			TransitionManager.__objPageLoader=null;
-			TransitionManager.__objPageView=null;
+			this.reset();
 		}
-		public static function initialize():void
+		
+		
+		public function initialize():void
 		{
-			BedrockDispatcher.addEventListener(BedrockEvent.DO_INITIALIZE,TransitionManager.onDoInitialize);
+			BedrockDispatcher.addEventListener(BedrockEvent.DO_INITIALIZE,this.onDoInitialize);
+		}
+		public function reset():void
+		{
+			this._objPageLoader=null;
+			this._objPageView=null;
 		}
 		/*
 		Manager Event Listening
 		*/
-		private static function addSiteListeners($target:*):void
+		private function addSiteListeners($target:*):void
 		{
-			$target.addEventListener(ViewEvent.INITIALIZE_COMPLETE,TransitionManager.onSiteInitializeComplete);
-			$target.addEventListener(ViewEvent.INTRO_COMPLETE,TransitionManager.onSiteIntroComplete);
+			$target.addEventListener(ViewEvent.INITIALIZE_COMPLETE,this.onSiteInitializeComplete);
+			$target.addEventListener(ViewEvent.INTRO_COMPLETE,this.onSiteIntroComplete);
 		}
-		
-		private static function addPageListeners($target:*):void
+		private function addPageListeners($target:*):void
 		{
-			$target.addEventListener(ViewEvent.INITIALIZE_COMPLETE,TransitionManager.onPageInitializeComplete);
-			$target.addEventListener(ViewEvent.INTRO_COMPLETE,TransitionManager.onPageIntroComplete);
-			$target.addEventListener(ViewEvent.OUTRO_COMPLETE,TransitionManager.onPageOutroComplete);
+			$target.addEventListener(ViewEvent.INITIALIZE_COMPLETE,this.onPageInitializeComplete);
+			$target.addEventListener(ViewEvent.INTRO_COMPLETE,this.onPageIntroComplete);
+			$target.addEventListener(ViewEvent.OUTRO_COMPLETE,this.onPageOutroComplete);
 		}
-		private static function removePageListeners($target:*):void
+		private function removePageListeners($target:*):void
 		{
-			$target.removeEventListener(ViewEvent.INITIALIZE_COMPLETE,TransitionManager.onPageInitializeComplete);
-			$target.removeEventListener(ViewEvent.INTRO_COMPLETE,TransitionManager.onPageIntroComplete);
-			$target.removeEventListener(ViewEvent.OUTRO_COMPLETE,TransitionManager.onPageOutroComplete);
+			$target.removeEventListener(ViewEvent.INITIALIZE_COMPLETE,this.onPageInitializeComplete);
+			$target.removeEventListener(ViewEvent.INTRO_COMPLETE,this.onPageIntroComplete);
+			$target.removeEventListener(ViewEvent.OUTRO_COMPLETE,this.onPageOutroComplete);
 		}
 		/*
 		Create a detail object to be sent out with events
 	 	*/
-	 	private static function getDetailObject():Object
+	 	private function getDetailObject():Object
 		{
 			var objDetail:Object = new Object();
 			try {
-				objDetail.page = Queue.current;
+				objDetail.page = BedrockEngine.getInstance().bedrock::pageManager.current;
 			} catch ($e:Error) {
 			}
-			objDetail.view = TransitionManager.pageView;
+			objDetail.view = this.pageView;
 			return objDetail;
 		}
 		/*
 		Framework Event Handlers
 		*/
-		private static function onDoInitialize($event:BedrockEvent):void
+		private function onDoInitialize($event:BedrockEvent):void
 		{
-			if (!State.siteInitialized) {
-				TransitionManager.siteView.initialize();
-				State.siteInitialized = true;
+			if (!BedrockEngine.getInstance().bedrock::state.siteInitialized) {
+				this.siteView.initialize();
+				BedrockEngine.getInstance().bedrock::state.siteInitialized = true;
 			} else {
-				TransitionManager.pageView.initialize();
-			}			
+				this.pageView.initialize();
+			}
 		}
 		/*
 		Individual Site View Handlers
 		*/
-		private static function onSiteInitializeComplete($event:ViewEvent):void
+		private function onSiteInitializeComplete($event:ViewEvent):void
 		{
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INITIALIZE_COMPLETE, TransitionManager.siteView));
-			TransitionManager.siteView.intro();
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INITIALIZE_COMPLETE, this.siteView));
+			this.siteView.intro();
 		}
-		private static function onSiteIntroComplete($event:ViewEvent):void
+		private function onSiteIntroComplete($event:ViewEvent):void
 		{
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INTRO_COMPLETE, TransitionManager.siteView));
-			if (Config.getSetting(BedrockData.AUTO_DEFAULT_ENABLED)) {
-				TransitionManager.pageView.initialize();
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INTRO_COMPLETE, this.siteView));
+			if (BedrockEngine.getInstance().config.getSetting(BedrockData.AUTO_DEFAULT_ENABLED)) {
+				this.pageView.initialize();
 			}
 		}
 		/*
 		Individual Page View Handlers
 		*/
-		private static function onPageInitializeComplete($event:ViewEvent):void
+		private function onPageInitializeComplete($event:ViewEvent):void
 		{
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INITIALIZE_COMPLETE, TransitionManager.pageView, TransitionManager.getDetailObject()));
-			TransitionManager.pageView.intro();
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INITIALIZE_COMPLETE, this.pageView, this.getDetailObject()));
+			this.pageView.intro();
 		}
-		private static function onPageIntroComplete($event:ViewEvent):void
+		private function onPageIntroComplete($event:ViewEvent):void
 		{
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INTRO_COMPLETE, TransitionManager.pageView, TransitionManager.getDetailObject()));
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INTRO_COMPLETE, this.pageView, this.getDetailObject()));
 		}
-		private static function onPageOutroComplete($event:ViewEvent):void
+		private function onPageOutroComplete($event:ViewEvent):void
 		{
-			TransitionManager.removePageListeners(TransitionManager.pageView);
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.OUTRO_COMPLETE, TransitionManager.pageView, TransitionManager.getDetailObject()));			
-			TransitionManager.pageView.clear();
-			TransitionManager.pageLoader.unload();
-			TransitionManager.reset();
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RENDER_PRELOADER,TransitionManager.pageLoader));
+			this.removePageListeners(this.pageView);
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.OUTRO_COMPLETE, this.pageView, this.getDetailObject()));			
+			this.pageView.clear();
+			this.pageLoader.unload();
+			this.reset();
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RENDER_PRELOADER,this.pageLoader));
 		}
 		/*
 		Load Handlers
 		*/
-		private static function onSiteLoadComplete($event:LoaderEvent):void
+		private function onSiteLoadComplete($event:LoaderEvent):void
 		{
-			TransitionManager.__objSiteView = TransitionManager.__objSiteLoader.content  as IView;
-			TransitionManager.addSiteListeners(TransitionManager.__objSiteView);
+			this._objSiteView = this._objSiteLoader.content  as IView;
+			this.addSiteListeners(this._objSiteView);
 		}
-		private static function onPageLoadComplete($event:LoaderEvent):void
+		private function onPageLoadComplete($event:LoaderEvent):void
 		{
-			TransitionManager.__objPageView = TransitionManager.__objPageLoader.content as IView;
-			TransitionManager.addPageListeners(TransitionManager.__objPageView);
+			this._objPageView = this._objPageLoader.content as IView;
+			this.addPageListeners(this._objPageView);
 		}
 		/*
 		Set the current container to load content into
 	 	*/
-	 	public static function set siteLoader($loader:VisualLoader):void
+	 	public function set siteLoader($loader:VisualLoader):void
 		{
-			TransitionManager.__objSiteLoader=$loader;
-			TransitionManager.__objSiteLoader.addEventListener(LoaderEvent.COMPLETE, TransitionManager.onSiteLoadComplete);
+			this._objSiteLoader=$loader;
+			this._objSiteLoader.addEventListener(LoaderEvent.COMPLETE, this.onSiteLoadComplete);
 		}
-		public static function get siteLoader():VisualLoader
+		public function get siteLoader():VisualLoader
 		{
-			return TransitionManager.__objSiteLoader;
+			return this._objSiteLoader;
 		}
-		public static function set pageLoader($loader:VisualLoader):void
+		public function set pageLoader($loader:VisualLoader):void
 		{
-			TransitionManager.__objPageLoader=$loader;
-			TransitionManager.__objPageLoader.addEventListener(LoaderEvent.COMPLETE, TransitionManager.onPageLoadComplete);
+			this._objPageLoader=$loader;
+			this._objPageLoader.addEventListener(LoaderEvent.COMPLETE, this.onPageLoadComplete);
 		}
-		public static function get pageLoader():VisualLoader
+		public function get pageLoader():VisualLoader
 		{
-			return TransitionManager.__objPageLoader;
+			return this._objPageLoader;
 		}
 		
-		public static function get siteView():IView
+		public function get siteView():IView
 		{
-			return TransitionManager.__objSiteView;
+			return this._objSiteView;
 		}
-		public static function get pageView():IView
+		public function get pageView():IView
 		{
-			return TransitionManager.__objPageView;
+			return this._objPageView;
 		}
 	}
 
