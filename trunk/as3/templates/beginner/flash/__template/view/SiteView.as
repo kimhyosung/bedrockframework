@@ -3,8 +3,8 @@
 	import caurina.transitions.Tweener;
 	
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
+	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.event.BedrockEvent;
-	import com.bedrockframework.engine.manager.ContainerManager;
 	import com.bedrockframework.engine.view.BedrockView;
 	import com.bedrockframework.plugin.view.IView;
 	
@@ -29,10 +29,10 @@
 		}
 		public function intro($properties:Object=null):void
 		{
-			var objNavigation:IView = ContainerManager.getContainer("navigation").content as IView;
+			var objNavigation:IView = BedrockEngine.get().containerManager.getContainer("navigation").content as IView;
 			objNavigation.initialize();
 			objNavigation.intro();
-			//trace(objNavigation)
+			
 			Tweener.addTween(this,{alpha:1,transition:"linear",time:1,onComplete:this.onIntroTweenComplete});
 			//this.introComplete();
 		}

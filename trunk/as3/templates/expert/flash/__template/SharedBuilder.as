@@ -1,15 +1,16 @@
 ﻿package __template
 {
 	import com.bedrockframework.engine.AssetBuilder;
+	import com.bedrockframework.engine.api.IAssetBuilder;
 	import com.bedrockframework.engine.data.BedrockData;
 
-	public class SharedBuilder extends AssetBuilder
+	public class SharedBuilder extends AssetBuilder implements IAssetBuilder
 	{
 		public function SharedBuilder()
 		{
 			super();
 		}
-		override public function initialize():void
+		public function initialize():void
 		{
 			this.addPreloader(BedrockData.DEFAULT_PRELOADER, DefaultPreloader);
 		}

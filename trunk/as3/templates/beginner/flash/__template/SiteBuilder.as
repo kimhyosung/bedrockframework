@@ -34,7 +34,7 @@
 		public function loadViews():void
 		{
 			this.status("Loading Views");
-			this.addToQueue(Config.getValue("swf_path") + "navigation.swf",ContainerManager.getContainer("navigation"));
+			this.addToQueue(this.engine.config.getValue("swf_path") + "navigation.swf",this.engine.containerManager.getContainer("navigation"));
 			this.next();
 		}
 		public function loadTracking():void

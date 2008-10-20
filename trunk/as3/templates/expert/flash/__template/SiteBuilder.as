@@ -1,7 +1,7 @@
 ﻿package __template
 {	
 	import com.bedrockframework.engine.BedrockBuilder;
-	import com.bedrockframework.engine.IBedrockBuilder;	
+	import com.bedrockframework.engine.api.IBedrockBuilder;	
 	
 	public class SiteBuilder extends BedrockBuilder implements IBedrockBuilder
 	{
