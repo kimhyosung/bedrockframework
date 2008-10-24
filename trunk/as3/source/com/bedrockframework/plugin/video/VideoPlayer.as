@@ -261,7 +261,6 @@
 		*/
 		private function onCuePoint($info:Object):void
 		{
-			debug($info);
 			this.dispatchEvent(new VideoEvent(VideoEvent.CUE_POINT, this, $info));			
 		}
 		private function onMetaData($info:Object):void
