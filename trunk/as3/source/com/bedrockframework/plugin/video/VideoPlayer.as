@@ -259,15 +259,15 @@
 		/*
 		Weird Handlers
 		*/
-		private function onCuePoint($event:VideoEvent):void
+		private function onCuePoint($info:Object):void
 		{
-			this._numDuration = $event.details.duration;
-			this.dispatchEvent(new VideoEvent(VideoEvent.META_DATA, this, $event));
+			debug($info);
+			this.dispatchEvent(new VideoEvent(VideoEvent.CUE_POINT, this, $info));			
 		}
-		private function onMetaData($event:VideoEvent):void
+		private function onMetaData($info:Object):void
 		{
-			trace("FDFSDFSDSD");
-			this.dispatchEvent(new VideoEvent(VideoEvent.CUE_POINT, this, $event));
+			this._numDuration = $info.duration;	
+			this.dispatchEvent(new VideoEvent(VideoEvent.META_DATA, this, $info));
 		}	
 		/*
 		Property Definitions
