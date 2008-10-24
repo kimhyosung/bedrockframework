@@ -20,6 +20,7 @@
 		public static const PLAY_STOP:String = "NetStream.Play.Stop";
 		public static const PLAY_FAILED:String = "NetStream.Play.Failed";
 		public static const PLAY_PROGRESS:String = "VideoEvent.onPlayProgress";
+		public static const PLAY_STATUS:String = "VideoEvent.onPlayStatus";
 		public static const PLAY_COMPLETE:String = "VideoEvent.onComplete";
 		
 		public static const CONNECTION_CLOSED:String = "NetConnection.Connect.Closed";

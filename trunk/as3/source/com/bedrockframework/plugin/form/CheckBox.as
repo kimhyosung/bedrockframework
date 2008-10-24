@@ -43,7 +43,7 @@
 		/**
 		* Sets the check box status to selected and changes it's appearance
 	 	*/
-		public function check():void
+		public function select():void
 		{
 			this._bolSelected = true;
 			this.gotoAndStop(2);
@@ -52,7 +52,7 @@
 		/*
 		Sets the check box status to deselected and changes it's appearance
 	 	*/
-		public function uncheck():void
+		public function deselect():void
 		{
 			this._bolSelected = false;
 			this.gotoAndStop(1);

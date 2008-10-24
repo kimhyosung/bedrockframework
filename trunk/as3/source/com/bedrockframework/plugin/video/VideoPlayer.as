@@ -1,8 +1,8 @@
 ﻿package com.bedrockframework.plugin.video
 {
+	import com.bedrockframework.core.base.SpriteWidget;
 	import com.bedrockframework.plugin.event.IntervalTriggerEvent;
 	import com.bedrockframework.plugin.event.VideoEvent;
-	import com.bedrockframework.core.base.SpriteWidget;
 	import com.bedrockframework.plugin.timer.IntervalTrigger;
 	import com.bedrockframework.plugin.util.MathUtil;
 	
@@ -26,11 +26,9 @@
         private var _objStream:NetStream;
         private var _bolPaused:Boolean;
         private var _objTransform:SoundTransform;
-        private var _objBufferTrigger:IntervalTrigger;
-        private var _objLoadTrigger:IntervalTrigger;
-        private var _objProgressTrigger:IntervalTrigger;
+        private var _objSharedTrigger:IntervalTrigger;
+		private var _objClient:Object;
         private var _numDuration:Number;
-        private var _bolJustLoad:Boolean;
         /*
         Constructor
         */	
@@ -38,15 +36,8 @@
 		{
 			this._bolPaused = false;
 			
-			this._objBufferTrigger = new IntervalTrigger();
-			this._objBufferTrigger.addEventListener(IntervalTriggerEvent.TRIGGER, this.onBufferTrigger);
-			this._objBufferTrigger.silenceLogging = true;
-			this._objLoadTrigger = new IntervalTrigger();
-			this._objLoadTrigger.addEventListener(IntervalTriggerEvent.TRIGGER, this.onLoadTrigger);
-			this._objLoadTrigger.silenceLogging = true;
-			this._objProgressTrigger = new IntervalTrigger();
-			this._objProgressTrigger.addEventListener(IntervalTriggerEvent.TRIGGER, this.onProgressTrigger);
-			this._objProgressTrigger.silenceLogging = true;
+			this._objSharedTrigger = new IntervalTrigger();
+			this._objSharedTrigger.silenceLogging = true;
 			
 			this._objConnection = new NetConnection();
 			this._objConnection.addEventListener(NetStatusEvent.NET_STATUS, this.onStatusHandler);			
@@ -57,16 +48,8 @@
 		}
 		public function initialize($connection:String = null):void
 		{
-            this._objConnection.connect($connection);
-            
-            this._objStream = new NetStream(this._objConnection);
-            this._objStream.client = this.createClient();
-            this._objStream.addEventListener(NetStatusEvent.NET_STATUS, this.onStatusHandler);
-            this._objStream.addEventListener(IOErrorEvent.IO_ERROR, this.onIOError);
-            this._objStream.addEventListener(AsyncErrorEvent.ASYNC_ERROR, this.onSyncError);
-            
-			this._objVideo.attachNetStream(this._objStream);
-			//
+			this.createClient();
+            this.createNetStream($connection);
 			this.createInteralListeners();
 		}
 		private function createInteralListeners():void
@@ -76,13 +59,23 @@
 			this.addEventListener(VideoEvent.PLAY_START, this.onPlayStart);
 			this.addEventListener(VideoEvent.PLAY_STOP, this.onPlayStop);			
 		}
-		private function createClient():Object
+		private function createClient():void
 		{
-			var objClient:Object = new Object();
-			objClient.onMetaData = this.onMetaData;
-			objClient.onCuePoint = this.onCuePoint;
-			objClient.onPlayStatus = this.onPlayStatus;
-			return objClient;
+			this._objClient = new Object();
+			this._objClient.onMetaData = this.onMetaData;
+			this._objClient.onCuePoint = this.onCuePoint;
+		}
+		private function createNetStream($connection:String = null):void
+		{
+			this._objConnection.connect($connection);
+            
+            this._objStream = new NetStream(this._objConnection);
+            this._objStream.client = this._objClient;
+            this._objStream.addEventListener(NetStatusEvent.NET_STATUS, this.onStatusHandler);
+            this._objStream.addEventListener(IOErrorEvent.IO_ERROR, this.onIOError);
+            this._objStream.addEventListener(AsyncErrorEvent.ASYNC_ERROR, this.onSyncError);
+            
+			this._objVideo.attachNetStream(this._objStream);
 		}
 		/*
 		Basic Functions
@@ -92,15 +85,17 @@
 			this._numDuration = 0;
 			this._strURL = $url || this._strURL;
 			
-			this._objBufferTrigger.start(0.1);
-			this._objLoadTrigger.start(0.1);
+			this._objSharedTrigger.start(0.1);
+			
+			this._objSharedTrigger.addEventListener(IntervalTriggerEvent.TRIGGER, this.onBufferTrigger);
+			this._objSharedTrigger.addEventListener(IntervalTriggerEvent.TRIGGER, this.onLoadTrigger);
 			
 			this._objStream.play(this._strURL);
 		}
 		public function stop():void
 		{
 			this._objStream.close();
-			this.stopTriggers();
+			this._objSharedTrigger.stop();
 			this.dispatchEvent(new VideoEvent(VideoEvent.STOP, this));
 		}
 		public function clear():void
@@ -108,17 +103,8 @@
 			this._objConnection.close();
 			this._objStream.close();
 			this._objVideo.clear();
-			this.stopTriggers();
+			this._objSharedTrigger.stop();
 			this.dispatchEvent(new VideoEvent(VideoEvent.CLEAR, this));
-		}
-		/*
-		Interval Handling
-		*/
-		private function stopTriggers():void
-		{
-			this._objBufferTrigger.stop();
-			this._objLoadTrigger.stop();
-			this._objProgressTrigger.stop();
 		}
 		/*
 		Muting
@@ -165,7 +151,6 @@
 		public function pause():void
 		{
 			if (!this._bolPaused) {
-				
 				this._objStream.pause();
 				this._bolPaused = true;
 				this.dispatchEvent(new VideoEvent(VideoEvent.PAUSE, this));
@@ -174,7 +159,6 @@
 		public function resume():void
 		{
 			if (this._bolPaused) {
-				
 				this._objStream.resume();
 				this._bolPaused = false;
 				this.dispatchEvent(new VideoEvent(VideoEvent.RESUME, this));
@@ -187,6 +171,11 @@
 		{
 			this.dispatchEvent(new VideoEvent(VideoEvent.SEEK_START, this));
 			this._objStream.seek($time);
+		}
+		
+		private function checkForCompletion():Boolean
+		{
+			return (Math.floor(this._objStream.time) >= Math.floor(this._numDuration));
 		}
 		/*
 		Event Handlers
@@ -213,22 +202,24 @@
 		*/
 		private function onPlayStart($event:VideoEvent):void
 		{
-			this._objProgressTrigger.start(0.1);			
+			this._objSharedTrigger.addEventListener(IntervalTriggerEvent.TRIGGER, this.onProgressTrigger);	
 		}
 		private function onPlayStop($event:VideoEvent):void
 		{
 			this.removeEventListener(VideoEvent.BUFFER_EMPTY, this.onBufferEmpty);
-			this._objLoadTrigger.stop();
-			this._objProgressTrigger.stop();
-			this._objBufferTrigger.stop();
+			if (this.checkForCompletion()) {
+				this._objSharedTrigger.stop();
+				this.dispatchEvent(new VideoEvent(VideoEvent.PLAY_COMPLETE, this, $event.details));
+			}
 		}
 		private function onBufferFull($event:VideoEvent):void
 		{
-			this._objBufferTrigger.stop();
+			this.addEventListener(VideoEvent.BUFFER_EMPTY, this.onBufferEmpty);
+			this._objSharedTrigger.removeEventListener(IntervalTriggerEvent.TRIGGER, this.onBufferTrigger);
 		}
 		private function onBufferEmpty($event:VideoEvent):void
 		{
-			this._objBufferTrigger.start(0.1);
+			this._objSharedTrigger.addEventListener(IntervalTriggerEvent.TRIGGER, this.onBufferTrigger);
 		}
 		/*
 		Trigger Handlers
@@ -268,18 +259,16 @@
 		/*
 		Weird Handlers
 		*/
-		private function onCuePoint($info:Object):void
+		private function onCuePoint($event:VideoEvent):void
 		{
+			this._numDuration = $event.details.duration;
+			this.dispatchEvent(new VideoEvent(VideoEvent.META_DATA, this, $event));
 		}
-		private function onMetaData($info:Object):void
+		private function onMetaData($event:VideoEvent):void
 		{
-			this._numDuration = $info.duration;
-			this.dispatchEvent(new VideoEvent(VideoEvent.CUE_POINT, this, $info));
-		}
-		private function onPlayStatus($info:Object):void
-		{
-			this.status("onPlayStatus");
-		}		
+			trace("FDFSDFSDSD");
+			this.dispatchEvent(new VideoEvent(VideoEvent.CUE_POINT, this, $event));
+		}	
 		/*
 		Property Definitions
 		*/
