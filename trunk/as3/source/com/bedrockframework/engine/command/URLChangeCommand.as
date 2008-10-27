@@ -5,10 +5,9 @@
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.core.event.GenericEvent;
 	import com.bedrockframework.engine.BedrockEngine;
+	import com.bedrockframework.engine.bedrock;
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.engine.model.State;
-	
-	import com.bedrockframework.engine.bedrock;
 	
 	public class URLChangeCommand extends Command implements ICommand
 	{
@@ -17,13 +16,11 @@
 		}
 		public  function execute($event:GenericEvent):void
 		{
-			var objBedrockEngine:BedrockEngine = BedrockEngine.getInstance();
-			
-			if (objBedrockEngine.bedrock::state.current != State.INITIALIZED && objBedrockEngine.bedrock::state.current != State.UNAVAILABLE ) {
+			if (BedrockEngine.bedrock::state.current != State.INITIALIZED && BedrockEngine.bedrock::state.current != State.UNAVAILABLE ) {
 				try {
 					var strPath:String = $event.details.paths[0];
-					var strCurrentAlias:String = objBedrockEngine.bedrock::pageManager.current.alias;
-					if (objBedrockEngine.config.getPage(strPath) != null) {
+					var strCurrentAlias:String = BedrockEngine.bedrock::pageManager.current.alias;
+					if (BedrockEngine.config.getPage(strPath) != null) {
 						if (strPath && strPath != strCurrentAlias) {
 							BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DO_CHANGE, this, {alias:strPath}));
 						}

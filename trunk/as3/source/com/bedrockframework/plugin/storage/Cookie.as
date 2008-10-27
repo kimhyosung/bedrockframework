@@ -1,6 +1,7 @@
 ﻿package com.bedrockframework.plugin.storage
 {
 	import com.bedrockframework.core.base.StandardWidget;
+	
 	import flash.net.SharedObject;
 	import flash.net.SharedObjectFlushStatus;
 
@@ -29,9 +30,20 @@
 		/*
 		Getter and Setter
 		*/
-		public function set($name:String, $value:*):Boolean
+		public function saveValue($name:String, $value:*):Boolean
 		{
 			this._objShared.data[$name] = $value;
+			return this.flushValues();
+		}
+		public function getValue($name:String):*
+		{
+			return this._objShared.data[$name];
+		}
+		/*
+		Process Flush Result
+		*/
+		private function flushValues():Boolean
+		{
 			try {
 				return this.processResult(this._objShared.flush());
 			} catch($error:Error){
@@ -39,13 +51,6 @@
 			}
 			return false;
 		}
-		public function get($name:String):*
-		{
-			return this._objShared.data[$name];
-		}
-		/*
-		Process Flush Result
-		*/
 		private function processResult($result:String):Boolean
 		{
 			var bolStatus:Boolean
@@ -58,6 +63,23 @@
 					break;
 			}
 			return bolStatus;
+		}
+		
+		public function importValues($data:Object):void
+		{
+			var objData:Object = $data;
+			for (var d in objData) {
+				this._objShared.data[d] = objData[d];
+			}
+			this.flushValues();
+		}
+		public function exportValues():Object
+		{
+			var objData:Object = new Object;
+			for (var d in this._objShared.data) {
+				objData[d] = this._objShared.data[d];
+			}
+			return objData;
 		}
 	}
 }

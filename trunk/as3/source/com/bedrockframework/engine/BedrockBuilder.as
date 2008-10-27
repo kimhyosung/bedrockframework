@@ -31,8 +31,6 @@ package com.bedrockframework.engine
 	import com.bedrockframework.plugin.storage.ArrayBrowser;
 	import com.bedrockframework.plugin.tracking.ITrackingService;
 	
-	import com.bedrockframework.engine.bedrock;
-	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
@@ -52,14 +50,13 @@ package com.bedrockframework.engine
 		private var _numLoadIndex:Number;		
 		private var _objConfigLoader:URLLoader;
 		
-		private var _objBedrockEngine:BedrockEngine;
+		private var _BedrockEngine:BedrockEngine;
 		/*
 		Constructor
 		*/
 		public function BedrockBuilder()
 		{
 			this.configURL = "../../" + BedrockData.CONFIG_FILENAME + ".xml";
-			this._objBedrockEngine = BedrockEngine.getInstance();
 
 			this._numLoadIndex=0;
 			this.createEngineClasses();
@@ -77,22 +74,23 @@ package com.bedrockframework.engine
 		{
 			//use namespace engine;
 			
-			this._objBedrockEngine.bedrock::controller = new FrontController;
+			BedrockEngine.bedrock::controller = new FrontController;
 			
-			this._objBedrockEngine.assetManager = new AssetManager;
-			this._objBedrockEngine.containerManager = new ContainerManager;
-			this._objBedrockEngine.copyManager = new CopyManager;
-			this._objBedrockEngine.deeplinkManager = new DeepLinkManager;
-			this._objBedrockEngine.loadManager = new LoadManager;
-			this._objBedrockEngine.bedrock::pageManager = new PageManager;
-			this._objBedrockEngine.bedrock::preloaderManager = new PreloaderManager;
-			this._objBedrockEngine.serviceManager = new ServiceManager;			
-			this._objBedrockEngine.styleManager = new StyleManager;
-			this._objBedrockEngine.trackingManager = new TrackingManager;
-			this._objBedrockEngine.bedrock::transitionManager = new TransitionManager;
+			BedrockEngine.assetManager = new AssetManager;
+			BedrockEngine.containerManager = new ContainerManager;
+			BedrockEngine.copyManager = new CopyManager;
+			BedrockEngine.deeplinkManager = new DeepLinkManager;
+			BedrockEngine.loadManager = new LoadManager;
+			BedrockEngine.bedrock::pageManager = new PageManager;
+			BedrockEngine.bedrock::preloaderManager = new PreloaderManager;
+			BedrockEngine.serviceManager = new ServiceManager;			
+			BedrockEngine.styleManager = new StyleManager;
+			BedrockEngine.trackingManager = new TrackingManager;
+			BedrockEngine.bedrock::transitionManager = new TransitionManager;
 			
-			this._objBedrockEngine.config = new Config;
-			this._objBedrockEngine.bedrock::state = new State;
+			BedrockEngine.config = new Config;
+			BedrockEngine.history = new History;
+			BedrockEngine.bedrock::state = new State;
 		}
 		
 		final protected function next():void
@@ -124,21 +122,21 @@ package com.bedrockframework.engine
 
 		final private function loadParams():void
 		{			
-			this._objBedrockEngine.config.parseParamString(this.params);
-			this._objBedrockEngine.config.saveParams(this.loaderInfo.parameters);
+			BedrockEngine.config.parseParamString(this.params);
+			BedrockEngine.config.saveParams(this.loaderInfo.parameters);
 			this.next();
 		}
 		
 		final private function loadConfig():void
 		{
 			var strConfigURL:String;
-			this.loadConfigXML(this._objBedrockEngine.config.getParam(BedrockData.CONFIG_URL) ||this.configURL);
+			this.loadConfigXML(BedrockEngine.config.getParam(BedrockData.CONFIG_URL) ||this.configURL);
 			this.status(this.loaderInfo.url);
 		}
 		final private function loadDeepLinking():void
 		{
-			if (this._objBedrockEngine.config.getSetting(BedrockData.DEEP_LINKING_ENABLED)) {
-				this._objBedrockEngine.deeplinkManager.initialize();
+			if (BedrockEngine.config.getSetting(BedrockData.DEEP_LINKING_ENABLED)) {
+				BedrockEngine.deeplinkManager.initialize();
 				BedrockDispatcher.addEventListener(BedrockEvent.DEEP_LINK_INITIALIZE, this.onDeepLinkInitialized);
 			} else {
 				this.next();
@@ -146,45 +144,45 @@ package com.bedrockframework.engine
 		}
 		final private function loadCacheSettings():void
 		{
-			if (this._objBedrockEngine.config.getSetting(BedrockData.CACHE_PREVENTION_ENABLED) && this._objBedrockEngine.config.getSetting(BedrockData.ENVIRONMENT) != BedrockData.LOCAL) {
+			if (BedrockEngine.config.getSetting(BedrockData.CACHE_PREVENTION_ENABLED) && BedrockEngine.config.getSetting(BedrockData.ENVIRONMENT) != BedrockData.LOCAL) {
 				BackgroundLoader.cachePrevention = true;
 				VisualLoader.cachePrevention = true;
-				BackgroundLoader.cacheKey = this._objBedrockEngine.config.getValue(BedrockData.CACHE_KEY);
-				VisualLoader.cacheKey = this._objBedrockEngine.config.getValue(BedrockData.CACHE_KEY);
+				BackgroundLoader.cacheKey = BedrockEngine.config.getValue(BedrockData.CACHE_KEY);
+				VisualLoader.cacheKey = BedrockEngine.config.getValue(BedrockData.CACHE_KEY);
 			}
 			this.next();
 		}
 		final private function loadLogging():void
 		{
-			Logger.localLevel = LogLevel[this._objBedrockEngine.config.getParam(BedrockData.LOCAL_LOG_LEVEL)  || this._objBedrockEngine.config.getValue(BedrockData.LOCAL_LOG_LEVEL)];
-			Logger.eventLevel = LogLevel[this._objBedrockEngine.config.getParam(BedrockData.EVENT_LOG_LEVEL)  || this._objBedrockEngine.config.getValue(BedrockData.EVENT_LOG_LEVEL)];
-			Logger.remoteLevel = LogLevel[this._objBedrockEngine.config.getParam(BedrockData.REMOTE_LOG_LEVEL)  || this._objBedrockEngine.config.getValue(BedrockData.REMOTE_LOG_LEVEL)];
-			Logger.remoteLogURL = this._objBedrockEngine.config.getValue(BedrockData.REMOTE_LOG_URL);
+			Logger.localLevel = LogLevel[BedrockEngine.config.getParam(BedrockData.LOCAL_LOG_LEVEL)  || BedrockEngine.config.getValue(BedrockData.LOCAL_LOG_LEVEL)];
+			Logger.eventLevel = LogLevel[BedrockEngine.config.getParam(BedrockData.EVENT_LOG_LEVEL)  || BedrockEngine.config.getValue(BedrockData.EVENT_LOG_LEVEL)];
+			Logger.remoteLevel = LogLevel[BedrockEngine.config.getParam(BedrockData.REMOTE_LOG_LEVEL)  || BedrockEngine.config.getValue(BedrockData.REMOTE_LOG_LEVEL)];
+			Logger.remoteLogURL = BedrockEngine.config.getValue(BedrockData.REMOTE_LOG_URL);
 			this.next();
 		}
 		final private function loadCSS():void
 		{
-			if (this._objBedrockEngine.config.getSetting(BedrockData.STYLESHEET_ENABLED)) {
-				this.addToQueue(this._objBedrockEngine.config.getValue(BedrockData.CSS_PATH) + BedrockData.STYLESHEET_FILENAME + ".css", null, this.onCSSLoaded);
+			if (BedrockEngine.config.getSetting(BedrockData.STYLESHEET_ENABLED)) {
+				this.addToQueue(BedrockEngine.config.getValue(BedrockData.CSS_PATH) + BedrockData.STYLESHEET_FILENAME + ".css", null, this.onCSSLoaded);
 			}
 			this.next();
 		}
 		final private function loadCopy():void
 		{
-			if (this._objBedrockEngine.config.getSetting(BedrockData.COPY_DECK_ENABLED)) {
+			if (BedrockEngine.config.getSetting(BedrockData.COPY_DECK_ENABLED)) {
 				var strPath:String;
-				var arrLanguages:Array = this._objBedrockEngine.config.getSetting(BedrockData.LANGUAGES);
+				var arrLanguages:Array = BedrockEngine.config.getSetting(BedrockData.LANGUAGES);
 				var objBrowser:ArrayBrowser = new ArrayBrowser(arrLanguages);
-				if (arrLanguages.length > 0 && this._objBedrockEngine.config.getSetting(BedrockData.DEFAULT_LANGUAGE) != "") {
-					if (objBrowser.containsItem(this._objBedrockEngine.config.getSetting(BedrockData.CURRENT_LANGUAGE))) {
-						strPath = this._objBedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + "_" + this._objBedrockEngine.config.getSetting(BedrockData.CURRENT_LANGUAGE) + ".xml";
+				if (arrLanguages.length > 0 && BedrockEngine.config.getSetting(BedrockData.DEFAULT_LANGUAGE) != "") {
+					if (objBrowser.containsItem(BedrockEngine.config.getSetting(BedrockData.CURRENT_LANGUAGE))) {
+						strPath = BedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + "_" + BedrockEngine.config.getSetting(BedrockData.CURRENT_LANGUAGE) + ".xml";
 					} else {
-						strPath = this._objBedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + "_" + this._objBedrockEngine.config.getSetting(BedrockData.DEFAULT_LANGUAGE) + ".xml";
+						strPath = BedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + "_" + BedrockEngine.config.getSetting(BedrockData.DEFAULT_LANGUAGE) + ".xml";
 					}
 				} else {
-					strPath = this._objBedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + ".xml";
+					strPath = BedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + ".xml";
 				}
-				this._objBedrockEngine.copyManager.initialize(strPath);
+				BedrockEngine.copyManager.initialize(strPath);
 			}			
 			this.next();
 		}
@@ -207,10 +205,10 @@ package com.bedrockframework.engine
 			this.addCommand(BedrockEvent.SET_QUEUE, StateChangeCommand);
 			this.addCommand(BedrockEvent.INITIALIZE_COMPLETE, StateChangeCommand);
 			
-			if (this._objBedrockEngine.config.getSetting(BedrockData.AUTO_INTRO_ENABLED)){
+			if (BedrockEngine.config.getSetting(BedrockData.AUTO_INTRO_ENABLED)){
 				this.addCommand(BedrockEvent.BEDROCK_COMPLETE,RenderSiteCommand);
 			}
-			if (this._objBedrockEngine.config.getSetting(BedrockData.COPY_DECK_ENABLED)){
+			if (BedrockEngine.config.getSetting(BedrockData.COPY_DECK_ENABLED)){
 				this.addCommand(BedrockEvent.LOAD_COPY, LoadCopyCommand);
 			}
 			
@@ -218,24 +216,24 @@ package com.bedrockframework.engine
 		}
 		final private function loadEngineClasses():void
 		{
-			this._objBedrockEngine.containerManager.initialize(this);
-			this._objBedrockEngine.bedrock::preloaderManager.initialize();
-			this._objBedrockEngine.bedrock::transitionManager.initialize();
+			BedrockEngine.containerManager.initialize(this);
+			BedrockEngine.bedrock::preloaderManager.initialize();
+			BedrockEngine.bedrock::transitionManager.initialize();
 			
-			this._objBedrockEngine.trackingManager.initialize(this._objBedrockEngine.config.getValue(BedrockData.TRACKING_ENABLED));
+			BedrockEngine.trackingManager.initialize(BedrockEngine.config.getValue(BedrockData.TRACKING_ENABLED));
 			
 			this.next();			
 		}
 		final private function loadEngineContainers():void
 		{
-			this._objBedrockEngine.containerManager.buildLayout(this._objBedrockEngine.config.getSetting(BedrockData.LAYOUT));
-			this._objBedrockEngine.bedrock::transitionManager.siteLoader = this._objBedrockEngine.containerManager.getContainer(BedrockData.SITE_CONTAINER) as VisualLoader;
-			this._objBedrockEngine.bedrock::transitionManager.pageLoader = this._objBedrockEngine.containerManager.getContainer(BedrockData.PAGE_CONTAINER) as VisualLoader;
+			BedrockEngine.containerManager.buildLayout(BedrockEngine.config.getSetting(BedrockData.LAYOUT));
+			BedrockEngine.bedrock::transitionManager.siteLoader = BedrockEngine.containerManager.getContainer(BedrockData.SITE_CONTAINER) as VisualLoader;
+			BedrockEngine.bedrock::transitionManager.pageLoader = BedrockEngine.containerManager.getContainer(BedrockData.PAGE_CONTAINER) as VisualLoader;
 			
-			this._objBedrockEngine.containerManager.buildContainer(BedrockData.PRELOADER_CONTAINER, new Sprite);
+			BedrockEngine.containerManager.buildContainer(BedrockData.PRELOADER_CONTAINER, new Sprite);
 				
-			var objBlocker:Blocker=new Blocker(this._objBedrockEngine.config.getParam(BedrockData.BLOCKER_ALPHA));
-			this._objBedrockEngine.containerManager.buildContainer(BedrockData.BLOCKER_CONTAINER, objBlocker);
+			var objBlocker:Blocker=new Blocker(BedrockEngine.config.getParam(BedrockData.BLOCKER_ALPHA));
+			BedrockEngine.containerManager.buildContainer(BedrockData.BLOCKER_CONTAINER, objBlocker);
 			objBlocker.show();
 			
 			this.next();
@@ -243,8 +241,8 @@ package com.bedrockframework.engine
 		final private function loadServices():void
 		{
 			try{
-				if (this._objBedrockEngine.config.getSetting(BedrockData.REMOTING_ENABLED)) {
-					this._objBedrockEngine.serviceManager.initialize(this._objBedrockEngine.config.getValue(BedrockData.REMOTING))
+				if (BedrockEngine.config.getSetting(BedrockData.REMOTING_ENABLED)) {
+					BedrockEngine.serviceManager.initialize(BedrockEngine.config.getValue(BedrockData.REMOTING))
 				}				
 			}catch($error:Error){
 			}
@@ -256,8 +254,8 @@ package com.bedrockframework.engine
 		}
 		final private function loadDefaultPage():void
 		{
-			if (this._objBedrockEngine.config.getSetting(BedrockData.AUTO_DEFAULT_ENABLED)) {
-				this._objBedrockEngine.bedrock::pageManager.setupPageLoad(this._objBedrockEngine.config.getPage(this._objBedrockEngine.bedrock::pageManager.getDefaultPage()));
+			if (BedrockEngine.config.getSetting(BedrockData.AUTO_DEFAULT_ENABLED)) {
+				BedrockEngine.bedrock::pageManager.setupPageLoad(BedrockEngine.config.getPage(BedrockEngine.bedrock::pageManager.getDefaultPage()));
 			}
 			this.next();
 		}
@@ -270,8 +268,8 @@ package com.bedrockframework.engine
 		*/
 		final private function loadComplete():void
 		{
-			this.addToQueue(this._objBedrockEngine.config.getValue(BedrockData.SWF_PATH) + BedrockData.SITE_FILENAME + ".swf", this._objBedrockEngine.containerManager.getContainer(BedrockData.SITE_CONTAINER));
-			this.addToQueue(this._objBedrockEngine.config.getValue(BedrockData.SWF_PATH) + BedrockData.SHARED_FILENAME + ".swf", this._objBedrockEngine.containerManager.getContainer(BedrockData.SHARED_CONTAINER));			
+			this.addToQueue(BedrockEngine.config.getValue(BedrockData.SWF_PATH) + BedrockData.SITE_FILENAME + ".swf", BedrockEngine.containerManager.getContainer(BedrockData.SITE_CONTAINER));
+			this.addToQueue(BedrockEngine.config.getValue(BedrockData.SWF_PATH) + BedrockData.SHARED_FILENAME + ".swf", BedrockEngine.containerManager.getContainer(BedrockData.SHARED_CONTAINER));			
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.BEDROCK_COMPLETE,this));
 			this.status("Initialization Complete!");
 		}
@@ -283,28 +281,28 @@ package com.bedrockframework.engine
 		 */
 		final protected function addCommand($type:String,$command:Class):void
 		{
-			this._objBedrockEngine.bedrock::controller.addCommand($type,$command);
+			BedrockEngine.bedrock::controller.addCommand($type,$command);
 		}
 		/**
 		 * Removes an event/command relationship to the BedrockController.
 		 */
 		final protected function removeCommand($type:String,$command:Class):void
 		{
-			this._objBedrockEngine.bedrock::controller.removeCommand($type,$command);
+			BedrockEngine.bedrock::controller.removeCommand($type,$command);
 		}
 		/*
 		Add Tracking Service
 		*/
 		final protected function addTrackingService($name:String, $service:ITrackingService):void
 		{
-			this._objBedrockEngine.trackingManager.addService($name, $service);
+			BedrockEngine.trackingManager.addService($name, $service);
 		}
 		/*
 		Add View Functions
 		*/
 		final protected function addToQueue($path:String,$loader:*,$completeHandler:Function=null, $errorHandler:Function=null):void
 		{
-			this._objBedrockEngine.loadManager.addToQueue($path, $loader, $completeHandler, $errorHandler);
+			BedrockEngine.loadManager.addToQueue($path, $loader, $completeHandler, $errorHandler);
 		}
 		/*
 		Config Related Stuff
@@ -343,13 +341,13 @@ package com.bedrockframework.engine
 		}
 		final private function onConfigLoaded($event:Event):void
 		{
-			this._objBedrockEngine.config.initialize(this._objConfigLoader.data, this.loaderInfo.url, this.stage);
+			BedrockEngine.config.initialize(this._objConfigLoader.data, this.loaderInfo.url, this.stage);
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.CONFIG_LOADED,this));
 			this.next();
 		}
 		final private function onDeepLinkInitialized($event:BedrockEvent):void
 		{
-			this._objBedrockEngine.config.parseParamString($event.details.query);
+			BedrockEngine.config.parseParamString($event.details.query);
 			BedrockDispatcher.removeEventListener(BedrockEvent.DEEP_LINK_INITIALIZE, this.onDeepLinkInitialized);
 			this.next();
 		}
@@ -360,14 +358,7 @@ package com.bedrockframework.engine
 		}
 		final private function onCSSLoaded($event:LoaderEvent):void
 		{
-			this._objBedrockEngine.styleManager.parseCSS($event.details.data);
-		}
-		/*
-		Property Definitions
-		*/
-		public function get engine():BedrockEngine
-		{
-			return this._objBedrockEngine;
+			BedrockEngine.styleManager.parseCSS($event.details.data);
 		}
 	}
 }

@@ -16,11 +16,11 @@
 		}
 		public  function execute($event:GenericEvent):void
 		{
-			var objPage:Object=BedrockEngine.getInstance().bedrock::pageManager.getQueue();
+			var objPage:Object=BedrockEngine.bedrock::pageManager.getQueue();
 			if (objPage) {
-				BedrockEngine.getInstance().bedrock::pageManager.setupPageLoad(objPage);
+				BedrockEngine.bedrock::pageManager.setupPageLoad(objPage);
 			}
-			BedrockEngine.getInstance().loadManager.loadQueue();
+			BedrockEngine.loadManager.loadQueue();
 		}
 	}
 

@@ -39,7 +39,7 @@ package com.bedrockframework.engine.view
 		*/
 		final protected  function get current():Object
 		{
-			return BedrockEngine.getInstance().bedrock::pageManager.current;
+			return BedrockEngine.bedrock::pageManager.current;
 		}
 		/**
 		 * This will return the config details for the previously shown page.
@@ -47,7 +47,7 @@ package com.bedrockframework.engine.view
 		*/
 		final protected  function get previous():Object
 		{
-			return BedrockEngine.getInstance().bedrock::pageManager.previous;
+			return BedrockEngine.bedrock::pageManager.previous;
 		}
 		
 	}

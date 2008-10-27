@@ -71,7 +71,7 @@
 		{
 			var objDetail:Object = new Object();
 			try {
-				objDetail.page = BedrockEngine.getInstance().bedrock::pageManager.current;
+				objDetail.page = BedrockEngine.bedrock::pageManager.current;
 			} catch ($e:Error) {
 			}
 			objDetail.view = this.pageView;
@@ -82,9 +82,9 @@
 		*/
 		private function onDoInitialize($event:BedrockEvent):void
 		{
-			if (!BedrockEngine.getInstance().bedrock::state.siteInitialized) {
+			if (!BedrockEngine.bedrock::state.siteInitialized) {
 				this.siteView.initialize();
-				BedrockEngine.getInstance().bedrock::state.siteInitialized = true;
+				BedrockEngine.bedrock::state.siteInitialized = true;
 			} else {
 				this.pageView.initialize();
 			}
@@ -100,7 +100,7 @@
 		private function onSiteIntroComplete($event:ViewEvent):void
 		{
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INTRO_COMPLETE, this.siteView));
-			if (BedrockEngine.getInstance().config.getSetting(BedrockData.AUTO_DEFAULT_ENABLED)) {
+			if (BedrockEngine.config.getSetting(BedrockData.AUTO_DEFAULT_ENABLED)) {
 				this.pageView.initialize();
 			}
 		}

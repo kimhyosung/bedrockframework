@@ -19,17 +19,16 @@
 		}
 		public  function execute($event:GenericEvent):void
 		{
-			var objBedrockEngine:BedrockEngine = BedrockEngine.getInstance()
-			if (!objBedrockEngine.config.getSetting(BedrockData.AUTO_DEFAULT_ENABLED)) {
-				if (!objBedrockEngine.bedrock::state.doneDefault) {
-					var strDefaultAlias:String = objBedrockEngine.bedrock::pageManager.getDefaultPage($event.details);
+			if (!BedrockEngine.config.getSetting(BedrockData.AUTO_DEFAULT_ENABLED)) {
+				if (!BedrockEngine.bedrock::state.doneDefault) {
+					var strDefaultAlias:String = BedrockEngine.bedrock::pageManager.getDefaultPage($event.details);
 					this.status("Transitioning to - " + strDefaultAlias);
 					BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.SET_QUEUE,this,{alias:strDefaultAlias}));
 					BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RENDER_PRELOADER,this));
-					objBedrockEngine.bedrock::state.doneDefault = true;
+					BedrockEngine.bedrock::state.doneDefault = true;
 				}
 			} else {
-				objBedrockEngine.bedrock::state.doneDefault = true;
+				BedrockEngine.bedrock::state.doneDefault = true;
 			}
 		}
 	}

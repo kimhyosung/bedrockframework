@@ -18,13 +18,11 @@
 		/*
 		Variable Declarations
 		*/
-		private var _objChainLoader:ChainLoader;
 		private static var __objEventMap:HashMap;
+		private var _objChainLoader:ChainLoader;
 		/*
 		Constructor
-		*/		
-		
-		
+		*/	
 		public function LoadManager():void
 		{
 			this._objChainLoader = new ChainLoader();

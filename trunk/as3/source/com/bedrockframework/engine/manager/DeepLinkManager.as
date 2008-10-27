@@ -87,7 +87,7 @@ package com.bedrockframework.engine.manager
 		private function onInitializeComplete($event:BedrockEvent):void
 		{
 			DeepLinkUtil.clearPath();
-			DeepLinkUtil.setPath(BedrockEngine.getInstance().bedrock::pageManager.current.alias);
+			DeepLinkUtil.setPath(BedrockEngine.bedrock::pageManager.current.alias);
 			SWFAddress.setStatus("Ready");
 			this.enableChangeHandler();		
 		}

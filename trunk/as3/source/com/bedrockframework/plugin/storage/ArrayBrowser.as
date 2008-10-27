@@ -236,7 +236,7 @@
 		*/
 		public function filterAndRemove($value:*,$field:String=null):Array
 		{
-			return ArrayUtil.filterAndRemove(this._arrData,$value,$field);;
+			return ArrayUtil.filterAndRemove(this._arrData,$value,$field);
 		}
 		/*
 		Search: Returns Single Index

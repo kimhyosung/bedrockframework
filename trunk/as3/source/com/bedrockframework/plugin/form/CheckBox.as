@@ -64,9 +64,9 @@
 		private function onClicked($event:Event):void
 		{
 			if (!this._bolSelected) {
-				this.check();
+				this.select();
 			} else {
-				this.uncheck();
+				this.deselect();
 			}
 		}
 		/*

@@ -24,7 +24,8 @@ package com.bedrockframework.engine.api
 		/*
 		Pull the information for a specific page.
 		*/
-		function getPage($key:String):Object
+		function getPage($key:String):Object;
+		function getPages():Array;
 		
 		function saveParams($data:Object):void
 		function getParam($key:String):*

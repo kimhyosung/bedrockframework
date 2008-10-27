@@ -15,15 +15,14 @@
 		}
 		public  function execute($event:GenericEvent):void
 		{
-			var objBedrockEngine:BedrockEngine = BedrockEngine.getInstance();
 			var objPreloader:*;
-			if (objBedrockEngine.assetManager.hasPreloader(objBedrockEngine.bedrock::pageManager.current.alias)) {
-				objPreloader=objBedrockEngine.assetManager.getPreloader(objBedrockEngine.bedrock::pageManager.current.alias);
+			if (BedrockEngine.assetManager.hasPreloader(BedrockEngine.bedrock::pageManager.current.alias)) {
+				objPreloader=BedrockEngine.assetManager.getPreloader(BedrockEngine.bedrock::pageManager.current.alias);
 			} else {
-				objPreloader=objBedrockEngine.assetManager.getPreloader(BedrockData.DEFAULT_PRELOADER);
+				objPreloader=BedrockEngine.assetManager.getPreloader(BedrockData.DEFAULT_PRELOADER);
 			}
-			objBedrockEngine.containerManager.buildContainer(BedrockData.PRELOADER_CONTAINER,objPreloader);
-			objBedrockEngine.bedrock::preloaderManager.container = objPreloader;
+			BedrockEngine.containerManager.buildContainer(BedrockData.PRELOADER_CONTAINER,objPreloader);
+			BedrockEngine.bedrock::preloaderManager.container = objPreloader;
 		}
 	}
 }

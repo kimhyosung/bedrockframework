@@ -17,14 +17,13 @@
 		public  function execute($event:GenericEvent):void
 		{
 			var strAlias:String = $event.details.alias;
-			var objBedrockEngine:BedrockEngine = BedrockEngine.getInstance();
 			
-			if (objBedrockEngine.config.getPage(strAlias)){
-				if (objBedrockEngine.bedrock::pageManager.current == null || objBedrockEngine.bedrock::pageManager.current.alias != strAlias) {
+			if (BedrockEngine.config.getPage(strAlias)){
+				if (BedrockEngine.bedrock::pageManager.current == null || BedrockEngine.bedrock::pageManager.current.alias != strAlias) {
 					this.status("Transitioning to - " + strAlias);
 					BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.SHOW_BLOCKER,this));
 					BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.SET_QUEUE,this,{alias:strAlias}));
-					objBedrockEngine.bedrock::transitionManager.pageView.outro();
+					BedrockEngine.bedrock::transitionManager.pageView.outro();
 				} else {
 					this.warning("Page '" + strAlias + "' is currently loaded!");
 				}

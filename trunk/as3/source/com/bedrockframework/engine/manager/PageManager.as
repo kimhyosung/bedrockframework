@@ -1,18 +1,16 @@
 ﻿package com.bedrockframework.engine.manager
 {
 	import com.bedrockframework.core.base.StandardWidget;
-	import com.bedrockframework.core.logging.Logger;
 	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.api.IPageManager;
+	import com.bedrockframework.engine.bedrock;
 	import com.bedrockframework.engine.data.BedrockData;
 	import com.bedrockframework.engine.model.*;
 	import com.bedrockframework.plugin.loader.VisualLoader;
 	import com.bedrockframework.plugin.util.DeepLinkUtil;
-	import com.bedrockframework.engine.bedrock;
 
 	public class PageManager extends StandardWidget implements IPageManager
 	{
-		private var _objBedrockEngine:BedrockEngine;
 		private var _objCurrent:Object;
 		private var _objPrevious:Object;
 		/*
@@ -20,7 +18,6 @@
 		*/
 		public function PageManager()
 		{
-			this._objBedrockEngine = BedrockEngine.getInstance();
 		}
 		/*
 		*/
@@ -31,7 +28,7 @@
 			if (objPage.files != null) {
 				var numLength:Number=objPage.files.length;
 				for (var i:Number=0; i < numLength; i++) {
-					this._objBedrockEngine.loadManager.addToQueue(objPage.files[i]);
+					BedrockEngine.loadManager.addToQueue(objPage.files[i]);
 				}
 			} else {
 				this.status("No additional files to load!");
@@ -40,10 +37,10 @@
 			if (objPage.url != null) {
 				strPath = objPage.url;
 			} else {
-				strPath = this._objBedrockEngine.config.getValue(BedrockData.SWF_PATH) + objPage.alias + ".swf";
+				strPath = BedrockEngine.config.getValue(BedrockData.SWF_PATH) + objPage.alias + ".swf";
 			}						
-			this._objBedrockEngine.loadManager.addToQueue(strPath,this._objBedrockEngine.containerManager.getContainer(BedrockData.PAGE_CONTAINER));
-			this._objBedrockEngine.bedrock::transitionManager.pageLoader = this._objBedrockEngine.containerManager.getContainer(BedrockData.PAGE_CONTAINER) as VisualLoader;
+			BedrockEngine.loadManager.addToQueue(strPath,BedrockEngine.containerManager.getContainer(BedrockData.PAGE_CONTAINER));
+			BedrockEngine.bedrock::transitionManager.pageLoader = BedrockEngine.containerManager.getContainer(BedrockData.PAGE_CONTAINER) as VisualLoader;
 		}
 		
 		
@@ -54,17 +51,17 @@
 				strDefaultAlias=$details.alias;
 				this.status("Pulling from Event - " + strDefaultAlias);
 			} catch ($e:Error) {
-				if (this._objBedrockEngine.config.getSetting(BedrockData.DEEP_LINKING_ENABLED)){
+				if (BedrockEngine.config.getSetting(BedrockData.DEEP_LINKING_ENABLED)){
 					strDefaultAlias = DeepLinkUtil.getPathNames()[0];
 					this.status("Pulling from URL - " + strDefaultAlias);
 				}
 			} finally {
 				if (strDefaultAlias == null) {
-					if (this._objBedrockEngine.config.getParam(BedrockData.DEFAULT_PAGE) != null) {
-						strDefaultAlias = this._objBedrockEngine.config.getParam(BedrockData.DEFAULT_PAGE);
+					if (BedrockEngine.config.getParam(BedrockData.DEFAULT_PAGE) != null) {
+						strDefaultAlias = BedrockEngine.config.getParam(BedrockData.DEFAULT_PAGE);
 						this.status("Pulling from Params - " + strDefaultAlias);
 					} else {
-						strDefaultAlias = this._objBedrockEngine.config.getSetting(BedrockData.DEFAULT_PAGE);
+						strDefaultAlias = BedrockEngine.config.getSetting(BedrockData.DEFAULT_PAGE);
 						this.status("Pulling from Config - " + strDefaultAlias);
 					}
 				}
@@ -84,6 +81,7 @@
 				if (objPage != this._objCurrent) {
 					this._objPrevious = this._objCurrent;
 					this._objCurrent=objPage;
+					BedrockEngine.history.addHistoryItem(objPage);
 				} else {
 					this.warning("Page already in queue!");
 				}

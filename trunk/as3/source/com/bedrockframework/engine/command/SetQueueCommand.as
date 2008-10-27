@@ -14,8 +14,7 @@
 		}
 		public  function execute($event:GenericEvent):void
 		{
-			var objBedrockEngine:BedrockEngine = BedrockEngine.getInstance()
-			objBedrockEngine.bedrock::pageManager.setQueue(objBedrockEngine.config.getPage($event.details.alias));
+			BedrockEngine.bedrock::pageManager.setQueue(BedrockEngine.config.getPage($event.details.alias));
 		}
 	}
 

@@ -12,7 +12,7 @@
 		}
 		public  function execute($event:GenericEvent):void
 		{
-			BedrockEngine.getInstance().containerManager.getContainer("blocker").show();
+			BedrockEngine.containerManager.getContainer("blocker").show();
 		}
 	}
 

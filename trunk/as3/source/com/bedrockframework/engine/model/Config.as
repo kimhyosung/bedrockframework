@@ -296,6 +296,14 @@ package com.bedrockframework.engine.model
 			}
 			return objPage;
 		}
+		public function getPages():Array
+		{
+			var arrPages:Array = new Array;
+			for (var p in this._objPageSettings) {
+				arrPages.push(this._objPageSettings[p]);
+			}
+			return arrPages;
+		}
 		public function getParam($key:String):*
 		{
 			return this._objParamSettings[$key];

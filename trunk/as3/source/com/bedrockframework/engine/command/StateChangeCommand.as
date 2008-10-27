@@ -18,10 +18,10 @@
 		{
 			switch ($event.type) {
 				case BedrockEvent.SET_QUEUE :
-					BedrockEngine.getInstance().bedrock::state.change(State.UNAVAILABLE);
+					BedrockEngine.bedrock::state.change(State.UNAVAILABLE);
 					break;
 				case BedrockEvent.INITIALIZE_COMPLETE :
-					BedrockEngine.getInstance().bedrock::state.change(State.AVAILABLE);
+					BedrockEngine.bedrock::state.change(State.AVAILABLE);
 					break;
 			}
 

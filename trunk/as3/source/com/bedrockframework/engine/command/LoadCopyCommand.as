@@ -14,7 +14,7 @@
 		
 		public function execute($event:GenericEvent):void
 		{
-			BedrockEngine.getInstance().copyManager.loadXML($event.details.url);
+			BedrockEngine.copyManager.loadXML($event.details.url);
 		}
 		
 	}
