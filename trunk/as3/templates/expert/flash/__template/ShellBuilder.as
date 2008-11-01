@@ -3,7 +3,7 @@
 	import com.bedrockframework.engine.BedrockBuilder;
 	import com.bedrockframework.engine.api.IBedrockBuilder;	
 	
-	public class SiteBuilder extends BedrockBuilder implements IBedrockBuilder
+	public class ShellBuilder extends BedrockBuilder implements IBedrockBuilder
 	{
 		/*
 		Variable Declarations
@@ -11,7 +11,7 @@
 		/*
 		Constructor
 	 	*/
-		public function SiteBuilder()
+		public function ShellBuilder()
 		{
 			super();
 		}

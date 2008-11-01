@@ -4,11 +4,10 @@
 	import __template.event.SiteEvent;
 	
 	import com.bedrockframework.engine.BedrockBuilder;
-	import com.bedrockframework.engine.manager.ContainerManager;
-	import com.bedrockframework.engine.model.Config;
+	import com.bedrockframework.engine.BedrockEngine;
 	
 	
-	public class SiteBuilder extends BedrockBuilder
+	public class ShellBuilder extends BedrockBuilder
 	{
 		/*
 		Variable Declarations
@@ -16,7 +15,7 @@
 		/*
 		Constructor
 	 	*/
-		public function SiteBuilder()
+		public function ShellBuilder()
 		{
 			super();
 		}
@@ -34,7 +33,7 @@
 		public function loadViews():void
 		{
 			this.status("Loading Views");
-			this.addToQueue(this.engine.config.getValue("swf_path") + "navigation.swf",this.engine.containerManager.getContainer("navigation"));
+			this.addToQueue(BedrockEngine.config.getValue("swf_path") + "navigation.swf", BedrockEngine.containerManager.getContainer("navigation"));
 			this.next();
 		}
 		public function loadTracking():void

@@ -29,7 +29,7 @@
 		}
 		public function intro($properties:Object=null):void
 		{
-			var objNavigation:IView = BedrockEngine.get().containerManager.getContainer("navigation").content as IView;
+			var objNavigation:IView = BedrockEngine.containerManager.getContainer("navigation").content as IView;
 			objNavigation.initialize();
 			objNavigation.intro();
 			
