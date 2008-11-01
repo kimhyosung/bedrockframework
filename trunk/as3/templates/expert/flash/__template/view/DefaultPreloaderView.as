@@ -10,7 +10,7 @@
 		/*
 		Variable Declarations
 		*/
-		public var txtDisplay:TextField;
+		public var display:TextField;
 		/*
 		Constructor
 		*/
@@ -33,7 +33,7 @@
 		}
 		public function displayProgress($percent:uint):void
 		{
-			this.txtDisplay.text=$percent + " %";
+			this.display.text=$percent + " %";
 		}
 		public function outro($properties:Object=null):void
 		{
