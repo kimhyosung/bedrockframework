@@ -24,17 +24,22 @@
 		private var _strURL:String;
         private var _objConnection:NetConnection;
         private var _objStream:NetStream;
-        private var _bolPaused:Boolean;
         private var _objTransform:SoundTransform;
         private var _objSharedTrigger:IntervalTrigger;
 		private var _objClient:Object;
-        private var _numDuration:Number;
+        private var _numDuration:Number;        
+        private var _bolPaused:Boolean;
+        private var _bolLoadAndPause:Boolean;
+        private var _objSoundTransform:SoundTransform;
+		private var _numVolume:Number;
         /*
         Constructor
         */	
 		public function VideoPlayer($width:int = 320, $height:int = 240)
 		{
 			this._bolPaused = false;
+			this._numVolume = 1;
+			this._objSoundTransform = new SoundTransform(this._numVolume, 0);
 			
 			this._objSharedTrigger = new IntervalTrigger();
 			this._objSharedTrigger.silenceLogging = true;
@@ -85,6 +90,10 @@
 			this._numDuration = 0;
 			this._strURL = $url || this._strURL;
 			
+			if (this.loadAndPause) {
+				this.mute();
+			}
+			
 			this._objSharedTrigger.start(0.1);
 			
 			this._objSharedTrigger.addEventListener(IntervalTriggerEvent.TRIGGER, this.onBufferTrigger);
@@ -111,39 +120,26 @@
 		*/
 		public function mute():void
 		{
-			this.setVolume(0);
+			this._numVolume = this._objSoundTransform.volume;
+			this._objSoundTransform.volume = 0;
+			this._objStream.soundTransform = this._objSoundTransform;
 			this.dispatchEvent(new VideoEvent(VideoEvent.MUTE, this));
 		}
 		public function unmute():void
 		{
-			this.setVolume(1);
+			this._objSoundTransform.volume = this._numVolume;
+			this._objStream.soundTransform = this._objSoundTransform;
 			this.dispatchEvent(new VideoEvent(VideoEvent.UNMUTE, this));
 		}
-		/*
-		Set Volume
-		*/
-		private function setVolume($value:Number):void
+		public function toggleMute():Boolean
 		{
-			this.setTransform(new SoundTransform($value, 0));
-			this.dispatchEvent(new VideoEvent(VideoEvent.VOLUME, this, {volume:$value}));
-		}
-		private function getVolume():Number
-		{
-			return this._objTransform.volume;
-		}
-		/*
-		Set Transform
-		*/
-		public function setTransform($transform:SoundTransform = null):void
-		{
-			if ($transform) {
-				this._objTransform = $transform;				
+			if (this.volume != 0) {
+				this.mute();
+				return true;
+			} else {
+				this.unmute();
+				return false;
 			}
-			this._objStream.soundTransform = this._objTransform;
-		}
-		public function getTransform():SoundTransform
-		{
-			return this._objTransform;
 		}
 		/*
 		Pausing
@@ -203,6 +199,11 @@
 		private function onPlayStart($event:VideoEvent):void
 		{
 			this._objSharedTrigger.addEventListener(IntervalTriggerEvent.TRIGGER, this.onProgressTrigger);	
+			if (this._bolLoadAndPause) {
+				this.unmute();
+				this.pause();
+				this.seek(0);				
+			}
 		}
 		private function onPlayStop($event:VideoEvent):void
 		{
@@ -243,7 +244,12 @@
 			objDetails.bytesLoaded = this._objStream.bytesLoaded;
 			objDetails.bytesTotal = this._objStream.bytesTotal;		
 			objDetails.percent = (numPercent > 100) ? 100 : numPercent;
-
+			
+			if (numPercent == 100) {
+				this.dispatchEvent(new VideoEvent(VideoEvent.LOAD_COMPLETE, this, objDetails));
+				this._objSharedTrigger.removeEventListener(IntervalTriggerEvent.TRIGGER, this.onLoadTrigger);
+			}
+			
 			this.dispatchEvent(new VideoEvent(VideoEvent.LOAD_PROGRESS, this, objDetails));
 		}
 		private function onProgressTrigger($event:IntervalTriggerEvent):void
@@ -271,7 +277,7 @@
 		/*
 		Property Definitions
 		*/
-		public function get isPaused():Boolean 
+		public function get paused():Boolean
 		{
 			return this._bolPaused;
 		}
@@ -291,14 +297,6 @@
 		{
 			return this._objVideo.deblocking;
 		}
-		public function set volume($value:Number):void
-		{
-			this.setVolume($value);
-		}
-		public function get volume():Number
-		{
-			return this.getVolume();
-		}
 		public function set bufferTime($value:Number):void
 		{
 			this._objStream.bufferTime = $value;
@@ -310,6 +308,43 @@
 		public function get duration():Number
 		{
 			return this._numDuration;
+		}
+		public function set loadAndPause($value:Boolean):void
+		{
+			this._bolLoadAndPause = $value;
+		}
+		public function get loadAndPause():Boolean
+		{
+			return this._bolLoadAndPause;
+		}
+		/**
+		* Change the video's sound volume.
+		* @param value The volume, ranging from 0 (silent) to 1 (full volume). 
+	 	*/
+		public function set volume($value:Number):void
+		{
+			this._objSoundTransform.volume = $value;
+			this._objStream.soundTransform = this._objSoundTransform;
+			this.dispatchEvent(new VideoEvent(VideoEvent.VOLUME, this, {volume:$value}));
+		}
+		
+		public function get volume():Number
+		{
+			return this._objSoundTransform.volume;
+		}
+		/**
+		* Change the video's sound panning.
+		* @param value The left-to-right panning of the sound, ranging from -1 (full pan left) to 1 (full pan right). A value of 0 represents no panning (center). 
+	 	*/
+		public function set pan($value:Number):void
+		{
+			this._objSoundTransform.pan =$value;
+			this._objStream.soundTransform = this._objSoundTransform;
+		}
+		
+		public function get pan():Number
+		{
+			return this._objSoundTransform.pan;
 		}
 	}
 }

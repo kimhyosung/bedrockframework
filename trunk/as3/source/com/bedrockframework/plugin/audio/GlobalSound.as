@@ -69,7 +69,6 @@
 		* Change the global sound panning of the application.
 		* @param value The left-to-right panning of the sound, ranging from -1 (full pan left) to 1 (full pan right). A value of 0 represents no panning (center). 
 	 	*/
-		 
 		
 		public function set pan($value:Number):void
 		{

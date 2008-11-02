@@ -10,6 +10,7 @@
 		public static const BUFFER_PROGRESS:String = "VideoEvent.onBufferProgress";
 		
 		public static const LOAD_PROGRESS:String = "VideoEvent.onLoadProgress";
+		public static const LOAD_COMPLETE:String = "VideoEvent.onLoadComplete";
 		
 		public static const PUBLISH_START:String = "NetStream.Publish.Start";
 		public static const PUBLISH_BADNAME:String = "NetStream.Publish.BadName";

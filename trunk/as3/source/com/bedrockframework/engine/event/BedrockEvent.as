@@ -48,6 +48,10 @@
 		public static const INITIALIZE_COMPLETE:String="BedrockEvent.onInitializeComplete";
 		public static const INTRO_COMPLETE:String="BedrockEvent.onIntroComplete";
 		public static const OUTRO_COMPLETE:String="BedrockEvent.onOutroComplete";
+		
+		public static const PRELOADER_INITIALIZE_COMPLETE:String="BedrockEvent.onPreloaderInitializeComplete";
+		public static const PRELOADER_INTRO_COMPLETE:String="BedrockEvent.onPreloaderIntroComplete";
+		public static const PRELOADER_OUTRO_COMPLETE:String="BedrockEvent.onPreloaderOutroComplete";
 
 		public static const SHOW_BLOCKER:String="BedrockEvent.onShowBlocker";
 		public static const HIDE_BLOCKER:String="BedrockEvent.onHideBlocker";

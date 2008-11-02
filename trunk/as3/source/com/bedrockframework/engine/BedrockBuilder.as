@@ -71,9 +71,7 @@ package com.bedrockframework.engine
 		}
 		
 		final private function createEngineClasses():void
-		{
-			//use namespace engine;
-			
+		{			
 			BedrockEngine.bedrock::controller = new FrontController;
 			
 			BedrockEngine.assetManager = new AssetManager;
@@ -173,11 +171,12 @@ package com.bedrockframework.engine
 				var strPath:String;
 				var arrLanguages:Array = BedrockEngine.config.getSetting(BedrockData.LANGUAGES);
 				var objBrowser:ArrayBrowser = new ArrayBrowser(arrLanguages);
-				if (arrLanguages.length > 0 && BedrockEngine.config.getSetting(BedrockData.DEFAULT_LANGUAGE) != "") {
+				var strDefaultLanguage:String = BedrockEngine.config.getParam(BedrockData.DEFAULT_LANGUAGE) || BedrockEngine.config.getSetting(BedrockData.DEFAULT_LANGUAGE);
+				if (arrLanguages.length > 0 && strDefaultLanguage != "") {
 					if (objBrowser.containsItem(BedrockEngine.config.getSetting(BedrockData.CURRENT_LANGUAGE))) {
 						strPath = BedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + "_" + BedrockEngine.config.getSetting(BedrockData.CURRENT_LANGUAGE) + ".xml";
 					} else {
-						strPath = BedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + "_" + BedrockEngine.config.getSetting(BedrockData.DEFAULT_LANGUAGE) + ".xml";
+						strPath = BedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + "_" + strDefaultLanguage + ".xml";
 					}
 				} else {
 					strPath = BedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + ".xml";

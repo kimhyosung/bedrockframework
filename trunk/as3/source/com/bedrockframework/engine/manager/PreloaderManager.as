@@ -64,18 +64,21 @@
 		*/
 		private function onInitializeComplete($event:ViewEvent):void
 		{
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.PRELOADER_INITIALIZE_COMPLETE, this));
 			this._objPreloader.intro();
 		}
 		private function onIntroComplete($event:ViewEvent):void
 		{
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.LOAD_QUEUE, PreloaderManager));
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.PRELOADER_INTRO_COMPLETE, this));
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.LOAD_QUEUE, this));
 		}
 		private function onOutroComplete($event:ViewEvent):void
 		{
 			this.removeListeners(this._objPreloader);
 			this._objPreloader.clear();
 			this._objPreloader.remove();
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DO_INITIALIZE, PreloaderManager));
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.PRELOADER_OUTRO_COMPLETE, this));
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DO_INITIALIZE, this));
 		}
 		/*
 		Set the display for the preloader

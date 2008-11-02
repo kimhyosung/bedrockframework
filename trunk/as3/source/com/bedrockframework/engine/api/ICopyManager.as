@@ -2,8 +2,9 @@
 {
 	public interface ICopyManager
 	{
-		function initialize($path:String):void
-		function loadXML($path:String):void
-		function getCopy($key:String):String
+		function initialize($path:String):void;
+		function loadXML($path:String):void;
+		function getCopy($key:String):String;
+		function getCopyGroup($key:String):Object;
 	}
 }

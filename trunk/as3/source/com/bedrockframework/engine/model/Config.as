@@ -59,7 +59,7 @@ package com.bedrockframework.engine.model
 		{
 			var xmlConfig:XML = this.getXML($data);
 			
-			this.saveSetting(BedrockData.LAYOUT, XMLUtil.getObjectArray(xmlConfig.layout));
+			this.saveSetting(BedrockData.LAYOUT, XMLUtil.convertToArray(xmlConfig.layout));
 			
 			this.saveSetting(BedrockData.DEFAULT_PAGE, this.getDefaultPage(xmlConfig.pages));
 			this.saveSetting(BedrockData.ENVIRONMENT, this.getEnvironment(xmlConfig.environments, this.getSetting(BedrockData.URL)));
@@ -70,6 +70,7 @@ package com.bedrockframework.engine.model
 			
 			this.savePages(this.parsePages(xmlConfig.pages));			
 			
+			this.status(this._objParamSettings);
 			this.status(this._objFrameworkSettings);
 			this.status(this._objEnvironmentSettings);
 			
@@ -89,7 +90,7 @@ package com.bedrockframework.engine.model
 		{
 			var strURL:String = $url;
 			var xmlEnvironments:XML=new XML($node);
-			var arrEnvironments:Array = XMLUtil.getObjectArray(xmlEnvironments);
+			var arrEnvironments:Array = XMLUtil.convertToArray(xmlEnvironments);
 			var arrPatterns:Array;
 			var strEnvironmentName:String;
 			var numLength:int = arrEnvironments.length;
@@ -112,7 +113,7 @@ package com.bedrockframework.engine.model
 		*/
 		private function saveFrameworkSettings($node:XMLList):void
 		{
-			var objData:Object = XMLUtil.getObject($node);
+			var objData:Object = XMLUtil.convertToObject($node);
 			for (var d:String in objData) {
 				this.saveSetting(d, objData[d]);
 			}
@@ -155,13 +156,9 @@ package com.bedrockframework.engine.model
 		*/
 		private function parseItems($xml:XML):void
 		{
-			var xmlTemp:XML= $xml;
-			for (var s:String in xmlTemp.children()) {
-				if (! xmlTemp.child(s).hasComplexContent()) {
-					this.saveValue(xmlTemp.child(s).name(), XMLUtil.sanitizeValue(xmlTemp.child(s)));
-				} else {
-					this.saveValue(xmlTemp.child(s).name(), XMLUtil.getObjectArray(xmlTemp.child(s)));
-				}
+			var objData:Object = XMLUtil.convertToObject($xml);
+			for (var d:String in objData) {
+				this.saveValue(d, objData[d]);
 			}
 		}
 		private function parsePages($node:XMLList):Object
@@ -176,12 +173,12 @@ package com.bedrockframework.engine.model
 				xmlPage=xmlPages.child(s);
 				for (var d:String in xmlPage.children()) {
 					if (! xmlPage.child(d).hasComplexContent()) {
-						objPage[xmlPage.child(d).name()]=XMLUtil.sanitizeValue(xmlPage.child(d));
+						objPage[xmlPage.child(d).name()]=XMLUtil.convertValue(xmlPage.child(d));
 					} else {
 						if (xmlPage.child(d).name() == "files") {
 							objPage[xmlPage.child(d).name()]=this.sanitizePaths(xmlPage.child(d));
 						} else {
-							objPage[xmlPage.child(d).name()]=XMLUtil.getArray(xmlPage.child(d));
+							objPage[xmlPage.child(d).name()]=XMLUtil.convertToArray(xmlPage.child(d));
 						}
 					}
 				}
@@ -189,6 +186,7 @@ package com.bedrockframework.engine.model
 			}
 			return objPages;
 		}
+		
 		public function parseParamString($values:String, $variableSeparator:String ="&", $valueSeparator:String =  "="):void
 		{
 			if ($values != null) {
@@ -197,15 +195,11 @@ package com.bedrockframework.engine.model
 				var strValueSeparator:String = $valueSeparator;
 				//
 				var arrValues:Array = strValues.split(strVariableSeparator);
-				//
-				var strOutput:String = "Parse Result";
-				//				
-				for (var v:int = 0; v < arrValues.length; v++) {
+				var numLength:int = arrValues.length;
+				for (var v:int = 0; v < numLength; v++) {
 					var arrVariable:Array = arrValues[v].split(strValueSeparator);
 					this._objParamSettings[arrVariable[0]] =   arrVariable[1];
-					strOutput += ("\n   - " + arrVariable[0] + " = " + arrVariable[1]);
 				}
-				this.status(strOutput);
 			} else {
 				this.warning("Nothing to parse!");
 			}
@@ -217,7 +211,7 @@ package com.bedrockframework.engine.model
 		*/
 		private function sanitizePaths($node:XMLList):Array
 		{
-			var arrFiles:Array=XMLUtil.getArray($node);
+			var arrFiles:Array=XMLUtil.convertToArray($node);
 			var numLength:Number=arrFiles.length;
 			for (var i:Number=0; i < numLength; i++) {
 				arrFiles[i]=this.replacePathFlag(arrFiles[i]);
@@ -314,7 +308,7 @@ package com.bedrockframework.engine.model
 		{
 			var xmlData:XML = new XML($node);
 			var xmlDefaultPage:XML = XMLUtil.filterByAttribute($node, BedrockData.DEFAULT_PAGE, "true");
-			return XMLUtil.sanitizeValue(xmlDefaultPage.alias);
+			return XMLUtil.convertValue(xmlDefaultPage.alias);
 		}
 	}
 }
