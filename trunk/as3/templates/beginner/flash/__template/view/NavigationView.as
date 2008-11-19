@@ -1,7 +1,5 @@
 ﻿package __template.view
 {
-	import caurina.transitions.Tweener;
-	
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.plugin.util.ButtonUtil;
@@ -10,6 +8,9 @@
 	
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
+	
+	import gs.TweenLite;
+	import gs.easing.Quad;
 
 	public class NavigationView extends View implements IView
 	{
@@ -34,7 +35,7 @@
 		}
 		public function intro($properties:Object=null):void
 		{
-			Tweener.addTween(this,{alpha:1,transition:"linear",time:1,onComplete:this.introComplete});
+			TweenLite.to(this, 1, {alpha:1, ease:Quad.easeOut, onComplete:this.introComplete});
 		}
 		public function outro($properties:Object=null):void
 		{

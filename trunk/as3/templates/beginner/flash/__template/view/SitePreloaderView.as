@@ -1,11 +1,12 @@
 ﻿package __template.view
 {
-	import caurina.transitions.Tweener;
-	
 	import com.bedrockframework.engine.view.BedrockView;
 	import com.bedrockframework.engine.view.IPreloader;
 	
 	import flash.text.TextField;
+	
+	import gs.TweenLite;
+	import gs.easing.Quad;
 	
 	public class SitePreloaderView extends BedrockView implements IPreloader
 	{
@@ -32,7 +33,7 @@
 		}
 		public function intro($properties:Object=null):void
 		{
-			Tweener.addTween(this, {alpha:1, transition:"linear", time:1, onComplete:this.introComplete});
+			TweenLite.to(this, 1, {alpha:1, ease:Quad.easeOut, onComplete:this.introComplete});
 			//this.introComplete();
 		}
 		public function displayProgress($percent:uint):void
@@ -41,7 +42,7 @@
 		}
 		public function outro($properties:Object=null):void
 		{
-			Tweener.addTween(this, {alpha:0, transition:"linear", time:1, onComplete:this.outroComplete});
+			TweenLite.to(this, 1, {alpha:0, ease:Quad.easeOut, onComplete:this.outroComplete});
 			//this.outroComplete();
 		}
 		public function clear():void

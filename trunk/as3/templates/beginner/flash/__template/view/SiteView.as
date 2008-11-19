@@ -1,12 +1,13 @@
 ﻿package __template.view
 {
-	import caurina.transitions.Tweener;
-	
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.engine.view.BedrockView;
 	import com.bedrockframework.plugin.view.IView;
+	
+	import gs.TweenLite;
+	import gs.easing.Quad;
 	
 	public class SiteView extends BedrockView implements IView
 	{
@@ -33,13 +34,13 @@
 			objNavigation.initialize();
 			objNavigation.intro();
 			
-			Tweener.addTween(this,{alpha:1,transition:"linear",time:1,onComplete:this.onIntroTweenComplete});
+			TweenLite.to(this, 1, {alpha:1, ease:Quad.easeOut, onComplete:this.introComplete});
 			//this.introComplete();
 		}
 		
 		public function outro($properties:Object=null):void
 		{
-			Tweener.addTween(this,{alpha:0,transition:"linear",time:1,onComplete:this.outroComplete});
+			TweenLite.to(this, 1, {alpha:0, ease:Quad.easeOut, onComplete:this.outroComplete});
 			//this.outroComplete();
 		}
 		public function clear():void
