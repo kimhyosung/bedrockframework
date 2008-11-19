@@ -134,8 +134,6 @@
 			<arg value="-source-path" />
 			<arg value="${source.dir}"/>
 			
-			
-			
 			<arg value="-show-binding-warnings=false" />
 			<arg value="-show-actionscript-warnings=false" />
 			<arg value="-strict=false" />
@@ -158,10 +156,14 @@
  	-->
 	<target name="packageAll" description="Packages the source">
 		<zip destfile="${deploy.dir}/${project.deployname}.zip">
-			<fileset dir="${base.dir}/${root.dir}" excludes="${exclude.debug}, ${exclude.prefs}, ${exclude.actionscript}, ${exclude.project}"/>
+			<fileset dir="${base.dir}/${root.dir}">
+				<exclude name ="${exclude.debug}"/>
+				<exclude name ="${exclude.prefs}"/>
+				<exclude name ="${exclude.actionscript}"/>
+				<exclude name ="${exclude.project}"/>
+			</fileset>
 			<zipfileset dir="${docs.dir}" prefix="docs"/>
 		</zip>
-		
 	</target>
 	
 	<target name="packageBinary" description="Packages the binary">
