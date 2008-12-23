@@ -67,9 +67,11 @@
 			this._numPercentage = 0;
 			this._bolLoaderDone = false;
 			this._bolTimerDone = false;
-			this._objInterval.start();
-			this._objTimeout.start();
-			this._objStopWatch.start();
+			if (this._bolUseTimer) {
+				this._objInterval.start();
+				this._objTimeout.start();
+				this._objStopWatch.start();
+			}
 			this.updatePreloader(this._numPercentage);
 		}
 		private function stopPreloader():void
@@ -85,10 +87,12 @@
 		private function killPreloader():void
 		{
 			this._numPercentage = 100;
-			this._objInterval.stop();
-			this._objTimeout.stop();
-			this._objStopWatch.stop();
-			this._objStopWatch.clear();
+			if (this._bolUseTimer) {
+				this._objInterval.stop();
+				this._objTimeout.stop();
+				this._objStopWatch.stop();
+				this._objStopWatch.clear();
+			}
 			this.updatePreloader(this._numPercentage);
 			this._objPreloader.outro();
 		}
