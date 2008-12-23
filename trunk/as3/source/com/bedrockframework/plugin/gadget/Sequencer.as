@@ -4,7 +4,7 @@
 	import com.bedrockframework.plugin.data.SequencerData;
 	import com.bedrockframework.plugin.event.TriggerEvent;
 	import com.bedrockframework.plugin.event.ViewEvent;
-	import com.bedrockframework.plugin.event.ViewSequencerEvent;
+	import com.bedrockframework.plugin.event.SequencerEvent;
 	import com.bedrockframework.plugin.storage.ArrayBrowser;
 	import com.bedrockframework.plugin.timer.TimeoutTrigger;
 	import com.bedrockframework.plugin.view.IView;
@@ -116,7 +116,7 @@
 			} else {
 				this.call(SequencerData.INTRO);
 			}
-			this.dispatchEvent(new ViewSequencerEvent(ViewSequencerEvent.SHOW, this, this.getDetailObject()));
+			this.dispatchEvent(new SequencerEvent(SequencerEvent.SHOW, this, this.getDetailObject()));
 		}
 		/*
 		Show View
@@ -210,10 +210,10 @@
 				if (this._objArrayBrowser.hasNext()) {
 					this._objArrayBrowser.selectNext();
 					this.prepare();
-					this.dispatchEvent(new ViewSequencerEvent(ViewSequencerEvent.NEXT, this, this.getDetailObject()))
+					this.dispatchEvent(new SequencerEvent(SequencerEvent.NEXT, this, this.getDetailObject()))
 				}else{
 					this.status("Hit Ending");
-					this.dispatchEvent(new ViewSequencerEvent(ViewSequencerEvent.ENDING, this, this.getDetailObject()))
+					this.dispatchEvent(new SequencerEvent(SequencerEvent.ENDING, this, this.getDetailObject()))
 				}
 			}		
 		}
@@ -223,10 +223,10 @@
 				if (this._objArrayBrowser.hasPrevious()) {
 					this._objArrayBrowser.selectPrevious();
 					this.prepare();
-					this.dispatchEvent(new ViewSequencerEvent(ViewSequencerEvent.PREVIOUS, this, this.getDetailObject()))
+					this.dispatchEvent(new SequencerEvent(SequencerEvent.PREVIOUS, this, this.getDetailObject()))
 				}else{
 					this.status("Hit Beginning");
-					this.dispatchEvent(new ViewSequencerEvent(ViewSequencerEvent.BEGINNING, this, this.getDetailObject()))
+					this.dispatchEvent(new SequencerEvent(SequencerEvent.BEGINNING, this, this.getDetailObject()))
 				}	
 			}			
 		}
@@ -281,20 +281,20 @@
 		{
 			this.callback(SequencerData.INITIALIZE, this._objCurrentItem);
 			this.call(SequencerData.INTRO);
-			this.dispatchEvent(new ViewSequencerEvent(ViewSequencerEvent.INITIALIZE_COMPLETE, this, this.getDetailObject()))
+			this.dispatchEvent(new SequencerEvent(SequencerEvent.INITIALIZE_COMPLETE, this, this.getDetailObject()))
 		}
 		private  function onIntroComplete($event:ViewEvent):void
 		{
 			// do something
 			this.callback(SequencerData.INTRO, this._objCurrentItem);
 			if (this._objData.timerEnabled) this.startTimer(); 			
-			this.dispatchEvent(new ViewSequencerEvent(ViewSequencerEvent.INTRO_COMPLETE, this, this.getDetailObject()))
+			this.dispatchEvent(new SequencerEvent(SequencerEvent.INTRO_COMPLETE, this, this.getDetailObject()))
 		}
 		private function onOutroComplete($event:ViewEvent):void
 		{
 			this.callback(SequencerData.OUTRO, this._objPreviousItem);
 			this.followInternalSequence();
-			this.dispatchEvent(new ViewSequencerEvent(ViewSequencerEvent.OUTRO_COMPLETE, this, this.getDetailObject()))
+			this.dispatchEvent(new SequencerEvent(SequencerEvent.OUTRO_COMPLETE, this, this.getDetailObject()))
 		}
 		private function onTrigger($event:TriggerEvent):void
 		{
