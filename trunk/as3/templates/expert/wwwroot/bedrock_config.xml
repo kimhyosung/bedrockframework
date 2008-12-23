@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
   <settings>
-    <preloader_time>3</preloader_time>
+    <preloader_time>0</preloader_time>
     <auto_intro_enabled>true</auto_intro_enabled>
     <auto_default_enabled>false</auto_default_enabled>
     <deep_linking_enabled>false</deep_linking_enabled>

@@ -1,17 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
   <settings>
+    <preloader_time>0</preloader_time>
     <auto_intro_enabled>true</auto_intro_enabled>
-    <auto_default_enabled>true</auto_default_enabled>
-    <preloader_time_enabled>3</preloader_time_enabled>
-    <deep_linking_enabled>true</deep_linking_enabled>
+    <auto_default_enabled>false</auto_default_enabled>
+    <deep_linking_enabled>false</deep_linking_enabled>
     <remoting_enabled>false</remoting_enabled>
     <cache_prevention_enabled>false</cache_prevention_enabled>
-    <stylesheet_enabled>true</stylesheet_enabled>
-    <shared_sounds_enabled>true</shared_sounds_enabled>
-    <copy_deck_enabled>true</copy_deck_enabled>
+    <stylesheet_enabled>false</stylesheet_enabled>
+    <shared_sounds_enabled>false</shared_sounds_enabled>
+    <copy_deck_enabled>false</copy_deck_enabled>
     <languages />
-    <default_language />
   </settings>
   <layout>
     <container>
@@ -41,10 +40,6 @@
       <label>Homepage</label>
       <alias>homepage</alias>
     </page>
-    <page>
-      <label>Sub Page</label>
-      <alias>sub_page</alias>
-    </page>
   </pages>
   <environments>
     <environment name="default">
@@ -54,7 +49,7 @@
       <remote_log_level>NONE</remote_log_level>
       <remote_log_url />
       <!--General Settings-->
-      <tracking_enabled>true</tracking_enabled>
+      <tracking_enabled>false</tracking_enabled>
       <!--Path Information-->
       <swf_path>../swfs/</swf_path>
       <xml_path>../xml/</xml_path>
@@ -63,17 +58,9 @@
       <video_path>../video/</video_path>
       <audio_path>../audio/</audio_path>
       <!--Remoting-->
-      <remoting>
-        <service>
-          <alias>image_transfer</alias>
-          <gateway>http://www.someurl.com/gateway.aspx</gateway>
-          <path>ServiceLibrary.ImageTransfer</path>
-        </service>
-      </remoting>
     </environment>
     <environment name="local">
       <!--General Settings-->
-      <tracking_enabled>false</tracking_enabled>
       <patterns>
         <pattern>file://</pattern>
       </patterns>
@@ -84,17 +71,26 @@
       <patterns>
         <pattern>dev</pattern>
       </patterns>
+      <!--Path Information-->
+      <!--Remoting-->
     </environment>
     <environment name="localhost">
       <patterns>
         <pattern>localhost</pattern>
       </patterns>
+      <!--Path Information-->
+      <!--Remoting-->
     </environment>
     <environment name="staging">
       <patterns>
         <pattern>staging</pattern>
       </patterns>
+      <!--Path Information-->
+      <!--Remoting-->
     </environment>
-    <environment name="production" />
+    <environment name="production">
+      <!--Path Information-->
+      <!--Remoting-->
+    </environment>
   </environments>
 </config>
