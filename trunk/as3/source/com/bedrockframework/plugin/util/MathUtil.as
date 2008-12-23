@@ -91,7 +91,7 @@
 		/*
 		Get distance between 2 points
 		*/
-		public static  function distance($xPoint1:Number,$yPoint1:Number,$xPoint2:Number,$yPoint2:Number):Number
+		public static  function getDistance($xPoint1:Number,$yPoint1:Number,$xPoint2:Number,$yPoint2:Number):Number
 		{
 			var distanceX:Number=$xPoint2 - $xPoint1;
 			var distanceY:Number=$yPoint2 - $yPoint1;
@@ -143,30 +143,30 @@
 		/*
 		Generate a random number in range
 		*/
-		public static  function random($maximum:Number,$minimum:Number=0):Number
+		public static  function random($maximum:Number,$minimum:Number=0,$decimal:Boolean=false):Number
 		{
-			var numRandom:Number = Math.floor(Math.random() * ($maximum - $minimum)) + $minimum;
+			var numRandom:Number = ($decimal) ? (Math.random() * ($maximum - $minimum)) + $minimum : Math.floor(Math.random() * ($maximum - $minimum)) + $minimum;
 			return numRandom;
 		}
-		public static  function randomRange($minimum:Number, $maximum:Number):Number
+		public static  function randomRange($minimum:Number,$maximum:Number,$decimal:Boolean=false):Number
 		{
-			return MathUtil.random($maximum + (MathUtil.getSign($maximum)), $minimum);
+			return MathUtil.random($maximum, $minimum, $decimal);
 		}
 		/*
 		Random no repeat
 		*/
-		public static  function randomNoRepeat($current:Number,$maximum:Number,$minimum:Number=0):Number
+		public static  function randomNoRepeat($current:Number,$maximum:Number,$minimum:Number=0,$decimal:Boolean=false):Number
 		{
 			var numTemp:Number=$current;
 			do {
-				numTemp=MathUtil.random($maximum,$minimum);
+				numTemp=MathUtil.random($maximum, $minimum, $decimal);
 			} while (numTemp == $current);
 			return numTemp;
 		}
 
 		public static  function calculatePercentage($smaller:Number,$larger:Number):Number
 		{
-			return Math.round($smaller / $larger * 100);
+			return Math.round(($smaller / $larger) * 100);
 		}
 		public static function calculateRatio($value1:Number,$value2:Number):Number
 		{

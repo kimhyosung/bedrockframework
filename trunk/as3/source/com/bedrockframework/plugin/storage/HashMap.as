@@ -132,6 +132,19 @@ package com.bedrockframework.plugin.storage
 			}
 		}
 		/*
+		Creates a brand new duplicate Hashmap.
+		*/
+		public function clone():HashMap
+		{
+			var mapClone:HashMap = new HashMap();
+			var arrKeys:Array = this.getKeys();
+			var numLength:int = arrKeys.length;
+			for (var i:int = 0 ; i < numLength; i++) {
+				mapClone.saveValue(arrKeys[i], this.getValue(arrKeys[i]))
+			}
+			return mapClone;
+		}
+		/*
 		Property Definitions
 	 	*/
 		public function get size():int

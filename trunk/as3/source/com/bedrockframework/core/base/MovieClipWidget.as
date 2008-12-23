@@ -80,6 +80,11 @@ package com.bedrockframework.core.base
 			this.sendLogMessage(LogLevel.STATUS, $arguments);
 		}
 		
+		public function attention(...$arguments:Array):void
+		{
+			this.sendLogMessage(LogLevel.WARNING, $arguments);
+		}
+		
 		public function warning(...$arguments:Array):void
 		{
 			this.sendLogMessage(LogLevel.WARNING, $arguments);

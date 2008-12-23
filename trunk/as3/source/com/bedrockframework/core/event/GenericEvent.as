@@ -27,12 +27,11 @@ package com.bedrockframework.core.event
 			this.origin=$origin;
 			this.details=$details;
 		}
-
 		override public function clone():Event
 		{
 			var strName:String=getQualifiedClassName(this);
 			var clsClone:Class = getDefinitionByName(strName) as Class;
-			return new clsClone(this.type,this.origin,this.details);
+			return new clsClone(this.type,this.origin,this.details, this.bubbles, this.cancelable);
 		}
 		
 	}

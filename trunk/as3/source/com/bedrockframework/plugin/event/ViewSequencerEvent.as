@@ -8,6 +8,7 @@ package com.bedrockframework.plugin.event
 		public static  const INTRO_COMPLETE:String = "ViewSequencerEvent.onNext";
 		public static  const OUTRO_COMPLETE:String = "ViewSequencerEvent.onPrevious";
 	
+		public static const SHOW:String = "ViewSequencerEvent.onShow";
 		public static const NEXT:String = "ViewSequencerEvent.onNext";
 		public static const PREVIOUS:String = "ViewSequencerEvent.onPrevious";
 		public static const BEGINNING:String =  "ViewSequencerEvent.onBeginning";

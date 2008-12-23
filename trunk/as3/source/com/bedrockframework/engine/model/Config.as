@@ -46,8 +46,8 @@ package com.bedrockframework.engine.model
 		public function initialize($data:String, $url:String, $stage:Stage):void
 		{
 			this.saveSetting(BedrockData.URL, $url);
-			this.saveSetting("manufacturer", Capabilities.manufacturer);
-			this.saveSetting(BedrockData.DEFAULT_LANGUAGE, Capabilities.language);
+			this.saveSetting(BedrockData.MANUFACTURER, Capabilities.manufacturer);
+			this.saveSetting(BedrockData.SYSTEM_LANGUAGE, Capabilities.language);
 			this.saveSetting(BedrockData.OS, Capabilities.os);
 			this.saveSetting("stage", $stage);
 			
@@ -59,10 +59,10 @@ package com.bedrockframework.engine.model
 		{
 			var xmlConfig:XML = this.getXML($data);
 			
-			this.saveSetting(BedrockData.LAYOUT, XMLUtil.convertToArray(xmlConfig.layout));
-			
+			this.saveSetting(BedrockData.LAYOUT, XMLUtil.convertToArray(xmlConfig.layout, true));
 			this.saveSetting(BedrockData.DEFAULT_PAGE, this.getDefaultPage(xmlConfig.pages));
 			this.saveSetting(BedrockData.ENVIRONMENT, this.getEnvironment(xmlConfig.environments, this.getSetting(BedrockData.URL)));
+			
 			this.saveFrameworkSettings(xmlConfig.settings);
 			this.saveEnvironmentSettings(xmlConfig.environments, this.getSetting(BedrockData.ENVIRONMENT));
 			this.saveCacheSettings();
@@ -90,21 +90,25 @@ package com.bedrockframework.engine.model
 		{
 			var strURL:String = $url;
 			var xmlEnvironments:XML=new XML($node);
-			var arrEnvironments:Array = XMLUtil.convertToArray(xmlEnvironments);
-			var arrPatterns:Array;
+			var xmlPatterns:XML
 			var strEnvironmentName:String;
-			var numLength:int = arrEnvironments.length;
-
-			for (var i:int = 0 ; i < numLength; i ++) {
+			var numOuterLength:int = xmlEnvironments.children().length();
+			var numInnerLength:int;
+			var strPattern:String
+			for (var i:int = 0 ; i < numOuterLength; i ++) {
 				strEnvironmentName = XMLUtil.getAttributeObject(xmlEnvironments.environment[i]).name;
-				try { 
-					arrPatterns = arrEnvironments[i].patterns || new Array;
-					for (var p: int =0; p < arrPatterns.length; p++) {
-						if (strURL.indexOf(arrPatterns[p]) > -1) {
-							return strEnvironmentName;
-						}
+				try {
+					xmlPatterns = new XML(xmlEnvironments.environment[i].patterns);
+					numInnerLength = xmlPatterns.children().length();
+				} catch($error:Error){
+					numInnerLength =0;
+				}
+				for (var p: int =0; p < numInnerLength; p++) {
+					strPattern = xmlPatterns.child(p).toString();
+					if (strURL.indexOf(strPattern) > -1) {
+						return strEnvironmentName;
 					}
-				} catch ($e:Error) {}
+				}
 			}			
 			return BedrockData.PRODUCTION;
 		}

@@ -1,7 +1,8 @@
-package com.bedrockframework.engine.api
+﻿package com.bedrockframework.engine.api
 {
 	public interface IPageManager
 	{
+		function initialize($autoDefault:Boolean = true):void
 		function setupPageLoad($page:Object):void
 		function getDefaultPage($details:Object = null):String
 		/*

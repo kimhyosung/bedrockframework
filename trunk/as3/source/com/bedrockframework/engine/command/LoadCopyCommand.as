@@ -9,13 +9,10 @@
 	{
 		public function LoadCopyCommand()
 		{
-		
 		}
-		
 		public function execute($event:GenericEvent):void
 		{
-			BedrockEngine.copyManager.loadXML($event.details.url);
+			BedrockEngine.copyManager.loadXML($event.details.language);
 		}
-		
 	}
 }

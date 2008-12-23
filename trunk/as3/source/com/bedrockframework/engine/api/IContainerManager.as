@@ -5,7 +5,7 @@
 	
 	public interface IContainerManager
 	{
-		function initialize($scope:DisplayObjectContainer):void;
+		function initialize($root:DisplayObjectContainer):void;
 		function createContainer($name:String,$child:DisplayObjectContainer=null,$properties:Object=null,$container:DisplayObjectContainer=null,$depth:int=-1):*;
 		function replaceContainer($name:String,$child:DisplayObjectContainer,$properties:Object=null,$container:DisplayObjectContainer=null,$depth:int=-1):*;
 		function buildLayout($layout:Array):void;
@@ -30,6 +30,6 @@
 		/*
 		Property Definitions
 		*/
-		function get scope():DisplayObjectContainer;
+		function get root():DisplayObjectContainer;
 	}
 }

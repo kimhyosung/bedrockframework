@@ -19,6 +19,16 @@
 		public function PageManager()
 		{
 		}
+		
+		public function initialize($autoDefault:Boolean = true):void
+		{
+			if ($autoDefault) {
+				var strAlias:String = BedrockEngine.bedrock::pageManager.getDefaultPage();
+				var objPage:Object = BedrockEngine.config.getPage(strAlias);
+				this.setupPageLoad(objPage);
+				this.setQueue(objPage);
+			}
+		}
 		/*
 		*/
 		

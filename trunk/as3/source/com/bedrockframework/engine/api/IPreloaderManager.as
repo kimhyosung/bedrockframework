@@ -4,11 +4,11 @@ package com.bedrockframework.engine.api
 	
 	public interface IPreloaderManager
 	{
-		function initialize():void
+		function initialize($preloaderTime:Number = 0):void
 		/*
 		Set the display for the preloader
 	 	*/
-	 	function set container($preloader:IPreloader):void		
-		function get container():IPreloader		
+	 	function set scope($preloader:IPreloader):void		
+		function get scope():IPreloader		
 	}
 }

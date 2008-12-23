@@ -4,17 +4,16 @@
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.api.ITransitionManger;
+	import com.bedrockframework.engine.bedrock;
 	import com.bedrockframework.engine.data.BedrockData;
 	import com.bedrockframework.engine.event.BedrockEvent;
-	import com.bedrockframework.engine.model.Config;
-	import com.bedrockframework.engine.model.State;
 	import com.bedrockframework.plugin.event.LoaderEvent;
 	import com.bedrockframework.plugin.event.ViewEvent;
 	import com.bedrockframework.plugin.loader.VisualLoader;
+	import com.bedrockframework.plugin.util.MathUtil;
 	import com.bedrockframework.plugin.view.IView;
 	
 	import flash.utils.*;
-	import com.bedrockframework.engine.bedrock;
 
 	public class TransitionManager extends StandardWidget implements ITransitionManger
 	{
@@ -130,7 +129,7 @@
 		*/
 		private function onSiteLoadComplete($event:LoaderEvent):void
 		{
-			this._objSiteView = this._objSiteLoader.content  as IView;
+			this._objSiteView = this._objSiteLoader.content as IView;
 			this.addSiteListeners(this._objSiteView);
 		}
 		private function onPageLoadComplete($event:LoaderEvent):void

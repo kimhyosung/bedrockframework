@@ -6,13 +6,14 @@
 	import com.bedrockframework.plugin.storage.HashMap;
 	
 	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
 
 	public class ContainerManager extends StandardWidget implements IContainerManager
 	{
 		/*
 		Variable Declarations
 		*/
-		private var _objScope:DisplayObjectContainer;
+		private var _objRoot:DisplayObjectContainer;
 		private var _objContainerMap:HashMap=new HashMap;
 		/*
 		Constructor
@@ -21,23 +22,23 @@
 		{
 		}
 
-		public function initialize($scope:DisplayObjectContainer):void
+		public function initialize($root:DisplayObjectContainer):void
 		{
-			this._objScope=$scope;
+			this._objRoot=$root;
 		}
-		public function createContainer($name:String,$child:DisplayObjectContainer=null,$properties:Object=null,$container:DisplayObjectContainer=null,$depth:int=-1):*
+		public function createContainer($name:String,$child:DisplayObjectContainer=null,$properties:Object=null,$parent:DisplayObjectContainer=null,$depth:int=-1):*
 		{
 			if (!this.hasContainer($name)) {
-				return this.tempContainer($name, $child, $properties, $container, $depth);
+				return this.tempContainer($name, $child, $properties, $parent, $depth);
 			}
 		}
-		public function replaceContainer($name:String,$child:DisplayObjectContainer,$properties:Object=null,$container:DisplayObjectContainer=null,$depth:int=-1):*
+		public function replaceContainer($name:String,$child:DisplayObjectContainer,$properties:Object=null,$parent:DisplayObjectContainer=null,$depth:int=-1):*
 		{
 			if (this.hasContainer($name)) {
-				return this.tempContainer($name, $child, $properties, $container, $depth);
+				return this.tempContainer($name, $child, $properties, this.getContainerParent($name), $depth);
 			}
 		}
-		private function tempContainer($name:String,$child:DisplayObjectContainer,$properties:Object=null,$container:DisplayObjectContainer=null,$depth:int=-1):*
+		private function tempContainer($name:String,$child:DisplayObjectContainer,$properties:Object=null,$parent:DisplayObjectContainer=null,$depth:int=-1):*
 		{
 			var numDepth:int=-1;
 			if (this.hasContainer($name)) {
@@ -48,7 +49,7 @@
 			
 			var objChild:DisplayObjectContainer = $child || new VisualLoader;
 		
-			var numActualDepth:int=this.addContainer($container || this._objScope,objChild,numDepth);
+			var numActualDepth:int=this.addContainer($parent || this._objRoot,objChild,numDepth);
 			this.applyProperties(objChild,$properties);
 
 			this.saveData($name,objChild,numActualDepth);
@@ -63,19 +64,35 @@
 				this.buildLayoutContainer($layout[i]);
 			}
 		}
-		private function buildLayoutContainer($properties:Object):void
+		private function buildLayoutContainer($data:Object):void
 		{
-			var strName:String =$properties.name;
-			var objView:DisplayObjectContainer = $properties.view || new VisualLoader();
-			delete $properties.name;
-			this.createContainer(strName, objView, $properties);
+			var objData:Object = $data;
+			var strName:String =$data.name;
+			var objView:DisplayObjectContainer;
+			var arrSubContainers:Array = $data.containers || new Array;
+			
+			if (arrSubContainers.length == 0) {
+				this.createContainer(objData.name, new VisualLoader, $data);
+			} else {
+				var objParent:Sprite = new Sprite
+				this.createContainer(objData.name, objParent, $data);
+				
+				var objSubData:Object;
+				var strSubName:String;
+				var numLength:int = arrSubContainers.length;
+				for (var i:int = 0 ; i < numLength; i++) {
+					objSubData = $data.containers[i];
+					this.createContainer(objSubData.name, new VisualLoader, objSubData, objParent);
+				}
+			}
+			
 		}
 		/*
 		Item Specific Stuff
 		*/
-		private function saveData($name:String, $container:DisplayObjectContainer, $depth:uint):void
+		private function saveData($name:String, $parent:DisplayObjectContainer, $depth:uint):void
 		{
-			this._objContainerMap.saveValue($name, new ContainerData($container, $depth));
+			this._objContainerMap.saveValue($name, new ContainerData($parent, $depth));
 		}
 		private function getData($name:String):ContainerData
 		{
@@ -91,7 +108,15 @@
 		private function applyProperties($target:DisplayObjectContainer,$properties:Object=null):void
 		{
 			for (var i:String in $properties) {
-				$target[i]=$properties[i];
+				switch (i) {
+					case "name" :
+						break;
+					case "containers" :
+						break;
+					default :
+						$target[i]=$properties[i];
+						break;
+				}
 			}
 		}
 		/*
@@ -175,22 +200,22 @@
 			this.swapTo($name, 0 + $offset);
 		}
 		
-		public function get scope():DisplayObjectContainer
+		public function get root():DisplayObjectContainer
 		{
-			return this._objScope;
+			return this._objRoot;
 		}
 	}
 }
-	import flash.display.DisplayObjectContainer;
-	
+
+import flash.display.DisplayObjectContainer;	
 class ContainerData 
 {
 	public var container:DisplayObjectContainer;
 	public var depth:uint;
 	
-	public function ContainerData($container:DisplayObjectContainer, $depth:uint)
+	public function ContainerData($parent:DisplayObjectContainer, $depth:uint)
 	{
-		this.container = $container;
+		this.container = $parent;
 		this.depth = $depth;
 	}
 }

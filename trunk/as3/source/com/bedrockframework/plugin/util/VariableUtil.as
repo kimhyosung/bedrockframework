@@ -57,7 +57,7 @@
         public static function clone($reference:*):Object
         {
             var arrBytes:ByteArray = new ByteArray();
-            arrBytes.writeObject( $reference );
+            arrBytes.writeObject($reference);
             arrBytes.position = 0;
 
             return arrBytes.readObject();

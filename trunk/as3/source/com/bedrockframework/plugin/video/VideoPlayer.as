@@ -151,6 +151,7 @@
 		public function pause():void
 		{
 			if (!this._bolPaused) {
+				this._objSharedTrigger.removeEventListener(TriggerEvent.TRIGGER, this.onProgressTrigger);	
 				this._objStream.pause();
 				this._bolPaused = true;
 				this.dispatchEvent(new VideoEvent(VideoEvent.PAUSE, this));
@@ -159,6 +160,7 @@
 		public function resume():void
 		{
 			if (this._bolPaused) {
+				this._objSharedTrigger.addEventListener(TriggerEvent.TRIGGER, this.onProgressTrigger);	
 				this._objStream.resume();
 				this._bolPaused = false;
 				this.dispatchEvent(new VideoEvent(VideoEvent.RESUME, this));
@@ -169,7 +171,7 @@
 		*/
 		public function seek($time:Number):void
 		{
-			this._objSharedTrigger.start();	
+			this._objSharedTrigger.start();
 			this.dispatchEvent(new VideoEvent(VideoEvent.SEEK_START, this));
 			this._objStream.seek($time);
 		}
@@ -206,7 +208,6 @@
 				this.pause();
 				this.seek(0);			
 			}
-			
 		}
 		private function onPlayStop($event:VideoEvent):void
 		{
@@ -280,7 +281,7 @@
 		/*
 		Property Definitions
 		*/
-		public function get paused():Boolean
+		public function get isPaused():Boolean
 		{
 			return this._bolPaused;
 		}

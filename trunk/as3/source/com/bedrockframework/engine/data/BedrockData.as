@@ -19,10 +19,13 @@
 		public static const SHARED_SOUNDS_ENABLED:String = "shared_sounds_enabled";
 		
 		public static const LANGUAGES:String = "languages";
-		public static const CURRENT_LANGUAGE:String = "current_language";
 		public static const DEFAULT_LANGUAGE:String = "default_language";
+		public static const SYSTEM_LANGUAGE:String = "system_language";
 		public static const ENVIRONMENT:String = "environment";
 		public static const CACHE_KEY:String = "cache_key";
+		
+		public static const MANUFACTURER:String = "manufacturer";
+		public static const STAGE:String = "stage";
 		
 		public static const CONFIG_URL:String = "config_url";
 		public static const PATTERNS:String = "patterns";

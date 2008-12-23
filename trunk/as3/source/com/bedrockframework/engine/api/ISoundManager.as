@@ -23,6 +23,9 @@ package com.bedrockframework.engine.api
 		function getSoundVolume($alias:String):Number;
 		function setSoundPanning($alias:String, $value:Number):void;
 		function getSoundPanning($alias:String):Number;
+		
+		function fadeInSound($alias:String, $time:Number):void;
+		function fadeOutSound($alias:String, $time:Number):void;
 		/*
 		Global Sound Functions
 		*/

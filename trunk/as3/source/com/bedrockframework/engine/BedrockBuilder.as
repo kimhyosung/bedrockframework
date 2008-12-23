@@ -49,6 +49,7 @@ package com.bedrockframework.engine
 		private const _arrLoadSequence:Array=new Array("loadParams","loadConfig","loadContainer","loadDeepLinking","loadCacheSettings", "loadLogging","loadServices","loadEngineClasses","loadEngineCommands","loadEngineContainers","loadCSS", "loadCopy", "loadDefaultPage", "buildDefaultPanel","loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
 		private var _numLoadIndex:Number;		
 		private var _objConfigLoader:URLLoader;
+		public var environmentURL:String;
 		
 		private var _sprContainer:Sprite;
 		/*
@@ -176,20 +177,23 @@ package com.bedrockframework.engine
 		final private function loadCopy():void
 		{
 			if (BedrockEngine.config.getSetting(BedrockData.COPY_DECK_ENABLED)) {
-				var strPath:String;
 				var arrLanguages:Array = BedrockEngine.config.getSetting(BedrockData.LANGUAGES);
 				var objBrowser:ArrayBrowser = new ArrayBrowser(arrLanguages);
-				var strDefaultLanguage:String = BedrockEngine.config.getParam(BedrockData.DEFAULT_LANGUAGE) || BedrockEngine.config.getSetting(BedrockData.DEFAULT_LANGUAGE);
+				var strDefaultLanguage:String = BedrockEngine.config.getParam(BedrockData.DEFAULT_LANGUAGE) || BedrockEngine.config.getSetting(BedrockData.DEFAULT_LANGUAGE) || BedrockEngine.config.getSetting(BedrockData.SYSTEM_LANGUAGE);
+				var strSelectedLanguage:String;
 				if (arrLanguages.length > 0 && strDefaultLanguage != "") {
-					if (objBrowser.containsItem(BedrockEngine.config.getSetting(BedrockData.CURRENT_LANGUAGE))) {
-						strPath = BedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + "_" + BedrockEngine.config.getSetting(BedrockData.CURRENT_LANGUAGE) + ".xml";
+					if (objBrowser.containsItem(BedrockEngine.config.getSetting(BedrockData.SYSTEM_LANGUAGE))) {
+						//strPath = BedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + "_" +  + ".xml";
+						strSelectedLanguage = BedrockEngine.config.getSetting(BedrockData.SYSTEM_LANGUAGE);
 					} else {
-						strPath = BedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + "_" + strDefaultLanguage + ".xml";
+						//strPath = BedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + "_" + strDefaultLanguage + ".xml";
+						strSelectedLanguage = strDefaultLanguage;
 					}
 				} else {
-					strPath = BedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + ".xml";
+					//strPath = BedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + ".xml";
+					strSelectedLanguage = null;
 				}
-				BedrockEngine.copyManager.initialize(strPath);
+				BedrockEngine.copyManager.initialize(strSelectedLanguage);
 			}			
 			this.next();
 		}
@@ -233,7 +237,7 @@ package com.bedrockframework.engine
 		}
 		final private function loadEngineClasses():void
 		{
-			BedrockEngine.bedrock::preloaderManager.initialize();
+			BedrockEngine.bedrock::preloaderManager.initialize(BedrockEngine.config.getSetting(BedrockData.PRELOADER_TIME));
 			BedrockEngine.bedrock::transitionManager.initialize();
 			
 			BedrockEngine.trackingManager.initialize(BedrockEngine.config.getValue(BedrockData.TRACKING_ENABLED));
@@ -246,7 +250,7 @@ package com.bedrockframework.engine
 			BedrockEngine.bedrock::transitionManager.siteLoader = BedrockEngine.containerManager.getContainer(BedrockData.SITE_CONTAINER) as VisualLoader;
 			BedrockEngine.bedrock::transitionManager.pageLoader = BedrockEngine.containerManager.getContainer(BedrockData.PAGE_CONTAINER) as VisualLoader;
 			
-			BedrockEngine.containerManager.replaceContainer(BedrockData.PRELOADER_CONTAINER, new Sprite);
+			BedrockEngine.containerManager.replaceContainer(BedrockData.PRELOADER_CONTAINER, new PreloaderContainer);
 				
 			var objBlocker:Blocker=new Blocker(BedrockEngine.config.getParam(BedrockData.BLOCKER_ALPHA));
 			BedrockEngine.containerManager.replaceContainer(BedrockData.BLOCKER_CONTAINER, objBlocker);
@@ -270,15 +274,10 @@ package com.bedrockframework.engine
 		}
 		final private function loadDefaultPage():void
 		{
-			if (BedrockEngine.config.getSetting(BedrockData.AUTO_DEFAULT_ENABLED)) {
-				BedrockEngine.bedrock::pageManager.setupPageLoad(BedrockEngine.config.getPage(BedrockEngine.bedrock::pageManager.getDefaultPage()));
-			}
+			var bolAutoDefault:Boolean = BedrockEngine.config.getSetting(BedrockData.AUTO_DEFAULT_ENABLED);
+			BedrockEngine.bedrock::pageManager.initialize(bolAutoDefault);
 			this.next();
 		}
-		/*
-		Site Customization Functions
-		*/
-		
 		/*
 		Load Completion Notice
 		*/
@@ -358,7 +357,7 @@ package com.bedrockframework.engine
 		}
 		final private function onConfigLoaded($event:Event):void
 		{
-			BedrockEngine.config.initialize(this._objConfigLoader.data, this.loaderInfo.url, this.stage);
+			BedrockEngine.config.initialize(this._objConfigLoader.data, this.environmentURL || this.loaderInfo.url, this.stage);
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.CONFIG_LOADED,this));
 			this.next();
 		}

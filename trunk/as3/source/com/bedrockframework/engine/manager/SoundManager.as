@@ -7,6 +7,8 @@
 	
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
+	
+	import gs.TweenMax;
 
 	public class SoundManager extends StandardWidget implements ISoundManager
 	{
@@ -84,43 +86,54 @@
 		{
 			return this._objSoundBoard.getVolume($alias);
 		}
+		public function fadeInSound($alias:String, $time:Number):void
+		{
+			var objChannel:SoundChannel = this._objSoundBoard.play($alias);
+			this._objSoundBoard.setVolume($alias, 0);
+			TweenMax.to(objChannel, $time, {volume:1});
+		}
+		public function fadeOutSound($alias:String, $time:Number):void
+		{
+			var objChannel:SoundChannel = this._objSoundBoard.getChannel($alias);
+			TweenMax.to(objChannel, $time, {volume:0, onComplete:this.onFadeOutComplete, onCompleteParams:[$alias]}); 
+		}
 		/*
 		Global Sound Functions
 		*/
 		public function muteGlobal():void
 		{
-			//this._objGlobalSound.mute();
+			this._objGlobalSound.mute();
 		}
 		public function unmuteGlobal():void
 		{
-			//this._objGlobalSound.unmute();
+			this._objGlobalSound.unmute();
 		}
 		public function toggleGlobalMute():Boolean
 		{
-			return false//this._objGlobalSound.toggleMute();
+			return this._objGlobalSound.toggleMute();
 		}
 		public function setGlobalPanning($value:Number):void
 		{
-			//this._objGlobalSound.panning = $value;
+			this._objGlobalSound.panning = $value;
 		}
 		public function getGlobalPanning():Number
 		{
-			return 0//this._objGlobalSound.panning;
+			return this._objGlobalSound.panning;
 		}
 		public function setGlobalVolume($value:Number):void
 		{
-			//this._objGlobalSound.volume = $value;
+			this._objGlobalSound.volume = $value;
 		}
 		public function getGlobalVolume():Number
 		{
-			return 0//this._objGlobalSound.volume;
+			return this._objGlobalSound.volume;
 		} 
-		
 		/*
-		Property Definitions
-	 	*/
-	 	
-	 	
-	 	
+		Event Handlers
+		*/
+		private function onFadeOutComplete($alias:String):void
+		{
+			this.stopSound($alias);
+		}
 	}
 }
