@@ -23,16 +23,16 @@
 					BedrockEngine.soundManager.addSound($event.details.alias, objSound);
 					break;
 				case BedrockEvent.PLAY_SOUND :
-					BedrockEngine.soundManager.playSound($event.details.alias, $event.details.startTime, $event.details.loops, $event.details.transform);
+					BedrockEngine.soundManager.playSound($event.details.alias, $event.details.startTime || 0, $event.details.loops || 0, $event.details.volume || 1, $event.details.panning || 0);
 					break;
 				case BedrockEvent.STOP_SOUND :
 					BedrockEngine.soundManager.stopSound($event.details.alias);
 					break;
 				case BedrockEvent.ADJUST_SOUND_VOLUME :
-					BedrockEngine.soundManager.setSoundVolume($event.details.alias, $event.details.volume);
+					BedrockEngine.soundManager.setSoundVolume($event.details.alias, $event.details.volume || 1);
 					break;
 				case BedrockEvent.ADJUST_SOUND_PAN :
-					BedrockEngine.soundManager.setSoundPanning($event.details.alias, $event.details.panning);
+					BedrockEngine.soundManager.setSoundPanning($event.details.alias, $event.details.panning || 0);
 					break;
 				case BedrockEvent.MUTE :
 					BedrockEngine.soundManager.muteGlobal();
@@ -41,10 +41,10 @@
 					BedrockEngine.soundManager.unmuteGlobal();
 					break;
 				case BedrockEvent.ADJUST_GLOBAL_PAN :
-					BedrockEngine.soundManager.setGlobalPanning($event.details.panning);
+					BedrockEngine.soundManager.setGlobalPanning($event.details.panning || 0);
 					break;
 				case BedrockEvent.ADJUST_GLOBAL_VOLUME :
-					BedrockEngine.soundManager.setGlobalVolume($event.details.volume);
+					BedrockEngine.soundManager.setGlobalVolume($event.details.volume || 1);
 					break;
 			}
 		}

@@ -17,7 +17,6 @@
 		public  function execute($event:GenericEvent):void
 		{
 			var strAlias:String = $event.details.alias;
-			
 			if (BedrockEngine.config.getPage(strAlias)){
 				if (BedrockEngine.bedrock::pageManager.current == null || BedrockEngine.bedrock::pageManager.current.alias != strAlias) {
 					this.status("Transitioning to - " + strAlias);
