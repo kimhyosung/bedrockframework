@@ -20,7 +20,6 @@
 			if (BedrockEngine.config.getPage(strAlias)){
 				if (BedrockEngine.bedrock::pageManager.current == null || BedrockEngine.bedrock::pageManager.current.alias != strAlias) {
 					this.status("Transitioning to - " + strAlias);
-					BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.SHOW_BLOCKER,this));
 					BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.SET_QUEUE,this,{alias:strAlias}));
 					BedrockEngine.bedrock::transitionManager.pageView.outro();
 				} else {

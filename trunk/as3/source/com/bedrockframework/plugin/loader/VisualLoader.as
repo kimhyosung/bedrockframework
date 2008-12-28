@@ -81,7 +81,7 @@
 		private function getURL($url:String):String
 		{
 			if (BackgroundLoader.cachePrevention) {
-				return this._strURL + "cache=" + BackgroundLoader.cacheKey;
+				return this._strURL + "?cache=" + BackgroundLoader.cacheKey;
 			} else {
 				return this._strURL;
 			}

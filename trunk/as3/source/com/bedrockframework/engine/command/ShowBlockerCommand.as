@@ -4,6 +4,7 @@
 	import com.bedrockframework.core.command.ICommand;
 	import com.bedrockframework.core.event.GenericEvent;
 	import com.bedrockframework.engine.BedrockEngine;
+	import com.bedrockframework.engine.data.BedrockData;
 
 	public class ShowBlockerCommand extends Command implements ICommand
 	{
@@ -12,7 +13,8 @@
 		}
 		public  function execute($event:GenericEvent):void
 		{
-			BedrockEngine.containerManager.getContainer("blocker").show();
+			this.debug("SHOW BLOCKER!");
+			BedrockEngine.containerManager.getContainer(BedrockData.BLOCKER_CONTAINER).show();
 		}
 	}
 

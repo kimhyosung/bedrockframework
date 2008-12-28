@@ -19,6 +19,7 @@ package com.bedrockframework.engine
 	{
 		public function AssetBuilder()
 		{
+			this.visible = false;
 		}
 		
 		protected function addView($alias:String, $class:Class):void

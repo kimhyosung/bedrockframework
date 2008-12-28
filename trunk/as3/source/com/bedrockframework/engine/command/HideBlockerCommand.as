@@ -4,6 +4,7 @@
 	import com.bedrockframework.core.command.ICommand;
 	import com.bedrockframework.core.event.GenericEvent;
 	import com.bedrockframework.engine.BedrockEngine;
+	import com.bedrockframework.engine.data.BedrockData;
 
 	public class HideBlockerCommand extends Command implements ICommand
 	{
@@ -12,7 +13,7 @@
 		}
 		public  function execute($event:GenericEvent):void
 		{
-			BedrockEngine.containerManager.getContainer("blocker").hide();
+			BedrockEngine.containerManager.getContainer(BedrockData.BLOCKER_CONTAINER).hide();
 		}
 	}
 

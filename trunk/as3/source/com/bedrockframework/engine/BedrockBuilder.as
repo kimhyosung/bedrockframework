@@ -148,8 +148,8 @@ package com.bedrockframework.engine
 			if (BedrockEngine.config.getSetting(BedrockData.CACHE_PREVENTION_ENABLED) && BedrockEngine.config.getSetting(BedrockData.ENVIRONMENT) != BedrockData.LOCAL) {
 				BackgroundLoader.cachePrevention = true;
 				VisualLoader.cachePrevention = true;
-				BackgroundLoader.cacheKey = BedrockEngine.config.getValue(BedrockData.CACHE_KEY);
-				VisualLoader.cacheKey = BedrockEngine.config.getValue(BedrockData.CACHE_KEY);
+				BackgroundLoader.cacheKey = BedrockEngine.config.getSetting(BedrockData.CACHE_KEY);
+				VisualLoader.cacheKey = BedrockEngine.config.getSetting(BedrockData.CACHE_KEY);
 			}
 			this.next();
 		}
@@ -210,12 +210,14 @@ package com.bedrockframework.engine
 			
 			this.addCommand(BedrockEvent.SHOW_BLOCKER,ShowBlockerCommand);
 			this.addCommand(BedrockEvent.HIDE_BLOCKER,HideBlockerCommand);
-			this.addCommand(BedrockEvent.SET_QUEUE,ShowBlockerCommand);
-			this.addCommand(BedrockEvent.INTRO_COMPLETE,HideBlockerCommand);
 			
 			this.addCommand(BedrockEvent.SET_QUEUE, StateChangeCommand);
 			this.addCommand(BedrockEvent.INITIALIZE_COMPLETE, StateChangeCommand);
 			
+			if (BedrockEngine.config.getSetting(BedrockData.AUTO_BLOCKER_ENABLED)) {
+				this.addCommand(BedrockEvent.SET_QUEUE,ShowBlockerCommand);
+				this.addCommand(BedrockEvent.INTRO_COMPLETE,HideBlockerCommand);
+			}
 			if (BedrockEngine.config.getSetting(BedrockData.AUTO_INTRO_ENABLED)){
 				this.addCommand(BedrockEvent.BEDROCK_COMPLETE,RenderSiteCommand);
 			}
@@ -232,6 +234,8 @@ package com.bedrockframework.engine
 			this.addCommand(BedrockEvent.UNMUTE, SoundControlCommand);
 			this.addCommand(BedrockEvent.ADJUST_GLOBAL_VOLUME, SoundControlCommand);
 			this.addCommand(BedrockEvent.ADJUST_GLOBAL_PAN, SoundControlCommand);
+			this.addCommand(BedrockEvent.FADE_IN_SOUND, SoundControlCommand);
+			this.addCommand(BedrockEvent.FADE_OUT_SOUND, SoundControlCommand);
 		
 			this.next();
 		}
@@ -254,7 +258,9 @@ package com.bedrockframework.engine
 				
 			var objBlocker:Blocker=new Blocker(BedrockEngine.config.getParam(BedrockData.BLOCKER_ALPHA));
 			BedrockEngine.containerManager.replaceContainer(BedrockData.BLOCKER_CONTAINER, objBlocker);
-			objBlocker.show();
+			if (BedrockEngine.config.getSetting(BedrockData.AUTO_BLOCKER_ENABLED)) {
+				objBlocker.show();
+			}
 			
 			this.next();
 		}

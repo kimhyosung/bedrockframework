@@ -18,6 +18,8 @@
 		public static const TRACKING_ENABLED:String = "tracking_enabled";
 		public static const SHARED_SOUNDS_ENABLED:String = "shared_sounds_enabled";
 		
+		public static const AUTO_BLOCKER_ENABLED:String = "auto_blocker_enabled";
+		
 		public static const LANGUAGES:String = "languages";
 		public static const DEFAULT_LANGUAGE:String = "default_language";
 		public static const SYSTEM_LANGUAGE:String = "system_language";

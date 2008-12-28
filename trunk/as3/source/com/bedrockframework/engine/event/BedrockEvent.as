@@ -63,7 +63,8 @@
 		public static const STOP_SOUND:String = "BedrockEvent.onStopSound";
 		public static const ADJUST_SOUND_PAN:String = "BedrockEvent.onAdjustSoundPan";
 		public static const ADJUST_SOUND_VOLUME:String = "BedrockEvent.onAdjustSoundVolume";
-		
+		public static const FADE_IN_SOUND:String = "BedrockEvent.onFadeInSound";
+		public static const FADE_OUT_SOUND:String = "BedrockEvent.onFadeOutSound";		
 		public static const MUTE:String = "BedrockEvent.onMute";
 		public static const UNMUTE:String = "BedrockEvent.onUnmute";
 		public static const ADJUST_GLOBAL_PAN:String = "BedrockEvent.onAdjustGlobalPan";
