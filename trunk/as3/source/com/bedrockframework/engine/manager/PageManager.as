@@ -11,6 +11,7 @@
 
 	public class PageManager extends StandardWidget implements IPageManager
 	{
+		private var _objQueue:Object;
 		private var _objCurrent:Object;
 		private var _objPrevious:Object;
 		/*
@@ -23,10 +24,11 @@
 		public function initialize($autoDefault:Boolean = true):void
 		{
 			if ($autoDefault) {
-				var strAlias:String = BedrockEngine.bedrock::pageManager.getDefaultPage();
+				var strAlias:String = this.getDefaultPage();
 				var objPage:Object = BedrockEngine.config.getPage(strAlias);
 				this.setupPageLoad(objPage);
 				this.setQueue(objPage);
+				this.loadQueue();
 			}
 		}
 		/*
@@ -49,7 +51,7 @@
 			} else {
 				strPath = BedrockEngine.config.getValue(BedrockData.SWF_PATH) + objPage.alias + ".swf";
 			}						
-			BedrockEngine.loadManager.addToQueue(strPath,BedrockEngine.containerManager.getContainer(BedrockData.PAGE_CONTAINER));
+			BedrockEngine.loadManager.addToQueue(strPath, BedrockEngine.containerManager.getContainer(BedrockData.PAGE_CONTAINER), BedrockData.PAGE_PRIORITY);
 			BedrockEngine.bedrock::transitionManager.pageLoader = BedrockEngine.containerManager.getContainer(BedrockData.PAGE_CONTAINER) as VisualLoader;
 		}
 		
@@ -89,8 +91,7 @@
 			var objPage:Object = $page;
 			if (objPage != null) {
 				if (objPage != this._objCurrent) {
-					this._objPrevious = this._objCurrent;
-					this._objCurrent=objPage;
+					this._objQueue = objPage;
 					BedrockEngine.history.addHistoryItem(objPage);
 				} else {
 					this.warning("Page already in queue!");
@@ -101,13 +102,13 @@
 		/*
 		Load Queue
 		*/
-		public function getQueue():Object
+		public function loadQueue():Object
 		{
-			var objTemp:Object=this.current;
-			if (objTemp == null) {
-				this.warning("Queue is empty!");
-			}
-			return objTemp;
+			var objData:Object = this._objQueue;
+			this._objPrevious = this._objCurrent;
+			this._objCurrent = this._objQueue;
+			this._objQueue = null;
+			return objData;
 		}
 		/*
 		Clear Queue
@@ -118,14 +119,21 @@
 			this._objPrevious=null;
 		}
 		/*
-		Get Current Queue
+		Get Queued Page
+		*/
+		public function get queue():Object
+		{
+			return this._objQueue;
+		}
+		/*
+		Get Current Page
 		*/
 		public function get current():Object
 		{
 			return this._objCurrent;
 		}
 		/*
-		Get Previous Queue
+		Get Previous Page
 		*/
 		public function get previous():Object
 		{

@@ -16,7 +16,7 @@
 		}
 		public  function execute($event:GenericEvent):void
 		{
-			var objPage:Object=BedrockEngine.bedrock::pageManager.getQueue();
+			var objPage:Object=BedrockEngine.bedrock::pageManager.loadQueue();
 			if (objPage) {
 				BedrockEngine.bedrock::pageManager.setupPageLoad(objPage);
 			}

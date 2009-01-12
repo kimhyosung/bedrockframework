@@ -59,8 +59,8 @@ package com.bedrockframework.plugin.gadget
 	 	*/
 	 	private static function resizeTarget($target:DisplayObjectContainer, $data:StageMonitorData):void
 		{
-			if ($data.widthResize) $target.width = StageMonitor.__objStage.width;
-			if ($data.heightResize) $target.height = StageMonitor.__objStage.height;
+			if ($data.widthResize) $target.width = StageMonitor.__objStage.stageWidth;
+			if ($data.heightResize) $target.height = StageMonitor.__objStage.stageHeight;
 		}
 		/*
 		Align single target relative to the stage

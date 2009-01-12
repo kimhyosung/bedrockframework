@@ -12,17 +12,21 @@
 		/*
 		Load Queue
 		*/
-		function getQueue():Object
+		function loadQueue():Object
 		/*
 		Clear Queue
 		*/
 		function clearQueue():void
 		/*
-		Get Current Queue
+		Get Queued Page
+		*/
+		function get queue():Object
+		/*
+		Get Current Page
 		*/
 		function get current():Object
 		/*
-		Get Previous Queue
+		Get Previous Page
 		*/
 		function get previous():Object
 	}

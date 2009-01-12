@@ -57,6 +57,7 @@
 		
 		public static const LOAD_COPY:String="BedrockEvent.onLoadCopy";
 		public static const COPY_LOADED:String="BedrockEvent.onCopyLoaded";
+		public static const COPY_ERROR:String="BedrockEvent.onCopyError";
 		
 		public static const ADD_SOUND:String = "BedrockEvent.onAddSound";
 		public static const PLAY_SOUND:String = "BedrockEvent.onPlaySound";

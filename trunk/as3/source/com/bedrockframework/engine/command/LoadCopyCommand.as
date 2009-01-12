@@ -12,7 +12,7 @@
 		}
 		public function execute($event:GenericEvent):void
 		{
-			BedrockEngine.copyManager.loadXML($event.details.language);
+			BedrockEngine.copyManager.load($event.details.language);
 		}
 	}
 }

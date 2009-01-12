@@ -1,9 +1,7 @@
 package com.bedrockframework.engine.api
 {
-	import com.bedrockframework.plugin.audio.ISoundBoard;
-	import flash.media.SoundChannel;
 	import flash.media.Sound;
-	import flash.media.SoundTransform;
+	import flash.media.SoundChannel;
 	
 		
 	public interface ISoundManager
@@ -12,10 +10,10 @@ package com.bedrockframework.engine.api
 		/*
 		Sound Functions
 		*/
-		function addSound($alias:String, $sound:Sound):void;
+		function addSound($alias:String, $sound:Sound, $allowMultiple:Boolean = true):void;
 		function loadSound($alias:String, $url:String, $completeHandler:Function):void
 		
-		function playSound($alias:String, $startTime:Number = 0, $loops:int = 0, $volume:Number = 1, $panning:Number = 0):SoundChannel;
+		function playSound($alias:String, $startTime:Number = 0, $delay:Number = 0, $loops:int = 0, $volume:Number = 1, $panning:Number = 0):SoundChannel;
 		function stopSound($alias:String):void;
 		function closeSound($alias:String):void;
 		

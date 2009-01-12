@@ -12,8 +12,8 @@
 package com.bedrockframework.core.base
 {
 	import com.bedrockframework.core.logging.ILogable;
-	import com.bedrockframework.core.logging.Logger;
 	import com.bedrockframework.core.logging.LogLevel;
+	import com.bedrockframework.core.logging.Logger;
 	
 	import flash.display.MovieClip;
 	import flash.events.Event;
@@ -99,6 +99,10 @@ package com.bedrockframework.core.base
 		public function get silenceLogging():Boolean
 		{
 			return this._bolSilenceLogging;
+		}
+		public function set scale($num:Number):void{
+			this.scaleX=$num;
+			this.scaleY=$num;
 		}
 	}
 }

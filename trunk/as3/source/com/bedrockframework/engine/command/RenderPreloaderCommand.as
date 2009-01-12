@@ -6,8 +6,7 @@
 	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.bedrock;
 	import com.bedrockframework.engine.data.BedrockData;
-	
-	import flash.display.DisplayObjectContainer;
+	import com.bedrockframework.engine.view.PreloaderContainer;
 	
 	public class RenderPreloaderCommand extends Command implements ICommand
 	{
@@ -17,12 +16,12 @@
 		public  function execute($event:GenericEvent):void
 		{
 			var objPreloader:*;
-			if (BedrockEngine.assetManager.hasPreloader(BedrockEngine.bedrock::pageManager.current.alias)) {
-				objPreloader=BedrockEngine.assetManager.getPreloader(BedrockEngine.bedrock::pageManager.current.alias);
+			if (BedrockEngine.assetManager.hasPreloader(BedrockEngine.bedrock::pageManager.queue.alias)) {
+				objPreloader=BedrockEngine.assetManager.getPreloader(BedrockEngine.bedrock::pageManager.queue.alias);
 			} else {
 				objPreloader=BedrockEngine.assetManager.getPreloader(BedrockData.DEFAULT_PRELOADER);
 			}
-			var objContainer:DisplayObjectContainer = BedrockEngine.containerManager.getContainer(BedrockData.PRELOADER_CONTAINER);
+			var objContainer:PreloaderContainer = BedrockEngine.containerManager.getContainer(BedrockData.PRELOADER_CONTAINER) as PreloaderContainer;
 			objContainer.addChild(objPreloader);
 			BedrockEngine.bedrock::preloaderManager.scope = objPreloader;
 		}

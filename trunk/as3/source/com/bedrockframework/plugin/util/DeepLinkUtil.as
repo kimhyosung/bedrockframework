@@ -1,4 +1,4 @@
-package com.bedrockframework.plugin.util
+﻿package com.bedrockframework.plugin.util
 {
 	import com.asual.swfaddress.SWFAddress;
 	import com.bedrockframework.core.base.StaticWidget;

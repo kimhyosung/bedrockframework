@@ -205,7 +205,7 @@ package com.bedrockframework.engine.model
 					this._objParamSettings[arrVariable[0]] =   arrVariable[1];
 				}
 			} else {
-				this.warning("Nothing to parse!");
+				this.warning("No params to parse!");
 			}
 		}
 		

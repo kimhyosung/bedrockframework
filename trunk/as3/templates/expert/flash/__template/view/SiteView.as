@@ -25,7 +25,7 @@
 		}
 		public function intro($properties:Object=null):void
 		{
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DO_DEFAULT,this));
+			//BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DO_DEFAULT,this));
 			this.introComplete();
 		}
 		public function outro($properties:Object=null):void

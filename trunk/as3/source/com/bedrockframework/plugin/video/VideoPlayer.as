@@ -11,7 +11,6 @@
 	import flash.events.IOErrorEvent;
 	import flash.events.NetStatusEvent;
 	import flash.events.SecurityErrorEvent;
-	import flash.media.SoundTransform;
 	import flash.media.Video;
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
@@ -202,8 +201,9 @@
 
 		private function onPlayStart($event:VideoEvent):void
 		{
-			this._objSharedTrigger.addEventListener(TriggerEvent.TRIGGER, this.onProgressTrigger);	
-			if (this._bolLoadAndPause) {
+			this._objSharedTrigger.addEventListener(TriggerEvent.TRIGGER, this.onProgressTrigger);
+			this.dispatchEvent(new VideoEvent(VideoEvent.BUFFER_EMPTY, this));
+			if (this._bolLoadAndPause) {				
 				this.unmute();
 				this.pause();
 				this.seek(0);			

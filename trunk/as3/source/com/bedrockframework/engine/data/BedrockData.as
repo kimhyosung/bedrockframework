@@ -82,5 +82,11 @@
 		public static const IMAGE_PATH:String = "image_path";
 		public static const VIDEO_PATH:String = "video_path";
 		public static const SWF_PATH:String = "swf_path";
+		/*
+		Load Priorities
+		*/
+		public static const SHARED_PRIORITY:int = 101;
+		public static const SITE_PRIORITY:int = 102;
+		public static const PAGE_PRIORITY:int = 103;
 	}
 }

@@ -1,15 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
   <settings>
-    <preloader_time>0</preloader_time>
+    <preloader_time>3</preloader_time>
     <auto_intro_enabled>true</auto_intro_enabled>
-    <auto_default_enabled>false</auto_default_enabled>
+    <auto_default_enabled>true</auto_default_enabled>
+    <auto_blocker_enabled>true</auto_blocker_enabled>
     <deep_linking_enabled>false</deep_linking_enabled>
     <remoting_enabled>false</remoting_enabled>
     <cache_prevention_enabled>false</cache_prevention_enabled>
     <stylesheet_enabled>false</stylesheet_enabled>
-    <shared_sounds_enabled>false</shared_sounds_enabled>
     <copy_deck_enabled>false</copy_deck_enabled>
+    <shared_sounds_enabled>false</shared_sounds_enabled>
+    <default_language>en</default_language>
     <languages />
   </settings>
   <layout>
@@ -39,6 +41,10 @@
     <page default_page="true">
       <label>Homepage</label>
       <alias>homepage</alias>
+    </page>
+    <page>
+      <label>Sub Page</label>
+      <alias>sub_page</alias>
     </page>
   </pages>
   <environments>

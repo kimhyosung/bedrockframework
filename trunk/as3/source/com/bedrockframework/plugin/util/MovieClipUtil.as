@@ -28,6 +28,9 @@
 		*/
 		public static function getTweenTime($clip:MovieClip, $frame:*, $compression:Number=1):Number
 		{
+			if ($clip == null) {
+				throw new Error("MovieClip reference is null!");
+			}
 			var numFrame:Number;
 			switch(typeof($frame)){
 				case "number":
@@ -41,6 +44,8 @@
 					break;
 			}
 			return (Math.abs(numFrame - $clip.currentFrame)) / $clip.stage.frameRate;
+		
+			
 		}
 	}
 }

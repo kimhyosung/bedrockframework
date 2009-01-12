@@ -51,16 +51,24 @@
 		/*
 		Audio Functions
 		*/
-		public function addSound($alias:String, $sound:Sound):void
+		public function addSound($alias:String, $sound:Sound, $allowMultiple:Boolean = true):void
 		{
-			this._objSoundBoard.add($alias, $sound);
+			this._objSoundBoard.add($alias, $sound, $allowMultiple);
 		}
 		public function loadSound($alias:String, $url:String, $completeHandler:Function):void
 		{
 		}
-		public function playSound($alias:String, $startTime:Number=0, $loops:int=0, $volume:Number = 1, $panning:Number = 0):SoundChannel
+		public function playSound($alias:String, $startTime:Number=0, $delay:Number = 0, $loops:int=0, $volume:Number = 1, $panning:Number = 0):SoundChannel
 		{
-			return this._objSoundBoard.play($alias, $startTime, $loops, $volume, $panning);
+			return this._objSoundBoard.play($alias, $startTime, $delay, $loops, $volume, $panning);
+		}
+		public function fadeInSound($alias:String, $time:Number):void
+		{
+			this._objSoundBoard.fadeVolume($alias, $time, 1);
+		}
+		public function fadeOutSound($alias:String, $time:Number):void
+		{
+			this._objSoundBoard.fadeVolume($alias, $time, 0);		 
 		}
 		public function stopSound($alias:String):void
 		{
@@ -68,7 +76,7 @@
 		}
 		public function closeSound($alias:String):void
 		{
-			this._objSoundBoard.stop($alias);
+			this._objSoundBoard.close($alias);
 		}
 		public function setSoundVolume($alias:String, $value:Number):void
 		{
@@ -86,17 +94,7 @@
 		{
 			return this._objSoundBoard.getVolume($alias);
 		}
-		public function fadeInSound($alias:String, $time:Number):void
-		{
-			var objChannel:SoundChannel = this._objSoundBoard.play($alias);
-			this._objSoundBoard.setVolume($alias, 0);
-			TweenMax.to(objChannel, $time, {volume:1});
-		}
-		public function fadeOutSound($alias:String, $time:Number):void
-		{
-			var objChannel:SoundChannel = this._objSoundBoard.getChannel($alias);
-			TweenMax.to(objChannel, $time, {volume:0, onComplete:this.onFadeOutComplete, onCompleteParams:[$alias]}); 
-		}
+		
 		/*
 		Global Sound Functions
 		*/
@@ -131,9 +129,5 @@
 		/*
 		Event Handlers
 		*/
-		private function onFadeOutComplete($alias:String):void
-		{
-			this.stopSound($alias);
-		}
 	}
 }

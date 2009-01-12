@@ -28,7 +28,6 @@ package com.bedrockframework.engine
 	import com.bedrockframework.plugin.gadget.*;
 	import com.bedrockframework.plugin.loader.BackgroundLoader;
 	import com.bedrockframework.plugin.loader.VisualLoader;
-	import com.bedrockframework.plugin.storage.ArrayBrowser;
 	import com.bedrockframework.plugin.tracking.ITrackingService;
 	
 	import flash.display.Sprite;
@@ -121,7 +120,7 @@ package com.bedrockframework.engine
 		*/
 
 		final private function loadParams():void
-		{			
+		{
 			BedrockEngine.config.parseParamString(this.params);
 			BedrockEngine.config.saveParams(this.loaderInfo.parameters);
 			this.next();
@@ -137,8 +136,8 @@ package com.bedrockframework.engine
 		final private function loadDeepLinking():void
 		{
 			if (BedrockEngine.config.getSetting(BedrockData.DEEP_LINKING_ENABLED)) {
-				BedrockEngine.deeplinkManager.initialize();
 				BedrockDispatcher.addEventListener(BedrockEvent.DEEP_LINK_INITIALIZE, this.onDeepLinkInitialized);
+				BedrockEngine.deeplinkManager.initialize();
 			} else {
 				this.next();
 			}	
@@ -170,30 +169,18 @@ package com.bedrockframework.engine
 		final private function loadCSS():void
 		{
 			if (BedrockEngine.config.getSetting(BedrockData.STYLESHEET_ENABLED)) {
-				this.addToQueue(BedrockEngine.config.getValue(BedrockData.CSS_PATH) + BedrockData.STYLESHEET_FILENAME + ".css", null, this.onCSSLoaded);
+				this.addToQueue(BedrockEngine.config.getValue(BedrockData.CSS_PATH) + BedrockData.STYLESHEET_FILENAME + ".css", null, 0, null, this.onCSSLoaded);
 			}
 			this.next();
 		}
 		final private function loadCopy():void
 		{
 			if (BedrockEngine.config.getSetting(BedrockData.COPY_DECK_ENABLED)) {
-				var arrLanguages:Array = BedrockEngine.config.getSetting(BedrockData.LANGUAGES);
-				var objBrowser:ArrayBrowser = new ArrayBrowser(arrLanguages);
-				var strDefaultLanguage:String = BedrockEngine.config.getParam(BedrockData.DEFAULT_LANGUAGE) || BedrockEngine.config.getSetting(BedrockData.DEFAULT_LANGUAGE) || BedrockEngine.config.getSetting(BedrockData.SYSTEM_LANGUAGE);
-				var strSelectedLanguage:String;
-				if (arrLanguages.length > 0 && strDefaultLanguage != "") {
-					if (objBrowser.containsItem(BedrockEngine.config.getSetting(BedrockData.SYSTEM_LANGUAGE))) {
-						//strPath = BedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + "_" +  + ".xml";
-						strSelectedLanguage = BedrockEngine.config.getSetting(BedrockData.SYSTEM_LANGUAGE);
-					} else {
-						//strPath = BedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + "_" + strDefaultLanguage + ".xml";
-						strSelectedLanguage = strDefaultLanguage;
-					}
-				} else {
-					//strPath = BedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + ".xml";
-					strSelectedLanguage = null;
-				}
-				BedrockEngine.copyManager.initialize(strSelectedLanguage);
+				
+				var strDefaultLanguage:String = BedrockEngine.config.getParam(BedrockData.DEFAULT_LANGUAGE) || BedrockEngine.config.getSetting(BedrockData.DEFAULT_LANGUAGE);
+				var strSystemLanguage:String = BedrockEngine.config.getSetting(BedrockData.SYSTEM_LANGUAGE);
+				
+				BedrockEngine.copyManager.initialize(BedrockEngine.config.getSetting(BedrockData.LANGUAGES), strDefaultLanguage);
 			}			
 			this.next();
 		}
@@ -221,9 +208,8 @@ package com.bedrockframework.engine
 			if (BedrockEngine.config.getSetting(BedrockData.AUTO_INTRO_ENABLED)){
 				this.addCommand(BedrockEvent.BEDROCK_COMPLETE,RenderSiteCommand);
 			}
-			if (BedrockEngine.config.getSetting(BedrockData.COPY_DECK_ENABLED)){
-				this.addCommand(BedrockEvent.LOAD_COPY, LoadCopyCommand);
-			}
+			
+			this.addCommand(BedrockEvent.LOAD_COPY, LoadCopyCommand);
 
 			this.addCommand(BedrockEvent.ADD_SOUND, SoundControlCommand);
 			this.addCommand(BedrockEvent.PLAY_SOUND, SoundControlCommand);
@@ -289,8 +275,8 @@ package com.bedrockframework.engine
 		*/
 		final private function loadComplete():void
 		{
-			this.addToQueue(BedrockEngine.config.getValue(BedrockData.SWF_PATH) + BedrockData.SITE_FILENAME + ".swf", BedrockEngine.containerManager.getContainer(BedrockData.SITE_CONTAINER));
-			this.addToQueue(BedrockEngine.config.getValue(BedrockData.SWF_PATH) + BedrockData.SHARED_FILENAME + ".swf", BedrockEngine.containerManager.getContainer(BedrockData.SHARED_CONTAINER), this.onSharedLoaded);
+			this.addToQueue(BedrockEngine.config.getValue(BedrockData.SWF_PATH) + BedrockData.SHARED_FILENAME + ".swf", BedrockEngine.containerManager.getContainer(BedrockData.SHARED_CONTAINER), BedrockData.SHARED_PRIORITY, null, this.onSharedLoaded);
+			this.addToQueue(BedrockEngine.config.getValue(BedrockData.SWF_PATH) + BedrockData.SITE_FILENAME + ".swf", BedrockEngine.containerManager.getContainer(BedrockData.SITE_CONTAINER), BedrockData.SITE_PRIORITY);
 						
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.BEDROCK_COMPLETE,this));
 			this.status("Initialization Complete!");
@@ -322,9 +308,9 @@ package com.bedrockframework.engine
 		/*
 		Add View Functions
 		*/
-		final protected function addToQueue($path:String,$loader:*,$completeHandler:Function=null, $errorHandler:Function=null):void
+		final protected function addToQueue($path:String,$loader:VisualLoader=null, $priority:uint=0, $id:String = null, $completeHandler:Function=null, $errorHandler:Function=null):void
 		{
-			BedrockEngine.loadManager.addToQueue($path, $loader, $completeHandler, $errorHandler);
+			BedrockEngine.loadManager.addToQueue($path, $loader, $priority, $id, $completeHandler, $errorHandler);
 		}
 		/*
 		Config Related Stuff

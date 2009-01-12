@@ -34,8 +34,16 @@ package com.bedrockframework.engine.view
 		Property Definitions
 		*/
 		/**
+		 * This will return the config details for the currently queued page.
+		 * This information can also be accessed from the PageManager class.
+		*/
+		final protected  function get queue():Object
+		{
+			return BedrockEngine.bedrock::pageManager.queue;
+		}
+		/**
 		 * This will return the config details for the currently shown page.
-		 * This information can also be accessed from the PageStorage class.
+		 * This information can also be accessed from the PageManager class.
 		*/
 		final protected  function get current():Object
 		{
@@ -43,7 +51,7 @@ package com.bedrockframework.engine.view
 		}
 		/**
 		 * This will return the config details for the previously shown page.
-		 * This information can also be accessed from the PageStorage class.
+		 * This information can also be accessed from the PageManager class.
 		*/
 		final protected  function get previous():Object
 		{

@@ -118,7 +118,6 @@ package com.sapient.project.hf3.form
 		public static function isEmail($email:String):Boolean
 		{
 			if (typeof($email) == "string") {
-				//trace($email);
 				if ($email.length < 6 || $email.indexOf(".") <= 0 || $email.indexOf(",") >= 0 || $email.indexOf(";") >= 0 || $email.indexOf(":") >= 0 || $email.indexOf("/") >= 0 || $email.indexOf(" ") >= 0 || $email.indexOf("@") <= 0 || $email.indexOf("@") != $email.lastIndexOf("@") || $email.lastIndexOf(".") < $email.indexOf("@") || $email.lastIndexOf(".") + 3 > $email.length) {
 					return false;
 				} else {

@@ -10,9 +10,9 @@
 	import com.bedrockframework.plugin.event.LoaderEvent;
 	import com.bedrockframework.plugin.event.ViewEvent;
 	import com.bedrockframework.plugin.loader.VisualLoader;
-	import com.bedrockframework.plugin.util.MathUtil;
 	import com.bedrockframework.plugin.view.IView;
 	
+	import flash.system.System;
 	import flash.utils.*;
 
 	public class TransitionManager extends StandardWidget implements ITransitionManger
@@ -33,7 +33,6 @@
 			this.reset();
 		}
 		
-		
 		public function initialize():void
 		{
 			BedrockDispatcher.addEventListener(BedrockEvent.DO_INITIALIZE,this.onDoInitialize);
@@ -48,14 +47,23 @@
 		*/
 		private function addSiteListeners($target:*):void
 		{
-			$target.addEventListener(ViewEvent.INITIALIZE_COMPLETE,this.onSiteInitializeComplete);
-			$target.addEventListener(ViewEvent.INTRO_COMPLETE,this.onSiteIntroComplete);
+			try {
+				$target.addEventListener(ViewEvent.INITIALIZE_COMPLETE,this.onSiteInitializeComplete);
+				$target.addEventListener(ViewEvent.INTRO_COMPLETE,this.onSiteIntroComplete);
+			} catch ($error) {
+				this.fatal("Fatal error loading site, check for compile errors!");
+			}
+			
 		}
 		private function addPageListeners($target:*):void
 		{
-			$target.addEventListener(ViewEvent.INITIALIZE_COMPLETE,this.onPageInitializeComplete);
-			$target.addEventListener(ViewEvent.INTRO_COMPLETE,this.onPageIntroComplete);
-			$target.addEventListener(ViewEvent.OUTRO_COMPLETE,this.onPageOutroComplete);
+			try {
+				$target.addEventListener(ViewEvent.INITIALIZE_COMPLETE,this.onPageInitializeComplete);
+				$target.addEventListener(ViewEvent.INTRO_COMPLETE,this.onPageIntroComplete);
+				$target.addEventListener(ViewEvent.OUTRO_COMPLETE,this.onPageOutroComplete);
+			} catch ($error) {
+				this.fatal("Fatal error loading page, check for compile errors!");
+			}
 		}
 		private function removePageListeners($target:*):void
 		{
@@ -122,7 +130,7 @@
 			this.pageView.clear();
 			this.pageLoader.unload();
 			this.reset();
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RENDER_PRELOADER,this.pageLoader));
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RENDER_PRELOADER, this));
 		}
 		/*
 		Load Handlers
@@ -136,6 +144,7 @@
 		{
 			this._objPageView = this._objPageLoader.content as IView;
 			this.addPageListeners(this._objPageView);
+			BedrockEngine.history.current.loaded = true;
 		}
 		/*
 		Set the current container to load content into

@@ -13,12 +13,13 @@
         </div>
         <script type="text/javascript">
         // <![CDATA[
-			var so = new SWFObject("assets/swfs/shell.swf?t=" +new Date().getTime(), "flash_content", "800", "500", "9", "#000000");
-			so.useExpressInstall("assets/swfs/expressinstall.swf");
-			so.addParam("menu", "false");
-			so.addParam("scale", "noscale");
-			so.addParam("base", "assets/swfs/");            
-			so.write("content");
+			var objSWF = new SWFObject("assets/swfs/shell.swf?t=" +new Date().getTime(), "shell", "800", "500", "9", "#000000");
+			objSWF.useExpressInstall("assets/swfs/expressinstall.swf");
+			objSWF.addParam("menu", "false");
+			objSWF.addParam("scale", "noscale");
+			objSWF.addParam("base", "assets/swfs/");
+			objSWF.addParam("allowScriptAccess", "always");    
+			objSWF.write("content");
         // ]]>
         </script>
     </body>

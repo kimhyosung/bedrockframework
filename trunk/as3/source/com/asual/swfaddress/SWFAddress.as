@@ -1,23 +1,18 @@
 ﻿/**
- * SWFAddress 2.1: Deep linking for Flash and Ajax - http://www.asual.com/swfaddress/
+ * SWFAddress 2.0: Deep linking for Flash and Ajax - http://www.asual.com/swfaddress/
  * 
  * SWFAddress is (c) 2006-2007 Rostislav Hristov and is released under the MIT License:
  * http://www.opensource.org/licenses/mit-license.php
  *
  */
 
-package com.asual.swfaddress
-{
+package com.asual.swfaddress{
 
     import flash.events.Event;
     import flash.events.EventDispatcher;
     import flash.external.ExternalInterface;
-    import flash.net.navigateToURL;
-    import flash.net.URLRequest;
-    import flash.system.Capabilities;
     import flash.utils.clearInterval;
     import flash.utils.setInterval;
-    import com.asual.swfaddress.SWFAddressEvent;
 
     /**
      * SWFAddress is distributed as a top level class. Projects that utilize 
@@ -43,33 +38,38 @@ package com.asual.swfaddress
         public static var onChange:Function;
 
         private static function _initialize():Boolean {
-            if (_availability) {
+			
+           <!--  if (_availability) {
                 ExternalInterface.addCallback('getSWFAddressValue', 
                     function():String {return _value});
                 ExternalInterface.addCallback('setSWFAddressValue', 
                     _setValue);
-            }
-            _interval = setInterval(_check, 10);
+            } -->
+			_interval = setInterval(_check, 10);
             return true;
         }
         private static var _initializer:Boolean = _initialize();
         
         private static function _check():void {
             if ((typeof SWFAddress['onInit'] == 'function' || _dispatcher.hasEventListener('init')) && !_init) {
-                SWFAddress._setValueInit(_getValue());
-                SWFAddress._init = true;                
+                _dispatchEvent(SWFAddressEvent.INIT);
             }
             if (typeof SWFAddress['onChange'] == 'function' || _dispatcher.hasEventListener('change')) {
                 clearInterval(_interval);
-                SWFAddress._init = true;
-                SWFAddress._setValueInit(_getValue());
+                SWFAddress._setValue(_getValue());
             }
         }
         
         private static function _strictCheck(value:String, force:Boolean):String {
-            if (SWFAddress.getStrict()) {
+            if (_strict) {
                 if (force) {
                     if (value.substr(0, 1) != '/') value = '/' + value;
+                    var qi:Number = value.indexOf('?');
+                    if (qi != -1) {
+                        value = value.substr(qi - 1, 1) != '/' ? value.substr(0, qi) + '/' + value.substr(qi) : value;
+                    } else {
+                        if (value.substr(value.length - 1) != '/') value += '/';
+                    }
                 } else {
                     if (value == '') value = '/';
                 }
@@ -88,28 +88,14 @@ package com.asual.swfaddress
             } else {
                 if (value == 'undefined' || value == null) value = '';
             }
-            return _strictCheck(value || '', false);
+            return _strictCheck(value, false);
         }
-
-        private static function _setValueInit(value:String):void {        
-            SWFAddress._value = value;
-            if (!_init) {
-                _dispatchEvent(SWFAddressEvent.INIT);
-            } else {
-	            _dispatchEvent(SWFAddressEvent.CHANGE);
-	        }
-        }        
 
         private static function _setValue(value:String):void {        
             if (value == 'undefined' || value == null) value = '';
             if (SWFAddress._value == value && SWFAddress._init) return;
             SWFAddress._value = value;
-            if (!_init) {
-                SWFAddress._init = true;
-                if (typeof SWFAddress['onInit'] == 'function' || _dispatcher.hasEventListener('init')) {
-                    _dispatchEvent(SWFAddressEvent.INIT);
-                }
-            }
+            SWFAddress._init = true;
             _dispatchEvent(SWFAddressEvent.CHANGE);
         }        
         
@@ -153,12 +139,10 @@ package com.asual.swfaddress
          * @param url The resource to be opened.
          * @param target Target window.
          */
-        public static function href(url:String, target:String = '_self'):void {
-            if (_availability && Capabilities.playerType == 'ActiveX') {
+        public static function href(url:String, target:String):void {
+            if (_availability) {
                 ExternalInterface.call('SWFAddress.href', url, target);
-                return;
             }
-            navigateToURL(new URLRequest(url), target);
         }
 
         /**
@@ -168,16 +152,14 @@ package com.asual.swfaddress
          * @param options Options which get evaluted and passed to the window.open() method.
          * @param handler Optional JavsScript handler code for popup handling.    
          */
-        public static function popup(url:String, name:String='popup', options:String='', handler:String=''):void {
-            if (_availability && Capabilities.playerType == 'ActiveX') {
+        public static function popup(url:String, name:String, options:String, handler:String):void {
+            if (_availability) {
                 ExternalInterface.call('SWFAddress.popup', url, name, options, handler);
-                return;
             }
-            navigateToURL(new URLRequest('javascript:popup=window.open("' + url + '","' + name + '",' + options + ');' + handler), '_self');
         }
 
         /**
-         * Registers an event listener.
+         * Registers an event listener..
          * @param type Event type.
          * @param listener Event listener.
          */
@@ -211,24 +193,11 @@ package com.asual.swfaddress
         }
 
         /**
-         * Provides the base address of the document. 
-         */
-        public static function getBaseURL():String {
-            var url:String = null;
-            if (_availability) {
-                url = String(ExternalInterface.call('SWFAddress.getBaseURL'));
-            }
-            return (url == null || !_availability) ? '' : url;
-        }
-
-        /**
          * Provides the state of the strict mode setting. 
          */
         public static function getStrict():Boolean {
-            var strict:String = null;
-            if (_availability)
-                strict = ExternalInterface.call('SWFAddress.getStrict') as String;
-            return (strict == null) ? _strict : (strict == 'true');
+            return (_availability) ? 
+                ExternalInterface.call('SWFAddress.getStrict') : _strict;
         }
 
         /**
@@ -246,7 +215,7 @@ package com.asual.swfaddress
          */
         public static function getHistory():Boolean {
             return (_availability) ? 
-                ExternalInterface.call('SWFAddress.getHistory') as Boolean : false;
+                ExternalInterface.call('SWFAddress.getHistory') : false;
         }
 
         /**
@@ -322,7 +291,10 @@ package com.asual.swfaddress
          * Provides the current deep linking value.
          */
         public static function getValue():String {
-            return _strictCheck(_value || '', false);
+            if (_init)
+                return _strictCheck(_value, false);
+            else
+                return _strictCheck(_availability ? ExternalInterface.call('SWFAddress.getValue') as String : '', false);
         }
 
         /**
@@ -330,44 +302,47 @@ package com.asual.swfaddress
          * @param value A value which will be appended to the base link of the HTML document.
          */
         public static function setValue(value:String):void {
+        	trace(1)
             if (value == 'undefined' || value == null) value = '';
-            value = _strictCheck(value, true);
-            if (SWFAddress._value == value) return;
-            SWFAddress._value = value;
+            	value = _strictCheck(value, true);
+            	trace(2)
+            if (SWFAddress._value == value) ;
+            	SWFAddress._value = value;
+            	trace(3)
             if (_availability && SWFAddress._init) ExternalInterface.call('SWFAddress.setValue', value);
-            _dispatchEvent(SWFAddressEvent.CHANGE);
+            trace(4)
+            	_dispatchEvent(SWFAddressEvent.CHANGE);
+            	trace(5)
         }
 
         /**
          * Provides the deep linking value without the query string.
          */
         public static function getPath():String {
-            var value:String = SWFAddress.getValue();
+            var value:String = SWFAddress.getValue() || "";
             if (value.indexOf('?') != -1) {
                 return value.split('?')[0];
             } else {
                 return value;
             }
         }
-        
-        /**
+		/**
          * Provides a list of all the folders in the deep linking path.
          */
         public static function getPathNames():Array {
             var path:String = SWFAddress.getPath();
             var names:Array = path.split('/');
-            if (path.substr(0, 1) == '/')
+            if (path.substr(0, 1) == '/' || path.length == 0)
                 names.splice(0, 1);
             if (path.substr(path.length - 1, 1) == '/')
                 names.splice(names.length - 1, 1);
             return names;
         }
-
         /**
          * Provides the query string part of the deep linking value.
          */
         public static function getQueryString():String {
-            var value:String = SWFAddress.getValue();
+            var value:String = SWFAddress.getValue() || "";
             var index:Number = value.indexOf('?');
             if (index != -1 && index < value.length) {
                 return value.substr(index + 1);
@@ -401,7 +376,7 @@ package com.asual.swfaddress
          * Provides a list of all the query parameter names.
          */
         public static function getParameterNames():Array {
-            var value:String = SWFAddress.getValue();
+            var value:String = SWFAddress.getValue() || "";
             var index:Number = value.indexOf('?');
             var names:Array = new Array();
             if (index != -1) {

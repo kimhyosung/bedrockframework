@@ -7,23 +7,68 @@ package com.bedrockframework.engine.manager
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.api.IDeepLinkManager;
+	import com.bedrockframework.engine.bedrock;
 	import com.bedrockframework.engine.data.BedrockData;
 	import com.bedrockframework.engine.event.BedrockEvent;
+	import com.bedrockframework.plugin.event.TriggerEvent;
+	import com.bedrockframework.plugin.timer.IntervalTrigger;
 	import com.bedrockframework.plugin.util.DeepLinkUtil;
-	import com.bedrockframework.engine.bedrock;
+	
+	import flash.external.ExternalInterface;
 	
 	public class DeepLinkManager extends StandardWidget implements IDeepLinkManager
 	{
+		/*
+		Variable Declarations
+		*/
+		private var _objTrigger:IntervalTrigger;
+		public var available:Boolean;
+		private var _strValue:String;
 		/*
 		Constructor
 		*/
 
 		public function initialize():void
 		{
-			SWFAddress.addEventListener(SWFAddressEvent.INIT, this.onSWFAddressInit);
-			BedrockDispatcher.addEventListener(BedrockEvent.DO_DEFAULT, this.onDoSetup);
-			this.enableChangeHandler();
+			this.available = ExternalInterface.available;
+			this.debug("Available", this.available);
+			this.createCallbacks()
+			this.createTrigger();
+			//SWFAddress.addEventListener(SWFAddressEvent.INIT, this.onSWFAddressInit);
 		}
+		
+		private function createCallbacks():void
+		{
+			 if (this.available) {
+                ExternalInterface.addCallback("getSWFAddressValue", this.getValue);
+                ExternalInterface.addCallback("setSWFAddressValue", this.setValue);
+            }
+		}
+		private function getValue():String
+		{
+			return this._strValue;
+		}
+		private function setValue($value:String):void
+		{
+			if (this._strValue != $value) {
+				this._strValue = ($value == "undefined" || $value == null) ?  "" : $value;
+            	BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.URL_CHANGE, this, {}));
+			}
+		}
+		
+		private function createTrigger():void
+		{
+			this._objTrigger = new IntervalTrigger;
+			this._objTrigger.silenceLogging = true;
+			this._objTrigger.addEventListener(TriggerEvent.TRIGGER, this.onTrigger);
+			this._objTrigger.start(0.01);
+		}
+		
+		private function onTrigger($event:TriggerEvent):void
+		{
+			//trace("check some stuff")
+		}
+		
 		
 		public function clear():void
 		{
@@ -75,11 +120,6 @@ package com.bedrockframework.engine.manager
 		/*
 		Event Handlers
 		*/
-		private function onDoSetup($event:BedrockEvent):void
-		{
-			BedrockDispatcher.removeEventListener(BedrockEvent.DO_DEFAULT, this.onDoSetup);
-			this.setMode(BedrockData.AUTO_DEEP_LINK);
-		}	
 		private function onChangeNotification($event:SWFAddressEvent):void
 		{
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.URL_CHANGE,DeepLinkManager, this.getDetailObject()));
@@ -97,6 +137,10 @@ package com.bedrockframework.engine.manager
 		}
 		private function onSWFAddressInit($event:SWFAddressEvent):void
 		{
+			trace("FUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCK")
+			this.setMode(BedrockData.AUTO_DEEP_LINK);
+			
+			this.enableChangeHandler();
 			SWFAddress.removeEventListener(SWFAddressEvent.INIT, this.onSWFAddressInit);
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DEEP_LINK_INITIALIZE, this, this.getDetailObject()));
 		}

@@ -13,7 +13,6 @@
 		}
 		public  function execute($event:GenericEvent):void
 		{
-			this.debug("SHOW BLOCKER!");
 			BedrockEngine.containerManager.getContainer(BedrockData.BLOCKER_CONTAINER).show();
 		}
 	}

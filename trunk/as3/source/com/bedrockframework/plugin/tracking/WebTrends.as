@@ -1,5 +1,6 @@
 ﻿package com.bedrockframework.plugin.tracking
 {
+	import com.asual.swfaddress.SWFAddress;
 	import com.bedrockframework.core.base.BasicWidget;
 	
 	import flash.external.ExternalInterface;
@@ -18,12 +19,10 @@
 		 */
 		public function track($details:Object):void
 		{
-			
 			if (ExternalInterface.available) {
 				this.status($details.page + " : " + $details.item + " : " + $details.title);
 				ExternalInterface.call("dcsMultiTrack", "DCS.dcsuri", $details.page + "/" + $details.item, "WT.ti", $details.title);
 			}
 		}
-		
 	}
 }

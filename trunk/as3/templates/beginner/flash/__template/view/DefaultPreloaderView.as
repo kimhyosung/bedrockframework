@@ -27,8 +27,8 @@
 	 	*/
 		public function initialize($properties:Object=null):void
 		{
-			this.displayProgress(0)
-			this.label.text = this.current.label;
+			this.displayProgress(0);
+			this.label.text = this.queue.label;
 			this.x=this.stage.stageWidth / 2;
 			this.y=this.stage.stageHeight / 2;
 			this.initializeComplete();
