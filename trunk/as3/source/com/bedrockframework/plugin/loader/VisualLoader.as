@@ -53,6 +53,7 @@
 			}
 			
 		}
+		
 		public function setupListeners($loaderInfo:LoaderInfo):void
 		{
 			$loaderInfo.addEventListener(Event.COMPLETE, this.dispatchEvent);

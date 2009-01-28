@@ -17,6 +17,9 @@
 	*/
 	public class ChainLoader extends DispatcherWidget
 	{
+		/*
+		Variable Definitions
+		*/
 		private var _bolRunning:Boolean;
 		private var _bolComplete:Boolean;
 		private var _bolAddWhileRunning:Boolean;
@@ -28,7 +31,9 @@
 		private var _numTotalPercentage:uint;
 		private var _numLoadedPercentage:uint;		
 		private var _objLoaderContext:LoaderContext;
-
+		/*
+		Constructor
+		*/
 		public function ChainLoader()
 		{
 			this._arrQueue=new Array  ;

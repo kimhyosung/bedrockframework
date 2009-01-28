@@ -1,7 +1,8 @@
 ﻿package com.bedrockframework.plugin.util
 {
-	import flash.utils.ByteArray;
 	import com.bedrockframework.core.base.StaticWidget;
+	
+	import flash.utils.ByteArray;
 
 	public class VariableUtil extends StaticWidget
 	{
@@ -33,6 +34,15 @@
 				objResult[d2] = $data2[d2];
 			}
 			
+			return objResult;
+		}
+		
+		public static function duplicateObject($data:Object):Object
+		{
+			var objResult:Object = new Object();
+			for (var d:String in $data) {
+				objResult[d] = $data[d];
+			}
 			return objResult;
 		}
 		

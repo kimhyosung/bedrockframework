@@ -1,5 +1,7 @@
 ﻿package com.bedrockframework.engine.api
 {
+	import com.bedrockframework.engine.view.ContainerView;
+	
 	public interface IPageManager
 	{
 		function initialize($autoDefault:Boolean = true):void

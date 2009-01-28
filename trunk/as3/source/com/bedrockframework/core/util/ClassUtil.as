@@ -11,8 +11,10 @@
 */
 package com.bedrockframework.core.util
 {
-	import flash.utils.*;
 	import com.bedrockframework.core.base.StaticWidget;
+	
+	import flash.net.LocalConnection;
+	import flash.utils.*;
 	
 	public class ClassUtil extends StaticWidget
 	{
@@ -42,6 +44,13 @@ package com.bedrockframework.core.util
 			var xmlDescription:XML = describeType($object);
 			
 			return objResult;
+		}
+		public static function forceGarbageCollection():void
+		{
+			try {
+				new LocalConnection().connect("poop");
+				new LocalConnection().connect("poop");
+			} catch ($error:Error) {}
 		}
 	}
 }

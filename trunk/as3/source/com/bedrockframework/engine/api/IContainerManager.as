@@ -1,5 +1,7 @@
 ﻿package com.bedrockframework.engine.api
 {
+	import com.bedrockframework.engine.view.ContainerView;
+	
 	import flash.display.DisplayObjectContainer;
 	
 	
@@ -9,6 +11,8 @@
 		function createContainer($name:String,$child:DisplayObjectContainer=null,$properties:Object=null,$container:DisplayObjectContainer=null,$depth:int=-1):*;
 		function replaceContainer($name:String,$child:DisplayObjectContainer,$properties:Object=null,$container:DisplayObjectContainer=null,$depth:int=-1):*;
 		function buildLayout($layout:Array):void;
+		
+		function createPageLoader():void;
 		/*
 		Depth Functions
 		*/
@@ -31,5 +35,7 @@
 		Property Definitions
 		*/
 		function get root():DisplayObjectContainer;
+		function get pageContainer():ContainerView;
+		function get preloaderContainer():ContainerView;
 	}
 }

@@ -1,12 +1,17 @@
 ﻿package com.bedrockframework.engine.manager
 {
 	import com.bedrockframework.core.base.StandardWidget;
+	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.api.IContainerManager;
+	import com.bedrockframework.engine.data.BedrockData;
+	import com.bedrockframework.engine.view.ContainerView;
 	import com.bedrockframework.plugin.loader.VisualLoader;
 	import com.bedrockframework.plugin.storage.HashMap;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
+	
+	import com.bedrockframework.engine.bedrock;
 
 	public class ContainerManager extends StandardWidget implements IContainerManager
 	{
@@ -14,7 +19,10 @@
 		Variable Declarations
 		*/
 		private var _objRoot:DisplayObjectContainer;
-		private var _objContainerMap:HashMap=new HashMap;
+		private var _mapContainers:HashMap;
+		
+		private var _objPageContainer:ContainerView;
+		private var _objPreloaderContainer:ContainerView;
 		/*
 		Constructor
 		*/
@@ -24,8 +32,26 @@
 
 		public function initialize($root:DisplayObjectContainer):void
 		{
+			this._mapContainers = new HashMap;
 			this._objRoot=$root;
 		}
+		
+		private function createPageContainer():void
+		{
+			this._objPageContainer = new ContainerView;
+			this.replaceContainer(BedrockData.PAGE_CONTAINER, this._objPageContainer);
+		}
+		public function createPageLoader():void
+		{
+			this._objPageContainer.hold(new VisualLoader);
+			BedrockEngine.bedrock::transitionManager.pageLoader = this._objPageContainer.child;
+		}
+		private function createPreloaderContainer():void
+		{
+			this._objPreloaderContainer = new ContainerView;
+			this.replaceContainer(BedrockData.PRELOADER_CONTAINER, this._objPreloaderContainer);
+		}
+		
 		public function createContainer($name:String,$child:DisplayObjectContainer=null,$properties:Object=null,$parent:DisplayObjectContainer=null,$depth:int=-1):*
 		{
 			if (!this.hasContainer($name)) {
@@ -63,6 +89,8 @@
 			for (var i:int = 0; i < $layout.length; i++) {
 				this.buildLayoutContainer($layout[i]);
 			}
+			this.createPageContainer();
+			this.createPreloaderContainer();
 		}
 		private function buildLayoutContainer($data:Object):void
 		{
@@ -92,15 +120,15 @@
 		*/
 		private function saveData($name:String, $parent:DisplayObjectContainer, $depth:uint):void
 		{
-			this._objContainerMap.saveValue($name, new ContainerData($parent, $depth));
+			this._mapContainers.saveValue($name, new ContainerData($parent, $depth));
 		}
 		private function getData($name:String):ContainerData
 		{
-			return this._objContainerMap.getValue($name);
+			return this._mapContainers.getValue($name);
 		}
 		private function removeData($name:String):void
 		{
-			this._objContainerMap.removeValue($name);
+			this._mapContainers.removeValue($name);
 		}
 		/*
 		Apply Property Object to container
@@ -165,7 +193,7 @@
 		}
 		public function hasContainer($name:String):Boolean
 		{
-			return this._objContainerMap.containsKey($name);
+			return this._mapContainers.containsKey($name);
 		}
 		/*
 		Swapping Functions
@@ -203,6 +231,15 @@
 		public function get root():DisplayObjectContainer
 		{
 			return this._objRoot;
+		}
+		
+		public function get pageContainer():ContainerView
+		{
+			return this._objPageContainer;
+		}
+		public function get preloaderContainer():ContainerView
+		{
+			return this._objPreloaderContainer;
 		}
 	}
 }

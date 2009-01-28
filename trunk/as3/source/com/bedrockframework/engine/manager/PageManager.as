@@ -6,6 +6,7 @@
 	import com.bedrockframework.engine.bedrock;
 	import com.bedrockframework.engine.data.BedrockData;
 	import com.bedrockframework.engine.model.*;
+	import com.bedrockframework.engine.view.ContainerView;
 	import com.bedrockframework.plugin.loader.VisualLoader;
 	import com.bedrockframework.plugin.util.DeepLinkUtil;
 
@@ -50,9 +51,9 @@
 				strPath = objPage.url;
 			} else {
 				strPath = BedrockEngine.config.getValue(BedrockData.SWF_PATH) + objPage.alias + ".swf";
-			}						
-			BedrockEngine.loadManager.addToQueue(strPath, BedrockEngine.containerManager.getContainer(BedrockData.PAGE_CONTAINER), BedrockData.PAGE_PRIORITY);
-			BedrockEngine.bedrock::transitionManager.pageLoader = BedrockEngine.containerManager.getContainer(BedrockData.PAGE_CONTAINER) as VisualLoader;
+			}
+			BedrockEngine.containerManager.createPageLoader();
+			BedrockEngine.loadManager.addToQueue(strPath, BedrockEngine.containerManager.pageContainer.child, BedrockData.PAGE_PRIORITY);
 		}
 		
 		
@@ -139,8 +140,6 @@
 		{
 			return this._objPrevious;
 		}
-		
-		
 		
 	}
 }

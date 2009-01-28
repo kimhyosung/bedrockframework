@@ -28,8 +28,11 @@
 		*/
 		public static function getTweenTime($clip:MovieClip, $frame:*, $compression:Number=1):Number
 		{
-			if ($clip == null) {
-				throw new Error("MovieClip reference is null!");
+			if ($clip == null) throw new Error("MovieClip reference is null!");
+			try {
+				$clip.stage;
+			} catch ($error:Error) {
+				throw new Error("MovieClip has not been added to stage!");
 			}
 			var numFrame:Number;
 			switch(typeof($frame)){
@@ -43,9 +46,7 @@
 					throw new Error("Frame parameter must be a label or a string!");
 					break;
 			}
-			return (Math.abs(numFrame - $clip.currentFrame)) / $clip.stage.frameRate;
-		
-			
+			return ((Math.abs(numFrame - $clip.currentFrame)) / $clip.stage.frameRate) * $compression;
 		}
 	}
 }

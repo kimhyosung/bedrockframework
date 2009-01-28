@@ -10,6 +10,7 @@
 
 		public static const DO_DEFAULT:String="BedrockEvent.onDoDefault";
 		public static const DO_CHANGE:String="BedrockEvent.onDoChange";
+		
 		public static const DO_LOAD:String="BedrockEvent.onDoLoad";
 		public static const DO_INITIALIZE:String="BedrockEvent.onDoInitialize";
 

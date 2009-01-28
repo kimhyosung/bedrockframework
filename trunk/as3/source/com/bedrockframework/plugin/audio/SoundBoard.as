@@ -93,8 +93,13 @@
 		}
 		public function setTransform($alias:String, $transform:SoundTransform):void
 		{
+			try{
 			var objChannel:SoundChannel = this.getChannel($alias);
 			objChannel.soundTransform = $transform;
+			}catch($error){
+				//TypeError: Error #1009: Cannot access a property or method of a null object reference.
+				//at com.bedrockframework.plugin.audio::SoundBoard/setTransform()
+			}
 		}				
 		public function getTransform($alias:String):SoundTransform
 		{

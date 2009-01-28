@@ -13,11 +13,11 @@ package com.bedrockframework.engine
 {
 	
 	import com.bedrockframework.core.base.MovieClipWidget;
-	import com.bedrockframework.core.controller.FrontController;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.core.logging.LogLevel;
 	import com.bedrockframework.core.logging.Logger;
 	import com.bedrockframework.engine.command.*;
+	import com.bedrockframework.engine.controller.EngineController;
 	import com.bedrockframework.engine.data.BedrockData;
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.engine.manager.*;
@@ -45,7 +45,7 @@ package com.bedrockframework.engine
 		public var configURL:String;
 		public var params:String
 		
-		private const _arrLoadSequence:Array=new Array("loadParams","loadConfig","loadContainer","loadDeepLinking","loadCacheSettings", "loadLogging","loadServices","loadEngineClasses","loadEngineCommands","loadEngineContainers","loadCSS", "loadCopy", "loadDefaultPage", "buildDefaultPanel","loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
+		private const _arrLoadSequence:Array=new Array("loadParams","loadConfig","loadContainer","loadDeepLinking","loadCacheSettings", "loadLogging","loadServices","loadEngineClasses","loadController","loadEngineContainers","loadCSS", "loadCopy", "loadDefaultPage", "buildDefaultPanel","loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
 		private var _numLoadIndex:Number;		
 		private var _objConfigLoader:URLLoader;
 		public var environmentURL:String;
@@ -72,7 +72,7 @@ package com.bedrockframework.engine
 		
 		final private function createEngineClasses():void
 		{			
-			BedrockEngine.bedrock::controller = new FrontController;
+			BedrockEngine.bedrock::controller = new EngineController;
 			
 			BedrockEngine.assetManager = new AssetManager;
 			BedrockEngine.containerManager = new ContainerManager;
@@ -184,45 +184,9 @@ package com.bedrockframework.engine
 			}			
 			this.next();
 		}
-		final private function loadEngineCommands():void
-		{			
-			this.addCommand(BedrockEvent.SET_QUEUE,SetQueueCommand);
-			this.addCommand(BedrockEvent.LOAD_QUEUE,LoadQueueCommand);
-			this.addCommand(BedrockEvent.DO_DEFAULT,DoDefaultCommand);
-			this.addCommand(BedrockEvent.DO_CHANGE,DoChangeCommand);
-			this.addCommand(BedrockEvent.RENDER_PRELOADER,RenderPreloaderCommand);
-			
-			this.addCommand(BedrockEvent.RENDER_SITE,RenderSiteCommand);
-			this.addCommand(BedrockEvent.URL_CHANGE, URLChangeCommand);
-			
-			this.addCommand(BedrockEvent.SHOW_BLOCKER,ShowBlockerCommand);
-			this.addCommand(BedrockEvent.HIDE_BLOCKER,HideBlockerCommand);
-			
-			this.addCommand(BedrockEvent.SET_QUEUE, StateChangeCommand);
-			this.addCommand(BedrockEvent.INITIALIZE_COMPLETE, StateChangeCommand);
-			
-			if (BedrockEngine.config.getSetting(BedrockData.AUTO_BLOCKER_ENABLED)) {
-				this.addCommand(BedrockEvent.SET_QUEUE,ShowBlockerCommand);
-				this.addCommand(BedrockEvent.INTRO_COMPLETE,HideBlockerCommand);
-			}
-			if (BedrockEngine.config.getSetting(BedrockData.AUTO_INTRO_ENABLED)){
-				this.addCommand(BedrockEvent.BEDROCK_COMPLETE,RenderSiteCommand);
-			}
-			
-			this.addCommand(BedrockEvent.LOAD_COPY, LoadCopyCommand);
-
-			this.addCommand(BedrockEvent.ADD_SOUND, SoundControlCommand);
-			this.addCommand(BedrockEvent.PLAY_SOUND, SoundControlCommand);
-			this.addCommand(BedrockEvent.STOP_SOUND, SoundControlCommand);
-			this.addCommand(BedrockEvent.ADJUST_SOUND_VOLUME, SoundControlCommand);
-			this.addCommand(BedrockEvent.ADJUST_SOUND_PAN, SoundControlCommand);
-			this.addCommand(BedrockEvent.MUTE, SoundControlCommand);
-			this.addCommand(BedrockEvent.UNMUTE, SoundControlCommand);
-			this.addCommand(BedrockEvent.ADJUST_GLOBAL_VOLUME, SoundControlCommand);
-			this.addCommand(BedrockEvent.ADJUST_GLOBAL_PAN, SoundControlCommand);
-			this.addCommand(BedrockEvent.FADE_IN_SOUND, SoundControlCommand);
-			this.addCommand(BedrockEvent.FADE_OUT_SOUND, SoundControlCommand);
-		
+		final private function loadController():void
+		{
+			BedrockEngine.bedrock::controller.initialize();
 			this.next();
 		}
 		final private function loadEngineClasses():void
@@ -238,10 +202,7 @@ package com.bedrockframework.engine
 		{			
 			BedrockEngine.containerManager.buildLayout(BedrockEngine.config.getSetting(BedrockData.LAYOUT));
 			BedrockEngine.bedrock::transitionManager.siteLoader = BedrockEngine.containerManager.getContainer(BedrockData.SITE_CONTAINER) as VisualLoader;
-			BedrockEngine.bedrock::transitionManager.pageLoader = BedrockEngine.containerManager.getContainer(BedrockData.PAGE_CONTAINER) as VisualLoader;
 			
-			BedrockEngine.containerManager.replaceContainer(BedrockData.PRELOADER_CONTAINER, new PreloaderContainer);
-				
 			var objBlocker:Blocker=new Blocker(BedrockEngine.config.getParam(BedrockData.BLOCKER_ALPHA));
 			BedrockEngine.containerManager.replaceContainer(BedrockData.BLOCKER_CONTAINER, objBlocker);
 			if (BedrockEngine.config.getSetting(BedrockData.AUTO_BLOCKER_ENABLED)) {
