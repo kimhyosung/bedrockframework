@@ -59,8 +59,9 @@ package com.bedrockframework.engine
 			this.configURL = "../../" + BedrockData.CONFIG_FILENAME + ".xml";
 
 			this._numLoadIndex=0;
+			
 			this.createEngineClasses();
-			this.loaderInfo.addEventListener(Event.COMPLETE,this.onBootUp);
+			this.loaderInfo.addEventListener(Event.INIT,this.onBootUp);			
 		}
 		/**
 		 * The initialize function is automatically called once the shell.swf has finished loading itself.

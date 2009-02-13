@@ -60,7 +60,7 @@
 		
 		private function determinePath($language:String = null):String
 		{
-			if ($language != null && this.languageAvailable($language)) {
+			if ($language != null && this.isLanguageAvailable($language)) {
 				this._strCurrentLanguage = $language;
 				return BedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + "_" + this._strCurrentLanguage + ".xml";
 			} else {
@@ -86,11 +86,10 @@
 			return null;
 		}
 		
-		private function languageAvailable($language:String):Boolean
+		private function isLanguageAvailable($language:String):Boolean
 		{
 			return ArrayUtil.containsItem(this._arrLanguages, $language);
 		}
-		
 		/*
 		Event Handlers
 		*/
