@@ -37,6 +37,7 @@
 			Logger.log(this, LogLevel.CONSTRUCTOR, "Constructed");
 			
 			this.setupListeners(this.contentLoaderInfo);
+			
 			if ($url != null) {
 				this.loadURL($url);
 			}
@@ -75,7 +76,7 @@
 			try {
 				this.load(this._objURLRequest, $context);
 			} catch (error:Error) {
-				Logger.warning(this, "Unable to load " + this._strURL + "!");
+				Logger.warning(this, "Unable to load : " + this._strURL + "!");
 			}
 		}
 		
@@ -127,6 +128,7 @@
 					objDetails.text=SecurityErrorEvent($event).text;
 					break;
 			}
+			
 			return new LoaderEvent(VisualLoader.__objReplacements.getValue($event.type),this,objDetails);
 		}
 		/*

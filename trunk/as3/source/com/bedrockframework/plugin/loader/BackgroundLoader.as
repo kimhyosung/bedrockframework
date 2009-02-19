@@ -27,9 +27,6 @@
 		
 		private var _objURLRequest:URLRequest;
 		private var _strURL:String;
-		
-		
-		
 		/*
 		Constructor
 		*/	
@@ -39,7 +36,6 @@
 		{
 			Logger.log(this, LogLevel.CONSTRUCTOR, "Constructed");
 			
-			this._objURLRequest = new URLRequest;
 			if ($url != null) {
 				this.loadURL($url);
 			}
@@ -60,15 +56,16 @@
 		public function loadURL($url:String, $context:LoaderContext = null):void
 		{
 			this._strURL = $url;
-			this._objURLRequest.url = this.getURL(this._strURL);
+			this._objURLRequest = new URLRequest(this.getURL(this._strURL));
 			try {
 				this.load(this._objURLRequest);
 			} catch (error:Error) {
-				Logger.warning(this, "Unable to load requested document!");
+				Logger.warning(this, "Unable to load : " + this._strURL + "!");
 			}
 		}
 		private function getURL($url:String):String
 		{
+			// Alex, add more checks for existing params
 			if (BackgroundLoader.cachePrevention) {
 				return this._strURL + "?cache=" + BackgroundLoader.cacheKey;
 			} else {
@@ -88,6 +85,7 @@
 					objDetails.bytesLoaded=this.bytesLoaded;
 					objDetails.bytesTotal=this.bytesTotal;
 					objDetails.data=this.data;
+					objDetails.url = this._strURL;
 					break;
 				case Event.OPEN :
 					objDetails.url = this._strURL;
@@ -107,9 +105,8 @@
 					objDetails.text=SecurityErrorEvent($event).text;
 					break;
 			}
-			//
+			
 			return new LoaderEvent(BackgroundLoader.__objReplacements.getValue($event.type),this,objDetails);
-
 		}
 		/*
 		Event Handlers
