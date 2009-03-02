@@ -66,7 +66,11 @@
 		{
 			if (this._arrQueue.length > 0) {
 				var objQueueItem:Object=this.getQueueItem(this._numLoadIndex);
-				objQueueItem.loader.close();
+				
+				try {
+					objQueueItem.loader.close();
+				} catch ($error:Error) {}
+				
 				this.removeListeners(objQueueItem.loader);
 				this.reset();
 				this.status("Close");
@@ -79,7 +83,7 @@
 				this.recalculate();
 				this.begin();
 			} else {
-				this.status("Unable to load, queue is empty!","warning");
+				this.warning("Unable to load, queue is empty!");
 				this.dispatchEvent(new ChainLoaderEvent(ChainLoaderEvent.ERROR,this, {text:"Unable to load, queue is empty!"}));
 			}
 		}
@@ -93,7 +97,7 @@
 			}else if (this._bolAddWhileRunning && this._bolRunning){
 				this.add($file, $loader, $completeHandler, $errorHandler);
 			} else {			
-				this.status("Cannot add to queue while loading!","warning");
+				this.warning("Cannot add to queue while loading!");
 			}
 			
 		}
@@ -223,7 +227,7 @@
 		*/
 		private function onFileError($event:LoaderEvent):void
 		{
-			this.status("Could not find - " + this.getFile(this._numLoadIndex) + "!","warning");
+			this.warning("Could not find - " + this.getFile(this._numLoadIndex) + "!");
 			this.loadNext();
 		}
 		private function onProgress($event:LoaderEvent):void

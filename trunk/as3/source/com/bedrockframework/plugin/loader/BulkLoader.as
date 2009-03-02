@@ -78,9 +78,13 @@
 				var objQueueItem:*
 				for (var i:int = 0; i < numLength; i++) {
 					objQueueItem = this._arrCurrentLoad[i];
-					objQueueItem.close();
+										
+					try {
+						objQueueItem.close();
+					} catch ($error:Error) {}
+					
 					this.removeListeners(objQueueItem);
-				}				
+				}
 				
 				this.reset();
 				this.status("Close");
