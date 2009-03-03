@@ -307,32 +307,6 @@
 		/*
 		Property Definitions
 		*/
-		public function set applicationDomain($domain:ApplicationDomain):void
-		{
-			this._objApplicationDomain = $domain;
-		}
-		public function get applicationDomain():ApplicationDomain
-		{
-			return this._objApplicationDomain;
-		}
-		
-		public function set securityDomain($domain:SecurityDomain):void
-		{
-			this._objSecurityDomain = $domain;
-		}
-		public function get securityDomain():ApplicationDomain
-		{
-			return this._objSecurityDomain;
-		}
-		
-		public function set checkPolicyFile($status:Boolean):void
-		{
-			this._bolCheckPolicyFile = $status;
-		}
-		public function get checkPolicyFile():Boolean
-		{
-			return this._bolCheckPolicyFile;
-		}
 		
 		public function set sortBy($value:String):void
 		{
@@ -351,15 +325,6 @@
 		public function get running():Boolean
 		{
 			return this._bolRunning
-		}
-		
-		public function set addWhileRunning($status:Boolean):void
-		{
-			this._bolAddWhileRunning = $status;
-		}
-		public function get addWhileRunning():Boolean
-		{
-			return this._bolAddWhileRunning;
 		}
 		
 		public function set cuncurrentLoads($count:uint):void

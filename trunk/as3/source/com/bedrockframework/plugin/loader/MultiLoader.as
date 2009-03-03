@@ -1,4 +1,4 @@
-package com.bedrockframework.plugin.loader
+﻿package com.bedrockframework.plugin.loader
 {
 	import com.bedrockframework.core.base.DispatcherWidget;
 	
@@ -50,6 +50,7 @@ package com.bedrockframework.plugin.loader
 						break;
 				}
 			}
+			return null;
 		}
 		
 		public function set applicationDomainUsage($id:uint):void
