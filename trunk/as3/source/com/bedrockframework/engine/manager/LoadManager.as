@@ -12,6 +12,7 @@
 	import com.bedrockframework.plugin.storage.HashMap;
 	
 	import flash.events.Event;
+	import flash.system.ApplicationDomain;
 
 	public class LoadManager extends StandardWidget implements ILoadManager
 	{
@@ -26,6 +27,8 @@
 		public function LoadManager():void
 		{
 			this._objBulkLoader = new BulkLoader;
+			this._objBulkLoader.applicationDomain = ApplicationDomain.currentDomain;
+			
 			this.setupReplacements();
 		}
 		/*

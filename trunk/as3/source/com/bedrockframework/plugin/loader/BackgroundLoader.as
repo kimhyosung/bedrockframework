@@ -67,7 +67,8 @@
 		{
 			// Alex, add more checks for existing params
 			if (BackgroundLoader.cachePrevention) {
-				return this._strURL + "?cache=" + BackgroundLoader.cacheKey;
+				var strPrefix:String = (this._strURL.indexOf("?") != -1) ? "&" : "?";
+				return this._strURL + strPrefix + "cache=" + BackgroundLoader.cacheKey;
 			} else {
 				return this._strURL;
 			}

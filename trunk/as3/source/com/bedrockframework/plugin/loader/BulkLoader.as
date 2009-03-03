@@ -1,14 +1,15 @@
 ﻿package com.bedrockframework.plugin.loader
 {
-	import com.bedrockframework.core.base.DispatcherWidget;
 	import com.bedrockframework.plugin.event.BulkLoaderEvent;
 	import com.bedrockframework.plugin.event.LoaderEvent;
 	import com.bedrockframework.plugin.storage.ArrayBrowser;
 	import com.bedrockframework.plugin.util.MathUtil;
 	
+	import flash.system.ApplicationDomain;
 	import flash.system.LoaderContext;
+	import flash.system.SecurityDomain;
 
-	public class BulkLoader extends DispatcherWidget
+	public class BulkLoader extends MultiLoader
 	{
 		/*
 		Variable Delarations
@@ -30,7 +31,6 @@
 		private var _numLoadedPercentage:uint;
 		private var _strSortBy:String;
 		
-		private var _objLoaderContext:LoaderContext;
 		private var _objQueueBrowser:ArrayBrowser;
 		/*
 		Constructor
@@ -44,15 +44,7 @@
 			this._objQueueBrowser = new ArrayBrowser();
 			this._bolRunning=false;
 			this._bolComplete=false;
-			this._bolAddWhileRunning = false;
 			this._strSortBy = BulkLoader.PRIORITY;
-		}
-		/*
-		Setup
-		*/
-		public function setup($context:LoaderContext):void
-		{
-			this._objLoaderContext = $context;
 		}
 		/*
 		Reset
@@ -78,7 +70,7 @@
 				var objQueueItem:*
 				for (var i:int = 0; i < numLength; i++) {
 					objQueueItem = this._arrCurrentLoad[i];
-										
+					
 					try {
 						objQueueItem.close();
 					} catch ($error:Error) {}
@@ -228,7 +220,7 @@
 			this._numLoadIndex=$index;
 			var objQueueItem:Object=this.getQueueItem(this._numLoadIndex);
 			this.status("Loading - " + objQueueItem.file);
-			objQueueItem.loader.loadURL(objQueueItem.file, this._objLoaderContext);
+			objQueueItem.loader.loadURL(objQueueItem.file, this.generateLoaderContext());
 			this.addListeners(objQueueItem.loader);
 			this.addToCurrentLoad(objQueueItem.loader);
 			this.dispatchEvent(new BulkLoaderEvent(BulkLoaderEvent.FILE_OPEN,this,objQueueItem));
@@ -315,6 +307,32 @@
 		/*
 		Property Definitions
 		*/
+		public function set applicationDomain($domain:ApplicationDomain):void
+		{
+			this._objApplicationDomain = $domain;
+		}
+		public function get applicationDomain():ApplicationDomain
+		{
+			return this._objApplicationDomain;
+		}
+		
+		public function set securityDomain($domain:SecurityDomain):void
+		{
+			this._objSecurityDomain = $domain;
+		}
+		public function get securityDomain():ApplicationDomain
+		{
+			return this._objSecurityDomain;
+		}
+		
+		public function set checkPolicyFile($status:Boolean):void
+		{
+			this._bolCheckPolicyFile = $status;
+		}
+		public function get checkPolicyFile():Boolean
+		{
+			return this._bolCheckPolicyFile;
+		}
 		
 		public function set sortBy($value:String):void
 		{

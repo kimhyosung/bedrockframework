@@ -19,6 +19,9 @@
 
 	public class VisualLoader extends Loader implements IClonable
 	{
+		/*
+		Variable Declarations
+		*/
 		public static var cachePrevention:Boolean = false;
 		public static var cacheKey:String = "";
 		
@@ -29,7 +32,9 @@
 		private var _numRow:int;
 		private var _numColumn:int;
 		private var _strURL:String;
-
+		/*
+		Constructor
+		*/
 		VisualLoader.setupReplacements();
 		
 		public function VisualLoader($url:String = null)
@@ -52,7 +57,6 @@
 			for (var i:Number=0; i < numLength; i++) {
 				__objReplacements.saveValue(arrStandardEvents[i],LoaderEvent[arrLoaderEvents[i]]);
 			}
-			
 		}
 		
 		public function setupListeners($loaderInfo:LoaderInfo):void
@@ -83,7 +87,8 @@
 		private function getURL($url:String):String
 		{
 			if (BackgroundLoader.cachePrevention) {
-				return this._strURL + "?cache=" + BackgroundLoader.cacheKey;
+				var strPrefix:String = (this._strURL.indexOf("?") != -1) ? "&" : "?";
+				return this._strURL + strPrefix + "cache=" + BackgroundLoader.cacheKey;
 			} else {
 				return this._strURL;
 			}

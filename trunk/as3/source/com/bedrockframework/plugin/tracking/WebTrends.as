@@ -1,10 +1,8 @@
 ﻿package com.bedrockframework.plugin.tracking
 {
-	import com.asual.swfaddress.SWFAddress;
-	import com.bedrockframework.core.base.BasicWidget;
+	import com.bedrockframework.core.base.StandardWidget;
 	
 	import flash.external.ExternalInterface;
-	import com.bedrockframework.core.base.StandardWidget;
 
 	public class WebTrends extends StandardWidget implements ITrackingService
 	{
@@ -22,8 +20,25 @@
 		{
 			if (ExternalInterface.available) {
 				this.status($details);
-				ExternalInterface.call("dcsMultiTrack", "DCS.dcsuri", $details.page + "/" + $details.item, "WT.ti", $details.title);
+				var strURL:String = $details.page + "/" + $details.item;
+				ExternalInterface.call.apply(null, this.buildParameters(strURL, $details.groups));
 			}
+		}
+		private function buildParameters($url:String, $groups:Array):Array
+		{
+			var arrParameters:Array = new Array;
+			arrParameters.push("dcsMultiTrack");
+			arrParameters.push("DCS.dcsuri");
+			arrParameters.push($url);
+			
+			var numLength:int = $groups.length;
+			for (var i:int = 0 ; i < numLength; i++) {
+				if ($groups[i].value != null) {
+					arrParameters.push($groups[i].name || "WT.ti");
+					arrParameters.push($groups[i].value);
+				}
+			}
+			return arrParameters;
 		}
 	}
 }

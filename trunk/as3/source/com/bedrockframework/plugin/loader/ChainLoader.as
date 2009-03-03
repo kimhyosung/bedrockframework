@@ -3,19 +3,15 @@
 	/*
 	Imports
 	*/
-	import com.bedrockframework.core.base.DispatcherWidget;
-	import com.bedrockframework.plugin.util.MathUtil;
 	import com.bedrockframework.plugin.event.ChainLoaderEvent;
 	import com.bedrockframework.plugin.event.LoaderEvent;
+	import com.bedrockframework.plugin.util.MathUtil;
 	
-	import flash.display.Loader;
-	import flash.events.Event;
-	import flash.events.ProgressEvent;
 	import flash.system.LoaderContext;
 	/*
 	Class Declaration
 	*/
-	public class ChainLoader extends DispatcherWidget
+	public class ChainLoader extends MultiLoader
 	{
 		/*
 		Variable Definitions
@@ -30,7 +26,6 @@
 		private var _numCurrentPercentage:uint;
 		private var _numTotalPercentage:uint;
 		private var _numLoadedPercentage:uint;		
-		private var _objLoaderContext:LoaderContext;
 		/*
 		Constructor
 		*/
@@ -43,12 +38,8 @@
 			this._bolAddWhileRunning = false;
 		}
 		/*
-		Setup
+		Body
 		*/
-		public function setup($context:LoaderContext):void
-		{
-			this._objLoaderContext = $context;
-		}
 		public function reset():void
 		{
 			this._arrQueue=new Array  ;
@@ -181,7 +172,7 @@
 			this._numLoadIndex=$index;
 			var objQueueItem:Object=this.getQueueItem(this._numLoadIndex);
 			this.status("Loading - " + objQueueItem.file);
-			objQueueItem.loader.loadURL(objQueueItem.file, this._objLoaderContext);
+			objQueueItem.loader.loadURL(objQueueItem.file, this.generateLoaderContext());
 			this.addListeners(objQueueItem.loader);
 			this.dispatchEvent(new ChainLoaderEvent(ChainLoaderEvent.FILE_OPEN,this,objQueueItem));
 		}
@@ -255,17 +246,6 @@
 		{
 			return this._bolComplete;
 		}
-		
-		
-		public function set addWhileRunning($status:Boolean):void
-		{
-			this._bolAddWhileRunning = $status;
-		}
-		public function get addWhileRunning():Boolean
-		{
-			return this._bolAddWhileRunning;
-		}
-		
 		public function get running():Boolean
 		{
 			return this._bolRunning
