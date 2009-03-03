@@ -4,8 +4,9 @@
 	import com.bedrockframework.core.base.BasicWidget;
 	
 	import flash.external.ExternalInterface;
+	import com.bedrockframework.core.base.StandardWidget;
 
-	public class WebTrends extends BasicWidget implements ITrackingService
+	public class WebTrends extends StandardWidget implements ITrackingService
 	{
 		/*
 		Constructor
@@ -20,7 +21,7 @@
 		public function track($details:Object):void
 		{
 			if (ExternalInterface.available) {
-				this.status($details.page + " : " + $details.item + " : " + $details.title);
+				this.status($details);
 				ExternalInterface.call("dcsMultiTrack", "DCS.dcsuri", $details.page + "/" + $details.item, "WT.ti", $details.title);
 			}
 		}

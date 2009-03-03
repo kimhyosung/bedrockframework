@@ -1,17 +1,18 @@
 ﻿package com.bedrockframework.plugin.tracking
 {
-	import com.bedrockframework.core.base.BasicWidget;
+	import com.bedrockframework.core.base.StandardWidget;
+	
 	import flash.external.ExternalInterface;
 
-	public class BridgeTrack extends BasicWidget implements ITrackingService
+	public class BridgeTrack extends StandardWidget implements ITrackingService
 	{
 		public function BridgeTrack()
 		{
 		}
 		public function track($details:Object):void
 		{
-			this.status($details.event);
 			if (ExternalInterface.available) {
+				this.status($details);
 				ExternalInterface.call("doBridgeTrackMovieEvent", $details.event);
 			}
 		}

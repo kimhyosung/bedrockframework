@@ -1,10 +1,10 @@
 ﻿package com.bedrockframework.plugin.tracking
 {
-	import com.bedrockframework.core.base.BasicWidget;
+	import com.bedrockframework.core.base.StandardWidget;
 	
 	import flash.external.ExternalInterface;
 	
-	public class Urchin extends BasicWidget implements ITrackingService
+	public class Urchin extends StandardWidget implements ITrackingService
 	{
 		/*
 		Constructor
@@ -19,7 +19,7 @@
 		public function track($details:Object):void
 		{
 			if (ExternalInterface.available) {
-				this.status("/" + $details.item + "/" + $details.title);
+				this.status($details);
 				ExternalInterface.call("urchinTracker", $details.item + "/" + $details.title);
 			}		
 		}
