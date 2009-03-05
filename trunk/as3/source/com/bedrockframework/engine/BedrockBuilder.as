@@ -56,6 +56,7 @@ package com.bedrockframework.engine
 		*/
 		public function BedrockBuilder()
 		{
+			this.addToQueue(
 			this.configURL = "../../" + BedrockData.CONFIG_FILENAME + ".xml";
 
 			this._numLoadIndex=0;
