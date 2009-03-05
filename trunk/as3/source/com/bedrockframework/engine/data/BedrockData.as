@@ -52,6 +52,11 @@
 		
 		public static const DEFAULT_PRELOADER:String= "default_preloader";
 		/*
+		Locale Strings
+		*/
+		public static const LOCALE_PREFIX:String = "locale_prefix";
+		public static const LOCALE_SUFFIX:String = "locale_suffix";		
+		/*
 		Constant File Names
 		*/
 		public static const STYLESHEET_FILENAME:String = "bedrock_style";

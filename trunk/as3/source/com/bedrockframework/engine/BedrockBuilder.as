@@ -170,8 +170,9 @@ package com.bedrockframework.engine
 		final private function loadCSS():void
 		{
 			if (BedrockEngine.config.getSetting(BedrockData.STYLESHEET_ENABLED)) {
-				this.addToQueue(BedrockEngine.config.getValue(BedrockData.CSS_PATH) + BedrockData.STYLESHEET_FILENAME + ".css", null, 0, null, this.onCSSLoaded);
+				this.addToQueue(BedrockEngine.config.getValue(BedrockData.CSS_PATH) + BedrockEngine.config.localePrefix + BedrockData.STYLESHEET_FILENAME + BedrockEngine.config.localeSuffix + ".css", null, 0, null, this.onCSSLoaded);
 			}
+				
 			this.next();
 		}
 		final private function loadCopy():void
@@ -238,9 +239,10 @@ package com.bedrockframework.engine
 		final private function loadComplete():void
 		{
 			if (BedrockEngine.config.getSetting(BedrockData.SHARED_ENABLED)) {
-				this.addToQueue(BedrockEngine.config.getValue(BedrockData.SWF_PATH) + BedrockData.SHARED_FILENAME + ".swf", BedrockEngine.containerManager.getContainer(BedrockData.SHARED_CONTAINER), BedrockData.SHARED_PRIORITY, null, this.onSharedLoaded);				
-			}			
-			this.addToQueue(BedrockEngine.config.getValue(BedrockData.SWF_PATH) + BedrockData.SITE_FILENAME + ".swf", BedrockEngine.containerManager.getContainer(BedrockData.SITE_CONTAINER), BedrockData.SITE_PRIORITY);
+				this.addToQueue(BedrockEngine.config.getValue(BedrockData.SWF_PATH) + BedrockEngine.config.localePrefix + BedrockData.SHARED_FILENAME + BedrockEngine.config.localeSuffix	 + ".swf", BedrockEngine.containerManager.getContainer(BedrockData.SHARED_CONTAINER), BedrockData.SHARED_PRIORITY, null, this.onSharedLoaded);				
+			}
+			
+			this.addToQueue(BedrockEngine.config.getValue(BedrockData.SWF_PATH) + BedrockEngine.config.localePrefix + BedrockData.SITE_FILENAME + BedrockEngine.config.localeSuffix	 + ".swf", BedrockEngine.containerManager.getContainer(BedrockData.SITE_CONTAINER), BedrockData.SITE_PRIORITY);
 						
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.BEDROCK_COMPLETE,this));
 			this.status("Initialization Complete!");

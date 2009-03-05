@@ -314,6 +314,17 @@ package com.bedrockframework.engine.model
 			var xmlDefaultPage:XML = XMLUtil.filterByAttribute($node, BedrockData.DEFAULT_PAGE, "true");
 			return XMLUtil.convertValue(xmlDefaultPage.alias);
 		}
+		/*
+		Property Definitions
+		*/
+		public function get localePrefix():String
+		{
+			return this.getParam(BedrockData.LOCALE_PREFIX) || this.getValue(BedrockData.LOCALE_PREFIX) || "";
+		}
+		public function get localeSuffix():String
+		{
+			return this.getParam(BedrockData.LOCALE_SUFFIX) || this.getValue(BedrockData.LOCALE_SUFFIX) || "";
+		}
 	}
 }
 

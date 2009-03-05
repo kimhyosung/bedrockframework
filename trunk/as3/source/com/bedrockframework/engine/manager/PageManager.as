@@ -3,20 +3,20 @@
 	import com.bedrockframework.core.base.StandardWidget;
 	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.api.IPageManager;
-	import com.bedrockframework.engine.bedrock;
 	import com.bedrockframework.engine.data.BedrockData;
 	import com.bedrockframework.engine.model.*;
-	import com.bedrockframework.engine.view.ContainerView;
-	import com.bedrockframework.plugin.loader.VisualLoader;
 	import com.bedrockframework.plugin.util.DeepLinkUtil;
 
 	public class PageManager extends StandardWidget implements IPageManager
 	{
+		/*
+		Variable Declarations
+		*/
 		private var _objQueue:Object;
 		private var _objCurrent:Object;
 		private var _objPrevious:Object;
 		/*
-		* Constructor
+		Constructor
 		*/
 		public function PageManager()
 		{
@@ -50,7 +50,7 @@
 			if (objPage.url != null) {
 				strPath = objPage.url;
 			} else {
-				strPath = BedrockEngine.config.getValue(BedrockData.SWF_PATH) + objPage.alias + ".swf";
+				strPath = BedrockEngine.config.getValue(BedrockData.SWF_PATH) + BedrockEngine.config.localePrefix + objPage.alias + BedrockEngine.config.localeSuffix + ".swf";
 			}
 			BedrockEngine.containerManager.createPageLoader();
 			BedrockEngine.loadManager.addToQueue(strPath, BedrockEngine.containerManager.pageContainer.child, BedrockData.PAGE_PRIORITY);
