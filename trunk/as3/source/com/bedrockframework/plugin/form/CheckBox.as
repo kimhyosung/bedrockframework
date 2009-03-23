@@ -72,6 +72,10 @@
 		/*
 		Property Definitions
 	 	*/
+	 	public function set selected($status:Boolean):void
+	 	{
+	 		($status) ? this.select() : this.deselect();
+	 	}
 		public function get selected():Boolean
 		{
 			return this._bolSelected;

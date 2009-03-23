@@ -2,24 +2,17 @@
 {
 	// Alex, you need to clean this up
 	import com.bedrockframework.core.base.DispatcherWidget;
-	import com.bedrockframework.plugin.util.ArrayUtil;
-	import com.bedrockframework.plugin.util.ButtonUtil;
-	
-	import flash.display.Sprite;
-	import flash.events.MouseEvent;
 	import com.bedrockframework.plugin.event.RadioEvent;
 	
 	public class RadioGroup extends DispatcherWidget
 	{
 		/*
-		 * Variable Declarations
+		Variable Declarations
 		*/
 		private var _arrRadios:Array;
-		private var _numLength:Number;
 		private var _numSelected:int;
-
 		/*
-		 * Constructor
+		Constructor
 		*/		
 		public function RadioGroup()
 		{
@@ -36,7 +29,7 @@
 			this._arrRadios.push({radio:$radio, data:$data});			
 		}
 		/*
-		 * Manages the states of the radio buttons
+		Manages the states of the radio buttons
 	 	*/
 		private function manageSelection():void
 		{
@@ -57,7 +50,7 @@
 			return this._arrRadios[$id].radio;
 		}
 		/*
-		 * Property Definitions
+		Property Definitions
 	 	*/
 	 	/**
 		 * Returns the index of the selected radio button.
@@ -71,6 +64,10 @@
 		public function get selected():int
 		{
 			return this._numSelected;
+		}
+		public function get selectedData():Object
+		{
+			return this._arrRadios[this._numSelected].data;
 		}
 	}
 }
