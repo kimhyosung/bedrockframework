@@ -17,7 +17,6 @@
 		public static const COPY_DECK_ENABLED:String = "copy_deck_enabled";
 		public static const TRACKING_ENABLED:String = "tracking_enabled";
 		
-		public static const SHARED_ENABLED:String = "shared_enabled";
 		public static const SHARED_SOUNDS_ENABLED:String = "shared_sounds_enabled";
 		
 		public static const AUTO_BLOCKER_ENABLED:String = "auto_blocker_enabled";

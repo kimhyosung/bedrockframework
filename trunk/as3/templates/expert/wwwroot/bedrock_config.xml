@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
   <settings>
     <preloader_time>0</preloader_time>
@@ -10,7 +10,6 @@
     <cache_prevention_enabled>false</cache_prevention_enabled>
     <stylesheet_enabled>false</stylesheet_enabled>
     <copy_deck_enabled>false</copy_deck_enabled>
-    <shared_enabled>true</shared_enabled>
     <shared_sounds_enabled>false</shared_sounds_enabled>
     <default_language>en</default_language>
     <languages />
