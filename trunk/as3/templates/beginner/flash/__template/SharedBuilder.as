@@ -13,7 +13,7 @@
 		public function initialize():void
 		{
 			this.addPreloader(BedrockData.DEFAULT_PRELOADER, DefaultPreloader);
-			this.addPreloader("sub_page",SubPagePreloader);
+			this.addPreloader("sub_page", SubPagePreloader);
 		}
 	}
 }
