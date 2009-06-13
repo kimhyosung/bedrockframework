@@ -64,7 +64,7 @@
          * @return  a clone of the original reference object
          * 
          */
-        public static function clone($reference:*):Object
+        public static function clone($reference:*):*
         {
             var arrBytes:ByteArray = new ByteArray();
             arrBytes.writeObject($reference);

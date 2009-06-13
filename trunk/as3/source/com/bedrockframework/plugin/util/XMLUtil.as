@@ -8,6 +8,19 @@
 
 	public class XMLUtil extends StaticWidget
 	{
+		public static function getArray($node:*):Array
+		{
+			var arrReturn:Array = new Array();
+			var xmlTemp:XMLList = new XMLList($node);			
+			
+			var numLength:Number = xmlTemp.children().length();
+			if (xmlTemp.hasComplexContent()) {
+				for (var i:int = 0; i < numLength; i ++) {
+					arrReturn.push(XMLUtil.convertValue(xmlTemp.child(i)));
+				}
+			}
+			return arrReturn;
+		}
 		public static function convertToObject($node:*, $buildArrays:Boolean = false):Object
 		{
 			var objConversion:Object = new Object;
@@ -47,7 +60,11 @@
 			var xmlTemp:XMLList = new XMLList($node);
 			var numLength:Number = xmlTemp.children().length();
 			for (var i:int = 0; i < numLength; i ++) {
-				arrReturn.push(XMLUtil.convertToObject(xmlTemp.child(i), $buildArrays));
+				if (xmlTemp.child(i).hasComplexContent()) {
+					arrReturn.push(XMLUtil.convertToObject(xmlTemp.child(i), $buildArrays));
+				} else {
+					arrReturn.push(XMLUtil.convertValue(xmlTemp.child(i)));
+				}
 			}
 			return arrReturn;
 		}

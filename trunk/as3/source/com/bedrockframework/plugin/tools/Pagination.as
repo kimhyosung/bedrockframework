@@ -10,7 +10,7 @@
 		*/
 		private var _numTotalItems:uint;
 		private var _numTotalPages:uint;
-		private var _numPageSize:uint;
+		private var _numItemsPerPage:uint;
 		private var _numSelectedPage:uint;
 		/*
 		Constructor
@@ -23,11 +23,11 @@
 		/*
 		Public Functions
 		*/
-		public function update($total:uint = 0, $pagesize:uint = 0):void
+		public function update($total:uint = 0, $itemsPerPage:uint = 0):void
 		{
 			this._numTotalItems =  $total;
-			this._numPageSize = $pagesize;
-			this._numTotalPages = Math.ceil(this._numTotalItems / this._numPageSize) || 0;
+			this._numItemsPerPage = $itemsPerPage;
+			this._numTotalPages = Math.ceil(this._numTotalItems / this._numItemsPerPage) || 0;
 			this.status("Total Records - " + this._numTotalItems);
 			this.status("Total Pages - " + this._numTotalPages);
 			this.checkBounds();
@@ -36,7 +36,7 @@
 		public function reset():void
 		{
 			this._numTotalItems = 0;
-			this._numPageSize = 0;
+			this._numItemsPerPage = 0;
 			this._numTotalPages = 0;
 			this._numSelectedPage = 0;
 			this.dispatchEvent(new PaginationEvent(PaginationEvent.RESET, this));
