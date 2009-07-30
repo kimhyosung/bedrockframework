@@ -114,14 +114,14 @@
 			var i:Number;
 			var objTemp:*;
 			if ($field == null) {
-				for (i=numLength; i > -1; i--) {
+				for (i=(numLength-1); i > -1; i--) {
 					if ($array[i] == $value) {
 						objTemp=$array.splice(i,1);
 						arrResults.push(objTemp[0]);
 					}
 				}
 			} else {
-				for (i=numLength; i > -1; i--) {
+				for (i=(numLength-1); i > -1; i--) {
 					if ($array[i][$field] == $value) {
 						objTemp=$array.splice(i,1);
 						arrResults.push(objTemp[0]);
