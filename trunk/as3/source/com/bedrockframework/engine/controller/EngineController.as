@@ -148,7 +148,7 @@
 		private function onRenderSite($event:BedrockEvent):void
 		{
 			if (!BedrockEngine.bedrock::state.siteRendered) {
-				var objPreloader:*  = new SitePreloader;
+				var objPreloader:*  = new ShellPreloader;
 				BedrockEngine.containerManager.preloaderContainer.hold(objPreloader);
 				BedrockEngine.bedrock::transitionManager.preloaderView = objPreloader;
 				BedrockEngine.bedrock::state.siteRendered = true;
