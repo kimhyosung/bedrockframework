@@ -16,9 +16,6 @@ package com.bedrockframework.plugin.view
 	
 	public class View extends MovieClipWidget
 	{
-		private var _bolInitializeComplete:Boolean;
-		private var _bolIntroComplete:Boolean;
-		private var _bolOutroComplete:Boolean;
 		/*
 		Constructor
 		*/
@@ -30,7 +27,6 @@ package com.bedrockframework.plugin.view
 		*/
 		final protected  function initializeComplete():void
 		{
-			this._bolInitializeComplete = true;
 			this.dispatchEvent(new ViewEvent(ViewEvent.INITIALIZE_COMPLETE,this));
 		}
 		/**
@@ -41,7 +37,6 @@ package com.bedrockframework.plugin.view
 		*/
 		final protected  function introComplete():void
 		{
-			this._bolIntroComplete = true;
 			this.dispatchEvent(new ViewEvent(ViewEvent.INTRO_COMPLETE,this));
 		}
 		/**
@@ -52,7 +47,6 @@ package com.bedrockframework.plugin.view
 		*/
 		final protected  function outroComplete():void
 		{
-			this._bolOutroComplete = true;
 			this.dispatchEvent(new ViewEvent(ViewEvent.OUTRO_COMPLETE,this));
 		}
 		/**
@@ -63,19 +57,6 @@ package com.bedrockframework.plugin.view
 			this.parent.removeChild(this);
 		}
 		
-		
-		public function get isInitializeComplete():Boolean
-		{
-			return this._bolInitializeComplete;
-		}
-		public function get isIntroComplete():Boolean
-		{
-			return this._bolIntroComplete;
-		}
-		public function get isOutroComplete():Boolean
-		{
-			return this._bolOutroComplete;
-		}
 	}
 
 }

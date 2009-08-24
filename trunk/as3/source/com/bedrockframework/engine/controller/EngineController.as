@@ -67,8 +67,8 @@
 		}
 		private function createCommands():void
 		{
-			this.addCommand(BedrockEvent.SHOW_BLOCKER,ShowBlockerCommand);
-			this.addCommand(BedrockEvent.HIDE_BLOCKER,HideBlockerCommand);
+			this.addCommand(BedrockEvent.SHOW_BLOCKER, ShowBlockerCommand);
+			this.addCommand(BedrockEvent.HIDE_BLOCKER, HideBlockerCommand);
 			
 			if (BedrockEngine.config.getSetting(BedrockData.AUTO_BLOCKER_ENABLED)) {
 				this.addCommand(BedrockEvent.SET_QUEUE, ShowBlockerCommand);
@@ -137,17 +137,21 @@
 	 	private function onRenderPreloader($event:BedrockEvent):void
 		{
 			var objPreloader:*;
-			if (BedrockEngine.assetManager.hasPreloader(BedrockEngine.bedrock::pageManager.queue.alias)) {
-				objPreloader=BedrockEngine.assetManager.getPreloader(BedrockEngine.bedrock::pageManager.queue.alias);
+			if ( BedrockEngine.config.getSetting( BedrockData.SHARED_ENABLED ) ) {
+				if (BedrockEngine.assetManager.hasPreloader(BedrockEngine.bedrock::pageManager.queue.alias)) {
+					objPreloader=BedrockEngine.assetManager.getPreloader(BedrockEngine.bedrock::pageManager.queue.alias);
+				} else {
+					objPreloader=BedrockEngine.assetManager.getPreloader(BedrockData.DEFAULT_PRELOADER);
+				}
 			} else {
-				objPreloader=BedrockEngine.assetManager.getPreloader(BedrockData.DEFAULT_PRELOADER);
+				objPreloader=BedrockEngine.assetManager.getPreloader( BedrockData.SHELL_PRELOADER );
 			}
 			BedrockEngine.containerManager.preloaderContainer.hold(objPreloader);
 			BedrockEngine.bedrock::transitionManager.preloaderView = objPreloader;
 		}
 		private function onRenderSite($event:BedrockEvent):void
 		{
-			if (!BedrockEngine.bedrock::state.siteRendered) {
+			if ( !BedrockEngine.bedrock::state.siteRendered ) {
 				var objPreloader:*  = new ShellPreloader;
 				BedrockEngine.containerManager.preloaderContainer.hold(objPreloader);
 				BedrockEngine.bedrock::transitionManager.preloaderView = objPreloader;

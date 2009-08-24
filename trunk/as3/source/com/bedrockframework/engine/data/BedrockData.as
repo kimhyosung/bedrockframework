@@ -15,10 +15,9 @@
 		public static const CACHE_PREVENTION_ENABLED:String = "cache_prevention_enabled";
 		public static const STYLESHEET_ENABLED:String = "stylesheet_enabled";
 		public static const COPY_DECK_ENABLED:String = "copy_deck_enabled";
-		public static const FONTS_ENABLED:String = "fonts_enabled";
-		public static const LANGUAGE_FONTS_ENABLED:String = "language_fonts_enabled";
 		public static const TRACKING_ENABLED:String = "tracking_enabled";
 		
+		public static const SHARED_ENABLED:String = "shared_enabled";
 		public static const SHARED_SOUNDS_ENABLED:String = "shared_sounds_enabled";
 		
 		public static const AUTO_BLOCKER_ENABLED:String = "auto_blocker_enabled";
@@ -51,6 +50,7 @@
 		public static const REMOTE_LOG_LEVEL:String = "remote_log_level";
 		public static const REMOTE_LOG_URL:String = "remote_log_url";
 		
+		public static const SHELL_PRELOADER:String= "shell_preloader";
 		public static const DEFAULT_PRELOADER:String= "default_preloader";
 		/*
 		Locale Strings
