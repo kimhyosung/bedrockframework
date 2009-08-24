@@ -11,6 +11,7 @@
     <stylesheet_enabled>false</stylesheet_enabled>
     <copy_deck_enabled>false</copy_deck_enabled>
     <shared_sounds_enabled>false</shared_sounds_enabled>
+    <shared_enabled>true</shared_enabled>
     <default_language>en</default_language>
     <languages />
   </settings>

@@ -10,6 +10,7 @@
     <cache_prevention_enabled>false</cache_prevention_enabled>
     <stylesheet_enabled>false</stylesheet_enabled>
     <copy_deck_enabled>false</copy_deck_enabled>
+    <shared_enabled>false</shared_enabled>
     <shared_sounds_enabled>false</shared_sounds_enabled>
     <default_language>en</default_language>
     <languages />
