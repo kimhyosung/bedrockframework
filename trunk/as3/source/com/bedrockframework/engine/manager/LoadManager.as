@@ -51,6 +51,13 @@
 			this._objBulkLoader.addToQueue($path,$loader, $priority, $id, $completeHandler, $errorHandler);
 		}
 		/*
+		Getters
+		*/
+		public function getLoader($id:String):*
+		{
+			return this._objBulkLoader.getLoader( $id );
+		}
+		/*
 		Event Replacements
 		*/
 		private function setupReplacements():void
