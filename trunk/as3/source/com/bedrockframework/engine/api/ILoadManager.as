@@ -7,10 +7,13 @@
 		/*
 		ChainLoader wrappers
 		*/
-		function reset():void		
-		function close():void		
-		function loadQueue():void		
-		function addToQueue($url:String,$loader:VisualLoader=null, $priority:uint=0, $id:String = null, $completeHandler:Function=null, $errorHandler:Function=null):void		
+		function reset():void;
+		function close():void;
+		function loadQueue():void;
+		
+		function getLoader($id:String):*;
+		
+		function addToQueue($url:String,$loader:VisualLoader=null, $priority:uint=0, $id:String = null, $completeHandler:Function=null, $errorHandler:Function=null):void;
 		/*
 		Property Definitions
 		*/
