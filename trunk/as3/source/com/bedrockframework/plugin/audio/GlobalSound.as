@@ -75,5 +75,10 @@
 		{
 			return this._objTransformBoard.panning;
 		}
+		
+		public function get isMuted():Boolean
+		{
+			return this._objTransformBoard.isMuted;
+		}
 	}
 }

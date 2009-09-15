@@ -16,7 +16,7 @@ package com.bedrockframework.engine.api
 		Add/ Return new view instance
 		*/
 		function addView($alias:String, $class:Class):void;
-		function getView($alias:String):MovieClip;
+		function getView($alias:String):*;
 		function hasView($alias:String):Boolean;
 		function getViews():Array;
 		/*

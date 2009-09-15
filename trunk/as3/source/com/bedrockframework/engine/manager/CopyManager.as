@@ -62,10 +62,10 @@
 		{
 			if ($language != null && $language != "" && this.languageAvailable($language)) {
 				this._strCurrentLanguage = $language;
-				return BedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + "_" + this._strCurrentLanguage + ".xml";
+				return BedrockEngine.config.getEnvironmentValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + "_" + this._strCurrentLanguage + ".xml";
 			} else {
 				this._strCurrentLanguage = null;
-				return BedrockEngine.config.getValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + ".xml";
+				return BedrockEngine.config.getEnvironmentValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + ".xml";
 			}
 		}
 		

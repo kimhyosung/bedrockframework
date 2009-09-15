@@ -50,7 +50,7 @@
 			if (objPage.url != null) {
 				strPath = objPage.url;
 			} else {
-				strPath = BedrockEngine.config.getValue(BedrockData.SWF_PATH) + BedrockEngine.config.localePrefix + objPage.alias + BedrockEngine.config.localeSuffix + ".swf";
+				strPath = BedrockEngine.config.getEnvironmentValue(BedrockData.SWF_PATH) + BedrockEngine.config.localePrefix + objPage.alias + BedrockEngine.config.localeSuffix + ".swf";
 			}
 			BedrockEngine.containerManager.createPageLoader();
 			BedrockEngine.loadManager.addToQueue(strPath, BedrockEngine.containerManager.pageContainer.child, BedrockData.PAGE_PRIORITY);
@@ -64,17 +64,17 @@
 				strDefaultAlias=$details.alias;
 				this.status("Pulling from Event - " + strDefaultAlias);
 			} catch ($e:Error) {
-				if (BedrockEngine.config.getSetting(BedrockData.DEEP_LINKING_ENABLED)){
+				if (BedrockEngine.config.getFrameworkValue(BedrockData.DEEP_LINKING_ENABLED)){
 					strDefaultAlias = DeepLinkUtil.getPathNames()[0];
 					this.status("Pulling from URL - " + strDefaultAlias);
 				}
 			} finally {
 				if (strDefaultAlias == null) {
-					if (BedrockEngine.config.getParam(BedrockData.DEFAULT_PAGE) != null) {
-						strDefaultAlias = BedrockEngine.config.getParam(BedrockData.DEFAULT_PAGE);
+					if (BedrockEngine.config.getParamValue(BedrockData.DEFAULT_PAGE) != null) {
+						strDefaultAlias = BedrockEngine.config.getParamValue(BedrockData.DEFAULT_PAGE);
 						this.status("Pulling from Params - " + strDefaultAlias);
 					} else {
-						strDefaultAlias = BedrockEngine.config.getSetting(BedrockData.DEFAULT_PAGE);
+						strDefaultAlias = BedrockEngine.config.getFrameworkValue(BedrockData.DEFAULT_PAGE);
 						this.status("Pulling from Config - " + strDefaultAlias);
 					}
 				}

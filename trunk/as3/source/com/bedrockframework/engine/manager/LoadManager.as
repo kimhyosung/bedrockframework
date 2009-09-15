@@ -8,6 +8,7 @@
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.plugin.event.BulkLoaderEvent;
 	import com.bedrockframework.plugin.loader.BulkLoader;
+	import com.bedrockframework.plugin.loader.MultiLoader;
 	import com.bedrockframework.plugin.loader.VisualLoader;
 	import com.bedrockframework.plugin.storage.HashMap;
 	
@@ -27,6 +28,7 @@
 		public function LoadManager():void
 		{
 			this._objBulkLoader = new BulkLoader;
+			this._objBulkLoader.applicationDomainUsage = MultiLoader.REUSE_DOMAIN;
 			this._objBulkLoader.applicationDomain = ApplicationDomain.currentDomain;
 			
 			this.setupReplacements();

@@ -61,7 +61,7 @@
 			
 			BedrockDispatcher.addEventListener(BedrockEvent.URL_CHANGE, this.onURLChange);
 			
-			if (BedrockEngine.config.getSetting(BedrockData.AUTO_INTRO_ENABLED)){
+			if (BedrockEngine.config.getFrameworkValue(BedrockData.AUTO_INTRO_ENABLED)){
 				BedrockDispatcher.addEventListener(BedrockEvent.BEDROCK_COMPLETE, this.onRenderSite);
 			}
 		}
@@ -70,7 +70,7 @@
 			this.addCommand(BedrockEvent.SHOW_BLOCKER, ShowBlockerCommand);
 			this.addCommand(BedrockEvent.HIDE_BLOCKER, HideBlockerCommand);
 			
-			if (BedrockEngine.config.getSetting(BedrockData.AUTO_BLOCKER_ENABLED)) {
+			if (BedrockEngine.config.getFrameworkValue(BedrockData.AUTO_BLOCKER_ENABLED)) {
 				this.addCommand(BedrockEvent.SET_QUEUE, ShowBlockerCommand);
 				this.addCommand(BedrockEvent.INTRO_COMPLETE, HideBlockerCommand);
 			}
@@ -106,7 +106,7 @@
 	 	*/
 		private function onDoDefault($event:BedrockEvent):void
 		{
-			if (!BedrockEngine.config.getSetting(BedrockData.AUTO_DEFAULT_ENABLED)) {
+			if (!BedrockEngine.config.getFrameworkValue(BedrockData.AUTO_DEFAULT_ENABLED)) {
 				if (!BedrockEngine.bedrock::state.doneDefault) {
 					var strDefaultAlias:String = BedrockEngine.bedrock::pageManager.getDefaultPage($event.details);
 					this.status("Transitioning to - " + strDefaultAlias);
@@ -137,7 +137,7 @@
 	 	private function onRenderPreloader($event:BedrockEvent):void
 		{
 			var objPreloader:*;
-			if ( BedrockEngine.config.getSetting( BedrockData.SHARED_ENABLED ) ) {
+			if ( BedrockEngine.config.getFrameworkValue( BedrockData.SHARED_ENABLED ) ) {
 				if (BedrockEngine.assetManager.hasPreloader(BedrockEngine.bedrock::pageManager.queue.alias)) {
 					objPreloader=BedrockEngine.assetManager.getPreloader(BedrockEngine.bedrock::pageManager.queue.alias);
 				} else {

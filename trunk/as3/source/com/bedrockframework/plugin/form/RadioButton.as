@@ -21,6 +21,7 @@ package com.bedrockframework.plugin.form
 		*/
 		public function RadioButton()
 		{
+			this.stop();
 			ButtonUtil.addListeners(this, {down:this.onMouseDownHandler, up:this.onMouseUpHandler, over:this.onRollOverHandler, out:this.onRollOutHandler});
 		}
 		/*
@@ -68,7 +69,7 @@ package com.bedrockframework.plugin.form
 	 	public function set data($data:Object):void
 	 	{
 	 		this._objData = $data;
-	 		this.label.text = $data.label;
+	 		if ( this.label != null ) this.label.htmlText = $data.label;
 	 	}
 	 	public function get data():Object
 	 	{

@@ -107,38 +107,6 @@ package com.bedrockframework.plugin.gadget
 			this._strAlignment=$value.toLowerCase();
 		}
 		/*
-		Start the movement interval
-		*/
-		public function startDragMovement($event:MouseEvent):void
-		{
-			this._objData.drag.stage.addEventListener(MouseEvent.MOUSE_UP, this.stopDragMovement);
-			if (this._objData.updateOnDrag) {
-				this.update();
-			}
-			this._objScrollerTrigger.start(0.001);
-			var objRectangle:Rectangle;
-			switch (this._strDirection) {
-				case ScrollerData.HORIZONTAL :
-					objRectangle=new Rectangle(0,0,this._numDragBottom,0);
-					break;
-				case ScrollerData.VERTICAL :
-					objRectangle=new Rectangle(0,0,0,this._numDragBottom);
-					break;
-			}
-			this._objData.drag.startDrag(false,objRectangle);
-			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.START_DRAG,this));
-		}
-		/*
-		Stop the movement interval
-		*/
-		public function stopDragMovement($event:MouseEvent):void
-		{
-			this._objData.drag.stage.removeEventListener(MouseEvent.MOUSE_UP, this.stopDragMovement);
-			this._objScrollerTrigger.stop();
-			this._objData.drag.stopDrag();
-			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.STOP_DRAG,this));
-		}
-		/*
 		Start manual movement
 		*/
 
@@ -266,7 +234,7 @@ package com.bedrockframework.plugin.gadget
 		*/
 		public function applyDrag($clip:Sprite):void
 		{
-			ButtonUtil.addListeners($clip,{down:this.startDragMovement,up:this.stopDragMovement});
+			ButtonUtil.addListeners($clip,{down:this.onStartDragMovement,up:this.onStopDragMovement});
 		}
 		private function applyJumpActions($clip:Sprite):void
 		{
@@ -335,6 +303,40 @@ package com.bedrockframework.plugin.gadget
 		{
 			this.positionDrag($event.localY);
 			this.positionContent(this.getLocation(this._objData.drag));
+		}
+		/*
+		Start the movement interval
+		*/
+		public function onStartDragMovement($event:MouseEvent):void
+		{
+			this._objData.content.mouseEnabled = false;
+			this._objData.drag.stage.addEventListener(MouseEvent.MOUSE_UP, this.onStopDragMovement);
+			if (this._objData.updateOnDrag) {
+				this.update();
+			}
+			this._objScrollerTrigger.start(0.001);
+			var objRectangle:Rectangle;
+			switch (this._strDirection) {
+				case ScrollerData.HORIZONTAL :
+					objRectangle=new Rectangle(0,0,this._numDragBottom,0);
+					break;
+				case ScrollerData.VERTICAL :
+					objRectangle=new Rectangle(0,0,0,this._numDragBottom);
+					break;
+			}
+			this._objData.drag.startDrag(false,objRectangle);
+			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.START_DRAG,this));
+		}
+		/*
+		Stop the movement interval
+		*/
+		public function onStopDragMovement($event:MouseEvent):void
+		{
+			this._objData.content.mouseEnabled = true;
+			this._objData.drag.stage.removeEventListener(MouseEvent.MOUSE_UP, this.onStopDragMovement);
+			this._objScrollerTrigger.stop();
+			this._objData.drag.stopDrag();
+			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.STOP_DRAG,this));
 		}
 	}
 }

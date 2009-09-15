@@ -11,8 +11,9 @@
 		/*
 		Variable Declarations
 		*/
-		public static const NEW_DOMAIN:uint = 1;
+		public static const CHILD_DOMAIN:uint = 1;
 		public static const REUSE_DOMAIN:uint = 2;
+		public static const NEW_DOMAIN:uint = 3;
 		
 		public var applicationDomain:ApplicationDomain;
 		public var securityDomain:SecurityDomain;
@@ -42,11 +43,14 @@
 				return this.loaderContext;
 			} else {
 				switch (this._numApplicationDomainUsage) {
-					case 1 :
+					case MultiLoader.CHILD_DOMAIN :
 						return new LoaderContext(this.checkPolicyFile, new ApplicationDomain(this.applicationDomain), this.securityDomain);
 						break;
-					case 2 :
+					case MultiLoader.REUSE_DOMAIN :
 						return new LoaderContext(this.checkPolicyFile, this.applicationDomain, this.securityDomain);
+						break;
+					case MultiLoader.NEW_DOMAIN :
+						return new LoaderContext(this.checkPolicyFile, new ApplicationDomain, this.securityDomain);
 						break;
 				}
 			}

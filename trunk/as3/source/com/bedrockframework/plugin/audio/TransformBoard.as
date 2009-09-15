@@ -12,6 +12,7 @@
 		private var _numVolume:Number;
 		private var _objTarget:*;
 		private var _objSoundTransform:SoundTransform;
+		private var _bolMuted:Boolean;
 		/*
 		Constructor
 		*/
@@ -34,11 +35,13 @@
 			this._numVolume = this._objSoundTransform.volume;
 			this._objSoundTransform.volume = 0;
 			this.applyTransform();
+			this._bolMuted = true;
 		}
 		public function unmute():void
 		{
 			this._objSoundTransform.volume = this._numVolume;
 			this.applyTransform();
+			this._bolMuted = false;
 		}
 		public function toggleMute():Boolean
 		{
@@ -80,6 +83,11 @@
 		public function get panning():Number
 		{
 			return this._objSoundTransform.pan;
+		}
+		
+		public function get isMuted():Boolean
+		{
+			return this._bolMuted;
 		}
 		
 		public function set target($target:*):void

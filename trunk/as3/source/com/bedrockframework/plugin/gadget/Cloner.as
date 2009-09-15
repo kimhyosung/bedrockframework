@@ -24,7 +24,6 @@ package com.bedrockframework.plugin.gadget
 		private var _objParent:DisplayObjectContainer;
 		private var _objContainer:DisplayObjectContainer;
 		private var _objCurrentClone:DisplayObjectContainer;
-		private var _clsChild:Class;
 
 		private var _numXposition:int;
 		private var _numYposition:int;
@@ -34,25 +33,24 @@ package com.bedrockframework.plugin.gadget
 		private var _numRow:int;
 		private var _numWrapIndex:int;
 
-		private var _bolUseDummy:Boolean;
-
 		private var _objCloneMap:HashMap;
+		private var _objCloneArray:Array;
 		
+		public var clone:Class;
 		public var data:ClonerData;
 		/*
 		Constructor
 		*/
-		public function Cloner($child:Class, $parent:DisplayObjectContainer = null,$useDummy:Boolean=true)
+		public function Cloner($clone:Class, $parent:DisplayObjectContainer = null)
 		{
 			this._objCloneMap=new HashMap  ;
 			this._objParent=$parent || this;
-			this._clsChild=$child;
-			this._bolUseDummy=$useDummy;
+			this.clone=$clone;
 		}
 		public function initialize($data:ClonerData):Array
 		{
-			this.clear();
 			this.data = $data;
+			this.clear();
 			//
 			this.status("Initialize");
 			this.dispatchEvent(new ClonerEvent(ClonerEvent.INITIALIZE,this,{total:$data.total}));
@@ -88,6 +86,7 @@ package com.bedrockframework.plugin.gadget
 			//
 			this.destroyClones();
 			this._objCloneMap.clear();
+			this._objCloneArray = new Array;
 			//
 			this.recreateContainer();
 			//
@@ -112,8 +111,9 @@ package com.bedrockframework.plugin.gadget
 		*/
 		public function createClone():DisplayObjectContainer
 		{
-			this._objCurrentClone=new this._clsChild;
+			this._objCurrentClone=new this.clone;
 			this._objCloneMap.saveValue(this._numIndex.toString(), this._objCurrentClone);
+			this._objCloneArray.push( this._objCurrentClone );
 
 			this.applyProperties(this._objCurrentClone,this.getProperties());
 			this._objContainer.addChild(this._objCurrentClone);
@@ -150,7 +150,7 @@ package com.bedrockframework.plugin.gadget
 		}
 		private function createContainer():DisplayObjectContainer
 		{
-			if (this._bolUseDummy) {
+			if (this.data.useDummyContainer) {
 				this._objContainer=new Sprite  ;
 				this._objParent.addChild(this._objContainer);
 			} else {
@@ -305,24 +305,11 @@ package com.bedrockframework.plugin.gadget
 		}
 		
 	
-		public function set child($child:Class):void
-		{
-			this._clsChild = $child;
-		}
-		public function get child():Class
-		{
-			return this._clsChild;
-		}
-		
 		public function get children():Array
 		{
-			return this._objCloneMap.getValues();
+			return this._objCloneArray;
 		}
 		
-		public function get totalChildren():int
-		{
-			return this._objCloneMap.size;
-		}
 		
 	}
 }
