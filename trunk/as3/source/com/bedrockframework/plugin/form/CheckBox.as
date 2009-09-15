@@ -31,7 +31,7 @@
 		private function setup():void
 		{
 			this.createMouseListeners();
-			this.label.autoSize = TextFieldAutoSize.LEFT;
+			if ( this.label != null ) this.label.autoSize = TextFieldAutoSize.LEFT;
 		}
 		/*
 		Create Mouse Listeners
@@ -84,7 +84,7 @@
 		public function set data($data:Object):void
 	 	{
 	 		this._objData = $data;
-	 		this.label.text = $data.label;
+	 		if ( this.label != null ) this.label.text = $data.label;
 	 	}
 	 	public function get data():Object
 	 	{

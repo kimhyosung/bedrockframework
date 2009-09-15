@@ -110,9 +110,11 @@
 		private function onDoInitialize($event:BedrockEvent):void
 		{
 			if (!BedrockEngine.bedrock::state.siteInitialized) {
+				if ( this.siteView == null) this.fatal("Fatal error loading site, check for compile errors!");
 				this.siteView.initialize();
 				BedrockEngine.bedrock::state.siteInitialized = true;
 			} else {
+				if ( this.pageView == null) this.fatal("Fatal error loading page, check for compile errors!");
 				this.pageView.initialize();
 			}
 		}
@@ -127,7 +129,8 @@
 		private function onSiteIntroComplete($event:ViewEvent):void
 		{
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INTRO_COMPLETE, this.siteView));
-			if (BedrockEngine.config.getSetting(BedrockData.AUTO_DEFAULT_ENABLED)) {
+			if (BedrockEngine.config.getFrameworkValue(BedrockData.AUTO_DEFAULT_ENABLED)) {
+				if ( this.pageView == null) this.fatal("Fatal error referencing page, check for compile errors!");
 				this.pageView.initialize();
 			}
 		}
@@ -137,6 +140,7 @@
 		private function onPageInitializeComplete($event:ViewEvent):void
 		{
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INITIALIZE_COMPLETE, this.pageView, this.getDetailObject()));
+			if ( this.pageView == null) this.fatal("Fatal error referencing page, check for compile errors!");
 			this.pageView.intro();
 		}
 		private function onPageIntroComplete($event:ViewEvent):void

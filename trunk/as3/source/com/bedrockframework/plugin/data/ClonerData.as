@@ -23,7 +23,12 @@
 		public var direction:String;
 		public var pattern:String;
 		
+		public var paddingX:int;
+		public var paddingY:int;
+		
 		public var autoSpacing:Boolean;
+		
+		public var useDummyContainer:Boolean;
 
 		public function ClonerData():void
 		{
@@ -34,6 +39,8 @@
 			
 			this.direction = ClonerData.HORIZONTAL;
 			this.pattern = ClonerData.LINEAR;
+			
+			this.useDummyContainer = true;
 		}
 
 	}
