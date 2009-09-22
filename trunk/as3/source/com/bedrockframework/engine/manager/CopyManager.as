@@ -2,18 +2,14 @@
 {
 	import com.bedrockframework.core.base.StandardWidget;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
-	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.api.ICopyManager;
-	import com.bedrockframework.engine.data.BedrockData;
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.plugin.event.LoaderEvent;
 	import com.bedrockframework.plugin.loader.BackgroundLoader;
 	import com.bedrockframework.plugin.storage.HashMap;
-	import com.bedrockframework.plugin.util.ArrayUtil;
 	import com.bedrockframework.plugin.util.XMLUtil;
 	
 	import flash.events.Event;
-	import flash.net.URLRequest;
 	
 	public class CopyManager extends StandardWidget implements ICopyManager
 	{
@@ -22,10 +18,6 @@
 		*/
 		private var _objCopyMap:HashMap;
 		private var _objBackgroundLoader:BackgroundLoader;
-		private var _strDefaultLanguage:String;
-		private var _strSystemLanguage:String;
-		private var _strCurrentLanguage:String;
-		private var _arrLanguages:Array;
 		/*
 		Constructor
 		*/
@@ -33,22 +25,16 @@
 		{
 			this.createLoader();
 		}
-		public function initialize($languages:Array, $defaultLanguage:String = null):void
-		{
-			this._arrLanguages = $languages;
-			this._strDefaultLanguage = $defaultLanguage;
-			this.load(this._strDefaultLanguage);
-		}
 		private function createLoader():void
 		{
 			this._objBackgroundLoader = new BackgroundLoader();
-			this._objBackgroundLoader.addEventListener(LoaderEvent.COMPLETE, this.onXMLComplete);
-			this._objBackgroundLoader.addEventListener(LoaderEvent.IO_ERROR, this.onXMLError);
-			this._objBackgroundLoader.addEventListener(LoaderEvent.SECURITY_ERROR, this.onXMLError);
+			this._objBackgroundLoader.addEventListener(LoaderEvent.COMPLETE, this.onLoadComplete);
+			this._objBackgroundLoader.addEventListener(LoaderEvent.IO_ERROR, this.onLoadError);
+			this._objBackgroundLoader.addEventListener(LoaderEvent.SECURITY_ERROR, this.onLoadError);
 		}
-		public function load($language:String = null):void
+		public function load( $path:String ):void
 		{
-			this._objBackgroundLoader.load(new URLRequest(this.determinePath($language)));
+			this._objBackgroundLoader.loadURL( $path );
 		}
 		
 		private function parseXML($xml:String):void
@@ -58,66 +44,49 @@
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.COPY_LOADED, this));
 		}
 		
-		private function determinePath($language:String = null):String
-		{
-			if ($language != null && $language != "" && this.languageAvailable($language)) {
-				this._strCurrentLanguage = $language;
-				return BedrockEngine.config.getEnvironmentValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + "_" + this._strCurrentLanguage + ".xml";
-			} else {
-				this._strCurrentLanguage = null;
-				return BedrockEngine.config.getEnvironmentValue(BedrockData.XML_PATH) + BedrockData.COPY_DECK_FILENAME + ".xml";
-			}
-		}
-		
-		public function getCopy($key:String):String
+		public function getCopy($key:String, $group:String = null):String
 		{
 			try {
-				return this._objCopyMap.getValue($key);
+				if ( $group != null ) {
+					return this._objCopyMap.getValue($group)[ $key ];
+				} else {
+					return this._objCopyMap.getValue($key);
+				}
 			} catch ($error:Error) {
 			}
 			return null;
 		}
-		public function getCopyGroup($key:String):Object
+		public function getCopyGroup($group:String, $key:String = null ):*
 		{
 			try {
-				return this._objCopyMap.getValue($key);
+				if ( $key != null ) {
+					return this._objCopyMap.getValue($group)[ $key ];
+				} else {
+					return this._objCopyMap.getValue($group);
+				}
 			} catch ($error:Error) {
 			}
 			return null;
 		}
-		
-		private function languageAvailable($language:String):Boolean
-		{
-			return ArrayUtil.containsItem(this._arrLanguages, $language);
-		}
-		
 		/*
 		Event Handlers
 		*/
-		private function onXMLComplete($event:LoaderEvent):void
+		private function onLoadComplete($event:LoaderEvent):void
 		{
-			this.status("Copy Loaded : " + this._strCurrentLanguage);
+			this.status("Copy Loaded");
 			this.parseXML(this._objBackgroundLoader.data);
 		}
-		private function onXMLError($event:Event):void
+		private function onLoadError($event:Event):void
 		{
 			this.warning("Could not parse copy!");
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.COPY_ERROR, this, {language:this._strCurrentLanguage}));
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.COPY_ERROR, this ));
 		}
 		/*
 		Property Definitions
 		*/
-		public function get languages():Array
+		public function get loader():BackgroundLoader
 		{
-			return this._arrLanguages;
-		}
-		public function get currentLanguage():String
-		{
-			return this._strCurrentLanguage;
-		}
-		public function get defaultLanguage():String
-		{
-			return this._strDefaultLanguage;
+			return this._objBackgroundLoader;
 		}
 	}
 }

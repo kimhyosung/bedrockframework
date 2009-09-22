@@ -1,13 +1,12 @@
 ﻿package com.bedrockframework.engine.api
 {
+	import com.bedrockframework.plugin.loader.BackgroundLoader;
+	
 	public interface ICopyManager
 	{
-		function initialize($languages:Array, $defaultLanguage:String = null):void;
-		function load($language:String = null):void;
-		function getCopy($key:String):String;
-		function getCopyGroup($key:String):Object;
-		function get languages():Array;
-		function get currentLanguage():String;
-		function get defaultLanguage():String
+		function load( $path:String ):void;
+		function getCopy($key:String, $group:String = null):String;
+		function getCopyGroup($group:String, $key:String = null ):*;
+		function get loader():BackgroundLoader;
 	}
 }

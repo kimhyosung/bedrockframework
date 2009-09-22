@@ -78,7 +78,7 @@
 				this.dispatchEvent(new ChainLoaderEvent(ChainLoaderEvent.ERROR,this, {text:"Unable to load, queue is empty!"}));
 			}
 		}
-		public function addToQueue($file:String,$loader:VisualLoader=null,$completeHandler:Function=null, $errorHandler:Function=null):void
+		public function addToQueue($file:String, $loader:* = null, $completeHandler:Function=null, $errorHandler:Function=null):void
 		{
 			if (this._bolComplete) {
 				this.reset();

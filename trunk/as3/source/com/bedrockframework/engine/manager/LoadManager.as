@@ -9,7 +9,6 @@
 	import com.bedrockframework.plugin.event.BulkLoaderEvent;
 	import com.bedrockframework.plugin.loader.BulkLoader;
 	import com.bedrockframework.plugin.loader.MultiLoader;
-	import com.bedrockframework.plugin.loader.VisualLoader;
 	import com.bedrockframework.plugin.storage.HashMap;
 	
 	import flash.events.Event;
@@ -48,7 +47,7 @@
 		{
 			this._objBulkLoader.loadQueue();
 		}
-		public function addToQueue($path:String,$loader:VisualLoader=null, $priority:uint=0, $id:String = null, $completeHandler:Function=null, $errorHandler:Function=null):void
+		public function addToQueue($path:String,$loader:* = null, $priority:uint=0, $id:String = null, $completeHandler:Function=null, $errorHandler:Function=null):void
 		{
 			this._objBulkLoader.addToQueue($path,$loader, $priority, $id, $completeHandler, $errorHandler);
 		}

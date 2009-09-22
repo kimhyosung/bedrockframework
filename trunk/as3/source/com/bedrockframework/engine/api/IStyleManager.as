@@ -1,5 +1,7 @@
 package com.bedrockframework.engine.api
 {
+	import com.bedrockframework.plugin.loader.BackgroundLoader;
+	
 	import flash.text.StyleSheet;
 	import flash.text.TextFormat;
 	
@@ -28,7 +30,9 @@ package com.bedrockframework.engine.api
 		/*
 		Property Definitions
 		*/
-		function get styleNames():Array
-		function get styleSheet():StyleSheet
+		function get styleNames():Array;
+		function get styleSheet():StyleSheet;
+		
+		function get loader():BackgroundLoader;
 	}
 }

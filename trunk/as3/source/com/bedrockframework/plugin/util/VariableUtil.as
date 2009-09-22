@@ -23,15 +23,17 @@
 			return strValue;
 		}
 		
-		public static function combineObjects($data1:Object, $data2:Object):Object
+		public static function combineObjects( ...$objects:Array):Object
 		{
 			var objResult:Object = new Object();
 			
-			for (var d1:String in $data1) {
-				objResult[d1] = $data1[d1];
-			}
-			for (var d2:String in $data2) {
-				objResult[d2] = $data2[d2];
+			var objData:Object;
+			var numLength:int = $objects.length;
+			for (var i:int = 0 ; i < numLength; i++) {
+				objData = $objects[ i ];
+				for (var d:String in objData) {
+					objResult[d] = objData[d];
+				}
 			}
 			
 			return objResult;
