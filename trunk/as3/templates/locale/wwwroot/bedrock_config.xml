@@ -12,17 +12,18 @@
       <cache_prevention_enabled>false</cache_prevention_enabled>
       <shared_sounds_enabled>false</shared_sounds_enabled>
       <shared_enabled>true</shared_enabled>
-      <fonts_enabled>true</fonts_enabled>
+      <fonts_enabled>false</fonts_enabled>
       <copy_enabled>false</copy_enabled>
       <stylesheet_enabled>false</stylesheet_enabled>
-      <locale_enabled>false</locale_enabled>
+      <locale_enabled>true</locale_enabled>
     </general>
     <!--Locale Settings-->
     <locale>
+      <fonts_enabled>true</fonts_enabled>
       <copy_enabled>true</copy_enabled>
       <stylesheet_enabled>true</stylesheet_enabled>
       <default_locale>en_GB</default_locale>
-      <locales>en_GB,de_RS</locales>
+      <locales>en_GB,fr_FR</locales>
       <!--<locale_prefix></locale_prefix>-->
       <!--<locale_suffix></locale_suffix>-->
     </locale>
