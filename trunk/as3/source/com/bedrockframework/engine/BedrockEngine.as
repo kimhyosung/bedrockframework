@@ -9,8 +9,10 @@
 	import com.bedrockframework.engine.api.IContainerManager;
 	import com.bedrockframework.engine.api.ICopyManager;
 	import com.bedrockframework.engine.api.IDeepLinkManager;
+	import com.bedrockframework.engine.api.IFontManager;
 	import com.bedrockframework.engine.api.IHistory;
 	import com.bedrockframework.engine.api.ILoadManager;
+	import com.bedrockframework.engine.api.ILocaleManager;
 	import com.bedrockframework.engine.api.IPageManager;
 	import com.bedrockframework.engine.api.IPreloaderManager;
 	import com.bedrockframework.engine.api.IServiceManager;
@@ -30,7 +32,9 @@
 		public static var containerManager:IContainerManager;
 		public static var copyManager:ICopyManager;
 		public static var deeplinkManager:IDeepLinkManager;
+		public static var fontManager:IFontManager;
 		public static var loadManager:ILoadManager;
+		public static var localeManager:ILocaleManager;
 		bedrock static var pageManager:IPageManager;
 		bedrock static var preloaderManager:IPreloaderManager;		
 		public static var serviceManager:IServiceManager;

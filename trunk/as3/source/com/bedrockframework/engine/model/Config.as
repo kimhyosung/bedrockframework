@@ -14,6 +14,7 @@ package com.bedrockframework.engine.model
 	import com.bedrockframework.core.base.StandardWidget;
 	import com.bedrockframework.engine.api.IConfig;
 	import com.bedrockframework.engine.data.BedrockData;
+	import com.bedrockframework.plugin.storage.HashMap;
 	import com.bedrockframework.plugin.util.StringUtil;
 	import com.bedrockframework.plugin.util.VariableUtil;
 	import com.bedrockframework.plugin.util.XMLUtil;
@@ -26,17 +27,18 @@ package com.bedrockframework.engine.model
 		/*
 		Variable Declarations
 		*/		
-		private var _objFrameworkValues:Object;
+		private var _objSettingValues:Object;
 		private var _objEnvironmentValues:Object;
 		private var _objPageValues:Object;
 		private var _objParamValues:Object;
 		private var _objLocaleValues:Object;
+		private var _objLocaleValueHash:HashMap;
 		/*
 		Constructor
 		*/
 		public function Config()
 		{
-			this._objFrameworkValues = new Object;
+			this._objSettingValues = new Object;
 			this._objEnvironmentValues = new Object;
 			this._objPageValues = new Object;
 			this._objParamValues = new Object;
@@ -47,11 +49,11 @@ package com.bedrockframework.engine.model
 		*/
 		public function initialize($data:String, $url:String, $stage:Stage):void
 		{
-			this.saveFrameworkValue(BedrockData.URL, $url);
-			this.saveFrameworkValue(BedrockData.MANUFACTURER, Capabilities.manufacturer);
-			this.saveFrameworkValue(BedrockData.SYSTEM_LANGUAGE, Capabilities.language);
-			this.saveFrameworkValue(BedrockData.OS, Capabilities.os);
-			this.saveFrameworkValue("stage", $stage);
+			this.saveSettingValue(BedrockData.URL, $url);
+			this.saveSettingValue(BedrockData.MANUFACTURER, Capabilities.manufacturer);
+			this.saveSettingValue(BedrockData.SYSTEM_LANGUAGE, Capabilities.language);
+			this.saveSettingValue(BedrockData.OS, Capabilities.os);
+			this.saveSettingValue("stage", $stage);
 			
 			this.parseXML($data);
 		}
@@ -61,22 +63,24 @@ package com.bedrockframework.engine.model
 		{
 			var xmlConfig:XML = this.getXML($data);
 			
-			this.saveFrameworkValue( BedrockData.LAYOUT, XMLUtil.convertToArray( xmlConfig.layout, true ) );
-			this.saveFrameworkValue( BedrockData.DEFAULT_PAGE, this.getDefaultPage(xmlConfig.pages) );
-			this.saveFrameworkValue( BedrockData.ENVIRONMENT, this.getEnvironment(xmlConfig.environments, this.getFrameworkValue(BedrockData.URL)));
+			this.saveSettingValue( BedrockData.LAYOUT, XMLUtil.convertToArray( xmlConfig.layout, true ) );
+			this.saveSettingValue( BedrockData.DEFAULT_PAGE, this.getDefaultPage(xmlConfig.pages) );
+			this.saveSettingValue( BedrockData.ENVIRONMENT, this.getEnvironment(xmlConfig.environments, this.getSettingValue(BedrockData.URL)));
 			
-			this.saveFrameworkValues( xmlConfig.settings );
-			this.saveEnvironmentValues( xmlConfig.environments, this.getFrameworkValue( BedrockData.ENVIRONMENT ) );
+			this.parseSettingsValues( xmlConfig.settings.general );
+			this.saveEnvironmentValues( xmlConfig.environments, this.getSettingValue( BedrockData.ENVIRONMENT ) );
+			this.saveLocaleSettings( xmlConfig.settings.locale );
+			this.parseLocaleValues( xmlConfig.locales );
 			this.saveCacheSettings();
-			this.saveLanguageSettings();
 			
-			this.savePages( this.parsePages(xmlConfig.pages) );			
+			this.savePages( this.parsePages(xmlConfig.pages) );
 			
 			this.status( this._objParamValues );
-			this.status( this._objFrameworkValues );
+			this.status( this._objSettingValues );
 			this.status( this._objEnvironmentValues );
+			this.status( this._objLocaleValues );
 			
-			this.status("Environment - " + this.getFrameworkValue(BedrockData.ENVIRONMENT));
+			this.status("Environment - " + this.getSettingValue(BedrockData.ENVIRONMENT));
 		}
 		private function getXML($data:String):XML
 		{
@@ -86,9 +90,38 @@ package com.bedrockframework.engine.model
 			return xmlConfig;
 		}		
 		/*
-		Environment Determination
+		Settings Functions
+		*/
+		private function parseSettingsValues($node:XMLList):void
+		{
+			var objData:Object = XMLUtil.convertToObject($node);
+			for (var d:String in objData) {
+				this.saveSettingValue(d, objData[d]);
+			}
+		}
+		private function saveCacheSettings():void
+		{
+			if (this.getSettingValue(BedrockData.CACHE_PREVENTION_ENABLED)) {
+				this.saveSettingValue(BedrockData.CACHE_KEY, StringUtil.generateUniqueKey(10) );
+			} else {
+				this.saveSettingValue(BedrockData.CACHE_KEY, "");
+			}
+		}
+		private function saveSettingValue($key:String, $value:*):void
+		{
+			this._objSettingValues[$key] = $value;
+		}
+		/**
+		 * Returns a framework setting independent of environment.
 	 	*/
-	 	private function getEnvironment($node:XMLList, $url:String):String
+		public function getSettingValue($key:String):*
+		{
+			return this._objSettingValues[$key];
+		}
+		/*
+		Environment Functions
+		*/
+		private function getEnvironment($node:XMLList, $url:String):String
 		{
 			var strURL:String = $url;
 			var xmlEnvironments:XML=new XML($node);
@@ -114,17 +147,6 @@ package com.bedrockframework.engine.model
 			}			
 			return BedrockData.PRODUCTION;
 		}
-		/*
-		Parsing Functions
-		*/
-		private function saveFrameworkValues($node:XMLList):void
-		{
-			var objData:Object = XMLUtil.convertToObject($node);
-			for (var d:String in objData) {
-				this.saveFrameworkValue(d, objData[d]);
-			}
-		}
-		
 		private function saveEnvironmentValues($node:XMLList, $environment:String):void
 		{
 			var xmlData:XML = new XML($node);
@@ -135,18 +157,28 @@ package com.bedrockframework.engine.model
 			delete this._objEnvironmentValues["patterns"];
 		}
 		
-		private function saveLocaleValues( $node:XMLList, $locale:String ):void
-		{
-			
-		}
-		
-		private function parseEnvironmentValues($xml:XML):void
+		private function parseEnvironmentValues( $xml:XML ):void
 		{
 			var objData:Object = XMLUtil.convertToObject($xml);
 			for (var d:String in objData) {
 				this.saveEnvironmentValue(d, objData[d]);
 			}
 		}
+		private function saveEnvironmentValue($key:String, $value:*):void
+		{
+			this._objEnvironmentValues[$key] = $value;
+		}
+		/**
+		 * Returns a environment value that will change depending on the current environment.
+		 * Environment values are declared in the config xml file.
+	 	*/
+		public function getEnvironmentValue($key:String):*
+		{
+			return this._objEnvironmentValues[$key]; 
+		}
+		/*
+		Pages Functions
+		*/
 		private function parsePages($node:XMLList):Object
 		{
 			var objPages:Object = new Object  ;
@@ -172,13 +204,98 @@ package com.bedrockframework.engine.model
 			}
 			return objPages;
 		}
+		public function addPage($alias:String, $data:Object):void
+		{
+			this._objPageValues[$alias] = $data;
+		}
+		private function savePages($value:*):void
+		{
+			this._objPageValues = $value;
+		}
+		public function getPage($key:String):Object
+		{
+			var objPage:Object= this._objPageValues[$key];
+			if (objPage == null) {
+				this.warning("Page \'" + $key + "\' does not exist!");
+			}
+			return objPage;
+		}
+		public function getPages():Array
+		{
+			var arrPages:Array = new Array;
+			for (var p in this._objPageValues) {
+				arrPages.push(this._objPageValues[p]);
+			}
+			return arrPages;
+		}
+		
+		private function getDefaultPage($node:XMLList):String
+		{
+			var xmlData:XML = new XML($node);
+			var xmlDefaultPage:XML = XMLUtil.filterByAttribute($node, BedrockData.DEFAULT_PAGE, "true");
+			return XMLUtil.convertValue(xmlDefaultPage.alias);
+		}
 		/*
-		Param Parsing Functions
+		Locales
+		*/
+		private function saveLocaleSettings( $node:XMLList ):void
+		{
+			if ( this.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
+				
+				var objData:Object = XMLUtil.convertToObject($node);
+				for (var d:String in objData) {
+					this.saveLocaleValue(d, objData[d]);
+				}
+				
+				var strLocales:String = objData[ BedrockData.LOCALES ];
+				var arrLocales:Array = strLocales.split(",")
+				var numLength:int = arrLocales.length;
+				for (var i:int = 0; i < numLength; i ++) {
+					arrLocales[i] = StringUtil.trim(arrLocales[i]);
+				}
+				this.saveLocaleValue(BedrockData.LOCALES, arrLocales);
+				
+				if (numLength > 0 && this.getLocaleValue( BedrockData.DEFAULT_LOCALE ) == null ) {
+					this.saveLocaleValue( BedrockData.DEFAULT_LOCALE, arrLocales[0]);	
+				}
+				this.saveLocaleValue( BedrockData.CURRENT_LOCALE, this.getLocaleValue( BedrockData.DEFAULT_LOCALE ) );
+				
+			}
+		}
+		public function switchLocale( $locale:String ):void
+		{
+			this.saveLocaleValue( BedrockData.CURRENT_LOCALE, $locale );
+			var objData:Object = this._objLocaleValueHash.getValue( $locale );
+
+			for (var d:String in objData) {
+				this.saveLocaleValue( d, objData[d] );
+			}
+		}
+		
+		private function parseLocaleValues( $node:XMLList ):void
+		{
+			this._objLocaleValueHash = XMLUtil.convertToHashMap( $node );
+		}
+		
+		private function saveLocaleValue($key:String, $value:*):void
+		{
+			this._objLocaleValues[$key] = $value;
+		}
+		/**
+		 * Returns a environment value that will change depending on the current locale.
+		 * Locale values are declared in the config xml file.
+	 	*/
+		public function getLocaleValue($key:String):*
+		{
+			return this._objLocaleValues[$key]; 
+		}
+		/*
+		Param Functions
 		*/
 		public function parseParamObject($data:Object):void
 		{
 			for (var d:String in $data){
-				this._objParamValues[d] =VariableUtil.sanitize($data[d]);
+				this.saveParamValue( d, VariableUtil.sanitize($data[d]) ); 
 			}
 		}
 		public function parseParamString($values:String, $variableSeparator:String ="&", $valueSeparator:String =  "="):void
@@ -192,39 +309,20 @@ package com.bedrockframework.engine.model
 				var numLength:int = arrValues.length;
 				for (var v:int = 0; v < numLength; v++) {
 					var arrVariable:Array = arrValues[v].split(strValueSeparator);
-					this._objParamValues[arrVariable[0]] =   arrVariable[1];
+					this.saveParamValue( arrVariable[0], arrVariable[1] ); 
 				}
 			} else {
 				this.warning("No params to parse!");
 			}
 		}
-		
-		/*
-		Settings
-		*/
-		private function saveCacheSettings():void
+		private function saveParamValue($key:String, $value:*):void
 		{
-			if (this.getFrameworkValue(BedrockData.CACHE_PREVENTION_ENABLED)) {
-				this.saveFrameworkValue(BedrockData.CACHE_KEY, this.createCacheKey());
-			} else {
-				this.saveFrameworkValue(BedrockData.CACHE_KEY, "");
-			}
-		}		
-		
-		private function saveLanguageSettings():void
-		{
-			var strLanguages:String = this.getFrameworkValue(BedrockData.LANGUAGES);
-			var arrLanguages:Array = strLanguages.split(",")
-			var numLength:int = arrLanguages.length;
-			for (var i:int = 0; i < numLength; i ++) {
-				arrLanguages[i] = StringUtil.trim(arrLanguages[i]);
-			}
-			this.saveFrameworkValue(BedrockData.LANGUAGES, arrLanguages);
-			if (numLength > 0 && this.getFrameworkValue( BedrockData.DEFAULT_LANGUAGE ) == null ) {
-				this.saveFrameworkValue( BedrockData.DEFAULT_LANGUAGE, arrLanguages[0]);	
-			}			
+			this._objParamValues[$key] = $value;
 		}
-		
+		public function getParamValue($key:String):*
+		{
+			return this._objParamValues[$key];
+		}
 		/*
 		Internal string replacement functions
 		*/
@@ -246,93 +344,15 @@ package com.bedrockframework.engine.model
 			return strPath;
 		}
 		/*
-		Create Cache Key
-		*/
-		private function createCacheKey():String
-		{
-			return StringUtil.generateUniqueKey(10);
-		}
-		/*
-		Setters
-		*/
-		/*
-		Save the page information for later use.
-		*/
-		public function addPage($alias:String, $data:Object):void
-		{
-			this._objPageValues[$alias] = $data;
-		}
-		private function savePages($value:*):void
-		{
-			this._objPageValues = $value;
-		}
-		private function saveFrameworkValue($key:String, $value:*):void
-		{
-			this._objFrameworkValues[$key] = $value;
-		}
-		private function saveEnvironmentValue($key:String, $value:*):void
-		{
-			this._objEnvironmentValues[$key] = $value;
-		}
-		/*
-		Getters
-		*/
-		/**
-		 * Returns a framework setting independent of environment.
-	 	*/
-		public function getFrameworkValue($key:String):*
-		{
-			return this._objFrameworkValues[$key];
-		}
-		/**
-		 * Returns a environment value that will change depending on the current environment.
-		 * Environment values are declared in the config xml file.
-	 	*/
-		public function getEnvironmentValue($key:String):*
-		{
-			return this._objEnvironmentValues[$key]; 
-		}
-		/*
-		Pull the information for a specific page.
-		*/
-		public function getPage($key:String):Object
-		{
-			var objPage:Object= this._objPageValues[$key];
-			if (objPage == null) {
-				this.warning("Page \'" + $key + "\' does not exist!");
-			}
-			return objPage;
-		}
-		public function getPages():Array
-		{
-			var arrPages:Array = new Array;
-			for (var p in this._objPageValues) {
-				arrPages.push(this._objPageValues[p]);
-			}
-			return arrPages;
-		}
-		public function getParamValue($key:String):*
-		{
-			return this._objParamValues[$key];
-		}
-		
-		
-		private function getDefaultPage($node:XMLList):String
-		{
-			var xmlData:XML = new XML($node);
-			var xmlDefaultPage:XML = XMLUtil.filterByAttribute($node, BedrockData.DEFAULT_PAGE, "true");
-			return XMLUtil.convertValue(xmlDefaultPage.alias);
-		}
-		/*
 		Property Definitions
 		*/
 		public function get localePrefix():String
 		{
-			return this.getParamValue(BedrockData.LOCALE_PREFIX) || this.getEnvironmentValue(BedrockData.LOCALE_PREFIX) || "";
+			return this.getParamValue(BedrockData.LOCALE_PREFIX) || this.getLocaleValue( BedrockData.LOCALE_PREFIX ) || this.getEnvironmentValue(BedrockData.LOCALE_PREFIX) || "";
 		}
 		public function get localeSuffix():String
 		{
-			return this.getParamValue(BedrockData.LOCALE_SUFFIX) || this.getEnvironmentValue(BedrockData.LOCALE_SUFFIX) || "";
+			return this.getParamValue(BedrockData.LOCALE_SUFFIX) || this.getLocaleValue( BedrockData.LOCALE_SUFFIX ) || this.getEnvironmentValue(BedrockData.LOCALE_SUFFIX) || "";
 		}
 	}
 }

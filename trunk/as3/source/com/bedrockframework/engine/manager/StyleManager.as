@@ -1,10 +1,13 @@
 ﻿package com.bedrockframework.engine.manager
 {
 	import com.bedrockframework.core.base.StandardWidget;
-	import com.bedrockframework.core.logging.LogLevel;
-	import com.bedrockframework.core.logging.Logger;
+	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.engine.api.IStyleManager;
+	import com.bedrockframework.engine.event.BedrockEvent;
+	import com.bedrockframework.plugin.event.LoaderEvent;
+	import com.bedrockframework.plugin.loader.BackgroundLoader;
 	
+	import flash.events.Event;
 	import flash.text.StyleSheet;
 	import flash.text.TextFormat;
 
@@ -13,6 +16,7 @@
 		/*
 		Variable Declarations
 		*/
+		private var _objBackgroundLoader:BackgroundLoader;
 		private var _objStyleSheet:StyleSheet;
 		/*
 		Constructor
@@ -20,6 +24,15 @@
 		public function StyleManager()
 		{
 			this._objStyleSheet = new StyleSheet();
+			this.createLoader();
+		}
+		
+		private function createLoader():void
+		{
+			this._objBackgroundLoader = new BackgroundLoader;
+			this._objBackgroundLoader.addEventListener(LoaderEvent.COMPLETE, this.onLoadComplete);
+			this._objBackgroundLoader.addEventListener(LoaderEvent.IO_ERROR, this.onLoadError);
+			this._objBackgroundLoader.addEventListener(LoaderEvent.SECURITY_ERROR, this.onLoadError);
 		}
 		/*
 		Parse the StyleSheet
@@ -58,6 +71,19 @@
 			return this._objStyleSheet.transform(this.getStyle($style));
 		}
 		/*
+		Event Handlers
+		*/
+		private function onLoadComplete($event:LoaderEvent):void
+		{
+			this.status("Style Sheet Loaded");
+			this.parseCSS( this._objBackgroundLoader.data );
+		}
+		private function onLoadError($event:Event):void
+		{
+			this.warning("Could not parse stylesheet!");
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.COPY_ERROR, this ));
+		}
+		/*
 		Property Definitions
 		*/
 		public function get styleNames():Array
@@ -67,6 +93,10 @@
 		public function get styleSheet():StyleSheet
 		{
 			return this._objStyleSheet;
+		}
+		public function get loader():BackgroundLoader
+		{
+			return this._objBackgroundLoader;
 		}
 	}
 }

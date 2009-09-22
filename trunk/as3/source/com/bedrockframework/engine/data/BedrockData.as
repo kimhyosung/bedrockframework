@@ -14,16 +14,19 @@
 		public static const REMOTING_ENABLED:String = "remoting_enabled";
 		public static const CACHE_PREVENTION_ENABLED:String = "cache_prevention_enabled";
 		public static const STYLESHEET_ENABLED:String = "stylesheet_enabled";
-		public static const COPY_DECK_ENABLED:String = "copy_deck_enabled";
+		public static const COPY_ENABLED:String = "copy_enabled";
 		public static const TRACKING_ENABLED:String = "tracking_enabled";
+		public static const LOCALE_ENABLED:String = "locale_enabled";
+		public static const FONTS_ENABLED:String = "fonts_enabled";
 		
 		public static const SHARED_ENABLED:String = "shared_enabled";
 		public static const SHARED_SOUNDS_ENABLED:String = "shared_sounds_enabled";
 		
 		public static const AUTO_BLOCKER_ENABLED:String = "auto_blocker_enabled";
 		
-		public static const LANGUAGES:String = "languages";
-		public static const DEFAULT_LANGUAGE:String = "default_language";
+		public static const LOCALES:String = "locales";
+		public static const DEFAULT_LOCALE:String = "default_locale";
+		public static const CURRENT_LOCALE:String = "default_locale";
 		public static const SYSTEM_LANGUAGE:String = "system_language";
 		public static const ENVIRONMENT:String = "environment";
 		public static const CACHE_KEY:String = "cache_key";
@@ -62,7 +65,8 @@
 		*/
 		public static const STYLESHEET_FILENAME:String = "bedrock_style";
 		public static const CONFIG_FILENAME:String = "bedrock_config";
-		public static const COPY_DECK_FILENAME:String = "bedrock_copy";
+		public static const FONTS_FILENAME:String = "bedrock_fonts";
+		public static const COPY_FILENAME:String = "bedrock_copy";
 		public static const SITE_FILENAME:String = "site";
 		public static const SHARED_FILENAME:String = "shared";
 		/*

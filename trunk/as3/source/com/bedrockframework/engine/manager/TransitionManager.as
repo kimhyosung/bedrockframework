@@ -129,7 +129,7 @@
 		private function onSiteIntroComplete($event:ViewEvent):void
 		{
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INTRO_COMPLETE, this.siteView));
-			if (BedrockEngine.config.getFrameworkValue(BedrockData.AUTO_DEFAULT_ENABLED)) {
+			if (BedrockEngine.config.getSettingValue(BedrockData.AUTO_DEFAULT_ENABLED)) {
 				if ( this.pageView == null) this.fatal("Fatal error referencing page, check for compile errors!");
 				this.pageView.initialize();
 			}

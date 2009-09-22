@@ -64,7 +64,7 @@
 				strDefaultAlias=$details.alias;
 				this.status("Pulling from Event - " + strDefaultAlias);
 			} catch ($e:Error) {
-				if (BedrockEngine.config.getFrameworkValue(BedrockData.DEEP_LINKING_ENABLED)){
+				if (BedrockEngine.config.getSettingValue(BedrockData.DEEP_LINKING_ENABLED)){
 					strDefaultAlias = DeepLinkUtil.getPathNames()[0];
 					this.status("Pulling from URL - " + strDefaultAlias);
 				}
@@ -74,7 +74,7 @@
 						strDefaultAlias = BedrockEngine.config.getParamValue(BedrockData.DEFAULT_PAGE);
 						this.status("Pulling from Params - " + strDefaultAlias);
 					} else {
-						strDefaultAlias = BedrockEngine.config.getFrameworkValue(BedrockData.DEFAULT_PAGE);
+						strDefaultAlias = BedrockEngine.config.getSettingValue(BedrockData.DEFAULT_PAGE);
 						this.status("Pulling from Config - " + strDefaultAlias);
 					}
 				}

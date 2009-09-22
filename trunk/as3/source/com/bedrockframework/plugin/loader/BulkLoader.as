@@ -4,10 +4,6 @@
 	import com.bedrockframework.plugin.event.LoaderEvent;
 	import com.bedrockframework.plugin.storage.ArrayBrowser;
 	import com.bedrockframework.plugin.util.MathUtil;
-	
-	import flash.system.ApplicationDomain;
-	import flash.system.LoaderContext;
-	import flash.system.SecurityDomain;
 
 	public class BulkLoader extends MultiLoader
 	{
@@ -95,23 +91,27 @@
 				this.dispatchEvent(new BulkLoaderEvent(BulkLoaderEvent.ERROR,this, {text:"Unable to load, queue is empty!"}));
 			}
 		}
-		public function addToQueue($file:String,$loader:VisualLoader=null,$priority:uint=0, $id:String=null, $completeHandler:Function=null, $errorHandler:Function=null):void
+		public function addToQueue($file:String, $loader:*=null, $priority:uint=0, $id:String=null, $completeHandler:Function=null, $errorHandler:Function=null):void
 		{
-			if (this._bolComplete) {
-				this.reset();
-			}
-			if (!this._bolRunning) {
-				this.add($file, $loader, $priority, $id, $completeHandler, $errorHandler);
-			}else if (this._bolAddWhileRunning && this._bolRunning){
-				this.add($file, $loader, $priority, $id, $completeHandler, $errorHandler);
-				if (this._arrCurrentLoad.length < this._numMaxConcurrentLoads) {
-					this.loadNext();
+			if ($loader !=null && !( $loader is BackgroundLoader || $loader is VisualLoader ) ) {
+				this.error( "Loader must be an instance of BackgroundLoader or VisualLoader!" );
+			} else {
+				if (this._bolComplete) {
+					this.reset();
 				}
-			} else {			
-				this.warning("Cannot add to queue while loading!");
-			}			
+				if (!this._bolRunning) {
+					this.add($file, $loader, $priority, $id, $completeHandler, $errorHandler);
+				}else if (this._bolAddWhileRunning && this._bolRunning){
+					this.add($file, $loader, $priority, $id, $completeHandler, $errorHandler);
+					if (this._arrCurrentLoad.length < this._numMaxConcurrentLoads) {
+						this.loadNext();
+					}
+				} else {			
+					this.warning("Cannot add to queue while loading!");
+				}		
+			}
 		}
-		private function add($file:String,$loader:VisualLoader=null,$priority:uint=0, $id:String=null, $completeHandler:Function=null, $errorHandler:Function=null):void
+		private function add($file:String, $loader:* = null, $priority:uint=0, $id:String=null, $completeHandler:Function=null, $errorHandler:Function=null):void
 		{
 			var strFile:String=$file;
 			var objLoader:* =$loader || new BackgroundLoader;

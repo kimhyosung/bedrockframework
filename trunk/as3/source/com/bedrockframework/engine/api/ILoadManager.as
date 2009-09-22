@@ -1,7 +1,5 @@
 ﻿package com.bedrockframework.engine.api
 {
-	import com.bedrockframework.plugin.loader.VisualLoader;
-	
 	public interface ILoadManager
 	{
 		/*
@@ -13,7 +11,7 @@
 		
 		function getLoader($id:String):*;
 		
-		function addToQueue($url:String,$loader:VisualLoader=null, $priority:uint=0, $id:String = null, $completeHandler:Function=null, $errorHandler:Function=null):void;
+		function addToQueue($url:String, $loader:*=null, $priority:uint=0, $id:String = null, $completeHandler:Function=null, $errorHandler:Function=null):void;
 		/*
 		Property Definitions
 		*/
