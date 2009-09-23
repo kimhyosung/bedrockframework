@@ -57,7 +57,7 @@
 			this._numOverallPercentage = 0;
 			this._numTotalPercentage = 0;
 			this.status("Reset");
-			this.dispatchEvent(new BulkLoaderEvent(BulkLoaderEvent.RESET,this));
+			this.dispatchEvent( new BulkLoaderEvent( BulkLoaderEvent.RESET, this ) );
 		}
 		public function close():void
 		{
@@ -123,7 +123,7 @@
 				}				
 			}
 			if ($errorHandler != null) {
-				objLoader.addEventListener(LoaderEvent.IO_ERROR,$errorHandler,false,0,true);
+				objLoader.addEventListener( LoaderEvent.IO_ERROR, $errorHandler, false, 0, true);
 				objLoader.addEventListener(LoaderEvent.SECURITY_ERROR,$errorHandler,false,0,true);				
 			}
 			this._arrQueue.unshift({file:strFile,loader:objLoader,priority:$priority, order:this._arrQueue.length, id:$id, percent:0});
@@ -271,6 +271,7 @@
 		*/
 		private function onFileError($event:LoaderEvent):void
 		{
+			this._numCompletedFiles += 1;
 			var objQueueItem:Object = this.getQueueItemByLoader($event.target);
 			this.warning("Could not find - " + objQueueItem.file + "!");
 			this.removeFromCurrentLoad($event.target);
