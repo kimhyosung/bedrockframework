@@ -1,19 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
   <settings>
-    <preloader_time>3</preloader_time>
-    <auto_intro_enabled>true</auto_intro_enabled>
-    <auto_default_enabled>true</auto_default_enabled>
-    <auto_blocker_enabled>true</auto_blocker_enabled>
-    <deep_linking_enabled>false</deep_linking_enabled>
-    <remoting_enabled>false</remoting_enabled>
-    <cache_prevention_enabled>false</cache_prevention_enabled>
-    <stylesheet_enabled>false</stylesheet_enabled>
-    <copy_deck_enabled>false</copy_deck_enabled>
-    <shared_sounds_enabled>false</shared_sounds_enabled>
-    <shared_enabled>true</shared_enabled>
-    <default_language>en</default_language>
-    <languages />
+    <!--General Settings-->
+    <general>
+      <preloader_time>3</preloader_time>
+      <auto_intro_enabled>true</auto_intro_enabled>
+      <auto_default_enabled>true</auto_default_enabled>
+      <auto_blocker_enabled>true</auto_blocker_enabled>
+      <deep_linking_enabled>false</deep_linking_enabled>
+      <remoting_enabled>false</remoting_enabled>
+      <cache_prevention_enabled>false</cache_prevention_enabled>
+      <shared_sounds_enabled>false</shared_sounds_enabled>
+      <shared_enabled>true</shared_enabled>
+      <fonts_enabled>false</fonts_enabled>
+      <copy_enabled>false</copy_enabled>
+      <stylesheet_enabled>false</stylesheet_enabled>
+      <locale_enabled>false</locale_enabled>
+    </general>
+    <!--Locale Settings-->
+    <locale>
+      <fonts_enabled>true</fonts_enabled>
+      <copy_enabled>true</copy_enabled>
+      <stylesheet_enabled>true</stylesheet_enabled>
+      <default_locale>en_GB</default_locale>
+      <locales>en_GB,fr_FR</locales>
+      <locale_prefix></locale_prefix>
+      <locale_suffix></locale_suffix>
+    </locale>
   </settings>
   <layout>
     <container>
@@ -100,4 +113,12 @@
       <!--Remoting-->
     </environment>
   </environments>
+  <locales>
+    <en_GB>
+      <some_value>Something something something</some_value>
+    </en_GB>
+    <fr_FR>
+      <some_value>Something something something</some_value>
+    </fr_FR>
+  </locales>
 </config>
