@@ -118,7 +118,7 @@ package com.bedrockframework.plugin.gadget
 			this.applyProperties(this._objCurrentClone,this.getProperties());
 			this._objContainer.addChild(this._objCurrentClone);
 
-			this.dispatchEvent(new ClonerEvent(ClonerEvent.CREATE,this,{child:this._objCurrentClone,id:this._numIndex}));
+			this.dispatchEvent(new ClonerEvent(ClonerEvent.CREATE,this,{child:this._objCurrentClone, id:this._numIndex, index:this._numIndex}));
 			this._numIndex++;
 			return this._objCurrentClone;
 		}

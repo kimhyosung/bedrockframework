@@ -21,6 +21,8 @@
 	import com.bedrockframework.engine.api.IStyleManager;
 	import com.bedrockframework.engine.api.ITrackingManager;
 	import com.bedrockframework.engine.api.ITransitionManger;
+	
+	import flash.display.DisplayObjectContainer;
 
 	public class BedrockEngine extends StandardWidget
 	{
@@ -46,6 +48,7 @@
 		public static var config:IConfig;
 		public static var history:IHistory;
 		bedrock static var state:IState;
+		
 		/*
 		Constructor
 	 	*/
