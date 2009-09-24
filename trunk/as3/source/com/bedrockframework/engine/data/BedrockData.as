@@ -37,6 +37,10 @@
 		public static const CONFIG_URL:String = "config_url";
 		public static const PATTERNS:String = "patterns";
 		
+		public static const ROOT:String = "root";
+		public static const ROOT_WIDTH:String = "root_width";
+		public static const ROOT_HEIGHT:String = "root_height";
+		
 		public static const LAYOUT:String = "layout";
 		public static const REMOTING:String = "remoting";
 		public static const BLOCKER_ALPHA:String = "blocker_alpha";

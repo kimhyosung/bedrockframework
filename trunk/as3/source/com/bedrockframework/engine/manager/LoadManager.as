@@ -47,7 +47,7 @@
 		{
 			this._objBulkLoader.loadQueue();
 		}
-		public function addToQueue($path:String,$loader:* = null, $priority:uint=0, $id:String = null, $completeHandler:Function=null, $errorHandler:Function=null):void
+		public function addToQueue($path:String, $loader:* = null, $priority:uint=0, $id:String = null, $completeHandler:Function=null, $errorHandler:Function=null):void
 		{
 			this._objBulkLoader.addToQueue($path,$loader, $priority, $id, $completeHandler, $errorHandler);
 		}

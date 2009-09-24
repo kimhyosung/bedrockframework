@@ -19,7 +19,7 @@ package com.bedrockframework.engine.model
 	import com.bedrockframework.plugin.util.VariableUtil;
 	import com.bedrockframework.plugin.util.XMLUtil;
 	
-	import flash.display.Stage;
+	import flash.display.DisplayObjectContainer;
 	import flash.system.Capabilities;	
 	
 	public class Config extends StandardWidget implements IConfig
@@ -47,13 +47,16 @@ package com.bedrockframework.engine.model
 		/*
 		Initialize
 		*/
-		public function initialize($data:String, $url:String, $stage:Stage):void
+		public function initialize( $data:String, $url:String, $root:DisplayObjectContainer ):void
 		{
 			this.saveSettingValue(BedrockData.URL, $url);
 			this.saveSettingValue(BedrockData.MANUFACTURER, Capabilities.manufacturer);
 			this.saveSettingValue(BedrockData.SYSTEM_LANGUAGE, Capabilities.language);
 			this.saveSettingValue(BedrockData.OS, Capabilities.os);
-			this.saveSettingValue("stage", $stage);
+			
+			this.saveSettingValue( BedrockData.ROOT, $root );
+			this.saveSettingValue( BedrockData.ROOT_WIDTH, $root.width );
+			this.saveSettingValue( BedrockData.ROOT_HEIGHT, $root.height );
 			
 			this.parseXML($data);
 		}

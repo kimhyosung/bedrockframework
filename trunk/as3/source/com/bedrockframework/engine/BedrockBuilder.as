@@ -72,7 +72,7 @@ package com.bedrockframework.engine
 		}
 		
 		final private function createEngineClasses():void
-		{			
+		{
 			BedrockEngine.bedrock::controller = new EngineController;
 			
 			BedrockEngine.assetManager = new AssetManager;
@@ -336,7 +336,7 @@ package com.bedrockframework.engine
 		}
 		final private function onConfigLoaded($event:Event):void
 		{
-			BedrockEngine.config.initialize(this._objConfigLoader.data, this.environmentURL || this.loaderInfo.url, this.stage);
+			BedrockEngine.config.initialize( this._objConfigLoader.data, this.environmentURL || this.loaderInfo.url, this );
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.CONFIG_LOADED,this));
 			this.next();
 		}
@@ -358,7 +358,7 @@ package com.bedrockframework.engine
 		final private function onSharedLoaded($event:LoaderEvent):void
 		{
 			$event.origin.content.initialize();
-			if (BedrockEngine.config.getSettingValue(BedrockData.SHARED_SOUNDS_ENABLED)) {
+			if ( BedrockEngine.config.getSettingValue( BedrockData.SHARED_SOUNDS_ENABLED ) ) {
 				BedrockEngine.soundManager.initialize(BedrockEngine.assetManager.getSounds());
 			}
 		}

@@ -1,10 +1,10 @@
 package com.bedrockframework.engine.api
 {
-	import flash.display.Stage;
+	import flash.display.DisplayObjectContainer;
 	
 	public interface IConfig
 	{
-		function initialize($data:String, $url:String, $stage:Stage):void;
+		function initialize($data:String, $url:String, $root:DisplayObjectContainer ):void;
 			/*
 		Save the page information for later use.
 		*/
