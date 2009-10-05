@@ -27,6 +27,16 @@
       <!--<locale_prefix></locale_prefix>-->
       <!--<locale_suffix></locale_suffix>-->
     </locale>
+    <!--Filename Settings-->
+    <file_names>
+      <style_sheet_file_name>style_sheet</style_sheet_file_name>
+      <fonts_file_name>fonts</fonts_file_name>
+      <resource_bundle_file_name>resource_bundle</resource_bundle_file_name>
+      <shared_file_name>shared</shared_file_name>
+      <site_file_name>site</site_file_name>
+      <file_prefix />
+      <file_suffix />
+    </file_names>
   </settings>
   <layout>
     <container>
@@ -107,11 +117,14 @@
     </environment>
   </environments>
   <locales>
-    <en_GB>
+    <en_US>
       <some_value>Something something something</some_value>
-    </en_GB>
+    </en_US>
     <fr_FR>
       <some_value>Something something something</some_value>
     </fr_FR>
+    <jp_JP>
+      <some_value>Something something something</some_value>
+    </jp_JP>
   </locales>
 </config>
