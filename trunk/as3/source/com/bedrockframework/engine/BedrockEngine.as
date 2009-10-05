@@ -7,7 +7,7 @@
 	import com.bedrockframework.engine.api.IAssetManager;
 	import com.bedrockframework.engine.api.IConfig;
 	import com.bedrockframework.engine.api.IContainerManager;
-	import com.bedrockframework.engine.api.ICopyManager;
+	import com.bedrockframework.engine.api.IResourceManager;
 	import com.bedrockframework.engine.api.IDeepLinkManager;
 	import com.bedrockframework.engine.api.IFontManager;
 	import com.bedrockframework.engine.api.IHistory;
@@ -18,7 +18,7 @@
 	import com.bedrockframework.engine.api.IServiceManager;
 	import com.bedrockframework.engine.api.ISoundManager;
 	import com.bedrockframework.engine.api.IState;
-	import com.bedrockframework.engine.api.IStyleManager;
+	import com.bedrockframework.engine.api.IStyleSheetManager;
 	import com.bedrockframework.engine.api.ITrackingManager;
 	import com.bedrockframework.engine.api.ITransitionManger;
 	
@@ -32,7 +32,7 @@
 		bedrock static var controller:IFrontController;
 		public static var assetManager:IAssetManager;
 		public static var containerManager:IContainerManager;
-		public static var copyManager:ICopyManager;
+		public static var resourceManager:IResourceManager;
 		public static var deeplinkManager:IDeepLinkManager;
 		public static var fontManager:IFontManager;
 		public static var loadManager:ILoadManager;
@@ -41,7 +41,7 @@
 		bedrock static var preloaderManager:IPreloaderManager;		
 		public static var serviceManager:IServiceManager;
 		public static var soundManager:ISoundManager;
-		public static var styleManager:IStyleManager;
+		public static var stylesheetManager:IStyleSheetManager;
 		public static var trackingManager:ITrackingManager;
 		bedrock static var transitionManager:ITransitionManger;
 		

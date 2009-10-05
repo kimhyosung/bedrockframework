@@ -3,10 +3,48 @@
 	import com.bedrockframework.core.base.StaticWidget;
 	
 	import flash.utils.ByteArray;
+	import flash.utils.describeType;
 
 	public class VariableUtil extends StaticWidget
 	{
-
+		public static function mimicObject( $object1:*, $object2:* ):void
+		{
+			var arrVariables:Array = VariableUtil.getVariables( $object2 );
+			var arrAccessors:Array = VariableUtil.getAccessors( $object2 );
+			
+			var strProperty:String;
+			for (var v:int = 0; v < arrVariables.length; v++) {
+				strProperty =  arrVariables[ v ];
+				$object1[ strProperty ] = $object2[ strProperty ];
+			}
+			for (var a:int = 0; a < arrAccessors.length; a++) {
+				strProperty =  arrAccessors[ a ];
+				$object1[ strProperty ] = $object2[ strProperty ];
+			}
+		}
+		public static function getAccessors( $target:* ):Array
+		{
+			var arrResult:Array = new Array;
+			var xmlResult:XML = new XML( "<temp>" +  describeType( $target )..accessor + "</temp>" );
+			var xmlFilteredResult:XML = new XML( "<temp>" +  xmlResult.children().(attribute("access") == "readwrite") + "</temp>" );
+			
+			var numLength:int = xmlFilteredResult.children().length();
+			for (var i:int = 0 ; i < numLength; i++) {
+				arrResult.push( xmlFilteredResult.child( i ).@name.toString() );
+			}
+			return arrResult;
+		}
+		public static function getVariables( $target:* ):Array
+		{
+			var arrResult:Array = new Array;
+			var xmlResult:XML = new XML( "<temp>" +  describeType( $target )..variable + "</temp>" );
+			
+			var numLength:int = xmlResult.children().length();
+			for (var i:int = 0 ; i < numLength; i++) {
+				arrResult.push( xmlResult.child( i ).@name.toString() );
+			}
+			return arrResult;
+		}
 		public static function sanitize($value:String):*
 		{
 			var strValue:String = $value;
@@ -16,9 +54,9 @@
 
 			var numValue:Number = Number(strValue);
 
-			if (!isNaN(numValue)) return numValue;
+			if ( !isNaN(numValue) ) return numValue;
 			
-			if (VariableUtil.sanitizeBoolean(strValue) != null) return VariableUtil.sanitizeBoolean(strValue);
+			if ( VariableUtil.sanitizeBoolean(strValue) != null ) return VariableUtil.sanitizeBoolean(strValue);
 			
 			return strValue;
 		}

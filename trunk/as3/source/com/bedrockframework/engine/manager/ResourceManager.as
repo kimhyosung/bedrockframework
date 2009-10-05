@@ -2,7 +2,7 @@
 {
 	import com.bedrockframework.core.base.StandardWidget;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
-	import com.bedrockframework.engine.api.ICopyManager;
+	import com.bedrockframework.engine.api.IResourceManager;
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.plugin.event.LoaderEvent;
 	import com.bedrockframework.plugin.loader.BackgroundLoader;
@@ -11,17 +11,17 @@
 	
 	import flash.events.Event;
 	
-	public class CopyManager extends StandardWidget implements ICopyManager
+	public class ResourceManager extends StandardWidget implements IResourceManager
 	{
 		/*
 		Variable Declarations
 		*/
-		private var _objCopyMap:HashMap;
+		private var _objResourceMap:HashMap;
 		private var _objBackgroundLoader:BackgroundLoader;
 		/*
 		Constructor
 		*/
-		public function CopyManager()
+		public function ResourceManager()
 		{
 			this.createLoader();
 		}
@@ -39,30 +39,30 @@
 		
 		private function parseXML($xml:String):void
 		{
-			var xmlCopy:XML = new XML($xml);
-			this._objCopyMap = XMLUtil.convertToHashMap(xmlCopy);
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.COPY_LOADED, this));
+			var xmlData:XML = new XML($xml);
+			this._objResourceMap = XMLUtil.convertToHashMap(xmlData);
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RESOURCE_BUNDLE_LOADED, this));
 		}
 		
-		public function getCopy($key:String, $group:String = null):String
+		public function getResource($key:String, $group:String = null):String
 		{
 			try {
 				if ( $group != null ) {
-					return this._objCopyMap.getValue($group)[ $key ];
+					return this._objResourceMap.getValue($group)[ $key ] || "";
 				} else {
-					return this._objCopyMap.getValue($key);
+					return this._objResourceMap.getValue($key) || "";
 				}
 			} catch ($error:Error) {
 			}
 			return null;
 		}
-		public function getCopyGroup($group:String, $key:String = null ):*
+		public function getResourceGroup($group:String, $key:String = null ):*
 		{
 			try {
 				if ( $key != null ) {
-					return this._objCopyMap.getValue($group)[ $key ];
+					return this._objResourceMap.getValue($group)[ $key ] || "";
 				} else {
-					return this._objCopyMap.getValue($group);
+					return this._objResourceMap.getValue($group) || "";
 				}
 			} catch ($error:Error) {
 			}
@@ -73,13 +73,13 @@
 		*/
 		private function onLoadComplete($event:LoaderEvent):void
 		{
-			this.status("Copy Loaded");
+			this.status("Resource Bundle Loaded");
 			this.parseXML(this._objBackgroundLoader.data);
 		}
 		private function onLoadError($event:Event):void
 		{
-			this.warning("Could not parse copy!");
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.COPY_ERROR, this ));
+			this.warning("Error Parsing Resource Bundle!");
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RESOURCE_BUNDLE_ERROR, this ));
 		}
 		/*
 		Property Definitions

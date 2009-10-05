@@ -5,7 +5,7 @@ package com.bedrockframework.engine.api
 	public interface IConfig
 	{
 		function initialize($data:String, $url:String, $root:DisplayObjectContainer ):void;
-			/*
+		/*
 		Save the page information for later use.
 		*/
 		function addPage($alias:String, $data:Object):void;
@@ -25,6 +25,8 @@ package com.bedrockframework.engine.api
 		function getLocaleValue( $key:String ):*;
 		function getParamValue($key:String):*;
 		
+		function getAvailableValue($key:String):*;
+		
 		function switchLocale( $locale:String ):void;
 		/*
 		Pull the information for a specific page.
@@ -36,7 +38,5 @@ package com.bedrockframework.engine.api
 		function parseParamObject($data:Object):void;
 		function parseParamString($values:String, $variableSeparator:String ="&", $valueSeparator:String =  "="):void;
 		
-		function get localePrefix():String;
-		function get localeSuffix():String;
 	}
 }

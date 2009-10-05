@@ -61,6 +61,8 @@
 			
 			BedrockDispatcher.addEventListener(BedrockEvent.URL_CHANGE, this.onURLChange);
 			
+			BedrockDispatcher.addEventListener(BedrockEvent.LOCALE_CHANGE, this.onURLChange);
+			
 			if (BedrockEngine.config.getSettingValue(BedrockData.AUTO_INTRO_ENABLED)){
 				BedrockDispatcher.addEventListener(BedrockEvent.BEDROCK_COMPLETE, this.onRenderSite);
 			}
@@ -191,11 +193,21 @@
 			}
 		}
 		/*
+		URL Event Handler
+		*/
+		private function onLocaleChange($event:BedrockEvent):void
+		{
+			if ( BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
+				BedrockEngine.localeManager.load( $event.details.locale );
+			}
+		}
+		
+		/*
 		Copy Event Handlers
 		*/
 		private function onLoadCopy($event:BedrockEvent):void
 		{
-			BedrockEngine.copyManager.load($event.details.locale);
+			BedrockEngine.resourceManager.load($event.details.locale);
 		}
 	}
 }

@@ -36,6 +36,7 @@ package com.bedrockframework.engine
 	import flash.events.SecurityErrorEvent;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
+	import flash.utils.getDefinitionByName;
 
 	public class BedrockBuilder extends MovieClipWidget
 	{
@@ -45,7 +46,7 @@ package com.bedrockframework.engine
 		public var configURL:String;
 		public var params:String
 		
-		private var _arrLoadSequence:Array=new Array("loadPreloader","loadParams","loadConfig","loadContainer","loadDeepLinking","loadCacheSettings", "loadLogging","loadServices","loadEngineClasses","loadController","loadEngineContainers", "loadFonts", "loadCopy", "loadCSS", "loadLocale", "loadDefaultPage", "loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
+		private var _arrLoadSequence:Array=new Array("loadPreloader","loadParams","loadConfig","loadContainer","loadDeepLinking","loadCacheSettings", "loadLogging","loadServices","loadEngineClasses","loadController","loadEngineContainers", "loadFonts", "loadResourceBundle", "loadCSS", "loadLocale", "loadDefaultPage", "loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
 		private var _numLoadIndex:Number;		
 		private var _objConfigLoader:URLLoader;
 		public var environmentURL:String;
@@ -56,19 +57,33 @@ package com.bedrockframework.engine
 		*/
 		public function BedrockBuilder()
 		{
-			this.configURL = "../../" + BedrockData.CONFIG_FILENAME + ".xml";
-
 			this._numLoadIndex=0;
 			
 			this.createEngineClasses();
-			this.loaderInfo.addEventListener(Event.INIT,this.onBootUp);			
+			this.loaderInfo.addEventListener(Event.INIT, this.onBootUp);			
 		}
 		/**
 		 * The initialize function is automatically called once the shell.swf has finished loading itself.
 		 */
-		final private function initialize():void
+		final public function initialize():void
 		{
+			this.determineConfigURL();
 			this.next();
+		}
+		
+		final private function determineConfigURL():void
+		{
+			if ( this.configURL == null ) {
+				if ( this.loaderInfo.url.indexOf( "file://" ) != -1 ) {
+				} else {
+					this.configURL = "../../" + BedrockData.CONFIG_FILE_NAME + ".xml";
+				}
+					var strURL:String = this.loaderInfo.url;
+					for (var i:int = 0 ; i < 3; i++) {
+						strURL = strURL.substring( 0, strURL.lastIndexOf( "/" ) );
+					}
+					this.configURL = strURL + "/" + BedrockData.CONFIG_FILE_NAME + ".xml";
+			}
 		}
 		
 		final private function createEngineClasses():void
@@ -77,7 +92,7 @@ package com.bedrockframework.engine
 			
 			BedrockEngine.assetManager = new AssetManager;
 			BedrockEngine.containerManager = new ContainerManager;
-			BedrockEngine.copyManager = new CopyManager;
+			BedrockEngine.resourceManager = new ResourceManager;
 			BedrockEngine.deeplinkManager = new DeepLinkManager;
 			BedrockEngine.fontManager = new FontManager;
 			BedrockEngine.loadManager = new LoadManager;
@@ -86,7 +101,7 @@ package com.bedrockframework.engine
 			BedrockEngine.bedrock::preloaderManager = new PreloaderManager;
 			BedrockEngine.serviceManager = new ServiceManager;	
 			BedrockEngine.soundManager = new SoundManager;	
-			BedrockEngine.styleManager = new StyleManager;
+			BedrockEngine.stylesheetManager = new StyleSheetManager;
 			BedrockEngine.trackingManager = new TrackingManager;
 			BedrockEngine.bedrock::transitionManager = new TransitionManager;
 			
@@ -177,28 +192,28 @@ package com.bedrockframework.engine
 		{
 			if ( BedrockEngine.config.getSettingValue(BedrockData.FONTS_ENABLED) ) {
 				if ( !BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
-					var strPath:String = BedrockEngine.config.getEnvironmentValue( BedrockData.SWF_PATH ) + BedrockEngine.config.localePrefix + BedrockData.FONTS_FILENAME + BedrockEngine.config.localeSuffix + ".swf";
+					var strPath:String = BedrockEngine.config.getEnvironmentValue( BedrockData.SWF_PATH ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.FONTS_FILE_NAME ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX ) + ".swf";
 					this.addToQueue( strPath, BedrockEngine.fontManager.loader );
 				}
 			}
 			this.next();
 		}
-		final private function loadCopy():void
+		final private function loadResourceBundle():void
 		{
-			if ( BedrockEngine.config.getSettingValue(BedrockData.COPY_ENABLED) ) {
+			if ( BedrockEngine.config.getSettingValue(BedrockData.RESOURCE_BUNDLE_ENABLED) ) {
 				if ( !BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
-					var strPath:String = BedrockEngine.config.getEnvironmentValue( BedrockData.XML_PATH ) + BedrockEngine.config.localePrefix + BedrockData.COPY_FILENAME + BedrockEngine.config.localeSuffix + ".xml";
-					this.addToQueue( strPath, BedrockEngine.copyManager.loader );
+					var strPath:String = BedrockEngine.config.getEnvironmentValue( BedrockData.XML_PATH ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.RESOURCE_BUNDLE_FILE_NAME ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX ) + ".xml";
+					this.addToQueue( strPath, BedrockEngine.resourceManager.loader );
 				}
 			}			
 			this.next();
 		}
 		final private function loadCSS():void
 		{
-			if (BedrockEngine.config.getSettingValue(BedrockData.STYLESHEET_ENABLED)) {
+			if (BedrockEngine.config.getSettingValue( BedrockData.STYLESHEET_ENABLED) ) {
 				if ( !BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
-					var strPath:String = BedrockEngine.config.getEnvironmentValue( BedrockData.CSS_PATH ) + BedrockEngine.config.localePrefix + BedrockData.STYLESHEET_FILENAME + BedrockEngine.config.localeSuffix + ".css";
-					this.addToQueue( strPath, BedrockEngine.styleManager.loader );
+					var strPath:String = BedrockEngine.config.getEnvironmentValue( BedrockData.CSS_PATH ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.STYLE_SHEET_FILE_NAME ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX ) + ".css";
+					this.addToQueue( strPath, BedrockEngine.stylesheetManager.loader );
 				}
 			}	
 			this.next();
@@ -261,9 +276,9 @@ package com.bedrockframework.engine
 		final private function loadComplete():void
 		{
 			if ( BedrockEngine.config.getSettingValue( BedrockData.SHARED_ENABLED ) ) {
-				this.addToQueue(BedrockEngine.config.getEnvironmentValue(BedrockData.SWF_PATH) + BedrockEngine.config.localePrefix + BedrockData.SHARED_FILENAME + BedrockEngine.config.localeSuffix	 + ".swf", BedrockEngine.containerManager.getContainer(BedrockData.SHARED_CONTAINER), BedrockData.SHARED_PRIORITY, null, this.onSharedLoaded);
+				this.addToQueue(BedrockEngine.config.getEnvironmentValue(BedrockData.SWF_PATH) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.SHARED_FILE_NAME ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX )	 + ".swf", BedrockEngine.containerManager.getContainer(BedrockData.SHARED_CONTAINER), BedrockData.SHARED_PRIORITY, null, this.onSharedLoaded);
 			}
-			this.addToQueue(BedrockEngine.config.getEnvironmentValue(BedrockData.SWF_PATH) + BedrockEngine.config.localePrefix + BedrockData.SITE_FILENAME + BedrockEngine.config.localeSuffix	 + ".swf", BedrockEngine.containerManager.getContainer(BedrockData.SITE_CONTAINER), BedrockData.SITE_PRIORITY);
+			this.addToQueue(BedrockEngine.config.getEnvironmentValue(BedrockData.SWF_PATH) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.SITE_FILE_NAME ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX ) + ".swf", BedrockEngine.containerManager.getContainer(BedrockData.SITE_CONTAINER), BedrockData.SITE_PRIORITY);
 						
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.BEDROCK_COMPLETE,this));
 			this.status("Initialization Complete!");
@@ -337,13 +352,13 @@ package com.bedrockframework.engine
 		final private function onConfigLoaded($event:Event):void
 		{
 			BedrockEngine.config.initialize( this._objConfigLoader.data, this.environmentURL || this.loaderInfo.url, this );
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.CONFIG_LOADED,this));
+			BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.CONFIG_LOADED, this ) );
 			this.next();
 		}
 		final private function onDeepLinkInitialized($event:BedrockEvent):void
 		{
 			BedrockEngine.config.parseParamString($event.details.query);
-			BedrockDispatcher.removeEventListener(BedrockEvent.DEEP_LINK_INITIALIZE, this.onDeepLinkInitialized);
+			BedrockDispatcher.removeEventListener( BedrockEvent.DEEP_LINK_INITIALIZE, this.onDeepLinkInitialized );
 			this.next();
 		}
 		
@@ -353,13 +368,13 @@ package com.bedrockframework.engine
 		}
 		final private function onCSSLoaded($event:LoaderEvent):void
 		{
-			BedrockEngine.styleManager.parseCSS($event.details.data);
+			BedrockEngine.stylesheetManager.parseCSS($event.details.data);
 		}
 		final private function onSharedLoaded($event:LoaderEvent):void
 		{
 			$event.origin.content.initialize();
 			if ( BedrockEngine.config.getSettingValue( BedrockData.SHARED_SOUNDS_ENABLED ) ) {
-				BedrockEngine.soundManager.initialize(BedrockEngine.assetManager.getSounds());
+				BedrockEngine.soundManager.initialize( BedrockEngine.assetManager.getSounds() );
 			}
 		}
 	}

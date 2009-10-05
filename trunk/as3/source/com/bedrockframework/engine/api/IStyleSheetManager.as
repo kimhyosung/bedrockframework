@@ -5,7 +5,7 @@ package com.bedrockframework.engine.api
 	import flash.text.StyleSheet;
 	import flash.text.TextFormat;
 	
-	public interface IStyleManager
+	public interface IStyleSheetManager
 	{
 		/*
 		Parse the StyleSheet
@@ -18,7 +18,7 @@ package com.bedrockframework.engine.api
 		/*
 		Apply Style
 		*/
-		function applyStyle($text:String, $style:String):String
+		function applyClass($text:String, $style:String):String
 		/*
 		Get Style Object
 		*/

@@ -71,6 +71,7 @@ package com.bedrockframework.engine.model
 			this.saveSettingValue( BedrockData.ENVIRONMENT, this.getEnvironment(xmlConfig.environments, this.getSettingValue(BedrockData.URL)));
 			
 			this.parseSettingsValues( xmlConfig.settings.general );
+			this.parseSettingsValues( xmlConfig.settings.file_names );
 			this.saveEnvironmentValues( xmlConfig.environments, this.getSettingValue( BedrockData.ENVIRONMENT ) );
 			this.saveLocaleSettings( xmlConfig.settings.locale );
 			this.parseLocaleValues( xmlConfig.locales );
@@ -112,14 +113,14 @@ package com.bedrockframework.engine.model
 		}
 		private function saveSettingValue($key:String, $value:*):void
 		{
-			this._objSettingValues[$key] = $value;
+			this._objSettingValues[ $key ] = $value;
 		}
 		/**
 		 * Returns a framework setting independent of environment.
 	 	*/
 		public function getSettingValue($key:String):*
 		{
-			return this._objSettingValues[$key];
+			return this._objSettingValues[ $key ];
 		}
 		/*
 		Environment Functions
@@ -169,7 +170,7 @@ package com.bedrockframework.engine.model
 		}
 		private function saveEnvironmentValue($key:String, $value:*):void
 		{
-			this._objEnvironmentValues[$key] = $value;
+			this._objEnvironmentValues[ $key ] = $value;
 		}
 		/**
 		 * Returns a environment value that will change depending on the current environment.
@@ -177,7 +178,7 @@ package com.bedrockframework.engine.model
 	 	*/
 		public function getEnvironmentValue($key:String):*
 		{
-			return this._objEnvironmentValues[$key]; 
+			return this._objEnvironmentValues[ $key ]; 
 		}
 		/*
 		Pages Functions
@@ -217,7 +218,7 @@ package com.bedrockframework.engine.model
 		}
 		public function getPage($key:String):Object
 		{
-			var objPage:Object= this._objPageValues[$key];
+			var objPage:Object= this._objPageValues[ $key ];
 			if (objPage == null) {
 				this.warning("Page \'" + $key + "\' does not exist!");
 			}
@@ -282,7 +283,7 @@ package com.bedrockframework.engine.model
 		
 		private function saveLocaleValue($key:String, $value:*):void
 		{
-			this._objLocaleValues[$key] = $value;
+			this._objLocaleValues[ $key ] = $value;
 		}
 		/**
 		 * Returns a environment value that will change depending on the current locale.
@@ -290,7 +291,7 @@ package com.bedrockframework.engine.model
 	 	*/
 		public function getLocaleValue($key:String):*
 		{
-			return this._objLocaleValues[$key]; 
+			return this._objLocaleValues[ $key ]; 
 		}
 		/*
 		Param Functions
@@ -308,7 +309,7 @@ package com.bedrockframework.engine.model
 				var strVariableSeparator:String = $variableSeparator;
 				var strValueSeparator:String = $valueSeparator;
 				//
-				var arrValues:Array = strValues.split(strVariableSeparator);
+				var arrValues:Array = strValues.split( strVariableSeparator );
 				var numLength:int = arrValues.length;
 				for (var v:int = 0; v < numLength; v++) {
 					var arrVariable:Array = arrValues[v].split(strValueSeparator);
@@ -320,30 +321,37 @@ package com.bedrockframework.engine.model
 		}
 		private function saveParamValue($key:String, $value:*):void
 		{
-			this._objParamValues[$key] = $value;
+			this._objParamValues[ $key ] = $value;
 		}
 		public function getParamValue($key:String):*
 		{
-			return this._objParamValues[$key];
+			return this._objParamValues[ $key ];
+		}
+		/*
+		Get Available
+		*/
+		public function getAvailableValue( $key:String ):*
+		{
+			return this.getParamValue( $key ) || this.getLocaleValue( $key ) || this.getEnvironmentValue( $key ) || this.getSettingValue( $key ) || "";
 		}
 		/*
 		Internal string replacement functions
 		*/
 		private function sanitizePaths($node:XMLList):Array
 		{
-			var arrFiles:Array=XMLUtil.convertToArray($node);
+			var arrFiles:Array=XMLUtil.convertToArray( $node );
 			var numLength:Number=arrFiles.length;
 			for (var i:Number=0; i < numLength; i++) {
-				arrFiles[i]=this.replacePathFlag(arrFiles[i]);
+				arrFiles[ i ] = this.replacePathFlag( arrFiles[ i ] );
 			}
 			return arrFiles;
 		}
 		private function replacePathFlag($path:String):String
 		{
-			var numLastIndex:int=$path.lastIndexOf("]");
-			var strName:String=$path.substring(1,numLastIndex);
-			var strFile:String=$path.substring(numLastIndex + 1,$path.length);
-			var strPath:String=this.getEnvironmentValue(strName) + strFile;
+			var numLastIndex:int=$path.lastIndexOf( "]" );
+			var strName:String=$path.substring( 1, numLastIndex );
+			var strFile:String=$path.substring( numLastIndex + 1, $path.length );
+			var strPath:String=this.getEnvironmentValue( strName ) + strFile;
 			return strPath;
 		}
 		/*
@@ -351,11 +359,11 @@ package com.bedrockframework.engine.model
 		*/
 		public function get localePrefix():String
 		{
-			return this.getParamValue(BedrockData.LOCALE_PREFIX) || this.getLocaleValue( BedrockData.LOCALE_PREFIX ) || this.getEnvironmentValue(BedrockData.LOCALE_PREFIX) || "";
+			return this.getParamValue(BedrockData.FILE_PREFIX) || this.getLocaleValue( BedrockData.FILE_PREFIX ) || this.getEnvironmentValue(BedrockData.FILE_PREFIX) || "";
 		}
 		public function get localeSuffix():String
 		{
-			return this.getParamValue(BedrockData.LOCALE_SUFFIX) || this.getLocaleValue( BedrockData.LOCALE_SUFFIX ) || this.getEnvironmentValue(BedrockData.LOCALE_SUFFIX) || "";
+			return this.getParamValue(BedrockData.FILE_SUFFIX) || this.getLocaleValue( BedrockData.FILE_SUFFIX ) || this.getEnvironmentValue(BedrockData.FILE_SUFFIX) || "";
 		}
 	}
 }
