@@ -50,7 +50,7 @@
 			return this._arrRadios[$id].radio;
 		}
 		/*
-		Property Definitions
+		Accessor Definitions
 	 	*/
 	 	/**
 		 * Returns the index of the selected radio button.

@@ -2,7 +2,7 @@
 {
 	import com.bedrockframework.core.base.StandardWidget;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
-	import com.bedrockframework.engine.api.IStyleManager;
+	import com.bedrockframework.engine.api.IStyleSheetManager;
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.plugin.event.LoaderEvent;
 	import com.bedrockframework.plugin.loader.BackgroundLoader;
@@ -11,7 +11,7 @@
 	import flash.text.StyleSheet;
 	import flash.text.TextFormat;
 
-	public class StyleManager extends StandardWidget implements IStyleManager
+	public class StyleSheetManager extends StandardWidget implements IStyleSheetManager
 	{
 		/*
 		Variable Declarations
@@ -21,7 +21,7 @@
 		/*
 		Constructor
 		*/
-		public function StyleManager()
+		public function StyleSheetManager()
 		{
 			this._objStyleSheet = new StyleSheet();
 			this.createLoader();
@@ -52,23 +52,30 @@
 		/*
 		Apply Style
 		*/
-		public function applyStyle($text:String, $style:String):String
+		public function applyClass($text:String, $class:String):String
 		{
-			return "<span class='" +$style +"'>" + $text +"</span>";
+			return "<span class='" +$class +"'>" + $text +"</span>";
+		}
+		/*
+		Apply ID
+		*/
+		public function applyID($text:String, $id:String):String
+		{
+			return "<span id='" +$id +"'>" + $text +"</span>";
 		}
 		/*
 		Get Style Object
 		*/
-		public function getStyle($style:String):Object
+		public function getStyle( $style:String ):Object
 		{
-			return this._objStyleSheet.getStyle($style);
+			return this._objStyleSheet.getStyle( $style );
 		}
 		/*
 		Get Format Object
 		*/
 		public function getFormat($style:String):TextFormat
 		{
-			return this._objStyleSheet.transform(this.getStyle($style));
+			return this._objStyleSheet.transform( this.getStyle( $style ) );
 		}
 		/*
 		Event Handlers
@@ -81,7 +88,7 @@
 		private function onLoadError($event:Event):void
 		{
 			this.warning("Could not parse stylesheet!");
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.COPY_ERROR, this ));
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RESOURCE_BUNDLE_ERROR, this ));
 		}
 		/*
 		Property Definitions

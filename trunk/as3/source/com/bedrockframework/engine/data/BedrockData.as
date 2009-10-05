@@ -13,8 +13,8 @@
 		public static const DEEP_LINKING_ENABLED:String = "deep_linking_enabled";
 		public static const REMOTING_ENABLED:String = "remoting_enabled";
 		public static const CACHE_PREVENTION_ENABLED:String = "cache_prevention_enabled";
-		public static const STYLESHEET_ENABLED:String = "stylesheet_enabled";
-		public static const COPY_ENABLED:String = "copy_enabled";
+		public static const STYLESHEET_ENABLED:String = "style_sheet_enabled";
+		public static const RESOURCE_BUNDLE_ENABLED:String = "resource_bundle_enabled";
 		public static const TRACKING_ENABLED:String = "tracking_enabled";
 		public static const LOCALE_ENABLED:String = "locale_enabled";
 		public static const FONTS_ENABLED:String = "fonts_enabled";
@@ -59,20 +59,20 @@
 		
 		public static const SHELL_PRELOADER:String= "shell_preloader";
 		public static const DEFAULT_PRELOADER:String= "default_preloader";
-		/*
+		/*z
 		Locale Strings
 		*/
-		public static const LOCALE_PREFIX:String = "locale_prefix";
-		public static const LOCALE_SUFFIX:String = "locale_suffix";		
+		public static const FILE_PREFIX:String = "file_prefix";
+		public static const FILE_SUFFIX:String = "file_suffix";		
 		/*
 		Constant File Names
 		*/
-		public static const STYLESHEET_FILENAME:String = "bedrock_style";
-		public static const CONFIG_FILENAME:String = "bedrock_config";
-		public static const FONTS_FILENAME:String = "bedrock_fonts";
-		public static const COPY_FILENAME:String = "bedrock_copy";
-		public static const SITE_FILENAME:String = "site";
-		public static const SHARED_FILENAME:String = "shared";
+		public static const CONFIG_FILE_NAME:String = "bedrock_config";
+		public static const STYLE_SHEET_FILE_NAME:String = "style_sheet_file_name";
+		public static const FONTS_FILE_NAME:String = "fonts_file_name";
+		public static const RESOURCE_BUNDLE_FILE_NAME:String = "resource_bundle_file_name";
+		public static const SITE_FILE_NAME:String = "site_file_name";
+		public static const SHARED_FILE_NAME:String = "shared_file_name";
 		/*
 		Constant Containers
 		*/

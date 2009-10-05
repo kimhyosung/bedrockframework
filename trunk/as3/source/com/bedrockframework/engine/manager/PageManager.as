@@ -50,7 +50,7 @@
 			if (objPage.url != null) {
 				strPath = objPage.url;
 			} else {
-				strPath = BedrockEngine.config.getEnvironmentValue(BedrockData.SWF_PATH) + BedrockEngine.config.localePrefix + objPage.alias + BedrockEngine.config.localeSuffix + ".swf";
+				strPath = BedrockEngine.config.getEnvironmentValue(BedrockData.SWF_PATH) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + objPage.alias + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX ) + ".swf";
 			}
 			BedrockEngine.containerManager.createPageLoader();
 			BedrockEngine.loadManager.addToQueue(strPath, BedrockEngine.containerManager.pageContainer.child, BedrockData.PAGE_PRIORITY);

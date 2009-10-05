@@ -56,9 +56,13 @@
 		public static const SHOW_BLOCKER:String="BedrockEvent.onShowBlocker";
 		public static const HIDE_BLOCKER:String="BedrockEvent.onHideBlocker";
 		
-		public static const LOAD_COPY:String="BedrockEvent.onLoadCopy";
-		public static const COPY_LOADED:String="BedrockEvent.onCopyLoaded";
-		public static const COPY_ERROR:String="BedrockEvent.onCopyError";
+		public static const RESOURCE_BUNDLE_CHANGE:String="BedrockEvent.onResourceBundleChange";
+		public static const RESOURCE_BUNDLE_LOADED:String="BedrockEvent.onResourceBundleLoaded";
+		public static const RESOURCE_BUNDLE_ERROR:String="BedrockEvent.onResourceBundleError";
+		
+		public static const LOCALE_CHANGE:String="BedrockEvent.onLocaleChange";
+		public static const LOCALE_LOADED:String="BedrockEvent.onLocaleLoaded";
+		public static const LOCALE_ERROR:String="BedrockEvent.onLocaleError";
 		
 		public static const ADD_SOUND:String = "BedrockEvent.onAddSound";
 		public static const PLAY_SOUND:String = "BedrockEvent.onPlaySound";
