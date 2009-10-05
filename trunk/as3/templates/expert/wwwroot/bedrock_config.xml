@@ -118,11 +118,6 @@
     </environment>
   </environments>
   <locales>
-    <en_GB>
-      <some_value>Something something something</some_value>
-    </en_GB>
-    <fr_FR>
-      <some_value>Something something something</some_value>
-    </fr_FR>
+    
   </locales>
 </config>
