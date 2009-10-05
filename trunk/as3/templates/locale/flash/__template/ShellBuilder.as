@@ -1,7 +1,7 @@
-﻿package __template
+﻿package com.__template
 {
-	import __template.command.DataRequestCommand;
-	import __template.event.SiteEvent;
+	import com.__template.command.DataRequestCommand;
+	import com.__template.event.SiteEvent;
 	
 	import com.bedrockframework.engine.BedrockBuilder;
 	import com.bedrockframework.engine.api.IBedrockBuilder;
@@ -34,7 +34,6 @@
 		public function loadViews():void
 		{
 			this.status("Loading Views");
-			this.addToQueue(BedrockEngine.config.getEnvironmentValue("swf_path") + "navigation.swf", BedrockEngine.containerManager.getContainer("navigation"));
 			this.next();
 		}
 		public function loadTracking():void

@@ -14,3 +14,10 @@ body {
 	padding: 0;
 	background: #0000000;
 }
+
+.title {
+	font-family:	"Arial Unicode MS";
+	font-size:50;
+	color:#000000;
+	letter-spacing: 0;
+}

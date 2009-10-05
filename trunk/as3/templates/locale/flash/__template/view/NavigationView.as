@@ -1,4 +1,4 @@
-﻿package __template.view
+﻿package com.__template.view
 {
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.engine.event.BedrockEvent;

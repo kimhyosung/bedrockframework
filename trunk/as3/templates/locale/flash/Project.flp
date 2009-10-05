@@ -1,8 +1,6 @@
 ﻿<flash_project name="Template" version="1">
     <project_file path="./site.fla" filetype="fla" profile="" />
     <project_file path="./shell.fla" filetype="fla" profile="" def_file="true" />
-    <project_file path="./navigation.fla" filetype="fla" profile="" />
     <project_file path="./shared.fla" filetype="fla" profile="" />
-    <project_file path="./sub_page.fla" filetype="fla" profile="" />
     <project_file path="./homepage.fla" filetype="fla" profile="" />
 </flash_project>
