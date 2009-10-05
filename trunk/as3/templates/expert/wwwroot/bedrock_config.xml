@@ -13,20 +13,28 @@
       <shared_sounds_enabled>false</shared_sounds_enabled>
       <shared_enabled>false</shared_enabled>
       <fonts_enabled>false</fonts_enabled>
-      <copy_enabled>false</copy_enabled>
-      <stylesheet_enabled>false</stylesheet_enabled>
+      <resource_bundle_enabled>false</resource_bundle_enabled>
+      <style_sheet_enabled>false</style_sheet_enabled>
       <locale_enabled>false</locale_enabled>
     </general>
     <!--Locale Settings-->
     <locale>
-      <fonts_enabled>true</fonts_enabled>
-      <copy_enabled>true</copy_enabled>
-      <stylesheet_enabled>true</stylesheet_enabled>
+      <fonts_enabled>false</fonts_enabled>
+      <resource_bundle_enabled>false</resource_bundle_enabled>
+      <style_sheet_enabled>false</style_sheet_enabled>
       <default_locale>en_GB</default_locale>
       <locales>en_GB,fr_FR</locales>
-      <locale_prefix></locale_prefix>
-      <locale_suffix></locale_suffix>
     </locale>
+    <!--Filename Settings-->
+    <file_names>
+      <style_sheet_file_name>style_sheet</style_sheet_file_name>
+      <fonts_file_name>fonts</fonts_file_name>
+      <resource_bundle_file_name>resource_bundle</resource_bundle_file_name>
+      <shared_file_name>shared</shared_file_name>
+      <site_file_name>site</site_file_name>
+      <file_prefix />
+      <file_suffix />
+    </file_names>
   </settings>
   <layout>
     <container>
@@ -55,10 +63,6 @@
     <page default_page="true">
       <label>Homepage</label>
       <alias>homepage</alias>
-    </page>
-    <page>
-      <label>Sub Page</label>
-      <alias>sub_page</alias>
     </page>
   </pages>
   <environments>
