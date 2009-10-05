@@ -1,4 +1,4 @@
-﻿package __template.view
+﻿package com.__template.view
 {
 	import com.bedrockframework.engine.view.BedrockView;
 	import com.bedrockframework.engine.view.IPreloader;

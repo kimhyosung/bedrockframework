@@ -1,4 +1,4 @@
-﻿package __template
+﻿package com.__template
 {
 	import com.bedrockframework.engine.AssetBuilder;
 	import com.bedrockframework.engine.api.IAssetBuilder;
