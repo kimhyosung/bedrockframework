@@ -74,15 +74,15 @@
 		
 		private function determineFontsPath( $locale:String = null ):String
 		{
-			return BedrockEngine.config.getEnvironmentValue(BedrockData.SWF_PATH) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockData.FONTS_FILE_NAME + "_" + this._strCurrentLocale + ".swf";
+			return BedrockEngine.config.getEnvironmentValue(BedrockData.SWF_PATH) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.FONTS_FILE_NAME ) + "_" + this._strCurrentLocale + ".swf";
 		}
 		private function determineResourceBundlePath( $locale:String = null ):String
 		{
-			return BedrockEngine.config.getEnvironmentValue(BedrockData.XML_PATH) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockData.RESOURCE_BUNDLE_FILE_NAME + "_" + this._strCurrentLocale + ".xml";
+			return BedrockEngine.config.getEnvironmentValue(BedrockData.XML_PATH) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.RESOURCE_BUNDLE_FILE_NAME )  + "_" + this._strCurrentLocale + ".xml";
 		}
 		private function determineCSSPath( $locale:String ):String
 		{
-			return BedrockEngine.config.getEnvironmentValue(BedrockData.CSS_PATH) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockData.STYLE_SHEET_FILE_NAME + "_" + this._strCurrentLocale + ".css";
+			return BedrockEngine.config.getEnvironmentValue(BedrockData.CSS_PATH) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.STYLE_SHEET_FILE_NAME )  + "_" + this._strCurrentLocale + ".css";
 		}
 		
 		public function isLocaleAvailable($locale:String):Boolean
