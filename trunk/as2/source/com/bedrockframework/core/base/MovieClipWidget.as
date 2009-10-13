@@ -1,4 +1,5 @@
-﻿import mx.events.EventDispatcher;
+﻿import com.bedrockframework.core.dispatcher.EventDispatcher;
+
 class com.bedrockframework.core.base.MovieClipWidget extends MovieClip
 {
 	public var dispatchEvent:Function;
