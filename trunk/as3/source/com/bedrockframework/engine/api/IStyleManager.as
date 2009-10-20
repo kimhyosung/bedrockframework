@@ -5,28 +5,28 @@ package com.bedrockframework.engine.api
 	import flash.text.StyleSheet;
 	import flash.text.TextFormat;
 	
-	public interface IStyleSheetManager
+	public interface IStyleManager
 	{
 		/*
 		Parse the StyleSheet
 		*/
-		function parseCSS($stylesheet:String):void
+		function parseCSS($stylesheet:String):void;
 		/*
 		Apply Tag
 		*/
-		function applyTag($text:String, $tag:String):String
+		function applyTag($text:String, $tag:String):String;
 		/*
 		Apply Style
 		*/
-		function applyClass($text:String, $style:String):String
+		function applyClass($text:String, $style:String):String;
 		/*
 		Get Style Object
 		*/
-		function getStyle($style:String):Object
+		function getStyleAsObject($style:String):Object;
 		/*
-		Get Format Object
+		Get Text Format Object
 		*/
-		function getFormat($style:String):TextFormat
+		function getStyleAsTextFormat($style:String):TextFormat;
 		/*
 		Property Definitions
 		*/

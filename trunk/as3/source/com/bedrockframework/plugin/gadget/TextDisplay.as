@@ -7,23 +7,28 @@
 	import com.bedrockframework.plugin.data.TextDisplayData;
 	import com.bedrockframework.plugin.util.VariableUtil;
 	
-	import flash.text.TextField;
+	import flash.text.engine.FontLookup;
+	import flash.text.engine.RenderingMode;
+	
+	import flashx.textLayout.container.ContainerController;
+	import flashx.textLayout.elements.ParagraphElement;
+	import flashx.textLayout.elements.SpanElement;
+	import flashx.textLayout.elements.TextFlow;
+	import flashx.textLayout.formats.Direction;
+	import flashx.textLayout.formats.TextLayoutFormat;
 
 	public class TextDisplay extends MovieClipWidget
 	{
 		/*
 		Variable Declarations
 		*/
-		public var textField:TextField;
-		private var _txtDisplay:TextField;
 		public var data:TextDisplayData;
 		/*
 		Constructor
 		*/
-		public function TextDisplay($silenceConstruction:Boolean=false)
+		public function TextDisplay()
 		{
-			super( true );
-			this.createDummyTextField();
+			super( false );
 			this.mouseChildren = this.mouseEnabled = false;
 		}
 		/*
@@ -36,46 +41,61 @@
 			if ( this.data.autoPopulate ) BedrockDispatcher.addEventListener( BedrockEvent.LOCALE_LOADED, this.onLocaleLoaded );
 		}
 		
-		private function createDummyTextField():void
-		{
-			this.textField = new TextField;
-			this.textField.border = true;
-			this.textField.selectable = false;
-		}
-		
-		private function createTextField( $text:String ):void
-		{
-			this._txtDisplay = new TextField;
-			VariableUtil.mimicObject(this._txtDisplay, this.textField);
-			this.mouseChildren = this._txtDisplay.selectable;
-			this.addChild( this._txtDisplay );
-		}
-		private function destroyTextField():void
-		{
-			if ( this._txtDisplay != null && this.contains( this._txtDisplay ) ) this.removeChild( this._txtDisplay );
-			this._txtDisplay = null;
-		}
 		/*
 		Creation Functions
 		*/
 		public function populate( $text:String ):void
 		{
-			this.destroyTextField();
-			this.createTextField( $text );
+			this.createMultiLine( $text );
+		}
+		/*
+		Paragraph
+		*/
+		private function createMultiLine( $text:String ):void
+		{
+			var objSpanElement:SpanElement = new SpanElement();
+			objSpanElement.text = $text;
 			
-			this.applyText( $text );
-			this.applyData();
+			var objParagraphElement:ParagraphElement = new ParagraphElement();
+			objParagraphElement.addChildAt(0, objSpanElement);
+			
+			var objTextFlow:TextFlow = new TextFlow();
+			objTextFlow.hostFormat = this.createCustomFormat();
+			objTextFlow.addChildAt(0, objParagraphElement);
+			
+			objTextFlow.flowComposer.addController(new ContainerController(this, this.data.width, this.data.height));
+			objTextFlow.flowComposer.updateAllControllers();
 		}
-		private function applyText( $text:String ):void
+		
+		private function createCustomFormat():TextLayoutFormat
 		{
-			this.textField.text = $text;
-			this._txtDisplay.text = $text;
+			if ( this.data.styleName != null ) {
+				var objStyle:Object = BedrockEngine.styleManager.getStyleAsObject( this.data.styleName );
+				var objFormat:TextLayoutFormat = new TextLayoutFormat();
+				
+				for (var s:String in objStyle) {
+					objFormat[ s ] = VariableUtil.sanitize( objStyle[ s ] );
+				}
+				
+				objFormat.fontLookup = FontLookup.EMBEDDED_CFF;
+				objFormat.renderingMode = RenderingMode.CFF;
+				
+				return objFormat;
+			} else {
+				return this.createDefaultFormat();
+			}
 		}
-		private function applyData():void
+		private function createDefaultFormat():TextLayoutFormat
 		{
-			this._txtDisplay.width = this.data.width;
-			this._txtDisplay.height = this.data.height;
-			this._txtDisplay.styleSheet = this.data.styleSheet;
+			var objFormat:TextLayoutFormat = new TextLayoutFormat();
+			
+			objFormat.direction = Direction.LTR;
+			objFormat.color = 0xEBEBEB;
+			objFormat.fontSize = 12;
+			objFormat.fontLookup = FontLookup.EMBEDDED_CFF;
+			objFormat.renderingMode = RenderingMode.CFF;
+			
+			return objFormat;
 		}
 		/*
 		Event Handlers

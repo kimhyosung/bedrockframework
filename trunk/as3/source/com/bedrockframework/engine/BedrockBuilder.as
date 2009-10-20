@@ -100,8 +100,8 @@ package com.bedrockframework.engine
 			BedrockEngine.bedrock::pageManager = new PageManager;
 			BedrockEngine.bedrock::preloaderManager = new PreloaderManager;
 			BedrockEngine.serviceManager = new ServiceManager;	
-			BedrockEngine.soundManager = new SoundManager;	
-			BedrockEngine.stylesheetManager = new StyleSheetManager;
+			BedrockEngine.soundManager = new SoundManager;
+			BedrockEngine.styleManager = new StyleManager;
 			BedrockEngine.trackingManager = new TrackingManager;
 			BedrockEngine.bedrock::transitionManager = new TransitionManager;
 			
@@ -213,7 +213,7 @@ package com.bedrockframework.engine
 			if (BedrockEngine.config.getSettingValue( BedrockData.STYLESHEET_ENABLED) ) {
 				if ( !BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
 					var strPath:String = BedrockEngine.config.getEnvironmentValue( BedrockData.CSS_PATH ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.STYLE_SHEET_FILE_NAME ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX ) + ".css";
-					this.addToQueue( strPath, BedrockEngine.stylesheetManager.loader );
+					this.addToQueue( strPath, BedrockEngine.styleManager.loader );
 				}
 			}	
 			this.next();
@@ -368,7 +368,7 @@ package com.bedrockframework.engine
 		}
 		final private function onCSSLoaded($event:LoaderEvent):void
 		{
-			BedrockEngine.stylesheetManager.parseCSS($event.details.data);
+			BedrockEngine.styleManager.parseCSS($event.details.data);
 		}
 		final private function onSharedLoaded($event:LoaderEvent):void
 		{
