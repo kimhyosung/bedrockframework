@@ -2,7 +2,7 @@
 {
 	import com.bedrockframework.core.base.StandardWidget;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
-	import com.bedrockframework.engine.api.IStyleSheetManager;
+	import com.bedrockframework.engine.api.IStyleManager;
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.plugin.event.LoaderEvent;
 	import com.bedrockframework.plugin.loader.BackgroundLoader;
@@ -11,7 +11,7 @@
 	import flash.text.StyleSheet;
 	import flash.text.TextFormat;
 
-	public class StyleSheetManager extends StandardWidget implements IStyleSheetManager
+	public class StyleManager extends StandardWidget implements IStyleManager
 	{
 		/*
 		Variable Declarations
@@ -21,7 +21,7 @@
 		/*
 		Constructor
 		*/
-		public function StyleSheetManager()
+		public function StyleManager()
 		{
 			this._objStyleSheet = new StyleSheet();
 			this.createLoader();
@@ -66,16 +66,16 @@
 		/*
 		Get Style Object
 		*/
-		public function getStyle( $style:String ):Object
+		public function getStyleAsObject( $style:String ):Object
 		{
 			return this._objStyleSheet.getStyle( $style );
 		}
 		/*
 		Get Format Object
 		*/
-		public function getFormat($style:String):TextFormat
+		public function getStyleAsTextFormat($style:String):TextFormat
 		{
-			return this._objStyleSheet.transform( this.getStyle( $style ) );
+			return this._objStyleSheet.transform( this.getStyleAsObject( $style ) );
 		}
 		/*
 		Event Handlers

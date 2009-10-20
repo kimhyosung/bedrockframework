@@ -7,19 +7,19 @@
 
 	public class VariableUtil extends StaticWidget
 	{
-		public static function mimicObject( $object1:*, $object2:* ):void
+		public static function mimic( $target:*, $source:* ):void
 		{
-			var arrVariables:Array = VariableUtil.getVariables( $object2 );
-			var arrAccessors:Array = VariableUtil.getAccessors( $object2 );
+			var arrVariables:Array = VariableUtil.getVariables( $source );
+			var arrAccessors:Array = VariableUtil.getAccessors( $source );
 			
 			var strProperty:String;
 			for (var v:int = 0; v < arrVariables.length; v++) {
 				strProperty =  arrVariables[ v ];
-				$object1[ strProperty ] = $object2[ strProperty ];
+				$target[ strProperty ] = $source[ strProperty ];
 			}
 			for (var a:int = 0; a < arrAccessors.length; a++) {
 				strProperty =  arrAccessors[ a ];
-				$object1[ strProperty ] = $object2[ strProperty ];
+				$target[ strProperty ] = $source[ strProperty ];
 			}
 		}
 		public static function getAccessors( $target:* ):Array

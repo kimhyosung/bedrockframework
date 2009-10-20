@@ -1,10 +1,10 @@
 package com.bedrockframework.engine.api
 {
-	import com.bedrockframework.plugin.loader.BackgroundLoader;
+	import com.bedrockframework.plugin.loader.VisualLoader;
 	
 	public interface IFontManager
 	{
-		function load($url:String, $autoRegister:Boolean = true):void;
-		function get loader():BackgroundLoader;
+		function load($url:String ):void;
+		function get loader():VisualLoader;
 	}
 }

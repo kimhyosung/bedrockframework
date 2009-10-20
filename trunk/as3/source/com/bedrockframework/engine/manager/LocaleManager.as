@@ -53,7 +53,7 @@
 					this.addToQueue( this.determineResourceBundlePath( $locale ), BedrockEngine.resourceManager.loader, $useLoadManager );
 				}
 				if ( BedrockEngine.config.getLocaleValue( BedrockData.STYLESHEET_ENABLED ) ) {
-					this.addToQueue( this.determineCSSPath( $locale ), BedrockEngine.stylesheetManager.loader, $useLoadManager );
+					this.addToQueue( this.determineCSSPath( $locale ), BedrockEngine.styleManager.loader, $useLoadManager );
 				}
 				if ( !$useLoadManager ) this._objBulkLoader.loadQueue();
 				BedrockEngine.config.switchLocale( this._strCurrentLocale );
