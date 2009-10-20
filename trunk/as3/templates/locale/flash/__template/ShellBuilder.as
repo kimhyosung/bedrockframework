@@ -1,7 +1,7 @@
-﻿package com.__template
+﻿package __template
 {
-	import com.__template.command.DataRequestCommand;
-	import com.__template.event.SiteEvent;
+	import __template.command.DataRequestCommand;
+	import __template.event.SiteEvent;
 	
 	import com.bedrockframework.engine.BedrockBuilder;
 	import com.bedrockframework.engine.api.IBedrockBuilder;
