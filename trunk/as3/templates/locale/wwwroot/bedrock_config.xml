@@ -22,8 +22,8 @@
       <fonts_enabled>true</fonts_enabled>
       <copy_enabled>true</copy_enabled>
       <stylesheet_enabled>true</stylesheet_enabled>
-      <default_locale>en_GB</default_locale>
-      <locales>en_GB,fr_FR,ja_JP</locales>
+      <default_locale>en_US</default_locale>
+      <locales>en_US,fr_FR,ja_JP</locales>
       <!--<locale_prefix></locale_prefix>-->
       <!--<locale_suffix></locale_suffix>-->
     </locale>
