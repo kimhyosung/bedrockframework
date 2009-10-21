@@ -8,5 +8,7 @@
 		function getResource($key:String, $group:String = null):String;
 		function getResourceGroup($group:String, $key:String = null ):*;
 		function get loader():BackgroundLoader;
+		function get delegate():Class;
+		function set delegate( $class:Class ):void;
 	}
 }
