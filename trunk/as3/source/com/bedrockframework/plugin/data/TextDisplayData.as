@@ -3,7 +3,12 @@ package com.bedrockframework.plugin.data
 	
 	public class TextDisplayData
 	{
+		public static const MULTI_LINE:String = "multi_line";
+		public static const SINGLE_LINE:String = "single_line";
+		
 		public var text:String;
+		
+		public var mode:String;
 		
 		public var resourceKey:String;
 		public var resourceGroup:String;
@@ -25,6 +30,8 @@ package com.bedrockframework.plugin.data
 			
 			this.autoLocale = true;
 			this.autoStyle = true;
+			
+			this.mode = TextDisplayData.MULTI_LINE;
 		}
 		
 	}

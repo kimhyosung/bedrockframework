@@ -209,7 +209,7 @@ package com.bedrockframework.engine
 		final private function loadFonts():void
 		{
 			if ( BedrockEngine.config.getSettingValue(BedrockData.FONTS_ENABLED) ) {
-				if ( !BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
+				if ( !BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) || !BedrockEngine.config.getLocaleValue( BedrockData.RESOURCE_BUNDLE_ENABLED ) ) {
 					this.addToQueue( BedrockEngine.config.getPathValue( BedrockData.FONTS_PATH ), BedrockEngine.fontManager.loader );
 				}
 			}
@@ -218,7 +218,7 @@ package com.bedrockframework.engine
 		final private function loadResourceBundle():void
 		{
 			if ( BedrockEngine.config.getSettingValue(BedrockData.RESOURCE_BUNDLE_ENABLED) ) {
-				if ( !BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
+				if ( !BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) || !BedrockEngine.config.getLocaleValue( BedrockData.RESOURCE_BUNDLE_ENABLED ) ) {
 					this.addToQueue( BedrockEngine.config.getPathValue( BedrockData.RESOURCE_BUNDLE_PATH ), BedrockEngine.resourceManager.loader );
 				}
 			}			
@@ -227,7 +227,7 @@ package com.bedrockframework.engine
 		final private function loadCSS():void
 		{
 			if (BedrockEngine.config.getSettingValue( BedrockData.STYLESHEET_ENABLED) ) {
-				if ( !BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
+				if ( !BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) || !BedrockEngine.config.getLocaleValue( BedrockData.STYLESHEET_ENABLED ) ) {
 					this.addToQueue( BedrockEngine.config.getPathValue( BedrockData.STYLE_SHEET_PATH ), BedrockEngine.styleManager.loader );
 				}
 			}	

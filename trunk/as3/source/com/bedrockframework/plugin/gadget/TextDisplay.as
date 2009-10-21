@@ -8,13 +8,17 @@
 	import com.bedrockframework.plugin.data.TextDisplayData;
 	import com.bedrockframework.plugin.util.VariableUtil;
 	
+	import flash.display.MovieClip;
+	import flash.geom.Rectangle;
 	import flash.text.engine.FontLookup;
 	import flash.text.engine.RenderingMode;
+	import flash.text.engine.TextLine;
 	
 	import flashx.textLayout.container.ContainerController;
 	import flashx.textLayout.elements.ParagraphElement;
 	import flashx.textLayout.elements.SpanElement;
 	import flashx.textLayout.elements.TextFlow;
+	import flashx.textLayout.factory.TextFlowTextLineFactory;
 	import flashx.textLayout.formats.Direction;
 	import flashx.textLayout.formats.TextLayoutFormat;
 
@@ -28,8 +32,10 @@
 		private var _objSpanElement:SpanElement;
 		private var _objParagraphElement:ParagraphElement;
 		private var _objTextFlow:TextFlow;
+		private var _objTextLine:TextLine;
 		
 		private var _bolCreated:Boolean;
+		public var background:MovieClip;
 		/*
 		Constructor
 		*/
@@ -44,7 +50,12 @@
 		public function initialize( $data:TextDisplayData ):void
 		{
 			this.data =$data;
-			this.createMultiLine();
+			if ( this.background != null ) {
+				this.data.width = this.background.width;
+				this.data.height = this.background.height;
+			}
+			this.createBaseElements();
+			
 			this.populate( this.data.text );
 			if ( this.data.autoPopulate ) BedrockDispatcher.addEventListener( BedrockEvent.LOCALE_LOADED, this.onLocaleLoaded );
 		}
@@ -55,12 +66,45 @@
 		public function populate( $text:String ):void
 		{
 			this._objSpanElement.text = $text;
-			this._objTextFlow.flowComposer.updateAllControllers();
+			
+			switch ( this.data.mode ) 
+			{
+				case TextDisplayData.SINGLE_LINE :
+					this.createSingleLine();
+					break;
+				case TextDisplayData.MULTI_LINE :
+					this.createMultiLine();
+					break;
+			}
 		}
 		/*
-		Paragraph
+		Create Single Line
 		*/
-		private function createMultiLine():void
+		private function createSingleLine():void
+		{
+			this.removeSingleLine();
+			
+			var objFactory:TextFlowTextLineFactory  = new TextFlowTextLineFactory();
+			objFactory.compositionBounds = new Rectangle( 0, 0, this.data.width, this.data.height );
+			objFactory.createTextLines( this.addSingleLine, this._objTextFlow );
+		}
+
+		public function addSingleLine($textLine:TextLine):void
+		{
+			if ( this._objTextLine == null ) {
+				this._objTextLine = $textLine;
+				this.addChild( this._objTextLine );
+			}
+		}
+		public function removeSingleLine():void
+		{
+			if ( this._objTextLine != null ) {
+				this.removeChild( this._objTextLine );
+				this._objTextLine = null;
+			}
+		}
+		
+		private function createBaseElements():void
 		{
 			this._objSpanElement = new SpanElement();
 			
@@ -70,12 +114,20 @@
 			this._objTextFlow = new TextFlow();
 			this._objTextFlow.hostFormat = this.createCustomFormat();
 			this._objTextFlow.addChildAt(0, this._objParagraphElement );
-			
-			this._objTextFlow.flowComposer.addController(new ContainerController(this, this.data.width, this.data.height));
+		}
+		/*
+		Paragraph
+		*/
+		private function createMultiLine():void
+		{
+			if ( this._objTextFlow.flowComposer.numControllers == 0 ) {
+				this._objTextFlow.flowComposer.addController( new ContainerController( this, this.data.width, this.data.height ) );
+			}
 			this._objTextFlow.flowComposer.updateAllControllers();
 		}
-		
-		
+		/*
+		TextLayoutFormat
+		*/
 		private function createCustomFormat():TextLayoutFormat
 		{
 			if ( this.data.styleName != null ) {
