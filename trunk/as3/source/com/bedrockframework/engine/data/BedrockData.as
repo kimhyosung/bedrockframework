@@ -74,6 +74,14 @@
 		public static const SITE_FILE_NAME:String = "site_file_name";
 		public static const SHARED_FILE_NAME:String = "shared_file_name";
 		/*
+		Constant Paths
+		*/
+		public static const STYLE_SHEET_PATH:String = "style_sheet_path";
+		public static const FONTS_PATH:String = "fonts_path";
+		public static const RESOURCE_BUNDLE_PATH:String = "resource_bundle_path";
+		public static const SITE_PATH:String = "site_path";
+		public static const SHARED_PATH:String = "shared_path";
+		/*
 		Constant Containers
 		*/
 		public static const SITE_CONTAINER:String = "site";

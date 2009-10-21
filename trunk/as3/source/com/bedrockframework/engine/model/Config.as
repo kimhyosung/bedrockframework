@@ -32,6 +32,7 @@ package com.bedrockframework.engine.model
 		private var _objPageValues:Object;
 		private var _objParamValues:Object;
 		private var _objLocaleValues:Object;
+		private var _objPathValues:Object;
 		private var _objLocaleValueHash:HashMap;
 		/*
 		Constructor
@@ -43,6 +44,7 @@ package com.bedrockframework.engine.model
 			this._objPageValues = new Object;
 			this._objParamValues = new Object;
 			this._objLocaleValues = new Object;
+			this._objPathValues = new Object;
 		}
 		/*
 		Initialize
@@ -179,6 +181,17 @@ package com.bedrockframework.engine.model
 		public function getEnvironmentValue($key:String):*
 		{
 			return this._objEnvironmentValues[ $key ]; 
+		}
+		/*
+		Path Functions
+		*/
+		public function setPathValue( $key:String, $value:String ):void
+		{
+			this._objPathValues[ $key ] = $value;
+		}
+		public function getPathValue( $key:String ):String
+		{
+			return this._objPathValues[ $key ];
 		}
 		/*
 		Pages Functions

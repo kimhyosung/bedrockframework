@@ -34,6 +34,7 @@
 		private var _numDuration:Number;   
 		//Boolean     
         private var _bolPaused:Boolean;
+        private var _bolLoadAndPause:Boolean;
         private var _bolPlayComplete:Boolean;
         private var _bolMuted:Boolean;
        
