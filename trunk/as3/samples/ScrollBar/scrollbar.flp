@@ -1,9 +1,0 @@
-﻿<flash_project name="scrollbar" version="1">
-    <project_file path="./both.fla" filetype="fla" profile="" />
-    <project_file path="./horizontal.fla" filetype="fla" profile="" />
-    <project_file path="./manual.fla" filetype="fla" profile="" />
-    <project_file path="./vertical.fla" filetype="fla" profile="" />
-    <project_file path="./ScrollerData.as" filetype="as" />
-    <project_file path="../../source/com/icg/data/ScrollerData.as" filetype="as" />
-    <project_file path="./ScrollerEvent.as" filetype="as" />
-</flash_project>
