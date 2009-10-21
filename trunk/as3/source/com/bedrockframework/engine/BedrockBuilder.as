@@ -46,7 +46,7 @@ package com.bedrockframework.engine
 		public var configURL:String;
 		public var params:String
 		
-		private var _arrLoadSequence:Array=new Array("loadPreloader","loadParams","loadConfig","loadContainer","loadDeepLinking","loadCacheSettings", "loadLogging","loadServices","loadEngineClasses","loadController","loadEngineContainers", "loadFonts", "loadResourceBundle", "loadCSS", "loadLocale", "loadDefaultPage", "loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
+		private var _arrLoadSequence:Array=new Array("loadPreloader","loadParams","loadConfig", "loadModifications", "loadContainer","loadDeepLinking","loadCacheSettings", "loadLogging","loadServices","loadEngineClasses","loadController","loadEngineContainers", "loadFonts", "loadResourceBundle", "loadCSS", "loadLocale", "loadDefaultPage", "loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
 		private var _numLoadIndex:Number;		
 		private var _objConfigLoader:URLLoader;
 		public var environmentURL:String;
