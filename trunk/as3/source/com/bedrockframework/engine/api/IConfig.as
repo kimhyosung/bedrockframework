@@ -12,6 +12,8 @@ package com.bedrockframework.engine.api
 		/*
 		Getters
 		*/
+		function setPathValue( $key:String, $path:String ):void;
+		function getPathValue( $key:String ):String;
 		/**
 		 * Returns a framework setting independent of environment.
 	 	*/
