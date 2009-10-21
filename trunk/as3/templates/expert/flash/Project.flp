@@ -1,6 +1,0 @@
-﻿<flash_project name="Bedrock Project" version="1">
-    <project_file path="./site.fla" filetype="fla" profile="" />
-    <project_file path="./shell.fla" filetype="fla" profile="" def_file="true" />
-    <project_file path="./shared.fla" filetype="fla" profile="" />
-    <project_file path="./homepage.fla" filetype="fla" profile="" />
-</flash_project>

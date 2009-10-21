@@ -15,6 +15,11 @@
 		{
 			super();
 		}
+		public function loadModifications():void
+		{
+			this.status("Loading Modifications");
+			this.next();
+		}
 		public function loadModels():void
 		{
 			this.status("Loading Models");
