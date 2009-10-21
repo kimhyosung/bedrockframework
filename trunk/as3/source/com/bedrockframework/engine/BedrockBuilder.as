@@ -152,7 +152,6 @@ package com.bedrockframework.engine
 			strPath = BedrockEngine.config.getEnvironmentValue(BedrockData.SWF_PATH) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.SITE_FILE_NAME ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX )	 + ".swf"
 			BedrockEngine.config.setPathValue( BedrockData.SITE_PATH, strPath );
 			
-			
 			this.next();
 		}
 		final private function loadPreloader():void
