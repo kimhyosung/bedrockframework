@@ -18,7 +18,6 @@
 		*/
 		private var _bolRunning:Boolean;
 		private var _bolComplete:Boolean;
-		private var _bolAddWhileRunning:Boolean;
 		private var _arrQueue:Array;
 		private var _numLoadIndex:uint;
 		private var _numTotalFiles:uint;
@@ -35,7 +34,7 @@
 			this._numLoadIndex=0;
 			this._bolRunning=false;
 			this._bolComplete=false;
-			this._bolAddWhileRunning = false;
+			this.addWhileRunning = false;
 		}
 		/*
 		Body
@@ -85,7 +84,7 @@
 			}
 			if (!this._bolRunning) {
 				this.add($file, $loader, $completeHandler, $errorHandler);
-			}else if (this._bolAddWhileRunning && this._bolRunning){
+			}else if (this.addWhileRunning && this._bolRunning){
 				this.add($file, $loader, $completeHandler, $errorHandler);
 			} else {			
 				this.warning("Cannot add to queue while loading!");
@@ -176,7 +175,7 @@
 			this.addListeners(objQueueItem.loader);
 			this.dispatchEvent(new ChainLoaderEvent(ChainLoaderEvent.FILE_OPEN,this,objQueueItem));
 		}
-		private function loadNext():void
+		public function loadNext():void
 		{
 			if (this._bolRunning) {
 				var numTempIndex:uint=this._numLoadIndex + 1;
@@ -219,7 +218,7 @@
 		private function onFileError($event:LoaderEvent):void
 		{
 			this.warning("Could not find - " + this.getFile(this._numLoadIndex) + "!");
-			this.loadNext();
+			if (  this.autoLoad ) this.loadNext();
 		}
 		private function onProgress($event:LoaderEvent):void
 		{
@@ -237,7 +236,7 @@
 		private function onFileComplete($event:LoaderEvent):void
 		{
 			this.removeListeners($event.target);
-			this.loadNext();
+			if ( this.autoLoad ) this.loadNext();
 		}
 		/*
 		Property Definitions

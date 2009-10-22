@@ -23,6 +23,8 @@
 		public var checkPolicyFile:Boolean;
 		public var addWhileRunning:Boolean;
 		
+		public var autoLoad:Boolean;
+		
 		private var _numApplicationDomainUsage:uint;
 		/*
 		Constructor
@@ -30,6 +32,7 @@
 		
 		public function MultiLoader()
 		{
+			this.autoLoad = true;
 			this.checkPolicyFile = false;
 			this.addWhileRunning = false;
 			this.applicationDomainUsage = MultiLoader.NEW_DOMAIN;			

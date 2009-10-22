@@ -4,16 +4,13 @@
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.api.IPreloaderManager;
+	import com.bedrockframework.engine.bedrock;
 	import com.bedrockframework.engine.event.BedrockEvent;
-	import com.bedrockframework.engine.view.IPreloader;
 	import com.bedrockframework.plugin.event.TriggerEvent;
-	import com.bedrockframework.plugin.event.ViewEvent;
 	import com.bedrockframework.plugin.timer.IntervalTrigger;
 	import com.bedrockframework.plugin.timer.StopWatch;
 	import com.bedrockframework.plugin.timer.TimeoutTrigger;
 	import com.bedrockframework.plugin.util.MathUtil;
-	
-	import com.bedrockframework.engine.bedrock;
 	
 	public class PreloaderManager extends StandardWidget implements IPreloaderManager
 	{
@@ -100,13 +97,15 @@
 		}
 		private function updatePreloader($percent:Number):void
 		{
-			BedrockEngine.bedrock::transitionManager.preloaderView.displayProgress(this.calculatePercentage($percent));
+			var numPercentage:uint = this.calculatePercentage($percent);
+			BedrockEngine.bedrock::transitionManager.preloaderView.displayProgress( numPercentage );
+			BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.PRELOADER_UPDATE, this, { percentage:numPercentage } ) );
 		}
-		private function calculatePercentage($percent:Number):Number
+		private function calculatePercentage($percent:Number):uint
 		{
-			var numPercentage:Number;
+			var numPercentage:uint;
 			if (this._bolUseTimer) {
-				var numTimerPercentage:Number = MathUtil.calculatePercentage(this._objStopWatch.elapsedMilliseconds, this._numTime);
+				var numTimerPercentage:uint = MathUtil.calculatePercentage(this._objStopWatch.elapsedMilliseconds, this._numTime);
 				numPercentage = (numTimerPercentage < this._numPercentage) ? numTimerPercentage : this._numPercentage;
 			} else {
 				numPercentage =  this._numPercentage;

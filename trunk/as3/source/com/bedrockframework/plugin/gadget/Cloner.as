@@ -239,10 +239,15 @@ package com.bedrockframework.plugin.gadget
 				delete objData.id;
 				delete objData.column;
 				delete objData.row;
-			} finally {
-				for (var i:String in objData) {
-					$target[i]=objData[i];
-				}
+			} 
+			if ( objClone == null ) {
+				delete objData.id;
+				delete objData.column;
+				delete objData.row;
+			}
+			
+			for (var i:String in objData) {
+				$target[i]=objData[i];
 			}
 		}
 		/*
