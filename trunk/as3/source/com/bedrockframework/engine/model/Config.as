@@ -69,8 +69,8 @@ package com.bedrockframework.engine.model
 			var xmlConfig:XML = this.getXML($data);
 			
 			this.saveSettingValue( BedrockData.LAYOUT, XMLUtil.convertToArray( xmlConfig.layout, true ) );
-			this.saveSettingValue( BedrockData.DEFAULT_PAGE, this.getDefaultPage(xmlConfig.pages) );
-			this.saveSettingValue( BedrockData.ENVIRONMENT, this.getEnvironment(xmlConfig.environments, this.getSettingValue(BedrockData.URL)));
+			this.saveSettingValue( BedrockData.DEFAULT_PAGE, this.getDefaultPage( xmlConfig.pages ) );
+			this.saveSettingValue( BedrockData.ENVIRONMENT, this.getEnvironment( xmlConfig.environments, this.getSettingValue( BedrockData.URL ) ) );
 			
 			this.parseSettingsValues( xmlConfig.settings.general );
 			this.parseSettingsValues( xmlConfig.settings.file_names );
@@ -79,7 +79,7 @@ package com.bedrockframework.engine.model
 			this.parseLocaleValues( xmlConfig.locales );
 			this.saveCacheSettings();
 			
-			this.savePages( this.parsePages(xmlConfig.pages) );
+			this.savePages( this.parsePages( xmlConfig.pages ) );
 			
 			this.status( this._objParamValues );
 			this.status( this._objSettingValues );

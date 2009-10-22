@@ -45,7 +45,7 @@ package com.bedrockframework.engine
 		public var configURL:String;
 		public var params:String
 		
-		private var _arrLoadSequence:Array=new Array("loadPreloader","loadParams","loadConfig", "loadPaths", "loadModifications", "loadContainer","loadDeepLinking","loadCacheSettings", "loadLogging","loadServices","loadEngineClasses","loadController","loadEngineContainers", "loadFonts", "loadResourceBundle", "loadCSS", "loadLocale", "loadDefaultPage", "loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
+		private var _arrLoadSequence:Array=new Array("loadPreloader","loadParams","loadConfig", "loadPaths", "loadModifications", "loadContainers","loadDeepLinking","loadCacheSettings", "loadLogging","loadServices","loadEngineClasses","loadController","loadEngineContainers", "loadFonts", "loadResourceBundle", "loadCSS", "loadLocale", "loadDefaultPage", "loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
 		private var _numLoadIndex:Number;		
 		private var _objConfigLoader:URLLoader;
 		public var environmentURL:String;
@@ -199,7 +199,7 @@ package com.bedrockframework.engine
 			Logger.remoteLogURL = BedrockEngine.config.getEnvironmentValue(BedrockData.REMOTE_LOG_URL);
 			this.next();
 		}
-		final private function loadContainer():void
+		final private function loadContainers():void
 		{
 			this._sprContainer = new Sprite;
 			this.addChild(this._sprContainer);
