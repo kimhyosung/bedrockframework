@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<config>
+  <settings>
+    <!--General Settings-->
+    <general>
+      <preloader_time>3</preloader_time>
+      <auto_intro_enabled>true</auto_intro_enabled>
+      <auto_default_enabled>true</auto_default_enabled>
+      <auto_blocker_enabled>true</auto_blocker_enabled>
+      <deep_linking_enabled>false</deep_linking_enabled>
+      <remoting_enabled>false</remoting_enabled>
+      <cache_prevention_enabled>false</cache_prevention_enabled>
+      <shared_sounds_enabled>false</shared_sounds_enabled>
+      <shared_enabled>false</shared_enabled>
+      <fonts_enabled>false</fonts_enabled>
+      <copy_enabled>false</copy_enabled>
+      <stylesheet_enabled>false</stylesheet_enabled>
+      <locale_enabled>false</locale_enabled>
+    </general>
+    <!--Locale Settings-->
+    <locale>
+      <fonts_enabled>true</fonts_enabled>
+      <copy_enabled>true</copy_enabled>
+      <stylesheet_enabled>true</stylesheet_enabled>
+      <default_locale>en_GB</default_locale>
+      <locales>en_GB,fr_FR</locales>
+      <locale_prefix></locale_prefix>
+      <locale_suffix></locale_suffix>
+    </locale>
+    <!--Filename Settings-->
+    <file_names>
+      <style_sheet_file_name>style_sheet</style_sheet_file_name>
+      <fonts_file_name>fonts</fonts_file_name>
+      <resource_bundle_file_name>resource_bundle</resource_bundle_file_name>
+      <shared_file_name>shared</shared_file_name>
+      <site_file_name>site</site_file_name>
+      <file_prefix />
+      <file_suffix />
+    </file_names>
+  </settings>
+  <layout>
+    <container>
+      <name>shared</name>
+    </container>
+    <container>
+      <name>site</name>
+    </container>
+    <container>
+      <name>page</name>
+    </container>
+    <container>
+      <name>preloader</name>
+    </container>
+    <container>
+      <name>navigation</name>
+    </container>
+    <container>
+      <name>blocker</name>
+    </container>
+    <container>
+      <name>overlay</name>
+    </container>
+  </layout>
+  <pages>
+    <page default_page="true">
+      <label>Homepage</label>
+      <alias>homepage</alias>
+    </page>
+    <page>
+      <label>Sub Page</label>
+      <alias>sub_page</alias>
+    </page>
+  </pages>
+  <environments>
+    <environment name="default">
+      <!--Logger Settings-->
+      <local_log_level>ALL</local_log_level>
+      <event_log_level>ERROR</event_log_level>
+      <remote_log_level>NONE</remote_log_level>
+      <remote_log_url />
+      <!--General Settings-->
+      <tracking_enabled>true</tracking_enabled>
+      <!--Path Information-->
+      <swf_path>../../../../bedrock_A/wwwroot/assets/swfs/</swf_path>
+      <xml_path>../xml/</xml_path>
+      <css_path>../css/</css_path>
+      <image_path>../images/</image_path>
+      <video_path>../video/</video_path>
+      <audio_path>../audio/</audio_path>
+      <!--Remoting-->
+    </environment>
+    <environment name="local">
+      <!--General Settings-->
+      <patterns>
+        <pattern>file://</pattern>
+      </patterns>
+      <!--Path Information-->
+      <!--Remoting-->
+    </environment>
+    <environment name="development">
+      <patterns>
+        <pattern>dev</pattern>
+      </patterns>
+      <!--Path Information-->
+      <!--Remoting-->
+    </environment>
+    <environment name="localhost">
+      <patterns>
+        <pattern>localhost</pattern>
+      </patterns>
+      <!--Path Information-->
+      <swf_path>/nested/bedrock_A/wwwroot/assets/swfs/</swf_path>
+      <!--Remoting-->
+    </environment>
+    <environment name="staging">
+      <patterns>
+        <pattern>staging</pattern>
+      </patterns>
+      <!--Path Information-->
+      <!--Remoting-->
+    </environment>
+    <environment name="production">
+      <!--Path Information-->
+      <swf_path>/nested/bedrock_A/wwwroot/assets/swfs/</swf_path>
+      <!--Remoting-->
+    </environment>
+  </environments>
+  <locales>
+    <en_GB>
+      <some_value>Something something something</some_value>
+    </en_GB>
+    <fr_FR>
+      <some_value>Something something something</some_value>
+    </fr_FR>
+  </locales>
+</config>
