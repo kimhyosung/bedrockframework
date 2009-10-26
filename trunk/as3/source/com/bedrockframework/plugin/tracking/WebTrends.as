@@ -14,13 +14,13 @@
 		}
 		/**
 		 * Will make the call to javascript using the external interface.
-		 * @param $details Generic object will all of the necessary information for the tracking.
+		 * @param $details Generic object which will contain all of the necessary information for tracking.
 		 */
 		public function track($details:Object):void
 		{
 			if (ExternalInterface.available) {
 				this.status($details);
-				var strURL:String = $details.page + "/" + $details.item;
+				var strURL:String = $details.url || ( $details.page + "/" + $details.item );
 				ExternalInterface.call.apply(null, this.buildParameters(strURL, $details.groups));
 			}
 		}
