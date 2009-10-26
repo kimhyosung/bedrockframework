@@ -4,7 +4,7 @@
 	
 	import flash.display.Sprite;
 	
-	public class SequencerData
+	public class ViewStackData
 	{
 		public static const FORWARD:String = "forward";
 		public static const REVERSE:String = "reverse";
@@ -13,13 +13,14 @@
 		public static const INTRO:String = "intro";
 		public static const OUTRO:String = "outro";
 		
-		private var _arrSequence:Array;
+		private var _arrStack:Array;
+		
 		public var container:Sprite;
 		public var autoPilot:Boolean;
 		public var direction:String;
 		public var wrap:Boolean;
 		public var startAt:uint;
-		public var treatAsChildren:Boolean;
+		public var addAsChildren:Boolean;
 		
 		public var time:Number;
 		public var timerEnabled:Boolean;
@@ -31,29 +32,27 @@
 		public var introData:Array;
 		public var outroData:Array;
 		
-		
-		
-		public function SequencerData():void
+		public function ViewStackData():void
 		{
-			this._arrSequence = new Array;
+			this._arrStack = new Array;
 			this.startAt = 0;
-			this.treatAsChildren = true;
+			this.addAsChildren = true;
 			this.wrap = false;
 			this.autoPilot = true;
 			this.autoStart = true;
 			this.time = 0;
 			this.timerEnabled = false;
-			this.direction = SequencerData.FORWARD;
+			this.direction = ViewStackData.FORWARD;
 		}
 		
-		public function addToSequence($view:IView, $initializeData:Object = null, $introData:Object = null, $outroData:Object = null, $callback:Function = null):void
+		public function addToStack($view:IView, $initializeData:Object = null, $introData:Object = null, $outroData:Object = null, $callback:Function = null):void
 		{
-			this._arrSequence.push({view:$view, initialize:$initializeData, intro:$introData, outro:$outroData});
+			this._arrStack.push({view:$view, initialize:$initializeData, intro:$introData, outro:$outroData});
 		}
 		
 		public function get sequence():Array
 		{
-			return this._arrSequence;
+			return this._arrStack;
 		}
 	}
 }
