@@ -106,13 +106,17 @@
 		
 		private function createBaseElements():void
 		{
+			var objFormat:TextLayoutFormat = this.createCustomFormat();
+			
 			this._objSpanElement = new SpanElement();
+			this._objSpanElement.format = objFormat;
 			
 			this._objParagraphElement = new ParagraphElement;
+			this._objParagraphElement.format = objFormat;
 			this._objParagraphElement.addChild( this._objSpanElement );
 			
 			this._objTextFlow = new TextFlow();
-			this._objTextFlow.hostFormat = this.createCustomFormat();
+			this._objTextFlow.format = objFormat;
 			this._objTextFlow.addChildAt(0, this._objParagraphElement );
 		}
 		/*
