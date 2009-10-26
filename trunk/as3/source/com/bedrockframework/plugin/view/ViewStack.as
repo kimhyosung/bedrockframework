@@ -1,22 +1,21 @@
 ﻿package com.bedrockframework.plugin.view
 {
 	import com.bedrockframework.core.base.SpriteWidget;
-	import com.bedrockframework.plugin.data.SequencerData;
+	import com.bedrockframework.plugin.data.ViewStackData;
+	import com.bedrockframework.plugin.event.SequencerEvent;
 	import com.bedrockframework.plugin.event.TriggerEvent;
 	import com.bedrockframework.plugin.event.ViewEvent;
-	import com.bedrockframework.plugin.event.SequencerEvent;
 	import com.bedrockframework.plugin.storage.ArrayBrowser;
 	import com.bedrockframework.plugin.timer.TimeoutTrigger;
-	import com.bedrockframework.plugin.view.IView;
 	
 	import flash.display.Sprite;
 
-	public class Sequencer extends SpriteWidget
+	public class ViewStack extends SpriteWidget
 	{
 		/*
 		Variable Declarations
 		*/
-		private var _objData:SequencerData;
+		public var data:ViewStackData;
 		private var _objArrayBrowser:ArrayBrowser;
 		private var _objContainer:Sprite;
 		private var _objCurrentItem:Object;
@@ -32,37 +31,35 @@
 		/*
 		Constructor
 		*/
-		public function Sequencer()
+		public function ViewStack()
 		{
 			this._bolRunning = false;
 			this._objArrayBrowser = new ArrayBrowser;
 		}
-		public function initialize($data:SequencerData):void
+		public function initialize($data:ViewStackData):void
 		{
 			this.clear();
 			
-			this._objData = $data;
-			this._objArrayBrowser.data = this._objData.sequence;
-			this._objArrayBrowser.setSelected(this._objData.startAt);
-			this._objArrayBrowser.wrapIndex = this._objData.wrap;
-			this.setContainer(this._objData.container);
+			this.data = $data;
+			this._objArrayBrowser.data = this.data.sequence;
+			this._objArrayBrowser.setSelected(this.data.startAt);
+			this._objArrayBrowser.wrapIndex = this.data.wrap;
+			this.setContainer(this.data.container);
 			
-			
-			
-			if (this._objData.autoStart) this.startSequence();
+			if (this.data.autoStart) this.startSequence();
 			this.createTrigger(); 
 		}
 		private function createTrigger():void
 		{
 			this._objTrigger = new TimeoutTrigger;
-			this._objTrigger.addEventListener(TriggerEvent.TRIGGER, this.onTrigger);
+			this._objTrigger.addEventListener( TriggerEvent.TRIGGER, this.onTrigger );
 			this._objTrigger.silenceLogging = true;
 		}
 		public function clear():void
 		{
-			if (this._objCurrentItem != null && this._objContainer != null) {
+			if ( this._objCurrentItem != null && this._objContainer != null ) {
 				this.removeListeners(this._objCurrentItem.view);
-				if (this._objData.treatAsChildren) {
+				if ( this.data.addAsChildren ) {
 					this._objContainer.removeChild(this._objCurrentItem.view);
 				}
 			}
@@ -78,23 +75,23 @@
 		public function stopSequence():void
 		{
 			this._bolRunning = false;
-			this.call(SequencerData.OUTRO);
+			this.call(ViewStackData.OUTRO);
 		}
 		/*
 		Timer Functions
 		*/
 		public function startTimer($time:Number = 0):void
 		{
-			this._objData.timerEnabled = true;
-			this._objTrigger.start($time || this._objData.time);
+			this.data.timerEnabled = true;
+			this._objTrigger.start($time || this.data.time);
 		}
 		public function stopTimer():void
 		{
-			this._objData.timerEnabled = false;
+			this.data.timerEnabled = false;
 			this._objTrigger.stop();
 		}
 		/*
-		Set the container when the views will be showing up
+		Set the container where the views will be showing up
 		*/
 		public function setContainer($container:Sprite =null):void
 		{
@@ -107,14 +104,14 @@
 		{
 			this._objPreviousItem = this._objCurrentItem;
 			this._objCurrentItem = this._objArrayBrowser.selectedItem;
-			if (this._objData.treatAsChildren) {
+			if (this.data.addAsChildren) {
 				this._objContainer.addChild(this._objCurrentItem.view);
 			}
 			this.addListeners(this._objCurrentItem.view);
-			if (this._objData.autoInitialize) {
-				this.call(SequencerData.INITIALIZE);
+			if (this.data.autoInitialize) {
+				this.call(ViewStackData.INITIALIZE);
 			} else {
-				this.call(SequencerData.INTRO);
+				this.call(ViewStackData.INTRO);
 			}
 			this.dispatchEvent(new SequencerEvent(SequencerEvent.SHOW, this, this.getDetailObject()));
 		}
@@ -134,15 +131,15 @@
 		public function next():void
 		{
 			if (this._objArrayBrowser.hasNext()){
-				this.direction = SequencerData.FORWARD;
-				this.call(SequencerData.OUTRO);
+				this.direction = ViewStackData.FORWARD;
+				this.call(ViewStackData.OUTRO);
 			}			
 		}
 		public function previous():void
 		{
 			if (this._objArrayBrowser.hasPrevious()){
-				this.direction = SequencerData.REVERSE;
-				this.call(SequencerData.OUTRO);
+				this.direction = ViewStackData.REVERSE;
+				this.call(ViewStackData.OUTRO);
 			}
 		}
 		/*
@@ -152,13 +149,13 @@
 		{
 			var objView:IView = IView(this._objCurrentItem.view);
 			switch ($type) {
-				case SequencerData.INITIALIZE :
+				case ViewStackData.INITIALIZE :
 					objView.initialize(this._objCurrentItem.initialize);
 					break;
-				case SequencerData.INTRO :
+				case ViewStackData.INTRO :
 					objView.intro(this._objCurrentItem.intro);
 					break;
-				case SequencerData.OUTRO :
+				case ViewStackData.OUTRO :
 					objView.outro(this._objCurrentItem.outro);
 					break;
 			}
@@ -168,13 +165,13 @@
 			if ($item != null) {
 				var objData:Object;
 				switch ($type) {
-					case SequencerData.INITIALIZE :
+					case ViewStackData.INITIALIZE :
 						objData = $item.initialize;
 						break;
-					case SequencerData.INTRO :
+					case ViewStackData.INTRO :
 						objData = $item.intro;
 						break;
-					case SequencerData.OUTRO :
+					case ViewStackData.OUTRO :
 						objData = $item.outro;
 						break;
 				}
@@ -190,11 +187,11 @@
 		private function followInternalSequence():void
 		{
 			this.removeListeners(this._objCurrentItem.view);
-			if (this._objData.treatAsChildren) {
+			if (this.data.addAsChildren) {
 				this._objContainer.removeChild(this._objCurrentItem.view);
 			}
 			if (!this._bolOverride) {
-				if (this._objData.direction == SequencerData.FORWARD)		{
+				if (this.data.direction == ViewStackData.FORWARD)		{
 					this.nextInternal();
 				}else{
 					this.previousInternal();
@@ -236,15 +233,15 @@
 		public function toggleDirection($status:String = null):String
 		{
 			if ($status == null) {
-				if (this._objData.direction == SequencerData.FORWARD) {
-					this._objData.direction = SequencerData.REVERSE;
+				if (this.data.direction == ViewStackData.FORWARD) {
+					this.data.direction = ViewStackData.REVERSE;
 				} else {
-					this._objData.direction = SequencerData.FORWARD;
+					this.data.direction = ViewStackData.FORWARD;
 				}
 			} else {
-				this._objData.direction = $status;
+				this.data.direction = $status;
 			}		
-			return this._objData.direction;
+			return this.data.direction;
 		}
 		/*
 		Manager Event Listening
@@ -279,26 +276,26 @@
 		
 		private  function onInitializeComplete($event:ViewEvent):void
 		{
-			this.callback(SequencerData.INITIALIZE, this._objCurrentItem);
-			this.call(SequencerData.INTRO);
+			this.callback(ViewStackData.INITIALIZE, this._objCurrentItem);
+			this.call(ViewStackData.INTRO);
 			this.dispatchEvent(new SequencerEvent(SequencerEvent.INITIALIZE_COMPLETE, this, this.getDetailObject()))
 		}
 		private  function onIntroComplete($event:ViewEvent):void
 		{
 			// do something
-			this.callback(SequencerData.INTRO, this._objCurrentItem);
-			if (this._objData.timerEnabled) this.startTimer(); 			
+			this.callback(ViewStackData.INTRO, this._objCurrentItem);
+			if (this.data.timerEnabled) this.startTimer(); 			
 			this.dispatchEvent(new SequencerEvent(SequencerEvent.INTRO_COMPLETE, this, this.getDetailObject()))
 		}
 		private function onOutroComplete($event:ViewEvent):void
 		{
-			this.callback(SequencerData.OUTRO, this._objPreviousItem);
+			this.callback(ViewStackData.OUTRO, this._objPreviousItem);
 			this.followInternalSequence();
 			this.dispatchEvent(new SequencerEvent(SequencerEvent.OUTRO_COMPLETE, this, this.getDetailObject()))
 		}
 		private function onTrigger($event:TriggerEvent):void
 		{
-			this.call(SequencerData.OUTRO);
+			this.call(ViewStackData.OUTRO);
 		}
 		/*
 		Property Definitions
@@ -309,11 +306,11 @@
 		}
 		public function set direction($direction:String):void
 		{
-			this._objData.direction = $direction;
+			this.data.direction = $direction;
 		}
 		public function get direction():String
 		{
-			return this._objData.direction;
+			return this.data.direction;
 		}
 		public function get running():Boolean
 		{
