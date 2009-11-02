@@ -80,7 +80,7 @@
 		{
 			return BedrockEngine.config.getEnvironmentValue(BedrockData.XML_PATH) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.RESOURCE_BUNDLE_FILE_NAME )  + "_" + this._strCurrentLocale + ".xml";
 		}
-		private function determineCSSPath( $locale:String ):String
+		private function determineCSSPath( $locale:String = null ):String
 		{
 			return BedrockEngine.config.getEnvironmentValue(BedrockData.CSS_PATH) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.STYLE_SHEET_FILE_NAME )  + "_" + this._strCurrentLocale + ".css";
 		}

@@ -1,4 +1,4 @@
-package com.bedrockframework.plugin.gadget
+﻿package com.bedrockframework.plugin.gadget
 {
 	/**
 	* Handles the positioning and resizing of targets relative to the stage
@@ -45,7 +45,7 @@ package com.bedrockframework.plugin.gadget
 		{
 			if (StageMonitor.__objStage != null) {
 				StageMonitor.__mapTargets.saveValue($name, {target:$target, data:$data});
-				if ($auto) StageMonitor.modifyTarget($target, $data);
+				if ($auto) StageMonitor.updateTarget($target, $data);
 			} else {
 				Logger.log(StageMonitor, LogLevel.ERROR, "Stage value is null!");
 			}
@@ -73,18 +73,18 @@ package com.bedrockframework.plugin.gadget
 	 	/*
 		Resize and align all available target relative to the stage
 	 	*/
-	 	private static function modifyAvailableTargets():void
+	 	public static function updateAvailableTargets():void
 		{
 			var arrTargets:Array = StageMonitor.__mapTargets.getValues();
 			var numLength:int = arrTargets.length;
 			for (var i:int = 0 ; i < numLength; i++) {
-				StageMonitor.modifyTarget(arrTargets[i].target, arrTargets[i].data);
+				StageMonitor.updateTarget(arrTargets[i].target, arrTargets[i].data);
 			}
 		}
 		/*
 		Resize and align single target relative to the stage
 	 	*/
-		private static function modifyTarget($target:DisplayObjectContainer, $data:StageMonitorData):void
+		private static function updateTarget($target:DisplayObjectContainer, $data:StageMonitorData):void
 		{
 			StageMonitor.alignTarget($target, $data);
 			StageMonitor.resizeTarget($target, $data);
@@ -137,7 +137,7 @@ package com.bedrockframework.plugin.gadget
 	 	*/
 	 	private static function onResize($event:Event):void
 		{
-			StageMonitor.modifyAvailableTargets();
+			StageMonitor.updateAvailableTargets();
 		}
 	}
 }

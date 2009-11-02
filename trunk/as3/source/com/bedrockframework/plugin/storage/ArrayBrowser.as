@@ -19,7 +19,7 @@
 		*/
 		public function ArrayBrowser($data:Array = null)
 		{
-			this.data = $data;
+			this.data = $data || new Array;
 			this._bolWrapIndex=false;
 			this.reset();
 		}
