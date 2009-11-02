@@ -22,11 +22,10 @@ package com.bedrockframework.plugin.gadget
 		Variable Decarations
 		*/
 		private var _objParent:DisplayObjectContainer;
-		private var _objContainer:DisplayObjectContainer;
 		private var _objCurrentClone:DisplayObjectContainer;
 
-		private var _numXposition:int;
-		private var _numYposition:int;
+		private var _numPositionX:int;
+		private var _numPositionY:int;
 
 		private var _numIndex:int;
 		private var _numColumn:int;
@@ -36,16 +35,15 @@ package com.bedrockframework.plugin.gadget
 		private var _objCloneMap:HashMap;
 		private var _objCloneArray:Array;
 		
-		public var clone:Class;
+		public var container:DisplayObjectContainer;
 		public var data:ClonerData;
 		/*
 		Constructor
 		*/
-		public function Cloner($clone:Class, $parent:DisplayObjectContainer = null)
+		public function Cloner( $parent:DisplayObjectContainer = null )
 		{
-			this._objCloneMap=new HashMap  ;
-			this._objParent=$parent || this;
-			this.clone=$clone;
+			this._objParent = $parent || this;
+			this._objCloneMap = new HashMap;
 		}
 		public function initialize($data:ClonerData):Array
 		{
@@ -53,19 +51,20 @@ package com.bedrockframework.plugin.gadget
 			this.clear();
 			//
 			this.status("Initialize");
-			this.dispatchEvent(new ClonerEvent(ClonerEvent.INITIALIZE,this,{total:$data.total}));
+			this.dispatchEvent( new ClonerEvent( ClonerEvent.INITIALIZE, this, { total:$data.total } ) );
 			//
-			this.setOffset($data.offset);
+			this.applyOffset();
+			this.applyPadding();
 			//
 			var arrCloneClips:Array=new Array;
 			
 			if ($data.total > 0) {
 				for (var i:int=0; i < this.data.total; i++) {
-					arrCloneClips.push(this.createClone());
+					arrCloneClips.push( this.createClone() );
 				}
 			}
-			this.dispatchEvent(new ClonerEvent(ClonerEvent.COMPLETE,this,{total:this.data.total,children:arrCloneClips}));
-			//
+			this.dispatchEvent( new ClonerEvent( ClonerEvent.COMPLETE, this, { total:this.data.total, children:arrCloneClips } ) );
+
 			return arrCloneClips;
 		}
 		public function clear($resetPosition:Boolean=true,$resetIndex:Boolean=true,$resetWrapping:Boolean=true):void
@@ -74,8 +73,8 @@ package com.bedrockframework.plugin.gadget
 			this._numRow=1;
 			//
 			if ($resetPosition) {
-				this._numXposition=0;
-				this._numYposition=0;
+				this._numPositionX = 0;
+				this._numPositionY = 0;
 			}
 			if ($resetIndex) {
 				this._numIndex=0;
@@ -93,6 +92,8 @@ package com.bedrockframework.plugin.gadget
 			this.dispatchEvent(new ClonerEvent(ClonerEvent.CLEAR,this));
 			this.status("Cleared");
 		}
+		
+		
 		/*
 		Destroy Clones
 		*/
@@ -111,12 +112,12 @@ package com.bedrockframework.plugin.gadget
 		*/
 		public function createClone():DisplayObjectContainer
 		{
-			this._objCurrentClone=new this.clone;
+			this._objCurrentClone=new this.data.clone;
 			this._objCloneMap.saveValue(this._numIndex.toString(), this._objCurrentClone);
 			this._objCloneArray.push( this._objCurrentClone );
 
 			this.applyProperties(this._objCurrentClone,this.getProperties());
-			this._objContainer.addChild(this._objCurrentClone);
+			this.container.addChild(this._objCurrentClone);
 
 			this.dispatchEvent(new ClonerEvent(ClonerEvent.CREATE,this,{child:this._objCurrentClone, id:this._numIndex, index:this._numIndex}));
 			this._numIndex++;
@@ -126,12 +127,12 @@ package com.bedrockframework.plugin.gadget
 		{
 			var numID:Number;
 			var objChild:DisplayObject;
-			if (typeof $identifier == "number") {
+			if ( $identifier is Number ) {
 				numID=$identifier;
-				objChild = this._objContainer.removeChild(this.getClone($identifier));
+				objChild = this.container.removeChild(this.getClone($identifier));
 			} else {
 				numID=$identifier;
-				objChild = this._objContainer.removeChild($identifier);
+				objChild = this.container.removeChild($identifier);
 			}
 			objChild = null;
 			this.dispatchEvent(new ClonerEvent(ClonerEvent.REMOVE,this,{id:numID}));
@@ -151,17 +152,17 @@ package com.bedrockframework.plugin.gadget
 		private function createContainer():DisplayObjectContainer
 		{
 			if (this.data.useDummyContainer) {
-				this._objContainer=new Sprite  ;
-				this._objParent.addChild(this._objContainer);
+				this.container=new Sprite  ;
+				this._objParent.addChild(this.container);
 			} else {
-				this._objContainer=this._objParent;
+				this.container=this._objParent;
 			}
-			return this._objContainer;
+			return this.container;
 		}
 		private function removeContainer($notify:Boolean=true):void
 		{
 			try {
-				this._objContainer.parent.removeChild(this._objContainer);
+				this.container.parent.removeChild(this.container);
 			} catch ($e:Error) {
 
 			}
@@ -185,36 +186,36 @@ package com.bedrockframework.plugin.gadget
 						this.calculateLinearProperties();
 						break;
 					case ClonerData.RANDOM :
-						return {x:MathUtil.random(this.data.rangeX),y:MathUtil.random(this.data.rangeY),id:this._numIndex};
+						return { x:MathUtil.random( this.data.rangeX ), y:MathUtil.random( this.data.rangeY ), id:this._numIndex };
 						break;
 				}
 			} else if (this.data.pattern == ClonerData.RANDOM) {
-				return {x:MathUtil.random(this.data.rangeX),y:MathUtil.random(this.data.rangeY),id:this._numIndex};
+				return { x:MathUtil.random( this.data.rangeX ), y:MathUtil.random( this.data.rangeY ), id:this._numIndex };
 			}
-			return {x:this._numXposition,y:this._numYposition,column:this._numColumn,row:this._numRow,id:this._numIndex};
+			return { x:this._numPositionX, y:this._numPositionY, column:this._numColumn, row:this._numRow, id:this._numIndex};
 		}
 		private function calculateGridProperties():void
 		{
 			switch (this.data.direction) {
 				case ClonerData.HORIZONTAL :
-					this._numXposition+= this.data.spaceX;
-					if (this._numWrapIndex > this.data.wrap) {
-						this._numXposition=0;
-						this._numYposition+= this.data.spaceY;
-						this._numWrapIndex=1;
-						this._numRow+= 1;
+					this._numPositionX+= this.data.spaceX;
+					if ( this._numWrapIndex > this.data.wrap ) {
+						this._numPositionX = 0;
+						this._numPositionY += this.data.spaceY;
+						this._numWrapIndex = 1;
+						this._numRow += 1;
 					}
 					this._numColumn=this._numWrapIndex;
 					break;
 				case ClonerData.VERTICAL :
-					this._numYposition+= this.data.spaceY;
-					if (this._numWrapIndex > this.data.wrap) {
-						this._numYposition=0;
-						this._numXposition+= this.data.spaceX;
+					this._numPositionY+= this.data.spaceY;
+					if ( this._numWrapIndex > this.data.wrap ) {
+						this._numPositionY =0;
+						this._numPositionX += this.data.spaceX;
 						this._numWrapIndex=1;
-						this._numColumn+= 1;
+						this._numColumn += 1;
 					}
-					this._numRow=this._numWrapIndex;
+					this._numRow = this._numWrapIndex;
 					break;
 			}
 		}
@@ -222,10 +223,10 @@ package com.bedrockframework.plugin.gadget
 		{
 			switch (this.data.direction) {
 				case ClonerData.HORIZONTAL :
-					this._numXposition+= this.data.spaceX;
+					this._numPositionX += this.data.spaceX;
 					break;
 				case ClonerData.VERTICAL :
-					this._numYposition+= this.data.spaceY;
+					this._numPositionY += this.data.spaceY;
 					break;
 			}
 		}
@@ -246,8 +247,8 @@ package com.bedrockframework.plugin.gadget
 				delete objData.row;
 			}
 			
-			for (var i:String in objData) {
-				$target[i]=objData[i];
+			for (var d:String in objData) {
+				$target[ d ]=objData[ d ];
 			}
 		}
 		/*
@@ -269,21 +270,26 @@ package com.bedrockframework.plugin.gadget
 		
 		
 		*/
-		public function setOffset($offset:int=0):void
+		private function applyPadding():void
 		{
-			if ($offset >= this.data.wrap && this.data.wrap != 0) {
+			if ( this.data.paddingX != 0 ) this._numPositionX += this.data.paddingX;
+			if ( this.data.paddingY != 0 ) this._numPositionY += this.data.paddingY;
+		}
+		private function applyOffset():void
+		{
+			if (this.data.offset >= this.data.wrap && this.data.wrap != 0) {
 				this.error("Offset cannot be greater than or equal to wrap count!");
 			}
 			switch (this.data.direction) {
 				case ClonerData.HORIZONTAL :
-					this._numXposition=this.data.spaceX * $offset;
+					this._numPositionX=this.data.spaceX * this.data.offset;
 					break;
 				case ClonerData.VERTICAL :
-					this._numYposition=this.data.spaceY * $offset;
+					this._numPositionY=this.data.spaceY * this.data.offset;
 					break;
 			}
 			if (this.data.pattern == ClonerData.GRID) {
-				this._numWrapIndex=$offset + 1;
+				this._numWrapIndex = this.data.offset + 1;
 			}
 		}
 		/*

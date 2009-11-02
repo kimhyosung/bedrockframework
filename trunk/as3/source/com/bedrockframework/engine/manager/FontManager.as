@@ -42,8 +42,11 @@ package com.bedrockframework.engine.manager
 			
 			var numLength:int = arrVariables.length;
 			for ( var i:int = 0; i < numLength; i++ ) {
-				Font.registerFont( this._objLoader.content[ arrVariables[ i ] ] );
-				this.debug("Font Loaded! - " + arrVariables[ i ] );
+				try {
+					Font.registerFont( this._objLoader.content[ arrVariables[ i ] ] );
+					this.debug("Font Loaded! - " + arrVariables[ i ] );
+				} catch ( $error:Error ) {
+				}
 			}
 			
 			this.debug( Font.enumerateFonts( false ) );

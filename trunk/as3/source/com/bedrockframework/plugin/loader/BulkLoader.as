@@ -275,6 +275,7 @@
 			var objQueueItem:Object = this.getQueueItemByLoader($event.target);
 			this.warning("Could not find - " + objQueueItem.file + "!");
 			this.removeFromCurrentLoad($event.target);
+			this._numCompletedFiles += 1;
 			this.loadNext();
 		}
 		private function onProgress($event:LoaderEvent):void

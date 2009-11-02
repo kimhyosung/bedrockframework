@@ -8,6 +8,7 @@
 	{
 		public static const FORWARD:String = "forward";
 		public static const REVERSE:String = "reverse";
+		public static const SELECT:String = "select";
 		
 		public static const INITIALIZE:String = "initialize";
 		public static const INTRO:String = "intro";
@@ -16,10 +17,9 @@
 		private var _arrStack:Array;
 		
 		public var container:Sprite;
-		public var autoPilot:Boolean;
-		public var direction:String;
+		public var mode:String;
 		public var wrap:Boolean;
-		public var startAt:uint;
+		public var startingIndex:uint;
 		public var addAsChildren:Boolean;
 		
 		public var time:Number;
@@ -28,29 +28,24 @@
 		public var autoInitialize:Boolean;
 		public var autoStart:Boolean;
 		
-		public var initializeData:Array;
-		public var introData:Array;
-		public var outroData:Array;
-		
 		public function ViewStackData():void
 		{
 			this._arrStack = new Array;
-			this.startAt = 0;
+			this.startingIndex = 0;
 			this.addAsChildren = true;
-			this.wrap = false;
-			this.autoPilot = true;
+			this.wrap = true;
 			this.autoStart = true;
 			this.time = 0;
 			this.timerEnabled = false;
-			this.direction = ViewStackData.FORWARD;
+			this.mode = ViewStackData.SELECT;
 		}
 		
-		public function addToStack($view:IView, $initializeData:Object = null, $introData:Object = null, $outroData:Object = null, $callback:Function = null):void
+		public function addToStack($view:IView, $alias:String = null, $initializeData:Object = null, $introData:Object = null, $outroData:Object = null, $callback:Function = null):void
 		{
-			this._arrStack.push({view:$view, initialize:$initializeData, intro:$introData, outro:$outroData});
+			this._arrStack.push({view:$view, alias:$alias, initialize:$initializeData, intro:$introData, outro:$outroData});
 		}
 		
-		public function get sequence():Array
+		public function get stack():Array
 		{
 			return this._arrStack;
 		}

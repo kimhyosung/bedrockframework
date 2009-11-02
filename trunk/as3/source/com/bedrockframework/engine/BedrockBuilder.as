@@ -67,6 +67,10 @@ package com.bedrockframework.engine
 		final public function initialize():void
 		{
 			this.determineConfigURL();
+			
+			XML.ignoreComments = true;
+			XML.ignoreWhitespace = true;
+			
 			this.next();
 		}
 		
@@ -208,8 +212,8 @@ package com.bedrockframework.engine
 		}
 		final private function loadFonts():void
 		{
-			if ( BedrockEngine.config.getSettingValue(BedrockData.FONTS_ENABLED) ) {
-				if ( !BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) || !BedrockEngine.config.getLocaleValue( BedrockData.RESOURCE_BUNDLE_ENABLED ) ) {
+			if ( BedrockEngine.config.getSettingValue( BedrockData.FONTS_ENABLED) ) {
+				if ( !BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) || !BedrockEngine.config.getLocaleValue( BedrockData.FONTS_ENABLED ) ) {
 					this.addToQueue( BedrockEngine.config.getPathValue( BedrockData.FONTS_PATH ), BedrockEngine.fontManager.loader );
 				}
 			}
@@ -217,7 +221,7 @@ package com.bedrockframework.engine
 		}
 		final private function loadResourceBundle():void
 		{
-			if ( BedrockEngine.config.getSettingValue(BedrockData.RESOURCE_BUNDLE_ENABLED) ) {
+			if ( BedrockEngine.config.getSettingValue( BedrockData.RESOURCE_BUNDLE_ENABLED) ) {
 				if ( !BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) || !BedrockEngine.config.getLocaleValue( BedrockData.RESOURCE_BUNDLE_ENABLED ) ) {
 					this.addToQueue( BedrockEngine.config.getPathValue( BedrockData.RESOURCE_BUNDLE_PATH ), BedrockEngine.resourceManager.loader );
 				}
@@ -226,8 +230,8 @@ package com.bedrockframework.engine
 		}
 		final private function loadCSS():void
 		{
-			if (BedrockEngine.config.getSettingValue( BedrockData.STYLESHEET_ENABLED) ) {
-				if ( !BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) || !BedrockEngine.config.getLocaleValue( BedrockData.STYLESHEET_ENABLED ) ) {
+			if ( BedrockEngine.config.getSettingValue( BedrockData.STYLESHEET_ENABLED) ) {
+				if ( !BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) || !BedrockEngine.config.getLocaleValue( BedrockData.STYLESHEET_ENABLED )) {
 					this.addToQueue( BedrockEngine.config.getPathValue( BedrockData.STYLE_SHEET_PATH ), BedrockEngine.styleManager.loader );
 				}
 			}	
@@ -236,7 +240,7 @@ package com.bedrockframework.engine
 		final private function loadLocale():void
 		{
 			if ( BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
-				var strDefaultLocale:String = BedrockEngine.config.getParamValue( BedrockData.DEFAULT_LOCALE ) || BedrockEngine.config.getLocaleValue(BedrockData.DEFAULT_LOCALE);
+				var strDefaultLocale:String = BedrockEngine.config.getAvailableValue(BedrockData.DEFAULT_LOCALE);
 				BedrockEngine.localeManager.initialize( BedrockEngine.config.getLocaleValue( BedrockData.LOCALES ), strDefaultLocale );
 				BedrockEngine.localeManager.load( strDefaultLocale, true );
 			}

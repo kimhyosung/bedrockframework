@@ -16,8 +16,6 @@
 		
 		public var widthResize:Boolean;
 		public var heightResize:Boolean;
-		public var widthOffset:Number;
-		public var heightOffset:Number;
 
 		public function StageMonitorData()
 		{

@@ -73,6 +73,21 @@
 			}
 			return null;
 		}
+		public function getResourceArray( $key:String, $startIndex:uint = 1 ):Array
+		{
+			var arrResult:Array = new Array;
+			var tmpValue:*;
+			var numIndex:uint;
+			do {
+				tmpValue = this._objResourceMap.getValue( $key + numIndex );
+				if ( tmpValue != null ) {
+					arrResult.push( tmpValue );
+					numIndex++;
+				}
+			} while ( tmpValue != null );
+			
+			return arrResult;
+		}
 		/*
 		Responder Functions
 		*/

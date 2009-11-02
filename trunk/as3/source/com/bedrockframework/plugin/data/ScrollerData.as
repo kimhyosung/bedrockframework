@@ -4,8 +4,9 @@
 	import com.bedrockframework.plugin.controller.IScrollerController;
 	
 	import flash.display.Sprite;
+	import com.bedrockframework.core.base.BasicWidget;
 
-	public class ScrollerData
+	public class ScrollerData extends BasicWidget
 	{
 		public static  var HORIZONTAL:String = "horizontal";
 		public static  var VERTICAL:String = "vertical";

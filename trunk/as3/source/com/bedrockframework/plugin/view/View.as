@@ -17,6 +17,10 @@ package com.bedrockframework.plugin.view
 	public class View extends MovieClipWidget
 	{
 		/*
+		Variable Declarations
+		*/
+		private var _bolHasInitialized:Boolean;
+		/*
 		Constructor
 		*/
 		/**
@@ -27,6 +31,7 @@ package com.bedrockframework.plugin.view
 		*/
 		final protected  function initializeComplete():void
 		{
+			this._bolHasInitialized = true;
 			this.dispatchEvent(new ViewEvent(ViewEvent.INITIALIZE_COMPLETE,this));
 		}
 		/**
@@ -57,6 +62,11 @@ package com.bedrockframework.plugin.view
 			this.parent.removeChild(this);
 		}
 		
+		
+		public function get hasInitialized():Boolean
+		{
+			return this._bolHasInitialized;
+		}
 	}
 
 }

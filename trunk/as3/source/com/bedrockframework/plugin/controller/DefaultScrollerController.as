@@ -114,13 +114,19 @@
 		*/
 		public function moveScrubber( $position:Number ):void
 		{
+			var numPosition:Number;
 			if ($position > 0 && $position < this.data.maxDragPosition) {
-				this.data.scrubberPosition = $position;
+				numPosition = $position;
 			} else if ($position < 0) {
-				this.data.scrubberPosition = 0;
+				numPosition = 0;
 			} else if ($position > this.data.maxDragPosition) {
-				this.data.scrubberPosition = this.data.maxDragPosition;
+				numPosition = this.data.maxDragPosition;
+			} else {
+				numPosition = this.data.scrubberPosition;
 			}
+			if ( isNaN( numPosition )  ) numPosition = this.data.scrubberPosition;
+			this.data.scrubberPosition = numPosition;
+			
 			this.scroller.dispatchEvent( new ScrollerEvent(ScrollerEvent.CHANGE, this ) ); 
 		}
 		/*

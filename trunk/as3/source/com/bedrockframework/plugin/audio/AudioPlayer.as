@@ -119,6 +119,12 @@
 				this.dispatchEvent(new AudioEvent(AudioEvent.PAUSE, this));
 			}
 		}
+		public function seek( $percent:Number ):void
+		{
+			var numTime:Number = $percent * this._objSound.length;
+			this.play( numTime );
+			this.pause();
+		}
 		public function resume():void
 		{
 			if (this._bolPaused) {

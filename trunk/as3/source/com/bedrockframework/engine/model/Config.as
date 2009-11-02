@@ -345,7 +345,7 @@ package com.bedrockframework.engine.model
 		*/
 		public function getAvailableValue( $key:String ):*
 		{
-			return this.getParamValue( $key ) || this.getLocaleValue( $key ) || this.getEnvironmentValue( $key ) || this.getSettingValue( $key ) || "";
+			return this.getParamValue( $key ) || this.getEnvironmentValue( $key ) || this.getLocaleValue( $key ) || this.getSettingValue( $key ) || "";
 		}
 		/*
 		Internal string replacement functions
@@ -366,17 +366,6 @@ package com.bedrockframework.engine.model
 			var strFile:String=$path.substring( numLastIndex + 1, $path.length );
 			var strPath:String=this.getEnvironmentValue( strName ) + strFile;
 			return strPath;
-		}
-		/*
-		Property Definitions
-		*/
-		public function get localePrefix():String
-		{
-			return this.getParamValue(BedrockData.FILE_PREFIX) || this.getLocaleValue( BedrockData.FILE_PREFIX ) || this.getEnvironmentValue(BedrockData.FILE_PREFIX) || "";
-		}
-		public function get localeSuffix():String
-		{
-			return this.getParamValue(BedrockData.FILE_SUFFIX) || this.getLocaleValue( BedrockData.FILE_SUFFIX ) || this.getEnvironmentValue(BedrockData.FILE_SUFFIX) || "";
 		}
 	}
 }

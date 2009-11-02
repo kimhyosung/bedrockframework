@@ -29,15 +29,19 @@
 		public var autoSpacing:Boolean;
 		
 		public var useDummyContainer:Boolean;
+		
+		public var clone:Class;
+		public var container:DisplayObjectContainer;
 
 		public function ClonerData():void
 		{
 			this.autoSpacing = false;
 			
+			this.offset = 0;
 			this.wrap = 0;
 			this.total = 0;
 			
-			this.direction = ClonerData.HORIZONTAL;
+			this.direction = ClonerData.VERTICAL;
 			this.pattern = ClonerData.LINEAR;
 			
 			this.useDummyContainer = true;
