@@ -48,8 +48,7 @@
 			this._objDelegate.parse( $data );
 		}
 		
-		
-		public function getResource($key:String, $group:String = null):String
+		public function getResource($key:String, $group:String = null):*
 		{
 			try {
 				if ( $group != null ) {
@@ -73,13 +72,13 @@
 			}
 			return null;
 		}
-		public function getResourceArray( $key:String, $startIndex:uint = 1 ):Array
+		public function getResourceArray( $prefix:String, $suffix:String = "", $startIndex:uint = 1 ):Array
 		{
 			var arrResult:Array = new Array;
 			var tmpValue:*;
-			var numIndex:uint;
+			var numIndex:uint = $startIndex;
 			do {
-				tmpValue = this._objResourceMap.getValue( $key + numIndex );
+				tmpValue = this._objResourceMap.getValue( $prefix + numIndex + $suffix );
 				if ( tmpValue != null ) {
 					arrResult.push( tmpValue );
 					numIndex++;

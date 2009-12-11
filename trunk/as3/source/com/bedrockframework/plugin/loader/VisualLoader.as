@@ -106,6 +106,7 @@
 					objDetails.bytesLoaded=this.contentLoaderInfo.bytesLoaded;
 					objDetails.bytesTotal=this.contentLoaderInfo.bytesTotal;
 					objDetails.contentType=this.contentLoaderInfo.contentType;
+					objDetails.content = this.content;
 					objDetails.url=this._strURL;
 					break;
 				case Event.OPEN : 
@@ -125,6 +126,7 @@
 					objDetails.bytesLoaded=ProgressEvent($event).bytesLoaded;
 					objDetails.bytesTotal=ProgressEvent($event).bytesTotal;
 					objDetails.percent=MathUtil.calculatePercentage(objDetails.bytesLoaded,objDetails.bytesTotal);
+					objDetails.percentage=objDetails.percent;
 					break;
 				case IOErrorEvent.IO_ERROR :
 					objDetails.text=IOErrorEvent($event).text;
@@ -154,11 +156,11 @@
 		{
 			return this._objURLRequest;
 		}
-		public function set id($id:int):void
+		public function set index($id:int):void
 		{
 			this._numID = $id;
 		}
-		public function get id():int
+		public function get index():int
 		{
 			return this._numID;
 		}

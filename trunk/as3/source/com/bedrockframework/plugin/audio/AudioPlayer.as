@@ -26,13 +26,23 @@
 		/*
 		Variable Declarations
 		*/
+		
+		//Strings
+		private var _strURL:String;
+		
+		//Number
+		private var _numResumeTime:Number;
+		
+		//Objects
 		private var _objSound:Sound;
 		private var _objChannel:SoundChannel;
 		private var _objTransform:SoundTransform;
-		private var _strURL:String;
 		private var _objPositionTrigger:IntervalTrigger;
-		private var _numResumeTime:Number;
+		
+		//Booleans
 		private var _bolPaused:Boolean;
+		private var _bolPlaying:Boolean=false;
+		
 		/*
 		Constructor
 		*/
@@ -54,7 +64,6 @@
 		private function setSound($sound:Sound = null):void
 		{
 			this._objSound = $sound || new Sound();
-			this._objTransform = new SoundTransform();
 			this._objSound.addEventListener(Event.COMPLETE, this.onLoadComplete);
 			this._objSound.addEventListener(Event.OPEN, this.onOpen);
 			this._objSound.addEventListener(ProgressEvent.PROGRESS, this.onProgress);
@@ -66,21 +75,25 @@
 		*/
 		public function load($url:String):void
 		{
-			if(this._objSound != null){
+			if( this._objSound != null ){
+				this._bolPlaying = false;
 				this.regenerateSound();
 			}
-			this._objSound.load(new URLRequest($url));
+			this._objSound.load( new URLRequest( $url ) );
 		}
 		/*
 		Play
 		*/
 		public function play($startTime:Number = 0, $loops:int = 0, $transform:SoundTransform = null):SoundChannel 
 		{
+			this._bolPlaying = true;
 			this._bolPaused = false;
 			this._objPositionTrigger.start();
 			this._objChannel = this._objSound.play($startTime, $loops, $transform);
 			this._objChannel.addEventListener(Event.SOUND_COMPLETE, this.onPlayComplete);
-			this.setTransform($transform);
+			this.regenerateTransform();
+			
+			this.setTransform( $transform || this._objTransform );
 			
 			this.dispatchEvent(new AudioEvent(AudioEvent.PLAY, this, {duration:this._objSound.length}));
 			return this._objChannel;			
@@ -164,8 +177,8 @@
 		*/
 		public function setTransform($transform:SoundTransform = null):void
 		{
-			if ($transform) {
-				this._objTransform = $transform;				
+			if ($transform != null) {
+				this._objTransform = $transform;	
 			}
 			this._objChannel.soundTransform = this._objTransform;
 		}
@@ -186,14 +199,19 @@
 			this._objSound.removeEventListener(IOErrorEvent.IO_ERROR, this.onIOError);
 			this.setSound();
 		}
-		
+		private function regenerateTransform():void
+		{
+			var numVolume:Number = ( this._objTransform != null ) ? this._objTransform.volume : 1;
+			var numPan:Number = ( this._objTransform != null ) ? this._objTransform.pan : 0; 
+			this.setTransform( new SoundTransform( numVolume, numPan ) );
+		}
 		
 		/*
 		Event Handlers
 		*/
 		private function onLoadComplete($event:Event):void
 		{
-			this.dispatchEvent(new AudioEvent(AudioEvent.LOAD_COMPLETE, this, {}));
+			this.dispatchEvent(new AudioEvent(AudioEvent.LOAD_COMPLETE, this, { length:this._objSound.length } ) );
 		}
 		private function onProgress($event:ProgressEvent):void
 		{
@@ -209,7 +227,7 @@
 		}
 		private function onID3($event:Event):void
 		{
-			this.dispatchEvent(new AudioEvent(AudioEvent.ID3, this, this._objSound.id3));
+			this.dispatchEvent(new AudioEvent(AudioEvent.ID3, this, { ID3:this._objSound.id3, length:this._objSound.length }));
 		}
 		private function onIOError($event:IOErrorEvent):void
 		{
@@ -232,13 +250,23 @@
 		/*
 		Property Definitions
 		*/
+		public function get isPlaying():Boolean
+		{
+			return this._bolPlaying;
+		}
+		
+		public function get isPaused():Boolean
+		{
+			return this._bolPaused;
+		}
+		
 		public function get volume():Number
 		{
 			return this.getVolume();
 		}
 		public function set volume($value:Number):void
 		{
-			this.setVolume($value);	
+			this.setVolume($value);
 		}
 		public function get pan():Number
 		{
@@ -246,7 +274,7 @@
 		}
 		public function set pan($value:Number):void
 		{
-			this.setPan($value);	
+			this.setPan($value);
 		}		
 		public function get sound():Sound
 		{

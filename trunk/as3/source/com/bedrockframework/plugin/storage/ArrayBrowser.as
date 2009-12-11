@@ -10,14 +10,14 @@
 		Variable Declarations
 		*/
 		private var _arrData:Array;
-		private var _numSelectedIndex:Number;
+		private var _numSelectedIndex:int;
 		private var _bolWrapIndex:Boolean;
-		private var _numLimit:Number;
+		private var _numLimit:int;
 		private var _bolAllowDuplicates:Boolean;
 		/*
 		Constructor
 		*/
-		public function ArrayBrowser($data:Array = null)
+		public function ArrayBrowser( $data:Array = null )
 		{
 			this.data = $data || new Array;
 			this._bolWrapIndex=false;
@@ -28,7 +28,7 @@
 		*/
 		public function clear():void
 		{
-			var numLength:Number=this._arrData.length;
+			var numLength:int=this._arrData.length;
 			for (var i:int=0; i < numLength; i++) {
 				this._arrData.pop();
 			}
@@ -51,21 +51,30 @@
 		/*
 		Insert new data at index
 		*/
-		public function insert($location:Number,$item:*):Array
+		public function insert($location:int,$item:*):Array
 		{
 			return ArrayUtil.insert(this._arrData,$location,$item);
 		}
 		/*
 		Move item to a different location
 		*/
-		public function move($index:Number,$location:Number):Array
+		public function move($index:int,$location:int):Array
 		{
-			return ArrayUtil.move(this._arrData,$index,$location);
+			return ArrayUtil.move(this._arrData, $index, $location);
+		}
+		
+		public function swap( $index1:int, $index2:int ):void
+		{
+			var tmpData1:* = this._arrData[ $index1 ];
+			var tmpData2:* = this._arrData[ $index2 ];
+			
+			this._arrData[ $index1 ] = tmpData2;
+			this._arrData[ $index2 ] = tmpData1;
 		}
 		/*
 		Remove item at index
 		*/
-		public function remove($index:Number):*
+		public function remove($index:int):*
 		{
 			return ArrayUtil.remove(this._arrData,$index);
 		}
@@ -74,7 +83,7 @@
 		*/
 		public function automaticPush($array:Array):void
 		{
-			var numLength:Number=$array.length;
+			var numLength:int=$array.length;
 			for (var i:int=0; i < numLength; i++) {
 				this._arrData.push($array[i]);
 			}
@@ -84,7 +93,7 @@
 		*/
 		public function automaticUnshift($array:Array):void
 		{
-			var numLength:Number=$array.length;
+			var numLength:int=$array.length;
 			for (var i:int=0; i < numLength; i++) {
 				this._arrData.unshift($array[i]);
 			}
@@ -100,7 +109,7 @@
 			}			
 			if (this._numLimit != 0) {
 				if (this._arrData.length > this._arrData._numLimit) {
-					var numLoop:Number=this._numLimit - this._arrData.length;
+					var numLoop:int=this._numLimit - this._arrData.length;
 					for (var i:int=0; i < numLoop; i++) {
 						this._arrData.shift();
 					}
@@ -115,7 +124,7 @@
 			}
 			if (this._numLimit != 0) {
 				if (this._arrData.length > this._numLimit) {
-					var numLoop:Number=this._numLimit - this._arrData.length;
+					var numLoop:int=this._numLimit - this._arrData.length;
 					for (var i:int=0; i < numLoop; i++) {
 						this._arrData.pop();
 					}
@@ -125,13 +134,13 @@
 		/*
 		Return item at location
 		*/
-		public function getItemAt($location:Number):*
+		public function getItemAt( $index:uint ):*
 		{
 			if (this._bolWrapIndex){
-				return this._arrData[MathUtil.wrapIndex($location, this._arrData.length, true)];
+				return this._arrData[MathUtil.wrapIndex($index, this._arrData.length, true)];
 			}else{
 				try{
-					return this._arrData[$location];
+					return this._arrData[$index];
 				} catch($error:Error){
 					return null
 				}					
@@ -154,10 +163,10 @@
 		/*
 		Select current index
 		*/
-		public function setSelected($index:Number):*
+		public function setSelected($index:int):*
 		{
 			//check for wrapping
-			var numLength:Number=this._arrData.length;
+			var numLength:int=this._arrData.length;
 			this._numSelectedIndex=MathUtil.wrapIndex($index,numLength,this._bolWrapIndex);
 			return this.getSelected();
 		}
@@ -186,27 +195,19 @@
 			if (this._bolWrapIndex) {			
 				return true;
 			}
-			if ((this._numSelectedIndex + 1)  >= this._arrData.length) {
-				return false;
-				}else{
-				return true;
-			}			
+			return ( ( this._numSelectedIndex + 1 )  < this._arrData.length );
 		}
 		public function hasPrevious():Boolean
 		{
 			if (this._bolWrapIndex) {			
 				return true;
 			}
-			if ((this._numSelectedIndex - 1)  < 0) {
-				return false;
-				}else{
-				return true;
-			}	
+			return ( ( this._numSelectedIndex - 1 )  >= 0 );
 		}
 		/*
 		Get random items based on a total
 		*/
-		public function getRandomItems($total:Number):*
+		public function getRandomItems($total:int):*
 		{
 			if (this._arrData.length > 0) {
 				return ArrayUtil.getRandomItems(this._arrData,$total);
@@ -217,7 +218,7 @@
 		*/
 		public function getProperties($property:String):Array
 		{
-			var numLength:Number=this._arrData.length;
+			var numLength:int=this._arrData.length;
 			var arrReturn:Array=new Array;
 			for (var i:int=0; i < numLength; i++) {
 				arrReturn.push(this._arrData[i][$property]);
@@ -241,7 +242,7 @@
 		/*
 		Search: Returns Single Index
 		*/
-		public function findIndex($value:*,$field:String=null):Number
+		public function findIndex($value:*,$field:String=null):int
 		{
 			return ArrayUtil.findIndex(this._arrData,$value,$field);
 		}
@@ -289,18 +290,23 @@
 		/*
 		Set the limit for the number if items that should be in the array
 		*/
-		public function set itemLimit($limit:Number):void
+		public function set itemLimit($limit:int):void
 		{
 			this._numLimit=$limit;
 		}
-		public function get itemLimit():Number
+		public function get itemLimit():int
 		{
 			return this._numLimit;
+		}
+		
+		public function get length():int
+		{
+			return this.data.length;
 		}
 		/*
 		Return the last index from the array
 		*/
-		public function get lastIndex():Number
+		public function get lastIndex():int
 		{
 			return (this._arrData.length - 1);
 		}
@@ -329,7 +335,7 @@
 		/*
 		Return selected item from the array
 		*/
-		public function get selectedIndex():Number
+		public function get selectedIndex():int
 		{
 			return this._numSelectedIndex;
 		}

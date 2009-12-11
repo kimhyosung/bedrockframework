@@ -28,7 +28,8 @@
 		
 		public function refresh():void
 		{
-			if ( ( this.data.contentSize < this.data.scrubberBackgroundSize ) && this.data.autoHide ) {
+			if ( ( this.data.contentSize < this.data.maskSize ) && this.data.autoHide ) {
+				this.moveContent( 0 );
 				this.scroller.hideScrubber();
 			} else {
 				this.scroller.showScrubber();

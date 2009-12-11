@@ -14,6 +14,7 @@ package com.bedrockframework.core.base
 	import com.bedrockframework.core.logging.ILogable;
 	import com.bedrockframework.core.logging.LogLevel;
 	import com.bedrockframework.core.logging.Logger;
+	import com.bedrockframework.plugin.util.MovieClipUtil;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -55,35 +56,36 @@ package com.bedrockframework.core.base
 				Logger.send(this, $level, $arguments);
 			}
 		}
+		
 		public function log($level:int, ...$arguments:Array):void
 		{
 			this.sendLogMessage($level, $arguments);
 		}
-		
+		public function status(...$arguments:Array):void
+		{
+			this.sendLogMessage(LogLevel.STATUS, $arguments);
+		}
 		public function debug(...$arguments:Array):void
 		{
 			this.sendLogMessage(LogLevel.DEBUG, $arguments);
 		}
-		
+		public function attention(...$arguments:Array):void
+		{
+			this.sendLogMessage(LogLevel.ATTENTION, $arguments);
+		}
+		public function warning(...$arguments:Array):void
+		{
+			this.sendLogMessage(LogLevel.WARNING, $arguments);
+		}
 		public function error(...$arguments:Array):void
 		{
 			this.sendLogMessage(LogLevel.ERROR, $arguments);
 		}
-		
 		public function fatal(...$arguments:Array):void
 		{
 			this.sendLogMessage(LogLevel.FATAL, $arguments);
 		}
 		
-		public function status(...$arguments:Array):void
-		{
-			this.sendLogMessage(LogLevel.STATUS, $arguments);
-		}
-		
-		public function warning(...$arguments:Array):void
-		{
-			this.sendLogMessage(LogLevel.WARNING, $arguments);
-		}
 		/*
 		Property Definitions
 	 	*/
@@ -94,6 +96,18 @@ package com.bedrockframework.core.base
 		public function get silenceLogging():Boolean
 		{
 			return this._bolSilenceLogging;
+		}
+		/*
+		Returns an Array of the children of the Movieclip.
+		*/
+		public function get children():Array
+		{
+			var arrChildren:Array = new Array;
+			var numLength:uint = this.numChildren;
+			for(var i:uint = 0; i < numLength; i++) {
+				arrChildren.push( this.getChildAt( i ) );
+			}
+			return arrChildren;
 		}
 	}
 }

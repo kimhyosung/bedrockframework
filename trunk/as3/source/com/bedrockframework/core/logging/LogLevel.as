@@ -31,7 +31,7 @@ package com.bedrockframework.core.logging
 	     */
 	    public static const WARNING:int = 8;
 	    
-	    
+	    public static const ATTENTION:int = 7;
 	    /**
 	     *  Designates informational level
 	     *  messages that are fine grained and most helpful when debugging an

@@ -22,6 +22,10 @@
 				$target[ strProperty ] = $source[ strProperty ];
 			}
 		}
+		public static function getProperties( $target:* ):Array
+		{
+			return VariableUtil.getVariables( $target ).concat( VariableUtil.getAccessors( $target ) );
+		}
 		public static function getAccessors( $target:* ):Array
 		{
 			var arrResult:Array = new Array;

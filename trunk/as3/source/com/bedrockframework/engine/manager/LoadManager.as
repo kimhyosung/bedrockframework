@@ -47,16 +47,16 @@
 		{
 			this._objBulkLoader.loadQueue();
 		}
-		public function addToQueue($path:String, $loader:* = null, $priority:uint=0, $id:String = null, $completeHandler:Function=null, $errorHandler:Function=null):void
+		public function addToQueue($path:String, $loader:* = null, $priority:uint=0, $alias:String = null, $completeHandler:Function=null, $errorHandler:Function=null):void
 		{
-			this._objBulkLoader.addToQueue($path,$loader, $priority, $id, $completeHandler, $errorHandler);
+			this._objBulkLoader.addToQueue($path,$loader, $priority, $alias, $completeHandler, $errorHandler);
 		}
 		/*
 		Getters
 		*/
-		public function getLoader($id:String):*
+		public function getLoader($alias:String):*
 		{
-			return this._objBulkLoader.getLoader( $id );
+			return this._objBulkLoader.getLoader( $alias );
 		}
 		/*
 		Event Replacements
@@ -96,6 +96,15 @@
 		public function get running():Boolean 
 		{
 			return this._objBulkLoader.running;
+		}
+		
+		public function set cuncurrentLoads($count:uint):void
+		{
+			this._objBulkLoader.cuncurrentLoads = $count;			
+		}
+		public function get cuncurrentLoads():uint
+		{
+			return this._objBulkLoader.cuncurrentLoads;	
 		}
 	}
 

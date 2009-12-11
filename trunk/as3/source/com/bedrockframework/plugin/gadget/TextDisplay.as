@@ -33,6 +33,7 @@
 		private var _objParagraphElement:ParagraphElement;
 		private var _objTextFlow:TextFlow;
 		private var _objTextLine:TextLine;
+		private var _arrTextLines:Array;
 		
 		private var _bolCreated:Boolean;
 		public var background:MovieClip;
@@ -43,6 +44,7 @@
 		{
 			super( false );
 			this.mouseChildren = this.mouseEnabled = false;
+			this._arrTextLines = new Array;
 		}
 		/*
 		Basic Functions
@@ -75,6 +77,9 @@
 				case TextDisplayData.MULTI_LINE :
 					this.createMultiLine();
 					break;
+				case TextDisplayData.MULTI_SINGLE_LINE :
+					this.createMultiLine();
+					break;
 			}
 		}
 		/*
@@ -82,25 +87,34 @@
 		*/
 		private function createSingleLine():void
 		{
-			this.removeSingleLine();
+			this.removeSingleLines();
 			
 			var objFactory:TextFlowTextLineFactory  = new TextFlowTextLineFactory();
 			objFactory.compositionBounds = new Rectangle( 0, 0, this.data.width, this.data.height );
-			objFactory.createTextLines( this.addSingleLine, this._objTextFlow );
+			objFactory.createTextLines( this.addSingleLines, this._objTextFlow );
 		}
 
-		public function addSingleLine($textLine:TextLine):void
+		private function addSingleLines($textLine:TextLine):void
 		{
-			if ( this._objTextLine == null ) {
-				this._objTextLine = $textLine;
-				this.addChild( this._objTextLine );
+			switch ( this.data.mode ) 
+			{
+				case TextDisplayData.SINGLE_LINE :
+					if ( this._arrTextLines.length == 0 ) {
+						this._arrTextLines.push( $textLine );
+						this.addChild( $textLine );
+					}
+					break;
+				case TextDisplayData.MULTI_SINGLE_LINE :
+					this._arrTextLines.push( $textLine );
+					this.addChild( $textLine );
+					break;
 			}
 		}
-		public function removeSingleLine():void
+		private function removeSingleLines():void
 		{
-			if ( this._objTextLine != null ) {
-				this.removeChild( this._objTextLine );
-				this._objTextLine = null;
+			var numLength:int = this._arrTextLines.length;
+			for( var i:int = 0; i < numLength; i ++ ) {
+				this.removeChild( this._arrTextLines.pop() );
 			}
 		}
 		

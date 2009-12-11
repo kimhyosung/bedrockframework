@@ -56,7 +56,8 @@
 		private function onPlaySound($event:BedrockEvent):void
 		{
 			var objDetails:Object = $event.details;
-			BedrockEngine.soundManager.playSound(objDetails.alias, objDetails.startTime, objDetails.delay, objDetails.loops, objDetails.volume, objDetails.panning);
+			//BedrockEngine.soundManager.playSound(objDetails.alias, objDetails.startTime, objDetails.delay, objDetails.loops, objDetails.volume, objDetails.panning);
+			BedrockEngine.soundManager.playSound(objDetails.alias, objDetails.startTime || 0, objDetails.delay || 0, objDetails.loops || 0, objDetails.volume || 1, objDetails.panning || 0);
 		}
 		private function onStopSound($event:BedrockEvent):void
 		{

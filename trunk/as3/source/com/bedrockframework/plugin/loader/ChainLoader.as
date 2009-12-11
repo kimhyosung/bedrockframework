@@ -77,7 +77,7 @@
 				this.dispatchEvent(new ChainLoaderEvent(ChainLoaderEvent.ERROR,this, {text:"Unable to load, queue is empty!"}));
 			}
 		}
-		public function addToQueue($file:String, $loader:* = null, $completeHandler:Function=null, $errorHandler:Function=null):void
+		public function addToQueue( $file:String, $loader:* = null, $completeHandler:Function=null, $errorHandler:Function=null):void
 		{
 			if (this._bolComplete) {
 				this.reset();
@@ -91,7 +91,7 @@
 			}
 			
 		}
-		private function add($file:String,$loader:VisualLoader=null,$completeHandler:Function=null, $errorHandler:Function=null):void
+		private function add( $file:String,$loader:VisualLoader=null,$completeHandler:Function=null, $errorHandler:Function=null):void
 		{
 			var strFile:String=$file;
 			var objLoader:* =$loader || new BackgroundLoader  ;
@@ -170,7 +170,7 @@
 		{
 			this._numLoadIndex=$index;
 			var objQueueItem:Object=this.getQueueItem(this._numLoadIndex);
-			this.status("Loading - " + objQueueItem.file);
+			//this.status("Loading - " + objQueueItem.file);
 			objQueueItem.loader.loadURL(objQueueItem.file, this.generateLoaderContext());
 			this.addListeners(objQueueItem.loader);
 			this.dispatchEvent(new ChainLoaderEvent(ChainLoaderEvent.FILE_OPEN,this,objQueueItem));

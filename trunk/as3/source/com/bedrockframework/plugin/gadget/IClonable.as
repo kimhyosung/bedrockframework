@@ -2,13 +2,13 @@
 {
 	public interface IClonable
 	{
-		function set id($index:int):void;
-		function get id():int;
+		function set index( $value:int ):void;
+		function get index():int;
 		
-		function set row($index:int):void;
+		function set row( $value:int ):void;
 		function get row():int;
 		
-		function set column($index:int):void;
+		function set column( $value:int ):void;
 		function get column():int;
 	}
 }

@@ -1,10 +1,10 @@
 ﻿package com.bedrockframework.plugin.data
 {
+	import com.bedrockframework.core.base.BasicWidget;
 	import com.bedrockframework.plugin.controller.DefaultScrollerController;
 	import com.bedrockframework.plugin.controller.IScrollerController;
 	
 	import flash.display.Sprite;
-	import com.bedrockframework.core.base.BasicWidget;
 
 	public class ScrollerData extends BasicWidget
 	{
@@ -21,9 +21,12 @@
 		public var scrubber:Sprite;
 		public var scrubberContainer:Sprite;
 		public var scrubberBackground:Sprite;
+		public var incrementButton:Sprite;
+		public var decrementButton:Sprite;
 
 		public var resize:Boolean;
 		public var autoHide:Boolean;
+		public var autoMask:Boolean;
 		public var enableJumpActions:Boolean;
 		
 		public var increment:Number;
@@ -46,8 +49,10 @@
 			this.enableJumpActions = true;
 			this.resize = true;
 			this.autoHide = true;
+			this.autoMask = true;
 			this.direction = ScrollerData.VERTICAL;
 			this.alignment = ScrollerData.TOP;
+			this.increment = 1;
 			
 			this.controller = new DefaultScrollerController;
 		}

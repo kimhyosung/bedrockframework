@@ -23,6 +23,7 @@ package com.bedrockframework.plugin.gadget
 		public var data:ScrollerData;
 		private var _objScrollerTrigger:IntervalTrigger;
 		private var _objIncrementTrigger:IntervalTrigger;
+		private var _numIncrement:Number;
 		/*
 		Constructor
 		*/
@@ -45,18 +46,19 @@ package com.bedrockframework.plugin.gadget
 			this.data.content.addEventListener( MouseEvent.MOUSE_WHEEL, this.onMouseWheel );
 			this.data.content.graphics.drawRect( 0, 0, 1, 1 );
 			this.data.content.graphics.endFill();
-			this.data.content.mask = this.data.mask;
+			if ( this.data.autoMask ) this.data.content.mask = this.data.mask;
 			
 			this.data.controller.initialize( this, this.data );
 			
 			this.applyDragActions();
+			this.applyButtonActions();
 		}
 		/*
 		Start manual movement
 		*/
 		public function startIncrementalMovement( $increment:Number ):void
 		{
-			this.data.increment = $increment;
+			this._numIncrement = $increment;
 			
 			this._objScrollerTrigger.addEventListener(TriggerEvent.TRIGGER, this.onIncrementTrigger);
 			this._objScrollerTrigger.start( 0.01 );
@@ -138,17 +140,32 @@ package com.bedrockframework.plugin.gadget
 				ButtonUtil.addListeners( this.data.scrubberBackground,{ up:this.onJump }, false );
 			}
 		}
+		private function applyButtonActions():void
+		{
+			if ( this.data.incrementButton != null && this.data.decrementButton != null ) {
+				ButtonUtil.addListeners( this.data.incrementButton, { down: this.onIncrementButtonDown, up:this.onIncremenalButtonUp } );
+				ButtonUtil.addListeners( this.data.decrementButton, { down: this.onDecrementButtonDown, up:this.onIncremenalButtonUp } );
+			}
+		}
 		/*
 		Show/Hide Scroller Functions
 		*/
 		public function showScrubber():void
 		{
 			this.data.scrubberContainer.visible = true;
+			if ( this.data.incrementButton != null && this.data.decrementButton != null ) {
+				this.data.incrementButton.visible = true;
+				this.data.decrementButton.visible = true;
+			}
 			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.SHOW_SCROLLER, this));
 		}
 		public function hideScrubber():void
 		{
 			this.data.scrubberContainer.visible = false;
+			if ( this.data.incrementButton != null && this.data.decrementButton != null ) {
+				this.data.incrementButton.visible = false;
+				this.data.decrementButton.visible = false;
+			}
 			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.HIDE_SCROLLER, this));
 		}
 		/*
@@ -160,7 +177,7 @@ package com.bedrockframework.plugin.gadget
 		}
 		private function onIncrementTrigger($event:TriggerEvent):void
 		{
-			this.data.controller.moveWithIncrement( this.data.increment );
+			this.data.controller.moveWithIncrement( this._numIncrement );
 		}
 		private function onMouseWheel($delta:Number):void
 		{
@@ -176,16 +193,34 @@ package com.bedrockframework.plugin.gadget
 		/*
 		Start the movement interval
 		*/
-		public function onStartDragMovement($event:MouseEvent):void
+		private function onStartDragMovement($event:MouseEvent):void
 		{
 			this.startScrubberMovement();
 		}
 		/*
 		Stop the movement interval
 		*/
-		public function onStopDragMovement($event:MouseEvent):void
+		private function onStopDragMovement($event:MouseEvent):void
 		{
 			this.stopScrubberMovement();
+		}
+		/*
+		Increment/ Decrement Handlers
+		*/
+		private function onIncrementButtonDown( $event:MouseEvent ):void
+		{
+			this.data.content.stage.addEventListener( MouseEvent.MOUSE_UP, this.onIncremenalButtonUp );
+			this.startIncrementalMovement( this.data.increment );
+		}
+		private function onDecrementButtonDown( $event:MouseEvent ):void
+		{
+			this.data.content.stage.addEventListener( MouseEvent.MOUSE_UP, this.onIncremenalButtonUp );
+			this.startIncrementalMovement( -this.data.increment );
+		}
+		private function onIncremenalButtonUp( $event:MouseEvent ):void
+		{
+			this.data.content.stage.removeEventListener( MouseEvent.MOUSE_UP, this.onIncremenalButtonUp );
+			this.stopIncrementalMovement();
 		}
 	}
 }

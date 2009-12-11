@@ -11,11 +11,12 @@
 		
 		function getLoader($id:String):*;
 		
-		function addToQueue($url:String, $loader:*=null, $priority:uint=0, $id:String = null, $completeHandler:Function=null, $errorHandler:Function=null):void;
+		function addToQueue($url:String, $loader:*=null, $priority:uint=0, $alias:String = null, $completeHandler:Function=null, $errorHandler:Function=null):void;
 		/*
 		Property Definitions
 		*/
 		function get running():Boolean
-		
+		function set cuncurrentLoads($count:uint):void;
+		function get cuncurrentLoads():uint;
 	}
 }
