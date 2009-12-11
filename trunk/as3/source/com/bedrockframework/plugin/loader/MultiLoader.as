@@ -35,8 +35,7 @@
 			this.autoLoad = true;
 			this.checkPolicyFile = false;
 			this.addWhileRunning = false;
-			this.applicationDomainUsage = MultiLoader.REUSE_DOMAIN;
-			this.applicationDomain = ApplicationDomain.currentDomain;
+			this.applicationDomainUsage = MultiLoader.NEW_DOMAIN;			
 		}
 		/*
 		Create Context

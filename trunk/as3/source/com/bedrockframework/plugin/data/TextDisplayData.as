@@ -5,6 +5,7 @@ package com.bedrockframework.plugin.data
 	{
 		public static const MULTI_LINE:String = "multi_line";
 		public static const SINGLE_LINE:String = "single_line";
+		public static const MULTI_SINGLE_LINE:String = "multi_single_line";
 		
 		public var text:String;
 		

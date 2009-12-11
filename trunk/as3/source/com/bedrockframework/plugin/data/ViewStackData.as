@@ -27,6 +27,7 @@
 		
 		public var autoInitialize:Boolean;
 		public var autoStart:Boolean;
+		public var autoQueue:Boolean;
 		
 		public function ViewStackData():void
 		{
@@ -34,15 +35,17 @@
 			this.startingIndex = 0;
 			this.addAsChildren = true;
 			this.wrap = true;
-			this.autoStart = true;
 			this.time = 0;
 			this.timerEnabled = false;
 			this.mode = ViewStackData.SELECT;
+			this.autoInitialize = true;
+			this.autoStart = true;
+			this.autoQueue = true;
 		}
 		
-		public function addToStack($view:IView, $alias:String = null, $initializeData:Object = null, $introData:Object = null, $outroData:Object = null, $callback:Function = null):void
+		public function addToStack($view:IView, $alias:String = null, $initializeData:Object = null, $introData:Object = null, $outroData:Object = null):void
 		{
-			this._arrStack.push({view:$view, alias:$alias, initialize:$initializeData, intro:$introData, outro:$outroData});
+			this._arrStack.push( { view:$view, alias:$alias, initialize:$initializeData, intro:$introData, outro:$outroData } );
 		}
 		
 		public function get stack():Array

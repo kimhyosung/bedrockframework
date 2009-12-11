@@ -51,5 +51,31 @@ package com.bedrockframework.plugin.util
 		{
 			return new Rectangle($gutter, $gutter, $target.width-($gutter *2), $target.height-($gutter *2))
 		}
+		
+		/**
+		 * $target DisplayObjectContainer targeted.
+		 * return Returns the children within the DisplayObjectContainer.
+		 */
+		public static function getChildren( $target:DisplayObjectContainer ):Array
+		{
+			var arrChildren:Array = new Array;
+			var numLength:uint = $target.numChildren;
+			for(var i:uint = 0; i < numLength; i++) {
+				arrChildren.push($target.getChildAt(i));
+			}
+			return arrChildren;
+		}
+		/**
+		 * $target DisplayObjectContainer targeted.
+		 * return Reverses the depth order of the children of the specified DisplayObjectContainer.
+		 */
+		public static function reverseChildren( $target:DisplayObjectContainer ):void
+		{
+			var arrChildren:Array = DisplayObjectUtil.getChildren( $target );
+			var numLength:uint = arrChildren.length;
+			for(var i:uint = 0; i < numLength; i++) {
+				$target.addChildAt( arrChildren[ i ], 0 );
+			}
+		}
 	}
 }

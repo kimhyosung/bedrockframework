@@ -33,8 +33,8 @@
 				xmlValue = xmlTemp.child(i);
 				strName = xmlTemp.child(i).name();
 				if (objConversion[strName] == null) {
-					if (xmlValue.hasComplexContent()) {
-						if (!$buildArrays) {
+					if ( xmlValue.hasComplexContent() ) {
+						if ( !$buildArrays ) {
 							objConversion[strName] = XMLUtil.convertToObject(xmlValue, $buildArrays);
 						} else {
 							objConversion[strName] = XMLUtil.convertToArray(xmlValue, $buildArrays);

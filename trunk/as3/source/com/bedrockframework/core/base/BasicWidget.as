@@ -37,35 +37,36 @@ package com.bedrockframework.core.base
 				Logger.send(this, $level, $arguments);
 			}
 		}
+		
 		public function log($level:int, ...$arguments:Array):void
 		{
-			this.sendLogMessage($level, $arguments);		
+			this.sendLogMessage($level, $arguments);
 		}
-		
+		public function status(...$arguments:Array):void
+		{
+			this.sendLogMessage(LogLevel.STATUS, $arguments);
+		}
 		public function debug(...$arguments:Array):void
 		{
 			this.sendLogMessage(LogLevel.DEBUG, $arguments);
 		}
-		
+		public function attention(...$arguments:Array):void
+		{
+			this.sendLogMessage(LogLevel.ATTENTION, $arguments);
+		}
+		public function warning(...$arguments:Array):void
+		{
+			this.sendLogMessage(LogLevel.WARNING, $arguments);
+		}
 		public function error(...$arguments:Array):void
 		{
 			this.sendLogMessage(LogLevel.ERROR, $arguments);
 		}
-		
 		public function fatal(...$arguments:Array):void
 		{
 			this.sendLogMessage(LogLevel.FATAL, $arguments);
 		}
 		
-		public function status(...$arguments:Array):void
-		{
-			this.sendLogMessage(LogLevel.STATUS, $arguments);
-		}
-		
-		public function warning(...$arguments:Array):void
-		{
-			this.sendLogMessage(LogLevel.WARNING, $arguments);
-		}
 		/*
 		Property Definitions
 	 	*/

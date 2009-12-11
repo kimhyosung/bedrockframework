@@ -5,9 +5,9 @@
 	public interface IResourceManager
 	{
 		function load( $path:String ):void;
-		function getResource($key:String, $group:String = null):String;
+		function getResource($key:String, $group:String = null):*;
 		function getResourceGroup($group:String, $key:String = null ):*;
-		function getResourceArray( $key:String, $startIndex:uint = 1 ):Array;
+		function getResourceArray( $prefix:String, $suffix:String = "", $startIndex:uint = 1 ):Array;
 		function get loader():BackgroundLoader;
 		function get delegate():Class;
 		function set delegate( $class:Class ):void;

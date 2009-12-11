@@ -141,7 +141,7 @@ package com.bedrockframework.engine
 		{
 			var strPath:String;
 			
-			strPath = BedrockEngine.config.getEnvironmentValue( BedrockData.SWF_PATH ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.FONTS_FILE_NAME ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX ) + ".swf";
+			strPath = ( BedrockEngine.config.getEnvironmentValue( BedrockData.FONTS_PATH ) || BedrockEngine.config.getEnvironmentValue( BedrockData.SWF_PATH ) ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.FONTS_FILE_NAME ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX ) + ".swf";
 			BedrockEngine.config.setPathValue( BedrockData.FONTS_PATH, strPath );
 			
 			strPath = BedrockEngine.config.getEnvironmentValue( BedrockData.XML_PATH ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.RESOURCE_BUNDLE_FILE_NAME ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX ) + ".xml";
@@ -174,7 +174,7 @@ package com.bedrockframework.engine
 		{
 			var strConfigURL:String;
 			this.status(this.loaderInfo.url);
-			this.loadConfigXML(BedrockEngine.config.getParamValue(BedrockData.CONFIG_URL) ||this.configURL);
+			this.loadConfigXML( BedrockEngine.config.getParamValue(BedrockData.CONFIG_URL) ||this.configURL );
 		}
 		final private function loadDeepLinking():void
 		{
@@ -240,7 +240,7 @@ package com.bedrockframework.engine
 		final private function loadLocale():void
 		{
 			if ( BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
-				var strDefaultLocale:String = BedrockEngine.config.getAvailableValue(BedrockData.DEFAULT_LOCALE);
+				var strDefaultLocale:String = BedrockEngine.config.getParamValue( BedrockData.CURRENT_LOCALE ) || BedrockEngine.config.getAvailableValue(BedrockData.DEFAULT_LOCALE);
 				BedrockEngine.localeManager.initialize( BedrockEngine.config.getLocaleValue( BedrockData.LOCALES ), strDefaultLocale );
 				BedrockEngine.localeManager.load( strDefaultLocale, true );
 			}
@@ -329,9 +329,9 @@ package com.bedrockframework.engine
 		/*
 		Add View Functions
 		*/
-		final protected function addToQueue($path:String, $loader:* = null, $priority:uint=0, $id:String = null, $completeHandler:Function=null, $errorHandler:Function=null):void
+		final protected function addToQueue($path:String, $loader:* = null, $priority:uint=0, $alias:String = null, $completeHandler:Function=null, $errorHandler:Function=null):void
 		{
-			BedrockEngine.loadManager.addToQueue($path, $loader, $priority, $id, $completeHandler, $errorHandler);
+			BedrockEngine.loadManager.addToQueue($path, $loader, $priority, $alias, $completeHandler, $errorHandler);
 		}
 		/*
 		Config Related Stuff
@@ -370,7 +370,8 @@ package com.bedrockframework.engine
 		}
 		final private function onConfigLoaded($event:Event):void
 		{
-			BedrockEngine.config.initialize( this._objConfigLoader.data, this.environmentURL || this.loaderInfo.url, this );
+			this.fatal( this.environmentURL );
+			BedrockEngine.config.initialize( this._objConfigLoader.data, ( this.environmentURL || this.loaderInfo.url ), this );
 			BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.CONFIG_LOADED, this ) );
 			this.next();
 		}

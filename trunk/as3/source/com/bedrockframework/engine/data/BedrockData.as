@@ -26,9 +26,10 @@
 		
 		public static const LOCALES:String = "locales";
 		public static const DEFAULT_LOCALE:String = "default_locale";
-		public static const CURRENT_LOCALE:String = "default_locale";
+		public static const CURRENT_LOCALE:String = "current_locale";
 		public static const SYSTEM_LANGUAGE:String = "system_language";
 		public static const ENVIRONMENT:String = "environment";
+		public static const STATIC_ENVIRONMENT:String = "static_environment";
 		public static const CACHE_KEY:String = "cache_key";
 		
 		public static const MANUFACTURER:String = "manufacturer";
@@ -77,10 +78,11 @@
 		Constant Paths
 		*/
 		public static const STYLE_SHEET_PATH:String = "style_sheet_path";
-		public static const FONTS_PATH:String = "fonts_path";
+		public static const FONTS_PATH:String = "font_path";
 		public static const RESOURCE_BUNDLE_PATH:String = "resource_bundle_path";
 		public static const SITE_PATH:String = "site_path";
 		public static const SHARED_PATH:String = "shared_path";
+		public static const AUDIO_PATH:String = "audio_path";
 		/*
 		Constant Containers
 		*/

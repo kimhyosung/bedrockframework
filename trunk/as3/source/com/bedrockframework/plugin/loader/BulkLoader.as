@@ -91,7 +91,7 @@
 				this.dispatchEvent(new BulkLoaderEvent(BulkLoaderEvent.ERROR,this, {text:"Unable to load, queue is empty!"}));
 			}
 		}
-		public function addToQueue($file:String, $loader:*=null, $priority:uint=0, $id:String=null, $completeHandler:Function=null, $errorHandler:Function=null):void
+		public function addToQueue($file:String, $loader:*=null, $priority:uint=0, $alias:String=null, $completeHandler:Function=null, $errorHandler:Function=null):void
 		{
 			if ($loader !=null && !( $loader is BackgroundLoader || $loader is VisualLoader ) ) {
 				this.error( "Loader must be an instance of BackgroundLoader or VisualLoader!" );
@@ -100,9 +100,9 @@
 					this.reset();
 				}
 				if (!this._bolRunning) {
-					this.add($file, $loader, $priority, $id, $completeHandler, $errorHandler);
+					this.add($file, $loader, $priority, $alias, $completeHandler, $errorHandler);
 				}else if (this._bolAddWhileRunning && this._bolRunning){
-					this.add($file, $loader, $priority, $id, $completeHandler, $errorHandler);
+					this.add($file, $loader, $priority, $alias, $completeHandler, $errorHandler);
 					if (this._arrCurrentLoad.length < this._numMaxConcurrentLoads) {
 						this.loadNext();
 					}
@@ -111,7 +111,7 @@
 				}		
 			}
 		}
-		private function add($file:String, $loader:* = null, $priority:uint=0, $id:String=null, $completeHandler:Function=null, $errorHandler:Function=null):void
+		private function add($file:String, $loader:* = null, $priority:uint=0, $alias:String=null, $completeHandler:Function=null, $errorHandler:Function=null):void
 		{
 			var strFile:String=$file;
 			var objLoader:* =$loader || new BackgroundLoader;
@@ -126,7 +126,7 @@
 				objLoader.addEventListener( LoaderEvent.IO_ERROR, $errorHandler, false, 0, true);
 				objLoader.addEventListener(LoaderEvent.SECURITY_ERROR,$errorHandler,false,0,true);				
 			}
-			this._arrQueue.unshift({file:strFile,loader:objLoader,priority:$priority, order:this._arrQueue.length, id:$id, percent:0});
+			this._arrQueue.unshift( { file:strFile, loader:objLoader, priority:$priority, order:this._arrQueue.length, alias:$alias, percent:0});
 			this.recalculate();
 			this.dispatchEvent(new BulkLoaderEvent(BulkLoaderEvent.FILE_ADDED,this,{files:this._arrQueue,index:this._numLoadIndex,total:this._numTotalFiles}));
 		}
@@ -219,15 +219,16 @@
 		{
 			this._numLoadIndex=$index;
 			var objQueueItem:Object=this.getQueueItem(this._numLoadIndex);
-			this.status("Loading - " + objQueueItem.file);
 			objQueueItem.loader.loadURL(objQueueItem.file, this.generateLoaderContext());
+			this.status("Loading - " + objQueueItem.file);
+			
 			this.addListeners(objQueueItem.loader);
 			this.addToCurrentLoad(objQueueItem.loader);
 			this.dispatchEvent(new BulkLoaderEvent(BulkLoaderEvent.FILE_OPEN,this,objQueueItem));
 		}
 		private function loadNext():void
 		{
-			if (this._bolRunning) {
+			if ( this._bolRunning ) {
 				if ((this._numLoadIndex + 1) <= (this._numTotalFiles-1)) {
 					this._numLoadIndex += 1;
 					var objQueueItem:Object = this.getQueueItem(this._numLoadIndex);
@@ -248,13 +249,11 @@
 		/*
 		Getters
 		*/
-		
-		public function getLoader($id:String):*
+		public function getLoader($alias:String):*
 		{
 			var objBrowser:ArrayBrowser = new ArrayBrowser(this._arrQueue);
-			return objBrowser.findItem($id, "id").loader;
+			return objBrowser.findItem($alias, "alias").loader;
 		}
-		
 		public function getQueueItem($index:int):Object
 		{
 			return this._arrQueue[$index];
@@ -265,9 +264,7 @@
 			return objBrowser.findItem($loader, "loader");
 		}
 		/*
-		
 		Event Handlers
-		
 		*/
 		private function onFileError($event:LoaderEvent):void
 		{
@@ -298,7 +295,7 @@
 		private function onFileComplete($event:LoaderEvent):void
 		{
 			this._numCompletedFiles += 1;
-			this.removeFromCurrentLoad($event.target);
+			this.removeFromCurrentLoad( $event.target );
 			this.removeListeners($event.target);
 			if (this._numCompletedFiles != this._numTotalFiles) {
 				this.loadNext();
@@ -309,7 +306,6 @@
 		/*
 		Property Definitions
 		*/
-		
 		public function set sortBy($value:String):void
 		{
 			this._strSortBy = $value;

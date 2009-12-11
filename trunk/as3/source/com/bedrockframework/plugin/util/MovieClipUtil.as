@@ -3,8 +3,11 @@
 	import com.bedrockframework.core.base.StaticWidget;
 	
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
+
 	public class MovieClipUtil extends StaticWidget
 	{
+		
 		/**
 		 * $clip MovieClip targeted.
 		 * $label Frame label requested.
@@ -19,7 +22,8 @@
 				}
 			}
 			return ($clip.currentFrame);
-		}           
+		}     
+		
 		/**
 		 * $clip MovieClip targeted.
 		 * $frame Frame or frame label targeted.
@@ -48,5 +52,7 @@
 			}
 			return ((Math.abs(numFrame - $clip.currentFrame)) / $clip.stage.frameRate) * $compression;
 		}
+		
+		
 	}
 }

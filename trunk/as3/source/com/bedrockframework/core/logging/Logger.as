@@ -57,6 +57,11 @@ package com.bedrockframework.core.logging
 			Logger.send($target, LogLevel.DEBUG, $arguments);
 		}
 		
+		public static function attention($target:* = null, ...$arguments):void
+		{
+			Logger.send($target, LogLevel.ATTENTION, $arguments);
+		}
+		
 		public static function error($target:* = null, ...$arguments):void
 		{
 			Logger.send($target, LogLevel.ERROR, $arguments);
