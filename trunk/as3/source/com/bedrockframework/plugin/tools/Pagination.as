@@ -27,6 +27,7 @@
 		*/
 		public function update($total:uint = 0, $itemsPerPage:uint = 0):void
 		{
+			this._numSelectedPage = 0;
 			this._numTotalItems =  $total;
 			this._numItemsPerPage = $itemsPerPage;
 			this._numTotalPages = Math.ceil(this._numTotalItems / this._numItemsPerPage) || 0;
@@ -64,8 +65,8 @@
 		*/ 
 		private function checkBounds():void 
 		{ 
-			if (this._numSelectedPage > (this._numTotalPages-1)) { 
-				this.selectPage( this._numTotalPages-1 ); 
+			if ( this._numSelectedPage >= this._numTotalPages ) {
+				this._numSelectedPage = ( this._numTotalPages - 1 );
 			}
 		}
 		/*

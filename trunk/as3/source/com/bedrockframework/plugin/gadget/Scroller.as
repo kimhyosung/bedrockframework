@@ -46,6 +46,7 @@ package com.bedrockframework.plugin.gadget
 			this.data.content.addEventListener( MouseEvent.MOUSE_WHEEL, this.onMouseWheel );
 			this.data.content.graphics.drawRect( 0, 0, 1, 1 );
 			this.data.content.graphics.endFill();
+			this.data.originalPosition= this.data.contentPosition;
 			if ( this.data.autoMask ) this.data.content.mask = this.data.mask;
 			
 			this.data.controller.initialize( this, this.data );
@@ -150,7 +151,7 @@ package com.bedrockframework.plugin.gadget
 		/*
 		Show/Hide Scroller Functions
 		*/
-		public function showScrubber():void
+		public function showInterface():void
 		{
 			this.data.scrubberContainer.visible = true;
 			if ( this.data.incrementButton != null && this.data.decrementButton != null ) {
@@ -159,7 +160,7 @@ package com.bedrockframework.plugin.gadget
 			}
 			this.dispatchEvent(new ScrollerEvent(ScrollerEvent.SHOW_SCROLLER, this));
 		}
-		public function hideScrubber():void
+		public function hideInterface():void
 		{
 			this.data.scrubberContainer.visible = false;
 			if ( this.data.incrementButton != null && this.data.decrementButton != null ) {

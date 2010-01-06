@@ -25,6 +25,10 @@
 		}
 		private function applyTransform():void
 		{
+			try {
+				trace( this._objSoundTransform.volume, this._numVolume );
+			} catch( $e ) {
+			}
 			this._objTarget.soundTransform = this._objSoundTransform;
 		}
 		/*
@@ -32,7 +36,6 @@
 		*/
 		public function mute():void
 		{
-			this._numVolume = this._objSoundTransform.volume;
 			this._objSoundTransform.volume = 0;
 			this.applyTransform();
 			this._bolMuted = true;
@@ -63,6 +66,7 @@
 		public function set volume($value:Number):void
 		{
 			this._objSoundTransform.volume = $value;
+			this._numVolume = $value;
 			this.applyTransform();
 		}
 		

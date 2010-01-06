@@ -16,7 +16,7 @@
 		Variable Declarations
 		*/
 		private var _objSoundBoard:SoundBoard;
-		private var _objGlobalSound:GlobalSound
+		private var _objGlobalSound:GlobalSound;
 		/*
 		Constructor
 		*/

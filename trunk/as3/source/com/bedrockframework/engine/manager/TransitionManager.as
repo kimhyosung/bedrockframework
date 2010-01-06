@@ -115,6 +115,7 @@
 				BedrockEngine.bedrock::state.siteInitialized = true;
 			} else {
 				if ( this.pageView == null) this.fatal("Fatal error loading page, check for compile errors!");
+				//"Fatal error loading page! \n - Check for compile errors.\n - Check your preloader, is outroComplete called imediatly in the outro function?"
 				this.pageView.initialize();
 			}
 		}

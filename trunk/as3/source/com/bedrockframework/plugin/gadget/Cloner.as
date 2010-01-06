@@ -20,7 +20,6 @@ package com.bedrockframework.plugin.gadget
 		/*
 		Variable Decarations
 		*/
-		private var _objParent:DisplayObjectContainer;
 		private var _objCurrentClone:DisplayObjectContainer;
 
 		private var _numPositionX:int;
@@ -41,9 +40,8 @@ package com.bedrockframework.plugin.gadget
 		/*
 		Constructor
 		*/
-		public function Cloner( $parent:DisplayObjectContainer = null )
+		public function Cloner()
 		{
-			this._objParent = $parent || this;
 			this._mapClones = new HashMap;
 			this._arrClones = new Array;
 		}
