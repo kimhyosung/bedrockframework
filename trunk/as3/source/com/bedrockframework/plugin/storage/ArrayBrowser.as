@@ -1,8 +1,6 @@
 ﻿package com.bedrockframework.plugin.storage
 {
-	import flash.utils.Proxy;
-	
-	public class ArrayBrowser extends Proxy
+	public class ArrayBrowser
 	{
 		import com.bedrockframework.plugin.util.MathUtil;
 		import com.bedrockframework.plugin.util.ArrayUtil;
@@ -272,7 +270,7 @@
 		*/
 		public function findAndSelect($value:*,$field:String=null):*
 		{
-			return this.setSelected(ArrayUtil.findIndex(this._arrData,$value,$field));
+			return this.setSelected( ArrayUtil.findIndex( this._arrData, $value, $field ) );
 		}
 		
 		/*

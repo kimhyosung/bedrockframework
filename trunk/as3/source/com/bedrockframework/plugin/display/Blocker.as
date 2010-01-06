@@ -87,6 +87,9 @@
 		*/
 		private function onMouseInteraction($event:MouseEvent):void
 		{
+			if ( $event.type == MouseEvent.MOUSE_DOWN ) {
+				this.warning( "Blocker is active!" );
+			}
 			this.dispatchEvent(new BlockerEvent(Blocker.__objReplacements.getValue($event.type),this));
 		}
 		private function onStageResize($event:Event):void

@@ -111,11 +111,11 @@
 		public function play($alias:String, $startTime:Number = 0, $delay:Number = 0, $loops:int = 0, $volume:Number = 1, $panning:Number = 0):SoundChannel
 		{
 			var objSoundData:SoundData = this.getDataByAlias($alias);
-			objSoundData.startTime = $startTime;
-			objSoundData.delay = $delay;
+			objSoundData.startTime = ( isNaN($startTime) ) ? 0 : $startTime;
+			objSoundData.delay = ( isNaN($delay) ) ? 0 : $delay;
 			objSoundData.loops = $loops;
-			objSoundData.volume = $volume;
-			objSoundData.panning = $panning;
+			objSoundData.volume = ( isNaN($volume) ) ? 1 : $volume;
+			objSoundData.panning = ( isNaN($panning) ) ? 0 : $panning;
 			this.playConditional(objSoundData);
 			//trace(objSoundData.allowMultiple, objSoundData.playing)
 			/* if (objSoundData.allowMultiple && objSoundData.playing) {

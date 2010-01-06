@@ -43,7 +43,7 @@
 		public function TextDisplay()
 		{
 			super( false );
-			this.mouseChildren = this.mouseEnabled = false;
+			this.mouseChildren = false;
 			this._arrTextLines = new Array;
 		}
 		/*

@@ -20,8 +20,6 @@
 			this.scroller = $scroller;
 			this.data = $data;
 			
-			this.data.originalPosition= this.data.contentPosition;
-			
 			this.refresh();
 			this.reset();
 		}
@@ -30,9 +28,9 @@
 		{
 			if ( ( this.data.contentSize < this.data.maskSize ) && this.data.autoHide ) {
 				this.moveContent( 0 );
-				this.scroller.hideScrubber();
+				this.scroller.hideInterface();
 			} else {
-				this.scroller.showScrubber();
+				this.scroller.showInterface();
 				
 				this.calculateMaxValues();
 
@@ -107,7 +105,9 @@
 		*/
 		public function moveContent( $position:Number ):void
 		{
-			this.data.contentPosition = ( -Math.round($position * this.data.ratio) + this.data.originalPosition );
+			var numPosition:Number = ( -Math.round($position * this.data.ratio) + this.data.originalPosition );
+			if ( isNaN( numPosition ) ) numPosition = this.data.originalPosition;
+			this.data.contentPosition = numPosition;
 			this.scroller.dispatchEvent(new ScrollerEvent(ScrollerEvent.CHANGE, this));
 		}
 		/*

@@ -3,14 +3,12 @@
 	import com.bedrockframework.plugin.data.ClonerData;
 	import com.bedrockframework.plugin.event.ClonerEvent;
 	import com.bedrockframework.plugin.event.PaginationEvent;
-	import com.bedrockframework.core.base.DispatcherWidget;
-	import com.bedrockframework.plugin.tools.Pagination;
-	import flash.display.DisplayObjectContainer;
-	import com.bedrockframework.plugin.util.ArrayUtil;
 	import com.bedrockframework.plugin.storage.ArrayBrowser;
 	import com.bedrockframework.plugin.tools.IPageable;
+	import com.bedrockframework.plugin.tools.Pagination;
+	import com.bedrockframework.plugin.util.ArrayUtil;
 
-	public class PaginationCloner extends DispatcherWidget implements IPageable
+	public class PaginationCloner extends Cloner implements IPageable
 	{
 		/*
 		Variable Declarations
@@ -24,28 +22,23 @@
 		/*
 		Constructor
 		*/
-		public function PaginationCloner($parent:DisplayObjectContainer,$child:Class,$useDummy:Boolean=true)
+		public function PaginationCloner()
 		{
 			this._objArrayBrowser = new ArrayBrowser()
-			this._objCloner = new Cloner($child, $parent, $useDummy);
-			this._objCloner.addEventListener(ClonerEvent.CREATE, this.onDispatchClonerEvent);
-			this._objCloner.addEventListener(ClonerEvent.COMPLETE, this.onDispatchClonerEvent);
+			
 			this._objPagination = new Pagination();
 			this._objPagination.addEventListener(PaginationEvent.SELECT_PAGE, this.onDispatchPaginationEvent);
 			this._objPagination.addEventListener(PaginationEvent.SELECT_PAGE, this.onPageChange);
-			this._objCloner.silenceLogging = true;
-		}
-		/*
-		Setup
-		*/
-		public function setup($data:ClonerData):void
-		{
-			this._objClonerData = $data;
 		}
 		/*
 		Initialize
 		*/
-		public function initialize($data:Array, $pagesize:int = 0):void
+		override public function initialize( $data:ClonerData ):Array
+		{
+			this.data = $data;
+			return null;
+		}
+		public function populate( $data:Array, $pagesize:int = 0 ):void
 		{
 			this._arrSegmentedData = new Array();
 			this._arrOriginalData = $data;
@@ -55,13 +48,13 @@
 				this._arrSegmentedData.push(this._arrOriginalData);
 			}
 			this._objArrayBrowser.data = this._arrSegmentedData;
-			this._objPagination.update(this._arrOriginalData.length, $pagesize);
+			this._objPagination.update( this._arrOriginalData.length, $pagesize );
 			this.createPage(this._objPagination.selectedPage);
 		}
-		public function createPage($index:int):void
+		private function createPage( $index:int ):void
 		{
-			this._objClonerData.total = this.getSegment($index).length;
-			this._objCloner.initialize(this._objClonerData);
+			this.data.total = this.getSegment($index).length;
+			super.initialize( this.data );
 		}
 		/*
 		Get Segment Data
@@ -105,18 +98,18 @@
 		*/
 		private function onPageChange($event:PaginationEvent):void
 		{
-			this.createPage(this._objPagination.selectedPage);
+			this.createPage( this._objPagination.selectedPage );
 		}
 		/*
 		Rebroadcast Functions
 		*/
 		private function onDispatchClonerEvent($event:ClonerEvent):void
 		{
-			this.dispatchEvent(new ClonerEvent($event.type, $event.origin, $event.details));
+			this.dispatchEvent( new ClonerEvent($event.type, $event.origin, $event.details) );
 		}
 		private function onDispatchPaginationEvent($event:PaginationEvent):void
 		{
-			this.dispatchEvent(new PaginationEvent($event.type, $event.origin, $event.details));
+			this.dispatchEvent( new PaginationEvent($event.type, $event.origin, $event.details) );
 		}	
 		/*
 		Property Definitions
