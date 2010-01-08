@@ -1,15 +1,13 @@
 ﻿package com.bedrockframework.plugin.audio
 {
 	import com.bedrockframework.core.base.DispatcherWidget;
-	import com.bedrockframework.plugin.data.AudioData;
+	import com.bedrockframework.plugin.data.SoundData;
 	import com.bedrockframework.plugin.event.SoundEvent;
 	import com.bedrockframework.plugin.storage.HashMap;
 	import com.bedrockframework.plugin.util.ArrayUtil;
 	
 	import flash.events.Event;
-	import flash.media.Sound;
 	import flash.media.SoundChannel;
-	import flash.media.SoundTransform;
 	
 	import gs.TweenLite;
 
@@ -30,9 +28,9 @@
 		/*
 		Add a new sound
 		*/
-		public function add($alias:String, $sound:Sound, $allowMultiple:Boolean = true):void
+		public function add( $data:SoundData ):void
 		{
-			this._mapSounds.saveValue($alias, new AudioData($alias, $sound, $allowMultiple));
+			this._mapSounds.saveValue($data.alias, $data );
 		}
 		public function remove($alias:String):void
 		{
@@ -42,76 +40,12 @@
 		{
 		
 		}
-		public function fadeVolume($alias:String, $time:Number, $value:Number, $completeHandler:Function = null ):void
-		{
-			var objChannel:SoundChannel = this.getChannel($alias) || this.play($alias, 0, 0, 0, 0, 0);
-			if ( $completeHandler != null ) {
-				TweenLite.to( objChannel, $time, { volume:$value, onComplete:$completeHandler } );
-			} else {
-				TweenLite.to( objChannel, $time, { volume:$value } );
-			}
-		}
-		
-		public function fadePanning($alias:String, $time:Number, $value:Number, $completeHandler:Function = null ):void
-		{
-			var objChannel:SoundChannel = this.getChannel($alias) || this.play($alias, 0, 0, 0, 0, 0);
-			if ( $completeHandler != null ) {
-				TweenLite.to( objChannel, $time, { panning:$value, onComplete:$completeHandler } );
-			} else {
-				TweenLite.to( objChannel, $time, { panning:$value } );
-			}
-		}
-		/*
-		Get Data
-		*/
-		private function getDataByChannel($channel:SoundChannel):AudioData
-		{
-			var arrData:Array = this._mapSounds.getValues();
-			return ArrayUtil.findItem(arrData, $channel, "channel");
-		}
-		private function getDataByAlias($alias:String):AudioData
-		{
-			return this._mapSounds.getValue($alias);
-		}
-		/*
-		Get Info by alias
-		*/
-		
-		public function getSound($alias:String):Sound
-		{
-			return this.getDataByAlias($alias).sound;
-		}
-		public function getChannel($alias:String):SoundChannel
-		{
-			return this.getDataByAlias($alias).channel;
-		}
-		/*
-		Transform Functions
-		*/
-		private function createTransform($volume:Number, $panning:Number):SoundTransform
-		{
-			return new SoundTransform($volume, $panning);
-		}
-		public function setTransform($alias:String, $transform:SoundTransform):void
-		{
-			try{
-			var objChannel:SoundChannel = this.getChannel($alias);
-			objChannel.soundTransform = $transform;
-			}catch($error){
-				//TypeError: Error #1009: Cannot access a property or method of a null object reference.
-				//at com.bedrockframework.plugin.audio::SoundBoard/setTransform()
-			}
-		}				
-		public function getTransform($alias:String):SoundTransform
-		{
-			return this.getChannel($alias).soundTransform;
-		}
 		/*
 		Yay
 		*/
 		public function play($alias:String, $startTime:Number = 0, $delay:Number = 0, $loops:int = 0, $volume:Number = 1, $panning:Number = 0):SoundChannel
 		{
-			var objSoundData:AudioData = this.getDataByAlias($alias);
+			var objSoundData:SoundData = this.getDataByAlias($alias);
 			objSoundData.startTime = ( isNaN($startTime) ) ? 0 : $startTime;
 			objSoundData.delay = ( isNaN($delay) ) ? 0 : $delay;
 			objSoundData.loops = $loops;
@@ -126,7 +60,7 @@
 			} */
 			return null;
 		}
-		private function playConditional($data:AudioData):SoundChannel
+		private function playConditional($data:SoundData):SoundChannel
 		{
 			if ($data.delay == 0) {
 				return this.playImmediate($data);
@@ -135,68 +69,123 @@
 				return null;
 			}
 		}
-		private function playImmediate($data:AudioData):SoundChannel
+		private function playImmediate($data:SoundData):SoundChannel
 		{
-			var objSoundData:AudioData = $data;
-			var objSound:Sound = objSoundData.sound;
-			objSoundData.playing = true;
-			var objTransform:SoundTransform = this.createTransform(objSoundData.volume, objSoundData.panning);
-			objSoundData.channel = objSound.play(objSoundData.startTime, objSoundData.loops, objTransform);
-			//objSoundData.channel.addEventListener(Event.SOUND_COMPLETE, this.onSoundComplete);
-			//objSoundData.channel.addEventListener(Event.DEACTIVATE, this.onSoundStop);
-			this.setTransform(objSoundData.alias, objTransform);
-			return objSoundData.channel;
+			var objData:SoundData = $data;
+			objData.playing = true;
+			objData.channel = objData.sound.play(objData.startTime, objData.loops, objData.transform );
+			objData.mixer.target = objData.channel;
+			objData.channel.addEventListener( Event.SOUND_COMPLETE, this.onSoundComplete );
+			return objData.channel;
 		}
-		private function playDelay($data:AudioData):void
+		private function playDelay($data:SoundData):void
 		{
-			TweenLite.to({count:0}, $data.delay, {count:100, onComplete:this.playImmediate, onCompleteParams:[$data]})
+			TweenLite.delayedCall( $data.delay, this.playImmediate, [$data] );
 		}
 		public function close($alias:String):void
 		{
-			var objSound:Sound =  this.getSound($alias);
-			objSound.close();
+			var objData:SoundData = this.getDataByAlias( $alias );
+			if ( objData.playing ) {
+				objData.playing = false;
+				objData.channel.removeEventListener(Event.SOUND_COMPLETE, this.onSoundComplete );
+				objData.sound.close();
+			}
 		}
 		public function stop($alias:String):void
 		{
-			var objChannel:SoundChannel = this.getChannel($alias);
-			objChannel.stop();
+			var objData:SoundData = this.getDataByAlias( $alias );
+			if ( objData.playing ) {
+				objData.playing = false;
+				objData.channel.removeEventListener(Event.SOUND_COMPLETE, this.onSoundComplete );
+				objData.channel.stop();
+			}
+		}
+		/*
+		Get Data
+		*/
+		private function getDataByChannel($channel:SoundChannel):SoundData
+		{
+			var arrData:Array = this._mapSounds.getValues();
+			return ArrayUtil.findItem(arrData, $channel, "channel");
+		}
+		private function getDataByAlias($alias:String):SoundData
+		{
+			return this._mapSounds.getValue($alias);
+		}
+		public function getData($alias:String):SoundData
+		{
+			return this.getDataByAlias( $alias );
 		}
 		/*
 		Volume Functions
 		*/
 		public function setVolume($alias:String, $value:Number):void
 		{
-			this.setTransform($alias, this.createTransform($value, this.getPanning($alias)));
+			var objData:SoundData = this.getDataByAlias( $alias );
+			objData.mixer.volume = $value;
 		}
 		public function getVolume($alias:String):Number
 		{
-			return this.getTransform($alias).volume;
+			var objData:SoundData = this.getDataByAlias( $alias );
+			return objData.mixer.volume;
 		}
 		/*
 		Pan Functions
 		*/
 		public function setPanning($alias:String, $value:Number):void
 		{
-			this.setTransform($alias, this.createTransform(this.getVolume($alias), $value));
+			var objData:SoundData = this.getDataByAlias( $alias );
+			objData.mixer.panning = $value;
 		}
 		public function getPanning($alias:String):Number
 		{
-			return this.getTransform($alias).pan;
+			var objData:SoundData = this.getDataByAlias( $alias );
+			return objData.mixer.panning;
+		}
+		/*
+		Fade Functions
+		*/
+		public function fadeVolume($alias:String, $time:Number, $value:Number, $handlers:Object = null ):void
+		{
+			var objData:SoundData = this.getDataByAlias( $alias );
+			if ( !objData.playing ) this.play($alias, 0, 0, 0, 0, 0);
+			objData.mixer.fadeVolume( $value, $time, $handlers );
+		}
+		
+		public function fadePanning($alias:String, $time:Number, $value:Number, $handlers:Object = null ):void
+		{
+			var objData:SoundData = this.getDataByAlias( $alias );
+			if ( !objData.playing ) this.play($alias, 0, 0, 0, 0, 0);
+			objData.mixer.fadePanning( $value, $time, $handlers );
+		}
+		/*
+		Mute/ Unmute
+		*/
+		public function mute( $alias:String ):void
+		{
+			var objData:SoundData = this.getDataByAlias( $alias );
+			objData.mixer.mute();
+		}
+		public function unmute( $alias:String ):void
+		{
+			var objData:SoundData = this.getDataByAlias( $alias );
+			objData.mixer.unmute();
+		}
+		public function toggleMute( $alias:String ):Boolean
+		{
+			var objData:SoundData = this.getDataByAlias( $alias );
+			return objData.mixer.toggleMute();
 		}
 		/*
 		Event Handlers
 		*/
-		private function onSoundStop($event:Event):void
-		{
-			trace($event.target)
-		}
 		private function onSoundComplete($event:Event):void
 		{
-			var objData:AudioData = this.getDataByChannel($event.target as SoundChannel);
+			var objData:SoundData = this.getDataByChannel($event.target as SoundChannel);
 			objData.playing = false;
-			$event.target.removeEventListener(Event.SOUND_COMPLETE, this.onSoundComplete);
+			objData.channel.removeEventListener(Event.SOUND_COMPLETE, this.onSoundComplete);
 			
-			this.dispatchEvent(new SoundEvent(SoundEvent.SOUND_COMPLETE, this, objData));
+			this.dispatchEvent( new SoundEvent(SoundEvent.SOUND_COMPLETE, this, objData) );
 		}
 	}
 }
