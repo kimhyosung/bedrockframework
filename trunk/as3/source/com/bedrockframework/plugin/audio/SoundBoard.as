@@ -46,11 +46,11 @@
 		public function play($alias:String, $startTime:Number = 0, $delay:Number = 0, $loops:int = 0, $volume:Number = 1, $panning:Number = 0):SoundChannel
 		{
 			var objSoundData:SoundData = this.getDataByAlias($alias);
-			objSoundData.startTime = ( isNaN($startTime) ) ? 0 : $startTime;
-			objSoundData.delay = ( isNaN($delay) ) ? 0 : $delay;
+			objSoundData.startTime = $startTime;
+			objSoundData.delay = $delay;
 			objSoundData.loops = $loops;
-			objSoundData.volume = ( isNaN($volume) ) ? 1 : $volume;
-			objSoundData.panning = ( isNaN($panning) ) ? 0 : $panning;
+			objSoundData.volume = $volume;
+			objSoundData.panning = $panning;
 			this.playConditional(objSoundData);
 			//trace(objSoundData.allowMultiple, objSoundData.playing)
 			/* if (objSoundData.allowMultiple && objSoundData.playing) {
@@ -145,14 +145,14 @@
 		/*
 		Fade Functions
 		*/
-		public function fadeVolume($alias:String, $time:Number, $value:Number, $handlers:Object = null ):void
+		public function fadeVolume($alias:String, $value:Number, $time:Number, $handlers:Object = null ):void
 		{
 			var objData:SoundData = this.getDataByAlias( $alias );
 			if ( !objData.playing ) this.play($alias, 0, 0, 0, 0, 0);
 			objData.mixer.fadeVolume( $value, $time, $handlers );
 		}
 		
-		public function fadePanning($alias:String, $time:Number, $value:Number, $handlers:Object = null ):void
+		public function fadePanning($alias:String, $value:Number, $time:Number, $handlers:Object = null ):void
 		{
 			var objData:SoundData = this.getDataByAlias( $alias );
 			if ( !objData.playing ) this.play($alias, 0, 0, 0, 0, 0);

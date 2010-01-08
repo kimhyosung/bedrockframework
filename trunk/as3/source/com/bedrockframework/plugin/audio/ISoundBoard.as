@@ -15,11 +15,11 @@
 		
 		function setVolume($alias:String, $value:Number):void;
 		function getVolume($alias:String):Number;
-		function fadeVolume($alias:String, $time:Number, $value:Number, $handlers:Object = null ):void;
+		function fadeVolume($alias:String, $value:Number, $time:Number, $handlers:Object = null ):void;
 		
 		function setPanning($alias:String, $value:Number):void;
 		function getPanning($alias:String):Number;
-		function fadePanning($alias:String, $time:Number, $value:Number, $handlers:Object = null ):void;
+		function fadePanning($alias:String, $value:Number, $time:Number, $handlers:Object = null ):void;
 		
 		function mute( $alias:String ):void;
 		function unmute( $alias:String ):void;

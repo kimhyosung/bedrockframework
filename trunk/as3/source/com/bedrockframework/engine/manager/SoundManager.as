@@ -117,25 +117,25 @@
 					break;
 			}
 		}
-		public function fadeVolume($alias:String, $time:Number, $value:Number, $handlers:Object = null ):void
+		public function fadeVolume($alias:String, $value:Number, $time:Number, $handlers:Object = null ):void
 		{
 			switch ( $alias ) {
 				case SoundManager.GLOBAL :
-					this._objGlobalSound.fadeVolume( $time, $value, $handlers );
+					this._objGlobalSound.fadeVolume( $value, $time, $handlers );
 					break;
 				default :
-					this._objSoundBoard.fadeVolume($alias, $time, $value, $handlers );
+					this._objSoundBoard.fadeVolume($alias, $value, $time, $handlers );
 					break;
 			}
 		}
-		public function fadePanning($alias:String, $time:Number, $value:Number, $handlers:Object = null ):void
+		public function fadePanning($alias:String, $value:Number, $time:Number, $handlers:Object = null ):void
 		{
 			switch ( $alias ) {
 				case SoundManager.GLOBAL :
-					this._objGlobalSound.fadePanning( $time, $value, $handlers );
+					this._objGlobalSound.fadePanning( $value, $time, $handlers );
 					break;
 				default :
-					this._objSoundBoard.fadePanning($alias, $time, $value, $handlers );
+					this._objSoundBoard.fadePanning($alias, $value, $time, $handlers );
 					break;
 			}
 		}

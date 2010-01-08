@@ -45,17 +45,17 @@
 			return bolMute;
 		}
 		
-		public function fadeVolume( $time:Number, $value:Number, $handlers:Object = null ):void
+		public function fadeVolume( $value:Number, $time:Number, $handlers:Object = null ):void
 		{
 			var objHandlers:Object = $handlers || new Object;
 			objHandlers.onUpdate = this.applyTransform;
-			this._objAudioMixer.fadeVolume( $time, $value, objHandlers );
+			this._objAudioMixer.fadeVolume( $value, $time, objHandlers );
 		}
-		public function fadePanning( $time:Number, $value:Number, $handlers:Object = null ):void
+		public function fadePanning( $value:Number, $time:Number, $handlers:Object = null ):void
 		{
 			var objHandlers:Object = $handlers || new Object;
 			objHandlers.onUpdate = this.applyTransform;
-			this._objAudioMixer.fadePanning( $time, $value, objHandlers );
+			this._objAudioMixer.fadePanning( $value, $time, objHandlers );
 		}
 		
 		private function applyTransform():void
