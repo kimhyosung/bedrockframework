@@ -18,7 +18,6 @@
 		Variable Declarations
 		*/
 		private var _objFrontController:FrontController;
-		private var _objSoundController:SoundController;
 		/*
 		Constructor
 		*/
@@ -29,7 +28,6 @@
 		public function initialize():void
 		{
 			this.createFrontController();
-			this.createSoundController();
 			this.createListeners();
 			this.createCommands();
 		}
@@ -40,11 +38,6 @@
 		{
 			this._objFrontController = new FrontController;
 			this._objFrontController.initialize();
-		}
-		private function createSoundController():void
-		{
-			this._objSoundController = new SoundController;
-			this._objSoundController.initialize();
 		}
 		private function createListeners():void
 		{
