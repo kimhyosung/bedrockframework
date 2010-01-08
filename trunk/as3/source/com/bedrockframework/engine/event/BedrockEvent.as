@@ -68,14 +68,12 @@
 		public static const ADD_SOUND:String = "BedrockEvent.onAddSound";
 		public static const PLAY_SOUND:String = "BedrockEvent.onPlaySound";
 		public static const STOP_SOUND:String = "BedrockEvent.onStopSound";
-		public static const ADJUST_SOUND_PAN:String = "BedrockEvent.onAdjustSoundPan";
-		public static const ADJUST_SOUND_VOLUME:String = "BedrockEvent.onAdjustSoundVolume";
-		public static const FADE_SOUND:String = "BedrockEvent.onFadeInSound";
-		public static const FADE_OUT_SOUND:String = "BedrockEvent.onFadeOutSound";		
+		public static const SET_PANNING:String = "BedrockEvent.onSetPanning";
+		public static const SET_VOLUME:String = "BedrockEvent.onSetVolume";
+		public static const FADE_VOLUME:String = "BedrockEvent.onFadeVolume";
+		public static const FADE_PANNING:String = "BedrockEvent.onFadePanning";		
 		public static const MUTE:String = "BedrockEvent.onMute";
 		public static const UNMUTE:String = "BedrockEvent.onUnmute";
-		public static const ADJUST_GLOBAL_PAN:String = "BedrockEvent.onAdjustGlobalPan";
-		public static const ADJUST_GLOBAL_VOLUME:String = "BedrockEvent.onAdjustGlobalVolume";
 		
 		public static const SHARED_ASSETS_LOADED:String = "BedrockEvent.onSharedAssetsLoaded";
 

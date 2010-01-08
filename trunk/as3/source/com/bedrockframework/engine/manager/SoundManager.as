@@ -4,8 +4,8 @@
 	import com.bedrockframework.engine.api.ISoundManager;
 	import com.bedrockframework.plugin.audio.GlobalSound;
 	import com.bedrockframework.plugin.audio.SoundBoard;
+	import com.bedrockframework.plugin.data.SoundData;
 	
-	import flash.media.Sound;
 	import flash.media.SoundChannel;
 
 	public class SoundManager extends StandardWidget implements ISoundManager
@@ -13,6 +13,8 @@
 		/*
 		Variable Declarations
 		*/
+		public static const GLOBAL:String = "global";
+		
 		private var _objSoundBoard:SoundBoard;
 		private var _objGlobalSound:GlobalSound;
 		/*
@@ -43,85 +45,142 @@
 			var arrSounds:Array = $sounds;
 			var numLength:int = $sounds.length;
 			for (var i:int = 0 ; i < numLength; i++) {
-				this.addSound(arrSounds[i].alias, arrSounds[i].value);
+				this.add( new SoundData( arrSounds[i].alias, arrSounds[i].value ) );
 			}
 		}
 		/*
 		Audio Functions
 		*/
-		public function addSound($alias:String, $sound:Sound, $allowMultiple:Boolean = true):void
+		public function add( $data:SoundData ):void
 		{
-			this._objSoundBoard.add($alias, $sound, $allowMultiple);
+			this._objSoundBoard.add( $data );
 		}
-		public function loadSound($alias:String, $url:String, $completeHandler:Function):void
+		public function load($alias:String, $url:String, $completeHandler:Function):void
 		{
 		}
-		public function playSound($alias:String, $startTime:Number=0, $delay:Number = 0, $loops:int=0, $volume:Number = 1, $panning:Number = 0):SoundChannel
+		public function play($alias:String, $startTime:Number=0, $delay:Number = 0, $loops:int=0, $volume:Number = 1, $panning:Number = 0):SoundChannel
 		{
 			return this._objSoundBoard.play($alias, $startTime, $delay, $loops, $volume, $panning);
 		}
-		public function fadeSound($alias:String, $time:Number, $value:Number, $completeHandler:Function = null ):void
-		{
-			this._objSoundBoard.fadeVolume($alias, $time, $value, $completeHandler );
-		}
-		public function stopSound($alias:String):void
+		public function stop($alias:String):void
 		{
 			this._objSoundBoard.stop($alias);
 		}
-		public function closeSound($alias:String):void
+		public function close($alias:String):void
 		{
 			this._objSoundBoard.close($alias);
 		}
-		public function setSoundVolume($alias:String, $value:Number):void
+		/*
+		Volume/ Pan
+		*/
+		public function setVolume($alias:String, $value:Number):void
 		{
-			this._objSoundBoard.setVolume($alias, $value);
+			switch ( $alias ) {
+				case SoundManager.GLOBAL :
+					this._objGlobalSound.volume = $value;
+					break;
+				default :
+					this._objSoundBoard.setVolume($alias, $value);
+					break;
+			}
 		}
-		public function getSoundVolume($alias:String):Number
+		public function getVolume($alias:String):Number
 		{
-			return this._objSoundBoard.getVolume($alias);
+			switch ( $alias ) {
+				case SoundManager.GLOBAL :
+					return this._objGlobalSound.volume;
+					break;
+				default :
+					return this._objSoundBoard.getVolume($alias);
+					break;
+			}
 		}
-		public function setSoundPanning($alias:String, $value:Number):void
+		public function setPanning($alias:String, $value:Number):void
 		{
-			this._objSoundBoard.setPanning($alias, $value);
+			switch ( $alias ) {
+				case SoundManager.GLOBAL :
+					this._objGlobalSound.panning = $value;
+					break;
+				default :
+					this._objSoundBoard.setVolume($alias, $value);
+					break;
+			}
 		}
-		public function getSoundPanning($alias:String):Number
+		public function getPanning($alias:String):Number
 		{
-			return this._objSoundBoard.getVolume($alias);
+			switch ( $alias ) {
+				case SoundManager.GLOBAL :
+					return this._objGlobalSound.panning;
+					break;
+				default :
+					return this._objSoundBoard.getPanning($alias);
+					break;
+			}
 		}
-		
+		public function fadeVolume($alias:String, $time:Number, $value:Number, $handlers:Object = null ):void
+		{
+			switch ( $alias ) {
+				case SoundManager.GLOBAL :
+					this._objGlobalSound.fadeVolume( $time, $value, $handlers );
+					break;
+				default :
+					this._objSoundBoard.fadeVolume($alias, $time, $value, $handlers );
+					break;
+			}
+		}
+		public function fadePanning($alias:String, $time:Number, $value:Number, $handlers:Object = null ):void
+		{
+			switch ( $alias ) {
+				case SoundManager.GLOBAL :
+					this._objGlobalSound.fadePanning( $time, $value, $handlers );
+					break;
+				default :
+					this._objSoundBoard.fadePanning($alias, $time, $value, $handlers );
+					break;
+			}
+		}
 		/*
 		Global Sound Functions
 		*/
-		public function muteGlobal():void
+		public function mute( $alias:String ):void
 		{
-			this._objGlobalSound.mute();
+			switch ( $alias ) {
+				case SoundManager.GLOBAL :
+					this._objGlobalSound.mute();
+					break;
+				default :
+					this._objSoundBoard.mute( $alias );
+					break;
+			}
 		}
-		public function unmuteGlobal():void
+		public function unmute( $alias:String ):void
 		{
-			this._objGlobalSound.unmute();
+			switch ( $alias ) {
+				case SoundManager.GLOBAL :
+					this._objGlobalSound.unmute();
+					break;
+				default :
+					this._objSoundBoard.unmute( $alias );
+					break;
+			}
 		}
-		public function toggleGlobalMute():Boolean
+		public function toggleMute( $alias:String ):Boolean
 		{
-			return this._objGlobalSound.toggleMute();
+			switch ( $alias ) {
+				case SoundManager.GLOBAL :
+					return this._objGlobalSound.toggleMute();
+					break;
+				default :
+					return this._objSoundBoard.toggleMute( $alias );
+					break;
+			}
 		}
-		public function setGlobalPanning($value:Number):void
-		{
-			this._objGlobalSound.panning = $value;
-		}
-		public function getGlobalPanning():Number
-		{
-			return this._objGlobalSound.panning;
-		}
-		public function setGlobalVolume($value:Number):void
-		{
-			this._objGlobalSound.volume = $value;
-		}
-		public function getGlobalVolume():Number
-		{
-			return this._objGlobalSound.volume;
-		} 
 		/*
-		Event Handlers
+		Get Data
 		*/
+		public function getData( $alias:String ):SoundData
+		{
+			return this._objSoundBoard.getData( $alias );
+		}
 	}
 }

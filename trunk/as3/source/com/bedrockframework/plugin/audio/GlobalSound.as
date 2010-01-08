@@ -45,15 +45,15 @@
 			return bolMute;			
 		}
 		
-		public function fadeVolume($alias:String, $time:Number, $value:Number, $handlers:Object = null ):void
+		public function fadeVolume( $time:Number, $value:Number, $handlers:Object = null ):void
 		{
 			$handlers.onUpdate = this.applyTransform;
-			this._objAudioMixer.fadeVolume( $alias, $time, $value, $handlers );
+			this._objAudioMixer.fadeVolume( $time, $value, $handlers );
 		}
-		public function fadePanning($alias:String, $time:Number, $value:Number, $handlers:Object = null ):void
+		public function fadePanning( $time:Number, $value:Number, $handlers:Object = null ):void
 		{
 			$handlers.onUpdate = this.applyTransform;
-			this._objAudioMixer.fadePanning( $alias, $time, $value, $handlers );
+			this._objAudioMixer.fadePanning( $time, $value, $handlers );
 		}
 		
 		private function applyTransform():void

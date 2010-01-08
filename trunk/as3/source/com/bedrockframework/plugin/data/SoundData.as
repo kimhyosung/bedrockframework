@@ -1,7 +1,10 @@
 package com.bedrockframework.plugin.data
 {
+	import com.bedrockframework.plugin.audio.AudioMixer;
+	
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
+	import flash.media.SoundTransform;
 	
 	public class SoundData
 	{
@@ -17,11 +20,13 @@ package com.bedrockframework.plugin.data
 		
 		public var sound:Sound;
 		public var channel:SoundChannel;
+		public var transform:SoundTransform;
+		public var mixer:AudioMixer;
 				
 		public function SoundData($alias:String, $sound:Sound, $allowMultiple:Boolean = true)
 		{
 			this.alias = $alias;
-			this.playing = $allowMultiple;
+			this.playing = false;
 			this.sound = $sound;
 			this.time = 1;
 			this.startTime = 0;
@@ -29,6 +34,8 @@ package com.bedrockframework.plugin.data
 			this.loops = 0;
 			this.volume = 1;
 			this.panning = 0;
+			this.allowMultiple = $allowMultiple;
+			this.mixer = new AudioMixer;
 		}
 
 	}
