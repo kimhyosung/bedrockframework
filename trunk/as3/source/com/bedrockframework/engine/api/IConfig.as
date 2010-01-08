@@ -5,6 +5,8 @@ package com.bedrockframework.engine.api
 	public interface IConfig
 	{
 		function initialize($data:String, $url:String, $root:DisplayObjectContainer ):void;
+		
+		function outputValues():void;
 		/*
 		Save the page information for later use.
 		*/

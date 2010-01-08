@@ -169,6 +169,11 @@
 			return Math.round(($smaller / $larger) * 100);
 		}
 		
+		public static function getPercentage( $percentage:Number, $total:Number ):Number
+		{
+			return ( $total * ( $percentage / 100 ) );
+		}
+		
 		public static function calculateValueFromPercentage( $percentage:Number, $value:Number ):Number
 		{
 			return ( $value * ( $percentage / 100) );

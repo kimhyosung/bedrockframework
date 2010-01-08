@@ -108,7 +108,6 @@
 			} else {
 				this.call( ViewStackData.INTRO );
 			}
-			this.dispatchEvent(new ViewStackEvent(ViewStackEvent.SHOW, this, this.getDetailObject()));
 		}
 		private function dequeue():void
 		{

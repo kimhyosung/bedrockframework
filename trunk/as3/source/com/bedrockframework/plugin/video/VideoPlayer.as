@@ -1,7 +1,7 @@
 ﻿package com.bedrockframework.plugin.video
 {
 	import com.bedrockframework.core.base.SpriteWidget;
-	import com.bedrockframework.plugin.audio.TransformBoard;
+	import com.bedrockframework.plugin.audio.AudioMixer;
 	import com.bedrockframework.plugin.event.TriggerEvent;
 	import com.bedrockframework.plugin.event.VideoEvent;
 	import com.bedrockframework.plugin.timer.IntervalTrigger;
@@ -25,7 +25,7 @@
 		private var _objVideo:Video;
 		private var _objConnection:NetConnection;
         private var _objStream:NetStream;
-        private var _objTransformBoard:TransformBoard;
+        private var _objTransformBoard:AudioMixer;
         private var _objSharedTrigger:IntervalTrigger;
 		private var _objClient:Object;
 		//String
@@ -103,7 +103,7 @@
 		
 		private function createTransformBoard():void
 		{
-			this._objTransformBoard = new TransformBoard(this._objStream);		
+			this._objTransformBoard = new AudioMixer(this._objStream);		
 		}
 		/*
 		Basic Functions
