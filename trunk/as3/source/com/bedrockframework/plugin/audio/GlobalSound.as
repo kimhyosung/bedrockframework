@@ -17,7 +17,7 @@
 		/*
 		Variable Declarations
 		*/
-		private var _objTransformBoard:TransformBoard
+		private var _objAudioMixer:AudioMixer
 		private var _objSoundTransform:SoundTransform;
 		private var _numVolume:Number;
 		/*
@@ -25,40 +25,54 @@
 		*/
 		public function GlobalSound()
 		{
-			this._objTransformBoard = new TransformBoard;
+			this._objAudioMixer = new AudioMixer;
 		}
 		
 		public function mute():void
 		{
-			this._objTransformBoard.mute();
-			SoundMixer.soundTransform = this._objTransformBoard.transform;
+			this._objAudioMixer.mute();
+			this.applyTransform();
 		}
 		public function unmute():void
 		{
-			this._objTransformBoard.unmute();
-			SoundMixer.soundTransform = this._objTransformBoard.transform;
+			this._objAudioMixer.unmute();
+			this.applyTransform();
 		}
 		public function toggleMute():Boolean
 		{
-			var bolMute:Boolean = this._objTransformBoard.toggleMute();
-			SoundMixer.soundTransform = this._objTransformBoard.transform;
+			var bolMute:Boolean = this._objAudioMixer.toggleMute();
+			this.applyTransform();
 			return bolMute;			
 		}
 		
+		public function fadeVolume($alias:String, $time:Number, $value:Number, $handlers:Object = null ):void
+		{
+			$handlers.onUpdate = this.applyTransform;
+			this._objAudioMixer.fadeVolume( $alias, $time, $value, $handlers );
+		}
+		public function fadePanning($alias:String, $time:Number, $value:Number, $handlers:Object = null ):void
+		{
+			$handlers.onUpdate = this.applyTransform;
+			this._objAudioMixer.fadePanning( $alias, $time, $value, $handlers );
+		}
 		
+		private function applyTransform():void
+		{
+			SoundMixer.soundTransform = this._objAudioMixer.transform;
+		}
 		/**
 		* Change the global sound volume of the application.
 		* @param value The volume, ranging from 0 (silent) to 1 (full volume). 
 	 	*/
 		public function set volume($value:Number):void
 		{
-			this._objTransformBoard.volume = $value;
-			SoundMixer.soundTransform = this._objTransformBoard.transform;
+			this._objAudioMixer.volume = $value;
+			this.applyTransform();
 		}
 		
 		public function get volume():Number
 		{
-			return this._objTransformBoard.volume;
+			return this._objAudioMixer.volume;
 		}
 		/**
 		* Change the global sound panning of the application.
@@ -67,18 +81,18 @@
 		
 		public function set panning($value:Number):void
 		{
-			this._objTransformBoard.panning = $value;
-			SoundMixer.soundTransform = this._objTransformBoard.transform;
+			this._objAudioMixer.panning = $value;
+			this.applyTransform();
 		}
 		
 		public function get panning():Number
 		{
-			return this._objTransformBoard.panning;
+			return this._objAudioMixer.panning;
 		}
 		
 		public function get isMuted():Boolean
 		{
-			return this._objTransformBoard.isMuted;
+			return this._objAudioMixer.isMuted;
 		}
 	}
 }

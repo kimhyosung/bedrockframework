@@ -29,6 +29,7 @@ package com.bedrockframework.engine
 	import com.bedrockframework.plugin.loader.BackgroundLoader;
 	import com.bedrockframework.plugin.loader.VisualLoader;
 	import com.bedrockframework.plugin.tracking.ITrackingService;
+	import com.bedrockframework.plugin.util.DeepLinkUtil;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -45,7 +46,7 @@ package com.bedrockframework.engine
 		public var configURL:String;
 		public var params:String
 		
-		private var _arrLoadSequence:Array=new Array("loadPreloader","loadParams","loadConfig", "loadPaths", "loadModifications", "loadContainers","loadDeepLinking","loadCacheSettings", "loadLogging","loadServices","loadEngineClasses","loadController","loadEngineContainers", "loadFonts", "loadResourceBundle", "loadCSS", "loadLocale", "loadDefaultPage", "loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
+		private var _arrLoadSequence:Array=new Array("loadPreloader","loadParams","loadConfig", "loadDeepLinking","loadPaths", "loadModifications", "loadContainers","loadCacheSettings", "loadLogging","loadServices","loadEngineClasses","loadController","loadEngineContainers", "loadFonts", "loadResourceBundle", "loadCSS", "loadLocale", "loadDefaultPage", "loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
 		private var _numLoadIndex:Number;		
 		private var _objConfigLoader:URLLoader;
 		public var environmentURL:String;
@@ -137,6 +138,29 @@ package com.bedrockframework.engine
 		/*
 		Sequential Functions
 		*/
+		final private function loadParams():void
+		{
+			BedrockEngine.config.parseParamString(this.params);
+			BedrockEngine.config.parseParamObject(this.loaderInfo.parameters);
+			this.next();
+		}
+		
+		final private function loadDeepLinking():void
+		{
+			if (BedrockEngine.config.getSettingValue(BedrockData.DEEP_LINKING_ENABLED)) {
+				BedrockDispatcher.addEventListener(BedrockEvent.DEEP_LINK_INITIALIZE, this.onDeepLinkInitialized);
+				BedrockEngine.deeplinkManager.initialize();
+				BedrockEngine.config.parseParamObject( DeepLinkUtil.getParameterObject() );
+			} else {
+				this.next();
+			}	
+		}
+		final private function loadConfig():void
+		{
+			var strConfigURL:String;
+			this.status( this.loaderInfo.url );
+			this.loadConfigXML( BedrockEngine.config.getParamValue(BedrockData.CONFIG_URL) ||this.configURL );
+		}
 		final private function loadPaths():void
 		{
 			var strPath:String;
@@ -162,28 +186,6 @@ package com.bedrockframework.engine
 		{
 			BedrockEngine.assetManager.addPreloader(BedrockData.SHELL_PRELOADER, ShellPreloader);
 			this.next();
-		}
-		final private function loadParams():void
-		{
-			BedrockEngine.config.parseParamString(this.params);
-			BedrockEngine.config.parseParamObject(this.loaderInfo.parameters);
-			this.next();
-		}
-		
-		final private function loadConfig():void
-		{
-			var strConfigURL:String;
-			this.status(this.loaderInfo.url);
-			this.loadConfigXML( BedrockEngine.config.getParamValue(BedrockData.CONFIG_URL) ||this.configURL );
-		}
-		final private function loadDeepLinking():void
-		{
-			if (BedrockEngine.config.getSettingValue(BedrockData.DEEP_LINKING_ENABLED)) {
-				BedrockDispatcher.addEventListener(BedrockEvent.DEEP_LINK_INITIALIZE, this.onDeepLinkInitialized);
-				BedrockEngine.deeplinkManager.initialize();
-			} else {
-				this.next();
-			}	
 		}
 		final private function loadCacheSettings():void
 		{
@@ -300,7 +302,10 @@ package com.bedrockframework.engine
 			this.addToQueue( BedrockEngine.config.getPathValue( BedrockData.SITE_PATH ), BedrockEngine.containerManager.getContainer( BedrockData.SITE_CONTAINER ), BedrockData.SITE_PRIORITY );
 						
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.BEDROCK_COMPLETE,this));
+			trace("");
 			this.status("Initialization Complete!");
+			trace("");
+			BedrockEngine.config.outputValues();
 		}
 		/*
 		Add Command

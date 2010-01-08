@@ -7,7 +7,7 @@
       <auto_intro_enabled>true</auto_intro_enabled>
       <auto_default_enabled>true</auto_default_enabled>
       <auto_blocker_enabled>true</auto_blocker_enabled>
-      <deep_linking_enabled>false</deep_linking_enabled>
+      <deep_linking_enabled>true</deep_linking_enabled>
       <remoting_enabled>false</remoting_enabled>
       <cache_prevention_enabled>false</cache_prevention_enabled>
       <shared_sounds_enabled>false</shared_sounds_enabled>
@@ -117,7 +117,5 @@
       <!--Remoting-->
     </environment>
   </environments>
-  <locales>
-    
-  </locales>
+  <locales></locales>
 </config>

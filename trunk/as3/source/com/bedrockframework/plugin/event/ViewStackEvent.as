@@ -9,7 +9,6 @@ package com.bedrockframework.plugin.event
 		public static  const OUTRO_COMPLETE:String = "ViewStackEvent.onPrevious";
 	
 		public static const CHANGE:String = "ViewStackEvent.onChange";
-		public static const SHOW:String = "ViewStackEvent.onShow";
 		public static const NEXT:String = "ViewStackEvent.onNext";
 		public static const PREVIOUS:String = "ViewStackEvent.onPrevious";
 		public static const BEGINNING:String =  "ViewStackEvent.onBeginning";

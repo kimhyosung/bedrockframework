@@ -79,7 +79,7 @@ package com.bedrockframework.engine.manager
 		private function getDetailObject():Object
 		{
 			var objDetails:Object = new Object();
-			objDetails.query = DeepLinkUtil.getParameterObject();
+			objDetails.parameters = DeepLinkUtil.getParameterObject();
 			objDetails.paths = DeepLinkUtil.getPathNames();
 			return objDetails;
 		}
@@ -93,13 +93,14 @@ package com.bedrockframework.engine.manager
 		}	
 		private function onChangeNotification($event:SWFAddressEvent):void
 		{
+			this.status( "Change" );
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.URL_CHANGE,DeepLinkManager, this.getDetailObject()));
 		}		
 		private function onInitializeComplete($event:BedrockEvent):void
 		{
 			DeepLinkUtil.clearPath();
 			DeepLinkUtil.setPath(BedrockEngine.history.current.alias);
-			SWFAddress.setStatus("Ready");
+			//SWFAddress.setStatus("Ready");
 			this.enableChangeHandler();		
 		}
 		private function onPauseChangeHandler($event:BedrockEvent):void

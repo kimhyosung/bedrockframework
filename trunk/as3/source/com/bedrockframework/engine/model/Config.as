@@ -83,13 +83,6 @@ package com.bedrockframework.engine.model
 			this.saveCacheSettings();
 			
 			this.savePages( this.parsePages( xmlConfig.pages ) );
-			
-			this.status( this._objParamValues );
-			this.status( this._objSettingValues );
-			this.status( this._objEnvironmentValues );
-			this.status( this._objLocaleValues );
-			
-			this.status("Environment - " + this.getSettingValue(BedrockData.ENVIRONMENT));
 		}
 		private function getXML($data:String):XML
 		{
@@ -97,7 +90,15 @@ package com.bedrockframework.engine.model
 			XML.ignoreComments=true;
 			XML.ignoreWhitespace=true;
 			return xmlConfig;
-		}		
+		}
+		public function outputValues():void
+		{
+			this.status("Environment - " + this.getSettingValue(BedrockData.ENVIRONMENT));
+			this.status( this._objParamValues );
+			this.status( this._objSettingValues );
+			this.status( this._objEnvironmentValues );
+			this.status( this._objLocaleValues );
+		}
 		/*
 		Settings Functions
 		*/

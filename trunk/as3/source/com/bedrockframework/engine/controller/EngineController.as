@@ -59,9 +59,9 @@
 			BedrockDispatcher.addEventListener(BedrockEvent.SET_QUEUE, this.onStateChange);
 			BedrockDispatcher.addEventListener(BedrockEvent.INITIALIZE_COMPLETE, this.onStateChange);
 			
-			BedrockDispatcher.addEventListener(BedrockEvent.URL_CHANGE, this.onURLChange);
+			BedrockDispatcher.addEventListener(BedrockEvent.URL_CHANGE, this.onURLChange );
 			
-			BedrockDispatcher.addEventListener(BedrockEvent.LOCALE_CHANGE, this.onURLChange);
+			BedrockDispatcher.addEventListener(BedrockEvent.LOCALE_CHANGE, this.onLocaleChange );
 			
 			if (BedrockEngine.config.getSettingValue(BedrockData.AUTO_INTRO_ENABLED)){
 				BedrockDispatcher.addEventListener(BedrockEvent.BEDROCK_COMPLETE, this.onRenderSite);

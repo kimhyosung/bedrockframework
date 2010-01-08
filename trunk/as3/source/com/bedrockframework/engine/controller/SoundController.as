@@ -33,8 +33,7 @@
 			BedrockDispatcher.addEventListener(BedrockEvent.PLAY_SOUND, this.onPlaySound);
 			BedrockDispatcher.addEventListener(BedrockEvent.STOP_SOUND, this.onStopSound);
 			
-			BedrockDispatcher.addEventListener(BedrockEvent.FADE_IN_SOUND, this.onFadeInSound);
-			BedrockDispatcher.addEventListener(BedrockEvent.FADE_OUT_SOUND, this.onFadeOutSound);
+			BedrockDispatcher.addEventListener(BedrockEvent.FADE_SOUND, this.onFadeSound);
 			
 			BedrockDispatcher.addEventListener(BedrockEvent.ADJUST_SOUND_VOLUME, this.onAdjustSoundVolume);
 			BedrockDispatcher.addEventListener(BedrockEvent.ADJUST_SOUND_PAN, this.onAdjustSoundPan);
@@ -66,13 +65,9 @@
 		/*
 		Fade Event Handlers
 		*/
-		private function onFadeInSound($event:BedrockEvent):void
+		private function onFadeSound($event:BedrockEvent):void
 		{
-			BedrockEngine.soundManager.fadeInSound($event.details.alias, $event.details.time);
-		}
-		private function onFadeOutSound($event:BedrockEvent):void
-		{
-			BedrockEngine.soundManager.fadeOutSound($event.details.alias, $event.details.time);
+			BedrockEngine.soundManager.fadeSound( $event.details.alias, $event.details.time, $event.details.value, $event.details.onComplete );
 		}
 		/*
 		Volume & Pan Event Handlers

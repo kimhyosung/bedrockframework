@@ -1,7 +1,7 @@
 ﻿package com.bedrockframework.plugin.audio
 {
 	import com.bedrockframework.core.base.DispatcherWidget;
-	import com.bedrockframework.plugin.data.SoundData;
+	import com.bedrockframework.plugin.data.AudioData;
 	import com.bedrockframework.plugin.event.SoundEvent;
 	import com.bedrockframework.plugin.storage.HashMap;
 	import com.bedrockframework.plugin.util.ArrayUtil;
@@ -32,7 +32,7 @@
 		*/
 		public function add($alias:String, $sound:Sound, $allowMultiple:Boolean = true):void
 		{
-			this._mapSounds.saveValue($alias, new SoundData($alias, $sound, $allowMultiple));
+			this._mapSounds.saveValue($alias, new AudioData($alias, $sound, $allowMultiple));
 		}
 		public function remove($alias:String):void
 		{
@@ -42,33 +42,34 @@
 		{
 		
 		}
-		public function fadeVolume($alias:String, $time:Number, $volume:Number):void
+		public function fadeVolume($alias:String, $time:Number, $value:Number, $completeHandler:Function = null ):void
 		{
-			var objChannel:SoundChannel
-			if ($volume == 0) {
-				objChannel = this.getChannel($alias)
-				if (objChannel != null) {
-					TweenLite.to(objChannel, $time, {volume:$volume, onComplete:this.stop, onCompleteParams:[$alias]});
-				}
+			var objChannel:SoundChannel = this.getChannel($alias) || this.play($alias, 0, 0, 0, 0, 0);
+			if ( $completeHandler != null ) {
+				TweenLite.to( objChannel, $time, { volume:$value, onComplete:$completeHandler } );
 			} else {
-				objChannel = this.getChannel($alias) || this.play($alias, 0, 0, 0, 0, 0);
-				TweenLite.to(objChannel, $time, {volume:$volume});	
+				TweenLite.to( objChannel, $time, { volume:$value } );
 			}
 		}
 		
-		public function fadePanning($alias:String, $panning:Number):void
+		public function fadePanning($alias:String, $time:Number, $value:Number, $completeHandler:Function = null ):void
 		{
-			
+			var objChannel:SoundChannel = this.getChannel($alias) || this.play($alias, 0, 0, 0, 0, 0);
+			if ( $completeHandler != null ) {
+				TweenLite.to( objChannel, $time, { panning:$value, onComplete:$completeHandler } );
+			} else {
+				TweenLite.to( objChannel, $time, { panning:$value } );
+			}
 		}
 		/*
 		Get Data
 		*/
-		private function getDataByChannel($channel:SoundChannel):SoundData
+		private function getDataByChannel($channel:SoundChannel):AudioData
 		{
 			var arrData:Array = this._mapSounds.getValues();
 			return ArrayUtil.findItem(arrData, $channel, "channel");
 		}
-		private function getDataByAlias($alias:String):SoundData
+		private function getDataByAlias($alias:String):AudioData
 		{
 			return this._mapSounds.getValue($alias);
 		}
@@ -110,7 +111,7 @@
 		*/
 		public function play($alias:String, $startTime:Number = 0, $delay:Number = 0, $loops:int = 0, $volume:Number = 1, $panning:Number = 0):SoundChannel
 		{
-			var objSoundData:SoundData = this.getDataByAlias($alias);
+			var objSoundData:AudioData = this.getDataByAlias($alias);
 			objSoundData.startTime = ( isNaN($startTime) ) ? 0 : $startTime;
 			objSoundData.delay = ( isNaN($delay) ) ? 0 : $delay;
 			objSoundData.loops = $loops;
@@ -125,7 +126,7 @@
 			} */
 			return null;
 		}
-		private function playConditional($data:SoundData):SoundChannel
+		private function playConditional($data:AudioData):SoundChannel
 		{
 			if ($data.delay == 0) {
 				return this.playImmediate($data);
@@ -134,9 +135,9 @@
 				return null;
 			}
 		}
-		private function playImmediate($data:SoundData):SoundChannel
+		private function playImmediate($data:AudioData):SoundChannel
 		{
-			var objSoundData:SoundData = $data;
+			var objSoundData:AudioData = $data;
 			var objSound:Sound = objSoundData.sound;
 			objSoundData.playing = true;
 			var objTransform:SoundTransform = this.createTransform(objSoundData.volume, objSoundData.panning);
@@ -146,7 +147,7 @@
 			this.setTransform(objSoundData.alias, objTransform);
 			return objSoundData.channel;
 		}
-		private function playDelay($data:SoundData):void
+		private function playDelay($data:AudioData):void
 		{
 			TweenLite.to({count:0}, $data.delay, {count:100, onComplete:this.playImmediate, onCompleteParams:[$data]})
 		}
@@ -191,7 +192,7 @@
 		}
 		private function onSoundComplete($event:Event):void
 		{
-			var objData:SoundData = this.getDataByChannel($event.target as SoundChannel);
+			var objData:AudioData = this.getDataByChannel($event.target as SoundChannel);
 			objData.playing = false;
 			$event.target.removeEventListener(Event.SOUND_COMPLETE, this.onSoundComplete);
 			

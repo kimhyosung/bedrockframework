@@ -7,8 +7,6 @@
 	
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
-	
-	import gs.TweenMax;
 
 	public class SoundManager extends StandardWidget implements ISoundManager
 	{
@@ -62,13 +60,9 @@
 		{
 			return this._objSoundBoard.play($alias, $startTime, $delay, $loops, $volume, $panning);
 		}
-		public function fadeInSound($alias:String, $time:Number):void
+		public function fadeSound($alias:String, $time:Number, $value:Number, $completeHandler:Function = null ):void
 		{
-			this._objSoundBoard.fadeVolume($alias, $time, 1);
-		}
-		public function fadeOutSound($alias:String, $time:Number):void
-		{
-			this._objSoundBoard.fadeVolume($alias, $time, 0);		 
+			this._objSoundBoard.fadeVolume($alias, $time, $value, $completeHandler );
 		}
 		public function stopSound($alias:String):void
 		{
