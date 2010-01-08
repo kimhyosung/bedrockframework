@@ -42,18 +42,20 @@
 		{
 			var bolMute:Boolean = this._objAudioMixer.toggleMute();
 			this.applyTransform();
-			return bolMute;			
+			return bolMute;
 		}
 		
 		public function fadeVolume( $time:Number, $value:Number, $handlers:Object = null ):void
 		{
-			$handlers.onUpdate = this.applyTransform;
-			this._objAudioMixer.fadeVolume( $time, $value, $handlers );
+			var objHandlers:Object = $handlers || new Object;
+			objHandlers.onUpdate = this.applyTransform;
+			this._objAudioMixer.fadeVolume( $time, $value, objHandlers );
 		}
 		public function fadePanning( $time:Number, $value:Number, $handlers:Object = null ):void
 		{
-			$handlers.onUpdate = this.applyTransform;
-			this._objAudioMixer.fadePanning( $time, $value, $handlers );
+			var objHandlers:Object = $handlers || new Object;
+			objHandlers.onUpdate = this.applyTransform;
+			this._objAudioMixer.fadePanning( $time, $value, objHandlers );
 		}
 		
 		private function applyTransform():void

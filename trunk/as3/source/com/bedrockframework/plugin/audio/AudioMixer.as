@@ -5,6 +5,7 @@
 	import flash.media.SoundTransform;
 	
 	import gs.TweenLite;
+	import gs.easing.Linear;
 
 	public class AudioMixer extends BasicWidget
 	{
@@ -60,12 +61,14 @@
 		{
 			var objData:Object = $handlers || new Object;
 			objData.volume = $value;
+			objData.ease = Linear.easeNone;
 			TweenLite.to( this, $time, objData );
 		}
 		public function fadePanning( $value:Number, $time:Number, $handlers:Object = null ):void
 		{
 			var objData:Object = $handlers || new Object;
 			objData.panning = $value;
+			objData.ease = Linear.easeNone;
 			TweenLite.to( this, $time, objData );
 		}
 		/*
