@@ -61,11 +61,11 @@
 		*/
 		private function onFadeVolume($event:BedrockEvent):void
 		{
-			BedrockEngine.soundManager.fadeVolume( $event.details.alias, $event.details.time, $event.details.value, $event.details.handlers );
+			BedrockEngine.soundManager.fadeVolume( $event.details.alias, $event.details.time, $event.details.volume, $event.details.handlers );
 		}
 		private function onFadePanning($event:BedrockEvent):void
 		{
-			BedrockEngine.soundManager.fadePanning( $event.details.alias, $event.details.time, $event.details.value, $event.details.handlers );
+			BedrockEngine.soundManager.fadePanning( $event.details.alias, $event.details.time, $event.details.panning, $event.details.handlers );
 		}
 		/*
 		Volume & Pan Event Handlers
