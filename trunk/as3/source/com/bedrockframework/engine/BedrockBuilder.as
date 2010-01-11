@@ -29,7 +29,6 @@ package com.bedrockframework.engine
 	import com.bedrockframework.plugin.loader.BackgroundLoader;
 	import com.bedrockframework.plugin.loader.VisualLoader;
 	import com.bedrockframework.plugin.tracking.ITrackingService;
-	import com.bedrockframework.plugin.util.DeepLinkUtil;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -46,7 +45,7 @@ package com.bedrockframework.engine
 		public var configURL:String;
 		public var params:String
 		
-		private var _arrLoadSequence:Array=new Array("loadPreloader","loadParams","loadConfig", "loadDeepLinking","loadPaths", "loadModifications", "loadContainers","loadCacheSettings", "loadLogging","loadServices","loadEngineClasses","loadController","loadEngineContainers", "loadFonts", "loadResourceBundle", "loadCSS", "loadLocale", "loadDefaultPage", "loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
+		private var _arrLoadSequence:Array=new Array("loadPreloader","loadParams","loadConfig", "loadDeepLinking","loadPaths", "loadContextMenu", "loadModifications", "loadContainers","loadCacheSettings", "loadLogging","loadServices","loadEngineClasses","loadController","loadEngineContainers", "loadFonts", "loadResourceBundle", "loadCSS", "loadLocale", "loadDefaultPage", "loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
 		private var _numLoadIndex:Number;		
 		private var _objConfigLoader:URLLoader;
 		public var environmentURL:String;
@@ -97,7 +96,7 @@ package com.bedrockframework.engine
 			BedrockEngine.assetManager = new AssetManager;
 			BedrockEngine.containerManager = new ContainerManager;
 			BedrockEngine.resourceManager = new ResourceManager;
-			BedrockEngine.deeplinkManager = new DeepLinkManager;
+			BedrockEngine.deeplinkManager = new DeeplinkManager;
 			BedrockEngine.fontManager = new FontManager;
 			BedrockEngine.loadManager = new LoadManager;
 			BedrockEngine.localeManager = new LocaleManager;
@@ -148,12 +147,10 @@ package com.bedrockframework.engine
 		final private function loadDeepLinking():void
 		{
 			if (BedrockEngine.config.getSettingValue(BedrockData.DEEP_LINKING_ENABLED)) {
-				BedrockDispatcher.addEventListener(BedrockEvent.DEEP_LINK_INITIALIZE, this.onDeepLinkInitialized);
 				BedrockEngine.deeplinkManager.initialize();
-				BedrockEngine.config.parseParamObject( DeepLinkUtil.getParameterObject() );
-			} else {
-				this.next();
-			}	
+				BedrockEngine.config.parseParamObject( BedrockEngine.deeplinkManager.getParameters() );
+			}
+			this.next();
 		}
 		final private function loadConfig():void
 		{
@@ -180,6 +177,14 @@ package com.bedrockframework.engine
 			strPath = BedrockEngine.config.getEnvironmentValue(BedrockData.SWF_PATH) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.SITE_FILE_NAME ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX )	 + ".swf"
 			BedrockEngine.config.setPathValue( BedrockData.SITE_PATH, strPath );
 			
+			this.next();
+		}
+		final private function loadContextMenu():void
+		{
+			BedrockEngine.assetManager.addPreloader(BedrockData.SHELL_PRELOADER, ShellPreloader);
+			BedrockEngine.contextMenuManager = new ContextMenuManager;
+			BedrockEngine.contextMenuManager.initialize();
+			this.contextMenu = BedrockEngine.contextMenuManager.menu;
 			this.next();
 		}
 		final private function loadPreloader():void
@@ -375,18 +380,10 @@ package com.bedrockframework.engine
 		}
 		final private function onConfigLoaded($event:Event):void
 		{
-			this.fatal( this.environmentURL );
 			BedrockEngine.config.initialize( this._objConfigLoader.data, ( this.environmentURL || this.loaderInfo.url ), this );
 			BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.CONFIG_LOADED, this ) );
 			this.next();
 		}
-		final private function onDeepLinkInitialized($event:BedrockEvent):void
-		{
-			BedrockEngine.config.parseParamString($event.details.query);
-			BedrockDispatcher.removeEventListener( BedrockEvent.DEEP_LINK_INITIALIZE, this.onDeepLinkInitialized );
-			this.next();
-		}
-		
 		final private function onConfigError($event:Event):void
 		{
 			this.fatal("Could not parse config!");

@@ -51,14 +51,7 @@
 			objSoundData.loops = $loops;
 			objSoundData.volume = $volume;
 			objSoundData.panning = $panning;
-			this.playConditional(objSoundData);
-			//trace(objSoundData.allowMultiple, objSoundData.playing)
-			/* if (objSoundData.allowMultiple && objSoundData.playing) {
-				this.playConditional(objSoundData);
-			} else if(objSoundData.allowMultiple && !objSoundData.playing) {
-				this.playConditional(objSoundData);
-			} */
-			return null;
+			return this.playConditional(objSoundData);
 		}
 		private function playConditional($data:SoundData):SoundChannel
 		{
@@ -121,26 +114,22 @@
 		*/
 		public function setVolume($alias:String, $value:Number):void
 		{
-			var objData:SoundData = this.getDataByAlias( $alias );
-			objData.mixer.volume = $value;
+			this.getDataByAlias( $alias ).mixer.volume = $value;
 		}
 		public function getVolume($alias:String):Number
 		{
-			var objData:SoundData = this.getDataByAlias( $alias );
-			return objData.mixer.volume;
+			return this.getDataByAlias( $alias ).mixer.volume;
 		}
 		/*
 		Pan Functions
 		*/
 		public function setPanning($alias:String, $value:Number):void
 		{
-			var objData:SoundData = this.getDataByAlias( $alias );
-			objData.mixer.panning = $value;
+			this.getDataByAlias( $alias ).mixer.panning = $value;
 		}
 		public function getPanning($alias:String):Number
 		{
-			var objData:SoundData = this.getDataByAlias( $alias );
-			return objData.mixer.panning;
+			return this.getDataByAlias( $alias ).mixer.panning;
 		}
 		/*
 		Fade Functions
@@ -163,18 +152,19 @@
 		*/
 		public function mute( $alias:String ):void
 		{
-			var objData:SoundData = this.getDataByAlias( $alias );
-			objData.mixer.mute();
+			this.getDataByAlias( $alias ).mixer.mute();
 		}
 		public function unmute( $alias:String ):void
 		{
-			var objData:SoundData = this.getDataByAlias( $alias );
-			objData.mixer.unmute();
+			this.getDataByAlias( $alias ).mixer.unmute();
 		}
 		public function toggleMute( $alias:String ):Boolean
 		{
-			var objData:SoundData = this.getDataByAlias( $alias );
-			return objData.mixer.toggleMute();
+			return this.getDataByAlias( $alias ).mixer.toggleMute();
+		}
+		public function isMuted( $alias:String ):Boolean
+		{
+			return this.getDataByAlias( $alias ).mixer.toggleMute();
 		}
 		/*
 		Event Handlers

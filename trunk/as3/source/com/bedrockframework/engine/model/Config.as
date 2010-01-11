@@ -57,8 +57,6 @@ package com.bedrockframework.engine.model
 			this.saveSettingValue(BedrockData.OS, Capabilities.os);
 			
 			this.saveSettingValue( BedrockData.ROOT, $root );
-			this.saveSettingValue( BedrockData.ROOT_WIDTH, $root.width );
-			this.saveSettingValue( BedrockData.ROOT_HEIGHT, $root.height );
 			
 			this.parseXML($data);
 		}

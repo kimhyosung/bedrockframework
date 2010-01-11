@@ -175,6 +175,17 @@
 					break;
 			}
 		}
+		public function isMuted( $alias:String ):Boolean
+		{
+			switch ( $alias ) {
+				case SoundManager.GLOBAL :
+					return this._objGlobalSound.isMuted;
+					break;
+				default :
+					return this._objSoundBoard.isMuted( $alias );
+					break;
+			}
+		}
 		/*
 		Get Data
 		*/
