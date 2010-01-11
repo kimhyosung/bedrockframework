@@ -99,6 +99,29 @@
 				return (strBoolean == "true") ? true:false;
 			}
 		}
+		public static function serialize( $data:Object ):String
+		{
+			var strValues:String = new String();
+			for ( var d:String in $data ) {
+				strValues += d + "=" + $data[ d ] + "&";
+			}
+			return strValues.slice( 0, strValues.length - 1 );
+		}
+		public static function deserialize($values:String, $variableSeparator:String ="&", $valueSeparator:String =  "="):Object
+		{
+			var objData:Object = new Object;
+			if ( $values != null && $values.length > 0 ) {
+				var strValues:String = $values;
+				var arrValues:Array = strValues.split( $variableSeparator );
+				var numLength:int = arrValues.length;
+				for (var v:int = 0; v < numLength; v++) {
+					var arrVariable:Array = arrValues[v].split($valueSeparator);
+					objData[ arrVariable[0] ] = VariableUtil.sanitize( arrVariable[1] ); 
+				}
+				return objData;
+			}
+			return objData;
+		}
 		 /**
          * 
          * Creates a deep copy (clone) of a reference object to a new 

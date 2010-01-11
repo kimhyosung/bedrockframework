@@ -4,8 +4,6 @@
 	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.api.IPageManager;
 	import com.bedrockframework.engine.data.BedrockData;
-	import com.bedrockframework.engine.model.*;
-	import com.bedrockframework.plugin.util.DeepLinkUtil;
 
 	public class PageManager extends StandardWidget implements IPageManager
 	{
@@ -64,12 +62,12 @@
 				strDefaultAlias=$details.alias;
 				this.status("Pulling from Event - " + strDefaultAlias);
 			} catch ($e:Error) {
-				if (BedrockEngine.config.getSettingValue(BedrockData.DEEP_LINKING_ENABLED)){
-					strDefaultAlias = DeepLinkUtil.getPathNames()[0];
+				if (BedrockEngine.config.getSettingValue(BedrockData.DEEP_LINKING_ENABLED) ){
+					strDefaultAlias = BedrockEngine.deeplinkManager.getPathHierarchy()[0];
 					this.status("Pulling from URL - " + strDefaultAlias);
 				}
 			} finally {
-				if (strDefaultAlias == null) {
+				if (strDefaultAlias == null || strDefaultAlias == "" ) {
 					if (BedrockEngine.config.getParamValue(BedrockData.DEFAULT_PAGE) != null) {
 						strDefaultAlias = BedrockEngine.config.getParamValue(BedrockData.DEFAULT_PAGE);
 						this.status("Pulling from Params - " + strDefaultAlias);

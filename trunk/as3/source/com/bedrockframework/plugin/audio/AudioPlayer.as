@@ -124,6 +124,7 @@
 		public function pause():void
 		{
 			if ( this._bolPlaying && !this._bolPaused ) {
+				this._bolPlaying = false;
 				this._bolPaused = true;
 				this._numResumeTime = this._objChannel.position;
 				this._objPositionTrigger.stop();
@@ -133,7 +134,7 @@
 		}
 		public function resume():void
 		{
-			if ( this._bolPlaying && this._bolPaused) {
+			if ( !this._bolPlaying && this._bolPaused) {
 				this.play( this._numResumeTime );
 				this._objPositionTrigger.start();
 				this.dispatchEvent(new AudioEvent(AudioEvent.RESUME, this));
@@ -238,10 +239,13 @@
 		{
 			return this._bolPlaying;
 		}
-		
 		public function get isPaused():Boolean
 		{
 			return this._bolPaused;
+		}
+		public function get isMuted():Boolean
+		{
+			return this._objAudioMixer.isMuted;
 		}
 		
 		public function set volume($value:Number):void

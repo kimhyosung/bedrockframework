@@ -24,6 +24,7 @@
 		function mute( $alias:String ):void;
 		function unmute( $alias:String ):void;
 		function toggleMute( $alias:String ):Boolean;
+		function isMuted( $alias:String ):Boolean;
 		
 		function getData($alias:String):SoundData;
 	}

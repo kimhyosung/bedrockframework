@@ -7,7 +7,7 @@
 	import com.bedrockframework.engine.api.IAssetManager;
 	import com.bedrockframework.engine.api.IConfig;
 	import com.bedrockframework.engine.api.IContainerManager;
-	import com.bedrockframework.engine.api.IResourceManager;
+	import com.bedrockframework.engine.api.IContextMenuManager;
 	import com.bedrockframework.engine.api.IDeepLinkManager;
 	import com.bedrockframework.engine.api.IFontManager;
 	import com.bedrockframework.engine.api.IHistory;
@@ -15,14 +15,13 @@
 	import com.bedrockframework.engine.api.ILocaleManager;
 	import com.bedrockframework.engine.api.IPageManager;
 	import com.bedrockframework.engine.api.IPreloaderManager;
+	import com.bedrockframework.engine.api.IResourceManager;
 	import com.bedrockframework.engine.api.IServiceManager;
 	import com.bedrockframework.engine.api.ISoundManager;
 	import com.bedrockframework.engine.api.IState;
 	import com.bedrockframework.engine.api.IStyleManager;
 	import com.bedrockframework.engine.api.ITrackingManager;
 	import com.bedrockframework.engine.api.ITransitionManger;
-	
-	import flash.display.DisplayObjectContainer;
 
 	public class BedrockEngine extends StandardWidget
 	{
@@ -32,6 +31,7 @@
 		bedrock static var controller:IFrontController;
 		public static var assetManager:IAssetManager;
 		public static var containerManager:IContainerManager;
+		public static var contextMenuManager:IContextMenuManager;
 		public static var resourceManager:IResourceManager;
 		public static var deeplinkManager:IDeepLinkManager;
 		public static var fontManager:IFontManager;
