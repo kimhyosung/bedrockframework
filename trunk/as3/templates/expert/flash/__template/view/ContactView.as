@@ -3,7 +3,7 @@
 	import com.bedrockframework.plugin.view.IView;
 	import com.bedrockframework.engine.view.BedrockView;
 	
-	public class HomepageView extends BedrockView implements IView
+	public class ContactView extends BedrockView implements IView
 	{
 		/*
 		Variable Declarations
@@ -12,7 +12,7 @@
 		/*
 		Constructor
 		*/
-		public function HomepageView()
+		public function ContactView()
 		{
 		}
 		/*

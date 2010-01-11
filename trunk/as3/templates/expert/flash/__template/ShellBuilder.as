@@ -2,6 +2,7 @@
 {	
 	import com.bedrockframework.engine.BedrockBuilder;
 	import com.bedrockframework.engine.api.IBedrockBuilder;	
+	import com.bedrockframework.engine.manager.ContextMenuManager;
 	
 	public class ShellBuilder extends BedrockBuilder implements IBedrockBuilder
 	{

@@ -16,6 +16,7 @@
       <resource_bundle_enabled>false</resource_bundle_enabled>
       <style_sheet_enabled>false</style_sheet_enabled>
       <locale_enabled>false</locale_enabled>
+      <show_pages_in_context_menu>true</show_pages_in_context_menu>
     </general>
     <!--Locale Settings-->
     <locale>
@@ -63,6 +64,10 @@
     <page default_page="true">
       <label>Homepage</label>
       <alias>homepage</alias>
+    </page>
+    <page>
+      <label>Contact</label>
+      <alias>contact</alias>
     </page>
   </pages>
   <environments>
