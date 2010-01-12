@@ -7,7 +7,6 @@
 	import com.bedrockframework.plugin.view.IView;
 	
 	import gs.TweenLite;
-	import gs.easing.Quad;
 	
 	public class SiteView extends BedrockView implements IView
 	{
@@ -34,13 +33,13 @@
 			objNavigation.initialize();
 			objNavigation.intro();
 			
-			TweenLite.to(this, 1, {alpha:1, ease:Quad.easeOut, onComplete:this.introComplete});
+			TweenLite.to(this, 1, {alpha:1, onComplete:this.introComplete});
 			//this.introComplete();
 		}
 		
 		public function outro($properties:Object=null):void
 		{
-			TweenLite.to(this, 1, {alpha:0, ease:Quad.easeOut, onComplete:this.outroComplete});
+			TweenLite.to(this, 1, {alpha:0, onComplete:this.outroComplete});
 			//this.outroComplete();
 		}
 		public function clear():void
