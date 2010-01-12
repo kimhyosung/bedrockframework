@@ -8,7 +8,7 @@
 	import com.bedrockframework.engine.api.IConfig;
 	import com.bedrockframework.engine.api.IContainerManager;
 	import com.bedrockframework.engine.api.IContextMenuManager;
-	import com.bedrockframework.engine.api.IDeepLinkManager;
+	import com.bedrockframework.engine.api.IDeeplinkManager;
 	import com.bedrockframework.engine.api.IFontManager;
 	import com.bedrockframework.engine.api.IHistory;
 	import com.bedrockframework.engine.api.ILoadManager;
@@ -33,7 +33,7 @@
 		public static var containerManager:IContainerManager;
 		public static var contextMenuManager:IContextMenuManager;
 		public static var resourceManager:IResourceManager;
-		public static var deeplinkManager:IDeepLinkManager;
+		public static var deeplinkManager:IDeeplinkManager;
 		public static var fontManager:IFontManager;
 		public static var loadManager:ILoadManager;
 		public static var localeManager:ILocaleManager;

@@ -44,9 +44,13 @@
 		public static const FILE_ERROR:String="BedrockEvent.onFileError";
 		public static const FILE_SECURITY_ERROR:String="BedrockEvent.onFileSecurityError";
 
-		public static const INITIALIZE_COMPLETE:String="BedrockEvent.onInitializeComplete";
-		public static const INTRO_COMPLETE:String="BedrockEvent.onIntroComplete";
-		public static const OUTRO_COMPLETE:String="BedrockEvent.onOutroComplete";
+		public static const SITE_INITIALIZE_COMPLETE:String="BedrockEvent.onSiteInitializeComplete";
+		public static const SITE_INTRO_COMPLETE:String="BedrockEvent.onSiteIntroComplete";
+		public static const SITE_OUTRO_COMPLETE:String="BedrockEvent.onSiteOutroComplete";
+		
+		public static const PAGE_INITIALIZE_COMPLETE:String="BedrockEvent.onPageInitializeComplete";
+		public static const PAGE_INTRO_COMPLETE:String="BedrockEvent.onPageIntroComplete";
+		public static const PAGE_OUTRO_COMPLETE:String="BedrockEvent.onPageOutroComplete";
 		
 		public static const PRELOADER_INITIALIZE_COMPLETE:String="BedrockEvent.onPreloaderInitializeComplete";
 		public static const PRELOADER_INTRO_COMPLETE:String="BedrockEvent.onPreloaderIntroComplete";

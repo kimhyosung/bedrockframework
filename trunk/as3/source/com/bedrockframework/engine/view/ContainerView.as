@@ -1,6 +1,7 @@
 ﻿package com.bedrockframework.engine.view
 {
 	import com.bedrockframework.core.base.SpriteWidget;
+	import com.bedrockframework.plugin.view.ViewStack;
 	
 	import flash.display.DisplayObject;
 
@@ -9,6 +10,7 @@
 		/*
 		Variable Declarations
 		*/
+		private var _objViewStack:ViewStack;
 		private var _objChild:DisplayObject;
 		/*
 		Constructor
@@ -31,7 +33,7 @@
 		public function release():void
 		{
 			if (this._objChild != null) {
-				super.removeChild(this._objChild);
+				super.removeChild( this._objChild );
 			}
 			this._objChild = null;
 		}
@@ -39,12 +41,12 @@
 		override public function addChild(child:DisplayObject):DisplayObject
 		{
 			throw new Error("Please use the hold method in place of addChild.");
-			return null
+			return null;
 		}
 		override public function removeChild(child:DisplayObject):DisplayObject
 		{
 			throw new Error("Please use the release method in place of removeChild.");
-			return null
+			return null;
 		}
 		/*
 		Property Definitions

@@ -124,12 +124,12 @@
 		*/
 		private function onSiteInitializeComplete($event:ViewEvent):void
 		{
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INITIALIZE_COMPLETE, this.siteView));
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.SITE_INITIALIZE_COMPLETE, this.siteView));
 			this.siteView.intro();
 		}
 		private function onSiteIntroComplete($event:ViewEvent):void
 		{
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INTRO_COMPLETE, this.siteView));
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.SITE_INTRO_COMPLETE, this.siteView));
 			if (BedrockEngine.config.getSettingValue(BedrockData.AUTO_DEFAULT_ENABLED)) {
 				if ( this.pageView == null) this.fatal("Fatal error referencing page, check for compile errors!");
 				this.pageView.initialize();
@@ -140,18 +140,18 @@
 		*/
 		private function onPageInitializeComplete($event:ViewEvent):void
 		{
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INITIALIZE_COMPLETE, this.pageView, this.getDetailObject()));
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.PAGE_INITIALIZE_COMPLETE, this.pageView, this.getDetailObject()));
 			if ( this.pageView == null) this.fatal("Fatal error referencing page, check for compile errors!");
 			this.pageView.intro();
 		}
 		private function onPageIntroComplete($event:ViewEvent):void
 		{
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.INTRO_COMPLETE, this.pageView, this.getDetailObject()));
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.PAGE_INTRO_COMPLETE, this.pageView, this.getDetailObject()));
 		}
 		private function onPageOutroComplete($event:ViewEvent):void
 		{
 			this.removePageListeners(this.pageView);
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.OUTRO_COMPLETE, this.pageView, this.getDetailObject()));			
+			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.PAGE_OUTRO_COMPLETE, this.pageView, this.getDetailObject()));			
 			this.pageView.clear();
 			this.pageLoader.unload();
 			BedrockEngine.containerManager.pageContainer.release();

@@ -33,6 +33,7 @@ package com.bedrockframework.engine.model
 		private var _objParamValues:Object;
 		private var _objLocaleValues:Object;
 		private var _objPathValues:Object;
+		private var _arrPages:Array;
 		private var _objLocaleValueHash:HashMap;
 		/*
 		Constructor
@@ -45,6 +46,7 @@ package com.bedrockframework.engine.model
 			this._objParamValues = new Object;
 			this._objLocaleValues = new Object;
 			this._objPathValues = new Object;
+			this._arrPages = new Array;
 		}
 		/*
 		Initialize
@@ -80,7 +82,7 @@ package com.bedrockframework.engine.model
 			this.parseLocaleValues( xmlConfig.locales );
 			this.saveCacheSettings();
 			
-			this.savePages( this.parsePages( xmlConfig.pages ) );
+			this.parsePages( xmlConfig.pages );
 		}
 		private function getXML($data:String):XML
 		{
@@ -198,9 +200,8 @@ package com.bedrockframework.engine.model
 		/*
 		Pages Functions
 		*/
-		private function parsePages($node:XMLList):Object
+		private function parsePages($node:XMLList):void
 		{
-			var objPages:Object = new Object  ;
 			var xmlPages:XML=new XML($node);
 			var xmlPage:XMLList;
 			//
@@ -219,13 +220,13 @@ package com.bedrockframework.engine.model
 						}
 					}
 				}
-				objPages[objPage.alias] = objPage;
+				this.addPage( objPage.alias, objPage);
 			}
-			return objPages;
 		}
 		public function addPage($alias:String, $data:Object):void
 		{
 			this._objPageValues[$alias] = $data;
+			this._arrPages.push( $data );
 		}
 		private function savePages($value:*):void
 		{
@@ -241,11 +242,7 @@ package com.bedrockframework.engine.model
 		}
 		public function getPages():Array
 		{
-			var arrPages:Array = new Array;
-			for (var p in this._objPageValues) {
-				arrPages.push(this._objPageValues[p]);
-			}
-			return arrPages;
+			return this._arrPages;
 		}
 		
 		private function getDefaultPage($node:XMLList):String

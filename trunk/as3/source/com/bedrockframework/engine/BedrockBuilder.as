@@ -282,18 +282,15 @@ package com.bedrockframework.engine
 		}
 		final private function loadServices():void
 		{
-			try{
-				if (BedrockEngine.config.getSettingValue(BedrockData.REMOTING_ENABLED)) {
-					BedrockEngine.serviceManager.initialize(BedrockEngine.config.getEnvironmentValue(BedrockData.REMOTING))
-				}				
-			}catch($error:Error){
+			if (BedrockEngine.config.getSettingValue(BedrockData.REMOTING_ENABLED)) {
+				BedrockEngine.serviceManager.initialize(BedrockEngine.config.getEnvironmentValue(BedrockData.REMOTING))
 			}
 			this.next();
 		}
 		final private function loadDefaultPage():void
 		{
 			var bolAutoDefault:Boolean = BedrockEngine.config.getSettingValue(BedrockData.AUTO_DEFAULT_ENABLED);
-			BedrockEngine.bedrock::pageManager.initialize(bolAutoDefault);
+			BedrockEngine.bedrock::pageManager.initialize( bolAutoDefault );
 			this.next();
 		}
 		/*

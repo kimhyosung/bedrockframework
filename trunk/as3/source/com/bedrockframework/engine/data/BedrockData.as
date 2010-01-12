@@ -114,5 +114,10 @@
 		public static const SHARED_PRIORITY:int = 101;
 		public static const SITE_PRIORITY:int = 102;
 		public static const PAGE_PRIORITY:int = 103;
+		/*
+		Context Menus
+		*/
+		public static const SHOW_PAGES_IN_CONTEXT_MENU:String = "show_pages_in_context_menu";
+		public static const SHOW_ABOUT_IN_CONTEXT_MENU:String = "show_about_in_context_menu";
 	}
 }
