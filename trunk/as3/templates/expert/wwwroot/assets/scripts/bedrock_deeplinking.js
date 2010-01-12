@@ -19,14 +19,14 @@ function setHashPath( $value )
 }
 function getHashPath()
 {
-	return getHashAddress().slice( getHashAddress().lastIndexOf("#")+1, getHashAddress().lastIndexOf("?") );
+	return getHashAddress().slice( getHashAddress().lastIndexOf("/")+1, getHashAddress().lastIndexOf("?") );
 }
 
 
 
 function setHashQuery( $value )
 {
-	setHashAddress( getHashPath() + "?" + $value );
+	setHashAddress( "/" + getHashPath() + "?" + $value );
 }
 function  getHashQuery()
 {

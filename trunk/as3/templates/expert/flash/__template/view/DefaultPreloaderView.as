@@ -4,6 +4,7 @@
 	import com.bedrockframework.engine.view.BedrockView;
 	
 	import flash.text.TextField;
+	import gs.TweenLite;
 	
 	public class DefaultPreloaderView extends BedrockView implements IPreloader
 	{
@@ -16,6 +17,7 @@
 		*/
 		public function DefaultPreloaderView()
 		{
+			this.alpha = 0;
 		}
 		/*
 		Basic view functions
@@ -23,21 +25,21 @@
 		public function initialize($properties:Object=null):void
 		{
 			this.displayProgress(0);
-			this.x=this.stage.stageWidth / 2;
-			this.y=this.stage.stageHeight / 2;
 			this.initializeComplete();
 		}
 		public function intro($properties:Object=null):void
 		{
-			this.introComplete();
+			TweenLite.to(this, 1, {alpha:1, onComplete:this.introComplete});
+			//this.introComplete();
+		}
+		public function outro($properties:Object=null):void
+		{
+			TweenLite.to(this, 1, {alpha:0, onComplete:this.outroComplete});
+			//this.outroComplete();
 		}
 		public function displayProgress($percent:uint):void
 		{
 			this.display.text=$percent + " %";
-		}
-		public function outro($properties:Object=null):void
-		{
-			this.outroComplete();
 		}
 		public function clear():void
 		{
