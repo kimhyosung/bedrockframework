@@ -50,7 +50,9 @@
 			BedrockDispatcher.addEventListener(BedrockEvent.RENDER_SITE, this.onRenderSite);
 			
 			BedrockDispatcher.addEventListener(BedrockEvent.SET_QUEUE, this.onStateChange);
-			BedrockDispatcher.addEventListener(BedrockEvent.INITIALIZE_COMPLETE, this.onStateChange);
+			BedrockDispatcher.addEventListener(BedrockEvent.PAGE_INITIALIZE_COMPLETE, this.onStateChange);
+			BedrockDispatcher.addEventListener(BedrockEvent.SITE_INTRO_COMPLETE, this.onUpdateDeeplinkPath );
+			BedrockDispatcher.addEventListener(BedrockEvent.PAGE_OUTRO_COMPLETE, this.onUpdateDeeplinkPath );
 			
 			BedrockDispatcher.addEventListener(BedrockEvent.URL_CHANGE, this.onURLChange );
 			
@@ -67,7 +69,8 @@
 			
 			if ( BedrockEngine.config.getSettingValue(BedrockData.AUTO_BLOCKER_ENABLED) ) {
 				this.addCommand(BedrockEvent.SET_QUEUE, ShowBlockerCommand);
-				this.addCommand(BedrockEvent.INTRO_COMPLETE, HideBlockerCommand);
+				this.addCommand(BedrockEvent.SITE_INTRO_COMPLETE, HideBlockerCommand);
+				this.addCommand(BedrockEvent.PAGE_INTRO_COMPLETE, HideBlockerCommand);
 			}
 		}
 		/*
@@ -101,13 +104,14 @@
 	 	*/
 		private function onDoDefault($event:BedrockEvent):void
 		{
-			if (!BedrockEngine.config.getSettingValue(BedrockData.AUTO_DEFAULT_ENABLED)) {
-				if (!BedrockEngine.bedrock::state.doneDefault) {
+			if ( !BedrockEngine.config.getSettingValue(BedrockData.AUTO_DEFAULT_ENABLED) ) {
+				if ( !BedrockEngine.bedrock::state.doneDefault ) {
 					var strDefaultAlias:String = BedrockEngine.bedrock::pageManager.getDefaultPage($event.details);
 					this.status("Transitioning to - " + strDefaultAlias);
 					BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.SET_QUEUE,this,{alias:strDefaultAlias}));
 					BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RENDER_PRELOADER,this));
 					BedrockEngine.bedrock::state.doneDefault = true;
+					BedrockEngine.deeplinkManager.setPath( strDefaultAlias );
 				}
 			} else {
 				BedrockEngine.bedrock::state.doneDefault = true;
@@ -115,14 +119,16 @@
 		}
 		private function onDoChange($event:BedrockEvent):void
 		{
-			var strAlias:String = $event.details.alias;
-			if (BedrockEngine.config.getPage(strAlias)){
-				if (BedrockEngine.bedrock::pageManager.current == null || BedrockEngine.bedrock::pageManager.current.alias != strAlias) {
-					this.status("Transitioning to - " + strAlias);
-					BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.SET_QUEUE,this,{alias:strAlias}));
-					BedrockEngine.bedrock::transitionManager.pageView.outro();
-				} else {
-					this.warning("Page '" + strAlias + "' is currently loaded!");
+			if ( BedrockEngine.bedrock::state.current == State.AVAILABLE ) {
+				var strAlias:String = $event.details.alias;
+				if (BedrockEngine.config.getPage(strAlias)){
+					if (BedrockEngine.history.current == null || BedrockEngine.history.current.alias != strAlias) {
+						this.status("Transitioning to - " + strAlias);
+						BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.SET_QUEUE,this,{alias:strAlias}));
+						BedrockEngine.bedrock::transitionManager.pageView.outro();
+					} else {
+						this.warning("Page '" + strAlias + "' is currently loaded!");
+					}
 				}
 			}
 		}
@@ -160,10 +166,10 @@
 		{
 			switch ($event.type) {
 				case BedrockEvent.SET_QUEUE :
-					BedrockEngine.bedrock::state.change(State.UNAVAILABLE);
+					BedrockEngine.bedrock::state.change( State.UNAVAILABLE );
 					break;
-				case BedrockEvent.INITIALIZE_COMPLETE :
-					BedrockEngine.bedrock::state.change(State.AVAILABLE);
+				case BedrockEvent.PAGE_INITIALIZE_COMPLETE :
+					BedrockEngine.bedrock::state.change( State.AVAILABLE );
 					break;
 			}
 		}
@@ -172,17 +178,9 @@
 		*/
 		private function onURLChange($event:BedrockEvent):void
 		{
-			if (BedrockEngine.bedrock::state.current != State.INITIALIZED && BedrockEngine.bedrock::state.current != State.UNAVAILABLE ) {
-				try {
-					var strPath:String = $event.details.paths[0];
-					var strCurrentAlias:String = BedrockEngine.bedrock::pageManager.current.alias;
-					if (BedrockEngine.config.getPage(strPath) != null) {
-						if (strPath && strPath != strCurrentAlias) {
-							BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DO_CHANGE, this, {alias:strPath}));
-						}
-					}					
-				} catch ($e:Error) {
-				}
+			var strPath:String = $event.details.paths[0];
+			if ( strPath != null && strPath != "" ) {
+				BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.DO_CHANGE, this, { alias:strPath } ));
 			}
 		}
 		/*
@@ -195,6 +193,12 @@
 			}
 		}
 		
+		private function onUpdateDeeplinkPath( $event:BedrockEvent ):void
+		{
+			if ( BedrockEngine.config.getSettingValue( BedrockData.DEEP_LINKING_ENABLED ) ) {
+				BedrockEngine.deeplinkManager.setPath( BedrockEngine.history.current.alias );
+			}
+		}
 		/*
 		Copy Event Handlers
 		*/

@@ -138,7 +138,6 @@
 			for (var i:String in $properties) {
 				switch (i) {
 					case "name" :
-						break;
 					case "containers" :
 						break;
 					default :
@@ -202,7 +201,7 @@
 		{
 			var objChild1:* =this.getContainer($name1);
 			var objChild2:* =this.getContainer($name2);
-			if (objChild1.parent === objChild2.parent) {
+			if ( objChild1.parent === objChild2.parent ) {
 				objChild1.parent.swapChildren(objChild1,objChild2);
 			} else {
 				this.error("Parent containers do not match!");

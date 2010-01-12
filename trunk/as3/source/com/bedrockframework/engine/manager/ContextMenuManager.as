@@ -4,6 +4,7 @@
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.api.IContextMenuManager;
+	import com.bedrockframework.engine.data.BedrockData;
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.plugin.storage.HashMap;
 	import com.bedrockframework.plugin.util.ArrayUtil;
@@ -25,7 +26,9 @@
 			this.status( "Initialize" );
 			this._mapItems = new HashMap;
 			this.createMenu();
-			this.createPageItems();
+			if ( BedrockEngine.config.getSettingValue( BedrockData.SHOW_PAGES_IN_CONTEXT_MENU ) ) {
+				this.createPageItems();
+			}
 		}
 		private function createMenu():void
 		{
@@ -50,7 +53,7 @@
 		}
 		public function removeItem( $alias:String ):void
 		{
-			ArrayUtil.remove( this._objMenu.customItems, ArrayUtil.findIndex( this._objMenu.customItems, this._mapItems.getValue( $alias ) ) );
+			ArrayUtil.remove( this._objMenu.customItems, ArrayUtil.findIndex( this._objMenu.customItems, this._mapItems.getValue( $alias ), "caption" ) );
 		}
 		/*
 		Event Handlers

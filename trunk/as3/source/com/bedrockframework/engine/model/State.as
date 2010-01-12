@@ -18,6 +18,7 @@
 		private var _bolSiteRendered:Boolean;
 		private var _bolSiteInitialized:Boolean;
 		private var _bolDoneDefault:Boolean;
+		private var _bolTransitioning:Boolean;
 		/*
 		Constructor
 		*/
@@ -26,6 +27,7 @@
 			this._bolSiteRendered = false;
 			this._bolSiteInitialized = false;
 			this._bolDoneDefault = false;
+			this._bolTransitioning = false;
 			
 			this.clear();
 			this.change(State.INITIALIZED);
@@ -97,6 +99,15 @@
 		public function get doneDefault():Boolean
 		{
 			return this._bolDoneDefault;
+		}
+		
+		public function set transitioning($status:Boolean):void
+		{
+			this._bolTransitioning = $status;
+		}
+		public function get transitioning():Boolean
+		{
+			return this._bolTransitioning;
 		}
 	}
 }

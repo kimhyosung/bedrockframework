@@ -1,14 +1,11 @@
 package com.bedrockframework.engine.api
 {
-	public interface IDeepLinkManager
+	public interface IDeeplinkManager
 	{
-		function initialize():void
-		function clear():void
+		function initialize():void;
 		/*
 		Set Mode
 		*/
-		function setMode($mode:String):void;
-		
 		function setPath( $value:String ):void;
 		function getPath():String;
 		function clearPath():void;

@@ -3,9 +3,8 @@ package com.bedrockframework.engine.manager
 {
 	import com.bedrockframework.core.base.StandardWidget;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
-	import com.bedrockframework.engine.BedrockEngine;
-	import com.bedrockframework.engine.api.IDeepLinkManager;
-	import com.bedrockframework.engine.data.BedrockData;
+	import com.bedrockframework.core.logging.Logger;
+	import com.bedrockframework.engine.api.IDeeplinkManager;
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.plugin.event.TriggerEvent;
 	import com.bedrockframework.plugin.timer.IntervalTrigger;
@@ -14,7 +13,7 @@ package com.bedrockframework.engine.manager
 	
 	import flash.external.ExternalInterface;
 	
-	public class DeeplinkManager extends StandardWidget implements IDeepLinkManager
+	public class DeeplinkManager extends StandardWidget implements IDeeplinkManager
 	{
 		/*
 		Variable Declarations
@@ -35,15 +34,8 @@ package com.bedrockframework.engine.manager
 			this.status( "Initialize" );
 			ExternalInterface.call( "initialize" );
 			this.createTrigger();
-			BedrockDispatcher.addEventListener( BedrockEvent.DO_DEFAULT, this.onDoSetup );
 			this.checkForChange( false );
 			this.enableChangeHandler();
-		}
-		
-		public function clear():void
-		{
-			BedrockDispatcher.removeEventListener(BedrockEvent.INITIALIZE_COMPLETE, this.onInitializeComplete);
-			BedrockDispatcher.removeEventListener(BedrockEvent.SET_QUEUE, this.onPauseChangeHandler);
 		}
 		/*
 		Creation Functions
@@ -53,25 +45,6 @@ package com.bedrockframework.engine.manager
 			this._objTrigger = new IntervalTrigger;
 			this._objTrigger.addEventListener( TriggerEvent.TRIGGER, this.onTrigger );
 			this._objTrigger.silenceLogging = true;
-		}
-		/*
-		Set Mode
-		*/
-		public function setMode($mode:String):void
-		{
-			switch ($mode.toLowerCase()) {
-				case BedrockData.AUTO_DEEP_LINK :
-					BedrockDispatcher.addEventListener(BedrockEvent.INITIALIZE_COMPLETE, this.onInitializeComplete);
-					BedrockDispatcher.addEventListener(BedrockEvent.SET_QUEUE, this.onPauseChangeHandler);
-					break;
-				case BedrockData.MANUAL_DEEP_LINK :
-					BedrockDispatcher.removeEventListener(BedrockEvent.INITIALIZE_COMPLETE, this.onInitializeComplete);
-					BedrockDispatcher.removeEventListener(BedrockEvent.SET_QUEUE, this.onPauseChangeHandler);
-					break;
-				default :
-					this.error("Invalid mode!");
-					break;
-			}
 		}
 		/*
 		Enable/ Disable Change Event
@@ -85,13 +58,6 @@ package com.bedrockframework.engine.manager
 			this._objTrigger.stop();
 		}
 		
-		private function getDetailObject():Object
-		{
-			var objDetails:Object = new Object();
-			objDetails.parameters = this.getParameters();
-			objDetails.paths = this.getPathHierarchy();
-			return objDetails;
-		}
 		private function checkForChange( $notify:Boolean = true ):void
 		{
 			if ( this.available ) {
@@ -100,7 +66,11 @@ package com.bedrockframework.engine.manager
 					this._strAddress = strAddress;
 					if ( $notify ) {
 						this.status( "Change" );
-						BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.URL_CHANGE, this, this.getDetailObject() ) );
+						
+						var objDetails:Object = new Object();
+						objDetails.parameters = this.getParameters();
+						objDetails.paths = this.getPathHierarchy();
+						BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.URL_CHANGE, this, objDetails ) );
 					}
 				}
 			}
@@ -218,23 +188,6 @@ package com.bedrockframework.engine.manager
 		{
 			this.checkForChange();
 		}
-		private function onDoSetup($event:BedrockEvent):void
-		{
-			BedrockDispatcher.removeEventListener(BedrockEvent.DO_DEFAULT, this.onDoSetup);
-			this.setMode(BedrockData.AUTO_DEEP_LINK);
-		}
-		
-		private function onInitializeComplete($event:BedrockEvent):void
-		{
-			this.clearPath();
-			this.setPath( BedrockEngine.history.current.alias );
-			this.enableChangeHandler();		
-		}
-		private function onPauseChangeHandler($event:BedrockEvent):void
-		{
-			this.disableChangeHandler();
-		}
-
 		
 		public function get available():Boolean
 		{
