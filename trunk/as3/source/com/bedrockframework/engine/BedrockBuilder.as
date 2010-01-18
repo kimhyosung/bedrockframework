@@ -181,7 +181,6 @@ package com.bedrockframework.engine
 		}
 		final private function loadContextMenu():void
 		{
-			BedrockEngine.assetManager.addPreloader(BedrockData.SHELL_PRELOADER, ShellPreloader);
 			BedrockEngine.contextMenuManager = new ContextMenuManager;
 			BedrockEngine.contextMenuManager.initialize();
 			this.contextMenu = BedrockEngine.contextMenuManager.menu;
@@ -189,7 +188,7 @@ package com.bedrockframework.engine
 		}
 		final private function loadPreloader():void
 		{
-			BedrockEngine.assetManager.addPreloader(BedrockData.SHELL_PRELOADER, ShellPreloader);
+			BedrockEngine.assetManager.addPreloader( "ShellPreloader" );
 			this.next();
 		}
 		final private function loadCacheSettings():void
@@ -260,7 +259,10 @@ package com.bedrockframework.engine
 		}
 		final private function loadEngineClasses():void
 		{
-			BedrockEngine.bedrock::preloaderManager.initialize(BedrockEngine.config.getSettingValue(BedrockData.PRELOADER_TIME));
+			BedrockEngine.assetManager.initialize( this.loaderInfo.applicationDomain );
+			BedrockEngine.loadManager.initialize( this.loaderInfo.applicationDomain );
+			
+			BedrockEngine.bedrock::preloaderManager.initialize( BedrockEngine.config.getSettingValue(BedrockData.PRELOADER_TIME ) );
 			BedrockEngine.bedrock::transitionManager.initialize();
 			
 			BedrockEngine.trackingManager.initialize(BedrockEngine.config.getEnvironmentValue(BedrockData.TRACKING_ENABLED));

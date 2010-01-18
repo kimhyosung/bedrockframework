@@ -164,8 +164,7 @@
 		public function setSelected($index:int):*
 		{
 			//check for wrapping
-			var numLength:int=this._arrData.length;
-			this._numSelectedIndex=MathUtil.wrapIndex($index,numLength,this._bolWrapIndex);
+			this._numSelectedIndex=MathUtil.wrapIndex($index, this._arrData.length, this._bolWrapIndex);
 			return this.getSelected();
 		}
 		/*
@@ -272,7 +271,14 @@
 		{
 			return this.setSelected( ArrayUtil.findIndex( this._arrData, $value, $field ) );
 		}
-		
+		/*
+		*/
+		public function iterate( $handler:Function ):void
+		{
+			for ( var i:int = 0; i < this.length; i ++ ) {
+				$handler( this.getItemAt( i ) );
+			}
+		}
 		/*
 		Set/ Get data
 		*/

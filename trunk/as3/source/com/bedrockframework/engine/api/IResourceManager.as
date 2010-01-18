@@ -7,7 +7,7 @@
 		function load( $path:String ):void;
 		function getResource($key:String, $group:String = null):*;
 		function getResourceGroup($group:String, $key:String = null ):*;
-		function getResourceArray( $prefix:String, $suffix:String = "", $startIndex:uint = 1 ):Array;
+		function getResourceArray( $prefix:String, $suffix:String = "", $startIndex:int = 1 ):Array;
 		function get loader():BackgroundLoader;
 		function get delegate():Class;
 		function set delegate( $class:Class ):void;

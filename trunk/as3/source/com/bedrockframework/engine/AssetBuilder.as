@@ -20,23 +20,24 @@ package com.bedrockframework.engine
 		public function AssetBuilder()
 		{
 			this.visible = false;
+			this.loaderInfo.applicationDomain
 		}
 		
-		protected function addView($alias:String, $class:Class):void
+		protected function addView( $alias:String ):void
 		{
-			BedrockEngine.assetManager.addView($alias, $class);
+			BedrockEngine.assetManager.addView( $alias );
 		}
-		protected function addPreloader($alias:String, $class:Class):void
+		protected function addPreloader( $alias:String ):void
 		{
-			BedrockEngine.assetManager.addPreloader($alias, $class);
+			BedrockEngine.assetManager.addPreloader( $alias );
 		}
-		protected function addBitmap($alias:String, $class:Class):void
+		protected function addBitmap( $alias:String ):void
 		{
-			BedrockEngine.assetManager.addBitmap($alias, $class);
+			BedrockEngine.assetManager.addBitmap( $alias );
 		}
-		protected function addSound($alias:String, $class:Class):void
+		protected function addSound( $alias:String ):void
 		{
-			BedrockEngine.assetManager.addSound($alias, $class);
+			BedrockEngine.assetManager.addSound( $alias );
 		}
 	}
 }

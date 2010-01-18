@@ -4,8 +4,8 @@
 
 	public class VideoEvent extends GenericEvent
 	{
-		public static const BUFFER_EMPTY:String = "NetStream.Buffer.Empty";
-		public static const REAL_BUFFER_EMPTY:String = "VideoEvent.onBufferEmpty";
+		public static const STREAM_BUFFER_EMPTY:String = "NetStream.Buffer.Empty";
+		public static const BUFFER_EMPTY:String = "VideoEvent.onBufferEmpty";
 		public static const BUFFER_FULL:String = "NetStream.Buffer.Full";
 		public static const BUFFER_FLUSH:String = "NetStream.Buffer.Flush";
 		public static const BUFFER_PROGRESS:String = "VideoEvent.onBufferProgress";

@@ -53,6 +53,20 @@
 			return ((Math.abs(numFrame - $clip.currentFrame)) / $clip.stage.frameRate) * $compression;
 		}
 		
+		/**
+		 * $clip MovieClip targeted.
+		 * $label Label to be validated.
+		 * return Returns Boolean : true or false.
+		*/
+		public static function isValidLabel($clip:MovieClip, $label:String):Boolean
+		{
+			var arrLabels:Array = $clip.currentLabels;
+			for(var i:uint = 0; i < arrLabels.length; i++)
+			{
+				if( arrLabels[i].name == $label ) return true;
+			}
+			return false;
+		}
 		
 	}
 }

@@ -10,8 +10,10 @@
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.engine.view.IPreloader;
 	import com.bedrockframework.plugin.event.LoaderEvent;
+	import com.bedrockframework.plugin.event.TriggerEvent;
 	import com.bedrockframework.plugin.event.ViewEvent;
 	import com.bedrockframework.plugin.loader.VisualLoader;
+	import com.bedrockframework.plugin.timer.IntervalTrigger;
 	import com.bedrockframework.plugin.view.IView;
 	
 	import flash.utils.*;
@@ -21,6 +23,9 @@
 		/*
 		Variable Declarations
 		*/
+		public static const FAILSAFE_INTERVAL:Number = 0.1;
+		public static const FAILSAFE_REPETITIONS:int = 10;
+		
 		private var _objSiteLoader:VisualLoader;
 		private var _objSiteView:IView;
 		
@@ -28,22 +33,31 @@
 		private var _objPageView:IView;
 		
 		private var _objPreloaderView:IPreloader;
+		
+		private var _objFailsafe:IntervalTrigger;
 		/*
 		Constructor
 		*/
 		public function TransitionManager()
 		{
-			this.reset();
 		}
 		
 		public function initialize():void
 		{
-			BedrockDispatcher.addEventListener(BedrockEvent.DO_INITIALIZE,this.onDoInitialize);
+			BedrockDispatcher.addEventListener(BedrockEvent.DO_INITIALIZE, this.onDoInitialize);
+			this.createFailsafe();
 		}
 		public function reset():void
 		{
 			this._objPageLoader=null;
 			this._objPageView=null;
+		}
+		private function createFailsafe():void
+		{
+			this._objFailsafe = new IntervalTrigger;
+			this._objFailsafe.addEventListener( TriggerEvent.TRIGGER, this.onFailsafeTrigger );
+			this._objFailsafe.addEventListener( TriggerEvent.TRIGGER, this.onFailsafeStop );
+			this._objFailsafe.silenceLogging = true;
 		}
 		/*
 		Manager Event Listening
@@ -104,19 +118,37 @@
 			objDetail.view = this.pageView;
 			return objDetail;
 		}
+		private function initializeSite():void
+		{
+			this.siteView.initialize();
+			BedrockEngine.bedrock::state.siteInitialized = true;
+		}
+		private function initializePage():void
+		{
+			this.pageView.initialize();
+		}
+		private function initializeFailsafe():void
+		{
+			this.warning( "Initialize Failsafe Check!" );
+			this._objFailsafe.start( TransitionManager.FAILSAFE_INTERVAL, TransitionManager.FAILSAFE_REPETITIONS );
+		}
 		/*
 		Framework Event Handlers
 		*/
 		private function onDoInitialize($event:BedrockEvent):void
 		{
-			if (!BedrockEngine.bedrock::state.siteInitialized) {
-				if ( this.siteView == null) this.fatal("Fatal error loading site, check for compile errors!");
-				this.siteView.initialize();
-				BedrockEngine.bedrock::state.siteInitialized = true;
+			if ( !BedrockEngine.bedrock::state.siteInitialized ) {
+				if ( this.siteView == null) {
+					this.initializeFailsafe();
+				} else {
+					this.initializeSite();
+				}
 			} else {
-				if ( this.pageView == null) this.fatal("Fatal error loading page, check for compile errors!");
-				//"Fatal error loading page! \n - Check for compile errors.\n - Check your preloader, is outroComplete called imediatly in the outro function?"
-				this.pageView.initialize();
+				if ( this.pageView == null) {
+					this.initializeFailsafe();
+				} else {
+					this.initializePage();
+				}
 			}
 		}
 		/*
@@ -194,6 +226,35 @@
 			this._objPageView = this._objPageLoader.content as IView;
 			this.addPageListeners(this._objPageView);
 			BedrockEngine.history.current.loaded = true;
+		}
+		/*
+		Failsafe Handlers
+		*/
+		private function onFailsafeTrigger( $event:TriggerEvent ):void
+		{
+			if ( !BedrockEngine.bedrock::state.siteInitialized ) {
+				if ( this.siteView != null) {
+					this._objFailsafe.stop();
+					this.initializeSite();
+				} else {
+					this.warning("Could not reference site!");
+				}
+			} else {
+				if ( this.pageView == null) {
+					this._objFailsafe.stop();
+					this.pageView.initialize();
+				} else {
+					this.warning("Could not reference page!");
+				}
+			}
+		}
+		private function onFailsafeStop( $event:TriggerEvent ):void
+		{
+			if ( !BedrockEngine.bedrock::state.siteInitialized ) {
+				this.fatal("Fatal error loading site, check for compile errors!");
+			} else {
+				this.fatal("Fatal error loading page, check for compile errors!");
+			}
 		}
 		/*
 		Set the current container to load content into

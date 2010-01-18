@@ -1,7 +1,10 @@
 ﻿package com.bedrockframework.engine.api
 {
+	import flash.system.ApplicationDomain;
+	
 	public interface ILoadManager
 	{
+		function initialize( $applicationDomain:ApplicationDomain ):void;
 		/*
 		ChainLoader wrappers
 		*/

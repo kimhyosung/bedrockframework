@@ -36,6 +36,7 @@ package com.bedrockframework.plugin.data
 			this.panning = 0;
 			this.allowMultiple = $allowMultiple;
 			this.mixer = new AudioMixer;
+			this.transform = new SoundTransform;
 		}
 
 	}
