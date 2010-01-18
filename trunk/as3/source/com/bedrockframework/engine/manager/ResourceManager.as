@@ -72,13 +72,13 @@
 			}
 			return null;
 		}
-		public function getResourceArray( $prefix:String, $suffix:String = "", $startIndex:uint = 1 ):Array
+		public function getResourceArray( $prefix:String, $suffix:String = "", $startIndex:int = 1 ):Array
 		{
 			var arrResult:Array = new Array;
 			var tmpValue:*;
-			var numIndex:uint = $startIndex;
+			var numIndex:int = $startIndex;
 			do {
-				tmpValue = this._objResourceMap.getValue( $prefix + numIndex + $suffix );
+				tmpValue = this._objResourceMap.getValue( $prefix + (new String(numIndex)) + $suffix );
 				if ( tmpValue != null ) {
 					arrResult.push( tmpValue );
 					numIndex++;

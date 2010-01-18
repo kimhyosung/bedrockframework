@@ -2,6 +2,7 @@
 {
 	import com.bedrockframework.core.base.BasicWidget;
 	
+	import flash.media.SoundChannel;
 	import flash.media.SoundTransform;
 	
 	import gs.TweenLite;
@@ -112,7 +113,7 @@
 		public function set target($target:*):void
 		{
 			this._objTarget = $target;
-			this.applyTransform();
+			if ( $target is SoundChannel ) this._objSoundTransform = $target.soundTransform;
 		}
 		public function get target():*
 		{

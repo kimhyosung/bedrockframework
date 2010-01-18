@@ -26,10 +26,13 @@
 		*/	
 		public function LoadManager():void
 		{
+			
+		}
+		public function initialize( $applicationDomain:ApplicationDomain ):void
+		{
 			this._objBulkLoader = new BulkLoader;
 			this._objBulkLoader.applicationDomainUsage = MultiLoader.REUSE_DOMAIN;
-			this._objBulkLoader.applicationDomain = ApplicationDomain.currentDomain;
-			
+			this._objBulkLoader.applicationDomain = $applicationDomain;
 			this.setupReplacements();
 		}
 		/*

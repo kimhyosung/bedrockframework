@@ -3,35 +3,37 @@ package com.bedrockframework.engine.api
 	import flash.display.BitmapData;
 	import flash.display.MovieClip;
 	import flash.media.Sound;
+	import flash.system.ApplicationDomain;
 	
 	public interface IAssetManager
 	{
+		function initialize( $applicationDomain:ApplicationDomain ):void;
 		/*
 		Add/ Return new preloader instance
 		*/
-		function addPreloader($alias:String, $class:Class):void;
-		function getPreloader($alias:String):MovieClip;
-		function hasPreloader($alias:String):Boolean;
+		function addPreloader($name:String):void;
+		function getPreloader($name:String):MovieClip;
+		function hasPreloader($name:String):Boolean;
 		/*
 		Add/ Return new view instance
 		*/
-		function addView($alias:String, $class:Class):void;
-		function getView($alias:String):*;
-		function hasView($alias:String):Boolean;
+		function addView($name:String):void;
+		function getView($name:String):*;
+		function hasView($name:String):Boolean;
 		function getViews():Array;
 		/*
 		Add/ Return new bitmap instance
 		*/
-		function addBitmap($alias:String, $class:Class):void;
-		function getBitmap($alias:String):BitmapData;
-		function hasBitmap($alias:String):Boolean;
+		function addBitmap($name:String):void;
+		function getBitmap($name:String):BitmapData;
+		function hasBitmap($name:String):Boolean;
 		function getBitmaps():Array;
 		/*
 		Add/ Return new sound instance
 		*/
-		function addSound($alias:String, $class:Class):void;
-		function getSound($alias:String):Sound;
-		function hasSound($alias:String):Boolean;
+		function addSound($name:String):void;
+		function getSound($name:String):Sound;
+		function hasSound($name:String):Boolean;
 		function getSounds():Array;
 	}
 }

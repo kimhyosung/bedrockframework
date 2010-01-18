@@ -94,7 +94,7 @@
 		private function createInternalListeners():void
 		{
 			this.addEventListener(VideoEvent.BUFFER_FULL, this.onBufferFull);
-			this.addEventListener(VideoEvent.BUFFER_EMPTY, this.onBufferEmpty);
+			this.addEventListener(VideoEvent.STREAM_BUFFER_EMPTY, this.onBufferEmpty);
 			this.addEventListener(VideoEvent.PLAY_START, this.onPlayStart);
 			this.addEventListener(VideoEvent.PLAY_STOP, this.onPlayStop);	
 			this.addEventListener(VideoEvent.SEEK_INVALID, this.dispatchEvent);
@@ -237,7 +237,7 @@
 		{
 			this._bolPlayComplete = false;
 			this._objSharedTrigger.addEventListener(TriggerEvent.TRIGGER, this.onProgressTrigger);
-			this.dispatchEvent(new VideoEvent(VideoEvent.REAL_BUFFER_EMPTY, this, $event.details));
+			this.dispatchEvent(new VideoEvent(VideoEvent.BUFFER_EMPTY, this, $event.details));
 			if (this._bolLoadAndPause) {				
 				this.pause();
 				this.seekByTime(0);			
@@ -257,7 +257,7 @@
 		private function onBufferEmpty($event:VideoEvent):void
 		{
 			if(!this._bolPlayComplete){
-				this.dispatchEvent(new VideoEvent(VideoEvent.REAL_BUFFER_EMPTY, this, $event.details));
+				this.dispatchEvent(new VideoEvent(VideoEvent.BUFFER_EMPTY, this, $event.details));
 				this._objSharedTrigger.addEventListener(TriggerEvent.TRIGGER, this.onBufferTrigger);
 			}
 		}

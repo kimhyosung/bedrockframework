@@ -8,6 +8,7 @@
 	
 	import flash.events.Event;
 	import flash.media.SoundChannel;
+	import flash.media.SoundTransform;
 	
 	import gs.TweenLite;
 
@@ -45,17 +46,23 @@
 		*/
 		public function play($alias:String, $startTime:Number = 0, $delay:Number = 0, $loops:int = 0, $volume:Number = 1, $panning:Number = 0):SoundChannel
 		{
-			var objSoundData:SoundData = this.getDataByAlias($alias);
-			objSoundData.startTime = $startTime;
-			objSoundData.delay = $delay;
-			objSoundData.loops = $loops;
-			objSoundData.volume = $volume;
-			objSoundData.panning = $panning;
-			return this.playConditional(objSoundData);
+			var objData:SoundData = this.getDataByAlias($alias);
+			if ( objData != null ) {
+				objData.startTime = $startTime;
+				objData.delay = $delay;
+				objData.loops = $loops;
+				objData.volume = $volume;
+				objData.panning = $panning;
+				objData.transform = new SoundTransform( objData.volume, objData.panning );
+				return this.playImmediate(objData);
+			} else {
+				this.warning( "Sound not available - " + $alias );
+				return null;
+			}
 		}
 		private function playConditional($data:SoundData):SoundChannel
 		{
-			if ($data.delay == 0) {
+			if ( $data.delay == 0 ) {
 				return this.playImmediate($data);
 			} else {
 				this.playDelay($data);
@@ -68,7 +75,7 @@
 			objData.playing = true;
 			objData.channel = objData.sound.play(objData.startTime, objData.loops, objData.transform );
 			objData.mixer.target = objData.channel;
-			objData.channel.addEventListener( Event.SOUND_COMPLETE, this.onSoundComplete );
+			//objData.channel.addEventListener( Event.SOUND_COMPLETE, this.onSoundComplete );
 			return objData.channel;
 		}
 		private function playDelay($data:SoundData):void
