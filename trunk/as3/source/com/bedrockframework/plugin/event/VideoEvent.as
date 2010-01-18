@@ -12,6 +12,7 @@
 		
 		public static const LOAD_PROGRESS:String = "VideoEvent.onLoadProgress";
 		public static const LOAD_COMPLETE:String = "VideoEvent.onLoadComplete";
+		public static const QUEUE_COMPLETE:String = "VideoEvent.onQueueComplete";
 		
 		public static const PUBLISH_START:String = "NetStream.Publish.Start";
 		public static const PUBLISH_BADNAME:String = "NetStream.Publish.BadName";
