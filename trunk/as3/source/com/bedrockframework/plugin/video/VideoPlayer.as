@@ -11,7 +11,6 @@
 	import flash.events.IOErrorEvent;
 	import flash.events.NetStatusEvent;
 	import flash.events.SecurityErrorEvent;
-	import flash.media.SoundTransform;
 	import flash.media.Video;
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
@@ -25,7 +24,7 @@
 		private var _objVideo:Video;
 		private var _objConnection:NetConnection;
         private var _objStream:NetStream;
-        private var _objTransformBoard:AudioMixer;
+        private var _objAudioMixer:AudioMixer;
         private var _objSharedTrigger:IntervalTrigger;
 		private var _objClient:Object;
 		//String
@@ -61,7 +60,7 @@
 			this.createNetStream($connection);
 			//
 			this.createInternalListeners();
-			this.createTransformBoard();
+			this.createAudioMixer();
 		}
 		private function createConnection():void
 		{
@@ -101,9 +100,9 @@
 			this.addEventListener(VideoEvent.BUFFER_FLUSH, this.onBufferFlush);		
 		}
 		
-		private function createTransformBoard():void
+		private function createAudioMixer():void
 		{
-			this._objTransformBoard = new AudioMixer(this._objStream);		
+			this._objAudioMixer = new AudioMixer(this._objStream);		
 		}
 		/*
 		Basic Functions
@@ -121,9 +120,9 @@
 			this._objSharedTrigger.addEventListener(TriggerEvent.TRIGGER, this.onLoadTrigger);
 			this._objSharedTrigger.addEventListener(TriggerEvent.TRIGGER, this.onBufferTrigger);
 			this._objSharedTrigger.removeEventListener(TriggerEvent.TRIGGER, this.onProgressTrigger);
-			//
+			
 			this._objVideo.clear()
-			//
+			
 			this._objSharedTrigger.start();
 			this._objStream.play(this._strURL);
 		}
@@ -153,18 +152,18 @@
 		public function mute():void
 		{
 			this._bolMuted = true;
-			this._objTransformBoard.mute();
+			this._objAudioMixer.mute();
 			this.dispatchEvent(new VideoEvent(VideoEvent.MUTE, this));
 		}
 		public function unmute():void
 		{
 			this._bolMuted = false;
-			this._objTransformBoard.unmute();
+			this._objAudioMixer.unmute();
 			this.dispatchEvent(new VideoEvent(VideoEvent.UNMUTE, this));
 		}
 		public function toggleMute():Boolean
 		{
-			var bolMute:Boolean = this._objTransformBoard.toggleMute();
+			var bolMute:Boolean = this._objAudioMixer.toggleMute();
 			if (bolMute) {
 				this.dispatchEvent(new VideoEvent(VideoEvent.MUTE, this));
 			} else {
@@ -238,7 +237,8 @@
 			this._bolPlayComplete = false;
 			this._objSharedTrigger.addEventListener(TriggerEvent.TRIGGER, this.onProgressTrigger);
 			this.dispatchEvent(new VideoEvent(VideoEvent.BUFFER_EMPTY, this, $event.details));
-			if (this._bolLoadAndPause) {				
+			if (this._bolLoadAndPause) {
+				this.dispatchEvent( new VideoEvent( VideoEvent.QUEUE_COMPLETE, this ) );			
 				this.pause();
 				this.seekByTime(0);			
 				this.unmute();
@@ -389,7 +389,7 @@
 		public function set volume($value:Number):void
 		{
 			try{
-				this._objTransformBoard.volume = $value;
+				this._objAudioMixer.volume = $value;
 				this.dispatchEvent(new VideoEvent(VideoEvent.VOLUME, this, {volume:$value}));
 			} catch($error:Error){
 				
@@ -398,7 +398,7 @@
 		
 		public function get volume():Number
 		{
-			return this._objTransformBoard.volume;
+			return this._objAudioMixer.volume;
 		}
 		/**
 		* Change the video's sound panning.
@@ -406,13 +406,13 @@
 	 	*/
 		public function set panning($value:Number):void
 		{
-			this._objTransformBoard.panning = $value;
+			this._objAudioMixer.panning = $value;
 			this.dispatchEvent(new VideoEvent(VideoEvent.PANNING, this, {panning:$value}));
 		}
 		
 		public function get panning():Number
 		{
-			return this._objTransformBoard.panning;
+			return this._objAudioMixer.panning;
 		}
 		
 		public function get isMuted():Boolean{

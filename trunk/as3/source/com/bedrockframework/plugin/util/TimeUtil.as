@@ -83,5 +83,15 @@
 			// Return the resulting object
 			return {minutes:numElapsedMinutes,seconds:numElapsedSeconds,milliseconds:numElapsedMilliseconds,total:numElapsedTime};
 		}
+		
+		public static function parseSeconds( $seconds:Number ):Object
+		{
+			var numElapsedTime:Number = $seconds;
+			
+			var numElapsedSeconds:uint=numElapsedTime % 60;
+			var numElapsedMinutes:uint=Math.floor( numElapsedTime / 60);
+			var numElapsedMilliseconds:uint=numElapsedTime - Math.round( numElapsedTime );
+			return {minutes:numElapsedMinutes,seconds:numElapsedSeconds,milliseconds:numElapsedMilliseconds,total:numElapsedTime};
+		}
 	}
 }
