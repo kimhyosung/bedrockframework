@@ -276,7 +276,7 @@
 		public function iterate( $handler:Function ):void
 		{
 			for ( var i:int = 0; i < this.length; i ++ ) {
-				$handler( this.getItemAt( i ) );
+				$handler( i, this.getItemAt( i ) );
 			}
 		}
 		/*

@@ -99,11 +99,11 @@
 				return (strBoolean == "true") ? true:false;
 			}
 		}
-		public static function serialize( $data:Object ):String
+		public static function serialize( $data:Object, $variableSeparator:String ="&", $valueSeparator:String =  "=" ):String
 		{
 			var strValues:String = new String();
 			for ( var d:String in $data ) {
-				strValues += d + "=" + $data[ d ] + "&";
+				strValues += d + $valueSeparator + $data[ d ] + $variableSeparator;
 			}
 			return strValues.slice( 0, strValues.length - 1 );
 		}

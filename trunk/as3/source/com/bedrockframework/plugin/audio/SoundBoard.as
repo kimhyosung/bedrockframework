@@ -5,12 +5,11 @@
 	import com.bedrockframework.plugin.event.SoundEvent;
 	import com.bedrockframework.plugin.storage.HashMap;
 	import com.bedrockframework.plugin.util.ArrayUtil;
+	import com.greensock.TweenLite;
 	
 	import flash.events.Event;
 	import flash.media.SoundChannel;
 	import flash.media.SoundTransform;
-	
-	import gs.TweenLite;
 
 	public class SoundBoard extends DispatcherWidget implements ISoundBoard
 	{

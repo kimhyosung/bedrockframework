@@ -28,6 +28,7 @@ package com.bedrockframework.plugin.video
 		function get isPaused():Boolean;
 		function get duration():Number;
 		function get position():Number;
+		
 		function set volume($value:Number):void;
 		function get volume():Number;
 		/**

@@ -158,7 +158,7 @@
 		public static  function randomNoRepeat($current:Number,$maximum:Number,$minimum:Number=0,$decimal:Boolean=false):Number
 		{
 			var numTemp:Number=$current;
-			if($maximum <= 1) return $current;
+			if( $maximum <= 1 ) return $current;
 			do {
 				numTemp=MathUtil.random($maximum, $minimum, $decimal);
 			} while (numTemp == $current);

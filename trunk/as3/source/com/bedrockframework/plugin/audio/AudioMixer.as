@@ -1,12 +1,11 @@
 ﻿package com.bedrockframework.plugin.audio
 {
 	import com.bedrockframework.core.base.BasicWidget;
+	import com.greensock.TweenLite;
+	import com.greensock.easing.Linear;
 	
 	import flash.media.SoundChannel;
 	import flash.media.SoundTransform;
-	
-	import gs.TweenLite;
-	import gs.easing.Linear;
 
 	public class AudioMixer extends BasicWidget
 	{
