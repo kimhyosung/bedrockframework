@@ -5,7 +5,7 @@
 	import com.bedrockframework.plugin.event.TriggerEvent;
 	import com.bedrockframework.plugin.event.ViewEvent;
 	import com.bedrockframework.plugin.event.ViewStackEvent;
-	import com.bedrockframework.plugin.storage.ArrayBrowser;
+	import com.bedrockframework.plugin.storage.SuperArray;
 	import com.bedrockframework.plugin.timer.TimeoutTrigger;
 	import com.bedrockframework.plugin.util.ArrayUtil;
 	
@@ -17,7 +17,7 @@
 		Variable Declarations
 		*/
 		public var data:ViewStackData;
-		private var _objViewBrowser:ArrayBrowser;
+		private var _objViewBrowser:SuperArray;
 		private var _objContainer:Sprite;
 		private var _objCurrentItem:Object;
 		private var _objPreviousItem:Object;
@@ -32,7 +32,7 @@
 		*/
 		public function ViewStack()
 		{
-			this._objViewBrowser = new ArrayBrowser;
+			this._objViewBrowser = new SuperArray;
 		}
 		public function initialize($data:ViewStackData):void
 		{

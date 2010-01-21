@@ -1,6 +1,6 @@
 ﻿package com.bedrockframework.plugin.storage
 {
-	public class ArrayBrowser
+	public class SuperArray
 	{
 		import com.bedrockframework.plugin.util.MathUtil;
 		import com.bedrockframework.plugin.util.ArrayUtil;
@@ -15,7 +15,7 @@
 		/*
 		Constructor
 		*/
-		public function ArrayBrowser( $data:Array = null )
+		public function SuperArray( $data:Array = null )
 		{
 			this.data = $data || new Array;
 			this._bolWrapIndex=false;

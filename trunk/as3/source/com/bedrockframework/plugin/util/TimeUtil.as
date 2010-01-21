@@ -1,6 +1,7 @@
 ﻿package com.bedrockframework.plugin.util
 {
 	import com.bedrockframework.core.base.StaticWidget;
+	import com.bedrockframework.plugin.data.TimeData;
 
 	public class TimeUtil extends StaticWidget
 	{
@@ -66,32 +67,31 @@
 		Parse getTimer() function into minutes, seconds and millseconds.
 		Returns parsed time within an object in numerical format.
 		*/
-		public static function parseMilliseconds($milliseconds:uint):Object
+		public static function parseMilliseconds($milliseconds:uint):TimeData
 		{
-			var numElapsedTime:uint=$milliseconds;
-			// Calculate Milliseconds
-			var numElapsedMilliseconds:uint=numElapsedTime % 1000;
-			// Calculate Minutes
-			var numElapsedMinutes:uint=Math.floor(Math.floor(numElapsedTime / 1000) / 60);
-			// Calculate Seconds
-			var numElapsedSeconds:uint
-			if (numElapsedMinutes != 0) {
-				numElapsedSeconds=Math.floor(Math.floor(numElapsedTime / 1000) - numElapsedMinutes * 60);
+			var objData:TimeData = new TimeData;
+			objData.total = $milliseconds;
+			
+			objData.milliseconds = objData.total  % 1000;
+			objData.minutes = Math.floor(Math.floor(objData.total  / 1000) / 60);
+			
+			if (objData.minutes != 0) {
+				objData.seconds=Math.floor(Math.floor(objData.total / 1000) - objData.minutes * 60);
 			} else {
-				numElapsedSeconds=Math.floor(numElapsedTime / 1000);
+				objData.seconds=Math.floor(objData.total  / 1000);
 			}
-			// Return the resulting object
-			return {minutes:numElapsedMinutes,seconds:numElapsedSeconds,milliseconds:numElapsedMilliseconds,total:numElapsedTime};
+			return objData;
 		}
 		
-		public static function parseSeconds( $seconds:Number ):Object
+		public static function parseSeconds( $seconds:Number ):TimeData
 		{
-			var numElapsedTime:Number = $seconds;
+			var objData:TimeData = new TimeData;
+			objData.total = $seconds;
 			
-			var numElapsedSeconds:uint=numElapsedTime % 60;
-			var numElapsedMinutes:uint=Math.floor( numElapsedTime / 60);
-			var numElapsedMilliseconds:uint=numElapsedTime - Math.round( numElapsedTime );
-			return {minutes:numElapsedMinutes,seconds:numElapsedSeconds,milliseconds:numElapsedMilliseconds,total:numElapsedTime};
+			objData.seconds=objData.total  % 60;
+			objData.minutes=Math.floor( objData.total  / 60);
+			objData.milliseconds=objData.total  - Math.floor( objData.total  );
+			return objData;
 		}
 	}
 }
