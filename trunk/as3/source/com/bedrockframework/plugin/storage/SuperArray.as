@@ -275,9 +275,7 @@
 		*/
 		public function iterate( $handler:Function ):void
 		{
-			for ( var i:int = 0; i < this.length; i ++ ) {
-				$handler( i, this.getItemAt( i ) );
-			}
+			ArrayUtil.iterate( this.data, $handler );
 		}
 		/*
 		Set/ Get data

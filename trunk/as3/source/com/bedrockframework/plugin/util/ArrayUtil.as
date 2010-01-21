@@ -218,5 +218,15 @@
 			}
 			return arrNewItems;
 		}
+		
+		/*
+		Get random items based on a total
+		*/
+		public static function iterate($array:Array, $handler:Function ):void
+		{
+			for ( var i:int = 0; i < $array.length; i ++ ) {
+				$handler( i, $array[ i ] );
+			}
+		}
 	}
 }
