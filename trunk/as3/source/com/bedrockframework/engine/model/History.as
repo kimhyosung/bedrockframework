@@ -2,7 +2,7 @@
 {
 	import com.bedrockframework.core.base.StandardWidget;
 	import com.bedrockframework.engine.api.IHistory;
-	import com.bedrockframework.plugin.storage.ArrayBrowser;
+	import com.bedrockframework.plugin.storage.SuperArray;
 
 	public class History extends StandardWidget implements IHistory
 	{
@@ -11,14 +11,14 @@
 		*/
 		private var _objCurrent:Object;
 		private var _arrHistory:Array;
-		private var _objBrowser:ArrayBrowser;
+		private var _objBrowser:SuperArray;
 		/*
 		Constructor
 		*/
 		public function History()
 		{
 			this._arrHistory = new Array;
-			this._objBrowser = new ArrayBrowser(this._arrHistory);
+			this._objBrowser = new SuperArray(this._arrHistory);
 			this._objBrowser.wrapIndex = false;
 		}
 

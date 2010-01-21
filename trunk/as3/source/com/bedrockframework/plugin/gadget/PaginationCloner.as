@@ -3,7 +3,7 @@
 	import com.bedrockframework.plugin.data.ClonerData;
 	import com.bedrockframework.plugin.event.ClonerEvent;
 	import com.bedrockframework.plugin.event.PaginationEvent;
-	import com.bedrockframework.plugin.storage.ArrayBrowser;
+	import com.bedrockframework.plugin.storage.SuperArray;
 	import com.bedrockframework.plugin.tools.IPageable;
 	import com.bedrockframework.plugin.tools.Pagination;
 	import com.bedrockframework.plugin.util.ArrayUtil;
@@ -18,13 +18,13 @@
 		private var _objPagination:Pagination;
 		private var _arrOriginalData:Array;
 		private var _arrSegmentedData:Array;
-		private var _objArrayBrowser:ArrayBrowser;
+		private var _objArrayBrowser:SuperArray;
 		/*
 		Constructor
 		*/
 		public function PaginationCloner()
 		{
-			this._objArrayBrowser = new ArrayBrowser()
+			this._objArrayBrowser = new SuperArray()
 			
 			this._objPagination = new Pagination();
 			this._objPagination.addEventListener(PaginationEvent.SELECT_PAGE, this.onDispatchPaginationEvent);

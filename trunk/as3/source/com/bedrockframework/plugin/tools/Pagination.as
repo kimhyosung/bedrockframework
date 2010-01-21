@@ -2,7 +2,7 @@
 {
 	import com.bedrockframework.core.base.DispatcherWidget;
 	import com.bedrockframework.plugin.event.PaginationEvent;
-	import com.bedrockframework.plugin.storage.ArrayBrowser;
+	import com.bedrockframework.plugin.storage.SuperArray;
 
 	public class Pagination extends DispatcherWidget implements IPageable
 	{

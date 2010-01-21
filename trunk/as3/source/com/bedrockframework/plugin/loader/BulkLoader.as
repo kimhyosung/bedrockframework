@@ -2,7 +2,7 @@
 {
 	import com.bedrockframework.plugin.event.BulkLoaderEvent;
 	import com.bedrockframework.plugin.event.LoaderEvent;
-	import com.bedrockframework.plugin.storage.ArrayBrowser;
+	import com.bedrockframework.plugin.storage.SuperArray;
 	import com.bedrockframework.plugin.util.MathUtil;
 
 	public class BulkLoader extends MultiLoader
@@ -27,7 +27,7 @@
 		private var _numLoadedPercentage:uint;
 		private var _strSortBy:String;
 		
-		private var _objQueueBrowser:ArrayBrowser;
+		private var _objQueueBrowser:SuperArray;
 		/*
 		Constructor
 		*/
@@ -37,7 +37,7 @@
 			this._arrCurrentLoad = new Array();
 			this._numLoadIndex=0;
 			this._numMaxConcurrentLoads = 2;
-			this._objQueueBrowser = new ArrayBrowser();
+			this._objQueueBrowser = new SuperArray();
 			this._bolRunning=false;
 			this._bolComplete=false;
 			this._strSortBy = BulkLoader.PRIORITY;
@@ -139,7 +139,7 @@
 		}
 		private function removeFromCurrentLoad($loader:*):void
 		{
-			var objBrowser:ArrayBrowser = new ArrayBrowser(this._arrCurrentLoad);
+			var objBrowser:SuperArray = new SuperArray(this._arrCurrentLoad);
 			objBrowser.remove(objBrowser.findIndex($loader));
 		}
 		/*
@@ -251,7 +251,7 @@
 		*/
 		public function getLoader($alias:String):*
 		{
-			var objBrowser:ArrayBrowser = new ArrayBrowser(this._arrQueue);
+			var objBrowser:SuperArray = new SuperArray(this._arrQueue);
 			return objBrowser.findItem($alias, "alias").loader;
 		}
 		public function getQueueItem($index:int):Object
@@ -260,7 +260,7 @@
 		}
 		private function getQueueItemByLoader($loader:*):Object
 		{
-			var objBrowser:ArrayBrowser = new ArrayBrowser(this._arrQueue);
+			var objBrowser:SuperArray = new SuperArray(this._arrQueue);
 			return objBrowser.findItem($loader, "loader");
 		}
 		/*
