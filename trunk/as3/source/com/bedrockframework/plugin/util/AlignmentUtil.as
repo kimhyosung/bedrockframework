@@ -25,7 +25,7 @@
 					numPosition=0+numOffset;
 					break;
 				case AlignmentUtil.CENTER :
-					numPosition=((numBase/2)-(numSize/2))+numOffset;
+					numPosition= ( ( numBase - numSize )  / 2 )+numOffset;
 					break;
 				case AlignmentUtil.RIGHT :
 					numPosition=(numBase-numSize)+numOffset;
@@ -47,7 +47,7 @@
 						numPosition=0+numOffset;
 					break;
 				case AlignmentUtil.CENTER :
-					numPosition=((numBase/2)-(numSize/2))+numOffset;
+					numPosition=( ( numBase - numSize )  / 2 )+numOffset;
 					break;
 				case AlignmentUtil.BOTTOM :
 					numPosition=(numBase-numSize)+numOffset;
