@@ -20,8 +20,8 @@ package com.bedrockframework.plugin.video
 		/*
 		Seek
 		*/
-		function seekByTime($time:Number):void;
-        function seekByPercentage($percent:Number):void;
+		function seekWithTime($time:Number):void;
+        function seekWithPercentage($percent:Number):void;
 		/*
 		Property Definitions
 		*/

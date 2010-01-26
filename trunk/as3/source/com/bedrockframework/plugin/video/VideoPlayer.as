@@ -195,17 +195,17 @@
 		/*
 		Seek
 		*/
-		public function seekByTime($time:Number):void
+		public function seekWithTime($time:Number):void
         {
         	this._objSharedTrigger.start()
             this.dispatchEvent(new VideoEvent(VideoEvent.SEEK_START, this));
             this._objStream.seek($time);
         }
         
-        public function seekByPercentage($percent:Number):void
+        public function seekWithPercentage($percent:Number):void
         {
             var numTime:Number = (this.duration * ($percent /100));
-			this.seekByTime(numTime);
+			this.seekWithTime(numTime);
         }
 		
 		private function checkForCompletion():Boolean
@@ -240,7 +240,7 @@
 			if (this._bolLoadAndPause) {
 				this.dispatchEvent( new VideoEvent( VideoEvent.QUEUE_COMPLETE, this ) );			
 				this.pause();
-				this.seekByTime(0);			
+				this.seekWithTime(0);			
 				this.unmute();
 			}
 		}
