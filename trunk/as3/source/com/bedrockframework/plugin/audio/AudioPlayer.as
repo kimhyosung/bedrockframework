@@ -174,11 +174,11 @@
 			this._objAudioMixer.fadePanning( $value, $time, $handlers );
 		}
 		
-		public function seekByPercentage( $percent:Number ):void
+		public function seekWithPercentage( $percent:Number ):void
 		{
-			this.seekByTime( MathUtil.getPercentage( $percent, this.duration ) );
+			this.seekWithTime( MathUtil.getPercentage( $percent, this.duration ) );
 		}
-		public function seekByTime( $time:Number ):void
+		public function seekWithTime( $time:Number ):void
 		{
 			this.stop();
 			this.play( $time );
