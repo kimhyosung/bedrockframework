@@ -16,10 +16,9 @@
 		/*
 		Constructor
 		*/
-		public function Pagination($total:int = 0, $pagesize:int = 0)
+		public function Pagination()
 		{
 			this.reset();
-			this.update( $total, $pagesize );
 		}
 		/*
 		Public Functions
@@ -42,7 +41,7 @@
 			this._numItemsPerPage = 0;
 			this._numTotalPages = 0;
 			this._numSelectedPage = 0;
-			this.dispatchEvent(new PaginationEvent(PaginationEvent.RESET, this));
+			this.dispatchEvent( new PaginationEvent(PaginationEvent.RESET, this ) );
 		}
 		/*
 		Page Selection Functions
@@ -93,15 +92,15 @@
 		*/
 		public function hasNextPage():Boolean
 		{
-			return ( ( this._numSelectedPage + 1 )  < this._numTotalPages );
+			return this.hasPage( this._numSelectedPage + 1 );
 		}
 		public function hasPreviousPage():Boolean
 		{
-			return ( ( this._numSelectedPage - 1 )  >= 0 );
+			return this.hasPage( this._numSelectedPage - 1 );
 		}
 		public function hasPage( $page:uint ):Boolean
 		{
-			return false;
+			return ( ( $page  >= 0 ) && ( $page < this._numTotalPages ) );
 		}
 		/*
 		Property Definitions
@@ -113,6 +112,10 @@
 		public function get selectedPage():uint
 		{
 			return this._numSelectedPage;
+		}
+		public function get itemsPerPage():uint
+		{
+			return this._numItemsPerPage;
 		}
 		public function get totalPages():uint
 		{
