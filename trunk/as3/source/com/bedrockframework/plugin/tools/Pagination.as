@@ -2,7 +2,6 @@
 {
 	import com.bedrockframework.core.base.DispatcherWidget;
 	import com.bedrockframework.plugin.event.PaginationEvent;
-	import com.bedrockframework.plugin.storage.SuperArray;
 
 	public class Pagination extends DispatcherWidget implements IPageable
 	{
@@ -35,6 +34,7 @@
 			this.status("Total Pages - " + this._numTotalPages);
 			this.checkBounds();
 			this.dispatchEvent(new PaginationEvent(PaginationEvent.UPDATE, this, {total:this._numTotalPages, selected:this._numSelectedPage}));
+			this.selectPage( 0 );
 		}
 		public function reset():void
 		{
@@ -98,6 +98,10 @@
 		public function hasPreviousPage():Boolean
 		{
 			return ( ( this._numSelectedPage - 1 )  >= 0 );
+		}
+		public function hasPage( $page:uint ):Boolean
+		{
+			return false;
 		}
 		/*
 		Property Definitions

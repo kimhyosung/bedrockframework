@@ -5,7 +5,7 @@
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	
-	public class BackgroundData
+	public class SuperShapeData
 	{
 		public static const BITMAP:String = "bitmap";
 		public static const FILL:String = "fill";
@@ -47,12 +47,12 @@
 		public var focalPointRatio:Number;		
 		
 		
-		public function BackgroundData()
+		public function SuperShapeData()
 		{
 			this.width = 100;
 			this.height = 100;
 
-			this.type = BackgroundData.FILL;
+			this.type = SuperShapeData.FILL;
 			this.rotation = 0;
 			this.matrix = null;
 			this.gradientType = GradientType.LINEAR;
