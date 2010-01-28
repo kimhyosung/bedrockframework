@@ -1,6 +1,8 @@
 ﻿package
 {
+	import com.bedrockframework.core.base.MovieClipWidget;
 	import com.bedrockframework.plugin.data.YouTubePlayerData;
+	import com.bedrockframework.plugin.event.VideoEvent;
 	import com.bedrockframework.plugin.util.ButtonUtil;
 	import com.bedrockframework.plugin.video.YouTubePlayer;
 	
@@ -8,7 +10,7 @@
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
-	public class TestDocument extends MovieClip
+	public class TestDocument extends MovieClipWidget
 	{
 		/*
 		Variable Declarations
@@ -43,6 +45,8 @@
 			var objData:YouTubePlayerData = new YouTubePlayerData;
 			
 			this.player = new YouTubePlayer;
+			this.player.addEventListener( VideoEvent.PLAY_PROGRESS, this.onPlayProgress );
+			this.player.addEventListener( VideoEvent.LOAD_PROGRESS, this.onLoadProgress );
 			this.addChild( this.player );
 			this.player.initialize( objData );
 		}
@@ -94,6 +98,14 @@
 		private function onResume( $event:MouseEvent ):void
 		{
 			this.player.resume();
+		}
+		private function onLoadProgress( $event:VideoEvent ):void
+		{
+			debug( $event.details );
+		}
+		private function onPlayProgress( $event:VideoEvent ):void
+		{
+			debug( $event.details );
 		}
 	}
 }
