@@ -92,7 +92,11 @@
 		public function hasPreviousPage():Boolean
 		{
 			return this._objPagination.hasPreviousPage();
-		}	
+		}
+		public function hasPage( $page:uint ):Boolean
+		{
+			return this._objPagination.hasPage( $page );
+		}
 		/*
 		Event Handlers
 		*/
