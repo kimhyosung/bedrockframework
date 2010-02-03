@@ -150,6 +150,7 @@
 				this._bolPaused = true;
 				this._objUpdateTrigger.removeEventListener( TriggerEvent.TRIGGER, this.onProgressTrigger );
 				this._objVideoPlayer.pauseVideo();
+				this.dispatchEvent( new VideoEvent( VideoEvent.PAUSE, this ) );
 			}
 		}
 		public function resume():void
@@ -158,6 +159,7 @@
 				this._bolPaused = false;
 				this._objUpdateTrigger.addEventListener( TriggerEvent.TRIGGER, this.onProgressTrigger );
 				this._objVideoPlayer.playVideo();
+				this.dispatchEvent( new VideoEvent( VideoEvent.RESUME, this ) );
 			}
 		}
 		
