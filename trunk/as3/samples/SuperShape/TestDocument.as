@@ -37,10 +37,11 @@
 			this._objSuperShape = new SuperShape();
 			var objData:SuperShapeData = new SuperShapeData();
 			objData.type = SuperShapeData.BITMAP;
-			objData.matchStageSize = true;
-			objData.bitmapData = new mario_tile(0,0);
+			//objData.matchStageSize = true;
+			objData.bitmapData = new MarioTile(0,0);
 			this.addChild(this._objSuperShape);
 			this._objSuperShape.initialize(objData);
+			this._objSuperShape.width = this.stage.stageWidth;
 		}
 		
 		/*
