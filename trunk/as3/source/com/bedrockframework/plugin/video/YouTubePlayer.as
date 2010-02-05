@@ -51,7 +51,6 @@
 	 	*/
 		public function YouTubePlayer()
 		{
-			
 			Security.allowDomain("http://www.youtube.com");
 			Security.allowInsecureDomain("http://www.youtube.com");	
 		}

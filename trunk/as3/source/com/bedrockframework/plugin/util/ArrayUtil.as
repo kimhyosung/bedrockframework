@@ -9,7 +9,7 @@
 		/*
 		Search: Returns Matching Index
 		*/
-		public static function findIndex($array:Array,$value:*,$field:String=null):Number
+		public static function findIndex( $array:Array, $value:*, $field:String=null ):int
 		{
 			var i:Number;
 			var numLength:Number=$array.length;
@@ -21,14 +21,14 @@
 				}
 			} else {
 				for (i=0; i < numLength; i++) {
-					if ($array[i][$field] === $value) {
+					if ($array[i][$field] == $value) {
 						return i;
 					}
 				}
 			}
 			return -1;
 		}
-		public static function findContaining($array:Array,$value:String,$field:String=null):*
+		public static function findContaining( $array:Array,$value:String,$field:String=null ):*
 		{
 			var i:Number;
 			var strItem:String;
@@ -50,11 +50,19 @@
 			}
 			return null;
 		}
-
+		public static function findAndRemove( $array:Array, $value:*, $field:String=null ):*
+		{
+			var numIndex:int = ArrayUtil.findIndex( $array, $value, $field );
+			if ( numIndex != -1 ) {
+				return $array.splice( numIndex, 1 )[ 0 ];
+			} else {
+				return null;
+			}
+		}
 		/*
 		Search: Returns Single Item
 		*/
-		public static function findItem($array:Array,$value:*,$field:String=null):*
+		public static function findItem($array:Array,$value:*, $field:String=null):*
 		{
 			var i:Number;
 			var numLength:Number=$array.length;
@@ -78,7 +86,7 @@
 		*/
 		public static function containsItem($array:Array,$value:*,$field:String=null):Boolean
 		{
-			return (ArrayUtil.findIndex($array, $value, $field) == -1) ? false : true;
+			return ( ArrayUtil.findIndex($array, $value, $field) == -1 ) ? false : true;
 		}
 
 		/*
@@ -112,19 +120,16 @@
 			var arrResults:Array=new Array;
 			var numLength:Number=$array.length;
 			var i:Number;
-			var objTemp:*;
 			if ($field == null) {
 				for (i=(numLength-1); i > -1; i--) {
 					if ($array[i] == $value) {
-						objTemp=$array.splice(i,1);
-						arrResults.push(objTemp[0]);
+						arrResults.push( $array.splice( i, 1 )[ 0 ] );
 					}
 				}
 			} else {
 				for (i=(numLength-1); i > -1; i--) {
 					if ($array[i][$field] == $value) {
-						objTemp=$array.splice(i,1);
-						arrResults.push(objTemp[0]);
+						arrResults.push( $array.splice( i, 1 )[ 0 ] );
 					}
 				}
 			}

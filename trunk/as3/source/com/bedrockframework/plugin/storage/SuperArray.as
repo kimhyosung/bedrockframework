@@ -246,7 +246,7 @@
 		/*
 		Search: Returns Single Item
 		*/
-		public function findItem($value:*,$field:String=null):*
+		public function findItem($value:*, $field:String=null ):*
 		{
 			return ArrayUtil.findItem(this._arrData,$value,$field);
 		}
@@ -256,6 +256,10 @@
 		public function findContaining($value:*,$field:String=null):*
 		{
 			return ArrayUtil.findContaining(this._arrData,$value,$field);
+		}
+		public function findAndRemove($value:*, $field:String=null):*
+		{
+			return ArrayUtil.findAndRemove( this._arrData, $value, $field );
 		}
 		/*
 		Search: Returns true or false wether a value exists or not
