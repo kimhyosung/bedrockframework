@@ -37,6 +37,7 @@
 		private function initializeMultiline():void
 		{
 			var objData:TextDisplayData = new TextDisplayData;
+			objData.mode = TextDisplayData.MULTI_LINE;
 			objData.autoLocale = false;
 			
 			this.multilineText.initialize( objData );
@@ -45,6 +46,7 @@
 		private function initializeSingleline():void
 		{
 			var objData:TextDisplayData = new TextDisplayData;
+			objData.mode = TextDisplayData.SINGLE_LINE;
 			objData.autoLocale = false;
 			objData.width = 400;
 			
@@ -54,8 +56,9 @@
 		private function initializeMultiSingleline():void
 		{
 			var objData:TextDisplayData = new TextDisplayData;
+			objData.mode = TextDisplayData.MULTI_SINGLE_LINE;
 			objData.autoLocale = false;
-			objData.width = 200;
+			objData.width = 150;
 			
 			this.multisinglelineText.initialize( objData );
 			this.multisinglelineText.populate( "Little Ms. Muffet sat on her tuffet, eating her turds in waves." );

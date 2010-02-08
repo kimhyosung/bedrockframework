@@ -172,7 +172,7 @@
 			var objFormat:TextLayoutFormat = new TextLayoutFormat();
 			
 			objFormat.direction = Direction.LTR;
-			objFormat.color = 0xEBEBEB;
+			objFormat.color = 0x333333;
 			objFormat.fontSize = 12;
 			objFormat.fontLookup = FontLookup.EMBEDDED_CFF;
 			objFormat.renderingMode = RenderingMode.CFF;
