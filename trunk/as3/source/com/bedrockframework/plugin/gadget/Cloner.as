@@ -101,7 +101,7 @@ package com.bedrockframework.plugin.gadget
 			try {
 				var numLength:int = this._arrClones.length;
 				for (var i:int =0; i <numLength; i++) {
-					this.removeClone(i);
+					this.removeClone( i );
 				}
 			} catch ($e:Error) {
 			}
