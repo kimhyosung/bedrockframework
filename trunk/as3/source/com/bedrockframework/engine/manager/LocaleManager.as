@@ -74,7 +74,7 @@
 		
 		private function determineFontsPath( $locale:String = null ):String
 		{
-			return BedrockEngine.config.getEnvironmentValue(BedrockData.SWF_PATH) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.FONTS_FILE_NAME ) + "_" + this._strCurrentLocale + ".swf";
+			return BedrockEngine.config.getEnvironmentValue(BedrockData.FONTS_PATH ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.FONTS_FILE_NAME ) + "_" + this._strCurrentLocale + ".swf";
 		}
 		private function determineResourceBundlePath( $locale:String = null ):String
 		{
