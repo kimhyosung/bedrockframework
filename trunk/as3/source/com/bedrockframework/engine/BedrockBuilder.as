@@ -162,7 +162,7 @@ package com.bedrockframework.engine
 		{
 			var strPath:String;
 			
-			strPath = ( BedrockEngine.config.getEnvironmentValue( BedrockData.FONTS_PATH ) || BedrockEngine.config.getEnvironmentValue( BedrockData.SWF_PATH ) ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.FONTS_FILE_NAME ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX ) + ".swf";
+			strPath = BedrockEngine.config.getEnvironmentValue( BedrockData.FONTS_PATH ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.FONTS_FILE_NAME ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX ) + ".swf";
 			BedrockEngine.config.setPathValue( BedrockData.FONTS_PATH, strPath );
 			
 			strPath = BedrockEngine.config.getEnvironmentValue( BedrockData.XML_PATH ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.RESOURCE_BUNDLE_FILE_NAME ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX ) + ".xml";

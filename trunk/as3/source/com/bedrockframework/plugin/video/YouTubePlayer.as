@@ -280,6 +280,9 @@
 					this._objUpdateTrigger.removeEventListener( TriggerEvent.TRIGGER, this.onProgressTrigger );
 					break;
 				case YouTubePlayer.PLAYING:
+					if ( !this._objUpdateTrigger.running ) {
+						this._objUpdateTrigger.start();
+					}
 					if ( this._bolSeeking ) {
 						this._bolSeeking = false;
 						this.dispatchEvent( new VideoEvent( VideoEvent.SEEK_COMPLETE, this, { position:this.position, percentage:MathUtil.calculatePercentage( this.position, this.duration ), duration:this.duration } ) );
