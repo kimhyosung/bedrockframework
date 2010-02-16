@@ -95,10 +95,11 @@
 		*/
 		public function result($data:* = null):void
 		{
-			try {
+			if ( $data != null && this._objResourceMap.isEmpty() ) {
 				this._objResourceMap = $data as HashMap;
+			} else if (  $data == null && !this._objResourceMap.isEmpty() ) {
 				BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RESOURCE_BUNDLE_LOADED, this));
-			} catch ($error:Error) {
+			} else {
 				BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RESOURCE_BUNDLE_ERROR, this ));
 			}
 		}

@@ -273,8 +273,8 @@
 				case YouTubePlayer.ENDED:
 					this._bolPlaying = false;
 					this._objUpdateTrigger.stop();
-					this.dispatchEvent( new VideoEvent( VideoEvent.PLAY_COMPLETE, this ) );
 					this._objUpdateTrigger.removeEventListener( TriggerEvent.TRIGGER, this.onProgressTrigger );
+					this.dispatchEvent( new VideoEvent( VideoEvent.PLAY_COMPLETE, this ) );
 					break;
 				case YouTubePlayer.PAUSED:
 					this._objUpdateTrigger.removeEventListener( TriggerEvent.TRIGGER, this.onProgressTrigger );
