@@ -109,5 +109,16 @@ package com.bedrockframework.core.base
 			}
 			return arrChildren;
 		}
+		/*        
+		Removes all of the children of the Movieclip.
+		*/        
+		public function removeChildren():void
+		{
+			var numLength:int = this.children.length;
+			for ( var i:int = 0; i < numLength; i ++ ) {
+				this.removeChildAt(0);
+			}
+		}
+		
 	}
 }
