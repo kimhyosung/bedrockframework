@@ -47,7 +47,10 @@
 			this._objDelegate = new this._clsDelegate( this );
 			this._objDelegate.parse( $data );
 		}
-		
+		public function saveResource( $key:String, $data:* ):void
+		{
+			this._objResourceMap.saveValue( $key, $data );
+		}
 		public function getResource($key:String, $group:String = null):*
 		{
 			try {
@@ -94,10 +97,10 @@
 		{
 			try {
 				this._objResourceMap = $data as HashMap;
+				BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RESOURCE_BUNDLE_LOADED, this));
 			} catch ($error:Error) {
 				BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RESOURCE_BUNDLE_ERROR, this ));
 			}
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RESOURCE_BUNDLE_LOADED, this));
 		}
 		public function fault($data:*  = null):void
 		{
