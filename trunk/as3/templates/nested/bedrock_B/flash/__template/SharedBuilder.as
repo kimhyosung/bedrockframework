@@ -1,4 +1,4 @@
-﻿package __template
+package __template
 {
 	import com.bedrockframework.engine.AssetBuilder;
 	import com.bedrockframework.engine.api.IAssetBuilder;
@@ -12,7 +12,7 @@
 		}
 		public function initialize():void
 		{
-			this.addPreloader(BedrockData.DEFAULT_PRELOADER, DefaultPreloader);
+			this.addPreloader(BedrockData.DEFAULT_PRELOADER);
 		}
 	}
 }
