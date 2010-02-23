@@ -1,4 +1,4 @@
-package __template
+﻿package __template
 {
 	import com.bedrockframework.engine.AssetBuilder;
 	import com.bedrockframework.engine.api.IAssetBuilder;
@@ -12,8 +12,8 @@ package __template
 		}
 		public function initialize():void
 		{
-			this.addPreloader(BedrockData.DEFAULT_PRELOADER);
-			//this.addPreloader("sub_page", SubPagePreloader);
+			this.addPreloader( BedrockData.DEFAULT_PRELOADER, "DefaultPreloader" );
+			this.addPreloader( "sub_page", "SubPagePreloader");
 		}
 	}
 }

@@ -9,8 +9,8 @@
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
 	
-	import gs.TweenLite;
-	import gs.easing.Quad;
+	import com.greensock.TweenLite;
+	import com.greensock.easing.Quad;
 
 	public class NavigationView extends View implements IView
 	{

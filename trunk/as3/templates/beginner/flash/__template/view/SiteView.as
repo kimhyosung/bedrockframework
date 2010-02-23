@@ -6,7 +6,7 @@
 	import com.bedrockframework.engine.view.BedrockView;
 	import com.bedrockframework.plugin.view.IView;
 	
-	import gs.TweenLite;
+	import com.greensock.TweenLite;
 	
 	public class SiteView extends BedrockView implements IView
 	{

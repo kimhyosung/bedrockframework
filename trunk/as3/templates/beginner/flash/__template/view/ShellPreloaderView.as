@@ -5,8 +5,8 @@
 	
 	import flash.text.TextField;
 	
-	import gs.TweenLite;
-	import gs.easing.Quad;
+	import com.greensock.TweenLite;
+	import com.greensock.easing.Quad;
 	
 	public class ShellPreloaderView extends BedrockView implements IPreloader
 	{
