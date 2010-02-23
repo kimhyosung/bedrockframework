@@ -81,6 +81,7 @@
       <!--Path Information-->
       <swf_path>../swfs/</swf_path>
       <xml_path>../xml/</xml_path>
+      <font_path>../fonts/</font_path>
       <css_path>../css/</css_path>
       <image_path>../images/</image_path>
       <video_path>../video/</video_path>
