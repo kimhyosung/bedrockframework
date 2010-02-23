@@ -3,7 +3,7 @@
 	import com.bedrockframework.plugin.view.View;
 	import com.bedrockframework.plugin.view.IView;
 	import com.bedrockframework.engine.event.BedrockEvent;
-	import gs.TweenLite;
+	import com.greensock.TweenLite;
 	import flash.text.TextField;
 	import flash.events.MouseEvent;
 	public class TestView extends View implements IView
