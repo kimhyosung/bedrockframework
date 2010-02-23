@@ -27,6 +27,7 @@
 		*/
 		public function ResourceManager()
 		{
+			this._objResourceMap = new HashMap;
 			this.delegate = DefaultResourceDelegate;
 			this.createLoader();
 		}
@@ -97,6 +98,7 @@
 		{
 			if ( $data != null && this._objResourceMap.isEmpty() ) {
 				this._objResourceMap = $data as HashMap;
+				BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RESOURCE_BUNDLE_LOADED, this));
 			} else if (  $data == null && !this._objResourceMap.isEmpty() ) {
 				BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RESOURCE_BUNDLE_LOADED, this));
 			} else {

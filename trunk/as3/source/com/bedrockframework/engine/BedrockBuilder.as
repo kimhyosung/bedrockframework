@@ -188,7 +188,7 @@ package com.bedrockframework.engine
 		}
 		final private function loadPreloader():void
 		{
-			BedrockEngine.assetManager.addPreloader( "ShellPreloader" );
+			BedrockEngine.assetManager.addPreloader( "shell_preloader", "ShellPreloader" );
 			this.next();
 		}
 		final private function loadCacheSettings():void
