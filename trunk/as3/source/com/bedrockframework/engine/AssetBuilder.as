@@ -12,32 +12,29 @@
 package com.bedrockframework.engine
 {
 	import com.bedrockframework.core.base.MovieClipWidget;
-	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
-	import com.bedrockframework.engine.event.BedrockEvent;
 	
 	public class AssetBuilder extends MovieClipWidget
 	{
 		public function AssetBuilder()
 		{
 			this.visible = false;
-			this.loaderInfo.applicationDomain
 		}
 		
-		protected function addView( $alias:String ):void
+		protected function addView( $alias:String, $linkage:String ):void
 		{
-			BedrockEngine.assetManager.addView( $alias );
+			BedrockEngine.assetManager.addView( $alias, $linkage );
 		}
-		protected function addPreloader( $alias:String ):void
+		protected function addPreloader( $alias:String, $linkage:String ):void
 		{
-			BedrockEngine.assetManager.addPreloader( $alias );
+			BedrockEngine.assetManager.addPreloader( $alias, $linkage );
 		}
-		protected function addBitmap( $alias:String ):void
+		protected function addBitmap( $alias:String, $linkage:String ):void
 		{
-			BedrockEngine.assetManager.addBitmap( $alias );
+			BedrockEngine.assetManager.addBitmap( $alias, $linkage );
 		}
-		protected function addSound( $alias:String ):void
+		protected function addSound( $alias:String, $linkage:String ):void
 		{
-			BedrockEngine.assetManager.addSound( $alias );
+			BedrockEngine.assetManager.addSound( $alias, $linkage );
 		}
 	}
 }

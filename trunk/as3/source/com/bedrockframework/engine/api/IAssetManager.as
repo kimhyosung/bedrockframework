@@ -11,29 +11,29 @@ package com.bedrockframework.engine.api
 		/*
 		Add/ Return new preloader instance
 		*/
-		function addPreloader($name:String):void;
-		function getPreloader($name:String):MovieClip;
-		function hasPreloader($name:String):Boolean;
+		function addPreloader( $alias:String, $linkage:String ):void;
+		function getPreloader( $alias:String ):MovieClip;
+		function hasPreloader( $alias:String ):Boolean;
 		/*
 		Add/ Return new view instance
 		*/
-		function addView($name:String):void;
-		function getView($name:String):*;
-		function hasView($name:String):Boolean;
+		function addView( $alias:String, $linkage:String ):void;
+		function getView( $alias:String ):*;
+		function hasView( $alias:String ):Boolean;
 		function getViews():Array;
 		/*
 		Add/ Return new bitmap instance
 		*/
-		function addBitmap($name:String):void;
-		function getBitmap($name:String):BitmapData;
-		function hasBitmap($name:String):Boolean;
+		function addBitmap( $alias:String, $linkage:String ):void;
+		function getBitmap( $alias:String ):BitmapData;
+		function hasBitmap( $alias:String ):Boolean;
 		function getBitmaps():Array;
 		/*
 		Add/ Return new sound instance
 		*/
-		function addSound($name:String):void;
-		function getSound($name:String):Sound;
-		function hasSound($name:String):Boolean;
+		function addSound( $alias:String, $linkage:String ):void;
+		function getSound( $alias:String ):Sound;
+		function hasSound( $alias:String ):Boolean;
 		function getSounds():Array;
 	}
 }
