@@ -16,6 +16,10 @@
 		/*
 		Variable Declarations
 		*/
+		public static const INITIALIZE:String = "initialize";
+		public static const INTRO:String = "intro";
+		public static const OUTRO:String = "outro";
+		
 		public var data:ViewStackData;
 		private var _objViewBrowser:SuperArray;
 		private var _objContainer:Sprite;
@@ -101,12 +105,12 @@
 			this.addListeners(this._objCurrentItem.view);
 			if (this.data.autoInitialize ) {
 				if ( objView != null && !objView.hasInitialized ) {
-					this.call( ViewStackData.INITIALIZE );
+					this.call( ViewStack.INITIALIZE );
 				} else {
-					this.call( ViewStackData.INTRO );
+					this.call( ViewStack.INTRO );
 				}
 			} else {
-				this.call( ViewStackData.INTRO );
+				this.call( ViewStack.INTRO );
 			}
 		}
 		private function dequeue():void
@@ -123,14 +127,22 @@
 		public function selectByIndex($index:uint):void
 		{
 			this.stopTimer();
-			this._objViewBrowser.setSelected($index);
-			this.call(ViewStackData.OUTRO);
+			this._objViewBrowser.setSelected( $index );
+			if ( this._objCurrentItem != null ) {
+				this.call( ViewStack.OUTRO );
+			} else {
+				this.queue();
+			}
 			this.dispatchEvent( new ViewStackEvent( ViewStackEvent.CHANGE, this ) );
 		}
 		public function selectByAlias( $alias:String ):void
 		{
 			var numIndex:int = ArrayUtil.findIndex( this.data.stack, $alias, "alias" );
-			this.selectByIndex( numIndex );
+			if ( numIndex != -1 ) {
+				this.selectByIndex( numIndex );
+			} else {
+				this.error( "Alias not found!" );
+			}
 		}
 		/*
 		Get View
@@ -151,7 +163,7 @@
 			if (this._objViewBrowser.hasNext() || ( !this._objViewBrowser.hasNext() && this.data.wrap )){
 				this._objViewBrowser.selectNext();
 				this.data.mode = ViewStackData.FORWARD;
-				this.call( ViewStackData.OUTRO );
+				this.call( ViewStack.OUTRO );
 			}			
 		}
 		public function selectPrevious():void
@@ -159,7 +171,7 @@
 			if (this._objViewBrowser.hasPrevious() || ( !this._objViewBrowser.hasPrevious() && this.data.wrap ) ){
 				this._objViewBrowser.selectPrevious();
 				this.data.mode = ViewStackData.REVERSE;
-				this.call( ViewStackData.OUTRO );
+				this.call( ViewStack.OUTRO );
 			}
 		}
 		/*
@@ -169,13 +181,13 @@
 		{
 			var objView:IView = IView( this._objCurrentItem.view );
 			switch ($type) {
-				case ViewStackData.INITIALIZE :
+				case ViewStack.INITIALIZE :
 					objView.initialize( this._objCurrentItem.initialize );
 					break;
-				case ViewStackData.INTRO :
+				case ViewStack.INTRO :
 					objView.intro( this._objCurrentItem.intro );
 					break;
-				case ViewStackData.OUTRO :
+				case ViewStack.OUTRO :
 					objView.outro( this._objCurrentItem.outro );
 					break;
 			}
@@ -254,7 +266,7 @@
 		}
 		private  function onInitializeComplete($event:ViewEvent):void
 		{
-			this.call( ViewStackData.INTRO );
+			this.call( ViewStack.INTRO );
 			this.dispatchEvent( new ViewStackEvent( ViewStackEvent.INITIALIZE_COMPLETE, this, this.getDetailObject() ) );
 		}
 		private  function onIntroComplete($event:ViewEvent):void

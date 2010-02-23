@@ -10,10 +10,6 @@
 		public static const REVERSE:String = "reverse";
 		public static const SELECT:String = "select";
 		
-		public static const INITIALIZE:String = "initialize";
-		public static const INTRO:String = "intro";
-		public static const OUTRO:String = "outro";
-		
 		private var _arrStack:Array;
 		
 		public var container:Sprite;
