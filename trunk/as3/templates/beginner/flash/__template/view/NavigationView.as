@@ -57,9 +57,9 @@
 		{
 			this.cloner = new Cloner;
 			this.cloner.addEventListener( ClonerEvent.CREATE, this.onCreateClone );
-			this.addChild( this.cloner );
 			this.cloner.x = 10;
 			this.cloner.y = 10;
+			this.addChild( this.cloner );
 		}
 		private function createClones( $total:uint ):void
 		{
