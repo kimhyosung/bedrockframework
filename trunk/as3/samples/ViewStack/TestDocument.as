@@ -31,25 +31,27 @@
 			
 			var objViewStackData = new ViewStackData();
 			objViewStackData.autoQueue = false;
+			objViewStackData.autoInitialize = true;
+			//objViewStackData.autoStart = false;
 			objViewStackData.addToStack( new Burst() );
 			objViewStackData.addToStack( new Cheese() );
 			objViewStackData.addToStack( new Sun() );
 			objViewStackData.addToStack( new Nothing() );
 			
-			objViewStackData.autoInitialize = true;
+
 			//objViewStackData.container = this;
 			this._objViewStack.initialize(objViewStackData);
 			//
 			//
-			startButton.addEventListener("click", this.onStartClicked);
-			stopButton.addEventListener("click", this.onStopClicked);
-			modeButton.addEventListener("click", this.onChangeModeClicked );
-			nextButton.addEventListener("click", this.onNextClicked);
-			previousButton.addEventListener("click", this.onPreviousClicked);
+			this.startButton.addEventListener("click", this.onStartClicked);
+			this.stopButton.addEventListener("click", this.onStopClicked);
+			this.modeButton.addEventListener("click", this.onChangeModeClicked );
+			this.nextButton.addEventListener("click", this.onNextClicked);
+			this.previousButton.addEventListener("click", this.onPreviousClicked);
 			
-			oneButton.addEventListener("click", this.onOneClicked );
-			twoButton.addEventListener("click", this.onTwoClicked);
-			threeButton.addEventListener("click", this.onThreeClicked);
+			this.oneButton.addEventListener("click", this.onOneClicked );
+			this.twoButton.addEventListener("click", this.onTwoClicked);
+			this.threeButton.addEventListener("click", this.onThreeClicked);
 		}
 		
 		/*

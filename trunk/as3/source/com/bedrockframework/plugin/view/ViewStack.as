@@ -96,7 +96,6 @@
 		*/
 		private function queue():void
 		{
-			this._objPreviousItem = this._objCurrentItem;
 			this._objCurrentItem = this._objViewBrowser.selectedItem;
 			if (this.data.addAsChildren) {
 				this._objContainer.addChild(this._objCurrentItem.view);
@@ -115,9 +114,12 @@
 		}
 		private function dequeue():void
 		{
-			this.removeListeners(this._objCurrentItem.view);
+			this._objPreviousItem = this._objCurrentItem;
+			this._objCurrentItem = null;
+			
+			this.removeListeners(this._objPreviousItem.view);
 			if (this.data.addAsChildren) {
-				this._objContainer.removeChild(this._objCurrentItem.view);
+				this._objContainer.removeChild(this._objPreviousItem.view);
 			}
 			if ( this.data.autoQueue ) this.queue();
 		}
@@ -126,8 +128,9 @@
 		*/
 		public function selectByIndex($index:uint):void
 		{
+			trace( _objCurrentItem );
 			this.stopTimer();
-			this._objViewBrowser.setSelected( $index );
+			debug( this._objViewBrowser.setSelected( $index ) );
 			if ( this._objCurrentItem != null ) {
 				this.call( ViewStack.OUTRO );
 			} else {
