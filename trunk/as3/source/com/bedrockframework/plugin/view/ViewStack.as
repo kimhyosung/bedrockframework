@@ -23,6 +23,7 @@
 		public var data:ViewStackData;
 		private var _objViewBrowser:SuperArray;
 		private var _objContainer:Sprite;
+		private var _objQueueItem:Object;
 		private var _objCurrentItem:Object;
 		private var _objPreviousItem:Object;
 		
@@ -44,7 +45,7 @@
 			
 			this.data = $data;
 			this._objViewBrowser.data = this.data.stack;
-			this._objViewBrowser.setSelected( this.data.startingIndex );
+			this._objQueueItem = this._objViewBrowser.setSelected( this.data.startingIndex );
 			this._objViewBrowser.wrapIndex = this.data.wrap;
 			this.setContainer(this.data.container);
 			
@@ -96,7 +97,9 @@
 		*/
 		private function queue():void
 		{
-			this._objCurrentItem = this._objViewBrowser.selectedItem;
+			this._objCurrentItem = this._objQueueItem;
+			this._objQueueItem = null;
+			
 			if (this.data.addAsChildren) {
 				this._objContainer.addChild(this._objCurrentItem.view);
 			}
@@ -121,16 +124,15 @@
 			if (this.data.addAsChildren) {
 				this._objContainer.removeChild(this._objPreviousItem.view);
 			}
-			if ( this.data.autoQueue ) this.queue();
+			if ( this._objQueueItem != null ) this.queue();
 		}
 		/*
 		Show View
 		*/
 		public function selectByIndex($index:uint):void
 		{
-			trace( _objCurrentItem );
 			this.stopTimer();
-			debug( this._objViewBrowser.setSelected( $index ) );
+			this._objQueueItem = this._objViewBrowser.setSelected( $index );
 			if ( this._objCurrentItem != null ) {
 				this.call( ViewStack.OUTRO );
 			} else {
@@ -163,18 +165,34 @@
 		*/
 		public function selectNext():void
 		{
-			if (this._objViewBrowser.hasNext() || ( !this._objViewBrowser.hasNext() && this.data.wrap )){
-				this._objViewBrowser.selectNext();
+			if ( this._objViewBrowser.hasNext() || ( !this._objViewBrowser.hasNext() && this.data.wrap ) ) {
+				this._objQueueItem = this._objViewBrowser.selectNext();
 				this.data.mode = ViewStackData.FORWARD;
-				this.call( ViewStack.OUTRO );
-			}			
+				if ( this._objCurrentItem != null ) {
+					this.call( ViewStack.OUTRO );
+				} else {
+					this.queue();
+				}
+				this.dispatchEvent( new ViewStackEvent( ViewStackEvent.NEXT, this, this.getDetailObject() ) );
+			} else if ( !this._objViewBrowser.hasNext() && !this.data.wrap ) {
+				this.status("Hit Ending");
+				this.dispatchEvent( new ViewStackEvent( ViewStackEvent.ENDING, this, this.getDetailObject() ) );
+			}
 		}
 		public function selectPrevious():void
 		{
-			if (this._objViewBrowser.hasPrevious() || ( !this._objViewBrowser.hasPrevious() && this.data.wrap ) ){
-				this._objViewBrowser.selectPrevious();
+			if ( this._objViewBrowser.hasPrevious() || ( !this._objViewBrowser.hasPrevious() && this.data.wrap ) ){
+				this._objQueueItem = this._objViewBrowser.selectPrevious();
 				this.data.mode = ViewStackData.REVERSE;
-				this.call( ViewStack.OUTRO );
+				if ( this._objCurrentItem != null ) {
+					this.call( ViewStack.OUTRO );
+				} else {
+					this.queue();
+				}
+				this.dispatchEvent( new ViewStackEvent( ViewStackEvent.PREVIOUS, this, this.getDetailObject() ) );
+			} else if ( !this._objViewBrowser.hasPrevious() && !this.data.wrap ) {
+				this.status( "Hit Beginning" );
+				this.dispatchEvent( new ViewStackEvent( ViewStackEvent.BEGINNING, this, this.getDetailObject() ) );
 			}
 		}
 		/*
@@ -194,31 +212,6 @@
 					objView.outro( this._objCurrentItem.outro );
 					break;
 			}
-		}
-		/*
-		Internal Next/ Previous
-		*/
-		private function sequentialNext():void
-		{
-			if ( this._objViewBrowser.hasNext() ) {
-				this._objViewBrowser.selectNext();
-				this.queue();
-				this.dispatchEvent(new ViewStackEvent(ViewStackEvent.NEXT, this, this.getDetailObject()))
-			}else{
-				this.status("Hit Ending");
-				this.dispatchEvent(new ViewStackEvent(ViewStackEvent.ENDING, this, this.getDetailObject()))
-			}
-		}
-		private function sequentialPrevious():void
-		{
-			if ( this._objViewBrowser.hasPrevious() ) {
-				this._objViewBrowser.selectPrevious();
-				this.queue();
-				this.dispatchEvent(new ViewStackEvent(ViewStackEvent.PREVIOUS, this, this.getDetailObject()))
-			}else{
-				this.status("Hit Beginning");
-				this.dispatchEvent(new ViewStackEvent(ViewStackEvent.BEGINNING, this, this.getDetailObject()))
-			}	
 		}
 		/*
 		Manager Event Listening

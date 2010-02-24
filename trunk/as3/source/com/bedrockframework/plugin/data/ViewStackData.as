@@ -23,7 +23,6 @@
 		
 		public var autoInitialize:Boolean;
 		public var autoStart:Boolean;
-		public var autoQueue:Boolean;
 		
 		public function ViewStackData():void
 		{
@@ -36,7 +35,6 @@
 			this.mode = ViewStackData.SELECT;
 			this.autoInitialize = true;
 			this.autoStart = true;
-			this.autoQueue = true;
 		}
 		
 		public function addToStack($view:IView, $alias:String = null, $initializeData:Object = null, $introData:Object = null, $outroData:Object = null):void

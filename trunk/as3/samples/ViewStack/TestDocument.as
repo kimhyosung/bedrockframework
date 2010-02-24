@@ -30,7 +30,6 @@
 			this.addChild( this._objViewStack );
 			
 			var objViewStackData = new ViewStackData();
-			objViewStackData.autoQueue = false;
 			objViewStackData.autoInitialize = true;
 			//objViewStackData.autoStart = false;
 			objViewStackData.addToStack( new Burst() );
