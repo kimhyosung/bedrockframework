@@ -78,11 +78,16 @@
 		Constant Paths
 		*/
 		public static const STYLE_SHEET_PATH:String = "style_sheet_path";
-		public static const FONTS_PATH:String = "font_path";
 		public static const RESOURCE_BUNDLE_PATH:String = "resource_bundle_path";
+		public static const FONTS_PATH:String = "font_path";
 		public static const SITE_PATH:String = "site_path";
 		public static const SHARED_PATH:String = "shared_path";
 		public static const AUDIO_PATH:String = "audio_path";
+		public static const CSS_PATH:String = "css_path";
+		public static const XML_PATH:String = "xml_path";
+		public static const IMAGE_PATH:String = "image_path";
+		public static const VIDEO_PATH:String = "video_path";
+		public static const SWF_PATH:String = "swf_path";
 		/*
 		Constant Containers
 		*/
@@ -100,14 +105,6 @@
 		public static const LOCALHOST:String = "localhost";
 		public static const STAGING:String = "staging";
 		public static const PRODUCTION:String = "production";
-		/*
-		Constant Paths
-		*/
-		public static const CSS_PATH:String = "css_path";
-		public static const XML_PATH:String = "xml_path";
-		public static const IMAGE_PATH:String = "image_path";
-		public static const VIDEO_PATH:String = "video_path";
-		public static const SWF_PATH:String = "swf_path";
 		/*
 		Load Priorities
 		*/

@@ -43,6 +43,7 @@ package com.bedrockframework.engine
 		Variable Declarations
 		*/
 		public var configURL:String;
+		public var configRAW:String;
 		public var params:String
 		
 		private var _arrLoadSequence:Array=new Array("loadPreloader","loadParams","loadConfig", "loadDeepLinking","loadPaths", "loadContextMenu", "loadModifications", "loadContainers","loadCacheSettings", "loadLogging","loadServices","loadEngineClasses","loadController","loadEngineContainers", "loadFonts", "loadResourceBundle", "loadCSS", "loadLocale", "loadDefaultPage", "loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
@@ -111,6 +112,8 @@ package com.bedrockframework.engine
 			BedrockEngine.config = new Config;
 			BedrockEngine.history = new History;
 			BedrockEngine.bedrock::state = new State;
+			
+			BedrockEngine.available = true;
 		}
 		
 		final protected function next():void
