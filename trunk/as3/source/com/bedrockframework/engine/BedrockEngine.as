@@ -28,6 +28,8 @@
 		/*
 		Variable Definitions
 	 	*/
+		public static var available:Boolean = false;
+		
 		bedrock static var controller:IFrontController;
 		public static var assetManager:IAssetManager;
 		public static var containerManager:IContainerManager;

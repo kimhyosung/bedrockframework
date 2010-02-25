@@ -18,6 +18,9 @@ package com.bedrockframework.engine
 		public function AssetBuilder()
 		{
 			this.visible = false;
+			if ( BedrockEngine.available ) {
+				BedrockEngine.assetManager.initialize( this.loaderInfo.applicationDomain );
+			}
 		}
 		
 		protected function addView( $alias:String, $linkage:String ):void
