@@ -11,11 +11,6 @@ package com.bedrockframework.engine.api
 		Save the page information for later use.
 		*/
 		function addPage($alias:String, $data:Object):void;
-		/*
-		Getters
-		*/
-		function setPathValue( $key:String, $path:String ):void;
-		function getPathValue( $key:String ):String;
 		/**
 		 * Returns a framework setting independent of environment.
 	 	*/
@@ -26,12 +21,10 @@ package com.bedrockframework.engine.api
 	 	*/
 		function getEnvironmentValue($key:String):*;
 		
-		function getLocaleValue( $key:String ):*;
+		function getLocaleSetting( $key:String ):*;
 		function getParamValue($key:String):*;
 		
 		function getAvailableValue($key:String):*;
-		
-		function switchLocale( $locale:String ):void;
 		/*
 		Pull the information for a specific page.
 		*/

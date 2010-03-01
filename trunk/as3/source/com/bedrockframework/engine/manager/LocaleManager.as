@@ -11,20 +11,26 @@
 		/*
 		Variable Declarations
 		*/
+		private var _strDelimiter:String;
 		private var _strDefaultLocale:String;
-		private var _strSystemLocale:String;
 		private var _strCurrentLocale:String;
 		private var _arrLocales:Array;
+		private var _arrLocalizedFiles:Array;
 		/*
 		Constructor
 		*/
 		public function LocaleManager()
 		{
+			this._arrLocales = new Array;
+			this._arrLocalizedFiles = new Array;
 		}
-		public function initialize($locales:Array, $defaultLocale:String = null):void
+		public function initialize( $localizedFiles:Array, $locales:Array, $currentLocale:String = null, $defaultLocale:String = null, $delimiter:String = "_" ):void
 		{
+			this._arrLocalizedFiles = $localizedFiles;
 			this._arrLocales = $locales;
+			this._strCurrentLocale = $currentLocale;
 			this._strDefaultLocale = $defaultLocale;
+			this._strDelimiter = $delimiter;
 		}
 		
 		public function load($locale:String = null ):void
@@ -35,7 +41,6 @@
 				this.status( "Loading Locale - " + $locale );
 				this._strCurrentLocale = $locale;
 				BedrockEngine.bedrock::fileManager.load( this._strCurrentLocale );
-				BedrockEngine.config.switchLocale( this._strCurrentLocale );
 			}
 		}
 		
@@ -43,10 +48,21 @@
 		{
 			return ArrayUtil.containsItem( this._arrLocales, $locale );
 		}
-		
+		public function isFileLocalized( $file:String ):Boolean
+		{
+			return ( ArrayUtil.findIndex( this._arrLocalizedFiles, $file ) != -1 );
+		}
 		/*
 		Property Definitions
 		*/
+		public function set delimiter( $delimiter:String ):void
+		{
+			this._strDelimiter = $delimiter;
+		}
+		public function get delimiter():String
+		{
+			return this._strDelimiter;
+		}
 		public function get locales():Array
 		{
 			return this._arrLocales;

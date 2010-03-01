@@ -177,19 +177,19 @@ package com.bedrockframework.engine
 		}
 		final private function loadCacheSettings():void
 		{
-			if (BedrockEngine.config.getSettingValue(BedrockData.CACHE_PREVENTION_ENABLED) && BedrockEngine.config.getSettingValue(BedrockData.ENVIRONMENT) != BedrockData.LOCAL) {
+			if ( BedrockEngine.config.getSettingValue( BedrockData.CACHE_PREVENTION_ENABLED ) && BedrockEngine.config.getSettingValue( BedrockData.ENVIRONMENT ) != BedrockData.LOCAL ) {
 				DataLoader.cachePrevention = true;
 				VisualLoader.cachePrevention = true;
-				DataLoader.cacheKey = BedrockEngine.config.getSettingValue(BedrockData.CACHE_KEY);
-				VisualLoader.cacheKey = BedrockEngine.config.getSettingValue(BedrockData.CACHE_KEY);
+				DataLoader.cacheKey = BedrockEngine.config.getSettingValue( BedrockData.CACHE_KEY );
+				VisualLoader.cacheKey = BedrockEngine.config.getSettingValue( BedrockData.CACHE_KEY );
 			}
 			this.next();
 		}
 		final private function loadLogging():void
 		{
-			Logger.localLevel = LogLevel[BedrockEngine.config.getParamValue( BedrockData.LOCAL_LOG_LEVEL)  || BedrockEngine.config.getEnvironmentValue(BedrockData.LOCAL_LOG_LEVEL ) ];
-			Logger.eventLevel = LogLevel[BedrockEngine.config.getParamValue( BedrockData.EVENT_LOG_LEVEL)  || BedrockEngine.config.getEnvironmentValue(BedrockData.EVENT_LOG_LEVEL ) ];
-			Logger.remoteLevel = LogLevel[BedrockEngine.config.getParamValue( BedrockData.REMOTE_LOG_LEVEL)  || BedrockEngine.config.getEnvironmentValue(BedrockData.REMOTE_LOG_LEVEL) ];
+			Logger.localLevel = LogLevel[ BedrockEngine.config.getParamValue( BedrockData.LOCAL_LOG_LEVEL)  || BedrockEngine.config.getEnvironmentValue(BedrockData.LOCAL_LOG_LEVEL ) ];
+			Logger.eventLevel = LogLevel[ BedrockEngine.config.getParamValue( BedrockData.EVENT_LOG_LEVEL)  || BedrockEngine.config.getEnvironmentValue(BedrockData.EVENT_LOG_LEVEL ) ];
+			Logger.remoteLevel = LogLevel[ BedrockEngine.config.getParamValue( BedrockData.REMOTE_LOG_LEVEL)  || BedrockEngine.config.getEnvironmentValue(BedrockData.REMOTE_LOG_LEVEL) ];
 			Logger.remoteLogURL = BedrockEngine.config.getEnvironmentValue( BedrockData.REMOTE_LOG_URL );
 			this.next();
 		}
@@ -204,7 +204,7 @@ package com.bedrockframework.engine
 		{
 			if ( BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
 				var strDefaultLocale:String = BedrockEngine.config.getParamValue( BedrockData.CURRENT_LOCALE ) || BedrockEngine.config.getAvailableValue( BedrockData.DEFAULT_LOCALE );
-				BedrockEngine.localeManager.initialize( BedrockEngine.config.getLocaleValue( BedrockData.LOCALES ), strDefaultLocale );
+				BedrockEngine.localeManager.initialize( BedrockEngine.config.getLocaleSetting( BedrockData.LOCALIZED_FILES ), BedrockEngine.config.getLocaleSetting( BedrockData.LOCALES ), strDefaultLocale, BedrockEngine.config.getLocaleSetting( BedrockData.LOCALE_DELIMITER ) );
 			}
 			this.next();
 		}
@@ -212,6 +212,7 @@ package com.bedrockframework.engine
 		{
 			BedrockEngine.bedrock::fileManager.initialize();
 			if ( BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
+				trace( BedrockEngine.localeManager.currentLocale )
 				BedrockEngine.bedrock::fileManager.load( BedrockEngine.localeManager.currentLocale, true );
 			} else {
 				BedrockEngine.bedrock::fileManager.load( null, true );
@@ -251,15 +252,14 @@ package com.bedrockframework.engine
 		}
 		final private function loadServices():void
 		{
-			if (BedrockEngine.config.getSettingValue(BedrockData.REMOTING_ENABLED)) {
-				BedrockEngine.serviceManager.initialize(BedrockEngine.config.getEnvironmentValue(BedrockData.REMOTING))
+			if ( BedrockEngine.config.getSettingValue( BedrockData.REMOTING_ENABLED ) ) {
+				BedrockEngine.serviceManager.initialize(BedrockEngine.config.getEnvironmentValue( BedrockData.REMOTING ) );
 			}
 			this.next();
 		}
 		final private function loadDefaultPage():void
 		{
-			var bolAutoDefault:Boolean = BedrockEngine.config.getSettingValue(BedrockData.AUTO_DEFAULT_ENABLED);
-			BedrockEngine.bedrock::pageManager.initialize( bolAutoDefault );
+			BedrockEngine.bedrock::pageManager.initialize( BedrockEngine.config.getSettingValue( BedrockData.AUTO_DEFAULT_ENABLED ) );
 			this.next();
 		}
 		/*
@@ -268,7 +268,8 @@ package com.bedrockframework.engine
 		final private function loadComplete():void
 		{
 			if ( BedrockEngine.config.getSettingValue( BedrockData.SHARED_ENABLED ) ) {
-				this.addToQueue( BedrockEngine.config.getEnvironmentValue( BedrockData.SWF_PATH ) + BedrockEngine.config.getSettingValue( BedrockData.SHARED_FILE_NAME ) + ".swf", BedrockEngine.containerManager.getContainer( BedrockData.SHARED_CONTAINER ), BedrockData.SHARED_PRIORITY, null, this.onSharedLoaded);
+				var objLoader:VisualLoader = BedrockEngine.containerManager.getContainer( BedrockData.SHARED_CONTAINER );
+				objLoader.addEventListener( LoaderEvent.INIT, this.onSharedLoaded );
 			}
 			this.addToQueue( BedrockEngine.config.getEnvironmentValue( BedrockData.SWF_PATH ) + BedrockEngine.config.getSettingValue( BedrockData.SITE_FILE_NAME ) + ".swf", BedrockEngine.containerManager.getContainer( BedrockData.SITE_CONTAINER ), BedrockData.SITE_PRIORITY );
 						
