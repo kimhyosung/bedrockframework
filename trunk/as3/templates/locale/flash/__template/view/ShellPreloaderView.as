@@ -2,11 +2,10 @@
 {
 	import com.bedrockframework.engine.view.BedrockView;
 	import com.bedrockframework.engine.view.IPreloader;
+	import com.greensock.TweenLite;
+	import com.greensock.easing.Quad;
 	
 	import flash.text.TextField;
-	
-	import gs.TweenLite;
-	import gs.easing.Quad;
 	
 	public class ShellPreloaderView extends BedrockView implements IPreloader
 	{

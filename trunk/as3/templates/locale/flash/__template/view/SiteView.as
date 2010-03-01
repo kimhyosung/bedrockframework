@@ -4,9 +4,8 @@
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.engine.view.BedrockView;
 	import com.bedrockframework.plugin.view.IView;
-	
-	import gs.TweenLite;
-	import gs.easing.Quad;
+	import com.greensock.TweenLite;
+	import com.greensock.easing.Quad;
 	
 	public class SiteView extends BedrockView implements IView
 	{
