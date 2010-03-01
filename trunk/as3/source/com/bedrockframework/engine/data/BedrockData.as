@@ -25,6 +25,8 @@
 		public static const AUTO_BLOCKER_ENABLED:String = "auto_blocker_enabled";
 		
 		public static const LOCALES:String = "locales";
+		public static const LOCALIZED_FILES:String = "localized_files";
+		public static const LOCALE_DELIMITER:String = "locale_delimiter";
 		public static const DEFAULT_LOCALE:String = "default_locale";
 		public static const CURRENT_LOCALE:String = "current_locale";
 		public static const SYSTEM_LANGUAGE:String = "system_language";

@@ -29,7 +29,7 @@ package com.bedrockframework.plugin.data
 			this.width = 200;
 			this.height = 50;
 			
-			this.autoLocale = true;
+			this.autoLocale = false;
 			this.autoStyle = true;
 			
 			this.mode = TextDisplayData.MULTI_LINE;

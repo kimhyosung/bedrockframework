@@ -5,6 +5,6 @@ package com.bedrockframework.engine.api
 		function getFontPath( $locale:String = null ):String
 		function getCSSPath( $locale:String = null ):String;
 		function getResourceBundlePath( $locale:String = null ):String;
-		function get delimiter():String;
+		function getSharedPath( $locale:String = null ):String;
 	}
 }

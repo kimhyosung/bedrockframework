@@ -10,8 +10,6 @@
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.plugin.event.BulkLoaderEvent;
 	import com.bedrockframework.plugin.loader.BulkLoader;
-	
-	import flash.events.Event;
 
 	public class FileManager extends BasicWidget implements IFileManager
 	{
@@ -43,15 +41,31 @@
 		
 		public function load( $locale:String = null, $useLoadManager:Boolean = false):void
 		{
-			if ( BedrockEngine.config.getSettingValue( BedrockData.FONTS_ENABLED ) ) {
+			trace( BedrockEngine.localeManager.isFileLocalized( "css" ) );
+			if ( BedrockEngine.config.getSettingValue( BedrockData.FONTS_ENABLED ) && BedrockEngine.localeManager.isFileLocalized( "fonts" ) ) {
 				this.addToQueue( this._objDelegate.getFontPath( $locale ), BedrockEngine.fontManager.loader, $useLoadManager );
+			} else if ( BedrockEngine.config.getSettingValue( BedrockData.FONTS_ENABLED ) ) {
+				this.addToQueue( this._objDelegate.getFontPath(), BedrockEngine.fontManager.loader, $useLoadManager );
 			}
-			if ( BedrockEngine.config.getSettingValue( BedrockData.CSS_ENABLED ) ) {
+			
+			if ( BedrockEngine.config.getSettingValue( BedrockData.CSS_ENABLED ) && BedrockEngine.localeManager.isFileLocalized( "css" ) ) {
 				this.addToQueue( this._objDelegate.getCSSPath( $locale ), BedrockEngine.styleManager.loader, $useLoadManager );
+			} else if ( BedrockEngine.config.getSettingValue( BedrockData.CSS_ENABLED ) ) {
+				this.addToQueue( this._objDelegate.getCSSPath(), BedrockEngine.styleManager.loader, $useLoadManager );
 			}
-			if ( BedrockEngine.config.getSettingValue( BedrockData.RESOURCE_BUNDLE_ENABLED ) ) {
+			
+			if ( BedrockEngine.config.getSettingValue( BedrockData.RESOURCE_BUNDLE_ENABLED ) && BedrockEngine.localeManager.isFileLocalized( "resource_bundle" ) ) {
 				this.addToQueue( this._objDelegate.getResourceBundlePath( $locale ), BedrockEngine.resourceManager.loader, $useLoadManager );
+			} else if ( BedrockEngine.config.getSettingValue( BedrockData.RESOURCE_BUNDLE_ENABLED ) ) {
+				this.addToQueue( this._objDelegate.getResourceBundlePath(), BedrockEngine.resourceManager.loader, $useLoadManager );
 			}
+			
+			if ( BedrockEngine.config.getSettingValue( BedrockData.SHARED_ENABLED ) && BedrockEngine.localeManager.isFileLocalized( "shared" ) ) {
+				this.addToQueue( this._objDelegate.getSharedPath( $locale ), BedrockEngine.containerManager.getContainer( BedrockData.SHARED_CONTAINER ), $useLoadManager );
+			} else if ( BedrockEngine.config.getSettingValue( BedrockData.SHARED_ENABLED ) ) {
+				this.addToQueue( this._objDelegate.getSharedPath(), BedrockEngine.containerManager.getContainer( BedrockData.SHARED_CONTAINER ), $useLoadManager );
+			}
+			
 			if ( !$useLoadManager ) this._objBulkLoader.loadQueue();
 		}
 		

@@ -14,7 +14,6 @@ package com.bedrockframework.engine.model
 	import com.bedrockframework.core.base.StandardWidget;
 	import com.bedrockframework.engine.api.IConfig;
 	import com.bedrockframework.engine.data.BedrockData;
-	import com.bedrockframework.plugin.storage.HashMap;
 	import com.bedrockframework.plugin.util.StringUtil;
 	import com.bedrockframework.plugin.util.VariableUtil;
 	import com.bedrockframework.plugin.util.XMLUtil;
@@ -27,25 +26,22 @@ package com.bedrockframework.engine.model
 		/*
 		Variable Declarations
 		*/		
-		private var _objSettingValues:Object;
+		private var _objGeneralSettings:Object;
 		private var _objEnvironmentValues:Object;
 		private var _objPageValues:Object;
 		private var _objParamValues:Object;
-		private var _objLocaleValues:Object;
-		private var _objPathValues:Object;
+		private var _objLocaleSettings:Object;
 		private var _arrPages:Array;
-		private var _objLocaleValueHash:HashMap;
 		/*
 		Constructor
 		*/
 		public function Config()
 		{
-			this._objSettingValues = new Object;
+			this._objGeneralSettings = new Object;
+			this._objLocaleSettings = new Object;
 			this._objEnvironmentValues = new Object;
 			this._objPageValues = new Object;
 			this._objParamValues = new Object;
-			this._objLocaleValues = new Object;
-			this._objPathValues = new Object;
 			this._arrPages = new Array;
 		}
 		/*
@@ -79,7 +75,6 @@ package com.bedrockframework.engine.model
 			this.saveEnvironmentValues( xmlConfig.environments, strEnvironment);
 			
 			this.saveLocaleSettings( xmlConfig.settings.locale );
-			this.parseLocaleValues( xmlConfig.locales );
 			this.saveCacheSettings();
 			
 			this.parsePages( xmlConfig.pages );
@@ -95,9 +90,9 @@ package com.bedrockframework.engine.model
 		{
 			this.status("Environment - " + this.getSettingValue(BedrockData.ENVIRONMENT));
 			this.status( this._objParamValues );
-			this.status( this._objSettingValues );
+			this.status( this._objGeneralSettings );
+			this.status( this._objLocaleSettings );
 			this.status( this._objEnvironmentValues );
-			this.status( this._objLocaleValues );
 		}
 		/*
 		Settings Functions
@@ -119,14 +114,14 @@ package com.bedrockframework.engine.model
 		}
 		private function saveSettingValue($key:String, $value:*):void
 		{
-			this._objSettingValues[ $key ] = $value;
+			this._objGeneralSettings[ $key ] = $value;
 		}
 		/**
 		 * Returns a framework setting independent of environment.
 	 	*/
 		public function getSettingValue($key:String):*
 		{
-			return this._objSettingValues[ $key ];
+			return this._objGeneralSettings[ $key ];
 		}
 		/*
 		Environment Functions
@@ -161,8 +156,8 @@ package com.bedrockframework.engine.model
 		{
 			var xmlData:XML = new XML($node);
 			
-			this.parseEnvironmentValues(XMLUtil.filterByAttribute(xmlData, "name", BedrockData.DEFAULT));
-			this.parseEnvironmentValues(XMLUtil.filterByAttribute(xmlData, "name", $environment));
+			this.parseEnvironmentValues( XMLUtil.filterByAttribute( xmlData, "name", BedrockData.DEFAULT ) );
+			this.parseEnvironmentValues( XMLUtil.filterByAttribute( xmlData, "name", $environment ) );
 			
 			delete this._objEnvironmentValues["patterns"];
 		}
@@ -185,17 +180,6 @@ package com.bedrockframework.engine.model
 		public function getEnvironmentValue($key:String):*
 		{
 			return this._objEnvironmentValues[ $key ]; 
-		}
-		/*
-		Path Functions
-		*/
-		public function setPathValue( $key:String, $value:String ):void
-		{
-			this._objPathValues[ $key ] = $value;
-		}
-		public function getPathValue( $key:String ):String
-		{
-			return this._objPathValues[ $key ];
 		}
 		/*
 		Pages Functions
@@ -258,53 +242,55 @@ package com.bedrockframework.engine.model
 		{
 			if ( this.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
 				
-				var objData:Object = XMLUtil.convertToObject($node);
-				for (var d:String in objData) {
-					this.saveLocaleValue(d, objData[d]);
-				}
+				this._objLocaleSettings = XMLUtil.convertToObject( $node );
 				
-				var strLocales:String = objData[ BedrockData.LOCALES ];
-				var arrLocales:Array = strLocales.split(",")
+				this.parseLocales();
+				this.parseLocalizedFiles();
+				
+				if ( this.getLocaleSetting( BedrockData.LOCALES ).length > 0 && this.getLocaleSetting( BedrockData.DEFAULT_LOCALE ) == null ) {
+					this.saveLocaleSetting( BedrockData.DEFAULT_LOCALE, this.getLocaleSetting( BedrockData.LOCALES )[ 0 ] );	
+				}
+				this.saveLocaleSetting( BedrockData.CURRENT_LOCALE, this.getLocaleSetting( BedrockData.DEFAULT_LOCALE ) );
+				
+			}
+		}
+		private function saveLocaleSetting( $key:String, $value:* ):void
+		{
+			this._objLocaleSettings[ $key ] = $value;
+		}
+		public function getLocaleSetting( $key:String ):*
+		{
+			return this._objLocaleSettings[ $key ];
+		}
+		private function parseLocales():void
+		{
+			var strLocales:String = this._objLocaleSettings[ BedrockData.LOCALES ];
+			if ( strLocales.length > 0 ) {
+				var arrLocales:Array = strLocales.split( "," );
 				var numLength:int = arrLocales.length;
 				for (var i:int = 0; i < numLength; i ++) {
-					arrLocales[i] = StringUtil.trim(arrLocales[i]);
+					arrLocales[ i ] = StringUtil.trim( arrLocales[ i ] );
 				}
-				this.saveLocaleValue(BedrockData.LOCALES, arrLocales);
-				
-				if (numLength > 0 && this.getLocaleValue( BedrockData.DEFAULT_LOCALE ) == null ) {
-					this.saveLocaleValue( BedrockData.DEFAULT_LOCALE, arrLocales[0]);	
-				}
-				this.saveLocaleValue( BedrockData.CURRENT_LOCALE, this.getLocaleValue( BedrockData.DEFAULT_LOCALE ) );
-				
+				this.saveLocaleSetting( BedrockData.LOCALES, arrLocales );
+			} else {
+				this.saveLocaleSetting( BedrockData.LOCALES, new Array );
 			}
 		}
-		public function switchLocale( $locale:String ):void
+		private function parseLocalizedFiles():void
 		{
-			this.saveLocaleValue( BedrockData.CURRENT_LOCALE, $locale );
-			var objData:Object = this._objLocaleValueHash.getValue( $locale );
-
-			for (var d:String in objData) {
-				this.saveLocaleValue( d, objData[d] );
+			var strLocales:String = this._objLocaleSettings[ BedrockData.LOCALIZED_FILES ];
+			if ( strLocales.length > 0 ) {
+				var arrLocales:Array = strLocales.split( "," );
+				var numLength:int = arrLocales.length;
+				for (var i:int = 0; i < numLength; i ++) {
+					arrLocales[ i ] = StringUtil.trim( arrLocales[ i ] );
+				}
+				this.saveLocaleSetting( BedrockData.LOCALIZED_FILES, arrLocales );
+			} else {
+				this.saveLocaleSetting( BedrockData.LOCALIZED_FILES, new Array );
 			}
 		}
 		
-		private function parseLocaleValues( $node:XMLList ):void
-		{
-			this._objLocaleValueHash = XMLUtil.convertToHashMap( $node );
-		}
-		
-		private function saveLocaleValue($key:String, $value:*):void
-		{
-			this._objLocaleValues[ $key ] = $value;
-		}
-		/**
-		 * Returns a environment value that will change depending on the current locale.
-		 * Locale values are declared in the config xml file.
-	 	*/
-		public function getLocaleValue($key:String):*
-		{
-			return this._objLocaleValues[ $key ]; 
-		}
 		/*
 		Param Functions
 		*/
@@ -344,7 +330,7 @@ package com.bedrockframework.engine.model
 		*/
 		public function getAvailableValue( $key:String ):*
 		{
-			return this.getParamValue( $key ) || this.getEnvironmentValue( $key ) || this.getLocaleValue( $key ) || this.getSettingValue( $key ) || "";
+			return this.getParamValue( $key ) || this.getEnvironmentValue( $key ) || this.getSettingValue( $key ) || "";
 		}
 		/*
 		Internal string replacement functions
