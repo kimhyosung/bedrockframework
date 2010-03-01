@@ -86,9 +86,9 @@
 		
 		private function getURL($url:String):String
 		{
-			if (BackgroundLoader.cachePrevention) {
+			if (DataLoader.cachePrevention) {
 				var strPrefix:String = (this._strURL.indexOf("?") != -1) ? "&" : "?";
-				return this._strURL + strPrefix + "cache=" + BackgroundLoader.cacheKey;
+				return this._strURL + strPrefix + "cache=" + DataLoader.cacheKey;
 			} else {
 				return this._strURL;
 			}

@@ -15,7 +15,7 @@
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
 	
-	public class BackgroundLoader extends URLLoader
+	public class DataLoader extends URLLoader
 	{
 		/*
 		Variable Declarations
@@ -30,9 +30,9 @@
 		/*
 		Constructor
 		*/	
-		BackgroundLoader.setupReplacements();
+		DataLoader.setupReplacements();
 		
-		public function BackgroundLoader($url:String=null)
+		public function DataLoader($url:String=null)
 		{
 			Logger.log(this, LogLevel.CONSTRUCTOR, "Constructed");
 			
@@ -66,9 +66,9 @@
 		private function getURL($url:String):String
 		{
 			// Alex, add more checks for existing params
-			if (BackgroundLoader.cachePrevention) {
+			if (DataLoader.cachePrevention) {
 				var strPrefix:String = (this._strURL.indexOf("?") != -1) ? "&" : "?";
-				return this._strURL + strPrefix + "cache=" + BackgroundLoader.cacheKey;
+				return this._strURL + strPrefix + "cache=" + DataLoader.cacheKey;
 			} else {
 				return this._strURL;
 			}
@@ -107,7 +107,7 @@
 					break;
 			}
 			
-			return new LoaderEvent(BackgroundLoader.__objReplacements.getValue($event.type),this,objDetails);
+			return new LoaderEvent(DataLoader.__objReplacements.getValue($event.type),this,objDetails);
 		}
 		/*
 		Event Handlers

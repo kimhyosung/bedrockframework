@@ -13,7 +13,7 @@
 		public static const DEEP_LINKING_ENABLED:String = "deep_linking_enabled";
 		public static const REMOTING_ENABLED:String = "remoting_enabled";
 		public static const CACHE_PREVENTION_ENABLED:String = "cache_prevention_enabled";
-		public static const STYLESHEET_ENABLED:String = "style_sheet_enabled";
+		public static const CSS_ENABLED:String = "css_enabled";
 		public static const RESOURCE_BUNDLE_ENABLED:String = "resource_bundle_enabled";
 		public static const TRACKING_ENABLED:String = "tracking_enabled";
 		public static const LOCALE_ENABLED:String = "locale_enabled";
@@ -69,7 +69,7 @@
 		Constant File Names
 		*/
 		public static const CONFIG_FILE_NAME:String = "bedrock_config";
-		public static const STYLE_SHEET_FILE_NAME:String = "style_sheet_file_name";
+		public static const CSS_FILE_NAME:String = "css_file_name";
 		public static const FONTS_FILE_NAME:String = "fonts_file_name";
 		public static const RESOURCE_BUNDLE_FILE_NAME:String = "resource_bundle_file_name";
 		public static const SITE_FILE_NAME:String = "site_file_name";
@@ -77,7 +77,6 @@
 		/*
 		Constant Paths
 		*/
-		public static const STYLE_SHEET_PATH:String = "style_sheet_path";
 		public static const RESOURCE_BUNDLE_PATH:String = "resource_bundle_path";
 		public static const FONTS_PATH:String = "font_path";
 		public static const SITE_PATH:String = "site_path";

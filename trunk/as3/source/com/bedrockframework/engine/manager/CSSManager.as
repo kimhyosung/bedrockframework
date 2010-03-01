@@ -2,26 +2,26 @@
 {
 	import com.bedrockframework.core.base.StandardWidget;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
-	import com.bedrockframework.engine.api.IStyleManager;
+	import com.bedrockframework.engine.api.ICSSManager;
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.plugin.event.LoaderEvent;
-	import com.bedrockframework.plugin.loader.BackgroundLoader;
+	import com.bedrockframework.plugin.loader.DataLoader;
 	
 	import flash.events.Event;
 	import flash.text.StyleSheet;
 	import flash.text.TextFormat;
 
-	public class StyleManager extends StandardWidget implements IStyleManager
+	public class CSSManager extends StandardWidget implements ICSSManager
 	{
 		/*
 		Variable Declarations
 		*/
-		private var _objBackgroundLoader:BackgroundLoader;
+		private var _objDataLoader:DataLoader;
 		private var _objStyleSheet:StyleSheet;
 		/*
 		Constructor
 		*/
-		public function StyleManager()
+		public function CSSManager()
 		{
 			this._objStyleSheet = new StyleSheet();
 			this.createLoader();
@@ -29,10 +29,10 @@
 		
 		private function createLoader():void
 		{
-			this._objBackgroundLoader = new BackgroundLoader;
-			this._objBackgroundLoader.addEventListener(LoaderEvent.COMPLETE, this.onLoadComplete);
-			this._objBackgroundLoader.addEventListener(LoaderEvent.IO_ERROR, this.onLoadError);
-			this._objBackgroundLoader.addEventListener(LoaderEvent.SECURITY_ERROR, this.onLoadError);
+			this._objDataLoader = new DataLoader;
+			this._objDataLoader.addEventListener(LoaderEvent.COMPLETE, this.onLoadComplete);
+			this._objDataLoader.addEventListener(LoaderEvent.IO_ERROR, this.onLoadError);
+			this._objDataLoader.addEventListener(LoaderEvent.SECURITY_ERROR, this.onLoadError);
 		}
 		/*
 		Parse the StyleSheet
@@ -83,7 +83,7 @@
 		private function onLoadComplete($event:LoaderEvent):void
 		{
 			this.status("Style Sheet Loaded");
-			this.parseCSS( this._objBackgroundLoader.data );
+			this.parseCSS( this._objDataLoader.data );
 		}
 		private function onLoadError($event:Event):void
 		{
@@ -101,9 +101,9 @@
 		{
 			return this._objStyleSheet;
 		}
-		public function get loader():BackgroundLoader
+		public function get loader():DataLoader
 		{
-			return this._objBackgroundLoader;
+			return this._objDataLoader;
 		}
 	}
 }
