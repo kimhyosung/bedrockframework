@@ -8,7 +8,7 @@
 	import com.bedrockframework.plugin.delegate.IDelegate;
 	import com.bedrockframework.plugin.delegate.IResponder;
 	import com.bedrockframework.plugin.event.LoaderEvent;
-	import com.bedrockframework.plugin.loader.BackgroundLoader;
+	import com.bedrockframework.plugin.loader.DataLoader;
 	import com.bedrockframework.plugin.storage.HashMap;
 	
 	import flash.events.Event;
@@ -21,7 +21,7 @@
 		private var _clsDelegate:Class;
 		private var _objDelegate:IDelegate;
 		private var _objResourceMap:HashMap;
-		private var _objBackgroundLoader:BackgroundLoader;
+		private var _objDataLoader:DataLoader;
 		/*
 		Constructor
 		*/
@@ -33,14 +33,14 @@
 		}
 		private function createLoader():void
 		{
-			this._objBackgroundLoader = new BackgroundLoader();
-			this._objBackgroundLoader.addEventListener(LoaderEvent.COMPLETE, this.onLoadComplete);
-			this._objBackgroundLoader.addEventListener(LoaderEvent.IO_ERROR, this.onLoadError);
-			this._objBackgroundLoader.addEventListener(LoaderEvent.SECURITY_ERROR, this.onLoadError);
+			this._objDataLoader = new DataLoader();
+			this._objDataLoader.addEventListener(LoaderEvent.COMPLETE, this.onLoadComplete);
+			this._objDataLoader.addEventListener(LoaderEvent.IO_ERROR, this.onLoadError);
+			this._objDataLoader.addEventListener(LoaderEvent.SECURITY_ERROR, this.onLoadError);
 		}
 		public function load( $path:String ):void
 		{
-			this._objBackgroundLoader.loadURL( $path );
+			this._objDataLoader.loadURL( $path );
 		}
 		
 		private function createDelegate( $data:String ):void
@@ -115,7 +115,7 @@
 		private function onLoadComplete($event:LoaderEvent):void
 		{
 			this.status("Resource Bundle Loaded");
-			this.createDelegate( this._objBackgroundLoader.data );
+			this.createDelegate( this._objDataLoader.data );
 		}
 		private function onLoadError($event:Event):void
 		{
@@ -125,9 +125,9 @@
 		/*
 		Property Definitions
 		*/
-		public function get loader():BackgroundLoader
+		public function get loader():DataLoader
 		{
-			return this._objBackgroundLoader;
+			return this._objDataLoader;
 		}
 		public function get delegate():Class
 		{

@@ -94,9 +94,9 @@
 		private function add( $file:String,$loader:VisualLoader=null,$completeHandler:Function=null, $errorHandler:Function=null):void
 		{
 			var strFile:String=$file;
-			var objLoader:* =$loader || new BackgroundLoader  ;
+			var objLoader:* =$loader || new DataLoader  ;
 			if ($completeHandler != null) {
-				if (objLoader is BackgroundLoader) {
+				if (objLoader is DataLoader) {
 					objLoader.addEventListener(LoaderEvent.COMPLETE,$completeHandler,false,0,true);
 				} else {
 					objLoader.addEventListener(LoaderEvent.INIT,$completeHandler,false,0,true);

@@ -1,11 +1,11 @@
 package com.bedrockframework.engine.api
 {
-	import com.bedrockframework.plugin.loader.BackgroundLoader;
+	import com.bedrockframework.plugin.loader.DataLoader;
 	
 	import flash.text.StyleSheet;
 	import flash.text.TextFormat;
 	
-	public interface IStyleManager
+	public interface ICSSManager
 	{
 		/*
 		Parse the StyleSheet
@@ -33,6 +33,6 @@ package com.bedrockframework.engine.api
 		function get styleNames():Array;
 		function get styleSheet():StyleSheet;
 		
-		function get loader():BackgroundLoader;
+		function get loader():DataLoader;
 	}
 }

@@ -93,8 +93,8 @@
 		}
 		public function addToQueue($file:String, $loader:*=null, $priority:uint=0, $alias:String=null, $completeHandler:Function=null, $errorHandler:Function=null):void
 		{
-			if ($loader !=null && !( $loader is BackgroundLoader || $loader is VisualLoader ) ) {
-				this.error( "Loader must be an instance of BackgroundLoader or VisualLoader!" );
+			if ($loader !=null && !( $loader is DataLoader || $loader is VisualLoader ) ) {
+				this.error( "Loader must be an instance of DataLoader or VisualLoader!" );
 			} else {
 				if (this._bolComplete) {
 					this.reset();
@@ -114,9 +114,9 @@
 		private function add($file:String, $loader:* = null, $priority:uint=0, $alias:String=null, $completeHandler:Function=null, $errorHandler:Function=null):void
 		{
 			var strFile:String=$file;
-			var objLoader:* =$loader || new BackgroundLoader;
+			var objLoader:* =$loader || new DataLoader;
 			if ($completeHandler != null) {
-				if (objLoader is BackgroundLoader) {
+				if (objLoader is DataLoader) {
 					objLoader.addEventListener(LoaderEvent.COMPLETE,$completeHandler,false,0,true);
 				} else {
 					objLoader.addEventListener(LoaderEvent.INIT,$completeHandler,false,0,true);
@@ -158,7 +158,7 @@
 			$target.addEventListener(LoaderEvent.PROGRESS,this.onProgress);
 			$target.addEventListener(LoaderEvent.IO_ERROR,this.onFileError);
 
-			var strType:String = ($target is BackgroundLoader) ? LoaderEvent.COMPLETE : LoaderEvent.INIT;
+			var strType:String = ($target is DataLoader) ? LoaderEvent.COMPLETE : LoaderEvent.INIT;
 			$target.addEventListener(strType, this.onFileComplete);
 		}
 		private function removeListeners($target:*):void
@@ -174,7 +174,7 @@
 			$target.removeEventListener(LoaderEvent.PROGRESS,this.onProgress);
 			$target.removeEventListener(LoaderEvent.IO_ERROR,this.onFileError);
 
-			var strType:String = ($target is BackgroundLoader) ? LoaderEvent.COMPLETE : LoaderEvent.INIT;
+			var strType:String = ($target is DataLoader) ? LoaderEvent.COMPLETE : LoaderEvent.INIT;
 			$target.removeEventListener(strType, this.onFileComplete);
 		}
 		/*

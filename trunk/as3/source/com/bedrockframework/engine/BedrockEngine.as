@@ -9,6 +9,7 @@
 	import com.bedrockframework.engine.api.IContainerManager;
 	import com.bedrockframework.engine.api.IContextMenuManager;
 	import com.bedrockframework.engine.api.IDeeplinkManager;
+	import com.bedrockframework.engine.api.IFileManager;
 	import com.bedrockframework.engine.api.IFontManager;
 	import com.bedrockframework.engine.api.IHistory;
 	import com.bedrockframework.engine.api.ILoadManager;
@@ -19,7 +20,7 @@
 	import com.bedrockframework.engine.api.IServiceManager;
 	import com.bedrockframework.engine.api.ISoundManager;
 	import com.bedrockframework.engine.api.IState;
-	import com.bedrockframework.engine.api.IStyleManager;
+	import com.bedrockframework.engine.api.ICSSManager;
 	import com.bedrockframework.engine.api.ITrackingManager;
 	import com.bedrockframework.engine.api.ITransitionManger;
 
@@ -36,6 +37,7 @@
 		public static var contextMenuManager:IContextMenuManager;
 		public static var resourceManager:IResourceManager;
 		public static var deeplinkManager:IDeeplinkManager;
+		bedrock static var fileManager:IFileManager;
 		public static var fontManager:IFontManager;
 		public static var loadManager:ILoadManager;
 		public static var localeManager:ILocaleManager;
@@ -43,7 +45,7 @@
 		bedrock static var preloaderManager:IPreloaderManager;		
 		public static var serviceManager:IServiceManager;
 		public static var soundManager:ISoundManager;
-		public static var styleManager:IStyleManager;
+		public static var styleManager:ICSSManager;
 		public static var trackingManager:ITrackingManager;
 		bedrock static var transitionManager:ITransitionManger;
 		
@@ -54,7 +56,7 @@
 		/*
 		Constructor
 	 	*/
-	 	Logger.log(BedrockEngine, LogLevel.CONSTRUCTOR, "Constructed");
+	 	Logger.log( BedrockEngine, LogLevel.CONSTRUCTOR, "Constructed" );
 		
 	}
 }

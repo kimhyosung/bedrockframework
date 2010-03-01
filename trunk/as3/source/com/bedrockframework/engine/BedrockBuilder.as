@@ -26,7 +26,7 @@ package com.bedrockframework.engine
 	import com.bedrockframework.plugin.display.Blocker;
 	import com.bedrockframework.plugin.event.LoaderEvent;
 	import com.bedrockframework.plugin.gadget.*;
-	import com.bedrockframework.plugin.loader.BackgroundLoader;
+	import com.bedrockframework.plugin.loader.DataLoader;
 	import com.bedrockframework.plugin.loader.VisualLoader;
 	import com.bedrockframework.plugin.tracking.ITrackingService;
 	
@@ -46,7 +46,7 @@ package com.bedrockframework.engine
 		public var configRAW:String;
 		public var params:String
 		
-		private var _arrLoadSequence:Array=new Array("loadPreloader","loadParams","loadConfig", "loadDeepLinking","loadPaths", "loadContextMenu", "loadModifications", "loadContainers","loadCacheSettings", "loadLogging","loadServices","loadEngineClasses","loadController","loadEngineContainers", "loadFonts", "loadResourceBundle", "loadCSS", "loadLocale", "loadDefaultPage", "loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
+		private var _arrLoadSequence:Array=new Array("loadPreloader","loadParams","loadConfig", "loadDeepLinking", "loadModifications", "loadContextMenu",  "loadContainers","loadCacheSettings", "loadLogging","loadServices","loadEngineClasses","loadController","loadEngineContainers", "loadLocale", "loadFiles", "loadDefaultPage", "loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
 		private var _numLoadIndex:Number;		
 		private var _objConfigLoader:URLLoader;
 		public var environmentURL:String;
@@ -98,6 +98,7 @@ package com.bedrockframework.engine
 			BedrockEngine.containerManager = new ContainerManager;
 			BedrockEngine.resourceManager = new ResourceManager;
 			BedrockEngine.deeplinkManager = new DeeplinkManager;
+			BedrockEngine.bedrock::fileManager = new FileManager;
 			BedrockEngine.fontManager = new FontManager;
 			BedrockEngine.loadManager = new LoadManager;
 			BedrockEngine.localeManager = new LocaleManager;
@@ -105,7 +106,7 @@ package com.bedrockframework.engine
 			BedrockEngine.bedrock::preloaderManager = new PreloaderManager;
 			BedrockEngine.serviceManager = new ServiceManager;	
 			BedrockEngine.soundManager = new SoundManager;
-			BedrockEngine.styleManager = new StyleManager;
+			BedrockEngine.styleManager = new CSSManager;
 			BedrockEngine.trackingManager = new TrackingManager;
 			BedrockEngine.bedrock::transitionManager = new TransitionManager;
 			
@@ -161,27 +162,7 @@ package com.bedrockframework.engine
 			this.status( this.loaderInfo.url );
 			this.loadConfigXML( BedrockEngine.config.getParamValue(BedrockData.CONFIG_URL) ||this.configURL );
 		}
-		final private function loadPaths():void
-		{
-			var strPath:String;
-			
-			strPath = BedrockEngine.config.getEnvironmentValue( BedrockData.FONTS_PATH ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.FONTS_FILE_NAME ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX ) + ".swf";
-			BedrockEngine.config.setPathValue( BedrockData.FONTS_PATH, strPath );
-			
-			strPath = BedrockEngine.config.getEnvironmentValue( BedrockData.XML_PATH ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.RESOURCE_BUNDLE_FILE_NAME ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX ) + ".xml";
-			BedrockEngine.config.setPathValue( BedrockData.RESOURCE_BUNDLE_PATH, strPath );
-			
-			strPath = BedrockEngine.config.getEnvironmentValue(BedrockData.CSS_PATH) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.STYLE_SHEET_FILE_NAME ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX )	 + ".css"
-			BedrockEngine.config.setPathValue( BedrockData.STYLE_SHEET_PATH, strPath );
-			
-			strPath = BedrockEngine.config.getEnvironmentValue(BedrockData.SWF_PATH) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.SHARED_FILE_NAME ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX )	 + ".swf"
-			BedrockEngine.config.setPathValue( BedrockData.SHARED_PATH, strPath );
-			
-			strPath = BedrockEngine.config.getEnvironmentValue(BedrockData.SWF_PATH) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + BedrockEngine.config.getSettingValue( BedrockData.SITE_FILE_NAME ) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX )	 + ".swf"
-			BedrockEngine.config.setPathValue( BedrockData.SITE_PATH, strPath );
-			
-			this.next();
-		}
+		
 		final private function loadContextMenu():void
 		{
 			BedrockEngine.contextMenuManager = new ContextMenuManager;
@@ -197,19 +178,19 @@ package com.bedrockframework.engine
 		final private function loadCacheSettings():void
 		{
 			if (BedrockEngine.config.getSettingValue(BedrockData.CACHE_PREVENTION_ENABLED) && BedrockEngine.config.getSettingValue(BedrockData.ENVIRONMENT) != BedrockData.LOCAL) {
-				BackgroundLoader.cachePrevention = true;
+				DataLoader.cachePrevention = true;
 				VisualLoader.cachePrevention = true;
-				BackgroundLoader.cacheKey = BedrockEngine.config.getSettingValue(BedrockData.CACHE_KEY);
+				DataLoader.cacheKey = BedrockEngine.config.getSettingValue(BedrockData.CACHE_KEY);
 				VisualLoader.cacheKey = BedrockEngine.config.getSettingValue(BedrockData.CACHE_KEY);
 			}
 			this.next();
 		}
 		final private function loadLogging():void
 		{
-			Logger.localLevel = LogLevel[BedrockEngine.config.getParamValue(BedrockData.LOCAL_LOG_LEVEL)  || BedrockEngine.config.getEnvironmentValue(BedrockData.LOCAL_LOG_LEVEL)];
-			Logger.eventLevel = LogLevel[BedrockEngine.config.getParamValue(BedrockData.EVENT_LOG_LEVEL)  || BedrockEngine.config.getEnvironmentValue(BedrockData.EVENT_LOG_LEVEL)];
-			Logger.remoteLevel = LogLevel[BedrockEngine.config.getParamValue(BedrockData.REMOTE_LOG_LEVEL)  || BedrockEngine.config.getEnvironmentValue(BedrockData.REMOTE_LOG_LEVEL)];
-			Logger.remoteLogURL = BedrockEngine.config.getEnvironmentValue(BedrockData.REMOTE_LOG_URL);
+			Logger.localLevel = LogLevel[BedrockEngine.config.getParamValue( BedrockData.LOCAL_LOG_LEVEL)  || BedrockEngine.config.getEnvironmentValue(BedrockData.LOCAL_LOG_LEVEL ) ];
+			Logger.eventLevel = LogLevel[BedrockEngine.config.getParamValue( BedrockData.EVENT_LOG_LEVEL)  || BedrockEngine.config.getEnvironmentValue(BedrockData.EVENT_LOG_LEVEL ) ];
+			Logger.remoteLevel = LogLevel[BedrockEngine.config.getParamValue( BedrockData.REMOTE_LOG_LEVEL)  || BedrockEngine.config.getEnvironmentValue(BedrockData.REMOTE_LOG_LEVEL) ];
+			Logger.remoteLogURL = BedrockEngine.config.getEnvironmentValue( BedrockData.REMOTE_LOG_URL );
 			this.next();
 		}
 		final private function loadContainers():void
@@ -219,42 +200,25 @@ package com.bedrockframework.engine
 			BedrockEngine.containerManager.initialize(this._sprContainer);
 			this.next();
 		}
-		final private function loadFonts():void
-		{
-			if ( BedrockEngine.config.getSettingValue( BedrockData.FONTS_ENABLED) ) {
-				if ( !BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) || !BedrockEngine.config.getLocaleValue( BedrockData.FONTS_ENABLED ) ) {
-					this.addToQueue( BedrockEngine.config.getPathValue( BedrockData.FONTS_PATH ), BedrockEngine.fontManager.loader );
-				}
-			}
-			this.next();
-		}
-		final private function loadResourceBundle():void
-		{
-			if ( BedrockEngine.config.getSettingValue( BedrockData.RESOURCE_BUNDLE_ENABLED) ) {
-				if ( !BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) || !BedrockEngine.config.getLocaleValue( BedrockData.RESOURCE_BUNDLE_ENABLED ) ) {
-					this.addToQueue( BedrockEngine.config.getPathValue( BedrockData.RESOURCE_BUNDLE_PATH ), BedrockEngine.resourceManager.loader );
-				}
-			}			
-			this.next();
-		}
-		final private function loadCSS():void
-		{
-			if ( BedrockEngine.config.getSettingValue( BedrockData.STYLESHEET_ENABLED) ) {
-				if ( !BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) || !BedrockEngine.config.getLocaleValue( BedrockData.STYLESHEET_ENABLED )) {
-					this.addToQueue( BedrockEngine.config.getPathValue( BedrockData.STYLE_SHEET_PATH ), BedrockEngine.styleManager.loader );
-				}
-			}	
-			this.next();
-		}
 		final private function loadLocale():void
 		{
 			if ( BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
-				var strDefaultLocale:String = BedrockEngine.config.getParamValue( BedrockData.CURRENT_LOCALE ) || BedrockEngine.config.getAvailableValue(BedrockData.DEFAULT_LOCALE);
+				var strDefaultLocale:String = BedrockEngine.config.getParamValue( BedrockData.CURRENT_LOCALE ) || BedrockEngine.config.getAvailableValue( BedrockData.DEFAULT_LOCALE );
 				BedrockEngine.localeManager.initialize( BedrockEngine.config.getLocaleValue( BedrockData.LOCALES ), strDefaultLocale );
-				BedrockEngine.localeManager.load( strDefaultLocale, true );
 			}
 			this.next();
 		}
+		final private function loadFiles():void
+		{
+			BedrockEngine.bedrock::fileManager.initialize();
+			if ( BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
+				BedrockEngine.bedrock::fileManager.load( BedrockEngine.localeManager.currentLocale, true );
+			} else {
+				BedrockEngine.bedrock::fileManager.load( null, true );
+			}
+			this.next();
+		}
+		
 		final private function loadController():void
 		{
 			BedrockEngine.bedrock::controller.initialize();
@@ -304,9 +268,9 @@ package com.bedrockframework.engine
 		final private function loadComplete():void
 		{
 			if ( BedrockEngine.config.getSettingValue( BedrockData.SHARED_ENABLED ) ) {
-				this.addToQueue( BedrockEngine.config.getPathValue( BedrockData.SHARED_PATH ), BedrockEngine.containerManager.getContainer( BedrockData.SHARED_CONTAINER ), BedrockData.SHARED_PRIORITY, null, this.onSharedLoaded);
+				this.addToQueue( BedrockEngine.config.getEnvironmentValue( BedrockData.SWF_PATH ) + BedrockEngine.config.getSettingValue( BedrockData.SHARED_FILE_NAME ) + ".swf", BedrockEngine.containerManager.getContainer( BedrockData.SHARED_CONTAINER ), BedrockData.SHARED_PRIORITY, null, this.onSharedLoaded);
 			}
-			this.addToQueue( BedrockEngine.config.getPathValue( BedrockData.SITE_PATH ), BedrockEngine.containerManager.getContainer( BedrockData.SITE_CONTAINER ), BedrockData.SITE_PRIORITY );
+			this.addToQueue( BedrockEngine.config.getEnvironmentValue( BedrockData.SWF_PATH ) + BedrockEngine.config.getSettingValue( BedrockData.SITE_FILE_NAME ) + ".swf", BedrockEngine.containerManager.getContainer( BedrockData.SITE_CONTAINER ), BedrockData.SITE_PRIORITY );
 						
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.BEDROCK_COMPLETE,this));
 			trace("");
