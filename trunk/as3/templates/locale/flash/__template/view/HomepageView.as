@@ -80,7 +80,7 @@
 		private function onChange1($event:MouseEvent):void
 		{
 			this.textDisplay1.populate( "Quisque at mi id leo aliquam feugiat a vitae sem. Nunc interdum, arcu in dictum adipiscing, dolor magna vestibulum risus, nec vestibulum metus est vitae magna." );
-			trace( this.textDisplay2.width );
+			trace( this.textDisplay1.width );
 		}
 		private function onChange2($event:MouseEvent):void
 		{
