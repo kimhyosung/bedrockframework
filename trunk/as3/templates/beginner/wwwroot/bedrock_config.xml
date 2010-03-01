@@ -21,6 +21,8 @@
     <locale>
       <default_locale>en_GB</default_locale>
       <locales>en_GB,fr_FR</locales>
+      <localized_files>fonts,css,resource_bundle,shared</localized_files>
+      <locale_delimiter>_</locale_delimiter>
     </locale>
     <!--Filename Settings-->
     <file_names>
@@ -84,6 +86,7 @@
       <font_path>../fonts/</font_path>
       <css_path>../css/</css_path>
       <resource_bundle_path>../xml/</resource_bundle_path>
+      <shared_path>../swfs/</shared_path>
       <!--Remoting-->
     </environment>
     <environment name="local">
@@ -120,12 +123,4 @@
       <!--Remoting-->
     </environment>
   </environments>
-  <locales>
-    <en_GB>
-      <some_value>Something something something</some_value>
-    </en_GB>
-    <fr_FR>
-      <some_value>Something something something</some_value>
-    </fr_FR>
-  </locales>
 </config>
