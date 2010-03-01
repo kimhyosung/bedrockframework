@@ -13,25 +13,22 @@
       <shared_enabled>true</shared_enabled>
       <shared_sounds_enabled>false</shared_sounds_enabled>
       <fonts_enabled>true</fonts_enabled>
+      <css_enabled>true</css_enabled>
       <resource_bundle_enabled>true</resource_bundle_enabled>
-      <style_sheet_enabled>true</style_sheet_enabled>
       <locale_enabled>false</locale_enabled>
     </general>
     <!--Locale Settings-->
     <locale>
-      <fonts_enabled>true</fonts_enabled>
-      <resource_bundle_enabled>true</resource_bundle_enabled>
-      <style_sheet_enabled>true</style_sheet_enabled>
       <default_locale>en_GB</default_locale>
       <locales>en_GB,fr_FR</locales>
     </locale>
     <!--Filename Settings-->
     <file_names>
-      <style_sheet_file_name>flash_style</style_sheet_file_name>
-      <fonts_file_name>fonts</fonts_file_name>
-      <resource_bundle_file_name>resource_bundle</resource_bundle_file_name>
       <shared_file_name>shared</shared_file_name>
       <site_file_name>site</site_file_name>
+      <fonts_file_name>fonts</fonts_file_name>
+      <css_file_name>flash_style</css_file_name>
+      <resource_bundle_file_name>resource_bundle</resource_bundle_file_name>
       <file_prefix />
       <file_suffix />
     </file_names>
@@ -81,11 +78,12 @@
       <!--Path Information-->
       <swf_path>../swfs/</swf_path>
       <xml_path>../xml/</xml_path>
-      <font_path>../fonts/</font_path>
-      <css_path>../css/</css_path>
       <image_path>../images/</image_path>
       <video_path>../video/</video_path>
       <audio_path>../audio/</audio_path>
+      <font_path>../fonts/</font_path>
+      <css_path>../css/</css_path>
+      <resource_bundle_path>../xml/</resource_bundle_path>
       <!--Remoting-->
     </environment>
     <environment name="local">
