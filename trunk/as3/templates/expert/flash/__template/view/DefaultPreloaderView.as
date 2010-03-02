@@ -1,10 +1,10 @@
 ﻿package __template.view
 {
-	import com.bedrockframework.engine.view.IPreloader;
 	import com.bedrockframework.engine.view.BedrockView;
+	import com.bedrockframework.engine.view.IPreloader;
+	import com.greensock.TweenLite;
 	
 	import flash.text.TextField;
-	import gs.TweenLite;
 	
 	public class DefaultPreloaderView extends BedrockView implements IPreloader
 	{
@@ -29,12 +29,12 @@
 		}
 		public function intro($properties:Object=null):void
 		{
-			TweenLite.to(this, 1, {alpha:1, onComplete:this.introComplete});
+			TweenLite.to(this, 1, { alpha:1, onComplete:this.introComplete } );
 			//this.introComplete();
 		}
 		public function outro($properties:Object=null):void
 		{
-			TweenLite.to(this, 1, {alpha:0, onComplete:this.outroComplete});
+			TweenLite.to(this, 1, { alpha:0, onComplete:this.outroComplete } );
 			//this.outroComplete();
 		}
 		public function displayProgress($percent:uint):void
