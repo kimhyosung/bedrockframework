@@ -12,7 +12,7 @@ package __template
 		}
 		public function initialize():void
 		{
-			this.addPreloader(BedrockData.DEFAULT_PRELOADER);
+			this.addPreloader( BedrockData.DEFAULT_PRELOADER, "DefaultPreloader" );
 		}
 	}
 }

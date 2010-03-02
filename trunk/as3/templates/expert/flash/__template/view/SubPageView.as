@@ -2,10 +2,9 @@
 {
 	import com.bedrockframework.engine.view.BedrockView;
 	import com.bedrockframework.plugin.view.IView;
+	import com.greensock.TweenLite;
 	
-	import gs.TweenLite;
-	
-	public class ContactView extends BedrockView implements IView
+	public class SubPageView extends BedrockView implements IView
 	{
 		/*
 		Variable Declarations
@@ -14,7 +13,7 @@
 		/*
 		Constructor
 		*/
-		public function ContactView()
+		public function SubPageView()
 		{
 			this.alpha = 0;
 		}
