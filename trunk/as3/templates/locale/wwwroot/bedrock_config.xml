@@ -16,6 +16,7 @@
       <css_enabled>true</css_enabled>
       <resource_bundle_enabled>true</resource_bundle_enabled>
       <locale_enabled>true</locale_enabled>
+      <show_pages_in_context_menu>true</show_pages_in_context_menu>
     </general>
     <!--Locale Settings-->
     <locale>

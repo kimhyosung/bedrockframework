@@ -21,7 +21,6 @@ package com.bedrockframework.engine.api
 	 	*/
 		function getEnvironmentValue($key:String):*;
 		
-		function getLocaleSetting( $key:String ):*;
 		function getParamValue($key:String):*;
 		
 		function getAvailableValue($key:String):*;

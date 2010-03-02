@@ -203,8 +203,9 @@ package com.bedrockframework.engine
 		final private function loadLocale():void
 		{
 			if ( BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
-				var strDefaultLocale:String = BedrockEngine.config.getParamValue( BedrockData.CURRENT_LOCALE ) || BedrockEngine.config.getAvailableValue( BedrockData.DEFAULT_LOCALE );
-				BedrockEngine.localeManager.initialize( BedrockEngine.config.getLocaleSetting( BedrockData.LOCALIZED_FILES ), BedrockEngine.config.getLocaleSetting( BedrockData.LOCALES ), strDefaultLocale, BedrockEngine.config.getLocaleSetting( BedrockData.LOCALE_DELIMITER ) );
+				var strCurrentLocale:String = BedrockEngine.config.getParamValue( BedrockData.CURRENT_LOCALE );
+				var strDefaultLocale:String = BedrockEngine.config.getAvailableValue( BedrockData.DEFAULT_LOCALE );
+				BedrockEngine.localeManager.initialize( BedrockEngine.config.getSettingValue( BedrockData.LOCALIZED_FILES ), BedrockEngine.config.getSettingValue( BedrockData.LOCALES ), strDefaultLocale, strCurrentLocale, BedrockEngine.config.getSettingValue( BedrockData.LOCALE_DELIMITER ) );
 			}
 			this.next();
 		}
@@ -212,7 +213,6 @@ package com.bedrockframework.engine
 		{
 			BedrockEngine.bedrock::fileManager.initialize();
 			if ( BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
-				trace( BedrockEngine.localeManager.currentLocale )
 				BedrockEngine.bedrock::fileManager.load( BedrockEngine.localeManager.currentLocale, true );
 			} else {
 				BedrockEngine.bedrock::fileManager.load( null, true );

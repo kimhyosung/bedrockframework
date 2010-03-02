@@ -24,12 +24,12 @@
 			this._arrLocales = new Array;
 			this._arrLocalizedFiles = new Array;
 		}
-		public function initialize( $localizedFiles:Array, $locales:Array, $currentLocale:String = null, $defaultLocale:String = null, $delimiter:String = "_" ):void
+		public function initialize( $localizedFiles:Array, $locales:Array, $defaultLocale:String = null, $currentLocale:String = null, $delimiter:String = "_" ):void
 		{
 			this._arrLocalizedFiles = $localizedFiles;
 			this._arrLocales = $locales;
-			this._strCurrentLocale = $currentLocale;
 			this._strDefaultLocale = $defaultLocale;
+			this._strCurrentLocale = $currentLocale || this._strDefaultLocale;
 			this._strDelimiter = $delimiter;
 		}
 		
