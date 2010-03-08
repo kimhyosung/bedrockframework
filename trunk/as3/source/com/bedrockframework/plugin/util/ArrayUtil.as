@@ -84,7 +84,7 @@
 		/*
 		Search: Returns Single Item
 		*/
-		public static function hasItem($array:Array,$value:*,$field:String=null):Boolean
+		public static function containsItem($array:Array,$value:*,$field:String=null):Boolean
 		{
 			return ( ArrayUtil.findIndex($array, $value, $field) != -1 );
 		}
