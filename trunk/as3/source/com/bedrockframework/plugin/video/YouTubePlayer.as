@@ -45,7 +45,6 @@
 		private var _bolPaused:Boolean;
 		
 		private var _numConnectionAttempts:Number = 0;
-		
 		/*
 		Constructor
 	 	*/
@@ -66,7 +65,7 @@
 		}
 		private function createTrigger():void
 		{
-			this._objUpdateTrigger = new IntervalTrigger( 0.1 );
+			this._objUpdateTrigger = new IntervalTrigger( 0.005 );
 			this._objUpdateTrigger.silenceLogging = true;
 			
 			this._objFailureTrigger = new TimeoutTrigger( 5 );

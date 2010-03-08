@@ -46,7 +46,7 @@
 		
 		public function isLocaleAvailable($locale:String):Boolean
 		{
-			return ArrayUtil.containsItem( this._arrLocales, $locale );
+			return ArrayUtil.hasItem( this._arrLocales, $locale );
 		}
 		public function isFileLocalized( $file:String ):Boolean
 		{

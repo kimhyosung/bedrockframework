@@ -266,7 +266,7 @@
 		*/
 		public function containsItem($value:*,$field:String=null):Boolean
 		{
-			return ArrayUtil.containsItem(this._arrData,$value,$field);
+			return ArrayUtil.hasItem(this._arrData,$value,$field);
 		}
 		/*
 		Search: Selects and Returns a Single Item

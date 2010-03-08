@@ -109,7 +109,7 @@ package com.bedrockframework.engine.model
 				this.saveSettingValue(BedrockData.CACHE_KEY, "");
 			}
 		}
-		private function saveSettingValue($key:String, $value:*):void
+		public function saveSettingValue($key:String, $value:*):void
 		{
 			this._objSettingValues[ $key ] = $value;
 		}
