@@ -15,6 +15,7 @@ package com.bedrockframework.engine.api
 		 * Returns a framework setting independent of environment.
 	 	*/
 		function getSettingValue($key:String):*;
+		function saveSettingValue($key:String, $value:*):void;
 		/**
 		 * Returns a environment value that will change depending on the current environment.
 		 * Environment values are declared in the config xml file.

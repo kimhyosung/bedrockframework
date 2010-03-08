@@ -84,9 +84,9 @@
 		/*
 		Search: Returns Single Item
 		*/
-		public static function containsItem($array:Array,$value:*,$field:String=null):Boolean
+		public static function hasItem($array:Array,$value:*,$field:String=null):Boolean
 		{
-			return ( ArrayUtil.findIndex($array, $value, $field) == -1 ) ? false : true;
+			return ( ArrayUtil.findIndex($array, $value, $field) != -1 );
 		}
 
 		/*
