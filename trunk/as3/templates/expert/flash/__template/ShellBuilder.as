@@ -1,6 +1,7 @@
 ﻿package __template
 {	
 	import com.bedrockframework.engine.BedrockBuilder;
+	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.api.IBedrockBuilder;	
 	
 	public class ShellBuilder extends BedrockBuilder implements IBedrockBuilder

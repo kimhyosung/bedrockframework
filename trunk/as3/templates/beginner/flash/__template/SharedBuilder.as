@@ -1,6 +1,7 @@
 ﻿package __template
 {
 	import com.bedrockframework.engine.AssetBuilder;
+	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.api.IAssetBuilder;
 	import com.bedrockframework.engine.data.BedrockData;
 
@@ -14,6 +15,8 @@
 		{
 			this.addPreloader( BedrockData.DEFAULT_PRELOADER, "DefaultPreloader" );
 			this.addPreloader( "sub_page", "SubPagePreloader");
+			
+			this.addSound( "asia_background", "AsiaBackground" );
 		}
 	}
 }
