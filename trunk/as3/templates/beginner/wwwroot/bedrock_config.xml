@@ -11,7 +11,7 @@
       <remoting_enabled>false</remoting_enabled>
       <cache_prevention_enabled>false</cache_prevention_enabled>
       <shared_enabled>true</shared_enabled>
-      <shared_sounds_enabled>false</shared_sounds_enabled>
+      <shared_sounds_enabled>true</shared_sounds_enabled>
       <fonts_enabled>true</fonts_enabled>
       <css_enabled>true</css_enabled>
       <resource_bundle_enabled>true</resource_bundle_enabled>
