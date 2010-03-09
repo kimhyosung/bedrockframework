@@ -267,7 +267,6 @@
 		}
 		private  function onIntroComplete($event:ViewEvent):void
 		{
-			// do something
 			if (this.data.timerEnabled) this.startTimer();	
 			this.dispatchEvent( new ViewStackEvent( ViewStackEvent.INTRO_COMPLETE, this, this.getDetailObject() ) );
 		}
