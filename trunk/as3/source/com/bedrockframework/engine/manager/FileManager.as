@@ -41,7 +41,6 @@
 		
 		public function load( $locale:String = null, $useLoadManager:Boolean = false):void
 		{
-			trace( $locale );
 			if ( BedrockEngine.config.getSettingValue( BedrockData.FONTS_ENABLED ) && BedrockEngine.localeManager.isFileLocalized( "fonts" ) ) {
 				this.addToQueue( this._objDelegate.getFontPath( $locale ), BedrockEngine.fontManager.loader, $useLoadManager );
 			} else if ( BedrockEngine.config.getSettingValue( BedrockData.FONTS_ENABLED ) ) {

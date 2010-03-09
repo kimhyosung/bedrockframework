@@ -144,7 +144,7 @@
 		}
 		public function pause():void
 		{
-			if ( !this._bolPaused ) {
+			if ( !this._bolPaused && this.playerLoaded ) {
 				this._bolPaused = true;
 				this._objUpdateTrigger.removeEventListener( TriggerEvent.TRIGGER, this.onProgressTrigger );
 				this._objVideoPlayer.pauseVideo();
@@ -153,7 +153,7 @@
 		}
 		public function resume():void
 		{
-			if ( this._bolPaused ) {
+			if ( this._bolPaused && this.playerLoaded ) {
 				this._bolPaused = false;
 				this._objUpdateTrigger.addEventListener( TriggerEvent.TRIGGER, this.onProgressTrigger );
 				this._objVideoPlayer.playVideo();
@@ -174,8 +174,6 @@
 			this._bolPaused = false;
 			this._bolVideoInQueue = false;
 			this._bolMetaDataLoaded = false;
-			this._bolConnectionEstablished = false;
-			
 			this._bolConnectionEstablished = false;
 		}
 		
