@@ -20,20 +20,20 @@ package com.bedrockframework.engine.api
 		function addView( $alias:String, $linkage:String ):void;
 		function getView( $alias:String ):*;
 		function hasView( $alias:String ):Boolean;
-		function getViews():Array;
+		function getViews( $includeAliases:Boolean = false ):Array;
 		/*
 		Add/ Return new bitmap instance
 		*/
 		function addBitmap( $alias:String, $linkage:String ):void;
 		function getBitmap( $alias:String ):BitmapData;
 		function hasBitmap( $alias:String ):Boolean;
-		function getBitmaps():Array;
+		function getBitmaps( $includeAliases:Boolean = false ):Array;
 		/*
 		Add/ Return new sound instance
 		*/
 		function addSound( $alias:String, $linkage:String ):void;
 		function getSound( $alias:String ):Sound;
 		function hasSound( $alias:String ):Boolean;
-		function getSounds():Array;
+		function getSounds( $includeAliases:Boolean = false ):Array;
 	}
 }
