@@ -96,6 +96,7 @@ package com.bedrockframework.engine
 			
 			BedrockEngine.assetManager = new AssetManager;
 			BedrockEngine.containerManager = new ContainerManager;
+			BedrockEngine.contextMenuManager = new ContextMenuManager;
 			BedrockEngine.resourceManager = new ResourceManager;
 			BedrockEngine.deeplinkManager = new DeeplinkManager;
 			BedrockEngine.bedrock::fileManager = new FileManager;
@@ -165,9 +166,10 @@ package com.bedrockframework.engine
 		
 		final private function loadContextMenu():void
 		{
-			BedrockEngine.contextMenuManager = new ContextMenuManager;
-			BedrockEngine.contextMenuManager.initialize();
-			this.contextMenu = BedrockEngine.contextMenuManager.menu;
+			if ( BedrockEngine.config.getSettingValue( BedrockData.SHOW_PAGES_IN_CONTEXT_MENU ) ) {
+				BedrockEngine.contextMenuManager.initialize();
+				this.contextMenu = BedrockEngine.contextMenuManager.menu;
+			}
 			this.next();
 		}
 		final private function loadPreloader():void
@@ -363,6 +365,7 @@ package com.bedrockframework.engine
 		{
 			$event.origin.content.initialize();
 			if ( BedrockEngine.config.getSettingValue( BedrockData.SHARED_SOUNDS_ENABLED ) ) {
+				debug( BedrockEngine.assetManager.getSounds() );
 				BedrockEngine.soundManager.initialize( BedrockEngine.assetManager.getSounds() );
 			}
 		}
