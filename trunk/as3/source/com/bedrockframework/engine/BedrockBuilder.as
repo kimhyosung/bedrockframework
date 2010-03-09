@@ -365,7 +365,6 @@ package com.bedrockframework.engine
 		{
 			$event.origin.content.initialize();
 			if ( BedrockEngine.config.getSettingValue( BedrockData.SHARED_SOUNDS_ENABLED ) ) {
-				debug( BedrockEngine.assetManager.getSounds() );
 				BedrockEngine.soundManager.initialize( BedrockEngine.assetManager.getSounds() );
 			}
 		}
