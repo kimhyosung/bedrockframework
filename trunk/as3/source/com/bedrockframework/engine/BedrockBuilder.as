@@ -82,11 +82,11 @@ package com.bedrockframework.engine
 				} else {
 					this.configURL = "../../" + BedrockData.CONFIG_FILE_NAME + ".xml";
 				}
-					var strURL:String = this.loaderInfo.url;
-					for (var i:int = 0 ; i < 3; i++) {
-						strURL = strURL.substring( 0, strURL.lastIndexOf( "/" ) );
-					}
-					this.configURL = strURL + "/" + BedrockData.CONFIG_FILE_NAME + ".xml";
+				var strURL:String = this.loaderInfo.url;
+				for (var i:int = 0 ; i < 3; i++) {
+					strURL = strURL.substring( 0, strURL.lastIndexOf( "/" ) );
+				}
+				this.configURL = strURL + "/" + BedrockData.CONFIG_FILE_NAME + ".xml";
 			}
 		}
 		
@@ -193,6 +193,7 @@ package com.bedrockframework.engine
 			Logger.eventLevel = LogLevel[ BedrockEngine.config.getParamValue( BedrockData.EVENT_LOG_LEVEL)  || BedrockEngine.config.getEnvironmentValue(BedrockData.EVENT_LOG_LEVEL ) ];
 			Logger.remoteLevel = LogLevel[ BedrockEngine.config.getParamValue( BedrockData.REMOTE_LOG_LEVEL)  || BedrockEngine.config.getEnvironmentValue(BedrockData.REMOTE_LOG_LEVEL) ];
 			Logger.remoteLogURL = BedrockEngine.config.getEnvironmentValue( BedrockData.REMOTE_LOG_URL );
+			
 			this.next();
 		}
 		final private function loadContainers():void
@@ -205,7 +206,7 @@ package com.bedrockframework.engine
 		final private function loadLocale():void
 		{
 			if ( BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
-				var strCurrentLocale:String = BedrockEngine.config.getParamValue( BedrockData.CURRENT_LOCALE );
+				var strCurrentLocale:String = BedrockEngine.config.getAvailableValue( BedrockData.CURRENT_LOCALE );
 				var strDefaultLocale:String = BedrockEngine.config.getAvailableValue( BedrockData.DEFAULT_LOCALE );
 				BedrockEngine.localeManager.initialize( BedrockEngine.config.getSettingValue( BedrockData.LOCALIZED_FILES ), BedrockEngine.config.getSettingValue( BedrockData.LOCALES ), strDefaultLocale, strCurrentLocale, BedrockEngine.config.getSettingValue( BedrockData.LOCALE_DELIMITER ) );
 			}
@@ -315,20 +316,20 @@ package com.bedrockframework.engine
 		/*
 		Config Related Stuff
 		*/
-		final private function loadConfigXML($path:String):void
+		final private function loadConfigXML( $path:String ):void
 		{
-			this.createLoader();
-			this._objConfigLoader.load(new URLRequest($path));
+			this.createLoader( $path );
 		}
 		/*
 		Create Loader
 	 	*/
-	 	final private function createLoader():void
+	 	final private function createLoader( $path:String ):void
 		{
 			this._objConfigLoader = new URLLoader();
 			this._objConfigLoader.addEventListener(Event.COMPLETE, this.onConfigLoaded,false,0,true);
 			this._objConfigLoader.addEventListener(IOErrorEvent.IO_ERROR, this.onConfigError,false,0,true);
 			this._objConfigLoader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, this.onConfigError,false,0,true);
+			this._objConfigLoader.load( new URLRequest( $path ) );
 		}
 	 	/*
 		Clear Loader

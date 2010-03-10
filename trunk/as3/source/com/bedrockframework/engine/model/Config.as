@@ -166,7 +166,7 @@ package com.bedrockframework.engine.model
 				this.saveEnvironmentValue(d, objData[d]);
 			}
 		}
-		private function saveEnvironmentValue($key:String, $value:*):void
+		public function saveEnvironmentValue($key:String, $value:*):void
 		{
 			this._objEnvironmentValues[ $key ] = $value;
 		}
@@ -309,7 +309,7 @@ package com.bedrockframework.engine.model
 				this.warning("No params to parse!");
 			}
 		}
-		private function saveParamValue($key:String, $value:*):void
+		public function saveParamValue($key:String, $value:*):void
 		{
 			this._objParamValues[ $key ] = $value;
 		}
