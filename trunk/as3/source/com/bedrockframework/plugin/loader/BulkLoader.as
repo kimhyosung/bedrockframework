@@ -1,4 +1,4 @@
-﻿package com.bedrockframework.plugin.loader
+package com.bedrockframework.plugin.loader
 {
 	import com.bedrockframework.plugin.event.BulkLoaderEvent;
 	import com.bedrockframework.plugin.event.LoaderEvent;
@@ -268,12 +268,30 @@
 		*/
 		private function onFileError($event:LoaderEvent):void
 		{
-			this._numCompletedFiles += 1;
 			var objQueueItem:Object = this.getQueueItemByLoader($event.target);
+			objQueueItem.percent = 100;
+			this._numCompletedFiles += 1;
+			
 			this.warning("Could not find - " + objQueueItem.file + "!");
 			this.removeFromCurrentLoad($event.target);
-			this._numCompletedFiles += 1;
-			this.loadNext();
+			this.removeListeners($event.target);
+			this.calculateOverallPercentage();
+			//Fake Progress Event Since file never had progress
+			var objDetails:Object=new Object  ;
+			objDetails.overallPercent=this._numOverallPercentage;
+			objDetails.filePercent=100;
+			objDetails.loadedPercent=this._numLoadedPercentage;
+			objDetails.totalPercent=this._numTotalPercentage;
+			objDetails.loadIndex=this._numLoadIndex;
+			objDetails.totalFiles=this._numTotalFiles
+			this.dispatchEvent(new BulkLoaderEvent(BulkLoaderEvent.PROGRESS,this,objDetails));
+			//
+			if (this._numCompletedFiles != this._numTotalFiles) {
+				this.loadNext();
+			} else {
+				this.loadComplete();
+			}
+			
 		}
 		private function onProgress($event:LoaderEvent):void
 		{
