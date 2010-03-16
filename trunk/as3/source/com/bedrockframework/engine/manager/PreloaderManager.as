@@ -32,10 +32,10 @@
 		{
 			
 		}
-		public function initialize($preloaderTime:Number = 0):void
+		public function initialize( $preloaderTime:Number = 0 ):void
 		{
 			this._numTime = $preloaderTime * 1000;
-			this._bolUseTimer = (this._numTime == 0) ? false : true;
+			this._bolUseTimer = ( this._numTime == 0 ) ? false : true;
 			this.createTimers($preloaderTime);
 			this.createListeners();
 		}
