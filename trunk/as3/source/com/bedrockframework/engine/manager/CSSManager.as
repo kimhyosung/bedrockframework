@@ -16,7 +16,7 @@
 		/*
 		Variable Declarations
 		*/
-		private var _objDataLoader:DataLoader;
+		private var _objLoader:DataLoader;
 		private var _objStyleSheet:StyleSheet;
 		/*
 		Constructor
@@ -29,10 +29,10 @@
 		
 		private function createLoader():void
 		{
-			this._objDataLoader = new DataLoader;
-			this._objDataLoader.addEventListener(LoaderEvent.COMPLETE, this.onLoadComplete);
-			this._objDataLoader.addEventListener(LoaderEvent.IO_ERROR, this.onLoadError);
-			this._objDataLoader.addEventListener(LoaderEvent.SECURITY_ERROR, this.onLoadError);
+			this._objLoader = new DataLoader;
+			this._objLoader.addEventListener(LoaderEvent.COMPLETE, this.onLoadComplete);
+			this._objLoader.addEventListener(LoaderEvent.IO_ERROR, this.onLoadError);
+			this._objLoader.addEventListener(LoaderEvent.SECURITY_ERROR, this.onLoadError);
 		}
 		/*
 		Parse the StyleSheet
@@ -83,7 +83,7 @@
 		private function onLoadComplete($event:LoaderEvent):void
 		{
 			this.status("Style Sheet Loaded");
-			this.parseCSS( this._objDataLoader.data );
+			this.parseCSS( this._objLoader.data );
 		}
 		private function onLoadError($event:Event):void
 		{
@@ -103,7 +103,7 @@
 		}
 		public function get loader():DataLoader
 		{
-			return this._objDataLoader;
+			return this._objLoader;
 		}
 	}
 }
