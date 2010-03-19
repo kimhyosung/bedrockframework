@@ -48,9 +48,9 @@
 			}
 			
 			if ( BedrockEngine.config.getSettingValue( BedrockData.CSS_ENABLED ) && BedrockEngine.localeManager.isFileLocalized( "css" ) ) {
-				this.addToQueue( this._objDelegate.getCSSPath( $locale ), BedrockEngine.styleManager.loader, $useLoadManager );
+				this.addToQueue( this._objDelegate.getCSSPath( $locale ), BedrockEngine.cssManager.loader, $useLoadManager );
 			} else if ( BedrockEngine.config.getSettingValue( BedrockData.CSS_ENABLED ) ) {
-				this.addToQueue( this._objDelegate.getCSSPath(), BedrockEngine.styleManager.loader, $useLoadManager );
+				this.addToQueue( this._objDelegate.getCSSPath(), BedrockEngine.cssManager.loader, $useLoadManager );
 			}
 			
 			if ( BedrockEngine.config.getSettingValue( BedrockData.RESOURCE_BUNDLE_ENABLED ) && BedrockEngine.localeManager.isFileLocalized( "resource_bundle" ) ) {

@@ -107,7 +107,7 @@ package com.bedrockframework.engine
 			BedrockEngine.bedrock::preloaderManager = new PreloaderManager;
 			BedrockEngine.serviceManager = new ServiceManager;	
 			BedrockEngine.soundManager = new SoundManager;
-			BedrockEngine.styleManager = new CSSManager;
+			BedrockEngine.cssManager = new CSSManager;
 			BedrockEngine.trackingManager = new TrackingManager;
 			BedrockEngine.bedrock::transitionManager = new TransitionManager;
 			
@@ -360,7 +360,7 @@ package com.bedrockframework.engine
 		}
 		final private function onCSSLoaded($event:LoaderEvent):void
 		{
-			BedrockEngine.styleManager.parseCSS($event.details.data);
+			BedrockEngine.cssManager.parseCSS($event.details.data);
 		}
 		final private function onSharedLoaded($event:LoaderEvent):void
 		{
