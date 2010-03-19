@@ -40,7 +40,7 @@
 		public function parseCSS($stylesheet:String):void
 		{
 			this._objStyleSheet = new StyleSheet();
-			this._objStyleSheet.parseCSS($stylesheet);
+			this._objStyleSheet.parseCSS( $stylesheet );
 		}
 		/*
 		Apply Tag
@@ -82,7 +82,7 @@
 		*/
 		private function onLoadComplete($event:LoaderEvent):void
 		{
-			this.status("Style Sheet Loaded");
+			this.status("CSS Loaded");
 			this.parseCSS( this._objLoader.data );
 		}
 		private function onLoadError($event:Event):void

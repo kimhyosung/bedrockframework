@@ -45,7 +45,7 @@
 		bedrock static var preloaderManager:IPreloaderManager;		
 		public static var serviceManager:IServiceManager;
 		public static var soundManager:ISoundManager;
-		public static var styleManager:ICSSManager;
+		public static var cssManager:ICSSManager;
 		public static var trackingManager:ITrackingManager;
 		bedrock static var transitionManager:ITransitionManger;
 		

@@ -151,7 +151,7 @@
 			if ( this.data.styleName != null ) {
 				
 				if ( this.data.autoStyle ) {
-					var objStyle:Object = this.data.styleObject || BedrockEngine.styleManager.getStyleAsObject( this.data.styleName );
+					var objStyle:Object = this.data.styleObject || BedrockEngine.cssManager.getStyleAsObject( this.data.styleName );
 					var objFormat:TextLayoutFormat = new TextLayoutFormat();
 					for (var s:String in objStyle) {
 						objFormat[ s ] = VariableUtil.sanitize( objStyle[ s ] );
