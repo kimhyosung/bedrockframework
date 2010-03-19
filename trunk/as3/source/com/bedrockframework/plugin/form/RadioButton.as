@@ -17,13 +17,15 @@ package com.bedrockframework.plugin.form
 		public var group:RadioGroup;
 		public var index:uint;
 		public var label:*;
+		private var _bolEnabled:Boolean;
 		/*
 		Constructor
 		*/
 		public function RadioButton()
 		{
 			this.stop();
-			ButtonUtil.addListeners(this, {down:this.onMouseDownHandler, up:this.onMouseUpHandler, over:this.onRollOverHandler, out:this.onRollOutHandler});
+			this._bolEnabled = true;
+			ButtonUtil.addListeners( this, {down:this.onMouseDownHandler, up:this.onMouseUpHandler, over:this.onRollOverHandler, out:this.onRollOutHandler } );
 		}
 		/*
 		Populate
@@ -37,13 +39,36 @@ package com.bedrockframework.plugin.form
 		*/
 		public function select():void
 		{
-			this.mouseEnabled = false;
-			this.changeState("SELECTED");
+			if ( this._bolEnabled ) {
+				this.mouseEnabled = false;
+				this.changeState("SELECTED");
+			}
 		}
 		public function deselect():void
 		{
-			this.mouseEnabled = true;
-			this.changeState("NORMAL");
+			if ( this._bolEnabled ) {
+				this.mouseEnabled = true;
+				this.changeState("NORMAL");
+			}
+		}
+		/*
+		Enable/ Disable
+		*/
+		public function enable():void
+		{
+			if ( !this._bolEnabled ) {
+				this._bolEnabled = true;
+				this.mouseEnabled = true;
+				this.buttonMode = true;
+			}
+		}
+		public function disable():void
+		{
+			if ( this._bolEnabled ) {
+				this.mouseEnabled = false;
+				this.buttonMode = false;
+				this._bolEnabled = false;
+			}
 		}
 		/*
 		Change State
