@@ -21,7 +21,7 @@
 		public static const OUTRO:String = "outro";
 		
 		public var data:ViewStackData;
-		private var _objViewBrowser:SuperArray;
+		private var _arrViews:SuperArray;
 		private var _objContainer:Sprite;
 		private var _objQueueItem:Object;
 		private var _objCurrentItem:Object;
@@ -37,16 +37,16 @@
 		*/
 		public function ViewStack()
 		{
-			this._objViewBrowser = new SuperArray;
+			this._arrViews = new SuperArray;
 		}
 		public function initialize($data:ViewStackData):void
 		{
 			this.clear();
 			
 			this.data = $data;
-			this._objViewBrowser.data = this.data.stack;
-			this._objQueueItem = this._objViewBrowser.setSelected( this.data.startingIndex );
-			this._objViewBrowser.wrapIndex = this.data.wrap;
+			this._arrViews = new SuperArray( this.data.stack );
+			this._objQueueItem = this._arrViews.setSelected( this.data.startingIndex );
+			this._arrViews.wrapIndex = this.data.wrap;
 			this.setContainer(this.data.container);
 			
 			if ( this.data.autoStart ) this.queue();
@@ -59,8 +59,12 @@
 				if ( this.data.addAsChildren ) {
 					this._objContainer.removeChild(this._objCurrentItem.view);
 				}
+				this._objCurrentItem = null;
+				this._objPreviousItem = null;
+				this._objQueueItem = null;
 			}
 		}
+		
 		/*
 		Creation Functions
 		*/
@@ -103,7 +107,7 @@
 			if (this.data.addAsChildren) {
 				this._objContainer.addChild(this._objCurrentItem.view);
 			}
-			var objView:View = this._objCurrentItem.view as View;
+			var objView:MovieClipView = this._objCurrentItem.view as MovieClipView;
 			this.addListeners(this._objCurrentItem.view);
 			if (this.data.autoInitialize ) {
 				if ( objView != null && !objView.hasInitialized ) {
@@ -132,7 +136,7 @@
 		public function selectByIndex($index:uint):void
 		{
 			this.stopTimer();
-			this._objQueueItem = this._objViewBrowser.setSelected( $index );
+			this._objQueueItem = this._arrViews.setSelected( $index );
 			if ( this._objCurrentItem != null ) {
 				this.call( ViewStack.OUTRO );
 			} else {
@@ -154,19 +158,19 @@
 		*/
 		public function getByIndex( $index:uint ):Object
 		{
-			return this._objViewBrowser.getItemAt( $index );
+			return this._arrViews.getItemAt( $index );
 		}
 		public function getByAlias( $alias:String ):Object
 		{
-			return this._objViewBrowser.findItem( $alias, "alias" );
+			return this._arrViews.findItem( $alias, "alias" );
 		}
 		/*
 		External Next/ Previous
 		*/
 		public function selectNext():void
 		{
-			if ( this._objViewBrowser.hasNext() || ( !this._objViewBrowser.hasNext() && this.data.wrap ) ) {
-				this._objQueueItem = this._objViewBrowser.selectNext();
+			if ( this._arrViews.hasNext() || ( !this._arrViews.hasNext() && this.data.wrap ) ) {
+				this._objQueueItem = this._arrViews.selectNext();
 				this.data.mode = ViewStackData.FORWARD;
 				if ( this._objCurrentItem != null ) {
 					this.call( ViewStack.OUTRO );
@@ -174,15 +178,15 @@
 					this.queue();
 				}
 				this.dispatchEvent( new ViewStackEvent( ViewStackEvent.NEXT, this, this.getDetailObject() ) );
-			} else if ( !this._objViewBrowser.hasNext() && !this.data.wrap ) {
+			} else if ( !this._arrViews.hasNext() && !this.data.wrap ) {
 				this.status("Hit Ending");
 				this.dispatchEvent( new ViewStackEvent( ViewStackEvent.ENDING, this, this.getDetailObject() ) );
 			}
 		}
 		public function selectPrevious():void
 		{
-			if ( this._objViewBrowser.hasPrevious() || ( !this._objViewBrowser.hasPrevious() && this.data.wrap ) ){
-				this._objQueueItem = this._objViewBrowser.selectPrevious();
+			if ( this._arrViews.hasPrevious() || ( !this._arrViews.hasPrevious() && this.data.wrap ) ){
+				this._objQueueItem = this._arrViews.selectPrevious();
 				this.data.mode = ViewStackData.REVERSE;
 				if ( this._objCurrentItem != null ) {
 					this.call( ViewStack.OUTRO );
@@ -190,7 +194,7 @@
 					this.queue();
 				}
 				this.dispatchEvent( new ViewStackEvent( ViewStackEvent.PREVIOUS, this, this.getDetailObject() ) );
-			} else if ( !this._objViewBrowser.hasPrevious() && !this.data.wrap ) {
+			} else if ( !this._arrViews.hasPrevious() && !this.data.wrap ) {
 				this.status( "Hit Beginning" );
 				this.dispatchEvent( new ViewStackEvent( ViewStackEvent.BEGINNING, this, this.getDetailObject() ) );
 			}
@@ -241,8 +245,8 @@
 		*/
 		private function getDetailObject():Object
 		{
-			var objData:Object = this._objViewBrowser.getSelected();
-			objData.index = this._objViewBrowser.selectedIndex;
+			var objData:Object = this._arrViews.getSelected();
+			objData.index = this._arrViews.selectedIndex;
 			return objData;
 		}
 		/*
@@ -284,11 +288,11 @@
 		*/
 		public function get selectedIndex():uint
 		{
-			return this._objViewBrowser.selectedIndex;
+			return this._arrViews.selectedIndex;
 		}
 		public function get selectedItem():*
 		{
-			return this._objViewBrowser.selectedItem;
+			return this._arrViews.selectedItem;
 		}
 		public function get running():Boolean
 		{

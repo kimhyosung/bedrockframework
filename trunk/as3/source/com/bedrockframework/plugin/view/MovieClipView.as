@@ -14,7 +14,7 @@ package com.bedrockframework.plugin.view
 	import com.bedrockframework.core.base.MovieClipWidget;
 	import com.bedrockframework.plugin.event.ViewEvent;
 	
-	public class View extends MovieClipWidget
+	public class MovieClipView extends MovieClipWidget
 	{
 		/*
 		Variable Declarations

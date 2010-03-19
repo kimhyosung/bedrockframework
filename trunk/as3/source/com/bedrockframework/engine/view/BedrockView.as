@@ -13,11 +13,11 @@ package com.bedrockframework.engine.view
 {
 	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.manager.PageManager;
-	import com.bedrockframework.plugin.view.View;
+	import com.bedrockframework.plugin.view.MovieClipView;
 	
 	import com.bedrockframework.engine.bedrock;
 
-	public class BedrockView extends View
+	public class BedrockView extends MovieClipView
 	{
 		/*
 		Variable Declarations
