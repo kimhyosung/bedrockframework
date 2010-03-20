@@ -289,9 +289,9 @@ package com.bedrockframework.plugin.gadget
 		
 		
 		*/
-		public function getClone($index:int):*
+		public function getClone( $index:int ):*
 		{
-			return this._mapClones.getValue($index.toString());
+			return this._mapClones.getValue( $index.toString() );
 		}
 
 		/*
