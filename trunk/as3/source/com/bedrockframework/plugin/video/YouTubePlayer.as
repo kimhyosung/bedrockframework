@@ -124,7 +124,6 @@
 		
 		public function queue( $id:String = null ):void
 		{
-			this._objUpdateTrigger.addEventListener( TriggerEvent.TRIGGER, this.onLoadTrigger );
 			this._objUpdateTrigger.start();
 			this.data.id = $id || this.data.id;
 			if( this.playerLoaded ){
@@ -274,7 +273,7 @@
 					this.dispatchEvent( new VideoEvent( VideoEvent.PLAY_COMPLETE, this ) );
 					break;
 				case YouTubePlayer.PAUSED:
-					this._objUpdateTrigger.removeEventListener( TriggerEvent.TRIGGER, this.onProgressTrigger );
+					//this._objUpdateTrigger.removeEventListener( TriggerEvent.TRIGGER, this.onProgressTrigger );
 					break;
 				case YouTubePlayer.PLAYING:
 					if ( !this._objUpdateTrigger.running ) {
@@ -313,8 +312,9 @@
 			var numPercent:int = MathUtil.calculatePercentage( this._objVideoPlayer.getVideoBytesLoaded(), this._objVideoPlayer.getVideoBytesTotal() );
 			
 			var objDetails:Object = new Object();
+			objDetails.bytesStart = this._objVideoPlayer.getVideoStartBytes();		
 			objDetails.bytesLoaded = this._objVideoPlayer.getVideoBytesLoaded();
-			objDetails.bytesTotal = this._objVideoPlayer.getVideoBytesTotal();		
+			objDetails.bytesTotal = this._objVideoPlayer.getVideoBytesTotal();
 			objDetails.percent = (numPercent > 100) ? 100 : numPercent;
 			
 			if ( numPercent == 100 ) {
