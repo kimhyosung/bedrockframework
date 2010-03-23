@@ -24,18 +24,20 @@
 				ExternalInterface.call.apply(null, this.buildParameters(strURL, $details.groups));
 			}
 		}
-		private function buildParameters($url:String, $groups:Array):Array
+		private function buildParameters($url:String, $groups:Array = null ):Array
 		{
 			var arrParameters:Array = new Array;
 			arrParameters.push("dcsMultiTrack");
 			arrParameters.push("DCS.dcsuri");
 			arrParameters.push($url);
 			
-			var numLength:int = $groups.length;
-			for (var i:int = 0 ; i < numLength; i++) {
-				if ($groups[i].value != null) {
-					arrParameters.push($groups[i].name || "WT.ti");
-					arrParameters.push($groups[i].value);
+			if ( $groups != null ) {
+				var numLength:int = $groups.length;
+				for (var i:int = 0 ; i < numLength; i++) {
+					if ($groups[i].value != null) {
+						arrParameters.push($groups[i].name || "WT.ti");
+						arrParameters.push($groups[i].value);
+					}
 				}
 			}
 			return arrParameters;
