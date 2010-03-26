@@ -2,6 +2,9 @@
 {
 	public class YouTubePlayerData
 	{
+		public static const TRUTH:String = "truth";
+		public static const LIES:String = "lies";
+		
 		public static const SMALL:String = "small";
 		public static const MEDIUM:String = "medium";
 		public static const LARGE:String = "large";
@@ -15,6 +18,7 @@
 		public var allowSeekAhead:Boolean;
 		public var id:String;
 		public var quality:String;
+		public var completeType:String;
 		
 		public function YouTubePlayerData()
 		{
@@ -24,6 +28,7 @@
 			this.allowSeekAhead = true;
 			this.quality = YouTubePlayerData.DEFAULT;
 			this.playerURL = "http://www.youtube.com/apiplayer?version=3";
+			this.completeType = YouTubePlayerData.TRUTH;
 		}
 
 	}
