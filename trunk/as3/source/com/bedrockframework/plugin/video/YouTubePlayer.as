@@ -267,10 +267,12 @@
 					this._objUpdateTrigger.removeEventListener( TriggerEvent.TRIGGER, this.onProgressTrigger );
 					break;
 				case YouTubePlayer.ENDED:
-					this._bolPlaying = false;
-					this._objUpdateTrigger.stop();
-					this._objUpdateTrigger.removeEventListener( TriggerEvent.TRIGGER, this.onProgressTrigger );
-					this.dispatchEvent( new VideoEvent( VideoEvent.PLAY_COMPLETE, this ) );
+					if ( this.data.completeType == YouTubePlayerData.TRUTH ) {
+						this._bolPlaying = false;
+						this._objUpdateTrigger.stop();
+						this._objUpdateTrigger.removeEventListener( TriggerEvent.TRIGGER, this.onProgressTrigger );
+						this.dispatchEvent( new VideoEvent( VideoEvent.PLAY_COMPLETE, this ) );
+					}
 					break;
 				case YouTubePlayer.PAUSED:
 					//this._objUpdateTrigger.removeEventListener( TriggerEvent.TRIGGER, this.onProgressTrigger );
@@ -317,12 +319,13 @@
 			objDetails.bytesTotal = this._objVideoPlayer.getVideoBytesTotal();
 			objDetails.percent = (numPercent > 100) ? 100 : numPercent;
 			
+			this.dispatchEvent(new VideoEvent(VideoEvent.LOAD_PROGRESS, this, objDetails));
+			
 			if ( numPercent == 100 ) {
 				this.dispatchEvent(new VideoEvent(VideoEvent.LOAD_COMPLETE, this, objDetails));
 				this._objUpdateTrigger.removeEventListener( TriggerEvent.TRIGGER, this.onLoadTrigger );
 			}
 			
-			this.dispatchEvent(new VideoEvent(VideoEvent.LOAD_PROGRESS, this, objDetails));
 		}
 		private function onProgressTrigger( $event:TriggerEvent ):void
 		{	
@@ -334,6 +337,17 @@
 			objDetails.percent = (numPercent > 100) ? 100 : numPercent;
 			
 			this.dispatchEvent(new VideoEvent(VideoEvent.PLAY_PROGRESS, this, objDetails));
+			trace( numPercent );
+			
+			if ( this.data.completeType == YouTubePlayerData.LIES ) {
+				if ( numPercent == 100 ) {
+					this._bolPlaying = false;
+					this._objUpdateTrigger.stop();
+					this._objUpdateTrigger.removeEventListener( TriggerEvent.TRIGGER, this.onProgressTrigger );
+					this.dispatchEvent( new VideoEvent( VideoEvent.PLAY_COMPLETE, this ) );
+				}
+			}
+			
 		}
 		private function onStatusTrigger( $event:TriggerEvent ):void
 		{
@@ -423,8 +437,8 @@
 		}
 		public function set quality($value:String):void
 		{
-			this._objVideoPlayer.setPlaybackQuality( $value );
 			this.data.quality = $value;
+			this._objVideoPlayer.setPlaybackQuality( $value );
 		}
 		public function get quality():String
 		{
