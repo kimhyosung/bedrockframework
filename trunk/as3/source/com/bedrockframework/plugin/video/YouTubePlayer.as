@@ -267,7 +267,7 @@
 					this._objUpdateTrigger.removeEventListener( TriggerEvent.TRIGGER, this.onProgressTrigger );
 					break;
 				case YouTubePlayer.ENDED:
-					if ( this.data.completeType == YouTubePlayerData.TRUTH ) {
+					if ( this.data.completeType == YouTubePlayerData.REAL ) {
 						this._bolPlaying = false;
 						this._objUpdateTrigger.stop();
 						this._objUpdateTrigger.removeEventListener( TriggerEvent.TRIGGER, this.onProgressTrigger );
@@ -337,10 +337,9 @@
 			objDetails.percent = (numPercent > 100) ? 100 : numPercent;
 			
 			this.dispatchEvent(new VideoEvent(VideoEvent.PLAY_PROGRESS, this, objDetails));
-			trace( numPercent );
 			
-			if ( this.data.completeType == YouTubePlayerData.LIES ) {
-				if ( numPercent == 100 ) {
+			if ( this.data.completeType == YouTubePlayerData.FAKE ) {
+				if ( numPercent >= this.data.fakePercentage ) {
 					this._bolPlaying = false;
 					this._objUpdateTrigger.stop();
 					this._objUpdateTrigger.removeEventListener( TriggerEvent.TRIGGER, this.onProgressTrigger );
