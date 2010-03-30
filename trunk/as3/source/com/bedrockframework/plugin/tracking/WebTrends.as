@@ -19,9 +19,11 @@
 		public function track($details:Object):void
 		{
 			if (ExternalInterface.available) {
-				this.status($details);
+				this.status( $details );
 				var strURL:String = $details.url || ( $details.page + "/" + $details.item );
-				ExternalInterface.call.apply(null, this.buildParameters(strURL, $details.groups));
+				var arrItems:Array = this.buildParameters( strURL, $details.groups );
+				this.attention( arrItems );
+				ExternalInterface.call.apply( null, arrItems );
 			}
 		}
 		private function buildParameters($url:String, $groups:Array = null ):Array
