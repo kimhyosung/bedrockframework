@@ -443,5 +443,10 @@
 		{
 			return this._objVideoPlayer.getPlaybackQuality();
 		}
+		
+		public function get qualityLevels():Array
+		{
+			return this._objVideoPlayer.getAvailableQualityLevels();
+		}
 	}
 }
