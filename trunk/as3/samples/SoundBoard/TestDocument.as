@@ -34,9 +34,13 @@
 			this._objSoundBoard.play("dragonPiece", 0, 10000, 0, 0.5 );
 			
 			
-			fadeUpButton.addEventListener(MouseEvent.CLICK, this.onFadeUpClicked);
-			fadeDownButton.addEventListener(MouseEvent.CLICK, this.onFadeDownClicked);
-			stopButton.addEventListener( MouseEvent.CLICK, this.onStopClicked );
+			this.fadeUpButton.addEventListener(MouseEvent.CLICK, this.onFadeUpClicked);
+			this.fadeDownButton.addEventListener(MouseEvent.CLICK, this.onFadeDownClicked);
+			this.playButton.addEventListener( MouseEvent.CLICK, this.onPlayClicked );
+			this.stopButton.addEventListener( MouseEvent.CLICK, this.onStopClicked );
+			
+			this.pauseButton.addEventListener( MouseEvent.CLICK, this.onPauseClicked );
+			this.resumeButton.addEventListener( MouseEvent.CLICK, this.onResumeClicked );
 		}
 		
 		/*
@@ -46,6 +50,25 @@
 		{
 			this.initialize();
 		}
+		
+		function onPlayClicked($event)
+		{
+			trace("Play!")
+			this._objSoundBoard.play( "dragonPiece" );
+		}
+		function onPauseClicked($event)
+		{
+			trace("Pause!")
+			this._objSoundBoard.pause( "dragonPiece" );
+		}
+		
+		function onResumeClicked($event)
+		{
+			trace("Resume!");
+			this._objSoundBoard.resume( "dragonPiece" );
+		}
+		
+		
 		
 		function onFadeUpClicked($event)
 		{
