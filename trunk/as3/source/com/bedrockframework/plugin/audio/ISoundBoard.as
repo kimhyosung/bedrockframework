@@ -13,6 +13,9 @@
 		function stop($alias:String):void;
 		function close($alias:String):void;
 		
+		function pause($alias:String):void;
+		function resume($alias:String):void;
+		
 		function setVolume($alias:String, $value:Number):void;
 		function getVolume($alias:String):Number;
 		function fadeVolume($alias:String, $value:Number, $time:Number, $handlers:Object = null ):void;

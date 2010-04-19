@@ -18,6 +18,8 @@ package com.bedrockframework.plugin.data
 		public var playing:Boolean;
 		public var allowMultiple:Boolean;
 		
+		public var resumeTime:Number;
+		
 		public var sound:Sound;
 		public var channel:SoundChannel;
 		public var transform:SoundTransform;
@@ -30,6 +32,7 @@ package com.bedrockframework.plugin.data
 			this.sound = $sound;
 			this.time = 1;
 			this.startTime = 0;
+			this.resumeTime = 0;
 			this.delay = 0;
 			this.loops = 0;
 			this.volume = 1;

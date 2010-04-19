@@ -99,6 +99,22 @@
 				objData.channel.stop();
 			}
 		}
+		public function pause( $alias:String ):void
+		{
+			var objData:SoundData = this.getDataByAlias( $alias );
+			if ( objData.playing ) {
+				objData.resumeTime = objData.channel.position;
+				objData.playing = false;
+				objData.channel.stop();
+			}
+		}
+		public function resume( $alias:String ):void
+		{
+			var objData:SoundData = this.getDataByAlias( $alias );
+			if ( !objData.playing ) {
+				this.play( $alias, objData.resumeTime, objData.delay, objData.loops, objData.volume, objData.panning );
+			}
+		}
 		/*
 		Get Data
 		*/

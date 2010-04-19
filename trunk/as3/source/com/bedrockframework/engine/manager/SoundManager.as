@@ -70,6 +70,14 @@
 		{
 			this._objSoundBoard.close($alias);
 		}
+		public function pause($alias:String):void
+		{
+			this._objSoundBoard.pause($alias);
+		}
+		public function resume($alias:String):void
+		{
+			this._objSoundBoard.resume($alias);
+		}
 		/*
 		Volume/ Pan
 		*/
