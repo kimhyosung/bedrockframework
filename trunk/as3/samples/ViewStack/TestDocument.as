@@ -32,10 +32,10 @@
 			var objViewStackData = new ViewStackData();
 			objViewStackData.autoInitialize = true;
 			//objViewStackData.autoStart = false;
-			objViewStackData.addToStack( new Burst() );
-			objViewStackData.addToStack( new Cheese() );
-			objViewStackData.addToStack( new Sun() );
-			objViewStackData.addToStack( new Nothing() );
+			objViewStackData.addToStack( new Burst1() );
+			objViewStackData.addToStack( new Burst2() );
+			objViewStackData.addToStack( new Burst3() );
+			objViewStackData.addToStack( new Burst4() );
 			
 
 			//objViewStackData.container = this;
