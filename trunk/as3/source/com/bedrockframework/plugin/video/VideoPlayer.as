@@ -2,6 +2,7 @@
 {
 	import com.bedrockframework.core.base.SpriteWidget;
 	import com.bedrockframework.plugin.audio.AudioMixer;
+	import com.bedrockframework.plugin.data.VideoPlayerData;
 	import com.bedrockframework.plugin.event.TriggerEvent;
 	import com.bedrockframework.plugin.event.VideoEvent;
 	import com.bedrockframework.plugin.timer.IntervalTrigger;
@@ -21,6 +22,8 @@
 		Variable Definitions
 		*/
 		//Objects
+		public var data:VideoPlayerData;
+		
 		private var _objVideo:Video;
 		private var _objConnection:NetConnection;
         private var _objStream:NetStream;
@@ -47,20 +50,25 @@
 			this._bolPlayComplete = false;
 			this._objSharedTrigger = new IntervalTrigger(0.1);
 			this._objSharedTrigger.silenceLogging = true;
-			this._objVideo = new Video($width, $height);
-			//!
-			this._objVideo.smoothing = $smoothing;
-			//
-			this.addChild(this._objVideo);
+			
 		}
-		public function initialize($connection:String = null):void
+		public function initialize( $data:VideoPlayerData ):void
 		{
+			this.data = $data;
+			
+			this.createPlayer( this.data.width, this.data.height );
 			this.createConnection();
 			this.createClient();
-			this.createNetStream($connection);
+			this.createNetStream( this.data.connection );
 			//
 			this.createInternalListeners();
 			this.createAudioMixer();
+		}
+		private function createPlayer( $width:int, $height:int ):void
+		{
+			this._objVideo = new Video( $width, $height );
+			this._objVideo.smoothing = this.data.smoothing;
+			this.addChild(this._objVideo);
 		}
 		private function createConnection():void
 		{
@@ -113,7 +121,7 @@
 			this._strURL = $url || this._strURL;
 			this._bolPaused = false;	
 			
-			if (this.loadAndPause) {
+			if (this.data.loadAndPause) {
 				this.mute();
 			}
 
@@ -344,7 +352,8 @@
 		}
 		public function set smoothing($status:Boolean):void
 		{
-			this._objVideo.smoothing = $status;
+			this.data.smoothing = $status;
+			this._objVideo.smoothing = this.data.smoothing;
 		}
 		public function get smoothing():Boolean
 		{
@@ -374,14 +383,6 @@
 		{
 			return this._objStream.time;
 		}
-		public function set loadAndPause($value:Boolean):void
-		{
-			this._bolLoadAndPause = $value;
-		}
-		public function get loadAndPause():Boolean
-		{
-			return this._bolLoadAndPause;
-		}
 		/**
 		* Change the video's sound volume.
 		* @param value The volume, ranging from 0 (silent) to 1 (full volume). 
@@ -406,8 +407,12 @@
 	 	*/
 		public function set panning($value:Number):void
 		{
-			this._objAudioMixer.panning = $value;
-			this.dispatchEvent(new VideoEvent(VideoEvent.PANNING, this, {panning:$value}));
+			try{
+				this._objAudioMixer.panning = $value;
+				this.dispatchEvent(new VideoEvent(VideoEvent.PANNING, this, { panning:$value } ) );
+			} catch($error:Error){
+				
+			}
 		}
 		
 		public function get panning():Number
