@@ -37,7 +37,7 @@
 		public static var contextMenuManager:IContextMenuManager;
 		public static var resourceManager:IResourceManager;
 		public static var deeplinkManager:IDeeplinkManager;
-		bedrock static var fileManager:IFileManager;
+		public static var fileManager:IFileManager;
 		public static var fontManager:IFontManager;
 		public static var loadManager:ILoadManager;
 		public static var localeManager:ILocaleManager;

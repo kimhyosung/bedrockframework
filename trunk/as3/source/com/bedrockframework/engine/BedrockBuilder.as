@@ -99,7 +99,7 @@ package com.bedrockframework.engine
 			BedrockEngine.contextMenuManager = new ContextMenuManager;
 			BedrockEngine.resourceManager = new ResourceManager;
 			BedrockEngine.deeplinkManager = new DeeplinkManager;
-			BedrockEngine.bedrock::fileManager = new FileManager;
+			BedrockEngine.fileManager = new FileManager;
 			BedrockEngine.fontManager = new FontManager;
 			BedrockEngine.loadManager = new LoadManager;
 			BedrockEngine.localeManager = new LocaleManager;
@@ -214,11 +214,11 @@ package com.bedrockframework.engine
 		}
 		final private function loadFiles():void
 		{
-			BedrockEngine.bedrock::fileManager.initialize();
+			BedrockEngine.fileManager.initialize();
 			if ( BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
-				BedrockEngine.bedrock::fileManager.load( BedrockEngine.localeManager.currentLocale, true );
+				BedrockEngine.fileManager.load( BedrockEngine.localeManager.currentLocale, true );
 			} else {
-				BedrockEngine.bedrock::fileManager.load( null, true );
+				BedrockEngine.fileManager.load( null, true );
 			}
 			this.next();
 		}
