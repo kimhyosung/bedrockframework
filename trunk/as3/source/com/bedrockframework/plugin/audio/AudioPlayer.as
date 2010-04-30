@@ -1,4 +1,4 @@
-﻿plapackage com.bedrockframework.plugin.audio
+﻿package com.bedrockframework.plugin.audio
 {
 	/**
 	 * Generic, auxiliary functions
