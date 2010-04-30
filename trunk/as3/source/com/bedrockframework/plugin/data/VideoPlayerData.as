@@ -16,6 +16,7 @@ package com.bedrockframework.plugin.data
 			this.width = 320;
 			this.height = 240;
 			this.loadAndPause = false;
+			this.smoothing = true;
 		}
 	}
 }
