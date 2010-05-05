@@ -59,7 +59,6 @@
 			this.createBaseElements();
 			
 			this.populate( this.data.text );
-			if ( this.data.autoPopulate ) BedrockDispatcher.addEventListener( BedrockEvent.LOCALE_LOADED, this.onLocaleLoaded );
 		}
 		
 		/*
@@ -69,16 +68,15 @@
 		{
 			this._objSpanElement.text = $text;
 			
-			switch ( this.data.mode ) 
-			{
+			switch ( this.data.mode ) {
 				case TextDisplayData.SINGLE_LINE :
 					this.createSingleLine();
 					break;
 				case TextDisplayData.MULTI_LINE :
-					this.createMultiLine();
+					this.createMultiline();
 					break;
 				case TextDisplayData.MULTI_SINGLE_LINE :
-					this.createMultiLine();
+					this.createMultiline();
 					break;
 			}
 		}
@@ -136,7 +134,7 @@
 		/*
 		Paragraph
 		*/
-		private function createMultiLine():void
+		private function createMultiline():void
 		{
 			if ( this._objTextFlow.flowComposer.numControllers == 0 ) {
 				this._objTextFlow.flowComposer.addController( new ContainerController( this, this.data.width, this.data.height ) );
@@ -183,10 +181,6 @@
 		/*
 		Event Handlers
 	 	*/
-	 	private function onLocaleLoaded( $event:BedrockEvent ):void
-		{
-			this.populate( BedrockEngine.resourceManager.getResource( this.data.resourceKey, this.data.resourceGroup ) );
-		}
 		/*
 		Property Definitions
 	 	*/

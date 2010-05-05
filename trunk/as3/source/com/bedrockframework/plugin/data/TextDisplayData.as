@@ -20,7 +20,6 @@ package com.bedrockframework.plugin.data
 		public var styleName:String;
 		public var styleObject:Object;
 		
-		public var autoPopulate:Boolean;
 		public var autoLocale:Boolean;
 		public var autoStyle:Boolean;
 		
