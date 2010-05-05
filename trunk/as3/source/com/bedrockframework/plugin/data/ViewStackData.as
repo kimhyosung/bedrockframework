@@ -15,8 +15,10 @@
 		public var container:Sprite;
 		public var mode:String;
 		public var wrap:Boolean;
-		public var startingIndex:uint;
 		public var addAsChildren:Boolean;
+		
+		public var startingIndex:uint;
+		public var startingAlias:String;
 		
 		public var time:Number;
 		public var timerEnabled:Boolean;
