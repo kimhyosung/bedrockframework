@@ -45,7 +45,16 @@
 			
 			this.data = $data;
 			this._arrViews = new SuperArray( this.data.stack );
-			this._objQueueItem = this._arrViews.setSelected( this.data.startingIndex );
+			if ( this.data.startingAlias != null ) {
+				var numIndex:int = ArrayUtil.findIndex( this.data.stack, this.data.startingAlias, "alias" );
+				if ( numIndex != -1 ) {
+					this._objQueueItem = this._arrViews.setSelected( numIndex );
+				} else {
+					this.error( "Alias '" + this.data.startingAlias +  "' not found!" );
+				}
+			} else {
+				this._objQueueItem = this._arrViews.setSelected( this.data.startingIndex );
+			}
 			this._arrViews.wrapIndex = this.data.wrap;
 			this.setContainer(this.data.container);
 			
@@ -150,7 +159,7 @@
 			if ( numIndex != -1 ) {
 				this.selectByIndex( numIndex );
 			} else {
-				this.error( "Alias not found!" );
+				this.error( "Alias '" + $alias + "' not found!" );
 			}
 		}
 		/*

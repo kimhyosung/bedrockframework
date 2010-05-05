@@ -16,7 +16,7 @@
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
 
-	public class VideoPlayer extends SpriteWidget implements IVideoPlayer
+	public class VideoPlayer extends SpriteWidget
 	{
 		/*
 		Variable Definitions
