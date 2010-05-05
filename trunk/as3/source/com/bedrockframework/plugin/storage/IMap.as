@@ -12,19 +12,15 @@ package com.bedrockframework.plugin.storage
 		function containsKey($key:*):Boolean;
 		function containsValue($value:*):Boolean;
 		
+		function reset():void;
+		function clear():void;
+		
 		function getKey($value:*):String;
 		function getValue($key:*):*;
 		function getKeys():Array;
 		function getValues():Array;
 
-
 		function get size():int;
-		function isEmpty():Boolean;
-
-		function reset():void;
-		function resetAllExcept($key:*):void;
-		
-		function clear():void;
-		function clearAllExcept($key:*):void;
+		function get isEmpty():Boolean;
 	}
 }

@@ -10,27 +10,31 @@
 	import com.bedrockframework.plugin.event.LoaderEvent;
 	import com.bedrockframework.plugin.loader.DataLoader;
 	import com.bedrockframework.plugin.storage.HashMap;
+	import com.bedrockframework.plugin.storage.IMap;
 	
 	import flash.events.Event;
 	
-	public class ResourceManager extends StandardWidget implements IResourceManager, IResponder
+	public class ResourceManager extends StandardWidget implements IResourceManager, IResponder, IMap
 	{
 		/*
 		Variable Declarations
 		*/
 		private var _clsDelegate:Class;
 		private var _objDelegate:IDelegate;
-		private var _objResourceMap:HashMap;
+		private var _mapData:HashMap;
 		private var _objDataLoader:DataLoader;
 		/*
 		Constructor
 		*/
 		public function ResourceManager()
 		{
-			this._objResourceMap = new HashMap;
+			this._mapData = new HashMap;
 			this.delegate = DefaultResourceDelegate;
 			this.createLoader();
 		}
+		/*
+		Creation Functions
+		*/
 		private function createLoader():void
 		{
 			this._objDataLoader = new DataLoader();
@@ -38,75 +42,94 @@
 			this._objDataLoader.addEventListener(LoaderEvent.IO_ERROR, this.onLoadError);
 			this._objDataLoader.addEventListener(LoaderEvent.SECURITY_ERROR, this.onLoadError);
 		}
-		public function load( $path:String ):void
-		{
-			this._objDataLoader.loadURL( $path );
-		}
-		
 		private function createDelegate( $data:String ):void
 		{
 			this._objDelegate = new this._clsDelegate( this );
 			this._objDelegate.parse( $data );
 		}
-		public function saveResource( $key:String, $data:* ):void
+		public function load( $path:String ):void
 		{
-			this._objResourceMap.saveValue( $key, $data );
+			this._objDataLoader.loadURL( $path );
 		}
-		public function getResource($key:String, $group:String = null):*
+		
+		
+		public function saveValue($key:*, $value:*):void
 		{
-			try {
-				if ( $group != null ) {
-					return this._objResourceMap.getValue($group)[ $key ] || "";
-				} else {
-					return this._objResourceMap.getValue($key) || "";
-				}
-			} catch ($error:Error) {
-			}
-			return null;
+			return this._mapData.saveValue( $key, $value);
 		}
-		public function getResourceGroup($group:String, $key:String = null ):*
+		public function removeValue($key:*):void
 		{
-			try {
-				if ( $key != null ) {
-					return this._objResourceMap.getValue($group)[ $key ] || "";
-				} else {
-					return this._objResourceMap.getValue($group) || "";
-				}
-			} catch ($error:Error) {
-			}
-			return null;
+			return this._mapData.removeValue( $key );
 		}
-		public function getResourceArray( $prefix:String, $suffix:String = "", $startIndex:int = 1 ):Array
+		public function pullValue($key:*):*
 		{
-			var arrResult:Array = new Array;
-			var tmpValue:*;
-			var numIndex:int = $startIndex;
-			do {
-				tmpValue = this._objResourceMap.getValue( $prefix + (new String(numIndex)) + $suffix );
-				if ( tmpValue != null ) {
-					arrResult.push( tmpValue );
-					numIndex++;
-				}
-			} while ( tmpValue != null );
-			
-			return arrResult;
+			return this._mapData.pullValue( $key );
 		}
+		
+		
+		public function containsKey($key:*):Boolean
+		{
+			return this._mapData.containsKey( $key );
+		}
+		public function containsValue($value:*):Boolean
+		{
+			return this._mapData.containsValue( $value );
+		}
+		
+		public function reset():void
+		{
+			this._mapData.reset();
+		}
+		public function clear():void
+		{
+			this._mapData.clear();
+		}
+		
+		public function getKey($value:*):String
+		{
+			return this._mapData.getKey( $value );
+		}
+		public function getValue($key:*):*
+		{
+			return this._mapData.getValue( $key );
+		}
+		public function getKeys():Array
+		{
+			return this._mapData.getKeys();
+		}
+		public function getValues():Array
+		{
+			return this._mapData.getValues();
+		}
+
+
+		public function get size():int
+		{
+			return this._mapData.size;
+		}
+		public function get isEmpty():Boolean
+		{
+			return this._mapData.isEmpty;
+		}
+
+		
 		/*
 		Responder Functions
 		*/
 		public function result($data:* = null):void
 		{
-			if ( $data != null && this._objResourceMap.isEmpty() ) {
-				this._objResourceMap = $data as HashMap;
+			if ( $data != null && ( $data is HashMap ) && this._mapData.isEmpty ) {
+				this._mapData = $data as HashMap;
 				BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RESOURCE_BUNDLE_LOADED, this));
-			} else if (  $data == null && !this._objResourceMap.isEmpty() ) {
+			} else if (  $data == null && !this._mapData.isEmpty ) {
 				BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RESOURCE_BUNDLE_LOADED, this));
 			} else {
-				BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RESOURCE_BUNDLE_ERROR, this ));
+				this.fault();
 			}
 		}
 		public function fault($data:*  = null):void
 		{
+			this.warning("Error Parsing Resource Bundle!");
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RESOURCE_BUNDLE_ERROR, this ));
 		}
 		/*
