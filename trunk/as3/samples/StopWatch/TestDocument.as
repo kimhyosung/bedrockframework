@@ -1,6 +1,7 @@
 ﻿package
 {
 	import com.bedrockframework.plugin.timer.StopWatch;
+	import com.bedrockframework.plugin.event.StopWatchEvent;
 	
 	import flash.events.MouseEvent;
 	import flash.display.MovieClip;
@@ -27,6 +28,7 @@
 		public function initialize():void
 		{
 			this._objStopWatch = new StopWatch();
+			this._objStopWatch.addEventListener( StopWatchEvent.UPDATE, this.onUpdate );
 			this._objStopWatch.start();
 			
 			mcTest.addEventListener(MouseEvent.CLICK, this.onStopClicked);
@@ -40,9 +42,13 @@
 			this.initialize();
 		}
 		
-		function onStopClicked($event)
+		function onStopClicked($event):void
 		{
 			this._objStopWatch.stop();
+		}
+		function onUpdate($event):void
+		{
+			this._objStopWatch.debug( $event.details );
 		}
 		
 	}
