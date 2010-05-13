@@ -1,5 +1,6 @@
 ﻿package com.bedrockframework.engine.delegate
 {
+	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.plugin.delegate.Delegate;
 	import com.bedrockframework.plugin.delegate.IDelegate;
 	import com.bedrockframework.plugin.delegate.IResponder;

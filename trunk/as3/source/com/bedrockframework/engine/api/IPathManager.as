@@ -1,6 +1,6 @@
 package com.bedrockframework.engine.api
 {
-	public interface IFileManager
+	public interface IPathManager
 	{
 		function initialize():void;
 		function load( $locale:String = null, $useLoadManager:Boolean = false):void;

@@ -3,7 +3,7 @@
 	import com.bedrockframework.core.base.BasicWidget;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.engine.BedrockEngine;
-	import com.bedrockframework.engine.api.IFileManager;
+	import com.bedrockframework.engine.api.IPathManager;
 	import com.bedrockframework.engine.api.IPathDelegate;
 	import com.bedrockframework.engine.data.BedrockData;
 	import com.bedrockframework.engine.delegate.DefaultPathDelegate;
@@ -11,7 +11,7 @@
 	import com.bedrockframework.plugin.event.BulkLoaderEvent;
 	import com.bedrockframework.plugin.loader.BulkLoader;
 
-	public class FileManager extends BasicWidget implements IFileManager
+	public class PathManager extends BasicWidget implements IPathManager
 	{
 		/*
 		Variable Declarations
@@ -22,7 +22,7 @@
 		/*
 		Constructor
 		*/
-		public function FileManager()
+		public function PathManager()
 		{
 			this.delegate = DefaultPathDelegate;
 		}
