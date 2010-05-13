@@ -43,7 +43,7 @@
         /*
         Constructor
         */	
-		public function VideoPlayer($width:int = 320, $height:int = 240,$smoothing:Boolean = false)
+		public function VideoPlayer()
 		{
 			this._bolMuted = false;
 			this._bolPaused = false;
@@ -104,7 +104,7 @@
 			this.addEventListener(VideoEvent.STREAM_BUFFER_EMPTY, this.onBufferEmpty);
 			this.addEventListener(VideoEvent.PLAY_START, this.onPlayStart);
 			this.addEventListener(VideoEvent.PLAY_STOP, this.onPlayStop);	
-			this.addEventListener(VideoEvent.SEEK_INVALID, this.dispatchEvent);
+			//this.addEventListener(VideoEvent.SEEK_INVALID, this.dispatchEvent);
 			this.addEventListener(VideoEvent.BUFFER_FLUSH, this.onBufferFlush);		
 		}
 		
