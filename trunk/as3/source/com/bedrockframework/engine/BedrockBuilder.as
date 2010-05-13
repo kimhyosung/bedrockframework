@@ -28,6 +28,7 @@ package com.bedrockframework.engine
 	import com.bedrockframework.plugin.gadget.*;
 	import com.bedrockframework.plugin.loader.DataLoader;
 	import com.bedrockframework.plugin.loader.VisualLoader;
+	import com.bedrockframework.plugin.timer.StopWatch;
 	import com.bedrockframework.plugin.tracking.ITrackingService;
 	
 	import flash.display.Sprite;
@@ -46,7 +47,7 @@ package com.bedrockframework.engine
 		public var configRAW:String;
 		public var params:String
 		
-		private var _arrLoadSequence:Array=new Array("loadPreloader","loadParams","loadConfig", "loadDeepLinking", "loadModifications", "loadContextMenu",  "loadContainers","loadCacheSettings", "loadLogging","loadServices","loadEngineClasses","loadController","loadEngineContainers", "loadLocale", "loadFiles", "loadDefaultPage", "loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
+		private var _arrLoadSequence:Array=new Array("loadPreloader","loadParams","loadConfig", "loadLogging", "loadDeepLinking", "loadModifications", "loadContextMenu",  "loadContainers","loadCacheSettings", "loadEngineClasses","loadController","loadEngineContainers", "loadLocale", "loadFiles", "loadDefaultPage", "loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
 		private var _numLoadIndex:Number;		
 		private var _objConfigLoader:URLLoader;
 		public var environmentURL:String;
@@ -99,13 +100,12 @@ package com.bedrockframework.engine
 			BedrockEngine.contextMenuManager = new ContextMenuManager;
 			BedrockEngine.resourceManager = new ResourceManager;
 			BedrockEngine.deeplinkManager = new DeeplinkManager;
-			BedrockEngine.fileManager = new FileManager;
 			BedrockEngine.fontManager = new FontManager;
 			BedrockEngine.loadManager = new LoadManager;
 			BedrockEngine.localeManager = new LocaleManager;
 			BedrockEngine.bedrock::pageManager = new PageManager;
+			BedrockEngine.pathManager = new PathManager;
 			BedrockEngine.bedrock::preloaderManager = new PreloaderManager;
-			BedrockEngine.serviceManager = new ServiceManager;	
 			BedrockEngine.soundManager = new SoundManager;
 			BedrockEngine.cssManager = new CSSManager;
 			BedrockEngine.trackingManager = new TrackingManager;
@@ -137,6 +137,7 @@ package com.bedrockframework.engine
 			objDetails.index=this._numLoadIndex;
 			objDetails.percent=numPercent;
 			return objDetails;
+			StopWatch
 		}
 		
 		/*
@@ -214,11 +215,11 @@ package com.bedrockframework.engine
 		}
 		final private function loadFiles():void
 		{
-			BedrockEngine.fileManager.initialize();
+			BedrockEngine.pathManager.initialize();
 			if ( BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
-				BedrockEngine.fileManager.load( BedrockEngine.localeManager.currentLocale, true );
+				BedrockEngine.pathManager.load( BedrockEngine.localeManager.currentLocale, true );
 			} else {
-				BedrockEngine.fileManager.load( null, true );
+				BedrockEngine.pathManager.load( null, true );
 			}
 			this.next();
 		}
@@ -251,13 +252,6 @@ package com.bedrockframework.engine
 				objBlocker.show();
 			}
 			
-			this.next();
-		}
-		final private function loadServices():void
-		{
-			if ( BedrockEngine.config.getSettingValue( BedrockData.REMOTING_ENABLED ) ) {
-				BedrockEngine.serviceManager.initialize(BedrockEngine.config.getEnvironmentValue( BedrockData.REMOTING ) );
-			}
 			this.next();
 		}
 		final private function loadDefaultPage():void

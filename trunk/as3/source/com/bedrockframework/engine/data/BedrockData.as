@@ -11,7 +11,6 @@
 		
 		public static const PRELOADER_TIME:String = "preloader_time";
 		public static const DEEP_LINKING_ENABLED:String = "deep_linking_enabled";
-		public static const REMOTING_ENABLED:String = "remoting_enabled";
 		public static const CACHE_PREVENTION_ENABLED:String = "cache_prevention_enabled";
 		public static const CSS_ENABLED:String = "css_enabled";
 		public static const RESOURCE_BUNDLE_ENABLED:String = "resource_bundle_enabled";
@@ -45,7 +44,6 @@
 		public static const ROOT_HEIGHT:String = "root_height";
 		
 		public static const LAYOUT:String = "layout";
-		public static const REMOTING:String = "remoting";
 		public static const BLOCKER_ALPHA:String = "blocker_alpha";
 		public static const DEFAULT_PAGE:String = "default_page";
 		
