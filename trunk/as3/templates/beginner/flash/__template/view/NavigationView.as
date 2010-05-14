@@ -8,14 +8,14 @@
 	import com.bedrockframework.plugin.gadget.Cloner;
 	import com.bedrockframework.plugin.util.ButtonUtil;
 	import com.bedrockframework.plugin.view.IView;
-	import com.bedrockframework.plugin.view.View;
+	import com.bedrockframework.plugin.view.MovieClipView;
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Quad;
 	
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
 
-	public class NavigationView extends View implements IView
+	public class NavigationView extends MovieClipView implements IView
 	{
 		/*
 		Variable Declarations
