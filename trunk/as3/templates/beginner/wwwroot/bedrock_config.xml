@@ -8,7 +8,6 @@
       <auto_default_enabled>true</auto_default_enabled>
       <auto_blocker_enabled>true</auto_blocker_enabled>
       <deep_linking_enabled>false</deep_linking_enabled>
-      <remoting_enabled>false</remoting_enabled>
       <cache_prevention_enabled>false</cache_prevention_enabled>
       <shared_enabled>true</shared_enabled>
       <shared_sounds_enabled>true</shared_sounds_enabled>

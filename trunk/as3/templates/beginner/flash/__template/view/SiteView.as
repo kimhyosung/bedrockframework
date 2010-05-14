@@ -5,7 +5,6 @@
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.engine.view.BedrockView;
 	import com.bedrockframework.plugin.view.IView;
-	
 	import com.greensock.TweenLite;
 	
 	public class SiteView extends BedrockView implements IView
@@ -29,7 +28,7 @@
 		}
 		public function intro($properties:Object=null):void
 		{
-			var objNavigation:IView = BedrockEngine.containerManager.getContainer("navigation").content as IView;
+			var objNavigation:IView = BedrockEngine.containerManager.getContainer("navigation").content;
 			objNavigation.initialize();
 			objNavigation.intro();
 			
