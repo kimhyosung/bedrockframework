@@ -38,31 +38,31 @@ package com.bedrockframework.core.base
 			}
 		}
 		
-		public function log($level:int, ...$arguments:Array):void
+		protected function log($level:int, ...$arguments:Array):void
 		{
 			this.sendLogMessage($level, $arguments);
 		}
-		public function status(...$arguments:Array):void
+		protected function status(...$arguments:Array):void
 		{
 			this.sendLogMessage(LogLevel.STATUS, $arguments);
 		}
-		public function debug(...$arguments:Array):void
+		protected function debug(...$arguments:Array):void
 		{
 			this.sendLogMessage(LogLevel.DEBUG, $arguments);
 		}
-		public function attention(...$arguments:Array):void
+		protected function attention(...$arguments:Array):void
 		{
 			this.sendLogMessage(LogLevel.ATTENTION, $arguments);
 		}
-		public function warning(...$arguments:Array):void
+		protected function warning(...$arguments:Array):void
 		{
 			this.sendLogMessage(LogLevel.WARNING, $arguments);
 		}
-		public function error(...$arguments:Array):void
+		protected function error(...$arguments:Array):void
 		{
 			this.sendLogMessage(LogLevel.ERROR, $arguments);
 		}
-		public function fatal(...$arguments:Array):void
+		protected function fatal(...$arguments:Array):void
 		{
 			this.sendLogMessage(LogLevel.FATAL, $arguments);
 		}
