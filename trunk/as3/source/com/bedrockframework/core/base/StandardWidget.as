@@ -15,12 +15,9 @@ package com.bedrockframework.core.base
 
 	public class StandardWidget extends BasicWidget
 	{
-		public function StandardWidget($silenceConstruction:Boolean = false)
+		public function StandardWidget()
 		{
-			super();
-			if (!$silenceConstruction) {
-				this.log(LogLevel.CONSTRUCTOR, "Constructed");
-			}
+			this.log( LogLevel.CONSTRUCTOR, "Constructed" );
 		}
 	}
 }

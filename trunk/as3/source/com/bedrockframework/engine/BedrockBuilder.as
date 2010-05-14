@@ -61,7 +61,7 @@ package com.bedrockframework.engine
 			this._numLoadIndex=0;
 			
 			this.createEngineClasses();
-			this.loaderInfo.addEventListener(Event.INIT, this.onBootUp);			
+			this.loaderInfo.addEventListener( Event.INIT, this.onBootUp );			
 		}
 		/**
 		 * The initialize function is automatically called once the shell.swf has finished loading itself.
@@ -190,10 +190,10 @@ package com.bedrockframework.engine
 		}
 		final private function loadLogging():void
 		{
-			Logger.localLevel = LogLevel[ BedrockEngine.config.getParamValue( BedrockData.LOCAL_LOG_LEVEL)  || BedrockEngine.config.getEnvironmentValue(BedrockData.LOCAL_LOG_LEVEL ) ];
-			Logger.eventLevel = LogLevel[ BedrockEngine.config.getParamValue( BedrockData.EVENT_LOG_LEVEL)  || BedrockEngine.config.getEnvironmentValue(BedrockData.EVENT_LOG_LEVEL ) ];
-			Logger.remoteLevel = LogLevel[ BedrockEngine.config.getParamValue( BedrockData.REMOTE_LOG_LEVEL)  || BedrockEngine.config.getEnvironmentValue(BedrockData.REMOTE_LOG_LEVEL) ];
-			Logger.remoteLogURL = BedrockEngine.config.getEnvironmentValue( BedrockData.REMOTE_LOG_URL );
+			Logger.localLevel = LogLevel[ BedrockEngine.config.getAvailableValue( BedrockData.LOCAL_LOG_LEVEL ) ];
+			Logger.eventLevel = LogLevel[ BedrockEngine.config.getAvailableValue( BedrockData.EVENT_LOG_LEVEL ) ];
+			Logger.remoteLevel = LogLevel[ BedrockEngine.config.getAvailableValue( BedrockData.REMOTE_LOG_LEVEL ) ];
+			Logger.remoteLogURL = BedrockEngine.config.getEnvironmentValue( BedrockData.REMOTE_LOG_URL ) || BedrockEngine.config.getSettingValue( BedrockData.REMOTE_LOG_URL );
 			
 			this.next();
 		}
@@ -234,19 +234,19 @@ package com.bedrockframework.engine
 			BedrockEngine.assetManager.initialize( this.loaderInfo.applicationDomain );
 			BedrockEngine.loadManager.initialize( this.loaderInfo.applicationDomain );
 			
-			BedrockEngine.bedrock::preloaderManager.initialize( BedrockEngine.config.getSettingValue(BedrockData.PRELOADER_TIME ) );
+			BedrockEngine.bedrock::preloaderManager.initialize( BedrockEngine.config.getAvailableValue(BedrockData.PRELOADER_TIME ) );
 			BedrockEngine.bedrock::transitionManager.initialize();
 			
-			BedrockEngine.trackingManager.initialize(BedrockEngine.config.getEnvironmentValue(BedrockData.TRACKING_ENABLED));
+			BedrockEngine.trackingManager.initialize(BedrockEngine.config.getAvailableValue( BedrockData.TRACKING_ENABLED ) );
 			
 			this.next();			
 		}
 		final private function loadEngineContainers():void
 		{			
-			BedrockEngine.containerManager.buildLayout(BedrockEngine.config.getSettingValue(BedrockData.LAYOUT));
+			BedrockEngine.containerManager.buildLayout( BedrockEngine.config.getSettingValue( BedrockData.LAYOUT ) );
 			BedrockEngine.bedrock::transitionManager.siteLoader = BedrockEngine.containerManager.getContainer(BedrockData.SITE_CONTAINER) as VisualLoader;
 			
-			var objBlocker:Blocker=new Blocker(BedrockEngine.config.getParamValue(BedrockData.BLOCKER_ALPHA));
+			var objBlocker:Blocker=new Blocker( BedrockEngine.config.getParamValue(BedrockData.BLOCKER_ALPHA || BedrockEngine.config.getEnvironmentValue( BedrockData.BLOCKER_ALPHA ) );
 			BedrockEngine.containerManager.replaceContainer( BedrockData.BLOCKER_CONTAINER, objBlocker );
 			if (BedrockEngine.config.getSettingValue( BedrockData.AUTO_BLOCKER_ENABLED) ) {
 				objBlocker.show();

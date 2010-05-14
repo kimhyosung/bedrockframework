@@ -72,7 +72,7 @@
 						strDefaultAlias = BedrockEngine.config.getParamValue(BedrockData.DEFAULT_PAGE);
 						this.status("Pulling from Params - " + strDefaultAlias);
 					} else {
-						strDefaultAlias = BedrockEngine.config.getSettingValue(BedrockData.DEFAULT_PAGE);
+						strDefaultAlias = BedrockEngine.config.getEnvironmentValue(BedrockData.DEFAULT_PAGE) || BedrockEngine.config.getSettingValue(BedrockData.DEFAULT_PAGE);
 						this.status("Pulling from Config - " + strDefaultAlias);
 					}
 				}
