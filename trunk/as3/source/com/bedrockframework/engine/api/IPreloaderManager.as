@@ -4,6 +4,7 @@ package com.bedrockframework.engine.api
 	
 	public interface IPreloaderManager
 	{
-		function initialize($preloaderTime:Number = 0):void;
+		function initialize( $shellPreloaderTime:Number = 0, $pagePreloaderTime:Number = 0 ):void;
+		function setMode( $status:String ):void;
 	}
 }

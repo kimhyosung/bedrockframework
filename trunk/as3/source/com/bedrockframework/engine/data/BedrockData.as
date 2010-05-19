@@ -9,7 +9,9 @@
 		public static const AUTO_DEFAULT_ENABLED:String = "auto_default_enabled";
 		public static const AUTO_INTRO_ENABLED:String = "auto_intro_enabled";
 		
-		public static const PRELOADER_TIME:String = "preloader_time";
+		public static const SHELL_PRELOADER_TIME:String = "shell_preloader_time";
+		public static const PAGE_PRELOADER_TIME:String = "page_preloader_time";
+		
 		public static const DEEP_LINKING_ENABLED:String = "deep_linking_enabled";
 		public static const CACHE_PREVENTION_ENABLED:String = "cache_prevention_enabled";
 		public static const CSS_ENABLED:String = "css_enabled";
@@ -23,14 +25,14 @@
 		
 		public static const AUTO_BLOCKER_ENABLED:String = "auto_blocker_enabled";
 		
-		public static const LOCALES:String = "locales";
+		public static const LOCALE_LIST:String = "locale_list";
 		public static const LOCALIZED_FILES:String = "localized_files";
 		public static const LOCALE_DELIMITER:String = "locale_delimiter";
 		public static const DEFAULT_LOCALE:String = "default_locale";
 		public static const CURRENT_LOCALE:String = "current_locale";
 		public static const SYSTEM_LANGUAGE:String = "system_language";
 		public static const ENVIRONMENT:String = "environment";
-		public static const STATIC_ENVIRONMENT:String = "static_environment";
+		public static const FORCE_ENVIRONMENT:String = "force_environment";
 		public static const CACHE_KEY:String = "cache_key";
 		
 		public static const MANUFACTURER:String = "manufacturer";
@@ -59,12 +61,8 @@
 		public static const REMOTE_LOG_URL:String = "remote_log_url";
 		
 		public static const SHELL_PRELOADER:String= "shell_preloader";
+		public static const PAGE_PRELOADER:String= "page_preloader";
 		public static const DEFAULT_PRELOADER:String= "default_preloader";
-		/*z
-		Locale Strings
-		*/
-		public static const FILE_PREFIX:String = "file_prefix";
-		public static const FILE_SUFFIX:String = "file_suffix";		
 		/*
 		Constant File Names
 		*/

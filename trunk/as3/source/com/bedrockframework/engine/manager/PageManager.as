@@ -48,7 +48,7 @@
 			if (objPage.url != null) {
 				strPath = objPage.url;
 			} else {
-				strPath = BedrockEngine.config.getEnvironmentValue(BedrockData.SWF_PATH) + BedrockEngine.config.getAvailableValue( BedrockData.FILE_PREFIX ) + objPage.alias + BedrockEngine.config.getAvailableValue( BedrockData.FILE_SUFFIX ) + ".swf";
+				strPath = BedrockEngine.config.getEnvironmentValue(BedrockData.SWF_PATH) + objPage.alias + ".swf";
 			}
 			BedrockEngine.containerManager.createPageLoader();
 			BedrockEngine.loadManager.addToQueue(strPath, BedrockEngine.containerManager.pageContainer.child, BedrockData.PAGE_PRIORITY);
@@ -62,13 +62,13 @@
 				strDefaultAlias=$details.alias;
 				this.status("Pulling from Event - " + strDefaultAlias);
 			} catch ($e:Error) {
-				if (BedrockEngine.config.getSettingValue(BedrockData.DEEP_LINKING_ENABLED) ){
+				if (BedrockEngine.config.getSettingValue( BedrockData.DEEP_LINKING_ENABLED ) ){
 					strDefaultAlias = BedrockEngine.deeplinkManager.getPathHierarchy()[0];
 					this.status("Pulling from URL - " + strDefaultAlias);
 				}
 			} finally {
 				if (strDefaultAlias == null || strDefaultAlias == "" ) {
-					if (BedrockEngine.config.getParamValue(BedrockData.DEFAULT_PAGE) != null) {
+					if (BedrockEngine.config.getParamValue( BedrockData.DEFAULT_PAGE) != null ) {
 						strDefaultAlias = BedrockEngine.config.getParamValue(BedrockData.DEFAULT_PAGE);
 						this.status("Pulling from Params - " + strDefaultAlias);
 					} else {

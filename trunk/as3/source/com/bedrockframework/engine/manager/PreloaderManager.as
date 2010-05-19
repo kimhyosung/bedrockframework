@@ -5,9 +5,10 @@
 	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.api.IPreloaderManager;
 	import com.bedrockframework.engine.bedrock;
+	import com.bedrockframework.engine.data.BedrockData;
 	import com.bedrockframework.engine.event.BedrockEvent;
+	import com.bedrockframework.plugin.event.StopWatchEvent;
 	import com.bedrockframework.plugin.event.TriggerEvent;
-	import com.bedrockframework.plugin.timer.IntervalTrigger;
 	import com.bedrockframework.plugin.timer.StopWatch;
 	import com.bedrockframework.plugin.timer.TimeoutTrigger;
 	import com.bedrockframework.plugin.util.MathUtil;
@@ -17,14 +18,14 @@
 		/*
 		Variable Declarations
 		*/
-		private var _objInterval:IntervalTrigger;
 		private var _objTimeout:TimeoutTrigger;
 		private var _numPercentage:Number;
-		private var _numTime:Number;
 		private var _objStopWatch:StopWatch;
-		private var _bolUseTimer:Boolean;
 		private var _bolTimerDone:Boolean;
 		private var _bolLoaderDone:Boolean;
+		private var _objShellData:PreloaderData;
+		private var _objPageData:PreloaderData;
+		private var _objCurrentData:PreloaderData;
 		/*
 		Constructor
 		*/
@@ -32,11 +33,14 @@
 		{
 			
 		}
-		public function initialize( $preloaderTime:Number = 0 ):void
+		public function initialize( $shellPreloaderTime:Number = 0, $pagePreloaderTime:Number = 0 ):void
 		{
-			this._numTime = $preloaderTime * 1000;
-			this._bolUseTimer = ( this._numTime == 0 ) ? false : true;
-			this.createTimers($preloaderTime);
+			this._objShellData = new PreloaderData( $shellPreloaderTime );
+			this._objPageData = new PreloaderData( $pagePreloaderTime );
+			
+			this.setMode( BedrockData.SHELL_PRELOADER ); 
+			
+			this.createTimers($shellPreloaderTime);
 			this.createListeners();
 		}
 		private function createListeners():void
@@ -47,16 +51,27 @@
 		}
 		private function createTimers($preloaderTime:Number = 0):void
 		{
-			this._objInterval = new IntervalTrigger(0.05);
-			this._objInterval.addEventListener(TriggerEvent.TRIGGER, this.onInterval);
-			this._objInterval.silenceLogging  = true;
-			
 			this._objTimeout = new TimeoutTrigger($preloaderTime);
-			this._objTimeout.addEventListener(TriggerEvent.TRIGGER, this.onTimeout);
+			this._objTimeout.addEventListener( TriggerEvent.TRIGGER, this.onTimeout );
 			this._objTimeout.silenceLogging  = true;
 			
 			this._objStopWatch = new StopWatch;
+			this._objStopWatch.addEventListener( StopWatchEvent.UPDATE, this.onUpdate);
 			this._objStopWatch.silenceLogging  = true;
+		}
+		/*
+		Set Mode
+		*/
+		public function setMode( $status:String ):void
+		{
+			switch ( $status ) {
+				case BedrockData.SHELL_PRELOADER :
+					this._objCurrentData = this._objShellData;
+					break;
+				case BedrockData.PAGE_PRELOADER :
+					this._objCurrentData = this._objPageData;
+					break;
+			}
 		}
 		/*
 		Update
@@ -66,17 +81,16 @@
 			this._numPercentage = 0;
 			this._bolLoaderDone = false;
 			this._bolTimerDone = false;
-			if (this._bolUseTimer) {
-				this._objInterval.start();
-				this._objTimeout.start();
+			if ( this._objCurrentData.useTimer ) {
+				this._objTimeout.start( this._objCurrentData.timeInSeconds );
 				this._objStopWatch.start();
 			}
-			this.updatePreloader(this._numPercentage);
+			this.updatePreloader( this._numPercentage );
 		}
 		private function stopPreloader():void
 		{
-			if (this._bolUseTimer) {
-				if (this._bolTimerDone && this._bolLoaderDone) {
+			if (this._objCurrentData.useTimer) {
+				if ( this._bolTimerDone && this._bolLoaderDone ) {
 					this.killPreloader();
 				}				
 			} else {
@@ -86,8 +100,7 @@
 		private function killPreloader():void
 		{
 			this._numPercentage = 100;
-			if (this._bolUseTimer) {
-				this._objInterval.stop();
+			if (this._objCurrentData.useTimer) {
 				this._objTimeout.stop();
 				this._objStopWatch.stop();
 				this._objStopWatch.clear();
@@ -104,8 +117,8 @@
 		private function calculatePercentage($percent:Number):uint
 		{
 			var numPercentage:uint;
-			if (this._bolUseTimer) {
-				var numTimerPercentage:uint = MathUtil.calculatePercentage(this._objStopWatch.elapsedMilliseconds, this._numTime);
+			if ( this._objCurrentData.useTimer ) {
+				var numTimerPercentage:uint = MathUtil.calculatePercentage( this._objStopWatch.elapsedMilliseconds, this._objCurrentData.timeInMilliseconds );
 				numPercentage = (numTimerPercentage < this._numPercentage) ? numTimerPercentage : this._numPercentage;
 			} else {
 				numPercentage =  this._numPercentage;
@@ -133,7 +146,7 @@
 		/*
 		Trigger Handlers
 		*/
-		private function onInterval($event:TriggerEvent):void
+		private function onUpdate( $event:StopWatchEvent ):void
 		{
 			this.updatePreloader(this._numPercentage);
 		}
@@ -142,6 +155,22 @@
 			this._bolTimerDone = true;
 			this.stopPreloader();
 		}
+		
 	}
 
+}
+	
+
+class PreloaderData
+{
+	public var timeInSeconds:Number;
+	public var timeInMilliseconds:Number;
+	public var useTimer:Boolean;
+	
+	public function PreloaderData( $time:Number ):void
+	{
+		this.timeInSeconds = $time;
+		this.timeInMilliseconds = $time * 1000;
+		this.useTimer = ( this.timeInSeconds == 0 ) ? false : true;
+	}
 }

@@ -12,12 +12,11 @@
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.engine.model.State;
 	
-	public class EngineController extends StandardWidget implements IFrontController
+	public class EngineController extends FrontController
 	{
 		/*
 		Variable Declarations
 		*/
-		private var _objFrontController:FrontController;
 		/*
 		Constructor
 		*/
@@ -25,20 +24,15 @@
 		{
 		}
 		
-		public function initialize():void
+		override public function initialize():void
 		{
-			this.createFrontController();
+			super.initialize();
 			this.createListeners();
 			this.createCommands();
 		}
 		/*
 		Creation Functions
 		*/
-		private function createFrontController():void
-		{
-			this._objFrontController = new FrontController;
-			this._objFrontController.initialize();
-		}
 		private function createListeners():void
 		{
 			BedrockDispatcher.addEventListener(BedrockEvent.SET_QUEUE, this.onSetQueue);
@@ -58,8 +52,8 @@
 			
 			BedrockDispatcher.addEventListener(BedrockEvent.LOCALE_CHANGE, this.onLocaleChange );
 			
-			if (BedrockEngine.config.getSettingValue(BedrockData.AUTO_INTRO_ENABLED)){
-				BedrockDispatcher.addEventListener(BedrockEvent.BEDROCK_COMPLETE, this.onRenderSite);
+			if (BedrockEngine.config.getSettingValue( BedrockData.AUTO_INTRO_ENABLED ) ){
+				BedrockDispatcher.addEventListener( BedrockEvent.BEDROCK_COMPLETE, this.onRenderSite );
 			}
 		}
 		private function createCommands():void
@@ -72,17 +66,6 @@
 				this.addCommand(BedrockEvent.SITE_INTRO_COMPLETE, HideBlockerCommand);
 				this.addCommand(BedrockEvent.PAGE_INTRO_COMPLETE, HideBlockerCommand);
 			}
-		}
-		/*
-		Front Controller Functions
-		*/
-		public function addCommand($type:String,$command:Class):void
-		{
-			this._objFrontController.addCommand($type, $command);
-		}
-		public function removeCommand($type:String,$command:Class):void
-		{
-			this._objFrontController.removeCommand($type, $command);
 		}
 		/*
 		Queue Event Handlers
@@ -104,12 +87,12 @@
 	 	*/
 		private function onDoDefault($event:BedrockEvent):void
 		{
-			if ( !BedrockEngine.config.getSettingValue(BedrockData.AUTO_DEFAULT_ENABLED) ) {
+			if ( !BedrockEngine.config.getSettingValue( BedrockData.AUTO_DEFAULT_ENABLED ) ) {
 				if ( !BedrockEngine.bedrock::state.doneDefault ) {
 					var strDefaultAlias:String = BedrockEngine.bedrock::pageManager.getDefaultPage($event.details);
 					this.status("Transitioning to - " + strDefaultAlias);
-					BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.SET_QUEUE,this,{alias:strDefaultAlias}));
-					BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RENDER_PRELOADER,this));
+					BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.SET_QUEUE, this, { alias:strDefaultAlias } ) );
+					BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.RENDER_PRELOADER, this ) );
 					BedrockEngine.bedrock::state.doneDefault = true;
 					BedrockEngine.deeplinkManager.setPath( strDefaultAlias );
 				}
@@ -198,13 +181,6 @@
 			if ( BedrockEngine.config.getSettingValue( BedrockData.DEEP_LINKING_ENABLED ) ) {
 				BedrockEngine.deeplinkManager.setPath( BedrockEngine.history.current.alias );
 			}
-		}
-		/*
-		Copy Event Handlers
-		*/
-		private function onLoadCopy($event:BedrockEvent):void
-		{
-			BedrockEngine.resourceManager.load($event.details.locale);
 		}
 	}
 }

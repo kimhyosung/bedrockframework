@@ -68,7 +68,7 @@ package com.bedrockframework.engine.model
 			this.saveSettingValue( BedrockData.LAYOUT, XMLUtil.convertToArray( xmlConfig.layout, true ) );
 			this.saveSettingValue( BedrockData.DEFAULT_PAGE, this.getDefaultPage( xmlConfig.pages ) );
 			
-			var strEnvironment:String = this.getSettingValue( BedrockData.STATIC_ENVIRONMENT ) || this.getEnvironment( xmlConfig.environments, this.getSettingValue( BedrockData.URL ) );
+			var strEnvironment:String = this.getSettingValue( BedrockData.FORCE_ENVIRONMENT ) || this.getEnvironment( xmlConfig.environments, this.getSettingValue( BedrockData.URL ) );
 			this.saveSettingValue( BedrockData.ENVIRONMENT,  strEnvironment);
 			this.saveEnvironmentValues( xmlConfig.environments, strEnvironment);
 			
@@ -247,8 +247,8 @@ package com.bedrockframework.engine.model
 				this.parseLocales();
 				this.parseLocalizedFiles();
 				
-				if ( this.getSettingValue( BedrockData.LOCALES ).length > 0 && this.getSettingValue( BedrockData.DEFAULT_LOCALE ) == null ) {
-					this.saveSettingValue( BedrockData.DEFAULT_LOCALE, this.getSettingValue( BedrockData.LOCALES )[ 0 ] );	
+				if ( this.getSettingValue( BedrockData.LOCALE_LIST ).length > 0 && this.getSettingValue( BedrockData.DEFAULT_LOCALE ) == null ) {
+					this.saveSettingValue( BedrockData.DEFAULT_LOCALE, this.getSettingValue( BedrockData.LOCALE_LIST )[ 0 ] );	
 				}
 				this.saveSettingValue( BedrockData.CURRENT_LOCALE, this.getSettingValue( BedrockData.DEFAULT_LOCALE ) );
 				
@@ -256,16 +256,16 @@ package com.bedrockframework.engine.model
 		}
 		private function parseLocales():void
 		{
-			var strLocales:String = this._objSettingValues[ BedrockData.LOCALES ];
+			var strLocales:String = this._objSettingValues[ BedrockData.LOCALE_LIST ];
 			if ( strLocales.length > 0 ) {
 				var arrLocales:Array = strLocales.split( "," );
 				var numLength:int = arrLocales.length;
 				for (var i:int = 0; i < numLength; i ++) {
 					arrLocales[ i ] = StringUtil.trim( arrLocales[ i ] );
 				}
-				this.saveSettingValue( BedrockData.LOCALES, arrLocales );
+				this.saveSettingValue( BedrockData.LOCALE_LIST, arrLocales );
 			} else {
-				this.saveSettingValue( BedrockData.LOCALES, new Array );
+				this.saveSettingValue( BedrockData.LOCALE_LIST, new Array );
 			}
 		}
 		private function parseLocalizedFiles():void
