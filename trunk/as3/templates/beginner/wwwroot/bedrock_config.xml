@@ -10,6 +10,7 @@
       <auto_blocker_enabled>true</auto_blocker_enabled>
       <deep_linking_enabled>false</deep_linking_enabled>
       <cache_prevention_enabled>false</cache_prevention_enabled>
+      <tracking_enabled>true</tracking_enabled>
       <shared_enabled>true</shared_enabled>
       <shared_sounds_enabled>true</shared_sounds_enabled>
       <fonts_enabled>true</fonts_enabled>
@@ -21,7 +22,7 @@
     <!--Locale Settings-->
     <locale>
       <default_locale>en_GB</default_locale>
-      <locales>en_GB,fr_FR</locales>
+      <locale_list>en_GB,fr_FR</locale_list>
       <localized_files>fonts,css,resource_bundle,shared</localized_files>
       <locale_delimiter>_</locale_delimiter>
     </locale>
@@ -32,8 +33,6 @@
       <fonts_file_name>fonts</fonts_file_name>
       <css_file_name>flash_style</css_file_name>
       <resource_bundle_file_name>resource_bundle</resource_bundle_file_name>
-      <file_prefix />
-      <file_suffix />
     </file_names>
   </settings>
   <layout>
@@ -77,8 +76,7 @@
       <remote_log_level>NONE</remote_log_level>
       <remote_log_url />
       <!--General Settings-->
-      <tracking_enabled>true</tracking_enabled>
-      <!--Path Information-->
+      <!--Paths-->
       <swf_path>../swfs/</swf_path>
       <xml_path>../xml/</xml_path>
       <image_path>../images/</image_path>
@@ -88,40 +86,34 @@
       <css_path>../css/</css_path>
       <resource_bundle_path>../xml/</resource_bundle_path>
       <shared_path>../swfs/</shared_path>
-      <!--Remoting-->
     </environment>
     <environment name="local">
       <!--General Settings-->
       <patterns>
         <pattern>file://</pattern>
       </patterns>
-      <!--Path Information-->
-      <!--Remoting-->
+      <!--Paths-->
     </environment>
     <environment name="development">
       <patterns>
         <pattern>dev</pattern>
       </patterns>
-      <!--Path Information-->
-      <!--Remoting-->
+      <!--Paths-->
     </environment>
     <environment name="localhost">
       <patterns>
         <pattern>localhost</pattern>
       </patterns>
-      <!--Path Information-->
-      <!--Remoting-->
+      <!--Paths-->
     </environment>
     <environment name="staging">
       <patterns>
         <pattern>staging</pattern>
       </patterns>
-      <!--Path Information-->
-      <!--Remoting-->
+      <!--Paths-->
     </environment>
     <environment name="production">
-      <!--Path Information-->
-      <!--Remoting-->
+      <!--Paths-->
     </environment>
   </environments>
 </config>
