@@ -89,7 +89,7 @@
 		*/
 		public function startTimer($time:Number = 0):void
 		{
-			if (  this.data.mode == ViewStackData.SELECT ) this.data.mode = ViewStackData.FORWARD;
+			if ( this.data.mode == ViewStackData.SELECT ) this.data.mode = ViewStackData.FORWARD;
 			this.data.timerEnabled = true;
 			this.advance();
 		}
@@ -116,7 +116,7 @@
 			if (this.data.addAsChildren) {
 				this._objContainer.addChild(this._objCurrentItem.view);
 			}
-			var objView:MovieClipView = this._objCurrentItem.view as MovieClipView;
+			var objView:* = this._objCurrentItem.view;
 			this.addListeners(this._objCurrentItem.view);
 			if (this.data.autoInitialize ) {
 				if ( objView != null && !objView.hasInitialized ) {

@@ -209,7 +209,7 @@ package com.bedrockframework.engine
 			if ( BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
 				var strCurrentLocale:String = BedrockEngine.config.getAvailableValue( BedrockData.CURRENT_LOCALE );
 				var strDefaultLocale:String = BedrockEngine.config.getAvailableValue( BedrockData.DEFAULT_LOCALE );
-				BedrockEngine.localeManager.initialize( BedrockEngine.config.getSettingValue( BedrockData.LOCALIZED_FILES ), BedrockEngine.config.getSettingValue( BedrockData.LOCALES ), strDefaultLocale, strCurrentLocale, BedrockEngine.config.getSettingValue( BedrockData.LOCALE_DELIMITER ) );
+				BedrockEngine.localeManager.initialize( BedrockEngine.config.getSettingValue( BedrockData.LOCALIZED_FILES ), BedrockEngine.config.getSettingValue( BedrockData.LOCALE_LIST ), strDefaultLocale, strCurrentLocale, BedrockEngine.config.getSettingValue( BedrockData.LOCALE_DELIMITER ) );
 			}
 			this.next();
 		}
@@ -234,7 +234,7 @@ package com.bedrockframework.engine
 			BedrockEngine.assetManager.initialize( this.loaderInfo.applicationDomain );
 			BedrockEngine.loadManager.initialize( this.loaderInfo.applicationDomain );
 			
-			BedrockEngine.bedrock::preloaderManager.initialize( BedrockEngine.config.getAvailableValue(BedrockData.PRELOADER_TIME ) );
+			BedrockEngine.bedrock::preloaderManager.initialize( BedrockEngine.config.getAvailableValue(BedrockData.SHELL_PRELOADER_TIME ) );
 			BedrockEngine.bedrock::transitionManager.initialize();
 			
 			BedrockEngine.trackingManager.initialize(BedrockEngine.config.getAvailableValue( BedrockData.TRACKING_ENABLED ) );
@@ -246,7 +246,7 @@ package com.bedrockframework.engine
 			BedrockEngine.containerManager.buildLayout( BedrockEngine.config.getSettingValue( BedrockData.LAYOUT ) );
 			BedrockEngine.bedrock::transitionManager.siteLoader = BedrockEngine.containerManager.getContainer(BedrockData.SITE_CONTAINER) as VisualLoader;
 			
-			var objBlocker:Blocker=new Blocker( BedrockEngine.config.getParamValue(BedrockData.BLOCKER_ALPHA || BedrockEngine.config.getEnvironmentValue( BedrockData.BLOCKER_ALPHA ) );
+			var objBlocker:Blocker=new Blocker( BedrockEngine.config.getParamValue(BedrockData.BLOCKER_ALPHA ) || BedrockEngine.config.getEnvironmentValue( BedrockData.BLOCKER_ALPHA ) );
 			BedrockEngine.containerManager.replaceContainer( BedrockData.BLOCKER_CONTAINER, objBlocker );
 			if (BedrockEngine.config.getSettingValue( BedrockData.AUTO_BLOCKER_ENABLED) ) {
 				objBlocker.show();

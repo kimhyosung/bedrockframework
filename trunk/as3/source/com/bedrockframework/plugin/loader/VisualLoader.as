@@ -1,5 +1,6 @@
 ﻿package com.bedrockframework.plugin.loader
 {
+	import com.bedrockframework.core.logging.LogLevel;
 	import com.bedrockframework.core.logging.Logger;
 	import com.bedrockframework.plugin.event.LoaderEvent;
 	import com.bedrockframework.plugin.gadget.IClonable;
@@ -15,7 +16,6 @@
 	import flash.events.SecurityErrorEvent;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
-	import com.bedrockframework.core.logging.LogLevel;
 
 	public class VisualLoader extends Loader implements IClonable
 	{
@@ -39,13 +39,11 @@
 		
 		public function VisualLoader($url:String = null)
 		{
-			Logger.log(this, LogLevel.CONSTRUCTOR, "Constructed");
+			Logger.log(this, LogLevel.CONSTRUCTOR, "Constructed" );
 			
 			this.setupListeners(this.contentLoaderInfo);
 			
-			if ($url != null) {
-				this.loadURL($url);
-			}
+			if ($url != null) this.loadURL($url);
 		}
 		private static function setupReplacements():void
 		{
@@ -86,9 +84,9 @@
 		
 		private function getURL($url:String):String
 		{
-			if (DataLoader.cachePrevention) {
+			if ( VisualLoader.cachePrevention) {
 				var strPrefix:String = (this._strURL.indexOf("?") != -1) ? "&" : "?";
-				return this._strURL + strPrefix + "cache=" + DataLoader.cacheKey;
+				return this._strURL + strPrefix + "cache=" + VisualLoader.cacheKey;
 			} else {
 				return this._strURL;
 			}
@@ -133,6 +131,9 @@
 					break;
 				case SecurityErrorEvent.SECURITY_ERROR :
 					objDetails.text=SecurityErrorEvent($event).text;
+					break;
+				default :
+					return $event;
 					break;
 			}
 			

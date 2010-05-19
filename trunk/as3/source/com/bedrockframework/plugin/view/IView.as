@@ -17,7 +17,6 @@ package com.bedrockframework.plugin.view
 		function initialize($data:Object=null):void;
 		function intro($data:Object=null):void;
 		function outro($data:Object=null):void;
-		//
 		function clear():void;
 	}
 }
