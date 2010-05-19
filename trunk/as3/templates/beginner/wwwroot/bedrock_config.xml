@@ -3,7 +3,8 @@
   <settings>
     <!--General Settings-->
     <general>
-      <preloader_time>3</preloader_time>
+      <shell_preloader_time>3</shell_preloader_time>
+      <page_preloader_time>0</page_preloader_time>
       <auto_intro_enabled>true</auto_intro_enabled>
       <auto_default_enabled>true</auto_default_enabled>
       <auto_blocker_enabled>true</auto_blocker_enabled>
