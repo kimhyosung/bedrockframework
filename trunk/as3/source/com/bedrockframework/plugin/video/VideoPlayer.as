@@ -285,7 +285,6 @@
 		{
 			
 		}
-	
 		/*
 		Trigger Handlers
 		*/
@@ -361,15 +360,17 @@
 		}
 		public function set deblocking($status:int):void
 		{
-			this._objVideo.deblocking = $status;
+			this.data.deblocking = $status;
+			this._objVideo.deblocking = this.data.deblocking;
 		}
 		public function get deblocking():int
 		{
 			return this._objVideo.deblocking;
 		}
 		public function set bufferTime($value:Number):void
-		{	
-			this._objStream.bufferTime = $value;
+		{
+			this.data.bufferTime = $value;	
+			this._objStream.bufferTime = this.data.bufferTime;
 		}
 		public function get bufferTime():Number
 		{
@@ -391,9 +392,8 @@
 		{
 			try{
 				this._objAudioMixer.volume = $value;
-				this.dispatchEvent(new VideoEvent(VideoEvent.VOLUME, this, {volume:$value}));
+				this.dispatchEvent( new VideoEvent(VideoEvent.VOLUME, this, { volume:$value } ) );
 			} catch($error:Error){
-				
 			}
 		}
 		
@@ -409,9 +409,8 @@
 		{
 			try{
 				this._objAudioMixer.panning = $value;
-				this.dispatchEvent(new VideoEvent(VideoEvent.PANNING, this, { panning:$value } ) );
+				this.dispatchEvent( new VideoEvent( VideoEvent.PANNING, this, { panning:$value } ) );
 			} catch($error:Error){
-				
 			}
 		}
 		
