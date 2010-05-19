@@ -1,6 +1,6 @@
 ﻿package
 {
-	import com.bedrockframework.plugin.storage.ArrayBrowser;
+	import com.bedrockframework.plugin.storage.SuperArray;
 
 	import flash.display.MovieClip;
 	import flash.events.Event;
@@ -26,7 +26,7 @@
 		{
 			var arrData:Array = new Array();
 
-			var objOperator:ArrayBrowser = new ArrayBrowser(arrData);
+			var objOperator:SuperArray = new SuperArray(arrData);
 			
 			objOperator.push( 1 );
 			objOperator.push( 2 );

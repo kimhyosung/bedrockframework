@@ -29,7 +29,7 @@
 			objHash.saveValue("danish", {id:152, text:"Mmmmm delicious..."});
 			trace(objHash.getValue("danish"));
 			trace(objHash.pullValue("danish")); // will return and then delete the value
-			trace(objHash.getValue("danish"));
+			trace(objHash.getValue("danish")); // value is gone at this point
 			trace(objHash.getValue("quiche").text);
 		}
 		

@@ -24,7 +24,8 @@
 	 	*/
 		public function initialize():void
 		{
-			var objPagination = new Pagination(41, 10);
+			var objPagination = new Pagination();
+			objPagination.update(41, 10);
 			trace(objPagination.selectedPage);
 			objPagination.nextPage();
 			trace(objPagination.hasNextPage());

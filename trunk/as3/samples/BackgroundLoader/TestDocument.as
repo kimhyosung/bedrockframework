@@ -1,6 +1,6 @@
 ﻿package
 {
-	import com.bedrockframework.plugin.loader.BackgroundLoader;
+	import com.bedrockframework.plugin.loader.DataLoader;
 	import com.bedrockframework.plugin.event.LoaderEvent;
 
 	import flash.net.URLRequest;
@@ -12,7 +12,7 @@
 		/*
 		Variable Declarations
 		*/
-		private var _objBackgroundLoader:BackgroundLoader;
+		private var _objDataLoader:DataLoader;
 		
 		
 		/*
@@ -28,24 +28,24 @@
 	 	*/
 		public function initialize():void
 		{
-			this._objBackgroundLoader = new BackgroundLoader();
-			//this.addChild(this._objBackgroundLoader);
+			this._objDataLoader = new DataLoader();
+			//this.addChild(this._objDataLoader);
 			
-			this._objBackgroundLoader.addEventListener(LoaderEvent.COMPLETE, this.onHandler);
-			this._objBackgroundLoader.addEventListener(LoaderEvent.OPEN, this.onHandler);
-			this._objBackgroundLoader.addEventListener(LoaderEvent.INIT, this.onHandler);
-			this._objBackgroundLoader.addEventListener(LoaderEvent.UNLOAD, this.onHandler);
-			this._objBackgroundLoader.addEventListener(LoaderEvent.HTTP_STATUS, this.onHandler);
-			this._objBackgroundLoader.addEventListener(LoaderEvent.PROGRESS, this.onHandler);
-			this._objBackgroundLoader.addEventListener(LoaderEvent.IO_ERROR, this.onHandler);
-			this._objBackgroundLoader.addEventListener(LoaderEvent.SECURITY_ERROR, this.onHandler);
+			this._objDataLoader.addEventListener(LoaderEvent.COMPLETE, this.onHandler);
+			this._objDataLoader.addEventListener(LoaderEvent.OPEN, this.onHandler);
+			this._objDataLoader.addEventListener(LoaderEvent.INIT, this.onHandler);
+			this._objDataLoader.addEventListener(LoaderEvent.UNLOAD, this.onHandler);
+			this._objDataLoader.addEventListener(LoaderEvent.HTTP_STATUS, this.onHandler);
+			this._objDataLoader.addEventListener(LoaderEvent.PROGRESS, this.onHandler);
+			this._objDataLoader.addEventListener(LoaderEvent.IO_ERROR, this.onHandler);
+			this._objDataLoader.addEventListener(LoaderEvent.SECURITY_ERROR, this.onHandler);
 			
 			
-			this._objBackgroundLoader.load(new URLRequest("pic1.jpg"));
-			trace(this._objBackgroundLoader.request)
+			this._objDataLoader.load(new URLRequest("pic1.jpg"));
+			trace(this._objDataLoader.request)
 			
-			this._objBackgroundLoader.loadURL("pic1.jpg");
-			trace(this._objBackgroundLoader.request);
+			this._objDataLoader.loadURL("pic1.jpg");
+			trace(this._objDataLoader.request);
 		}
 		
 		/*
