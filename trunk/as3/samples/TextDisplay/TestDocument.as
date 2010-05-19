@@ -1,12 +1,10 @@
 ﻿package
 {
-	import flash.media.Sound;
-	import flash.events.MouseEvent;
-	import flash.display.MovieClip;
-	import flash.events.Event;
-	
 	import com.bedrockframework.plugin.data.TextDisplayData;
 	import com.bedrockframework.plugin.gadget.TextDisplay;
+	
+	import flash.display.MovieClip;
+	import flash.events.Event;
 	
 	public class TestDocument extends MovieClip
 	{
@@ -39,9 +37,14 @@
 			var objData:TextDisplayData = new TextDisplayData;
 			objData.mode = TextDisplayData.MULTI_LINE;
 			objData.autoLocale = false;
+			// autoLocale only works when running along with the Bedrock engine
 			
+			this.multilineText = new TextDisplay;
+			this.multilineText.x = 50;
+			this.multilineText.y = 50;
 			this.multilineText.initialize( objData );
 			this.multilineText.populate( "Little Ms. Muffet sat on her tuffet, eating her turds in waves." );
+			this.addChild( this.multilineText );
 		}
 		private function initializeSingleline():void
 		{
@@ -50,8 +53,12 @@
 			objData.autoLocale = false;
 			objData.width = 400;
 			
+			this.singlelineText = new TextDisplay;
+			this.singlelineText.x = 50;
+			this.singlelineText.y = 150;
 			this.singlelineText.initialize( objData );
 			this.singlelineText.populate( "Little Ms. Muffet sat on her tuffet, eating her turds in waves." );
+			this.addChild( this.singlelineText );
 		}
 		private function initializeMultiSingleline():void
 		{
@@ -60,8 +67,12 @@
 			objData.autoLocale = false;
 			objData.width = 150;
 			
+			this.multisinglelineText = new TextDisplay;
+			this.multisinglelineText.x = 50;
+			this.multisinglelineText.y = 250;
 			this.multisinglelineText.initialize( objData );
 			this.multisinglelineText.populate( "Little Ms. Muffet sat on her tuffet, eating her turds in waves." );
+			this.addChild( this.multisinglelineText );
 		}
 		/*
 		Event Handlers
