@@ -88,7 +88,7 @@
 		private function onSeekClicked( $event:MouseEvent ) :void
 		{
 			trace( "Seek!" );
-			this._objAudioPlayer.seekByPercentage( 50 );
+			this._objAudioPlayer.seekWithPercentage( 50 );
 		}
 		
 		private function onPauseClicked( $event:MouseEvent ) :void
