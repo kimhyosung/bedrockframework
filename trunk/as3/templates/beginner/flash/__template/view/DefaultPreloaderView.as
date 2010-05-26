@@ -6,7 +6,6 @@
 	import flash.text.TextField;
 	
 	import com.greensock.TweenLite;
-	import com.greensock.easing.Quad;
 	
 	public class DefaultPreloaderView extends BedrockView implements IPreloader
 	{
@@ -35,7 +34,7 @@
 		}
 		public function intro($properties:Object=null):void
 		{
-			TweenLite.to(this, 1, {alpha:1, ease:Quad.easeOut, onComplete:this.introComplete});
+			TweenLite.to(this, 1, {alpha:1, onComplete:this.introComplete});
 			//this.introComplete();
 		}
 		public function displayProgress($percent:uint):void
@@ -44,7 +43,7 @@
 		}
 		public function outro($properties:Object=null):void
 		{
-			TweenLite.to(this, 1, {alpha:0, ease:Quad.easeOut, onComplete:this.outroComplete});
+			TweenLite.to(this, 1, {alpha:0, onComplete:this.outroComplete});
 			//this.outroComplete();
 		}
 		public function clear():void

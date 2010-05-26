@@ -92,28 +92,32 @@
       <patterns>
         <pattern>file://</pattern>
       </patterns>
-      <!--Paths-->
+      <!--Path Settings-->
     </environment>
     <environment name="development">
+      <!--General Settings-->
       <patterns>
         <pattern>dev</pattern>
       </patterns>
-      <!--Paths-->
+      <!--Path Settings-->
     </environment>
     <environment name="localhost">
+      <!--General Settings-->
       <patterns>
         <pattern>localhost</pattern>
       </patterns>
-      <!--Paths-->
+      <!--Path Settings-->
     </environment>
     <environment name="staging">
+      <!--General Settings-->
       <patterns>
         <pattern>staging</pattern>
       </patterns>
-      <!--Paths-->
+      <!--Path Settings-->
     </environment>
     <environment name="production">
-      <!--Paths-->
+      <!--General Settings-->
+      <!--Path Settings-->
     </environment>
   </environments>
 </config>

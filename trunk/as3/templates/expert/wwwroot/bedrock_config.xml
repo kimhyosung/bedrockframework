@@ -72,8 +72,7 @@
       <event_log_level>ERROR</event_log_level>
       <remote_log_level>NONE</remote_log_level>
       <remote_log_url></remote_log_url>
-      <!--Paths-->
-      <!--General Settings-->
+      <!--Path Settings-->
       <swf_path>../swfs/</swf_path>
       <xml_path>../xml/</xml_path>
       <image_path>../images/</image_path>
@@ -89,28 +88,32 @@
       <patterns>
         <pattern>file://</pattern>
       </patterns>
-      <!--Paths-->
+      <!--Path Settings-->
     </environment>
     <environment name="development">
+      <!--General Settings-->
       <patterns>
         <pattern>dev</pattern>
       </patterns>
-      <!--Paths-->
+      <!--Path Settings-->
     </environment>
     <environment name="localhost">
+      <!--General Settings-->
       <patterns>
         <pattern>localhost</pattern>
       </patterns>
-      <!--Paths-->
+      <!--Path Settings-->
     </environment>
     <environment name="staging">
+      <!--General Settings-->
       <patterns>
         <pattern>staging</pattern>
       </patterns>
-      <!--Paths-->
+      <!--Path Settings-->
     </environment>
     <environment name="production">
-      <!--Paths-->
+      <!--General Settings-->
+      <!--Path Settings-->
     </environment>
   </environments>
 </config>
