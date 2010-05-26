@@ -4,11 +4,11 @@
 	import com.bedrockframework.engine.data.BedrockData;
 	import com.bedrockframework.engine.view.BedrockView;
 	import com.bedrockframework.engine.view.IPreloader;
+	import com.greensock.TweenLite;
+	import com.greensock.easing.Quad;
 	
 	import flash.text.TextField;
 	
-	import gs.TweenLite;
-	import gs.easing.Quad;
 	
 	public class ShellPreloaderView extends BedrockView implements IPreloader
 	{
@@ -30,8 +30,8 @@
 		{
 			this.displayProgress(0);
 			
-			this.x = BedrockEngine.config.getSettingValue( BedrockData.ROOT_WIDTH ) / 2;
-			this.y = BedrockEngine.config.getSettingValue( BedrockData.ROOT_HEIGHT ) / 2;
+			this.x = this.stage.stageWidth / 2;
+			this.y = this.stage.stageHeight / 2;
 			
 			this.initializeComplete();
 		}

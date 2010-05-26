@@ -1,14 +1,7 @@
 ﻿package __template
 {
-	import __template.command.DataRequestCommand;
-	import __template.event.SiteEvent;
-	
 	import com.bedrockframework.engine.BedrockBuilder;
 	import com.bedrockframework.engine.api.IBedrockBuilder;
-	import com.bedrockframework.plugin.loader.VisualLoader;
-	
-	import flash.system.ApplicationDomain;
-	import flash.system.LoaderContext;
 	
 	
 	public class ShellBuilder extends BedrockBuilder implements IBedrockBuilder
@@ -35,7 +28,6 @@
 		}
 		public function loadCommands():void
 		{
-			this.addCommand(SiteEvent.DATA_REQUEST, DataRequestCommand)
 			this.status("Loading Commands");
 			this.next();
 		}
