@@ -6,7 +6,7 @@
       <shell_preloader_time>3</shell_preloader_time>
       <page_preloader_time>0</page_preloader_time>
       <auto_intro_enabled>true</auto_intro_enabled>
-      <auto_default_enabled>true</auto_default_enabled>
+      <auto_default_enabled>false</auto_default_enabled>
       <auto_blocker_enabled>true</auto_blocker_enabled>
       <deep_linking_enabled>false</deep_linking_enabled>
       <cache_prevention_enabled>false</cache_prevention_enabled>
@@ -15,7 +15,7 @@
       <shared_sounds_enabled>false</shared_sounds_enabled>
       <fonts_enabled>false</fonts_enabled>
       <css_enabled>false</css_enabled>
-      <resource_bundle_enabled>true</resource_bundle_enabled>
+      <resource_bundle_enabled>false</resource_bundle_enabled>
       <locale_enabled>false</locale_enabled>
       <show_pages_in_context_menu>true</show_pages_in_context_menu>
     </general>

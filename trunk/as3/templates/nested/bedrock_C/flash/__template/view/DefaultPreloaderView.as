@@ -25,8 +25,8 @@
 		{
 			this.displayProgress(0);
 			
-			this.x = this.stage.stageWidth /2;
-			this.y = this.stage.stageHeight /2;
+			this.x = 150;
+			this.y = 200;
 			
 			this.initializeComplete();
 		}
