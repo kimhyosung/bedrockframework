@@ -1,9 +1,8 @@
 ﻿package __template.view
 {
-	import com.bedrockframework.engine.BedrockEngine;
-	import com.bedrockframework.engine.data.BedrockData;
 	import com.bedrockframework.engine.view.BedrockView;
 	import com.bedrockframework.engine.view.IPreloader;
+	import com.greensock.TweenLite;
 	
 	import flash.text.TextField;
 	
@@ -26,22 +25,25 @@
 		{
 			this.displayProgress(0);
 			
-			this.x = BedrockEngine.config.getSettingValue( BedrockData.ROOT_WIDTH ) / 2;
-			this.y = BedrockEngine.config.getSettingValue( BedrockData.ROOT_HEIGHT ) / 2;
+			this.x = 150;
+			this.y = 200;
 			
 			this.initializeComplete();
 		}
 		public function intro($properties:Object=null):void
 		{
-			this.introComplete();
+			TweenLite.to(this, 1, {alpha:1, onComplete:this.introComplete});
+			//this.introComplete();
 		}
+		
 		public function displayProgress($percent:uint):void
 		{
 			this.display.text=$percent + " %";
 		}
 		public function outro($properties:Object=null):void
 		{
-			this.outroComplete();
+			TweenLite.to(this, 1, {alpha:0, onComplete:this.outroComplete});
+			//this.outroComplete();
 		}
 		public function clear():void
 		{
