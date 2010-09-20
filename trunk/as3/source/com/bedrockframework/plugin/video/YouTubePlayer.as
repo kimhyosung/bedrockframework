@@ -218,7 +218,7 @@
 		
 		public function seekWithPercentage($percent:Number):void
 		{
-			var numTime:Number = MathUtil.getPercentage( $percent, this.duration );
+			var numTime:Number = MathUtil.getPercentageOfValue( $percent, this.duration );
 			this.seekWithTime( numTime );
 		}
 		/*

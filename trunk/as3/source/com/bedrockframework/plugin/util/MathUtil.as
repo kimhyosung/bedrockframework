@@ -167,18 +167,14 @@
 
 		public static  function calculatePercentage($smaller:Number,$larger:Number):Number
 		{
-			return Math.round(($smaller / $larger) * 100);
+			return Math.round( ($smaller / $larger) * 100 );
 		}
 		
-		public static function getPercentage( $percentage:Number, $total:Number ):Number
+		public static function getPercentageOfValue(  $value:Number, $percentage:Number ):Number
 		{
-			return ( $total * ( $percentage / 100 ) );
+			return ( $value * ( $percentage / 100 ) );
 		}
 		
-		public static function calculateValueFromPercentage( $percentage:Number, $value:Number ):Number
-		{
-			return ( $value * ( $percentage / 100) );
-		}
 		public static function calculateRatio($value1:Number,$value2:Number):Number
 		{
 			return ($value1 / $value2);
