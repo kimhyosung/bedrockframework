@@ -28,13 +28,11 @@ package com.bedrockframework.core.base
 		/*
 		Constructor
 		*/
-		public function MovieClipWidget($silenceConstruction:Boolean = false)
+		public function MovieClipWidget()
 		{
 			super();
 			this._bolSilenceLogging = false;
-			if (!$silenceConstruction) {
-				this.log(LogLevel.CONSTRUCTOR, "Constructed");
-			}
+			this.log(LogLevel.CONSTRUCTOR, "Constructed");
 		}
 		/*
 		Overrides adding additional functionality
