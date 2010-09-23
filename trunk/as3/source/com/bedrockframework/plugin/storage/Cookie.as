@@ -68,7 +68,7 @@
 		public function importValues($data:Object):void
 		{
 			var objData:Object = $data;
-			for (var d in objData) {
+			for (var d:* in objData) {
 				this._objShared.data[d] = objData[d];
 			}
 			this.flushValues();
@@ -76,7 +76,7 @@
 		public function exportValues():Object
 		{
 			var objData:Object = new Object;
-			for (var d in this._objShared.data) {
+			for (var d:* in this._objShared.data) {
 				objData[d] = this._objShared.data[d];
 			}
 			return objData;

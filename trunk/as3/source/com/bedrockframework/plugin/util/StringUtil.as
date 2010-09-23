@@ -898,7 +898,7 @@
 		public static function replace($raw:String,$tag:String,$content:String):String
 		{
 			var strRaw:String = $raw;
-			var objRegExp:RegExp = new RegExp($tag,"g");
+			var objRegExp:RegExp = new RegExp( $tag, "g" );
 			//
 			strRaw = strRaw.replace(objRegExp, $content)
 			//
