@@ -103,7 +103,7 @@
 		{
 			var xmlData:XML = new XML($node);
 			var xmlList:XMLList = xmlData.children().(attribute($attribute) == $value);
-			return new XML(xmlList);
+			return new XML( xmlList );
 		}
 		public static function filterByNode($node:*, $name:String, $value:String):XML
 		{

@@ -2,7 +2,7 @@
 {
 	import com.bedrockframework.core.base.StandardWidget;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
-	import com.bedrockframework.engine.api.ICSSManager;
+	import com.bedrockframework.engine.api.IStylesheetManager;
 	import com.bedrockframework.engine.event.BedrockEvent;
 	import com.bedrockframework.plugin.event.LoaderEvent;
 	import com.bedrockframework.plugin.loader.DataLoader;
@@ -11,7 +11,7 @@
 	import flash.text.StyleSheet;
 	import flash.text.TextFormat;
 
-	public class CSSManager extends StandardWidget implements ICSSManager
+	public class StylesheetManager extends StandardWidget implements IStylesheetManager
 	{
 		/*
 		Variable Declarations
@@ -21,7 +21,7 @@
 		/*
 		Constructor
 		*/
-		public function CSSManager()
+		public function StylesheetManager()
 		{
 			this._objStyleSheet = new StyleSheet();
 			this.createLoader();
@@ -37,7 +37,7 @@
 		/*
 		Parse the StyleSheet
 		*/
-		public function parseCSS($stylesheet:String):void
+		public function parseStylesheet($stylesheet:String):void
 		{
 			this._objStyleSheet = new StyleSheet();
 			this._objStyleSheet.parseCSS( $stylesheet );
@@ -83,7 +83,7 @@
 		private function onLoadComplete($event:LoaderEvent):void
 		{
 			this.status("CSS Loaded");
-			this.parseCSS( this._objLoader.data );
+			this.parseStylesheet( this._objLoader.data );
 		}
 		private function onLoadError($event:Event):void
 		{

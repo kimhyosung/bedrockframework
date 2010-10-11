@@ -149,14 +149,14 @@
 			if ( this.data.styleName != null ) {
 				
 				if ( this.data.autoStyle ) {
-					var objStyle:Object = this.data.styleObject || BedrockEngine.cssManager.getStyleAsObject( this.data.styleName );
+					var objStyle:Object = this.data.styleObject || BedrockEngine.stylesheetManager.getStyleAsObject( this.data.styleName );
 					var objFormat:TextLayoutFormat = new TextLayoutFormat();
 					for (var s:String in objStyle) {
 						objFormat[ s ] = VariableUtil.sanitize( objStyle[ s ] );
 					}
 				}
 				
-				if ( this.data.autoLocale ) objFormat.locale = BedrockEngine.config.getAvailableValue( BedrockData.CURRENT_LOCALE );
+				if ( this.data.autoLocale ) objFormat.locale = BedrockEngine.config.getActiveValue( BedrockData.CURRENT_LOCALE );
 				objFormat.fontLookup = FontLookup.EMBEDDED_CFF;
 				objFormat.renderingMode = RenderingMode.CFF;
 				
@@ -174,7 +174,7 @@
 			objFormat.fontSize = 12;
 			objFormat.fontLookup = FontLookup.EMBEDDED_CFF;
 			objFormat.renderingMode = RenderingMode.CFF;
-			if ( this.data.autoLocale ) objFormat.locale = BedrockEngine.config.getAvailableValue( BedrockData.CURRENT_LOCALE );
+			if ( this.data.autoLocale ) objFormat.locale = BedrockEngine.config.getActiveValue( BedrockData.CURRENT_LOCALE );
 			
 			return objFormat;
 		}

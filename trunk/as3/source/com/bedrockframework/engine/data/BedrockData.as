@@ -6,39 +6,38 @@
 		/*
 		Constant Settings
 		*/
-		public static const AUTO_DEFAULT_ENABLED:String = "auto_default_enabled";
-		public static const AUTO_INTRO_ENABLED:String = "auto_intro_enabled";
+		public static const AUTO_INTRO_ENABLED:String = "autoIntroEnabled";
+		public static const AUTO_DEFAULT_ENABLED:String = "autoDefaultEnabled";
 		
-		public static const SHELL_PRELOADER_TIME:String = "shell_preloader_time";
-		public static const PAGE_PRELOADER_TIME:String = "page_preloader_time";
+		public static const SHELL_PRELOADER_TIME:String = "shellPreloaderTime";
+		public static const PAGE_PRELOADER_TIME:String = "pagePreloaderTime";
 		
-		public static const DEEP_LINKING_ENABLED:String = "deep_linking_enabled";
-		public static const CACHE_PREVENTION_ENABLED:String = "cache_prevention_enabled";
-		public static const CSS_ENABLED:String = "css_enabled";
-		public static const RESOURCE_BUNDLE_ENABLED:String = "resource_bundle_enabled";
-		public static const TRACKING_ENABLED:String = "tracking_enabled";
-		public static const LOCALE_ENABLED:String = "locale_enabled";
-		public static const FONTS_ENABLED:String = "fonts_enabled";
+		public static const DEEP_LINKING_ENABLED:String = "deepLinkingEnabled";
+		public static const CACHE_PREVENTION_ENABLED:String = "cachePreventionEnabled";
+		public static const STYLESHEET_ENABLED:String = "stylesheetEnabled";
+		public static const RESOURCE_BUNDLE_ENABLED:String = "resourceBundleEnabled";
+		public static const TRACKING_ENABLED:String = "trackingEnabled";
+		public static const LOCALE_ENABLED:String = "localeEnabled";
+		public static const FONTS_ENABLED:String = "fontsEnabled";
 		
-		public static const SHARED_ENABLED:String = "shared_enabled";
-		public static const SHARED_SOUNDS_ENABLED:String = "shared_sounds_enabled";
+		public static const SHARED_ENABLED:String = "sharedEnabled";
+		public static const SHARED_SOUNDS_ENABLED:String = "sharedSoundsEnabled";
 		
-		public static const AUTO_BLOCKER_ENABLED:String = "auto_blocker_enabled";
+		public static const AUTO_BLOCKER_ENABLED:String = "autoBlockerEnabled";
 		
-		public static const LOCALE_LIST:String = "locale_list";
-		public static const LOCALIZED_FILES:String = "localized_files";
-		public static const LOCALE_DELIMITER:String = "locale_delimiter";
-		public static const DEFAULT_LOCALE:String = "default_locale";
-		public static const CURRENT_LOCALE:String = "current_locale";
-		public static const SYSTEM_LANGUAGE:String = "system_language";
+		public static const LOCALE_LIST:String = "localeList";
+		public static const LOCALIZED_FILES:String = "localizedFiles";
+		public static const LOCALE_DELIMITER:String = "localeDelimiter";
+		public static const DEFAULT_LOCALE:String = "defaultLocale";
+		public static const CURRENT_LOCALE:String = "currentLocale";
+		public static const SYSTEM_LANGUAGE:String = "systemLanguage";
 		public static const ENVIRONMENT:String = "environment";
-		public static const FORCE_ENVIRONMENT:String = "force_environment";
-		public static const CACHE_KEY:String = "cache_key";
+		public static const FORCE_ENVIRONMENT:String = "forceEnvironment";
+		public static const CACHE_KEY:String = "cacheKey";
 		
 		public static const MANUFACTURER:String = "manufacturer";
-		public static const STAGE:String = "stage";
 		
-		public static const CONFIG_URL:String = "config_url";
+		public static const CONFIG_URL:String = "configURL";
 		public static const PATTERNS:String = "patterns";
 		
 		public static const ROOT:String = "root";
@@ -46,8 +45,8 @@
 		public static const ROOT_HEIGHT:String = "root_height";
 		
 		public static const LAYOUT:String = "layout";
-		public static const BLOCKER_ALPHA:String = "blocker_alpha";
-		public static const DEFAULT_PAGE:String = "default_page";
+		public static const BLOCKER_ALPHA:String = "blockerAlpha";
+		public static const DEFAULT_PAGE:String = "defaultPage";
 		
 		public static const URL:String = "url";
 		public static const OS:String = "os";
@@ -55,36 +54,36 @@
 		public static  const AUTO_DEEP_LINK:String = "auto";
 		public static  const MANUAL_DEEP_LINK:String = "manual";
 		
-		public static const LOCAL_LOG_LEVEL:String = "local_log_level";
-		public static const EVENT_LOG_LEVEL:String = "event_log_level";
-		public static const REMOTE_LOG_LEVEL:String = "remote_log_level";
-		public static const REMOTE_LOG_URL:String = "remote_log_url";
+		public static const LOCAL_LOG_LEVEL:String = "localLogLevel";
+		public static const EVENT_LOG_LEVEL:String = "eventLogLevel";
+		public static const REMOTE_LOG_LEVEL:String = "remoteLogLevel";
+		public static const REMOTE_LOG_URL:String = "remoteLogURL";
 		
-		public static const SHELL_PRELOADER:String= "shell_preloader";
-		public static const PAGE_PRELOADER:String= "page_preloader";
-		public static const DEFAULT_PRELOADER:String= "default_preloader";
+		public static const SHELL_PRELOADER:String= "shellPreloader";
+		public static const PAGE_PRELOADER:String= "pagePreloader";
+		public static const DEFAULT_PRELOADER:String= "defaultPreloader";
 		/*
 		Constant File Names
 		*/
 		public static const CONFIG_FILE_NAME:String = "bedrock_config";
-		public static const CSS_FILE_NAME:String = "css_file_name";
-		public static const FONTS_FILE_NAME:String = "fonts_file_name";
-		public static const RESOURCE_BUNDLE_FILE_NAME:String = "resource_bundle_file_name";
-		public static const SITE_FILE_NAME:String = "site_file_name";
-		public static const SHARED_FILE_NAME:String = "shared_file_name";
+		public static const STYLESHEET_FILENAME:String = "stylesheetFilename";
+		public static const FONTS_FILENAME:String = "fontsFilename";
+		public static const RESOURCE_BUNDLE_FILENAME:String = "resourceBundleFilename";
+		public static const SITE_FILENAME:String = "siteFilename";
+		public static const SHARED_FILENAME:String = "sharedFilename";
 		/*
 		Constant Paths
 		*/
-		public static const RESOURCE_BUNDLE_PATH:String = "resource_bundle_path";
-		public static const FONTS_PATH:String = "font_path";
-		public static const SITE_PATH:String = "site_path";
-		public static const SHARED_PATH:String = "shared_path";
-		public static const AUDIO_PATH:String = "audio_path";
-		public static const CSS_PATH:String = "css_path";
-		public static const XML_PATH:String = "xml_path";
-		public static const IMAGE_PATH:String = "image_path";
-		public static const VIDEO_PATH:String = "video_path";
-		public static const SWF_PATH:String = "swf_path";
+		public static const RESOURCE_BUNDLE_PATH:String = "resourceBundlePath";
+		public static const FONTS_PATH:String = "fontPath";
+		public static const SITE_PATH:String = "sitePath";
+		public static const SHARED_PATH:String = "sharedPath";
+		public static const SOUND_PATH:String = "soundPath";
+		public static const STYLESHEET_PATH:String = "stylesheetPath";
+		public static const XML_PATH:String = "xmlPath";
+		public static const IMAGE_PATH:String = "imagePath";
+		public static const VIDEO_PATH:String = "videoPath";
+		public static const SWF_PATH:String = "swfPath";
 		/*
 		Constant Containers
 		*/
@@ -111,7 +110,7 @@
 		/*
 		Context Menus
 		*/
-		public static const SHOW_PAGES_IN_CONTEXT_MENU:String = "show_pages_in_context_menu";
-		public static const SHOW_ABOUT_IN_CONTEXT_MENU:String = "show_about_in_context_menu";
+		public static const SHOW_PAGES_IN_CONTEXT_MENU:String = "showPagesInContextMenu";
+		public static const SHOW_ABOUT_IN_CONTEXT_MENU:String = "showAboutInContextMenu";
 	}
 }

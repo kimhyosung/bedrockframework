@@ -47,10 +47,10 @@
 				this.addToQueue( this._objDelegate.getFontPath(), BedrockEngine.fontManager.loader, $useLoadManager );
 			}
 			
-			if ( BedrockEngine.config.getSettingValue( BedrockData.CSS_ENABLED ) && BedrockEngine.localeManager.isFileLocalized( "css" ) ) {
-				this.addToQueue( this._objDelegate.getCSSPath( $locale ), BedrockEngine.cssManager.loader, $useLoadManager );
-			} else if ( BedrockEngine.config.getSettingValue( BedrockData.CSS_ENABLED ) ) {
-				this.addToQueue( this._objDelegate.getCSSPath(), BedrockEngine.cssManager.loader, $useLoadManager );
+			if ( BedrockEngine.config.getSettingValue( BedrockData.STYLESHEET_ENABLED ) && BedrockEngine.localeManager.isFileLocalized( "stylesheet" ) ) {
+				this.addToQueue( this._objDelegate.getStylesheetPath( $locale ), BedrockEngine.stylesheetManager.loader, $useLoadManager );
+			} else if ( BedrockEngine.config.getSettingValue( BedrockData.STYLESHEET_ENABLED ) ) {
+				this.addToQueue( this._objDelegate.getStylesheetPath(), BedrockEngine.stylesheetManager.loader, $useLoadManager );
 			}
 			
 			if ( BedrockEngine.config.getSettingValue( BedrockData.RESOURCE_BUNDLE_ENABLED ) && BedrockEngine.localeManager.isFileLocalized( "resource_bundle" ) ) {

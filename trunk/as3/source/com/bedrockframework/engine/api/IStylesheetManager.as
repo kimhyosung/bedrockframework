@@ -5,12 +5,12 @@ package com.bedrockframework.engine.api
 	import flash.text.StyleSheet;
 	import flash.text.TextFormat;
 	
-	public interface ICSSManager
+	public interface IStylesheetManager
 	{
 		/*
 		Parse the StyleSheet
 		*/
-		function parseCSS($stylesheet:String):void;
+		function parseStylesheet($stylesheet:String):void;
 		/*
 		Apply Tag
 		*/

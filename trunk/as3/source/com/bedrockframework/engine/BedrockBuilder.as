@@ -107,7 +107,7 @@ package com.bedrockframework.engine
 			BedrockEngine.pathManager = new PathManager;
 			BedrockEngine.bedrock::preloaderManager = new PreloaderManager;
 			BedrockEngine.soundManager = new SoundManager;
-			BedrockEngine.cssManager = new CSSManager;
+			BedrockEngine.stylesheetManager = new StylesheetManager;
 			BedrockEngine.trackingManager = new TrackingManager;
 			BedrockEngine.bedrock::transitionManager = new TransitionManager;
 			
@@ -190,9 +190,9 @@ package com.bedrockframework.engine
 		}
 		final private function loadLogging():void
 		{
-			Logger.localLevel = LogLevel[ BedrockEngine.config.getAvailableValue( BedrockData.LOCAL_LOG_LEVEL ) ];
-			Logger.eventLevel = LogLevel[ BedrockEngine.config.getAvailableValue( BedrockData.EVENT_LOG_LEVEL ) ];
-			Logger.remoteLevel = LogLevel[ BedrockEngine.config.getAvailableValue( BedrockData.REMOTE_LOG_LEVEL ) ];
+			Logger.localLevel = LogLevel[ BedrockEngine.config.getActiveValue( BedrockData.LOCAL_LOG_LEVEL ) ];
+			Logger.eventLevel = LogLevel[ BedrockEngine.config.getActiveValue( BedrockData.EVENT_LOG_LEVEL ) ];
+			Logger.remoteLevel = LogLevel[ BedrockEngine.config.getActiveValue( BedrockData.REMOTE_LOG_LEVEL ) ];
 			Logger.remoteLogURL = BedrockEngine.config.getEnvironmentValue( BedrockData.REMOTE_LOG_URL ) || BedrockEngine.config.getSettingValue( BedrockData.REMOTE_LOG_URL );
 			
 			this.next();
@@ -207,8 +207,8 @@ package com.bedrockframework.engine
 		final private function loadLocale():void
 		{
 			if ( BedrockEngine.config.getSettingValue( BedrockData.LOCALE_ENABLED ) ) {
-				var strCurrentLocale:String = BedrockEngine.config.getAvailableValue( BedrockData.CURRENT_LOCALE );
-				var strDefaultLocale:String = BedrockEngine.config.getAvailableValue( BedrockData.DEFAULT_LOCALE );
+				var strCurrentLocale:String = BedrockEngine.config.getActiveValue( BedrockData.CURRENT_LOCALE );
+				var strDefaultLocale:String = BedrockEngine.config.getActiveValue( BedrockData.DEFAULT_LOCALE );
 				BedrockEngine.localeManager.initialize( BedrockEngine.config.getSettingValue( BedrockData.LOCALIZED_FILES ), BedrockEngine.config.getSettingValue( BedrockData.LOCALE_LIST ), strDefaultLocale, strCurrentLocale, BedrockEngine.config.getSettingValue( BedrockData.LOCALE_DELIMITER ) );
 			}
 			this.next();
@@ -234,10 +234,10 @@ package com.bedrockframework.engine
 			BedrockEngine.assetManager.initialize( this.loaderInfo.applicationDomain );
 			BedrockEngine.loadManager.initialize( this.loaderInfo.applicationDomain );
 			
-			BedrockEngine.bedrock::preloaderManager.initialize( BedrockEngine.config.getAvailableValue(BedrockData.SHELL_PRELOADER_TIME ) );
+			BedrockEngine.bedrock::preloaderManager.initialize( BedrockEngine.config.getActiveValue(BedrockData.SHELL_PRELOADER_TIME ) );
 			BedrockEngine.bedrock::transitionManager.initialize();
 			
-			BedrockEngine.trackingManager.initialize(BedrockEngine.config.getAvailableValue( BedrockData.TRACKING_ENABLED ) );
+			BedrockEngine.trackingManager.initialize(BedrockEngine.config.getActiveValue( BedrockData.TRACKING_ENABLED ) );
 			
 			this.next();			
 		}
@@ -268,7 +268,7 @@ package com.bedrockframework.engine
 				var objLoader:VisualLoader = BedrockEngine.containerManager.getContainer( BedrockData.SHARED_CONTAINER );
 				objLoader.addEventListener( LoaderEvent.INIT, this.onSharedLoaded );
 			}
-			this.addToQueue( BedrockEngine.config.getEnvironmentValue( BedrockData.SWF_PATH ) + BedrockEngine.config.getSettingValue( BedrockData.SITE_FILE_NAME ) + ".swf", BedrockEngine.containerManager.getContainer( BedrockData.SITE_CONTAINER ), BedrockData.SITE_PRIORITY );
+			this.addToQueue( BedrockEngine.config.getEnvironmentValue( BedrockData.SWF_PATH ) + BedrockEngine.config.getSettingValue( BedrockData.SITE_FILENAME ) + ".swf", BedrockEngine.containerManager.getContainer( BedrockData.SITE_CONTAINER ), BedrockData.SITE_PRIORITY );
 						
 			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.BEDROCK_COMPLETE,this));
 			trace("");
@@ -352,9 +352,9 @@ package com.bedrockframework.engine
 		{
 			this.fatal("Could not parse config!");
 		}
-		final private function onCSSLoaded($event:LoaderEvent):void
+		final private function onStylesheetLoaded($event:LoaderEvent):void
 		{
-			BedrockEngine.cssManager.parseCSS($event.details.data);
+			BedrockEngine.stylesheetManager.parseStylesheet($event.details.data);
 		}
 		final private function onSharedLoaded($event:LoaderEvent):void
 		{

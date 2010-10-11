@@ -19,7 +19,7 @@
 	import com.bedrockframework.engine.api.IResourceManager;
 	import com.bedrockframework.engine.api.ISoundManager;
 	import com.bedrockframework.engine.api.IState;
-	import com.bedrockframework.engine.api.ICSSManager;
+	import com.bedrockframework.engine.api.IStylesheetManager;
 	import com.bedrockframework.engine.api.ITrackingManager;
 	import com.bedrockframework.engine.api.ITransitionManger;
 
@@ -43,7 +43,7 @@
 		public static var pathManager:IPathManager;
 		bedrock static var preloaderManager:IPreloaderManager;		
 		public static var soundManager:ISoundManager;
-		public static var cssManager:ICSSManager;
+		public static var stylesheetManager:IStylesheetManager;
 		public static var trackingManager:ITrackingManager;
 		bedrock static var transitionManager:ITransitionManger;
 		
