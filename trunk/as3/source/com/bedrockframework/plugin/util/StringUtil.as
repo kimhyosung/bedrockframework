@@ -306,6 +306,7 @@
 			var strRest:String = (strText.substring(1, strText.length));
 			return strFirst + strRest;
 		}
+		
 		/**
 		*Determines whether the specified string contains any instances of $char.
 		*

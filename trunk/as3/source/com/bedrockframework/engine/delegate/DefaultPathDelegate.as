@@ -14,7 +14,7 @@
 		public function getFontPath( $locale:String = null ):String
 		{
 			var strPath:String = BedrockEngine.config.getEnvironmentValue( BedrockData.FONTS_PATH );
-			strPath += BedrockEngine.config.getSettingValue( BedrockData.FONTS_FILE_NAME );
+			strPath += BedrockEngine.config.getSettingValue( BedrockData.FONTS_FILENAME );
 			
 			if ( $locale == null ) {
 				strPath += ".swf";
@@ -24,10 +24,10 @@
 			return strPath;
 		}
 		
-		public function getCSSPath( $locale:String = null ):String
+		public function getStylesheetPath( $locale:String = null ):String
 		{
-			var strPath:String = BedrockEngine.config.getEnvironmentValue( BedrockData.CSS_PATH );
-			strPath += BedrockEngine.config.getSettingValue( BedrockData.CSS_FILE_NAME );
+			var strPath:String = BedrockEngine.config.getEnvironmentValue( BedrockData.STYLESHEET_PATH );
+			strPath += BedrockEngine.config.getSettingValue( BedrockData.STYLESHEET_FILENAME );
 			
 			if ( $locale == null ) {
 				strPath += ".css";
@@ -40,7 +40,7 @@
 		public function getResourceBundlePath( $locale:String = null ):String
 		{
 			var strPath:String = BedrockEngine.config.getEnvironmentValue( BedrockData.RESOURCE_BUNDLE_PATH );
-			strPath += BedrockEngine.config.getSettingValue( BedrockData.RESOURCE_BUNDLE_FILE_NAME );
+			strPath += BedrockEngine.config.getSettingValue( BedrockData.RESOURCE_BUNDLE_FILENAME );
 			
 			if ( $locale == null ) {
 				strPath += ".xml";
@@ -53,7 +53,7 @@
 		public function getSharedPath( $locale:String = null ):String
 		{
 			var strPath:String = BedrockEngine.config.getEnvironmentValue( BedrockData.SHARED_PATH );
-			strPath += BedrockEngine.config.getSettingValue( BedrockData.SHARED_FILE_NAME );
+			strPath += BedrockEngine.config.getSettingValue( BedrockData.SHARED_FILENAME );
 			
 			if ( $locale == null ) {
 				strPath +=  ".swf";

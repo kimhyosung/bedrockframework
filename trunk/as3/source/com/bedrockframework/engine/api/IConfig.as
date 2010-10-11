@@ -4,7 +4,7 @@ package com.bedrockframework.engine.api
 	
 	public interface IConfig
 	{
-		function initialize($data:String, $url:String, $root:DisplayObjectContainer ):void;
+		function initialize($data:String, $url:String ):void;
 		
 		function outputValues():void;
 		/*
@@ -24,7 +24,7 @@ package com.bedrockframework.engine.api
 		
 		function getParamValue($key:String):*;
 		
-		function getAvailableValue($key:String):*;
+		function getActiveValue($key:String):*;
 		/*
 		Pull the information for a specific page.
 		*/

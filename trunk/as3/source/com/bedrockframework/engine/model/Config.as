@@ -45,14 +45,12 @@ package com.bedrockframework.engine.model
 		/*
 		Initialize
 		*/
-		public function initialize( $data:String, $url:String, $root:DisplayObjectContainer ):void
+		public function initialize( $data:String, $url:String ):void
 		{
 			this.saveSettingValue(BedrockData.URL, $url);
 			this.saveSettingValue(BedrockData.MANUFACTURER, Capabilities.manufacturer);
 			this.saveSettingValue(BedrockData.SYSTEM_LANGUAGE, Capabilities.language);
 			this.saveSettingValue(BedrockData.OS, Capabilities.os);
-			
-			this.saveSettingValue( BedrockData.ROOT, $root );
 			
 			this.parseXML($data);
 		}
@@ -60,7 +58,8 @@ package com.bedrockframework.engine.model
 		
 		private function parseXML($data:String):void
 		{
-			var xmlConfig:XML = this.getXML($data);
+			var xmlConfig:XML = new XML($data);
+			XML.ignoreWhitespace=true;
 			
 			this.parseSettingsValues( xmlConfig.settings.general );
 			this.parseSettingsValues( xmlConfig.settings.file_names );
@@ -76,13 +75,6 @@ package com.bedrockframework.engine.model
 			this.saveCacheSettings();
 			
 			this.parsePages( xmlConfig.pages );
-		}
-		private function getXML($data:String):XML
-		{
-			var xmlConfig:XML = new XML($data);
-			XML.ignoreComments=true;
-			XML.ignoreWhitespace=true;
-			return xmlConfig;
 		}
 		public function outputValues():void
 		{
@@ -320,7 +312,7 @@ package com.bedrockframework.engine.model
 		/*
 		Get Available
 		*/
-		public function getAvailableValue( $key:String ):*
+		public function getActiveValue( $key:String ):*
 		{
 			return this.getParamValue( $key ) || this.getEnvironmentValue( $key ) || this.getSettingValue( $key ) || "";
 		}
