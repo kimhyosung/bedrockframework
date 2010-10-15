@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<config>
+  <settings>
+    <setting id="shellPreloaderTime" value="3" />
+    <setting id="pagePreloaderTime" value="0" />
+    <setting id="blockerAlpha" value="0" />
+    <setting id="defaultPage" value="homepage" />
+    <setting id="autoIntroEnabled" value="true" />
+    <setting id="autoDefaultEnabled" value="true" />
+    <setting id="autoBlockerEnabled" value="true" />
+    <setting id="deepLinkingEnabled" value="false" />
+    <setting id="cachePreventionEnabled" value="false" />
+    <setting id="trackingEnabled" value="true" />
+    <setting id="sharedEnabled" value="true" />
+    <setting id="sharedSoundsEnabled" value="true" />
+    <setting id="fontsEnabled" value="false" />
+    <setting id="stylesheetEnabled" value="true" />
+    <setting id="resourceBundleEnabled" value="true" />
+    <setting id="showPagesInContextMenu" value="true" />
+    <setting id="showAboutInContextMenu" value="false" />
+    <setting id="localesEnabled" value="false" />
+    <setting id="defaultLocale" value="en_GB" />
+    <setting id="localizedFiles" value="fonts,css,resource_bundle,shared" />
+    <setting id="localeDelimiter" value="_" />
+    <setting id="sharedFilename" value="shared" />
+    <setting id="siteFilename" value="site" />
+    <setting id="fontsFilename" value="fonts" />
+    <setting id="stylesheetFilename" value="flash_style" />
+    <setting id="resourceBundleFilename" value="resource_bundle" />
+    <setting id="traceLogLevel" value="ALL" />
+    <setting id="eventLogLevel" value="WARNING" />
+    <setting id="remoteLogLevel" value="NONE" />
+    <setting id="remoteLogURL" value="" />
+  </settings>
+  <locales>
+    <locale id="en_GB" label="English" />
+    <locale id="fr_FR" label="French" />
+    <locale id="jp_JP" label="Japanese" />
+    <locale id="ru_RU" label="Mother Russia" />
+    <locale id="gr_GB" label="Great Britan" />
+  </locales>
+  <containers>
+    <container id="shared" />
+    <container id="site">
+      <container id="navigation" />
+    </container>
+    <container id="page" />
+    <container id="preloader" />
+    <container id="blocker" />
+    <container id="overlay" />
+  </containers>
+  <pages>
+    <page label="Homepage" id="homepage" />
+    <page label="Sub Page" id="sub_page">
+      <asset id="sample" file="cats.xml" path="crapPath" />
+      <asset id="doodoo" path="swfPath" file="poo.swf" />
+    </page>
+  </pages>
+  <environments>
+    <environment id="default">
+      <path id="swfPath" value="../swfs/" />
+      <path id="xmlPath" value="../xml/" />
+      <path id="imagePath" value="../images/" />
+      <path id="videoPath" value="../video/" />
+      <path id="soundPath" value="../sound/" />
+      <path id="fontPath" value="../fonts/" />
+      <path id="stylesheetPath" value="../stylesheet/" />
+      <path id="resourceBundlePath" value="../xml/" />
+      <path id="sharedPath" value="../swfs/" />
+    </environment>
+    <environment id="local">
+      <pattern value="file://" />
+    </environment>
+    <environment id="development">
+      <pattern value="dev" />
+    </environment>
+    <environment id="localhost">
+      <pattern value="localhost" />
+    </environment>
+    <environment id="production" />
+  </environments>
+</config>
