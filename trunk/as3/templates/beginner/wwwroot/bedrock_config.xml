@@ -40,9 +40,7 @@
   </locales>
   <containers id="root">
     <container id="shared" />
-    <container id="site">
-      <container id="navigation" />
-    </container>
+    <container id="site"></container>
     <container id="page" />
     <container id="preloader" />
     <container id="blocker" />
@@ -50,7 +48,7 @@
   </containers>
   <pages>
     <page label="Homepage" id="homepage" />
-    <page label="Sub Page" id="sub_page"/>
+    <page label="Sub Page" id="sub_page" />
   </pages>
   <environments>
     <environment id="default">
