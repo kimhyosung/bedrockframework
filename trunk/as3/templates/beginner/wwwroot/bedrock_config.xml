@@ -34,12 +34,11 @@
   </settings>
   <locales>
     <locale id="en_GB" label="English" />
+    <locale id="sp_ES" label="Spanish" />
     <locale id="fr_FR" label="French" />
     <locale id="jp_JP" label="Japanese" />
-    <locale id="ru_RU" label="Mother Russia" />
-    <locale id="gr_GB" label="Great Britan" />
   </locales>
-  <containers>
+  <containers id="root">
     <container id="shared" />
     <container id="site">
       <container id="navigation" />
@@ -51,10 +50,7 @@
   </containers>
   <pages>
     <page label="Homepage" id="homepage" />
-    <page label="Sub Page" id="sub_page">
-      <asset id="sample" file="cats.xml" path="crapPath" />
-      <asset id="doodoo" path="swfPath" file="poo.swf" />
-    </page>
+    <page label="Sub Page" id="sub_page"/>
   </pages>
   <environments>
     <environment id="default">
