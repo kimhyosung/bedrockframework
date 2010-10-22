@@ -54,9 +54,12 @@
 		public static  const AUTO_DEEP_LINK:String = "auto";
 		public static  const MANUAL_DEEP_LINK:String = "manual";
 		
+		public static const ERRORS_ENABLED:String = "errorsEnabled";
+		public static const LOG_DETAIL_DEPTH:String = "logDetailDepth";
 		public static const TRACE_LOG_LEVEL:String = "traceLogLevel";
 		public static const EVENT_LOG_LEVEL:String = "eventLogLevel";
 		public static const REMOTE_LOG_LEVEL:String = "remoteLogLevel";
+		public static const MONSTER_LOG_LEVEL:String = "monsterLogLevel";
 		public static const REMOTE_LOG_URL:String = "remoteLogURL";
 		
 		public static const SHELL_PRELOADER:String= "shellPreloader";

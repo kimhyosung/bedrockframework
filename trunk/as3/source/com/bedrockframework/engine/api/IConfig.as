@@ -11,14 +11,13 @@
 		*/
 		
 		
-		function getSettingValue($key:String):*;
-		function getPathValue($key:String):*;
-		function getVariableValue($key:String):*;
+		function getSettingValue($id:String):*;
+		function getPathValue($id:String):*;
+		function getVariableValue($id:String):*;
 		
-		function saveSettingValue( $key:String, $value:*, $autoAdd:Boolean = true ):void;
+		function saveSettingValue( $id:String, $value:*, $autoAdd:Boolean = true ):void;
 
-		function parseParamObject( $data:Object ):void;
-		function parseParamString( $values:String, $variableSeparator:String ="&", $valueSeparator:String =  "=" ):void;
+		function parseParams( $data:* ):void;
 		
 		function get containers():XML;
 		function get locales():XML;

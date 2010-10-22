@@ -34,8 +34,6 @@
 		
 		public function DataLoader($url:String=null)
 		{
-			Logger.log(this, LogLevel.CONSTRUCTOR, "Constructed");
-			
 			if ($url != null) {
 				this.loadURL($url);
 			}

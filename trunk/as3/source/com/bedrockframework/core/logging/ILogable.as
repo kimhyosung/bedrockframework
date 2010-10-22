@@ -17,18 +17,15 @@ package com.bedrockframework.core.logging
 	 */
 	public interface ILogable
 	{
-	
-		function log($level:int,...$arguments:Array):void;
-		function debug(...$arguments:Array):void;
-		function error(...$arguments:Array):void;
-		function fatal(...$arguments:Array):void;
-		function status(...$arguments:Array):void;
-		function warning(...$arguments:Array):void;
+		function debug( $trace:*):String;
+		function error( $trace:*):String;
+		function fatal( $trace:*):String;
+		function status( $trace:*):String;
+		function warning( $trace:*):String;
 		
 		function set silenceLogging($value:Boolean):void;
 		
 		function get silenceLogging():Boolean;
-
 	}
 
 }

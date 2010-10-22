@@ -1,10 +1,9 @@
 ﻿package com.bedrockframework.plugin.tracking
 {
-	import com.bedrockframework.core.base.StandardWidget;
-	
+	import com.bedrockframework.core.base.BasicWidget	
 	import flash.external.ExternalInterface;
 	
-	public class Urchin extends StandardWidget implements ITrackingService
+	public class Urchin extends BasBasicWidgetments ITrackingService
 	{
 		/*
 		Constructor

@@ -21,7 +21,7 @@ package com.bedrockframework.core.base
 	{
 		public function StaticWidget()
 		{
-			Logger.log(this, LogLevel.ERROR, "Cannot Instantiate static class!");
+			Logger.error( this, "Cannot Instantiate static class!" );
 		}
 	}
 }

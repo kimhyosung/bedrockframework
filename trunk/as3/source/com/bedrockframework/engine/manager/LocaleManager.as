@@ -1,13 +1,13 @@
 ﻿package com.bedrockframework.engine.manager
 {
-	import com.bedrockframework.core.base.StandardWidget;
+	import com.bedrockframework.core.base.BasicWidget;
 	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.api.ILocaleManager;
 	import com.bedrockframework.engine.bedrock;
 	import com.bedrockframework.plugin.util.ArrayUtil;
-	import com.bedrockframework.plugin.util.XMLUtil;
+	import com.bedrockframework.plugin.util.XMLUtil2;
 	
-	public class LocaleManager extends StandardWidget implements ILocaleManager
+	public class LocaleManager extends BasicWidget implements ILocaleManager
 	{
 		/*
 		Variable Declarations
@@ -37,7 +37,7 @@
 		{
 			this._arrLocales = new Array;
 			for each( var xmlItem:XML in $data.children() ) {
-				this._arrLocales.push( XMLUtil.getAttributeObject( xmlItem ) );
+				this._arrLocales.push( XMLUtil2.getAttributesAsObject( xmlItem ) );
 			}
 		}
 		public function load($locale:String = null ):void

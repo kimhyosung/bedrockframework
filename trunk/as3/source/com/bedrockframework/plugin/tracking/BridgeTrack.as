@@ -1,10 +1,9 @@
 ﻿package com.bedrockframework.plugin.tracking
 {
-	import com.bedrockframework.core.base.StandardWidget;
-	
+	import com.bedrockframework.core.base.BasicWidget	
 	import flash.external.ExternalInterface;
 
-	public class BridgeTrack extends StandardWidget implements ITrackingService
+	public class BridgeTrack extends BasBasicWidgetments ITrackingService
 	{
 		public function BridgeTrack()
 		{

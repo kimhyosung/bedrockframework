@@ -1,6 +1,6 @@
-package com.bedrockframework.engine.manager
+﻿package com.bedrockframework.engine.manager
 {
-	import com.bedrockframework.core.base.StandardWidget;
+	import com.bedrockframework.core.base.BasicWidget;
 	import com.bedrockframework.engine.api.IFontManager;
 	import com.bedrockframework.plugin.event.LoaderEvent;
 	import com.bedrockframework.plugin.loader.VisualLoader;
@@ -8,7 +8,7 @@ package com.bedrockframework.engine.manager
 	
 	import flash.text.Font;
 	
-	public class FontManager extends StandardWidget implements IFontManager
+	public class FontManager extends BasicWidget implements IFontManager
 	{
 		/*
 		Variable Declarations

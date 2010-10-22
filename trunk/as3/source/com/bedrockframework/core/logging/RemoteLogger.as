@@ -30,11 +30,12 @@ package com.bedrockframework.core.logging
 			this.request = new URLRequest();
 		}
 
-		public function log($target:*, $category:int, $message:String):void
+		public function log( $trace:*, $target:*, $category:int ):String
 		{
 			if (this.request.url != null) {
-				this.connection.load(this.request);
+				this.connection.load( this.request );
 			}
+			return null;
 		}
 		/*
 		Property Definitions

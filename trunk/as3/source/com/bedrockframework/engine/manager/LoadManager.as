@@ -1,6 +1,6 @@
 ﻿package com.bedrockframework.engine.manager
 {
-	import com.bedrockframework.core.base.StandardWidget;
+	import com.bedrockframework.core.base.BasicWidget;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.core.event.GenericEvent;
 	import com.bedrockframework.core.logging.Logger;
@@ -14,7 +14,7 @@
 	import flash.events.Event;
 	import flash.system.ApplicationDomain;
 
-	public class LoadManager extends StandardWidget implements ILoadManager
+	public class LoadManager extends BasicWidget implements ILoadManager
 	{
 		/*
 		Variable Declarations

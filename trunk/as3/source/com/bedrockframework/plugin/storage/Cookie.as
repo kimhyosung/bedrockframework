@@ -1,13 +1,10 @@
 ﻿package com.bedrockframework.plugin.storage
 {
-	import com.bedrockframework.core.base.StandardWidget;
-	
+	import com.bedrockframework.core.base.BasicWidget	
 	import flash.net.SharedObject;
 	import flash.net.SharedObjectFlushStatus;
 
-	public class Cookie extends StandardWidget
-	{
-		/*
+	public class Cookie extends BasBasicWidget		/*
 		Variable Declarations
 		*/
 		private var _objShared:SharedObject;

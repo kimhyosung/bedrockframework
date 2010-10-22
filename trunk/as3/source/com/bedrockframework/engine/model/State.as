@@ -1,9 +1,9 @@
 ﻿package com.bedrockframework.engine.model
 {
-	import com.bedrockframework.core.base.StandardWidget;
+	import com.bedrockframework.core.base.BasicWidget;
 	import com.bedrockframework.engine.api.IState;
 		
-	public class State extends StandardWidget implements IState
+	public class State extends BasicWidget implements IState
 	{
 		/*
 		Variable Declarations
