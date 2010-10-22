@@ -1,35 +1,34 @@
 ﻿package com.bedrockframework.engine.manager
 {
-	import com.bedrockframework.core.base.StandardWidget;
+	import com.bedrockframework.core.base.BasicWidget;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
-	import com.bedrockframework.engine.api.IResourceManager;
-	import com.bedrockframework.engine.delegate.DefaultResourceDelegate;
+	import com.bedrockframework.engine.api.IResourceBundleManager;
 	import com.bedrockframework.engine.event.BedrockEvent;
-	import com.bedrockframework.plugin.delegate.IDelegate;
-	import com.bedrockframework.plugin.delegate.IResponder;
 	import com.bedrockframework.plugin.event.LoaderEvent;
 	import com.bedrockframework.plugin.loader.DataLoader;
 	import com.bedrockframework.plugin.storage.HashMap;
-	import com.bedrockframework.plugin.storage.IMap;
+	import com.bedrockframework.plugin.util.VariableUtil;
+	import com.bedrockframework.plugin.util.XMLUtil2;
 	
 	import flash.events.Event;
 	
-	public class ResourceBundleManager extends StandardWidget implements IResourceManager, IResponder
+	public class ResourceBundleManager extends BasicWidget implements IResourceBundleManager
 	{
 		/*
 		Variable Declarations
 		*/
-		private var _clsDelegate:Class;
-		private var _objDelegate:IDelegate;
-		private var _mapData:HashMap;
 		private var _objDataLoader:DataLoader;
+		private var _xmlData:XML;
 		/*
 		Constructor
 		*/
 		public function ResourceBundleManager()
 		{
-			this._mapData = new HashMap;
-			this.delegate = DefaultResourceDelegate;
+			XML.ignoreComments = true;
+			XML.ignoreWhitespace = true;
+		}
+		public function initialize():void
+		{
 			this.createLoader();
 		}
 		/*
@@ -42,67 +41,73 @@
 			this._objDataLoader.addEventListener(LoaderEvent.IO_ERROR, this.onLoadError);
 			this._objDataLoader.addEventListener(LoaderEvent.SECURITY_ERROR, this.onLoadError);
 		}
-		private function createDelegate( $data:String ):void
+		public function parse( $data:String ):void
 		{
-			this._objDelegate = new this._clsDelegate( this );
-			this._objDelegate.parse( $data );
+			this._xmlData = new XML( $data );
 		}
 		public function load( $path:String ):void
 		{
 			this._objDataLoader.loadURL( $path );
 		}
-
-		
 		/*
-		Responder Functions
+		Get Functions
 		*/
-		public function result($data:* = null):void
+		public function getBundleAsXML( $id:String ):XML
 		{
-			if ( $data != null && ( $data is HashMap ) && this._mapData.isEmpty ) {
-				this._mapData = $data as HashMap;
-				BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RESOURCE_BUNDLE_LOADED, this));
-			} else if (  $data == null && !this._mapData.isEmpty ) {
-				BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RESOURCE_BUNDLE_LOADED, this));
-			} else {
-				this.fault();
-			}
+			return XMLUtil2.filterByAttribute( this._xmlData, "id", $id );
 		}
-		public function fault($data:*  = null):void
+		public function getBundleAsObject( $id:String ):Object
 		{
-			this.warning("Error Parsing Resource Bundle!");
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RESOURCE_BUNDLE_ERROR, this ));
+			return XMLUtil2.getAsObject( this.getBundleAsXML( $id ) );
+		}
+		public function getBundleAsHashMap( $id:String ):HashMap
+		{
+			var objData:Object = this.getBundleAsObject( $id );
+			var mapData:HashMap = new HashMap();
+			mapData.importObject( objData );
+			return mapData;
+		}
+		public function getBundleAsArray( $id:String ):Array
+		{
+			var arrData:Array = new Array;
+			var xmlData:XML = this.getBundleAsXML( $id );
+			for each ( var xmlItem:XML in xmlData.children() ) {
+				if ( xmlItem.hasComplexContent() ) {
+					arrData.push( XMLUtil2.getAsObject( xmlItem ) );
+				} else {
+					if ( xmlItem.attributes().length() > 0 ) {
+						arrData.push( XMLUtil2.getAsObject( xmlItem ) );
+					} else {
+						arrData.push( VariableUtil.sanitize( xmlItem.toString() ) );
+					}
+				}
+			}
+			return arrData;
 		}
 		/*
 		Event Handlers
 		*/
 		private function onLoadComplete($event:LoaderEvent):void
 		{
-			this.status("Resource Bundle Loaded");
-			this.createDelegate( this._objDataLoader.data );
+			this.status( "Resource Bundle Loaded" );
+			this.parse( $event.details.data );
+			BedrockDispatcher.dispatchEvent( new BedrockEvent(BedrockEvent.RESOURCE_BUNDLE_LOADED, this ) );
 		}
 		private function onLoadError($event:Event):void
 		{
-			this.warning("Error Parsing Resource Bundle!");
-			BedrockDispatcher.dispatchEvent(new BedrockEvent(BedrockEvent.RESOURCE_BUNDLE_ERROR, this ));
+			this.warning( "Error Parsing Resource Bundle!" );
+			BedrockDispatcher.dispatchEvent( new BedrockEvent(BedrockEvent.RESOURCE_BUNDLE_ERROR, this ) );
 		}
 		/*
 		Property Definitions
 		*/
-		public function get data():HashMap
+		public function get data():XML
 		{
-			return this._mapData;
+			return this._xmlData;
 		}
 		public function get loader():DataLoader
 		{
 			return this._objDataLoader;
-		}
-		public function get delegate():Class
-		{
-			return this._clsDelegate;
-		}
-		public function set delegate( $class:Class ):void
-		{
-			this._clsDelegate = $class;
 		}
 	}
 }

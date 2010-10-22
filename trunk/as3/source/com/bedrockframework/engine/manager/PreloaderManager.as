@@ -1,6 +1,6 @@
 ﻿package com.bedrockframework.engine.manager
 {
-	import com.bedrockframework.core.base.StandardWidget;
+	import com.bedrockframework.core.base.BasicWidget;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.api.IPreloaderManager;
@@ -13,7 +13,7 @@
 	import com.bedrockframework.plugin.timer.TimeoutTrigger;
 	import com.bedrockframework.plugin.util.MathUtil;
 	
-	public class PreloaderManager extends StandardWidget implements IPreloaderManager
+	public class PreloaderManager extends BasicWidget implements IPreloaderManager
 	{
 		/*
 		Variable Declarations

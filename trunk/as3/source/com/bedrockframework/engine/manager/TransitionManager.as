@@ -1,6 +1,6 @@
 ﻿package com.bedrockframework.engine.manager
 {
-	import com.bedrockframework.core.base.StandardWidget;
+	import com.bedrockframework.core.base.BasicWidget;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.core.util.ClassUtil;
 	import com.bedrockframework.engine.BedrockEngine;
@@ -21,7 +21,7 @@
 	
 	import flash.utils.*;
 
-	public class TransitionManager extends StandardWidget implements ITransitionManger
+	public class TransitionManager extends BasicWidget implements ITransitionManger
 	{
 		/*
 		Variable Declarations

@@ -1,6 +1,6 @@
 ﻿package com.bedrockframework.engine.manager
 {
-	import com.bedrockframework.core.base.StandardWidget;
+	import com.bedrockframework.core.base.BasicWidget;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.engine.api.IStylesheetManager;
 	import com.bedrockframework.engine.event.BedrockEvent;
@@ -11,7 +11,7 @@
 	import flash.text.StyleSheet;
 	import flash.text.TextFormat;
 
-	public class StylesheetManager extends StandardWidget implements IStylesheetManager
+	public class StylesheetManager extends BasicWidget implements IStylesheetManager
 	{
 		/*
 		Variable Declarations

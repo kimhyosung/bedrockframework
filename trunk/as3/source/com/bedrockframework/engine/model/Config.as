@@ -11,16 +11,15 @@
 */
 package com.bedrockframework.engine.model
 {
-	import com.bedrockframework.core.base.StandardWidget;
+	import com.bedrockframework.core.base.BasicWidget;
 	import com.bedrockframework.engine.api.IConfig;
 	import com.bedrockframework.engine.data.BedrockData;
 	import com.bedrockframework.plugin.util.StringUtil;
 	import com.bedrockframework.plugin.util.VariableUtil;
-	import com.bedrockframework.plugin.util.XMLUtil;
 	
 	import flash.system.Capabilities;
 	
-	public class Config extends StandardWidget implements IConfig
+	public class Config extends BasicWidget implements IConfig
 	{
 		/*
 		Variable Declarations
@@ -63,9 +62,9 @@ package com.bedrockframework.engine.model
 		
 		private function parseXML($data:String):void
 		{
-			this._xmlSettingValues = this.convertToXML( this._xmlConfig.settings..setting );
-			this._xmlPathValues = this.convertToXML( this._xmlConfig.settings..path );
-			this._xmlVariableValues = this.convertToXML( this._xmlConfig.settings..variable );
+			this._xmlSettingValues = this.getAsXML( this._xmlConfig.settings..setting );
+			this._xmlPathValues = this.getAsXML( this._xmlConfig.settings..path );
+			this._xmlVariableValues = this.getAsXML( this._xmlConfig.settings..variable );
 			
 			this._xmlPageValues = new XML( this._xmlConfig.pages );
 			this._xmlContainerValues = new XML( this._xmlConfig.containers );
@@ -112,16 +111,24 @@ package com.bedrockframework.engine.model
 		/*
 		Param Functions
 		*/
-		public function parseParamObject($data:Object):void
+		public function parseParams( $data:* ):void
+		{
+			if ( $data is String ) {
+				this.parseParamString( $data );
+			} else {
+				this.parseParamObject( $data );
+			}
+		}
+		private function parseParamObject( $data:Object ):void
 		{
 			for (var d:String in $data){
 				this.saveParamValue( d, VariableUtil.sanitize($data[d]) ); 
 			}
 		}
-		public function parseParamString($values:String, $variableSeparator:String ="&", $valueSeparator:String =  "="):void
+		private function parseParamString( $data:String, $variableSeparator:String ="&", $valueSeparator:String =  "=" ):void
 		{
-			if ($values != null) {
-				var strValues:String = $values;
+			if ($data != null) {
+				var strValues:String = $data;
 				var strVariableSeparator:String = $variableSeparator;
 				var strValueSeparator:String = $valueSeparator;
 				//
@@ -135,9 +142,9 @@ package com.bedrockframework.engine.model
 				this.warning("No params to parse!");
 			}
 		}
-		public function saveParamValue( $key:String, $value:*):void
+		public function saveParamValue( $id:String, $value:*):void
 		{
-			var xmlList:XMLList = new XMLList( <param id={ $key } value={ $value } /> );
+			var xmlList:XMLList = new XMLList( <param id={ $id } value={ $value } /> );
 			this._xmlSettingValues = this.mergeXMLList( this._xmlSettingValues, xmlList, true );
 			this._xmlVariableValues = this.mergeXMLList( this._xmlVariableValues, xmlList, true );
 		}
@@ -155,44 +162,44 @@ package com.bedrockframework.engine.model
 		/*
 		Save Functions
 		*/
-		public function saveSettingValue($key:String, $value:*, $overrideOnly:Boolean = false ):void
+		public function saveSettingValue($id:String, $value:*, $overrideOnly:Boolean = false ):void
 		{
-			var xmlResult:XML = this._xmlSettingValues.children().( @id == $key )[ 0 ];
+			var xmlResult:XML = this._xmlSettingValues.children().( @id == $id )[ 0 ];
 			if ( xmlResult != null ) {
-				xmlResult.children().( @id == $key )[ 0 ].@value = $value;
+				xmlResult.children().( @id == $id )[ 0 ].@value = $value;
 			} else if ( !$overrideOnly ) {
-				this._xmlSettingValues.appendChild( <setting id={$key} value={$value} /> );
+				this._xmlSettingValues.appendChild( <setting id={$id} value={$value} /> );
 			}
 		}
-		public function saveVariableValue($key:String, $value:*, $overrideOnly:Boolean = false ):void
+		public function saveVariableValue($id:String, $value:*, $overrideOnly:Boolean = false ):void
 		{
-			var xmlResult:XML = this._xmlVariableValues.children().( @id == $key )[ 0 ];
+			var xmlResult:XML = this._xmlVariableValues.children().( @id == $id )[ 0 ];
 			if ( xmlResult != null ) {
-				xmlResult.children().( @id == $key )[ 0 ].@value = $value;
+				xmlResult.children().( @id == $id )[ 0 ].@value = $value;
 			} else if ( !$overrideOnly ) {
-				this._xmlVariableValues.appendChild( <variable id={$key} value={$value} /> );
+				this._xmlVariableValues.appendChild( <variable id={$id} value={$value} /> );
 			}
 		}
 		/*
 		Get Functions
 		*/
-		public function getSettingValue($key:String):*
+		public function getSettingValue($id:String):*
 		{
-			return VariableUtil.sanitize( this._xmlSettingValues.children().( @id == $key )[ 0 ].@value );
+			return VariableUtil.sanitize( this._xmlSettingValues.children().( @id == $id )[ 0 ].@value );
 		}
-		public function getPathValue($key:String):*
+		public function getPathValue($id:String):*
 		{
-			return VariableUtil.sanitize( this._xmlPathValues.children().( @id == $key )[ 0 ].@value );
+			return VariableUtil.sanitize( this._xmlPathValues.children().( @id == $id )[ 0 ].@value );
 		}
-		public function getVariableValue($key:String):*
+		public function getVariableValue($id:String):*
 		{
-			return VariableUtil.sanitize( this._xmlVariableValues.children().( @id == $key )[ 0 ].@value );
+			return VariableUtil.sanitize( this._xmlVariableValues.children().( @id == $id )[ 0 ].@value );
 		}
 		
 		/*
 		Internal Functions
 		*/
-		private function convertToXML( $list:XMLList ):XML
+		private function getAsXML( $list:XMLList ):XML
 		{
 			var xmlData:XML = new XML( <data/> );
 			xmlData.appendChild( $list );

@@ -17,7 +17,7 @@ package com.bedrockframework.core.logging
 	     *  Designates events that are very
 	     *  harmful and will eventually lead to application failure.
 	     */
-	    public static const FATAL:int = 1000;
+	    public static const FATAL:int = 100;
 	
 	    /**
 	     *  Designates error events that might
@@ -30,8 +30,6 @@ package com.bedrockframework.core.logging
 	     *  harmful to the application operation.
 	     */
 	    public static const WARNING:int = 8;
-	    
-	    public static const ATTENTION:int = 7;
 	    /**
 	     *  Designates informational level
 	     *  messages that are fine grained and most helpful when debugging an
@@ -44,8 +42,6 @@ package com.bedrockframework.core.logging
 	     *  highlight the progress of the application at coarse-grained level.
 	     */
 	    public static const STATUS:int = 4;	
-	    
-	    public static const CONSTRUCTOR:int = 2;	    
 	    
 	    /**
 	     *  Tells a target to process all messages.

@@ -1,6 +1,6 @@
 ﻿package com.bedrockframework.engine.manager
 {
-	import com.bedrockframework.core.base.StandardWidget;
+	import com.bedrockframework.core.base.BasicWidget;
 	import com.bedrockframework.engine.api.ISoundManager;
 	import com.bedrockframework.plugin.audio.GlobalSound;
 	import com.bedrockframework.plugin.audio.SoundBoard;
@@ -8,7 +8,7 @@
 	
 	import flash.media.SoundChannel;
 
-	public class SoundManager extends StandardWidget implements ISoundManager
+	public class SoundManager extends BasicWidget implements ISoundManager
 	{
 		/*
 		Variable Declarations

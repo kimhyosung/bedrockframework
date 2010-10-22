@@ -1,10 +1,10 @@
 ﻿package com.bedrockframework.engine.model
 {
-	import com.bedrockframework.core.base.StandardWidget;
+	import com.bedrockframework.core.base.BasicWidget;
 	import com.bedrockframework.engine.api.IHistory;
 	import com.bedrockframework.plugin.storage.SuperArray;
 
-	public class History extends StandardWidget implements IHistory
+	public class History extends BasicWidget implements IHistory
 	{
 		/*
 		Variable Declarations

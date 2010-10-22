@@ -1,6 +1,6 @@
 ﻿package com.bedrockframework.engine.manager
 {
-	import com.bedrockframework.core.base.StandardWidget;
+	import com.bedrockframework.core.base.BasicWidget;
 	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.api.IContainerManager;
 	import com.bedrockframework.engine.bedrock;
@@ -8,12 +8,12 @@
 	import com.bedrockframework.engine.view.ContainerView;
 	import com.bedrockframework.plugin.loader.VisualLoader;
 	import com.bedrockframework.plugin.storage.HashMap;
-	import com.bedrockframework.plugin.util.XMLUtil;
+	import com.bedrockframework.plugin.util.XMLUtil2;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 
-	public class ContainerManager extends StandardWidget implements IContainerManager
+	public class ContainerManager extends BasicWidget implements IContainerManager
 	{
 		/*
 		Variable Declarations
@@ -45,7 +45,7 @@
 		*/
 		private function buildContainers( $data:*, $parent:DisplayObjectContainer, $root:Boolean = false ):void
 		{
-			var xmlData:XML = XMLUtil.convertToXML( $data );
+			var xmlData:XML = XMLUtil2.getAsXML( $data );
 			var objContainer:DisplayObjectContainer;
 			if ( !$root ) {
 				objContainer = this.createContainer( xmlData.@id, new Sprite, $parent, $data );
@@ -98,7 +98,7 @@
 		*/
 		private function applyProperties($target:DisplayObjectContainer, $data:*=null):void
 		{
-			var objData:Object = ( $data is XML ) ? XMLUtil.getAttributeObject( $data ) : $data;
+			var objData:Object = ( $data is XML ) ? XMLUtil2.getAttributesAsObject( $data ) : $data;
 			for ( var a:String in objData ) {
 				switch (a) {
 					case "id" :

@@ -43,14 +43,12 @@ package com.bedrockframework.engine
 		/*
 		Variable Declarations
 		*/
-		public var configURL:String;
-		public var configRAW:String;
-		public var params:String
+		public var params:String;
 		
-		private var _arrLoadSequence:Array=new Array("loadPreloader","loadParams","loadConfig", "loadLogging", "loadDeepLinking", "loadModifications", "loadCacheSettings", "loadEngineClasses", "loadContextMenu", "loadContainers","loadController","loadLocales", "loadDefaultPage", "loadFiles", "loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
+		private var _strConfigURL:String;
+		private var _arrLoadSequence:Array;
 		private var _numLoadIndex:Number;		
 		private var _objConfigLoader:URLLoader;
-		public var environmentURL:String;
 		
 		private var _sprContainer:Sprite;
 		/*
@@ -58,7 +56,8 @@ package com.bedrockframework.engine
 		*/
 		public function BedrockBuilder()
 		{
-			this._numLoadIndex=0;
+			this._arrLoadSequence = new Array( "loadPreloader", "loadConfig", "parseParams", "loadLogging", "loadDeepLinking", "loadModifications", "loadCacheSettings", "loadEngineClasses", "loadContextMenu", "loadContainers","loadController","loadLocales", "loadDefaultPage", "loadFiles", "loadModels","loadCommands","loadViews","loadTracking","loadCustomization","loadComplete");
+			this._numLoadIndex = 0;
 			
 			this.createEngineClasses();
 			this.loaderInfo.addEventListener( Event.INIT, this.onBootUp );			
@@ -75,19 +74,18 @@ package com.bedrockframework.engine
 			
 			this.next();
 		}
-		
 		final private function determineConfigURL():void
 		{
-			if ( this.configURL == null ) {
+			if ( this._strConfigURL == null ) {
 				if ( this.loaderInfo.url.indexOf( "file://" ) != -1 ) {
 				} else {
-					this.configURL = "../../" + BedrockData.CONFIG_FILE_NAME + ".xml";
+					this._strConfigURL = "../../" + BedrockData.CONFIG_FILE_NAME + ".xml";
 				}
 				var strURL:String = this.loaderInfo.url;
 				for (var i:int = 0 ; i < 3; i++) {
 					strURL = strURL.substring( 0, strURL.lastIndexOf( "/" ) );
 				}
-				this.configURL = strURL + "/" + BedrockData.CONFIG_FILE_NAME + ".xml";
+				this._strConfigURL = strURL + "/" + BedrockData.CONFIG_FILE_NAME + ".xml";
 			}
 		}
 		
@@ -143,18 +141,13 @@ package com.bedrockframework.engine
 		/*
 		Sequential Functions
 		*/
-		final private function loadParams():void
-		{
-			BedrockEngine.config.parseParamString(this.params);
-			BedrockEngine.config.parseParamObject(this.loaderInfo.parameters);
-			this.next();
-		}
+		
 		
 		final private function loadDeepLinking():void
 		{
 			if (BedrockEngine.config.getSettingValue(BedrockData.DEEP_LINKING_ENABLED)) {
 				BedrockEngine.deeplinkManager.initialize();
-				BedrockEngine.config.parseParamObject( BedrockEngine.deeplinkManager.getParameters() );
+				BedrockEngine.config.parseParams( BedrockEngine.deeplinkManager.getParameters() );
 			}
 			this.next();
 		}
@@ -162,8 +155,13 @@ package com.bedrockframework.engine
 		{
 			var strConfigURL:String;
 			this.status( this.loaderInfo.url );
-			attention( "fix me! - loadConfig - load from params" );
-			this.loadConfigXML( this.configURL );
+			this.loadConfigXML( this.loaderInfo.parameters.configURL || this._strConfigURL );
+		}
+		final private function parseParams():void
+		{
+			BedrockEngine.config.parseParams( this.params );
+			BedrockEngine.config.parseParams( this.loaderInfo.parameters );
+			this.next();
 		}
 		
 		final private function loadContextMenu():void
@@ -191,9 +189,12 @@ package com.bedrockframework.engine
 		}
 		final private function loadLogging():void
 		{
-			Logger.localLevel = LogLevel[ BedrockEngine.config.getSettingValue( BedrockData.TRACE_LOG_LEVEL ) ];
+			Logger.detailDepth = BedrockEngine.config.getSettingValue( BedrockData.LOG_DETAIL_DEPTH );
+			Logger.errorsEnabled = BedrockEngine.config.getSettingValue( BedrockData.ERRORS_ENABLED );
+			Logger.traceLevel = LogLevel[ BedrockEngine.config.getSettingValue( BedrockData.TRACE_LOG_LEVEL ) ];
 			Logger.eventLevel = LogLevel[ BedrockEngine.config.getSettingValue( BedrockData.EVENT_LOG_LEVEL ) ];
 			Logger.remoteLevel = LogLevel[ BedrockEngine.config.getSettingValue( BedrockData.REMOTE_LOG_LEVEL ) ];
+			Logger.monsterLevel = LogLevel[ BedrockEngine.config.getSettingValue( BedrockData.MONSTER_LOG_LEVEL ) ];
 			Logger.remoteLogURL = BedrockEngine.config.getSettingValue( BedrockData.REMOTE_LOG_URL );
 			
 			this.next();
@@ -355,13 +356,13 @@ package com.bedrockframework.engine
 		}
 		final private function onConfigLoaded($event:Event):void
 		{
-			BedrockEngine.config.initialize( this._objConfigLoader.data, ( this.environmentURL || this.loaderInfo.url ) );
+			BedrockEngine.config.initialize( this._objConfigLoader.data, ( this.loaderInfo.parameters.environmentURL || this.loaderInfo.url ) );
 			BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.CONFIG_LOADED, this ) );
 			this.next();
 		}
 		final private function onConfigError($event:Event):void
 		{
-			this.fatal("Could not parse config!");
+			this.fatal( "Could not parse config!" );
 		}
 		final private function onStylesheetLoaded($event:LoaderEvent):void
 		{

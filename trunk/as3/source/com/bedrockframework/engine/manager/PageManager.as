@@ -1,6 +1,6 @@
 ﻿package com.bedrockframework.engine.manager
 {
-	import com.bedrockframework.core.base.StandardWidget;
+	import com.bedrockframework.core.base.BasicWidget;
 	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.api.IPageManager;
 	import com.bedrockframework.engine.bedrock;
@@ -8,9 +8,9 @@
 	import com.bedrockframework.engine.view.ContainerView;
 	import com.bedrockframework.plugin.loader.VisualLoader;
 	import com.bedrockframework.plugin.util.ArrayUtil;
-	import com.bedrockframework.plugin.util.XMLUtil;
+	import com.bedrockframework.plugin.util.XMLUtil2;
 
-	public class PageManager extends StandardWidget implements IPageManager
+	public class PageManager extends BasicWidget implements IPageManager
 	{
 		/*
 		Variable Declarations
@@ -32,10 +32,10 @@
 			this._arrPages = new Array;
 			for each( var xmlItem:XML in $data.children() ) {
 				
-				var objPage:Object = XMLUtil.getAttributeObject( xmlItem );
+				var objPage:Object = XMLUtil2.getAttributesAsObject( xmlItem );
 				objPage.assets = new Array;
 				for each( var xmlAsset:XML in xmlItem ) {
-					objPage.assets.push( XMLUtil.getAttributeObject( xmlAsset ) );
+					objPage.assets.push( XMLUtil2.getAttributesAsObject( xmlAsset ) );
 				}
 				this._arrPages.push( objPage );
 			}

@@ -301,10 +301,7 @@
 		}
 		public static function capitalize($text:String):String
 		{
-			var strText:String = $text;
-			var strFirst:String = strText.charAt(0).toUpperCase();
-			var strRest:String = (strText.substring(1, strText.length));
-			return strFirst + strRest;
+			return $text.charAt(0).toUpperCase() + ( $text.substring( 1, $text.length ) );
 		}
 		
 		/**

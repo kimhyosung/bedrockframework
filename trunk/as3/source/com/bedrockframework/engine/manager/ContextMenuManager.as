@@ -1,6 +1,6 @@
 ﻿package com.bedrockframework.engine.manager
 {
-	import com.bedrockframework.core.base.StandardWidget;
+	import com.bedrockframework.core.base.BasicWidget;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.engine.BedrockEngine;
 	import com.bedrockframework.engine.api.IContextMenuManager;
@@ -15,7 +15,7 @@
 	
 	import com.bedrockframework.engine.bedrock;
 	
-	public class ContextMenuManager extends StandardWidget implements IContextMenuManager
+	public class ContextMenuManager extends BasicWidget implements IContextMenuManager
 	{
 		private var _objMenu:ContextMenu;
 		private var _mapItems:HashMap;
@@ -25,7 +25,7 @@
 		}
 		public function initialize():void
 		{
-			this.status( "Initialize" );
+			this.status( "Initialized" );
 			this._mapItems = new HashMap;
 			this.createMenu();
 			if ( BedrockEngine.config.getSettingValue( BedrockData.SHOW_PAGES_IN_CONTEXT_MENU ) ) {

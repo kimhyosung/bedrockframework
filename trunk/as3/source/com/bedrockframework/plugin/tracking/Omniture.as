@@ -3,9 +3,8 @@
 	import com.bedrockframework.core.base.BasicWidget;
 	
 	import flash.external.ExternalInterface;
-	import com.bedrockframework.core.base.StandardWidget;
-	
-	public class Omniture extends StandardWidget implements ITrackingService
+	import com.bedrockframework.core.base.BasicWidget	
+	public class Omniture extends BasBasicWidgetments ITrackingService
 	{
 		/*
 		Constructor

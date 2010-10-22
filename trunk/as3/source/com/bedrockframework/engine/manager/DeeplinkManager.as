@@ -1,7 +1,7 @@
 ﻿
 package com.bedrockframework.engine.manager
 {
-	import com.bedrockframework.core.base.StandardWidget;
+	import com.bedrockframework.core.base.BasicWidget;
 	import com.bedrockframework.core.dispatcher.BedrockDispatcher;
 	import com.bedrockframework.core.logging.Logger;
 	import com.bedrockframework.engine.api.IDeeplinkManager;
@@ -13,7 +13,7 @@ package com.bedrockframework.engine.manager
 	
 	import flash.external.ExternalInterface;
 	
-	public class DeeplinkManager extends StandardWidget implements IDeeplinkManager
+	public class DeeplinkManager extends BasicWidget implements IDeeplinkManager
 	{
 		/*
 		Variable Declarations

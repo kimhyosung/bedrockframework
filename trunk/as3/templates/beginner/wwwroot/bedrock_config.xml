@@ -27,10 +27,14 @@
     <setting id="fontsFilename" value="fonts" />
     <setting id="stylesheetFilename" value="flash_style" />
     <setting id="resourceBundleFilename" value="resource_bundle" />
+    <setting id="logDetailDepth" value="10" />
     <setting id="traceLogLevel" value="ALL" />
     <setting id="eventLogLevel" value="WARNING" />
     <setting id="remoteLogLevel" value="NONE" />
     <setting id="remoteLogURL" value="" />
+    <setting id="monsterDebuggerEnabled" value="true" />
+    <setting id="errorsEnabled" value="true" />
+    <setting id="monsterLogLevel" value="DEBUG" />
   </settings>
   <locales>
     <locale id="en_GB" label="English" />

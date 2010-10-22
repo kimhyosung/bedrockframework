@@ -39,8 +39,6 @@
 		
 		public function VisualLoader($url:String = null)
 		{
-			Logger.log(this, LogLevel.CONSTRUCTOR, "Constructed" );
-			
 			this.setupListeners(this.contentLoaderInfo);
 			
 			if ($url != null) this.loadURL($url);

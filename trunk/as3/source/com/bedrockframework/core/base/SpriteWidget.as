@@ -32,7 +32,6 @@ package com.bedrockframework.core.base
 		{
 			super();
 			this._bolSilenceLogging = false;
-			this.log(LogLevel.CONSTRUCTOR, "Constructed");
 		}
 		/*
 		Overrides adding additional functionality
@@ -48,40 +47,32 @@ package com.bedrockframework.core.base
 		/*
 		Logging Functions
 	 	*/
-	 	private function sendLogMessage($level:int, $arguments:Array):void
+		private function log( $trace:*, $category:int ):String
 		{
 			if (!this._bolSilenceLogging) {
-				Logger.send(this, $level, $arguments);
+				return Logger.log( $trace, this, $category );
 			}
+			return null;
 		}
-		
-		public function log($level:int, ...$arguments:Array):void
+		public function status($trace:*):String
 		{
-			this.sendLogMessage($level, $arguments);
+			return this.log( $trace, LogLevel.STATUS );
 		}
-		public function status(...$arguments:Array):void
+		public function debug($trace:*):String
 		{
-			this.sendLogMessage(LogLevel.STATUS, $arguments);
+			return this.log( $trace, LogLevel.DEBUG );
 		}
-		public function debug(...$arguments:Array):void
+		public function warning($trace:*):String
 		{
-			this.sendLogMessage(LogLevel.DEBUG, $arguments);
+			return this.log( $trace, LogLevel.WARNING );
 		}
-		public function attention(...$arguments:Array):void
+		public function error($trace:*):String
 		{
-			this.sendLogMessage(LogLevel.ATTENTION, $arguments);
+			return this.log( $trace, LogLevel.ERROR );
 		}
-		public function warning(...$arguments:Array):void
+		public function fatal($trace:*):String
 		{
-			this.sendLogMessage(LogLevel.WARNING, $arguments);
-		}
-		public function error(...$arguments:Array):void
-		{
-			this.sendLogMessage(LogLevel.ERROR, $arguments);
-		}
-		public function fatal(...$arguments:Array):void
-		{
-			this.sendLogMessage(LogLevel.FATAL, $arguments);
+			return this.log( $trace, LogLevel.FATAL );
 		}
 		
 		/*
