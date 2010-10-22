@@ -2,25 +2,37 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <title></title>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <script type="text/javascript" src="assets/scripts/swfobject.js"></script>
-        <script type="text/javascript" src="assets/scripts/swfaddress.js"></script>
-        <link rel="stylesheet" type="text/css" href="assets/css/html_style.css">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <!--<META Http-Equiv="Cache-Control" Content="no-cache">
+		<META Http-Equiv="Pragma" Content="no-cache">
+		<META Http-Equiv="Expires" Content="0">-->
+		
+        <link rel="stylesheet" href="assets/stylesheet/html_style.css" type="text/css">
+        <script src="assets/scripts/swfobject.js" type="text/javascript" ></script>
+        <script src="assets/scripts/swfaddress.js" type="text/javascript" ></script>
+        
+        <script type="text/javascript">
+        	var swfsPath = "assets/swfs/";
+        	var currentDate = new Date();
+  
+        	var flashvars = {};
+			var params = {};
+			var params = {};
+			params.menu = "false";
+			params.scale = "noscale";
+			params.allowscriptaccess = "always";
+			params.base = swfsPath;
+			var attributes = {};
+			attributes.id = "shell";
+			swfobject.embedSWF(swfsPath+"shell.swf", "content", "800", "500", "9", swfsPath+"expressInstall.swf", flashvars, params, attributes);
+			//swfobject.embedSWF(swfsPath+"shell.swf?t="+currentDate.getTime(), "content", "800", "500", "9", swfsPath+"expressInstall.swf", flashvars, params, attributes);
+		</script>
+		
     </head>
     <body>
         <div id="content" align="center">
             <p>In order to view this page you need JavaScript and Flash Player 9+ support!</p>
         </div>
-        <script type="text/javascript">
-        // <![CDATA[
-			var so = new SWFObject("assets/swfs/shell.swf?t=" +new Date().getTime(), "flash_content", "800", "500", "9", "#000000");
-			so.useExpressInstall("assets/swfs/expressinstall.swf");
-			so.addParam("menu", "false");
-			so.addParam("scale", "noscale");
-			so.addParam("base", "assets/swfs/");
-			so.addParam("wmode", "transparent");      
-			so.write("content");
-        // ]]>
-        </script>
+        
     </body>
 </html>

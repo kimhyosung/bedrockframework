@@ -2,7 +2,7 @@
 <config>
   <settings>
     <setting id="shellPreloaderTime" value="3" />
-    <setting id="pagePreloaderTime" value="0" />
+    <setting id="pagePreloaderTime" value="1" />
     <setting id="blockerAlpha" value="0" />
     <setting id="defaultPage" value="homepage" />
     <setting id="autoIntroEnabled" value="true" />
@@ -19,18 +19,21 @@
     <setting id="showPagesInContextMenu" value="true" />
     <setting id="showAboutInContextMenu" value="false" />
     <setting id="localesEnabled" value="false" />
-    <setting id="defaultLocale" value="en_GB" />
-    <setting id="localizedFiles" value="fonts,css,resource_bundle,shared" />
+    <setting id="defaultLocale" value="sp_ES" />
+    <setting id="localizedFiles" value="fonts,stylesheet,shared,resourceBundle" />
     <setting id="localeDelimiter" value="_" />
     <setting id="sharedFilename" value="shared" />
     <setting id="siteFilename" value="site" />
     <setting id="fontsFilename" value="fonts" />
     <setting id="stylesheetFilename" value="flash_style" />
     <setting id="resourceBundleFilename" value="resource_bundle" />
+    <setting id="logDetailDepth" value="10" />
     <setting id="traceLogLevel" value="ALL" />
     <setting id="eventLogLevel" value="WARNING" />
     <setting id="remoteLogLevel" value="NONE" />
+    <setting id="monsterLogLevel" value="NONE" />
     <setting id="remoteLogURL" value="" />
+    <setting id="errorsEnabled" value="true" />
   </settings>
   <locales>
     <locale id="en_GB" label="English" />
@@ -40,7 +43,7 @@
   </locales>
   <containers id="root">
     <container id="shared" />
-    <container id="site"></container>
+    <container id="site" />
     <container id="page" />
     <container id="preloader" />
     <container id="blocker" />
@@ -67,6 +70,9 @@
     </environment>
     <environment id="development">
       <pattern value="dev" />
+    </environment>
+    <environment id="staging">
+      <pattern value="staging" />
     </environment>
     <environment id="localhost">
       <pattern value="localhost" />
