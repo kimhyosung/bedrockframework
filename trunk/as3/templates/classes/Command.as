@@ -7,7 +7,7 @@ package %%classPackage%%
 	public class %%className%% extends Command implements ICommand
 	{
 		/*
-		Variable Delcarations
+		Variable Declarations
 		*/
 		
 		/*
