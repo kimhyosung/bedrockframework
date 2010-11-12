@@ -1,7 +1,7 @@
 package %%classPackage%%
 {
-	import com.bedrockframework.plugin.view.SpriteView;
-	import com.bedrockframework.plugin.view.IView;
+	import com.bedrock.framework.plugin.view.SpriteView;
+	import com.bedrock.framework.plugin.view.IView;
 
 	public class %%className%% extends SpriteView implements IView
 	{
@@ -14,7 +14,7 @@ package %%classPackage%%
 		*/
 		public function %%className%%()
 		{
-			
+			super();
 		}
 		/*
 		View Functions

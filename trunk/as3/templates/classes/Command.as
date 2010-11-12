@@ -1,8 +1,8 @@
 package %%classPackage%%
 {
-	import com.bedrockframework.core.command.ICommand;
-	import com.bedrockframework.core.command.Command;
-	import com.bedrockframework.core.event.GenericEvent;
+	import com.bedrock.framework.core.command.ICommand;
+	import com.bedrock.framework.core.command.Command;
+	import com.bedrock.framework.core.event.GenericEvent;
 
 	public class %%className%% extends Command implements ICommand
 	{
