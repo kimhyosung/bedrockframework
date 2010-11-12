@@ -1,8 +1,8 @@
 ﻿package %%classPackage%%
 {
-	import com.bedrockframework.core.base.BasicWidget;
+	import com.bedrock.framework.core.base.StandardBase;
 	
-	public class %%className%% extends BasicWidget
+	public class %%className%% extends StandardBase
 	{
 		/*
 		Variable Declarations

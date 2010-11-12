@@ -1,13 +1,13 @@
 ﻿package %%classPackage%%
 {
-	import com.bedrockframework.core.base.BasicWidget;
+	import com.bedrock.framework.core.base.StandardBase;
 	
-	public class %%className%% extends BasicWidget
+	public class %%className%% extends StandardBase
 	{
 		/*
 		Variable Declarations
 		*/
-		private static var __objInstance:%%className%%;
+		private static var __instance:%%className%%;
 		/*
 		Constructor
 		*/
@@ -16,10 +16,10 @@
 		}
 		public static function getInstance():%%className%%
 		{
-			if (%%className%%.__objInstance == null) {
-				%%className%%.__objInstance = new %%className%%( new SingletonEnforcer );
+			if (%%className%%.__instance == null) {
+				%%className%%.__instance = new %%className%%( new SingletonEnforcer );
 			}
-			return %%className%%.__objInstance;
+			return %%className%%.__instance;
 		}
 		
 		public function initialize():void

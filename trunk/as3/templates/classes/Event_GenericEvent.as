@@ -1,6 +1,6 @@
 package %%classPackage%%
 {
-	import com.bedrockframework.core.event.GenericEvent;
+	import com.bedrock.framework.core.event.GenericEvent;
 
 	public class %%className%% extends GenericEvent
 	{

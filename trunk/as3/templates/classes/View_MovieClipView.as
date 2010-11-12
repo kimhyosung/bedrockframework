@@ -1,7 +1,7 @@
 package %%classPackage%%
 {
-	import com.bedrockframework.plugin.view.MovieClipView;
-	import com.bedrockframework.plugin.view.IView;
+	import com.bedrock.framework.plugin.view.MovieClipView;
+	import com.bedrock.framework.plugin.view.IView;
 
 	public class %%className%% extends MovieClipView implements IView
 	{
