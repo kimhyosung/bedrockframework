@@ -86,22 +86,24 @@
 		}
 		private function _prepareStandardTransition( $details:Object ):Boolean
 		{
-			if ( !this._isContentInHistory( $details.incoming || $details.id ) ) {
-				
-				if ( $details.preloader != null ) this._sequence.preloader = $details.preloader;
-				if ( $details.preloaderTime != null ) this._sequence.preloaderTime = $details.preloaderTime;
-				this._sequence.style = $details.style || BedrockSequenceData[ BedrockEngine.config.getSettingValue( BedrockData.DEFAULT_TRANSITION_STYLE ) ];
-				
-				this._appendIncoming( $details );
-				this._appendOutgoing( $details );
-				
-				BedrockEngine.bedrock::transitionController.runSequence( this._sequence );
-				return true;
-			} else {
+			if ( !BedrockEngine.contentManager.hasContent( $details.incoming || $details.id ) ) {
+				this.warning( "Content \"" + ( $details.incoming || $details.id ) + "\" does not exist!" );
+				return false;
+			}
+			if ( this._isContentInHistory( $details.incoming || $details.id ) ) {
 				this.warning( "Content \"" + ( $details.incoming || $details.id ) + "\" already loaded!" );
 				return false;
 			}
 			
+			if ( $details.preloader != null ) this._sequence.preloader = $details.preloader;
+			if ( $details.preloaderTime != null ) this._sequence.preloaderTime = $details.preloaderTime;
+			this._sequence.style = $details.style || BedrockSequenceData[ BedrockEngine.config.getSettingValue( BedrockData.DEFAULT_TRANSITION_STYLE ) ];
+			
+			this._appendIncoming( $details );
+			this._appendOutgoing( $details );
+			
+			BedrockEngine.bedrock::transitionController.runSequence( this._sequence );
+			return true;
 		}
 		/*
 		Appends
@@ -174,6 +176,10 @@
 				}
 			}
 			return false;
+		}
+		private function _doesContentExist( $id:String ):Boolean
+		{
+			return BedrockEngine.contentManager.hasContent( $id );
 		}
 	}
 }

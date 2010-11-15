@@ -8,6 +8,7 @@
 	import com.bedrock.framework.engine.view.BedrockContentDisplay;
 	import com.greensock.events.LoaderEvent;
 	import com.greensock.loading.CSSLoader;
+	import com.greensock.loading.DataLoader;
 	import com.greensock.loading.ImageLoader;
 	import com.greensock.loading.LoaderMax;
 	import com.greensock.loading.MP3Loader;
@@ -63,36 +64,38 @@
 			this.appendLoader( new SWFLoader( BedrockEngine.config.getPathValue( BedrockData.SWF_PATH ) + $page.id + ".swf", { name:$page.id, context:this._getLoaderContext() } ) );
 			LoaderMax.contentDisplayClass = ContentDisplay;
 			for each( var assetObj:Object in $page.assets ) {
-				this.appendAsset( assetObj );
+				if ( assetObj.autoLoad ) this.appendAsset( assetObj );
 			}
 		}
 		public function appendAsset( $asset:Object ):void
 		{
-			var url:String = $asset.url || ( BedrockEngine.config.getPathValue( $asset.path ) + $asset.file );
-			switch( $asset.path ) {
-				case BedrockData.SWF_PATH :
-				case BedrockData.SHARED_ASSETS_PATH :
-				case BedrockData.FONTS_PATH :
+			var url:String;
+			if ( $asset.path != BedrockData.NONE ) {
+				url = ( BedrockEngine.config.getPathValue( $asset.path ) + $asset.url );
+			} else {
+				url = $asset.url;
+			}
+			switch( $asset.type ) {
+				case "swf" :
 					this.appendLoader( new SWFLoader( url, { name:$asset.id, context:this._getLoaderContext() } ) );
 					break;
-				case BedrockData.XML_PATH :
-				case BedrockData.DATA_BUNDLE_PATH :
+				case "xml" :
 					this.appendLoader( new XMLLoader( url, { name:$asset.id } ) );
 					break;
-				case BedrockData.STYLESHEET_PATH :
+				case "stylesheet" :
 					this.appendLoader( new CSSLoader( url, { name:$asset.id } ) );
 					break;
-				case BedrockData.IMAGE_PATH :
+				case "image" :
 					this.appendLoader( new ImageLoader( url, { name:$asset.id } ) );
 					break;
-				case BedrockData.VIDEO_PATH :
+				case "video" :
 					this.appendLoader( new VideoLoader( url, { name:$asset.id } ) );
 					break;
-				case BedrockData.AUDIO_PATH :
+				case "audio" :
 					this.appendLoader( new MP3Loader( url, { name:$asset.id } ) );
 					break;
-				default :
-					LoaderMax.parse( url, { name:$asset.id } );
+				case "data" :
+					this.appendLoader( new DataLoader( url, { name:$asset.id } ) );
 					break;
 			}
 		}

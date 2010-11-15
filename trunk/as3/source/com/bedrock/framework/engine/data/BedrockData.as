@@ -98,6 +98,7 @@
 		/*
 		Constant Containers
 		*/
+		public static const NONE:String = "none";
 		public static const ROOT:String = "root";
 		public static const SITE:String = "site";
 		public static const OVERLAY:String = "overlay";
@@ -107,5 +108,13 @@
 		*/
 		public static const SHOW_PAGES_IN_CONTEXT_MENU:String = "showPagesInContextMenu";
 		public static const SHOW_ABOUT_IN_CONTEXT_MENU:String = "showAboutInContextMenu";
+		
+		public static const XML:String = "xml";
+		public static const IMAGE:String = "image";
+		public static const SWF:String = "swf";
+		public static const AUDIO:String = "audio";
+		public static const VIDEO:String = "video";
+		public static const DATA:String = "data";
 	}
+	
 }

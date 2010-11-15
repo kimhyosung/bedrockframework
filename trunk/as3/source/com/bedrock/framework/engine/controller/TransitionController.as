@@ -71,7 +71,7 @@
 		{
 			var shell:Object = BedrockEngine.contentManager.getContent( BedrockData.SHELL );
 			for each ( var assetObj:Object in shell.assets ) {
-				BedrockEngine.loadManager.appendAsset( assetObj );
+				if ( assetObj.autoLoad ) BedrockEngine.loadManager.appendAsset( assetObj );
 			}
 		}
 		
