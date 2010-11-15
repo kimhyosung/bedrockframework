@@ -8,6 +8,13 @@ package com.bedrock.framework.plugin.util
 		{
 			super();
 		}
+		public static function objectHasValues( $target:*, $values:Array ):Boolean
+		{
+			for each ( var value:String in $values ) {
+				if ( $target[ value ] == null || $target[ value ] == undefined ) return false;
+			}
+			return true;
+		}
 		
 		public static function sanitize($value:String):*
 		{
