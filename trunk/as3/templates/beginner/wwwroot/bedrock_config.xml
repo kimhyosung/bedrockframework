@@ -1,91 +1,87 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
   <settings>
-    <setting id="stageAlignment" value="TOP_LEFT" />
-    <setting id="stageScaleMode" value="NO_SCALE" />
-    <setting id="defaultTransitionStyle" value="NORMAL" />
-    <setting id="initialPreloaderTime" value="1.1" />
-    <setting id="defaultPreloaderTime" value="1" />
-    <setting id="blockerAlpha" value="0.1" />
-    <setting id="blockerColor" value="16777215" />
-    <setting id="autoTransitionDefaultContent" value="true" />
-    <setting id="showBlockerDuringTransitions" value="true" />
-    <setting id="deeplinkingEnabled" value="true" />
-    <setting id="deeplinkContent" value="true" />
-    <setting id="trackingEnabled" value="true" />
-    <setting id="sharedAssetsEnabled" value="true" />
-    <setting id="fontsEnabled" value="false" />
-    <setting id="stylesheetEnabled" value="true" />
-    <setting id="dataBundleEnabled" value="true" />
-    <setting id="showPagesInContextMenu" value="true" />
-    <setting id="showAboutInContextMenu" value="false" />
-    <setting id="localesEnabled" value="false" />
-    <setting id="defaultLocale" value="en_GB" />
-    <setting id="localizedFiles" value="dataBundle" />
-    <setting id="localeDelimiter" value="_" />
-    <setting id="sharedFilename" value="shared_assets" />
-    <setting id="fontsFilename" value="fonts" />
-    <setting id="stylesheetFilename" value="flash_style" />
-    <setting id="dataBundleFilename" value="data_bundle" />
-    <setting id="logDetailDepth" value="10" />
-    <setting id="traceLogLevel" value="ALL" />
-    <setting id="eventLogLevel" value="WARNING" />
-    <setting id="remoteLogLevel" value="NONE" />
-    <setting id="monsterLogLevel" value="NONE" />
-    <setting id="remoteLogURL" value="" />
-    <setting id="errorsEnabled" value="true" />
+    <setting id="stageAlignment" value="TOP_LEFT"/>
+    <setting id="stageScaleMode" value="NO_SCALE"/>
+    <setting id="defaultTransitionStyle" value="NORMAL"/>
+    <setting id="initialPreloaderTime" value="1.1"/>
+    <setting id="defaultPreloaderTime" value="1"/>
+    <setting id="blockerAlpha" value="0.1"/>
+    <setting id="blockerColor" value="16777215"/>
+    <setting id="autoTransitionDefaultContent" value="true"/>
+    <setting id="showBlockerDuringTransitions" value="true"/>
+    <setting id="deeplinkingEnabled" value="true"/>
+    <setting id="deeplinkContent" value="true"/>
+    <setting id="trackingEnabled" value="true"/>
+    <setting id="sharedAssetsEnabled" value="true"/>
+    <setting id="fontsEnabled" value="false"/>
+    <setting id="stylesheetEnabled" value="true"/>
+    <setting id="dataBundleEnabled" value="true"/>
+    <setting id="showPagesInContextMenu" value="true"/>
+    <setting id="showAboutInContextMenu" value="false"/>
+    <setting id="localesEnabled" value="false"/>
+    <setting id="defaultLocale" value="en_GB"/>
+    <setting id="localizedFiles" value="dataBundle"/>
+    <setting id="localeDelimiter" value="_"/>
+    <setting id="sharedFilename" value="shared_assets"/>
+    <setting id="fontsFilename" value="fonts"/>
+    <setting id="stylesheetFilename" value="flash_style"/>
+    <setting id="dataBundleFilename" value="data_bundle"/>
+    <setting id="logDetailDepth" value="10"/>
+    <setting id="traceLogLevel" value="ALL"/>
+    <setting id="eventLogLevel" value="WARNING"/>
+    <setting id="remoteLogLevel" value="NONE"/>
+    <setting id="monsterLogLevel" value="NONE"/>
+    <setting id="remoteLogURL" value=""/>
+    <setting id="errorsEnabled" value="true"/>
   </settings>
   <locales>
-    <locale id="en_GB" label="English" />
-    <locale id="sp_ES" label="Spanish" />
-    <locale id="fr_FR" label="French" />
-    <locale id="jp_JP" label="Japanese" />
+    <locale id="en_GB" label="English"/>
+    <locale id="sp_ES" label="Spanish"/>
+    <locale id="fr_FR" label="French"/>
+    <locale id="jp_JP" label="Japanese"/>
   </locales>
   <containers>
-    <container id="site" />
-    <container id="container1" />
-    <container id="container2" x="250" />
-    <container id="overlay" />
-    <container id="navigation" />
-    <container id="preloader" />
+    <container id="site"/>
+    <container id="container1"/>
+    <container id="container2" x="250"/>
+    <container id="overlay"/>
+    <container id="navigation"/>
+    <container id="preloader"/>
   </containers>
   <contents>
-    <content id="shell" indexed="false" default="false" label="Shell" />
-    <content id="site" container="site" indexed="false" default="true" label="Site" priority="0" />
+    <content id="shell" indexed="false" default="false" label="Shell"/>
+    <content id="site" container="site" indexed="false" default="true" label="Site" priority="0"/>
     <content id="content1" container="container1" indexed="true" default="true" label="Content 1" priority="0">
-      <asset id="test" path="xmlPath" file="test.xml" />
+      <asset id="test" path="xmlPath" url="test.xml" autoLoad="true" type="xml"/>
     </content>
-    <content id="content2" container="container1" indexed="true" default="false" label="Content 2" priority="0" />
+    <content id="content2" container="container1" indexed="true" default="false" label="Content 2" priority="0"/>
     <content id="nested" indexed="true" default="false" label="Nested" priority="5">
-      <content id="content3" container="container1" indexed="false" default="false" label="Content 3" priority="0" />
-      <content id="content4" container="container2" indexed="false" default="false" label="Content 4" priority="0" />
+      <content id="content3" container="container1" indexed="false" default="false" label="Content 3" priority="0"/>
+      <content id="content4" container="container2" indexed="false" default="false" label="Content 4" priority="0"/>
     </content>
-    <content id="navigation" container="navigation" indexed="false" default="true" label="Navigation" priority="2" />
+    <content id="navigation" container="navigation" indexed="false" default="true" label="Navigation" priority="2"/>
   </contents>
   <environments>
     <environment id="default">
-      <path id="xmlPath" value="../xml/" />
-      <path id="imagePath" value="../images/" />
-      <path id="videoPath" value="../video/" />
-      <path id="swfPath" value="../swfs/" />
-      <path id="audioPath" value="../audio/" />
-      <path id="fontsPath" value="../fonts/" />
-      <path id="stylesheetPath" value="../stylesheet/" />
-      <path id="dataBundlePath" value="../xml/" />
-      <path id="sharedAssetsPath" value="../swfs/" />
+      <path id="xmlPath" value="../xml/"/>
+      <path id="imagePath" value="../images/"/>
+      <path id="videoPath" value="../video/"/>
+      <path id="swfPath" value="../swfs/"/>
+      <path id="audioPath" value="../audio/"/>
+      <path id="fontsPath" value="../fonts/"/>
+      <path id="stylesheetPath" value="../stylesheet/"/>
+      <path id="dataBundlePath" value="../xml/"/>
+      <path id="sharedAssetsPath" value="../swfs/"/>
     </environment>
     <environment id="local">
-      <pattern value="file://" />
+      <pattern value="file://"/>
     </environment>
     <environment id="development">
-      <pattern value="dev" />
+      <pattern value="dev"/>
     </environment>
     <environment id="staging">
-      <pattern value="staging" />
+      <pattern value="staging"/>
     </environment>
-    <environment id="localhost">
-      <pattern value="localhost" />
-    </environment>
-    <environment id="production" />
+    <environment id="production"/>
   </environments>
 </config>
