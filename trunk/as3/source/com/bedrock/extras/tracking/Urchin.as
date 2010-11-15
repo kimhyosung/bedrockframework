@@ -1,6 +1,7 @@
-﻿package com.bedrock.framework.plugin.tracking
+﻿package com.bedrock.extras.tracking
 {
 	import com.bedrock.framework.core.base.StandardBase;
+	import com.bedrock.framework.plugin.tracking.ITrackingService;
 	
 	import flash.external.ExternalInterface;
 	
