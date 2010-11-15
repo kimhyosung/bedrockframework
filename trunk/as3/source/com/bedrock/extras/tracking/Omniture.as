@@ -1,10 +1,10 @@
 ﻿package com.bedrock.framework.plugin.tracking
 {
-	import com.bedrock.framework.core.base.BasicWidget;
+	import com.bedrock.framework.core.base.StandardBase;
 	
 	import flash.external.ExternalInterface;
-	import com.bedrock.framework.core.base.BasicWidget	
-	public class Omniture extends BasBasicWidgetments ITrackingService
+	
+	public class Omniture extends StandardBase implements ITrackingService
 	{
 		/*
 		Constructor
