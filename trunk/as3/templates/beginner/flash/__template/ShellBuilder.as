@@ -22,7 +22,7 @@
 			this.label.alpha = 0;
 		}
 		
-		public function prepare():void
+		public function preinitialize():void
 		{
 			
 		}
