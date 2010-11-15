@@ -6,6 +6,7 @@
 	import com.bedrock.framework.core.logging.*;
 	import com.bedrock.framework.engine.BedrockBuilder;
 	import com.bedrock.framework.engine.BedrockEngine;
+	import com.bedrock.framework.engine.api.IBedrockBuilder;
 	import com.bedrock.framework.engine.bedrock;
 	import com.bedrock.framework.engine.command.*;
 	import com.bedrock.framework.engine.data.BedrockData;
@@ -120,6 +121,7 @@
 		private function _initializeFeatureGroupA():void
 		{
 			this._setupStage();
+			IBedrockBuilder( this.builder ).preinitialize();
 			this._piggybackEvents();
 			this._setupCommands();
 			this._storePreloader();
