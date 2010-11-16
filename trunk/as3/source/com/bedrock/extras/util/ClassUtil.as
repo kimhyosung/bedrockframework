@@ -18,10 +18,6 @@ package com.bedrock.extras.util
 	
 	public class ClassUtil extends StaticBase
 	{
-		public static function getDisplayClassName($instance:Object):String
-		{
-			return "[" + ClassUtil.getClassName($instance) +"]";
-		}
 		public static function getClassName($instance:Object):String
 		{
 			var strName:String = getQualifiedClassName($instance);
