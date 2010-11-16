@@ -46,7 +46,7 @@
 			this.status("Initialize");
 			this.dispatchEvent( new ClonerEvent( ClonerEvent.INITIALIZE, this, { total:this.data.total } ) );
 			
-			if ( this.data.autoPositioning && this.data.positionClonesAt == ClonerData.CREATION ) {
+			if ( this.data.autoPositioning && this.data.positionClonesOn == ClonerData.CREATION ) {
 				this.applyOffset();
 			}
 			
@@ -55,7 +55,7 @@
 			}
 			this.dispatchEvent( new ClonerEvent( ClonerEvent.COMPLETE, this, { total:this.data.total, children:this._arrClones } ) );
 			
-			if ( this.data.autoPositioning && this.data.positionClonesAt == ClonerData.COMPLETION ) {
+			if ( this.data.autoPositioning && this.data.positionClonesOn == ClonerData.COMPLETION ) {
 				this.positionClones();
 			}
 			
@@ -118,7 +118,7 @@
 			this._arrClones.push( this._currentClone );
 
 			this.addChild( this._currentClone );
-			if ( this.data.autoPositioning && this.data.positionClonesAt == ClonerData.CREATION ) {
+			if ( this.data.autoPositioning && this.data.positionClonesOn == ClonerData.CREATION ) {
 				this._applyProperties( this._currentClone, this._getPositionProperties( this._index ) );
 			}
 
@@ -217,7 +217,7 @@
 					case ClonerData.LINEAR :
 						return this.getClone( $index - 1 ).width + this.data.paddingX;
 					case ClonerData.GRID :
-						if ( this.data.positionClonesAt == ClonerData.COMPLETION ) {
+						if ( this.data.positionClonesOn == ClonerData.COMPLETION ) {
 							return this._numMaxSpacingX + this.data.paddingX;
 						} else {
 							return this.data.spaceX + this.data.paddingX;
@@ -235,7 +235,7 @@
 					case ClonerData.LINEAR :
 						return this.getClone( $index - 1 ).height + this.data.paddingY;
 					case ClonerData.GRID :
-						if ( this.data.positionClonesAt == ClonerData.COMPLETION ) {
+						if ( this.data.positionClonesOn == ClonerData.COMPLETION ) {
 							return this._numMaxSpacingY + this.data.paddingY;
 						} else {
 							return this.data.spaceY + this.data.paddingY;
