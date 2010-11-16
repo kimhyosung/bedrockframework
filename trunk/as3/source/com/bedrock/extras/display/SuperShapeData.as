@@ -1,4 +1,4 @@
-﻿package com.bedrock.framework.plugin.display
+﻿package com.bedrock.extras.display
 {
 	import flash.display.BitmapData;
 	import flash.display.GradientType;

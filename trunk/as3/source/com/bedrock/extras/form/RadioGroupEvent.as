@@ -1,4 +1,4 @@
-package com.bedrock.framework.plugin.form
+package com.bedrock.extras.form
 {
 	import com.bedrock.framework.core.event.GenericEvent;
 

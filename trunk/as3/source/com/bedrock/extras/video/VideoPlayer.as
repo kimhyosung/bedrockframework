@@ -1,4 +1,4 @@
-﻿package com.bedrock.framework.plugin.video
+﻿package com.bedrock.extras.video
 {
 	import com.bedrock.framework.core.base.SpriteBase;
 	import com.bedrock.framework.plugin.audio.AudioMixer;

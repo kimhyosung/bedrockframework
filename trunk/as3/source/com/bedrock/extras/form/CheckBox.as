@@ -1,14 +1,13 @@
-﻿package com.bedrock.framework.plugin.form
+﻿package com.bedrock.framework.plugin.form 
 {
-	import com.bedrock.framework.core.base.MovieClipWidget;
-	import com.bedrock.framework.plugin.event.CheckBoxEvent;
+	import com.bedrock.framework.core.base.MovieClipBase;
 	import com.bedrock.framework.plugin.util.ButtonUtil;
 	
 	import flash.events.Event;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	
-	public class CheckBox extends MovieClipWidget
+	public class CheckBox extends MovieClipBase
 	{
 		/*
 		Variable Declarations

@@ -1,4 +1,4 @@
-package com.bedrock.framework.plugin.delegate
+package com.bedrock.extras.delegate
 {
 	public interface IDelegate
 	{

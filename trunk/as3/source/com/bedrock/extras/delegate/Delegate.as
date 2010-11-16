@@ -1,8 +1,8 @@
-package com.bedrock.framework.plugin.delegate
+package com.bedrock.extras.delegate
 {
-	import com.bedrock.framework.core.base.BasicWidget;
+	import com.bedrock.framework.core.base.StandardBase;
 	
-	public class Delegate extends BasicWidget
+	public class Delegate extends StandardBase
 	{
 		/*
 		Variable Declarations

@@ -1,4 +1,4 @@
-﻿package com.bedrock.framework.plugin.display
+﻿package com.bedrock.extras.display
 {
 	import com.bedrock.framework.core.base.MovieClipBase;
 	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
