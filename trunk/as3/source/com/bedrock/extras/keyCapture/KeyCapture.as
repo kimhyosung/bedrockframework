@@ -1,4 +1,4 @@
-package com.bedrock.framework.plugin.keyCapture
+package com.bedrock.extras.keyCapture
 {
 	import com.bedrock.framework.core.base.DispatcherBase;
 	

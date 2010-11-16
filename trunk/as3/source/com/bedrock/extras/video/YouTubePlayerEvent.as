@@ -1,7 +1,5 @@
-package com.bedrock.framework.plugin.video
+package com.bedrock.extras.video
 {
-	import com.bedrock.framework.plugin.event.VideoEvent;
-
 	public class YouTubePlayerEvent extends VideoEvent
 	{
 		public static const VIDEO_UNSTARTED:String = "YouTubePlayerEvent.onVideoUnstarted";

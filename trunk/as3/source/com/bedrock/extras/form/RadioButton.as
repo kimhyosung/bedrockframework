@@ -1,13 +1,12 @@
-package com.bedrock.framework.plugin.form
+package com.bedrock.extras.form
 {
-	import com.bedrock.framework.core.base.MovieClipWidget;
-	import com.bedrock.framework.plugin.data.RadioButtonData;
+	import com.bedrock.extras.util.MovieClipUtil;
+	import com.bedrock.framework.core.base.MovieClipBase;
 	import com.bedrock.framework.plugin.util.ButtonUtil;
-	import com.bedrock.framework.plugin.util.MovieClipUtil;
 	
 	import flash.events.MouseEvent;
 
-	public class RadioButton extends MovieClipWidget
+	public class RadioButton extends MovieClipBase
 	{
 		/*
 		Variable Declarations

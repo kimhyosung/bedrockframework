@@ -1,4 +1,4 @@
-package com.bedrock.framework.plugin.video
+package com.bedrock.extras.video
 {
 	public interface IVideoPlayer
 	{

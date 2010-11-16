@@ -1,4 +1,4 @@
-﻿package com.bedrock.framework.plugin.form
+﻿package com.bedrock.extras.form
 {
 	// Alex, you need to clean this up
 	import com.bedrock.framework.core.base.DispatcherBase;

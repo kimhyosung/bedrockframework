@@ -1,6 +1,5 @@
-﻿package com.bedrock.framework.plugin.form
+﻿package com.bedrock.extras.form
 {
-	import flash.events.MouseEvent;
 	import com.bedrock.framework.core.event.GenericEvent;
 
 	public class CheckBoxEvent extends GenericEvent
