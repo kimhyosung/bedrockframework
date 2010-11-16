@@ -35,7 +35,7 @@
 		
 		public var clone:Class;
 		
-		public var positionClonesAt:String;
+		public var positionClonesOn:String;
 
 		public function ClonerData():void
 		{
@@ -48,7 +48,7 @@
 			this.direction = ClonerData.VERTICAL;
 			this.pattern = ClonerData.LINEAR;
 			
-			this.positionClonesAt = ClonerData.CREATION;
+			this.positionClonesOn = ClonerData.CREATION;
 		}
 
 	}
