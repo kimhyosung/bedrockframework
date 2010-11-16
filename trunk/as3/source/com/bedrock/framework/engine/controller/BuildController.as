@@ -121,7 +121,6 @@
 		private function _initializeFeatureGroupA():void
 		{
 			this._setupStage();
-			IBedrockBuilder( this.builder ).preinitialize();
 			this._piggybackEvents();
 			this._setupCommands();
 			this._storePreloader();
@@ -136,12 +135,16 @@
 		}
 		private function _initializeFeatureGroupB():void
 		{
-			this._setupLogger();
 			this._initializeVitals();
+			this._setupLogger();
 			this._prepareBlocker();
 			if ( BedrockEngine.config.getSettingValue(BedrockData.SHOW_PAGES_IN_CONTEXT_MENU ) ) this._setupContextMenu();
 			if ( BedrockEngine.config.getSettingValue(BedrockData.LOCALES_ENABLED ) ) this._setupLocales();
+			
+			IBedrockBuilder( this.builder ).preinitialize();
+			BedrockEngine.bedrock::resourceController.queue( false );
 			if ( BedrockEngine.config.getSettingValue(BedrockData.AUTO_TRANSITION_DEFAULT_CONTENT ) ) this._prepareInitialTransition();
+			
 			this._initializeComplete();
 		}
 		
@@ -213,8 +216,6 @@
 			BedrockEngine.bedrock::preloadManager.initialize( BedrockEngine.config.getSettingValue(BedrockData.INITIAL_PRELOADER_TIME ) );
 			
 			BedrockEngine.trackingManager.initialize( BedrockEngine.config.getSettingValue( BedrockData.TRACKING_ENABLED ) );
-			
-			BedrockEngine.bedrock::resourceController.queue( false );
 		}
 		private function _prepareBlocker():void
 		{
