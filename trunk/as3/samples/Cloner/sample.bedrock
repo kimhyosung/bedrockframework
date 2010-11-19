@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <form id="initializingCloner" label="Initializing Cloner" target="test1">
+    <element id="total" label="Total Clones" type="NumericStepper" defaultValue="20" minimum="0" maximum="100"></element>
+    <element id="wrap" label="Wrap Clones" type="NumericStepper" defaultValue="5" minimum="0" maximum="100"></element>
+    <element id="spaceX" label="X Spacing" type="TextInput" defaultValue="75" restrict="0-9."></element>
+    <element id="spaceY" label="Y Spacing" type="TextInput" defaultValue="75" restrict="0-9."></element>
+    <element id="paddingX" label="X Padding" type="TextInput" defaultValue="5" restrict="0-9."></element>
+    <element id="paddingY" label="Y Padding" type="TextInput" defaultValue="5" restrict="0-9."></element>
+    <element id="offsetX" label="X Offset" type="TextInput" defaultValue="0" restrict="0-9."></element>
+    <element id="offsetY" label="Y Offset" type="TextInput" defaultValue="0" restrict="0-9."></element>
+    <element id="direction" label="Direction" type="ComboBox">
+      <option>vertical</option>
+      <option>horizontal</option>
+      <option>random</option>
+    </element>
+    <element id="pattern" label="Pattern" type="ComboBox">
+      <option>grid</option>
+      <option>linear</option>
+      <option>random</option>
+    </element>
+    <element type="HRule"></element>
+    <element id="initializeButton" label="Initialize Cloner" type="Button" call="initializeCloner"></element>
+    <element type="HRule"></element>
+    <element id="createCloneButton" label="Create Clone" type="Button" call="createClone"></element>
+    <element id="clearButton" label="Clear Cloner" type="Button" call="clearCloner"></element>
+  </form>
+  <form id="customizingClones" label="Customizing Clones" target="test2">
+    <element id="buttonData" type="DataGrid">
+      <object id="button1" label="Button 1" />
+      <object id="button2" label="Button 2" />
+      <object id="button3" label="Button 3" />
+    </element>
+    <element id="initializeClonerButton" label="Initialize Cloner" type="Button" call="initializeCloner"></element>
+  </form>
+  <form id="usingIClonableInterface" label="Using ICloneable Interface" target="test3">
+    <element id="total" label="Total Clones" type="NumericStepper" defaultValue="20" minimum="0" maximum="100"></element>
+    <element id="wrap" label="Wrap Clones" type="NumericStepper" defaultValue="5" minimum="0" maximum="100"></element>
+    <element id="direction" label="Direction" type="ComboBox">
+      <option>vertical</option>
+      <option>horizontal</option>
+      <option>random</option>
+    </element>
+    <element id="pattern" label="Pattern" type="ComboBox">
+      <option>grid</option>
+      <option>linear</option>
+      <option>random</option>
+    </element>
+    <element type="HRule"></element>
+    <element id="initializeClonerButton" label="Initialize Cloner" type="Button" call="initializeCloner"></element>
+    <element type="HRule"></element>
+    <element id="createCloneButton" label="Create Clone" type="Button" call="createClone"></element>
+    <element id="clearButton" label="Clear Cloner" type="Button" call="clearCloner"></element>
+  </form>
+  <form id="usingRandomWhatever" label="Using Random" target="test4">
+    <element id="rangeX" label="X Range" type="TextInput" defaultValue="5" restrict="-0-9."></element>
+    <element id="rangeY" label="Y Range" type="TextInput" defaultValue="5" restrict="-0-9."></element>
+    <element type="HRule"></element>
+    <element id="initializeButton" label="Initialize Cloner" type="Button" call="initializeCloner"></element>
+  </form>
+</sample>
