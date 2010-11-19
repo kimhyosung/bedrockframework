@@ -12,7 +12,7 @@
 		
 		public static function getNodesAsObject( $data:* ):Object
 		{
-			var xmlData:XML = XMLUtil2.getAsXML( $data );
+			var xmlData:XML = XMLUtil2.sanitizeXML( $data );
 			var objConversion:Object = new Object;
 			
 			if ( xmlData.hasComplexContent() ) {
@@ -38,7 +38,7 @@
 			return objResult;
 		}
 
-		public static function getAsXML( $data:* ):XML
+		public static function sanitizeXML( $data:* ):XML
 		{
 			if ( $data is XML ) {
 				return $data;
@@ -51,14 +51,21 @@
 			}
 		}
 		
-		public static function filterByAttribute( $data:XML, $attribute:String, $value:* ):XML
+		public static function filterByAttribute( $data:*, $attribute:String, $value:* ):XMLList
 		{
-			return XMLUtil2.getAsXML( $data.children().(attribute($attribute) == $value.toString() ) );
+			if ( $data is XML ) {
+				return $data.children().(attribute($attribute) == $value.toString() );
+			} else {
+				return $data.(attribute($attribute) == $value.toString() );
+			}
 		}
 		public static function filterByNode( $data:XML, $name:String, $value:String):XML
 		{
-			var xmlList:XMLList = $data.children().(child($name) == $value);
-			return XMLUtil2.getAsXML( xmlList );
+			if ( $data is XML ) {
+				return $data.children().(child($name) == $value);
+			} else {
+				return $data.(child($name) == $value);
+			}
 		}
 		
 		

@@ -3,8 +3,8 @@
 	import com.bedrock.framework.core.base.StandardBase;
 	import com.bedrock.framework.engine.api.IDataBundleManager;
 	import com.bedrock.framework.plugin.storage.HashMap;
-	import com.bedrock.framework.plugin.util.XMLUtil2;
 	import com.bedrock.framework.plugin.util.CoreUtil;
+	import com.bedrock.framework.plugin.util.XMLUtil2;
 	
 	public class DataBundleManager extends StandardBase implements IDataBundleManager
 	{
@@ -54,7 +54,7 @@
 		*/
 		private function _getBundleAsXML( $id:String ):XML
 		{
-			return XMLUtil2.filterByAttribute( this._data, "id", $id );
+			return XMLUtil2.sanitizeXML( XMLUtil2.filterByAttribute( this._data, "id", $id ) );
 		}
 		private function _getBundleAsObject( $id:String ):Object
 		{
