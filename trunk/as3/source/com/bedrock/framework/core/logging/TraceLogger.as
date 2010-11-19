@@ -66,7 +66,7 @@ package com.bedrock.framework.core.logging
 		{
 			var strReturn:String = new String;
 			strReturn += $target + ": " + $category + "\n";
-			strReturn += ("---------------------------------------------------------------------------------" + "\n");
+			strReturn += ("------------------------------------------------" + "\n");
 			switch( this.getType( describeType( $object ).@name ) ) {
 				case TraceLogger.DYNAMIC :
 					strReturn += this.getDynamicFormat( $object, this._detailDepth );
