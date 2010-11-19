@@ -51,16 +51,16 @@
   </containers>
   <contents>
     <content id="shell" indexed="false" default="false" label="Shell" />
-    <content id="site" container="site" indexed="false" default="true" label="Site" priority="0" />
-    <content id="content1" container="container1" indexed="true" default="true" label="Content 1" priority="0">
+    <content id="site" container="site" indexed="false" default="true" label="Site" priority="0" deeplink="" />
+    <content id="content1" container="container1" indexed="true" default="true" label="Content 1" priority="0" deeplink="">
       <asset id="test" path="xmlPath" url="test.xml" type="xml" autoLoad="true" />
     </content>
-    <content id="content2" container="container1" indexed="true" default="false" label="Content 2" priority="0" />
-    <content id="nested" indexed="true" default="false" label="Nested" priority="5">
+    <content id="content2" container="container1" indexed="true" default="false" label="Content 2" priority="0" deeplink="" />
+    <contentGroup id="nested" indexed="true" default="false" label="Nested" priority="5" deeplink="">
       <content id="content3" container="container1" indexed="false" default="false" label="Content 3" priority="0" />
       <content id="content4" container="container2" indexed="false" default="false" label="Content 4" priority="0" />
-    </content>
-    <content id="navigation" container="navigation" indexed="false" default="true" label="Navigation" priority="2" />
+    </contentGroup>
+    <content id="navigation" container="navigation" indexed="false" default="true" label="Navigation" priority="2" deeplink="" />
   </contents>
   <environments>
     <environment id="default">
