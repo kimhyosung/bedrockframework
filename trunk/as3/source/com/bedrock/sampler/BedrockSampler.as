@@ -1,10 +1,9 @@
 ﻿package com.bedrock.sampler
 {
-	import com.bedrock.extras.cloner.Cloner;
-	import com.bedrock.extras.cloner.ClonerData;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	
 	import flash.display.MovieClip;
+	import flash.display.StageScaleMode;
 	
 	public class BedrockSampler extends MovieClip
 	{
@@ -18,6 +17,7 @@
 		*/
 		public function BedrockSampler()
 		{
+			this.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.initialize();
 		}
 		
