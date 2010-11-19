@@ -26,10 +26,7 @@
 		{
 			this._containers = new HashMap  ;
 			this._containers.saveValue( BedrockData.ROOT, $root );
-			this._parse( $data );
-		}
-		private function _parse( $data:XML ):void
-		{
+			
 			this._buildContainers( $data, this.root, true );
 		}
 		/*
@@ -37,15 +34,14 @@
 		*/
 		private function _buildContainers( $data:*, $parent:DisplayObjectContainer, $root:Boolean = false ):void
 		{
-			var xmlData:XML = XMLUtil2.getAsXML( $data );
 			var objContainer:DisplayObjectContainer;
 			if ( !$root ) {
-				objContainer = this.createContainer( xmlData.@id, null, $parent, $data );
+				objContainer = this.createContainer( $data.@id, null, $parent, $data );
 			} else {
 				objContainer = $parent;
 			}
 			
-			for each (var xmlSubContainer:XML in xmlData.children() ) {
+			for each (var xmlSubContainer:XML in $data.children() ) {
 				this._buildContainers( xmlSubContainer, objContainer );
 			}
 		}
