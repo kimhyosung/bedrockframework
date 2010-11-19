@@ -36,11 +36,7 @@ class Test1 extends MovieClip
 		public function createViewStack():void
 		{
 			this.viewStack = new ViewStack();
-			
-			
-			
 			this.addChild( this.viewStack );
-			
 		}
 		
 		public function initializeViewStack( $data:Object ):void
