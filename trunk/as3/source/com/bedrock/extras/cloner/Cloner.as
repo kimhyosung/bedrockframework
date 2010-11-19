@@ -1,11 +1,11 @@
 ﻿package com.bedrock.extras.cloner
 {
+	import com.bedrock.extras.util.MathUtil;
 	import com.bedrock.framework.core.base.SpriteBase;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
-	import com.bedrock.extras.util.MathUtil;
 
 	public class Cloner extends SpriteBase
 	{
@@ -21,9 +21,9 @@
 		private var _numMaxSpacingX:int;
 		private var _numMaxSpacingY:int;
 
-		private var _index:int;
-		private var _numColumn:int;
-		private var _numRow:int;
+		private var _currentIndex:int;
+		private var _currentColumn:int;
+		private var _currentRow:int;
 		private var _wrapIndex:int;
 
 		private var _mapClones:HashMap;
@@ -47,7 +47,7 @@
 			this.dispatchEvent( new ClonerEvent( ClonerEvent.INITIALIZE, this, { total:this.data.total } ) );
 			
 			if ( this.data.autoPositioning && this.data.positionClonesOn == ClonerData.CREATION ) {
-				this.applyOffset();
+				this._applyOffset();
 			}
 			
 			for (var i:int = 0; i < this.data.total; i++) {
@@ -63,15 +63,15 @@
 		}
 		public function clear($resetPosition:Boolean=true,$resetIndex:Boolean=true,$resetWrapping:Boolean=true):void
 		{
-			this._numColumn = 0;
-			this._numRow = 0;
+			this._currentColumn = 0;
+			this._currentRow = 0;
 			//
 			if ($resetPosition) {
 				this._positionX = 0;
 				this._positionY = 0;
 			}
 			if ($resetIndex) {
-				this._index= 0;
+				this._currentIndex= 0;
 			}
 			if ($resetWrapping) {
 				this._wrapIndex = 0;
@@ -102,10 +102,10 @@
 		public function positionClones():void
 		{
 			this._calculateMaxSpacing();
-			this.applyOffset();
+			this._applyOffset();
 			var numLength:int = this._arrClones.length;
 			for (var i:int =0; i <numLength; i++) {
-				this._applyProperties( this._arrClones[ i ], this._getPositionProperties( i ) );
+				this._applyProperties( this._arrClones[ i ], this._getCloneProperties( i ) );
 			}
 		}
 		/*
@@ -114,31 +114,28 @@
 		public function createClone():DisplayObjectContainer
 		{
 			this._currentClone=new this.data.clone;
-			this._mapClones.saveValue( this._index.toString(), this._currentClone );
+			this._currentClone.name = this.data.cloneNamePrefix + this._currentIndex;
+			this._mapClones.saveValue( this._currentIndex.toString(), this._currentClone );
 			this._arrClones.push( this._currentClone );
 
 			this.addChild( this._currentClone );
 			if ( this.data.autoPositioning && this.data.positionClonesOn == ClonerData.CREATION ) {
-				this._applyProperties( this._currentClone, this._getPositionProperties( this._index ) );
+				this._applyProperties( this._currentClone, this._getCloneProperties( this._currentIndex ) );
 			}
 
-			this.dispatchEvent( new ClonerEvent( ClonerEvent.CREATE, this, { child:this._currentClone, index:this._index } ) );
-			this._index++;
+			this.dispatchEvent( new ClonerEvent( ClonerEvent.CREATE, this, { child:this._currentClone, index:this._currentIndex } ) );
+			this._currentIndex++;
 			return this._currentClone;
 		}
 		public function removeClone($identifier:*):void
 		{
-			var numID:Number;
-			var objChild:DisplayObject;
 			if ( $identifier is Number ) {
-				numID=$identifier;
-				objChild = this.removeChild(this.getClone($identifier));
+				this.removeChild( this.getCloneByIndex( $identifier ) );
+				this.dispatchEvent( new ClonerEvent( ClonerEvent.REMOVE,this, { index:$identifier } ) );
 			} else {
-				numID=$identifier;
-				objChild = this.removeChild($identifier);
+				this.removeChild( this.getChildByName( $identifier ) );
+				this.dispatchEvent( new ClonerEvent( ClonerEvent.REMOVE,this, { name:$identifier } ) );
 			}
-			objChild = null;
-			this.dispatchEvent(new ClonerEvent(ClonerEvent.REMOVE,this,{id:numID}));
 		}
 		/*
 		
@@ -147,7 +144,7 @@
 		
 		
 		*/
-		private function _getPositionProperties( $index:int ):Object
+		private function _getCloneProperties( $index:int ):Object
 		{
 			if ( $index != 0) {
 				this._wrapIndex++;
@@ -165,7 +162,7 @@
 			} else if (this.data.pattern == ClonerData.RANDOM) {
 				return this._calculateRandomProperties( $index );
 			}
-			return { x:this._positionX, y:this._positionY, column:this._numColumn, row:this._numRow, index:$index};
+			return { x:this._positionX, y:this._positionY, column:this._currentColumn, row:this._currentRow, index:$index};
 		}
 		private function _calculateLinearProperties( $index:int ):void
 		{
@@ -187,9 +184,9 @@
 						this._positionX = 0;
 						this._positionY += this._getSpacingY( $index );
 						this._wrapIndex = 0;
-						this._numRow += 1;
+						this._currentRow += 1;
 					}
-					this._numColumn = this._wrapIndex;
+					this._currentColumn = this._wrapIndex;
 					break;
 				case ClonerData.VERTICAL :
 					this._positionY += this._getSpacingY( $index );
@@ -197,9 +194,9 @@
 						this._positionY = 0;
 						this._positionX += this._getSpacingX( $index );
 						this._wrapIndex = 0;
-						this._numColumn += 1;
+						this._currentColumn += 1;
 					}
-					this._numRow = this._wrapIndex;
+					this._currentRow = this._wrapIndex;
 					break;
 			}
 		}
@@ -215,7 +212,7 @@
 			} else {
 				switch ( this.data.pattern ) {
 					case ClonerData.LINEAR :
-						return this.getClone( $index - 1 ).width + this.data.paddingX;
+						return this.getCloneByIndex( $index - 1 ).width + this.data.paddingX;
 					case ClonerData.GRID :
 						if ( this.data.positionClonesOn == ClonerData.COMPLETION ) {
 							return this._numMaxSpacingX + this.data.paddingX;
@@ -233,7 +230,7 @@
 			} else {
 				switch ( this.data.pattern ) {
 					case ClonerData.LINEAR :
-						return this.getClone( $index - 1 ).height + this.data.paddingY;
+						return this.getCloneByIndex( $index - 1 ).height + this.data.paddingY;
 					case ClonerData.GRID :
 						if ( this.data.positionClonesOn == ClonerData.COMPLETION ) {
 							return this._numMaxSpacingY + this.data.paddingY;
@@ -255,24 +252,14 @@
 			}
 		}
 		
-		private function _applyProperties($target:DisplayObjectContainer,$data:Object):void
+		private function _applyProperties( $target:*, $data:Object ):void
 		{
-			var objData:Object = $data;
-			try {
-				var objClone:IClonable=$target as IClonable;
-			} catch ($e:Error) {
-				// Is not type of IClonable, cannot apply certain properties.
-				delete objData.index;
-				delete objData.column;
-				delete objData.row;
-			} 
-			if ( objClone == null ) {
-				delete objData.index;
-				delete objData.column;
-				delete objData.row;
-			}
-			for (var d:String in objData) {
-				$target[ d ]=objData[ d ];
+			$target.x = $data.x;
+			$target.y = $data.y;
+			if ( $target is IClonable ) {
+				$target.column = $data.column;
+				$target.row = $data.row;
+				$target.index = $data.index;
 			}
 		}
 		/*
@@ -282,9 +269,9 @@
 		
 		
 		*/
-		public function getClone( $index:int ):*
+		public function getCloneByIndex( $index:int ):*
 		{
-			return this._mapClones.getValue( $index.toString() );
+			return this._arrClones[ $index ];
 		}
 
 		/*
@@ -294,7 +281,7 @@
 		
 		
 		*/
-		private function applyOffset():void
+		private function _applyOffset():void
 		{
 			if ( this.data.offsetX != 0 ) this._positionX += this.data.offsetX;
 			if ( this.data.offsetY != 0 ) this._positionY += this.data.offsetY;
@@ -302,17 +289,17 @@
 		/*
 		Returns the current index of the movieclip being cloned.
 		*/
-		public function get index():int
+		public function get currentIndex():int
 		{
-			return this._index;
+			return this._currentIndex;
 		}
-		public function get row():int
+		public function get currentRow():int
 		{
-			return this._numRow;
+			return this._currentRow;
 		}
-		public function get column():int
+		public function get currentColumn():int
 		{
-			return this._numColumn;
+			return this._currentColumn;
 		}
 		/*
 		Returns the instance of the display object being cloned.
