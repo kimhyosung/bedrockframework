@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<bundles>
+  <bundle id="brand">
+    <name>Chrysler</name>
+    <tagline>Lorem ipsum!</tagline>
+  </bundle>
+  <bundle id="models" type="xml">
+    <model name="300">
+      <images>
+        <image name="interior1.jpg" />
+        <image name="interior2.jpg" />
+      </images>
+      <interiorColors>
+        <color hex="0x00000" image="color1.jpg" />
+        <color hex="0x00000" image="color1.jpg" />
+      </interiorColors>
+      <exteriorColors>
+        <color hex="0x00000" image="color1.jpg" />
+        <color hex="0x00000" image="color1.jpg" />
+      </exteriorColors>
+    </model>
+    <model name="200">
+      <images>
+        <image name="interior1.jpg" />
+        <image name="interior2.jpg" />
+      </images>
+      <interiorColors>
+        <color hex="0x00000" image="color1.jpg" />
+        <color hex="0x00000" image="color1.jpg" />
+      </interiorColors>
+      <exteriorColors>
+        <color hex="0x00000" image="color1.jpg" />
+        <color hex="0x00000" image="color1.jpg" />
+      </exteriorColors>
+    </model>
+  </bundle>
+</bundles>
