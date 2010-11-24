@@ -50,10 +50,10 @@
 			return strPath;
 		}
 		
-		public function getSharedAssetsPath( $locale:String = null ):String
+		public function getLibraryPath( $locale:String = null ):String
 		{
-			var strPath:String = BedrockEngine.config.getPathValue( BedrockData.SHARED_ASSETS_PATH );
-			strPath += BedrockEngine.config.getSettingValue( BedrockData.SHARED_FILENAME );
+			var strPath:String = BedrockEngine.config.getPathValue( BedrockData.LIBRARY_PATH );
+			strPath += BedrockEngine.config.getSettingValue( BedrockData.LIBRARY_FILENAME );
 			
 			if ( $locale == null ) {
 				strPath +=  ".swf";

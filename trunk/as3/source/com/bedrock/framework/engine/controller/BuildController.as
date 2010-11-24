@@ -4,7 +4,7 @@
 	import com.bedrock.framework.core.controller.*;
 	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
 	import com.bedrock.framework.core.logging.*;
-	import com.bedrock.framework.engine.BedrockBuilder;
+	import com.bedrock.framework.engine.builder.BedrockBuilder;
 	import com.bedrock.framework.engine.BedrockEngine;
 	import com.bedrock.framework.engine.api.IBedrockBuilder;
 	import com.bedrock.framework.engine.bedrock;
@@ -99,7 +99,7 @@
 			BedrockEngine.bedrock::resourceController = new ResourceController;
 			BedrockEngine.frontController = new FrontController;
 			
-			BedrockEngine.assetManager = new AssetManager;
+			BedrockEngine.libraryManager = new LibraryManager;
 			BedrockEngine.containerManager = new ContainerManager;
 			BedrockEngine.contentManager = new ContentManager;
 			BedrockEngine.contextMenuManager = new ContextMenuManager;
@@ -187,7 +187,7 @@
 		*/
 		private function _storePreloader():void
 		{
-			BedrockEngine.assetManager.addPreloader( BedrockData.INITIAL_PRELOADER, "InitialPreloader" );
+			BedrockEngine.libraryManager.registerPreloader( BedrockData.INITIAL_PRELOADER, "InitialPreloader" );
 		}
 		private function _parseParams():void
 		{
@@ -207,7 +207,7 @@
 		{
 			BedrockEngine.bedrock::transitionController.initialize( this.builder );
 			
-			BedrockEngine.assetManager.initialize( this.builder.loaderInfo.applicationDomain );
+			BedrockEngine.libraryManager.initialize( this.builder.loaderInfo.applicationDomain );
 			BedrockEngine.loadManager.initialize( this.builder.loaderInfo.applicationDomain );
 			
 			BedrockEngine.containerManager.initialize( BedrockEngine.config.containers, this.builder );

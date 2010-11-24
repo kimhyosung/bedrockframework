@@ -4,7 +4,7 @@
 	Imports
 	*/
 	import com.bedrock.framework.core.base.StandardBase;
-	import com.bedrock.framework.engine.api.IAssetManager;
+	import com.bedrock.framework.engine.api.ILibraryManager;
 	import com.bedrock.framework.engine.view.IPreloader;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	
@@ -16,7 +16,7 @@
 	/*
 	Class Declaration
 	*/
-	public class AssetManager extends StandardBase implements IAssetManager
+	public class LibraryManager extends StandardBase implements ILibraryManager
 	{
 		/*
 		* Variable Declarations
@@ -31,13 +31,13 @@
 		/*
 		Initialize the class
 		*/
-		public function AssetManager()
+		public function LibraryManager()
 		{
 			this._collections = new HashMap;
-			this._collections.saveValue(AssetManager.VIEWS, new Array);
-			this._collections.saveValue(AssetManager.PRELOADERS, new Array );
-			this._collections.saveValue(AssetManager.BITMAPS, new Array );
-			this._collections.saveValue(AssetManager.SOUNDS, new Array );
+			this._collections.saveValue(LibraryManager.VIEWS, new Array);
+			this._collections.saveValue(LibraryManager.PRELOADERS, new Array );
+			this._collections.saveValue(LibraryManager.BITMAPS, new Array );
+			this._collections.saveValue(LibraryManager.SOUNDS, new Array );
 		}
 		public function initialize( $applicationDomain:ApplicationDomain ):void
 		{
@@ -46,78 +46,78 @@
 		/*
 		Add/ Return new preloader instance
 		*/
-		public function addPreloader( $id:String, $linkage:String ):void
+		public function registerPreloader( $id:String, $linkage:String ):void
 		{
-			this._registerAsset( AssetManager.PRELOADERS, $id, $linkage );
+			this._registerAsset( LibraryManager.PRELOADERS, $id, $linkage );
 		}
 		public function getPreloader( $id:String ):IPreloader
 		{
-			var ClassReference:Class = this._getAsset( AssetManager.PRELOADERS, $id );
+			var ClassReference:Class = this._getAsset( LibraryManager.PRELOADERS, $id );
 			return new ClassReference;
 		}
 		public function hasPreloader($id:String):Boolean
 		{
-			return ArrayUtil.containsItem( this._getCollection( AssetManager.PRELOADERS ), $id, "id" );
+			return ArrayUtil.containsItem( this._getCollection( LibraryManager.PRELOADERS ), $id, "id" );
 		}
 		/*
 		Add/ Return new view instance
 		*/
-		public function addView($id:String, $linkage:String ):void
+		public function registerView($id:String, $linkage:String ):void
 		{
-			this._registerAsset( AssetManager.VIEWS, $id, $linkage );
+			this._registerAsset( LibraryManager.VIEWS, $id, $linkage );
 		}
 		public function getView($id:String):*
 		{
-			var ClassReference:Class = this._getAsset( AssetManager.VIEWS, $id );
+			var ClassReference:Class = this._getAsset( LibraryManager.VIEWS, $id );
 			return new ClassReference;
 		}
 		public function hasView( $id:String ):Boolean
 		{
-			return ArrayUtil.containsItem( this._getCollection(AssetManager.VIEWS), $id, "id" );
+			return ArrayUtil.containsItem( this._getCollection(LibraryManager.VIEWS), $id, "id" );
 		}
 		public function getViews( $includeIDs:Boolean = false ):Array
 		{
-			return this._getInstanceCollection(AssetManager.VIEWS, this.getView, $includeIDs );
+			return this._getInstanceCollection(LibraryManager.VIEWS, this.getView, $includeIDs );
 		}
 		/*
 		Add/ Return new bitmap instance
 		*/
-		public function addBitmap( $id:String, $linkage:String ):void
+		public function registerBitmap( $id:String, $linkage:String ):void
 		{
-			this._registerAsset( AssetManager.BITMAPS, $id, $linkage );
+			this._registerAsset( LibraryManager.BITMAPS, $id, $linkage );
 		}
 		public function getBitmap( $id:String ):BitmapData
 		{
-			var ClassReference:Class = this._getAsset(AssetManager.BITMAPS, $id);
+			var ClassReference:Class = this._getAsset(LibraryManager.BITMAPS, $id);
 			return new ClassReference(0, 0);
 		}
 		public function hasBitmap( $id:String ):Boolean
 		{
-			return ArrayUtil.containsItem( this._getCollection(AssetManager.BITMAPS), $id, "id" );
+			return ArrayUtil.containsItem( this._getCollection(LibraryManager.BITMAPS), $id, "id" );
 		}
 		public function getBitmaps( $includeIDs:Boolean = false ):Array
 		{
-			return this._getInstanceCollection(AssetManager.BITMAPS, this.getBitmap, $includeIDs );
+			return this._getInstanceCollection(LibraryManager.BITMAPS, this.getBitmap, $includeIDs );
 		}
 		/*
 		Add/ Return new sound instance
 		*/
-		public function addSound( $id:String, $linkage:String ):void
+		public function registerSound( $id:String, $linkage:String ):void
 		{
-			this._registerAsset( AssetManager.SOUNDS, $id, $linkage );
+			this._registerAsset( LibraryManager.SOUNDS, $id, $linkage );
 		}
 		public function getSound( $id:String ):Sound
 		{
-			var ClassReference:Class = this._getAsset( AssetManager.SOUNDS, $id );
+			var ClassReference:Class = this._getAsset( LibraryManager.SOUNDS, $id );
 			return new ClassReference;
 		}
 		public function hasSound( $id:String ):Boolean
 		{
-			return ArrayUtil.containsItem(this._getCollection(AssetManager.SOUNDS), $id, "id" );
+			return ArrayUtil.containsItem(this._getCollection(LibraryManager.SOUNDS), $id, "id" );
 		}
 		public function getSounds( $includeIDs:Boolean = false ):Array
 		{
-			return this._getInstanceCollection( AssetManager.SOUNDS, this.getSound, $includeIDs );
+			return this._getInstanceCollection( LibraryManager.SOUNDS, this.getSound, $includeIDs );
 		}
 		/*
 		Manage Classes

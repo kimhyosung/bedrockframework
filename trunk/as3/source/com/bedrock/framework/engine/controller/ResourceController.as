@@ -29,7 +29,7 @@
 			this._queueFonts( BedrockEngine.config.getSettingValue( BedrockData.FONTS_ENABLED ), BedrockEngine.localeManager.isFileLocalized( BedrockData.FONTS ), currentLocale );
 			this._queueStylesheet( BedrockEngine.config.getSettingValue( BedrockData.STYLESHEET_ENABLED ), BedrockEngine.localeManager.isFileLocalized( BedrockData.STYLESHEET ), currentLocale );
 			this._queueDataBundle( BedrockEngine.config.getSettingValue( BedrockData.DATA_BUNDLE_ENABLED ), BedrockEngine.localeManager.isFileLocalized( BedrockData.DATA_BUNDLE ), currentLocale );
-			this._queueSharedAssets( BedrockEngine.config.getSettingValue( BedrockData.SHARED_ASSETS_ENABLED ), BedrockEngine.localeManager.isFileLocalized( BedrockData.SHARED_ASSETS ), currentLocale );
+			this._queueLibrary( BedrockEngine.config.getSettingValue( BedrockData.LIBRARY_ENABLED ), BedrockEngine.localeManager.isFileLocalized( BedrockData.LIBRARY ), currentLocale );
 			
 			if ( $autoLoad ) BedrockEngine.loadManager.load();
 		}
@@ -70,16 +70,16 @@
 				BedrockEngine.loadManager.appendLoader( new XMLLoader( path, { name:BedrockData.DATA_BUNDLE } ) );
 			}
 		}
-		private function _queueSharedAssets( $enabled:Boolean, $localized:Boolean, $locale:String = null ):void
+		private function _queueLibrary( $enabled:Boolean, $localized:Boolean, $locale:String = null ):void
 		{
 			if ( $enabled ) {
 				var path:String;
 				if ( $localized ) {
-					path = BedrockEngine.resourceDelegate.getSharedAssetsPath( $locale );
+					path = BedrockEngine.resourceDelegate.getLibraryPath( $locale );
 				} else {
-					path = BedrockEngine.resourceDelegate.getSharedAssetsPath();
+					path = BedrockEngine.resourceDelegate.getLibraryPath();
 				}
-				BedrockEngine.loadManager.appendLoader( new SWFLoader( path, { name:BedrockData.SHARED_ASSETS, context:this._getLoaderContext() } ) );
+				BedrockEngine.loadManager.appendLoader( new SWFLoader( path, { name:BedrockData.LIBRARY, context:this._getLoaderContext() } ) );
 			}
 		}
 		
@@ -96,7 +96,8 @@
 			BedrockEngine.loadManager.removeEventListener( BedrockEvent.LOAD_COMPLETE, this._onLoadComplete );
 			if ( BedrockEngine.config.getSettingValue( BedrockData.DATA_BUNDLE_ENABLED ) ) BedrockEngine.dataBundleManager.parse( BedrockEngine.loadManager.getContent( BedrockData.DATA_BUNDLE ) );
 			if ( BedrockEngine.config.getSettingValue( BedrockData.STYLESHEET_ENABLED ) ) BedrockEngine.stylesheetManager.parse( BedrockEngine.loadManager.getContent( BedrockData.STYLESHEET ) );
-			if ( BedrockEngine.config.getSettingValue( BedrockData.SHARED_ASSETS_ENABLED ) ) BedrockEngine.loadManager.getContent( BedrockData.SHARED_ASSETS ).rawContent.initialize();
+			if ( BedrockEngine.config.getSettingValue( BedrockData.LIBRARY_ENABLED ) ) BedrockEngine.loadManager.getContent( BedrockData.LIBRARY ).rawContent.initialize();
+			if ( BedrockEngine.config.getSettingValue( BedrockData.FONTS_ENABLED ) ) BedrockEngine.loadManager.getContent( BedrockData.FONTS ).rawContent.initialize();
 		}
 	}
 }

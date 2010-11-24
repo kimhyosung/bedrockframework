@@ -16,7 +16,7 @@
 		bedrock static var resourceController:IResourceController;
 		public static var frontController:IFrontController;
 		
-		public static var assetManager:IAssetManager;
+		public static var libraryManager:ILibraryManager;
 		public static var containerManager:IContainerManager;
 		public static var contentManager:IContentManager;
 		public static var contextMenuManager:IContextMenuManager;
