@@ -1,6 +1,6 @@
 package com.bedrock.framework.engine.api
 {
-	public interface IAssetsBuilder
+	public interface ISharedLibraryBuilder
 	{
 		function initialize():void;
 	}

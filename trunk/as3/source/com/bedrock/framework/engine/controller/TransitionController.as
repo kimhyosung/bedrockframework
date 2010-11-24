@@ -146,12 +146,12 @@
 		
 		private function _preparePreloader():void
 		{
-			if ( BedrockEngine.config.getSettingValue( BedrockData.SHARED_ASSETS_ENABLED ) ) {
-				if ( BedrockEngine.assetManager.hasPreloader( this._bedrockSequenceData.preloader ) ) {
-					this._preloader = BedrockEngine.assetManager.getPreloader( this._bedrockSequenceData.preloader );
+			if ( BedrockEngine.config.getSettingValue( BedrockData.LIBRARY_ENABLED ) ) {
+				if ( BedrockEngine.libraryManager.hasPreloader( this._bedrockSequenceData.preloader ) ) {
+					this._preloader = BedrockEngine.libraryManager.getPreloader( this._bedrockSequenceData.preloader );
 				}
 			} else {
-				this._preloader = BedrockEngine.assetManager.getPreloader( BedrockData.INITIAL_PRELOADER );
+				this._preloader = BedrockEngine.libraryManager.getPreloader( BedrockData.INITIAL_PRELOADER );
 			}
 			this._preloader.addEventListener( ViewEvent.INTRO_COMPLETE, this._onPreloaderIntroComplete );
 			this._preloader.addEventListener( ViewEvent.CLEAR_COMPLETE, this._onPreloaderClearComplete );

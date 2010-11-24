@@ -9,7 +9,7 @@
  * By using the Bedrock Framework, you agree to keep the above contact information in the source code.
  *
 */
-package com.bedrock.framework.engine
+package com.bedrock.framework.engine.builder
 {
 	
 	import com.bedrock.framework.engine.controller.BuildController;

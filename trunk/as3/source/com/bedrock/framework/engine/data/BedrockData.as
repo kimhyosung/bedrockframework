@@ -35,7 +35,7 @@
 		public static const TRACKING_ENABLED:String = "trackingEnabled";
 		public static const LOCALES_ENABLED:String = "localesEnabled";
 		public static const FONTS_ENABLED:String = "fontsEnabled";
-		public static const SHARED_ASSETS_ENABLED:String = "sharedAssetsEnabled";
+		public static const LIBRARY_ENABLED:String = "libraryEnabled";
 		public static const SHOW_BLOCKER_DURING_TRANSITIONS:String = "showBlockerDuringTransitions";
 		public static const CONFIG_URL:String = "configURL";
 		
@@ -58,7 +58,7 @@
 		public static const FONTS:String = "fonts";
 		public static const STYLESHEET:String = "stylesheet";
 		public static const DATA_BUNDLE:String = "dataBundle";
-		public static const SHARED_ASSETS:String = "sharedAssets";
+		public static const LIBRARY:String = "library";
 		
 		public static const DEFAULT_TRANSITION_STYLE:String = "defaultTransitionStyle";
 		/*
@@ -82,13 +82,13 @@
 		public static const STYLESHEET_FILENAME:String = "stylesheetFilename";
 		public static const FONTS_FILENAME:String = "fontsFilename";
 		public static const DATA_BUNDLE_FILENAME:String = "dataBundleFilename";
-		public static const SHARED_FILENAME:String = "sharedFilename";
+		public static const LIBRARY_FILENAME:String = "libraryFilename";
 		/*
 		Constant Paths
 		*/
 		public static const DATA_BUNDLE_PATH:String = "dataBundlePath";
 		public static const FONTS_PATH:String = "fontsPath";
-		public static const SHARED_ASSETS_PATH:String = "sharedAssetsPath";
+		public static const LIBRARY_PATH:String = "libraryPath";
 		public static const AUDIO_PATH:String = "audioPath";
 		public static const STYLESHEET_PATH:String = "stylesheetPath";
 		public static const XML_PATH:String = "xmlPath";
