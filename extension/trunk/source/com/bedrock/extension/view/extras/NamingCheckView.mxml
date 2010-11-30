@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox horizontalAlign="center" xmlns:mx="http://www.adobe.com/2006/mxml" implements="mx.controls.listClasses.IListItemRenderer, mx.controls.listClasses.IDropInListItemRenderer">
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.extension.controller.ExtensionController;
+		
+			import mx.controls.listClasses.BaseListData;
+			
+			[Embed("assets/CheckIcon.png")]
+            private var CheckIcon:Class;
+            
+            private var _dataField:String;
+            
+            override public function set data( $data:Object ):void
+			{
+				if ( $data[ this._dataField ] != null ) {
+					this.checkButton.visible = true;
+				} else {
+					this.checkButton.visible = false;
+				}
+			}
+			
+			override public function get data():Object
+			{
+				return null;
+			}
+			public function get listData():BaseListData
+			{
+				return null;
+			}
+	    
+		    /**
+		     *  @private
+		     */
+		    public function set listData( $value:BaseListData):void
+		    {
+				this._dataField = Object( $value ).dataField;
+				this.checkButton.toolTip = ExtensionController.getInstance().namingConventions.getOptionByID( this._dataField ).detail;
+		    }
+			
+		]]>
+	</mx:Script>
+	<mx:Button x="8" skin="{ CheckIcon }" id="checkButton" width="16" height="16"/>
+</mx:HBox>

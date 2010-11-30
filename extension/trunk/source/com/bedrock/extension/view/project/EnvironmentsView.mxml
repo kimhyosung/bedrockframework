@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"  creationComplete="this.bootup()" xmlns:view="com.bedrock.project.extension.view.*" styleName="padded5px" xmlns:misc="com.bedrock.extension.view.misc.*">
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.extension.controller.ProjectController;
+			import mx.collections.HierarchicalData;
+			import mx.collections.ArrayCollection;
+			import com.bedrock.framework.plugin.util.XMLUtil2;
+			/*
+			Variable Delcarations
+			*/
+			[Bindable]
+            public var selectedNode:XML;
+			
+            [Embed("assets/SettingIcon.png")]
+            private var SettingIcon:Class;
+            [Embed("assets/VariableIcon.png")]
+            private var VariableIcon:Class;
+            [Embed("assets/PathIcon.png")]
+            private var PathIcon:Class;
+            [Embed("assets/PatternIcon.png")]
+            private var PatternIcon:Class;
+            [Embed("assets/EnvironmentIcon.png")]
+            private var EnvironmentIcon:Class;
+            
+            [Embed("assets/CreateIcon.png")]
+            private var CreateIcon:Class;
+            [Embed("assets/DeleteIcon.png")]
+            private var DeleteIcon:Class;
+            [Embed("assets/UpdateIcon.png")]
+            private var UpdateIcon:Class;
+             [Embed("assets/DeselectIcon.png")]
+            private var DeselectIcon:Class;
+            [Embed("assets/RefreshIcon.png")]
+            private var RefreshIcon:Class;
+            
+			public function bootup():void
+			{
+				this.applyIcons();
+			}
+			
+			/*
+			Creation Functions
+			*/
+			private function createNode():void
+            {
+            	switch( this.comboPanel.combo.selectedItem.value ) {
+            		case "environment" :
+            			this.createEnvironment();
+            			break;
+            		case "pattern" :
+            			this.createPattern();
+            			break;
+            		case "setting" :
+            			this.createSetting();
+            			break;
+            		case "path" :
+            			this.createPath();
+            			break;
+            		case "variable" :
+            			this.createVariable();
+            			break;
+            	}
+            	this.resetInterface();
+            }
+            private function deleteNode():void
+            {
+            	var strName:String = this.nodeTree.selectedItem.name();
+            	switch( strName ) {
+            		case "environment" :
+            			this.deleteEnvironment();
+            			break;
+            		case "pattern" :
+            			this.deletePattern();
+            			break;
+            		case "setting" :
+            			this.deleteSetting();
+            			break;
+            		case "path" :
+            			this.deletePath();
+            			break;
+            		case "variable" :
+            			this.deleteVariable();
+            			break;
+            	}
+            	this.resetInterface();
+            }
+            /*
+            Environments
+            */
+            private function createEnvironment():void
+            {
+            	var xml:XML = new XML( ProjectController.getInstance().config.environments.children().( @id == this.environmentCopyCombo.selectedItem.@id ).toXMLString() );
+            	xml.@id = this.environmentIDText.text;
+            	ProjectController.getInstance().config.environments.appendChild( xml );
+            }
+            private function deleteEnvironment():void
+            {
+            	delete ProjectController.getInstance().config.environments..environment.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
+            }
+             /*
+            Patterns
+            */
+            private function createPattern():void
+            {
+            	var xmlNode:XML = ProjectController.getInstance().config.environments..environment.( @id == this.patternEnvironmentCombo.selectedLabel )[ 0 ];
+            	xmlNode.appendChild( <pattern value={ this.patternValueText.text } /> );
+            }
+            private function deletePattern():void
+            {
+            	delete ProjectController.getInstance().config.environments..pattern.( @value == this.nodeTree.selectedItem.@value )[ 0 ];
+            }
+            /*
+            Setting
+            */
+            private function createSetting():void
+            {
+            	var xmlNode:XML = ProjectController.getInstance().config.environments..environment.( @id == this.settingEnvironmentCombo.selectedLabel )[ 0 ];
+            	xmlNode.appendChild( <setting id={ this.settingIDCombo.selectedLabel } value={ this.settingValueText.text } /> );
+            }
+            private function deleteSetting():void
+            {
+            	delete ProjectController.getInstance().config.environments..setting.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
+            }
+            /*
+            Path
+            */
+            private function createPath():void
+            {
+            	var xmlNode:XML = ProjectController.getInstance().config.environments..environment.( @id == this.generalEnvironmentCombo.selectedLabel )[ 0 ];
+            	xmlNode.appendChild( <path id={ this.generalIDText.text } value={ this.generalValueText.text } /> );
+            }
+            private function deletePath():void
+            {
+            	delete ProjectController.getInstance().config.environments..path.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
+            }
+            /*
+            Variable
+            */
+            private function createVariable():void
+            {
+            	var xmlNode:XML = ProjectController.getInstance().config.environments..environment.( @id == this.generalEnvironmentCombo.selectedLabel )[ 0 ];
+            	xmlNode.appendChild( <variable id={ this.generalIDText.text } value={ this.generalValueText.text } /> );
+            }
+            private function deleteVariable():void
+            {
+            	delete ProjectController.getInstance().config.environments..variable.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
+            }
+            /*
+			Attributes
+			*/
+            private function createAttribute():void
+            {
+                this.selectedNode.@[ this.attributeEditor.nameText.text ] = this.attributeEditor.valueText.text;
+             	this.attributeEditor.resetForm();
+            }
+            private function updateAttribute():void
+            {
+				this.selectedNode.@[ this.attributeEditor.attributeGrid.selectedItem.name ] = this.attributeEditor.valueText.text;
+                this.attributeEditor.resetForm();
+            }
+            private function deleteAttribute():void
+            {
+            	delete this.selectedNode.@[ this.attributeEditor.attributeGrid.selectedItem.name ];
+            	this.attributeEditor.resetForm();
+            }
+            /*
+            Interface Functions
+            */
+            /*
+            Interface Functions
+            */
+             private function resetInterface():void
+			{
+				ProjectController.getInstance().config.autoSaveConfig();
+				this.environmentIDText.text = "";
+				if ( this.generalIDText != null ) this.generalIDText.text = "";
+				if ( this.generalIDText != null ) this.generalValueText.text = "";
+				this.selectedNode = null;
+				this.attributeEditor.updateForm();
+				this.applyIcons();
+			}
+			private function deselect():void
+			{
+				this.nodeTree.selectedItem = null;
+				this.selectedNode = null;
+				this.attributeEditor.resetForm();
+            }
+            private function applyIcons():void
+            {
+            	var xmlItem:XML;
+				for each ( xmlItem in ProjectController.getInstance().config.environments..setting ) {
+					this.nodeTree.setItemIcon( xmlItem, SettingIcon, SettingIcon );
+				}
+				for each ( xmlItem in ProjectController.getInstance().config.environments..variable ) {
+					this.nodeTree.setItemIcon( xmlItem, VariableIcon, VariableIcon );
+				}
+				for each ( xmlItem in ProjectController.getInstance().config.environments..path ) {
+					this.nodeTree.setItemIcon( xmlItem, PathIcon, PathIcon );
+				}
+				for each ( xmlItem in ProjectController.getInstance().config.environments..pattern ) {
+					this.nodeTree.setItemIcon( xmlItem, PatternIcon, PatternIcon );
+				}
+            }
+            
+            private function getLabel( $item:Object, $column:AdvancedDataGridColumn):String
+			{
+				var strLabel:String = String( $item.@id );
+            	if ( strLabel == null || strLabel == "" ) {
+            		strLabel = $item.name();
+            	}
+            	return strLabel;
+			}
+            /*
+			Event Handlers
+			*/
+            private function onTreeSelect( $event:Event ):void
+			{
+                this.selectedNode = this.nodeTree.selectedItem as XML;
+				this.attributeEditor.populateForm();
+				switch ( String( this.selectedNode.@id ) ) {
+					case "default" :
+					case "local" :
+					case "production" :
+						this.hierarchyControlBar.nodeDeleteButton.enabled = false;
+						break;
+					default :
+						this.hierarchyControlBar.nodeDeleteButton.enabled = true;
+						break;
+				}
+            }
+            private function onTypeComboChange( $event:Event ):void
+			{
+				switch( this.comboPanel.combo.selectedIndex ) {
+					case 3 :
+						 this.formStack.selectedIndex = 3;
+						break;
+					case 4 :
+						 this.formStack.selectedIndex = 3;
+						break;
+					default :
+						this.formStack.selectedIndex = this.comboPanel.combo.selectedIndex;
+						break;
+				}
+            }
+		]]>
+	</mx:Script>
+	<mx:VBox width="100%" height="100%">
+	
+	
+		<misc:ComboPanel id="comboPanel" title="Create : " width="100%" dataProvider="{ ProjectController.getInstance().resources.getBundle( 'environmentCreationOptions' ) }" change="this.onTypeComboChange( event )">
+			
+			<mx:ViewStack width="100%" height="60" id="formStack">
+			
+				<mx:HBox width="100%" height="100%" >
+					<mx:FormItem label="ID" width="100%" >
+						<mx:TextInput id="environmentIDText" />
+					</mx:FormItem>
+					<mx:FormItem label="Copy" width="100%" >
+						<mx:ComboBox id="environmentCopyCombo" dataProvider="{ ProjectController.getInstance().config.environments..environment }" labelField="@id" />
+					</mx:FormItem>
+				</mx:HBox>
+				
+				<mx:HBox width="100%" height="100%">
+					<mx:FormItem label="Value" width="100%" >
+						<mx:TextInput id="patternValueText" />
+					</mx:FormItem>
+					<mx:FormItem label="Environment" width="100%" >
+						<mx:ComboBox id="patternEnvironmentCombo" dataProvider="{ ProjectController.getInstance().config.environments..environment }" labelField="@id" />
+					</mx:FormItem>
+				</mx:HBox>
+			
+				<mx:HBox width="100%" height="100%">
+					<mx:Form width="100%" >
+						<mx:FormItem label="ID" width="100%" >
+							<mx:ComboBox id="settingIDCombo" dataProvider="{ ProjectController.getInstance().config.settings..setting }" labelField="@id" />
+						</mx:FormItem>
+						<mx:FormItem label="Value" width="100%" >
+							<mx:TextInput id="settingValueText" />
+						</mx:FormItem>
+					</mx:Form>
+					<mx:Form width="100%" >
+						<mx:FormItem label="Environment" width="100%" >
+							<mx:ComboBox id="settingEnvironmentCombo" dataProvider="{ ProjectController.getInstance().config.environments..environment }" labelField="@id" />
+						</mx:FormItem>
+					</mx:Form>
+				</mx:HBox>
+				
+				<mx:HBox width="100%" height="100%">
+					<mx:Form width="100%" >
+						<mx:FormItem label="ID" width="100%" >
+							<mx:TextInput id="generalIDText" />
+						</mx:FormItem>
+						<mx:FormItem label="Value" width="100%" >
+							<mx:TextInput id="generalValueText" />
+						</mx:FormItem>
+					</mx:Form>
+					<mx:Form width="100%" >
+						<mx:FormItem label="Environment" width="100%" >
+							<mx:ComboBox id="generalEnvironmentCombo" dataProvider="{ ProjectController.getInstance().config.environments..environment }" labelField="@id" />
+						</mx:FormItem>
+					</mx:Form>
+				</mx:HBox>
+			</mx:ViewStack>
+			
+			<mx:ControlBar>
+				<mx:Button click="this.createNode()" id="nodeCreateButton" styleName="createIcon" icon="{ CreateIcon }"/>
+			</mx:ControlBar>
+			
+		</misc:ComboPanel>
+		
+		
+		
+		<mx:Panel width="100%" height="100%" layout="vertical" title="Hierarchy" >
+			<mx:AdvancedDataGrid id="nodeTree" designViewDataType="tree" sortExpertMode="true" width="100%" height="100%" dataProvider="{ new HierarchicalData( ProjectController.getInstance().config.environments..environment ) }" defaultLeafIcon="{ EnvironmentIcon }" folderOpenIcon="{ EnvironmentIcon }" folderClosedIcon="{ EnvironmentIcon }" itemClick="this.onTreeSelect( event )">
+				<mx:headerRenderer>
+					<mx:Component>
+						<mx:AdvancedDataGridHeaderRenderer horizontalAlign="left"/>
+					</mx:Component>
+		        </mx:headerRenderer>
+				<mx:columns>
+					<mx:AdvancedDataGridColumn headerText="ID" labelFunction="getLabel" sortable="false" />
+					<mx:AdvancedDataGridColumn headerText="Value" dataField="@value" sortable="false" />
+				</mx:columns>
+			</mx:AdvancedDataGrid>
+			<!--<mx:Tree width="100%" height="100%" id="nodeTree" labelField="@id" dataProvider="{ ApplicationController.getInstance().config.environments..environment }" itemClick="this.onTreeSelect( event )" labelFunction="getLabel" defaultLeafIcon="{ EnvironmentIcon }" folderOpenIcon="{ EnvironmentIcon }" folderClosedIcon="{ EnvironmentIcon }" />-->
+			<misc:HierarchyControlBar id="hierarchyControlBar" deleteNode="this.deleteNode()" deselectNode="this.deselect()" />
+		</mx:Panel>
+		
+	</mx:VBox>		
+	
+	<misc:AttributeEditor id="attributeEditor" selectedNode="{ this.selectedNode }" createAttribute="this.createAttribute()" updateAttribute="this.updateAttribute()" deleteAttribute="this.deleteAttribute()"/>
+		
+</mx:HBox>

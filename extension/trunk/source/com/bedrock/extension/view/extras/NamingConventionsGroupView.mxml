@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" initialize="this._bootup()" styleName="namingConventionPanel">
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.extension.controller.ExtensionController;
+			import mx.controls.dataGridClasses.DataGridColumn;
+			
+			public var types:Array;
+			
+			private function _bootup():void
+			{
+				var columns:Array = new Array;
+				
+				columns.push( this._getFirstColumn() );
+				var column:DataGridColumn;
+				for each( var option:Object in ExtensionController.getInstance().namingConventions.options ) {
+					column = new DataGridColumn();
+					column.headerText = option.label;
+					column.dataField = option.id;
+					column.width = 15;
+					column.resizable = false;
+					column.itemRenderer = new ClassFactory( NamingCheckView );
+					columns.push( column );
+				}
+				columns.push( this._getLastColumn() );
+				
+				this.namingGrid.columns = columns;
+				this.namingGrid.dataProvider = this.types;
+				
+				this.namingGrid.height = ( this.types.length * 22 ) + 24;
+			}
+			private function _getFirstColumn():DataGridColumn
+			{
+				var column:DataGridColumn = new DataGridColumn();
+				column.headerText = "Type";
+				column.dataField = "label";
+				column.resizable = false;
+				column.sortable = false;
+				return column;
+			}
+			private function _getLastColumn():DataGridColumn
+			{
+				var column:DataGridColumn = new DataGridColumn();
+				column.headerText = "Example";
+				column.dataField = "example";
+				column.width = 175;
+				column.resizable = false;
+				column.sortable = false;
+				return column;
+			}
+		]]>
+	</mx:Script>
+	<mx:DataGrid width="100%" id="namingGrid" styleName="namingConventionDataGrid"/>
+	
+</mx:Panel>

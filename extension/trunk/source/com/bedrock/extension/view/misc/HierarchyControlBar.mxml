@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:ControlBar xmlns:mx="http://www.adobe.com/2006/mxml" width="100%">
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.extension.controller.ProjectController;
+			import com.bedrock.extension.event.ExtensionEvent;
+			
+			[Embed("assets/DeleteIcon.png")]
+            private var DeleteIcon:Class;
+             [Embed("assets/DeselectIcon.png")]
+            private var DeselectIcon:Class;
+            [Embed("assets/RefreshIcon.png")]
+            private var RefreshIcon:Class;
+            [Embed("assets/SaveIcon.png")]
+            private var SaveIcon:Class;
+            
+			private function notify( $event:String ):void
+			{
+				this.dispatchEvent( new ExtensionEvent( $event, this ) );
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Metadata>
+        [Event(name="deselectNode", type="com.bedrock.extension.event.ExtensionEvent")]
+        [Event(name="deleteNode", type="com.bedrock.extension.event.ExtensionEvent")]
+    </mx:Metadata>
+	<mx:Button click="ProjectController.getInstance().config.saveConfig()" id="saveConfigButton" icon="{ SaveIcon }" toolTip="Save Config"/>
+	<mx:Button click="ProjectController.getInstance().config.loadConfig()" id="refreshConfigButton" icon="{ RefreshIcon }" toolTip="Reload Config"/>
+	<mx:Button click="this.notify( 'deselectNode' )" id="nodeDeselectButton" icon="{ DeselectIcon }" toolTip="Deselect"/>
+	<mx:Button click="this.notify( 'deleteNode' )" id="nodeDeleteButton" icon="{ DeleteIcon }" toolTip="Delete"/>
+</mx:ControlBar>

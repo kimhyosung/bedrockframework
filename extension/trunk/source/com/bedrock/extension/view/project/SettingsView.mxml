@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" styleName="padded5px" creationComplete="this.bootup()" horizontalAlign="center">
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.framework.plugin.util.ArrayUtil;
+			import mx.collections.ArrayCollection;
+			import com.bedrock.extension.controller.ProjectController;
+			import com.bedrock.framework.plugin.util.XMLUtil2;
+			import com.bedrock.framework.engine.data.BedrockData;
+			import com.bedrock.framework.core.logging.LogLevel;
+			import mx.containers.FormItem;
+			import mx.controls.Alert;
+			import com.bedrock.framework.engine.data.BedrockData;
+			/*
+			Variable Delcarations
+			*/
+			[Bindable]
+			private var _arrCheckBoxes:ArrayCollection;
+			/*
+			Constructor
+			*/
+			private function bootup():void
+			{
+				this.populate();
+				this.createBehaviorOptions();
+			}
+			/*
+			Creation Functions
+			*/
+			private function createBehaviorOptions():void
+			{
+				this._arrCheckBoxes = new ArrayCollection();
+				var objCheckBox:CheckBox;
+				for each( var objOption:Object in ProjectController.getInstance().resources.getBundle( "behaviorSettings" ) ) {
+					objCheckBox = new CheckBox;
+					objCheckBox.id = objOption.id + "Check";
+					objCheckBox.label = objOption.label;
+					objCheckBox.selected = ProjectController.getInstance().config.getSettingValue( objOption.id );
+					objCheckBox.addEventListener( Event.CHANGE, this.onChange );
+					
+					objOption.check = objCheckBox;
+					this._arrCheckBoxes.addItem( objOption );
+					this.behaviorSettingsForm.addChild( objCheckBox );
+				}
+			}
+			private function populate():void
+			{
+				this.stageAlignmentCombo.selectedIndex = ArrayUtil.findIndex( ProjectController.getInstance().resources.getBundle( 'stageAlignmentOptions' ), ProjectController.getInstance().config.getSettingValue( BedrockData.STAGE_ALIGNMENT ) );
+				this.stageScaleModeCombo.selectedIndex = ArrayUtil.findIndex( ProjectController.getInstance().resources.getBundle( 'stageScaleModeOptions' ), ProjectController.getInstance().config.getSettingValue( BedrockData.STAGE_SCALE_MODE ) );
+				this.defaultTransitionStyleCombo.selectedIndex = ArrayUtil.findIndex( ProjectController.getInstance().resources.getBundle( 'defaultTransitionStyleOptions' ), ProjectController.getInstance().config.getSettingValue( BedrockData.DEFAULT_TRANSITION_STYLE ) );
+				
+				this.initialPreloaderTimeStepper.value = ProjectController.getInstance().config.getSettingValue( BedrockData.INITIAL_PRELOADER_TIME );
+				this.defaultPreloaderTimeStepper.value = ProjectController.getInstance().config.getSettingValue( BedrockData.DEFAULT_PRELOADER_TIME );
+				this.blockerAlphaStepper.value = ProjectController.getInstance().config.getSettingValue( BedrockData.BLOCKER_ALPHA );
+				this.blockerColorPicker.selectedColor = ProjectController.getInstance().config.getSettingValue( BedrockData.BLOCKER_COLOR );
+				
+				this.localesEnabledCheck.selected = ProjectController.getInstance().config.getSettingValue( BedrockData.LOCALES_ENABLED );
+				this.defaultLocaleCombo.selectedIndex = this.findIndex( ProjectController.getInstance().config.getSettingValue( BedrockData.DEFAULT_LOCALE ), ProjectController.getInstance().config.locales..locale );
+				this.localeDelimiterText.text = ProjectController.getInstance().config.getSettingValue( BedrockData.LOCALE_DELIMITER );
+				
+				var strLocalizedFiles:String = ProjectController.getInstance().config.getSettingValue( BedrockData.LOCALIZED_FILES );
+				this.fontsCheck.selected = ( strLocalizedFiles.indexOf( BedrockData.FONTS ) != -1 );
+				this.stylesheetCheck.selected = ( strLocalizedFiles.indexOf( BedrockData.STYLESHEET ) != -1 );
+				this.libraryCheck.selected = ( strLocalizedFiles.indexOf( "sharedAssets" ) != -1 );//BedrockData.LIBRARY
+				this.dataBundleCheck.selected = ( strLocalizedFiles.indexOf( BedrockData.DATA_BUNDLE ) != -1 );
+				
+				this.logDetailDepthStepper.value = ProjectController.getInstance().config.getSettingValue( BedrockData.LOG_DETAIL_DEPTH );
+				this.errorsEnabledCheck.selected = ProjectController.getInstance().config.getSettingValue( BedrockData.ERRORS_ENABLED );
+				
+				var arrLogLevels:Array = ProjectController.getInstance().resources.getBundle( "logOptions" );
+				this.traceLogLevelCombo.dataProvider = arrLogLevels;
+				this.traceLogLevelCombo.selectedIndex = ArrayUtil.findIndex( arrLogLevels, ProjectController.getInstance().config.getSettingValue( BedrockData.TRACE_LOG_LEVEL ) );
+				this.eventLogLevelCombo.dataProvider = arrLogLevels;
+				this.eventLogLevelCombo.selectedIndex = ArrayUtil.findIndex( arrLogLevels, ProjectController.getInstance().config.getSettingValue( BedrockData.EVENT_LOG_LEVEL ) );
+				this.monsterLogLevelCombo.dataProvider = arrLogLevels;
+				this.monsterLogLevelCombo.selectedIndex = ArrayUtil.findIndex( arrLogLevels, ProjectController.getInstance().config.getSettingValue( BedrockData.MONSTER_LOG_LEVEL ) );
+				this.remoteLogLevelCombo.dataProvider = arrLogLevels;
+				this.remoteLogLevelCombo.selectedIndex = ArrayUtil.findIndex( arrLogLevels, ProjectController.getInstance().config.getSettingValue( BedrockData.REMOTE_LOG_LEVEL ) );
+				
+				this.remoteLogURLText.text = ProjectController.getInstance().config.getSettingValue( BedrockData.REMOTE_LOG_URL );
+				
+				this.filenameFontsText.text = ProjectController.getInstance().config.getSettingValue( BedrockData.FONTS_FILENAME );
+				this.filenameDataBundleText.text = ProjectController.getInstance().config.getSettingValue( BedrockData.DATA_BUNDLE_FILENAME );
+				this.filenameLibraryText.text = ProjectController.getInstance().config.getSettingValue( "sharedFilename" );//BedrockData.LIBRARY_FILENAME
+				this.filenameStylesheetText.text = ProjectController.getInstance().config.getSettingValue( BedrockData.STYLESHEET_FILENAME );
+			}
+			
+			private function updateSettings():void
+			{
+				this.applyGeneralSettings();
+				this.applyLocaleSettings();
+				this.applyBehaviorSettings();
+				this.applyLoggerSettings();
+				this.applyFilenameSettings();
+				ProjectController.getInstance().config.autoSaveConfig();
+			}
+			
+			private function applyGeneralSettings():void
+			{
+				ProjectController.getInstance().config.setSettingValue( BedrockData.STAGE_ALIGNMENT, this.stageAlignmentCombo.selectedLabel );
+				ProjectController.getInstance().config.setSettingValue( BedrockData.STAGE_SCALE_MODE, this.stageScaleModeCombo.selectedLabel );
+				ProjectController.getInstance().config.setSettingValue( BedrockData.DEFAULT_TRANSITION_STYLE, this.defaultTransitionStyleCombo.selectedLabel );
+				ProjectController.getInstance().config.setSettingValue( BedrockData.INITIAL_PRELOADER_TIME, this.initialPreloaderTimeStepper.value );
+				ProjectController.getInstance().config.setSettingValue( BedrockData.DEFAULT_PRELOADER_TIME, this.defaultPreloaderTimeStepper.value );
+				ProjectController.getInstance().config.setSettingValue( BedrockData.BLOCKER_ALPHA, this.blockerAlphaStepper.value );
+				ProjectController.getInstance().config.setSettingValue( BedrockData.BLOCKER_COLOR, this.blockerColorPicker.selectedColor );
+			}
+			private function applyBehaviorSettings():void
+			{
+				for each( var objOption:Object in this._arrCheckBoxes.source ) {
+					ProjectController.getInstance().config.setSettingValue( objOption.id, objOption.check.selected );
+				}
+			}
+			private function applyLocaleSettings():void
+			{
+				ProjectController.getInstance().config.setSettingValue( BedrockData.LOCALES_ENABLED, this.localesEnabledCheck.selected );
+				ProjectController.getInstance().config.setSettingValue( BedrockData.LOCALE_DELIMITER, this.localeDelimiterText.text );
+				ProjectController.getInstance().config.setSettingValue( BedrockData.DEFAULT_LOCALE, this.defaultLocaleCombo.selectedItem.@id );
+				
+				var arrLocalizedFiles:Array = new Array;
+				if ( this.fontsCheck.selected ) arrLocalizedFiles.push( BedrockData.FONTS );
+				if ( this.stylesheetCheck.selected ) arrLocalizedFiles.push( BedrockData.STYLESHEET );
+				if ( this.libraryCheck.selected ) arrLocalizedFiles.push( BedrockData.LIBRARY );
+				if ( this.dataBundleCheck.selected ) arrLocalizedFiles.push( BedrockData.DATA_BUNDLE );
+				
+				ProjectController.getInstance().config.setSettingValue( BedrockData.LOCALIZED_FILES, arrLocalizedFiles.toString() );
+			}
+			private function applyFilenameSettings():void
+			{
+				ProjectController.getInstance().config.setSettingValue( "sharedFilename", this.filenameLibraryText.text ); //BedrockData.LIBRARY_FILENAME
+				ProjectController.getInstance().config.setSettingValue( BedrockData.FONTS_FILENAME, this.filenameFontsText.text );
+				ProjectController.getInstance().config.setSettingValue( BedrockData.STYLESHEET_FILENAME, this.filenameStylesheetText.text );
+				ProjectController.getInstance().config.setSettingValue( BedrockData.DATA_BUNDLE_FILENAME, this.filenameDataBundleText.text );
+			}
+			private function applyLoggerSettings():void
+			{
+				ProjectController.getInstance().config.setSettingValue( BedrockData.LOG_DETAIL_DEPTH, this.logDetailDepthStepper.value );
+				ProjectController.getInstance().config.setSettingValue( BedrockData.ERRORS_ENABLED, this.errorsEnabledCheck.selected );
+				
+				ProjectController.getInstance().config.setSettingValue( BedrockData.TRACE_LOG_LEVEL, this.traceLogLevelCombo.selectedLabel );
+				ProjectController.getInstance().config.setSettingValue( BedrockData.EVENT_LOG_LEVEL, this.eventLogLevelCombo.selectedLabel );
+				ProjectController.getInstance().config.setSettingValue( BedrockData.REMOTE_LOG_LEVEL, this.remoteLogLevelCombo.selectedLabel );
+				ProjectController.getInstance().config.setSettingValue( BedrockData.MONSTER_LOG_LEVEL, this.monsterLogLevelCombo.selectedLabel );
+			}
+			/*
+			Event Handlers
+			*/
+			private function onChange( $event:Event ):void
+			{
+				this.updateSettings();
+			}
+			
+			private function findIndex( $id:String, $list:XMLList ):int
+			{
+				var i:int;
+				var xmlList:XML = XMLUtil2.sanitizeXML( $list );
+				for each( var xmlItem:XML in $list ) {
+					if ( xmlItem.@id == $id ) {
+						return i;
+					}
+					++i;
+				}
+				return -1;
+			}
+		]]>
+	</mx:Script>
+	<mx:HBox>
+		
+		
+		<mx:VBox height="100%">
+			<mx:Panel layout="vertical" title="General Settings" width="100%" height="50%">
+				<mx:Form id="generalSettingsForm">
+					<mx:FormItem label="Stage Alignment" width="100%">
+						<mx:ComboBox id="stageAlignmentCombo" dataProvider="{ ProjectController.getInstance().resources.getBundle( 'stageAlignmentOptions' ) }" change="this.onChange( event )" />
+					</mx:FormItem>
+					<mx:FormItem label="Stage Scale Mode" width="100%">
+						<mx:ComboBox id="stageScaleModeCombo" dataProvider="{ ProjectController.getInstance().resources.getBundle( 'stageScaleModeOptions' ) }" change="this.onChange( event )" />
+					</mx:FormItem>
+					<mx:FormItem label="Default Transition Style" width="100%">
+						<mx:ComboBox id="defaultTransitionStyleCombo" dataProvider="{ ProjectController.getInstance().resources.getBundle( 'defaultTransitionStyleOptions' ) }" change="this.onChange( event )" />
+					</mx:FormItem>
+					<mx:FormItem label="Initial Preloader Time">
+						<mx:NumericStepper id="initialPreloaderTimeStepper" stepSize="0.1" change="this.onChange( event )" />
+					</mx:FormItem>
+					<mx:FormItem label="Default Preloader Time">
+						<mx:NumericStepper id="defaultPreloaderTimeStepper" stepSize="0.1" change="this.onChange( event )"/>
+					</mx:FormItem>
+					<mx:FormItem label="Blocker Alpha">
+						<mx:NumericStepper id="blockerAlphaStepper" change="this.onChange( event )" stepSize="0.1" minimum="0" maximum="1"/>
+					</mx:FormItem>
+					<mx:FormItem label="Blocker Color">
+						<mx:ColorPicker id="blockerColorPicker" change="this.onChange( event )" selectedColor="#000000"/>
+					</mx:FormItem>
+				</mx:Form>
+			</mx:Panel>
+			
+			<mx:Panel layout="vertical" title="Locale Settings" width="100%" height="100%">
+		  		<mx:Form width="100%" height="100%">
+		  			<mx:FormItem label="Locales Enabled">
+						<mx:CheckBox id="localesEnabledCheck" selected="false" change="this.onChange( event )" />
+					</mx:FormItem>
+					<mx:FormItem label="Locale Delimiter">
+						<mx:TextInput id="localeDelimiterText" width="100%" text="_" maxChars="1" change="this.onChange( event )"/>
+					</mx:FormItem>
+					<mx:FormItem label="Default Locale">
+						<mx:ComboBox id="defaultLocaleCombo" dataProvider="{ ProjectController.getInstance().config.locales..locale }" labelField="@id"  change="this.onChange( event )"/>
+					</mx:FormItem>
+					<mx:FormItem label="Localized Files">
+						<mx:CheckBox id="libraryCheck" label="Shared Assets" change="this.onChange( event )"/>
+						<mx:CheckBox id="fontsCheck" label="Fonts" change="this.onChange( event )"/>
+						<mx:CheckBox id="stylesheetCheck" label="Stylesheet" change="this.onChange( event )"/>
+						<mx:CheckBox id="dataBundleCheck" label="Resource Bundle" change="this.onChange( event )"/>
+					</mx:FormItem>
+				</mx:Form>
+			</mx:Panel>
+			
+		</mx:VBox>
+		
+		<mx:Panel layout="vertical" title="Behavior Settings" height="100%">
+			<mx:Form id="behaviorSettingsForm"/>
+		</mx:Panel>
+		
+		
+		<mx:VBox height="100%">
+		
+			<mx:Panel layout="vertical" title="Logger Settings" width="100%" height="100%">
+		  		<mx:Form width="100%" height="100%">
+		  			<mx:FormItem label="Log Detail Depth">
+						<mx:NumericStepper id="logDetailDepthStepper" minimum="0" stepSize="1" maximum="25" change="this.onChange( event )" />
+					</mx:FormItem>
+					<mx:FormItem label="Errors Enabled">
+						<mx:CheckBox id="errorsEnabledCheck" selected="true" change="this.onChange( event )" />
+					</mx:FormItem>
+					<mx:HRule width="100%" />
+					<mx:FormItem label="Trace Log Level">
+						<mx:ComboBox id="traceLogLevelCombo" labelField="label" change="this.onChange( event )" />
+					</mx:FormItem>
+					<mx:FormItem label="Event Log Level">
+						<mx:ComboBox id="eventLogLevelCombo" labelField="label" change="this.onChange( event )"/>
+					</mx:FormItem>
+					<mx:FormItem label="Monster Log Level">
+						<mx:ComboBox id="monsterLogLevelCombo" labelField="label" change="this.onChange( event )"/>
+					</mx:FormItem>
+					<mx:FormItem label="Remote Log Level">
+						<mx:ComboBox id="remoteLogLevelCombo" labelField="label" change="this.onChange( event )"/>
+					</mx:FormItem>
+					<mx:FormItem label="Remote Log URL" width="100%">
+						<mx:TextInput id="remoteLogURLText"  width="125" change="this.onChange( event )"/>
+					</mx:FormItem>
+					
+				</mx:Form>
+			</mx:Panel>
+			
+			<mx:Panel layout="vertical" title="Resource Filenames" width="100%" height="100%">
+				<mx:Form width="100%" height="100%">
+					<mx:FormItem label="Shared Assets">
+						<mx:TextInput width="125" id="filenameLibraryText" change="this.onChange( event )"/>
+					</mx:FormItem>
+					<mx:FormItem label="Fonts">
+						<mx:TextInput width="125" id="filenameFontsText" change="this.onChange( event )"/>
+					</mx:FormItem>
+					<mx:FormItem label="Stylesheet">
+						<mx:TextInput width="125" id="filenameStylesheetText" change="this.onChange( event )"/>
+					</mx:FormItem>
+					<mx:FormItem label="Data Bundle">
+						<mx:TextInput width="125" id="filenameDataBundleText" change="this.onChange( event )"/>
+					</mx:FormItem>
+				</mx:Form>
+			</mx:Panel>
+			
+		</mx:VBox>
+		
+	</mx:HBox>
+</mx:HBox>

@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<bundles>
+  <bundle id="stageScaleModeOptions" type="array">
+    <value>NO_SCALE</value>
+    <value>SHOW_ALL</value>
+    <value>EXACT_FIT</value>
+    <value>NO_BORDER</value>
+  </bundle>
+  <bundle id="stageAlignmentOptions" type="array">
+    <value>TOP_LEFT</value>
+    <value>TOP_RIGHT</value>
+    <value>TOP</value>
+    <value>BOTTOM_LEFT</value>
+    <value>BOTTOM_RIGHT</value>
+    <value>BOTTOM</value>
+  </bundle>
+  <bundle id="logOptions" type="array">
+    <level>NONE</level>
+    <level>ALL</level>
+    <level>STATUS</level>
+    <level>DEBUG</level>
+    <level>WARNING</level>
+    <level>ERROR</level>
+    <level>FATAL</level>
+  </bundle>
+  <bundle id="behaviorSettings" type="array">
+    <setting id="autoTransitionDefaultContent" label="Auto Transition Default Content" />
+    <setting id="showBlockerDuringTransitions" label="Show Blocker During Transitions" />
+    <setting id="deeplinkingEnabled" label="Deeplinking Enabled" />
+    <setting id="deeplinkContent" label="Deeplink Content" />
+    <setting id="trackingEnabled" label="Tracking Enabled" />
+    <setting id="libraryEnabled" label="Library Enabled" />
+    <setting id="fontsEnabled" label="Fonts Enabled" />
+    <setting id="stylesheetEnabled" label="Stylesheet Enabled" />
+    <setting id="dataBundleEnabled" label="Data Bundle Enabled" />
+    <setting id="showPagesInContextMenu" label="Show Page in Context Menu" />
+    <setting id="showAboutInContextMenu" label="Show About in Context Menu" />
+  </bundle>
+  <bundle id="contentCreationOptions" type="array">
+    <option label="Content" value="content" />
+    <option label="Content Group" value="contentGroup" />
+    <option label="Asset" value="asset" />
+  </bundle>
+  <bundle id="environmentCreationOptions" type="array">
+    <option label="Environment" value="environment" />
+    <option label="Pattern" value="pattern" />
+    <option label="Setting" value="setting" />
+    <option label="Path" value="path" />
+    <option label="Variable" value="variable" />
+  </bundle>
+  <bundle id="defaultTransitionStyleOptions" type="array">
+    <style>NORMAL</style>
+    <style>PRELOADER</style>
+    <style>REVERSE</style>
+    <style>CROSS</style>
+  </bundle>
+  <bundle id="assetTypeOptions" type="array">
+    <type>xml</type>
+    <type>image</type>
+    <type>swf</type>
+    <type>audio</type>
+    <type>video</type>
+    <type>stylesheet</type>
+    <type>data</type>
+  </bundle>
+</bundles>

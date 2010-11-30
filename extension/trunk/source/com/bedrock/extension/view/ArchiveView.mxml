@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" layout="vertical" initialize="this.bootup()" title="Project Archive">
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.extension.controller.ExtensionController;
+			import mx.events.CloseEvent;
+			import mx.controls.Alert;
+			
+			
+			private function bootup():void
+			{
+			}
+			
+			private function findProject():void
+			{
+				if ( !ExtensionController.getInstance().findProject() ) {
+					Alert.show( "Invalid project file!", "Warning!" );
+				}
+			}
+			private function createProject():void
+			{
+				this.projectGrid.selectedIndex = -1;
+				ExtensionController.getInstance().showCreateProject();
+			}
+			private function loadProject():void
+			{
+				if ( ExtensionController.getInstance().loadProject( this.projectGrid.selectedItem.@path ) ) {
+					Alert.show( "Ok! Project \"" + this.projectGrid.selectedItem.@name + "\" loaded!", "Attention!" );
+				} else {
+					Alert.show( "Boo! Project \"" + this.projectGrid.selectedItem.@name + "\" failed!", "Warning!" );
+				}
+			}
+			private function removeProject():void
+			{
+				Alert.show("This will only erase the project from the archive, not from your hard drive.\nAre you sure you want to proceed?","Warning!", Alert.OK|Alert.CANCEL,this, this.onCloseAlert, null, Alert.OK);
+			}
+			private function onCloseAlert($event:CloseEvent):void
+			{
+				switch ( $event.detail ) {
+					case Alert.OK :
+						ExtensionController.getInstance().removeProject( this.projectGrid.selectedItem.@id );
+						break;
+				}
+			}
+			
+
+		]]>
+	</mx:Script>
+		
+	<mx:DataGrid width="100%" height="100%" sortableColumns="true" id="projectGrid" doubleClickEnabled="true" dataProvider="{ ExtensionController.getInstance().settingsXML.projects..project }" itemClick="{ this.loadProjectButton.enabled = true }" itemDoubleClick="this.loadProject()">
+		<mx:columns>
+			<mx:DataGridColumn headerText="Name" dataField="@name" width="150"/>
+			<mx:DataGridColumn headerText="Path" dataField="@path"/>
+			<mx:DataGridColumn headerText="Version" dataField="@frameworkVersion" width="75"/>
+			<mx:DataGridColumn headerText="Created" dataField="@created" width="100"/>
+		</mx:columns>
+	</mx:DataGrid>
+	<mx:HBox width="100%">
+		<mx:Button label="Create Project" width="100%" height="40" click="this.createProject()" />
+		<mx:Button label="Load Project" width="100%" height="40" id="loadProjectButton" click="this.loadProject()" enabled="{ this.projectGrid.selectedIndex != -1 }"/>
+		<mx:Button label="Find Project" width="100%" height="40" click="this.findProject()"/>
+		<mx:Button label="Remove Project" width="100%" height="40" click="this.removeProject()"/>
+	</mx:HBox>
+	
+</mx:Panel>

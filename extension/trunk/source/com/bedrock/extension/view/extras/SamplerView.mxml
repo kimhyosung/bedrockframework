@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HDividedBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+	<mx:Script>
+		<![CDATA[
+			import mx.events.ItemClickEvent;
+			import mx.containers.ViewStack;
+			import com.bedrock.framework.core.logging.Logger;
+			import mx.controls.DataGrid;
+			import mx.controls.HRule;
+			import com.bedrock.framework.plugin.util.XMLUtil2;
+			import mx.controls.TextInput;
+			import mx.controls.NumericStepper;
+			import mx.controls.CheckBox;
+			import com.bedrock.extras.util.VariableUtil;
+			import com.bedrock.extras.util.ClassUtil;
+			import mx.collections.ArrayCollection;
+			import com.bedrock.framework.plugin.storage.HashMap;
+			import mx.controls.Button;
+			import mx.containers.FormItem;
+			import mx.controls.ComboBox;
+			import mx.containers.Form;
+			
+			private var _formElements:HashMap;
+			private var _currentForm:ArrayCollection;
+			private var _panelGroups:HashMap;
+			private var _sampleXML:XML;
+			private var _sampleCode:String;
+			
+			private var _swfPath:String;
+			
+			public function initializeSample( $swfPath:String, $data:String, $code:String ):void
+			{
+				this._swfPath = $swfPath;
+				this._formElements = new HashMap;
+				this._panelGroups = new HashMap;
+				this._sampleXML = new XML( $data );
+				this._sampleCode = $code;
+				
+				this._buildInterface( this._sampleXML, this._sampleCode );
+				
+				this.testSWF.unloadAndStop( true );
+				this.testSWF.source = $swfPath;
+			}
+			private function _buildInterface( $interface:XML, $code:String ):void
+			{
+				this.formAccordion.removeAllChildren();
+				
+				var formElements:ArrayCollection;
+				var accordionPanel:SamplerAccordionPanel;
+				
+				for each ( var formXML:XML in $interface.children() ) {
+					accordionPanel = new SamplerAccordionPanel;
+					accordionPanel.id = formXML.@id.toString();
+					accordionPanel.label = formXML.@label.toString();
+					this.formAccordion.addChild( accordionPanel );
+					
+					formElements = new ArrayCollection;
+					for each ( var elementXML:XML in formXML.children() ) {
+						accordionPanel.testForm.addChild( this._createFormItem( formElements, elementXML ) );
+					}
+					this._formElements.saveValue( accordionPanel.id, formElements );
+					
+					accordionPanel.code = this._getCodeChunk( $code, accordionPanel.id );
+					this._panelGroups.saveValue( formXML.@id.toString(), accordionPanel );
+				}
+			}
+			private function _getCodeChunk( $code:String, $id:String ):String
+			{
+				var startTag:String = "/* <" + $id + "> */";
+				var closeTag:String = "/* </" + $id + "> */";
+				
+				var startIndex:int = $code.indexOf( startTag ) + startTag.length;
+				var closeIndex:int = $code.indexOf( closeTag );
+				
+				if ( startIndex > -1 && closeIndex > -1 ) {
+					return $code.substring( startIndex, closeIndex );
+				} else {
+					return "";
+				}
+			}
+			private function _createFormItem( $formElements:ArrayCollection, $element:XML ):*
+			{
+				switch( $element.@type.toString() ) {
+					case "ComboBox" :
+					case "CheckBox" :
+					case "NumericStepper" :
+					case "TextInput" :
+						var formItem:FormItem = new FormItem();
+						formItem.id = $element.@id.toString();
+						formItem.label = $element.@label.toString();
+						break;
+				}
+				
+				switch( $element.@type.toString() ) {
+					case "ComboBox" :
+						formItem.addChild( this._createComboBox( $formElements, $element ) );
+						break;
+					case "CheckBox" :
+						formItem.addChild( this._createCheckBox( $formElements, $element ) );
+						break;
+					case "NumericStepper" :
+						formItem.addChild( this._createNumericStepper( $formElements, $element ) );
+						break;
+					case "TextInput" :
+						formItem.addChild( this._createTextInput( $formElements, $element ) );
+						break;
+					case "Button" :
+						return this._createButton( $formElements, $element );
+						break;
+					case "DataGrid" :
+						return this._createDataGrid( $formElements, $element );
+						break;
+					case "HRule" :
+						return this._createHRule( $formElements, $element );
+						break;
+				}
+				return formItem;
+			}
+			private function _createDataGrid( $formElements:ArrayCollection, $element:XML ):DataGrid
+			{
+				var dataGrid:DataGrid = new DataGrid();
+				dataGrid.percentWidth = 100;
+				dataGrid.editable = true;
+				dataGrid.id = $element.@id.toString();
+				
+				var objects:Array = new Array;
+				for each( var objectXML:XML in $element..object ) {
+					objects.push( XMLUtil2.getAttributesAsObject( objectXML ) );
+				}
+				dataGrid.dataProvider = objects;
+				$formElements.addItem( dataGrid );
+				
+				return dataGrid;
+			}
+			private function _createHRule( $formElements:ArrayCollection, $element:XML ):HRule
+			{
+				var hRule:HRule = new HRule();
+				hRule.percentWidth = 100;
+				return hRule;
+			}
+			private function _createComboBox( $formElements:ArrayCollection, $element:XML ):ComboBox
+			{
+				var comboBox:ComboBox = new ComboBox();
+				comboBox.id = $element.@id.toString();
+				comboBox.dataProvider = $element..option;
+				$formElements.addItem( comboBox );
+				return comboBox;
+			}
+			private function _createCheckBox( $formElements:ArrayCollection, $element:XML ):CheckBox
+			{
+				var checkBox:CheckBox = new CheckBox();
+				checkBox.id = $element.@id.toString();
+				checkBox.selected = VariableUtil.sanitize( $element.@defaultValue );
+				$formElements.addItem( checkBox );
+				return checkBox;
+			}
+			private function _createTextInput( $formElements:ArrayCollection, $element:XML ):TextInput
+			{
+				var textInput:TextInput = new TextInput();
+				textInput.id = $element.@id.toString();
+				textInput.text = VariableUtil.sanitize( $element.@defaultValue );
+				textInput.restrict = VariableUtil.sanitize( $element.@restrict );
+				textInput.width = 100;
+				$formElements.addItem( textInput );
+				return textInput;
+			}
+			private function _createNumericStepper( $formElements:ArrayCollection, $element:XML ):NumericStepper
+			{
+				var numericStepper:NumericStepper = new NumericStepper();
+				numericStepper.id = $element.@id.toString();
+				numericStepper.value = VariableUtil.sanitize( $element.@defaultValue );
+				numericStepper.maximum = VariableUtil.sanitize( $element.@maximum );
+				numericStepper.minimum = VariableUtil.sanitize( $element.@minimum );
+				$formElements.addItem( numericStepper );
+				return numericStepper;
+			}
+			private function _createButton( $formElements:ArrayCollection, $element:XML ):Button
+			{
+				var button:Button = new Button();
+				button.id = $element.@id.toString();
+				button.label = $element.@label.toString();
+				button.addEventListener( MouseEvent.CLICK, this._onExecuteClick );
+				button.percentWidth = 100;
+				$formElements.addItem( button );
+				return button;
+			}
+			private function _onExecuteClick( $event:MouseEvent ):void
+			{
+				var formXML:XML = XMLUtil2.filterByAttribute( this._sampleXML..form, "id", this.formAccordion.selectedChild.id )[ 0 ];
+				var buttonXML:XML = XMLUtil2.filterByAttribute( formXML..element, "id", $event.target.id )[ 0 ];
+				
+				var data:Object = new Object;
+				for each( var element:* in this._formElements.getValue( formXML.@id.toString() ) ) {
+					switch( ClassUtil.getClassName( element ) ) {
+						case "ComboBox" :
+							data[ element.id ] = VariableUtil.sanitize( element.selectedItem );
+							break;
+						case "CheckBox" :
+							data[ element.id ] = VariableUtil.sanitize( element.selected );
+							break;
+						case "TextInput" :
+							data[ element.id ] = VariableUtil.sanitize( element.text );
+							break;
+						case "NumericStepper" :
+							data[ element.id ] = VariableUtil.sanitize( element.value );
+							break;
+						case "DataGrid" :
+							data[ element.id ] = element.dataProvider.source;
+							break;
+					}
+				}
+				this.testSWF.content[ "callSelectedTestItem" ]( buttonXML.@call.toString(), data );
+			}
+			private function _onAccordionChange( $event:Event ):void
+			{
+				var formXML:XML = XMLUtil2.filterByAttribute( this._sampleXML..form, "id", this.formAccordion.selectedChild.id )[ 0 ];
+				this.testSWF.content[ "selectTestItem" ]( formXML.@target.toString() );
+			}
+			
+		]]>
+	</mx:Script>
+	<mx:SWFLoader id="testSWF" width="100%" />
+	<mx:Accordion width="250" height="100%" id="formAccordion" change="this._onAccordionChange( event )"/>
+	
+</mx:HDividedBox>
