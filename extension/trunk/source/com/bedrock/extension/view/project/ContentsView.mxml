@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" creationComplete="this.bootup()" styleName="padded5px" xmlns:misc="com.bedrock.extension.view.misc.*">
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.extension.controller.ProjectController;
+			import com.bedrock.framework.engine.data.BedrockData;
+			import mx.events.DragEvent;
+		
+			[Bindable]
+			public var selectedNode:XML;
+			
+			[Embed("assets/ContentIcon.png")]
+            private var ContentIcon:Class;
+			[Embed("assets/ContentGroupIcon.png")]
+            private var ContentGroupIcon:Class;
+            [Embed("assets/GenericIcon.png")]
+            private var GenericIcon:Class;
+            [Embed("assets/ImageIcon.png")]
+            private var ImageIcon:Class;
+            [Embed("assets/VideoIcon.png")]
+            private var VideoIcon:Class;
+            [Embed("assets/SoundIcon.png")]
+            private var SoundIcon:Class;
+            [Embed("assets/StylesheetIcon.png")]
+            private var StylesheetIcon:Class;
+            [Embed("assets/SWFIcon.png")]
+            private var SWFIcon:Class;
+            [Embed("assets/XMLIcon.png")]
+            private var XMLIcon:Class;
+            
+            [Embed("assets/CreateIcon.png")]
+            private var CreateIcon:Class;
+            
+			public function bootup():void
+			{
+				this.applyIcons();
+			}
+            /*
+			Nodes
+			*/
+            private function createNode():void
+            {
+            	switch( this.comboPanel.combo.selectedItem.value ) {
+            		case "content" :
+						this.createContent();
+            			break;
+            		case "contentGroup" :
+						this.createContentGroup();
+            			break;
+            		case "asset" :
+            			this.createAsset();
+            			break;
+            	}
+            	this.resetInterface();
+            	this.applyIcons();
+            }
+            private function deleteNode():void
+            {
+            	if ( this.selectedNode != null ) {
+            		switch( String( this.selectedNode.name() ) ) {
+            			case "content" :
+							this.deleteContent();
+            				break;
+            			case "contentGroup" :
+							this.deleteContentGroup();
+            				break;
+            			case "asset" :
+							this.deleteAsset();
+            				break;
+            		}
+	            	this.resetInterface();
+            	}
+            }
+            /*
+            Content
+            */
+            private function createContent():void
+            {
+            	if ( this.contentIDText.text != "" && this.contentIDText.text != null ) {
+	            	var xmlContent:XML = new XML( <content id={ this.contentIDText.text } label={ this.contentLabelText.text } deeplink={ this.contentDeeplinkText.text } indexed={ this.contentIndexedCheck.selected } priority={ this.contentPriorityStepper.value } /> ); 
+	            	xmlContent.@[ BedrockData.DEFAULT ] = this.contentDefaultCheck.selected;
+	            	xmlContent.@[ "container" ] = this.containerCombo.selectedLabel;
+	            	ProjectController.getInstance().config.createContent( xmlContent, this.parentCombo.selectedLabel, this.contentTemplateCombo.selectedLabel );
+            	}
+            }
+            
+            private function deleteContent():void
+            {
+            	delete ProjectController.getInstance().config.contents..content.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
+            }
+            /*
+            Content Groups
+            */
+            private function createContentGroup():void
+            {
+            	if ( this.contentGroupIDText.text != "" && this.contentGroupIDText.text != null ) {
+	            	var xmlContent:XML = new XML( <contentGroup id={ this.contentGroupIDText.text } label={ this.contentGroupLabelText.text } deeplink={ this.contentGroupDeeplinkText.text } indexed={ this.contentGroupIndexedCheck.selected } priority={ this.contentGroupPriorityStepper.value } /> ); 
+	            	xmlContent.@[ BedrockData.DEFAULT ] = this.contentGroupDefaultCheck.selected;
+	            	ProjectController.getInstance().config.contents.appendChild( xmlContent );
+            	}
+            }
+            private function deleteContentGroup():void
+            {
+            	delete ProjectController.getInstance().config.contents..contentGroup.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
+            }
+            /*
+            Asset
+            */
+            private function createAsset():void
+            {
+            	if ( this.assetIDText.text != "" && this.assetIDText.text != null ) {
+	            	var xmlNode:XML = ProjectController.getInstance().config.contents..content.( @id == this.assetParentCombo.selectedLabel )[ 0 ];
+					xmlNode.appendChild( <asset id={ this.assetIDText.text } type={ this.assetTypeCombo.selectedLabel } path={ this.assetPathCombo.selectedLabel } url={ this.assetURLText.text } autoLoad={ this.assetAutoLoadCheck.selected }/> );
+            	}
+            }
+           	
+            private function deleteAsset():void
+            {
+            	delete ProjectController.getInstance().config.contents..asset.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
+            }
+            /*
+			Attributes
+			*/
+            private function createAttribute():void
+            {
+                this.selectedNode.@[ this.attributeEditor.nameText.text ] = this.attributeEditor.valueText.text;
+                this.attributeEditor.resetForm();
+            }
+            private function updateAttribute():void
+            {
+				this.selectedNode.@[ this.attributeEditor.attributeGrid.selectedItem.name ] = this.attributeEditor.valueText.text;
+                this.attributeEditor.resetForm();
+            }
+            private function deleteAttribute():void
+            {
+            	delete this.selectedNode.@[ this.attributeEditor.attributeGrid.selectedItem.name ];
+            	this.attributeEditor.resetForm();
+            }
+            /*
+            Insterface Functions
+            */
+            private function resetInterface():void
+            {
+            	ProjectController.getInstance().config.autoSaveConfig();
+            	this.contentIDText.text = "";
+            	this.contentLabelText.text = "";
+            	this.selectedNode = null;
+            	this.applyIcons();
+            	this.attributeEditor.updateForm();
+            }
+            private function deselect():void
+			{
+				this.nodeTree.selectedItem = null;
+				this.selectedNode = null;
+				this.attributeEditor.resetForm();
+            }
+			private function applyIcons():void
+			{
+				var xmlNode:XML;
+				for each( xmlNode in ProjectController.getInstance().config.contents..contentGroup ) {
+					this.nodeTree.setItemIcon( xmlNode, ContentGroupIcon, ContentGroupIcon );
+				}
+				for each( xmlNode in ProjectController.getInstance().config.contents..asset ) {
+					switch( String( xmlNode.@type ) ) {
+						case BedrockData.STYLESHEET :
+							this.nodeTree.setItemIcon( xmlNode, StylesheetIcon, StylesheetIcon );
+							break;
+						case BedrockData.IMAGE :
+							this.nodeTree.setItemIcon( xmlNode, ImageIcon, ImageIcon );
+							break;
+						case BedrockData.AUDIO :
+							this.nodeTree.setItemIcon( xmlNode, SoundIcon, SoundIcon );
+							break;
+						case BedrockData.SWF :
+							this.nodeTree.setItemIcon( xmlNode, SWFIcon, SWFIcon );
+							break;
+						case BedrockData.VIDEO :
+							this.nodeTree.setItemIcon( xmlNode, VideoIcon, VideoIcon );
+							break;
+						case BedrockData.XML :
+							this.nodeTree.setItemIcon( xmlNode, XMLIcon, XMLIcon );
+							break;
+						default :
+							this.nodeTree.setItemIcon( xmlNode, GenericIcon, GenericIcon );
+							break;
+					}
+				}
+			}
+			/*
+			Event Handlers
+			*/
+            private function onTreeSelect( $event:Event ):void
+			{
+                this.selectedNode = this.nodeTree.selectedItem as XML;
+				this.attributeEditor.populateForm();
+				switch ( String( this.selectedNode.@id ) ) {
+					case "shell" :
+						this.hierarchyControlBar.nodeDeleteButton.enabled = false;
+						break;
+					default :
+						this.hierarchyControlBar.nodeDeleteButton.enabled = true;
+						break;
+				}
+            }
+            
+            private function onTypeComboChange( $event:Event ):void
+			{
+               this.formStack.selectedIndex = this.comboPanel.combo.selectedIndex;
+            }
+            private function onDragStop( $event:DragEvent ):void
+			{
+                ProjectController.getInstance().config.reorderContent( ProjectController.getInstance().config.contentHierarchy.source.toString() );
+                this.applyIcons();
+            }
+		]]>
+	</mx:Script>
+		
+	
+	
+	
+	
+	
+	<mx:VBox height="100%" width="100%">
+
+		<misc:ComboPanel id="comboPanel" title="Create : " width="100%" dataProvider="{ ProjectController.getInstance().resources.getBundle( 'contentCreationOptions' ) }" change="this.onTypeComboChange( event )">
+		
+			<mx:ViewStack width="100%" height="80" id="formStack">
+			
+				<mx:HBox width="100%" height="100%" >
+					<mx:Form width="100%" >
+						<mx:FormItem label="ID" width="100%" >
+							<mx:TextInput id="contentIDText" restrict="a-zA-Z0-9_" />
+						</mx:FormItem>
+						<mx:FormItem label="Label" width="100%" >
+							<mx:TextInput id="contentLabelText"/>
+						</mx:FormItem>
+						<mx:FormItem label="Deeplink" width="100%" >
+							<mx:TextInput id="contentDeeplinkText" enabled="false"/>
+						</mx:FormItem>
+					</mx:Form>
+					<mx:Form width="100%" >
+						<mx:FormItem label="Template">
+							<mx:ComboBox id="contentTemplateCombo" dataProvider="{ ProjectController.getInstance().config.contentTemplateArray }" />
+						</mx:FormItem>
+						<mx:FormItem label="Group" width="100%">
+							<mx:ComboBox id="parentCombo" dataProvider="{ ProjectController.getInstance().config.contentParentArray }" />
+						</mx:FormItem>
+						<mx:FormItem label="Container" width="100%">
+							<mx:ComboBox id="containerCombo" dataProvider="{ ProjectController.getInstance().config.containerArray }" />
+						</mx:FormItem>
+					</mx:Form>
+					<mx:Form width="100%"  height="100%">
+						<mx:FormItem label="Priority"  height="100%" horizontalAlign="center">
+							<mx:NumericStepper id="contentPriorityStepper"  minimum="0" maximum="10" stepSize="1" value="0"/>
+						</mx:FormItem>
+						<mx:FormItem label="Default"  height="100%" horizontalAlign="center">
+								<mx:CheckBox  id="contentDefaultCheck" />
+						</mx:FormItem>
+						<mx:FormItem label="Indexed"  height="100%" horizontalAlign="center">
+								<mx:CheckBox  id="contentIndexedCheck" />
+						</mx:FormItem>
+					</mx:Form>
+				</mx:HBox>
+				
+				<mx:HBox width="100%" height="100%" >
+					<mx:Form width="100%" >
+						<mx:FormItem label="ID" width="100%" >
+							<mx:TextInput id="contentGroupIDText" restrict="a-zA-Z0-9_" />
+						</mx:FormItem>
+						<mx:FormItem label="Label" width="100%" >
+							<mx:TextInput id="contentGroupLabelText"/>
+						</mx:FormItem>
+						<mx:FormItem label="Deeplink" width="100%" >
+							<mx:TextInput id="contentGroupDeeplinkText" enabled="false"/>
+						</mx:FormItem>
+					</mx:Form>
+					<mx:Form width="100%"  height="100%">
+						<mx:FormItem label="Priority"  height="100%" horizontalAlign="center">
+							<mx:NumericStepper id="contentGroupPriorityStepper"  minimum="0" maximum="10" stepSize="1" value="0"/>
+						</mx:FormItem>
+						<mx:FormItem label="Default"  height="100%" horizontalAlign="center">
+								<mx:CheckBox  id="contentGroupDefaultCheck" />
+						</mx:FormItem>
+						<mx:FormItem label="Indexed"  height="100%" horizontalAlign="center">
+								<mx:CheckBox  id="contentGroupIndexedCheck" />
+						</mx:FormItem>
+					</mx:Form>
+				</mx:HBox>
+			
+				<mx:HBox width="100%" height="100%">
+					<mx:Form width="100%" >
+						<mx:FormItem label="ID" width="100%" >
+							<mx:TextInput id="assetIDText" restrict="a-zA-Z0-9_"/>
+						</mx:FormItem>
+						<mx:FormItem label="Parent" width="100%" >
+							<mx:ComboBox id="assetParentCombo" dataProvider="{ ProjectController.getInstance().config.contents..content }" labelField="@id"/>
+						</mx:FormItem>
+					</mx:Form>
+					<mx:Form width="100%" >
+						<mx:FormItem label="URL" width="100%" >
+							<mx:TextInput id="assetURLText" restrict="a-zA-Z0-9._"/>
+						</mx:FormItem>
+						<mx:FormItem label="Path" width="100%" >
+							<mx:ComboBox id="assetPathCombo" dataProvider="{ ProjectController.getInstance().config.pathArray }" />
+						</mx:FormItem>
+					</mx:Form>
+					<mx:Form width="100%" >
+						<mx:FormItem label="Type" width="100%" >
+							<mx:ComboBox id="assetTypeCombo" dataProvider="{ ProjectController.getInstance().resources.getBundle( 'assetTypeOptions' ) }" />
+						</mx:FormItem>
+						<mx:FormItem label="Auto Load"  height="100%" horizontalAlign="center">
+							<mx:CheckBox  id="assetAutoLoadCheck" selected="true" />
+						</mx:FormItem>
+					</mx:Form>
+				</mx:HBox>
+			
+			</mx:ViewStack>
+			
+			<mx:ControlBar width="100%">
+				<mx:Button click="this.createNode()" id="nodeCreateButton" styleName="createIcon" icon="{ CreateIcon }"/>
+			</mx:ControlBar>
+			
+		</misc:ComboPanel>
+		
+		<mx:Panel  title="Hierarchy" width="100%" height="100%">
+			<mx:AdvancedDataGrid id="nodeTree" designViewDataType="tree" dragComplete="this.onDragStop( event )" dragEnabled="true" dropEnabled="true" dragMoveEnabled="true" displayItemsExpanded="true" sortExpertMode="true" width="100%" height="100%" dataProvider="{ ProjectController.getInstance().config.contentHierarchy }" defaultLeafIcon="{ ContentIcon }" folderOpenIcon="{ ContentIcon }" folderClosedIcon="{ ContentIcon }" itemClick="this.onTreeSelect( event )">
+				<mx:headerRenderer>
+					<mx:Component>
+						<mx:AdvancedDataGridHeaderRenderer horizontalAlign="left"/>
+					</mx:Component>
+		        </mx:headerRenderer>
+				<mx:columns>
+					<mx:AdvancedDataGridColumn headerText="ID" dataField="@id" sortable="false" />
+					<mx:AdvancedDataGridColumn headerText="Type" dataField="@type" sortable="false"/>
+					<mx:AdvancedDataGridColumn headerText="Path" dataField="@path" sortable="false"/>
+					<mx:AdvancedDataGridColumn headerText="URL" dataField="@url" sortable="false"/>
+				</mx:columns>
+			</mx:AdvancedDataGrid>
+			<misc:HierarchyControlBar id="hierarchyControlBar" deleteNode="this.deleteNode()" deselectNode="this.deselect()" />
+		</mx:Panel>
+		
+	</mx:VBox>
+	<misc:AttributeEditor id="attributeEditor" selectedNode="{ this.selectedNode }" createAttribute="this.createAttribute()" updateAttribute="this.updateAttribute()" deleteAttribute="this.deleteAttribute()"/>
+	
+</mx:HBox>

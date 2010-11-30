@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" initialize="this.bootup()" xmlns:misc="com.bedrock.extension.view.misc.*" xmlns:extras="com.bedrock.extension.view.extras.*">
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.extension.controller.ExtrasController;
+			import com.bedrock.framework.core.logging.Logger;
+			[Bindable]
+			public var loadedSample:XML;
+		
+			private function bootup():void
+			{
+				this.samplePanel.combo.labelField = "@name";
+				this.samplePanel.combo.addEventListener( Event.CHANGE, this._onComboChange );
+			}
+			private function openSample():void
+			{
+				this.loadedSample = ExtrasController.getInstance().sampleBrowser.getSample( this.samplePanel.combo.selectedItem as XML );
+				this.sampler.initializeSample( this.loadedSample.preview, this.loadedSample.detail, this.loadedSample.code );
+			}
+			private function _onComboChange( $event:Event ):void
+			{
+				this.openSample();
+			}
+		]]>
+	</mx:Script>
+	<misc:ComboPanel title="Sample : " id="samplePanel" width="100%" height="100%" dataProvider="{ ExtrasController.getInstance().sampleBrowser.data..sample }" >
+		<extras:SamplerView id="sampler" />
+	</misc:ComboPanel>
+</mx:HBox>

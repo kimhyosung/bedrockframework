@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" height="100%" title="Attribute Editor">
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.extension.event.ExtensionEvent;
+			import com.bedrock.extension.controller.ProjectController;
+			import com.bedrock.framework.plugin.util.XMLUtil2;
+			import com.bedrock.framework.core.logging.Logger;
+			import mx.collections.ArrayCollection;
+			
+			[Embed("assets/CreateIcon.png")]
+            private var CreateIcon:Class;
+            [Embed("assets/DeleteIcon.png")]
+            private var DeleteIcon:Class;
+            [Embed("assets/UpdateIcon.png")]
+            private var UpdateIcon:Class;
+
+			[Bindable]
+			public var selectedNode:XML;
+			
+			private function notify( $event:String ):void
+			{
+				this.dispatchEvent( new ExtensionEvent( $event, this ) );
+			}
+			public function populateForm():void
+			{
+				if ( this.selectedNode != null ) {
+					var objData:Object = XMLUtil2.getAttributesAsObject( this.selectedNode );
+					var arrAttributes:ArrayCollection = new ArrayCollection;
+					for( var d:String in objData ) {
+						arrAttributes.addItem( { name:d.toString(), value:objData[d].toString() } );
+					}
+					arrAttributes.source.reverse();
+					this.attributeGrid.dataProvider = arrAttributes;
+				} else {
+					this.attributeGrid.dataProvider = null;
+				}
+			}
+			public function updateForm():void
+			{
+				var strName:String = Object( this.attributeGrid.selectedItem ).name;
+                switch( strName ) {
+                	case "id" :
+                	case "label" :
+	                	this.createButton.enabled = false;
+	                	this.deleteButton.enabled = false;
+	                	this.nameText.enabled = false;
+                		break;
+                	default :
+	                	this.createButton.enabled = true;
+	                	this.deleteButton.enabled = true;
+	                	this.nameText.enabled = true;
+                		break;
+                }
+			}
+			public function resetForm():void
+			{
+				ProjectController.getInstance().config.autoSaveConfig();
+				this.attributeGrid.selectedIndex = -1;
+				this.populateForm();
+				this.nameText.text = "";
+				this.valueText.text = "";
+				this.createButton.enabled = true;
+            	this.deleteButton.enabled = true;
+            	this.nameText.enabled = true;
+            	this.valueText.enabled = true;
+			}
+			private function onGridSelect( $event:Event ):void
+			{
+                this.updateForm();
+            }
+		]]>
+	</mx:Script>
+	<mx:Metadata>
+        [Event(name="createAttribute", type="com.bedrock.extension.event.ExtensionEvent")]
+        [Event(name="updateAttribute", type="com.bedrock.extension.event.ExtensionEvent")]
+        [Event(name="deleteAttribute", type="com.bedrock.extension.event.ExtensionEvent")]
+    </mx:Metadata>
+    
+	<mx:DataGrid width="100%" height="100%" id="attributeGrid" itemClick="this.onGridSelect( event )">
+		<mx:columns>
+			<mx:DataGridColumn headerText="Name" dataField="name"/>
+			<mx:DataGridColumn headerText="Value" dataField="value"/>
+		</mx:columns>
+	</mx:DataGrid>
+	
+	<mx:HRule  width="100%"/>
+	
+	<mx:Form width="100%">
+		<mx:FormItem label="Name">
+			<mx:TextInput id="nameText" restrict="a-zA-Z0-9_" text="{ this.attributeGrid.selectedItem.name }" width="150"/>
+		</mx:FormItem>
+		<mx:FormItem label="Value">
+			<mx:TextInput id="valueText" text="{ this.attributeGrid.selectedItem.value }" width="150"/>
+		</mx:FormItem>
+	</mx:Form>
+	
+	<mx:ControlBar>
+		<mx:Button click="this.notify( 'createAttribute' )" id="createButton" icon="{ CreateIcon }" toolTip="Create Attribute"/>
+		<mx:Button click="this.notify( 'updateAttribute' )" id="updateButton" icon="{ UpdateIcon }" toolTip="Update Attribute"/>
+		<mx:Button click="this.notify( 'deleteAttribute' )" id="deleteButton" icon="{ DeleteIcon }"  toolTip="Delete Attribute"/>
+	</mx:ControlBar>
+</mx:Panel>

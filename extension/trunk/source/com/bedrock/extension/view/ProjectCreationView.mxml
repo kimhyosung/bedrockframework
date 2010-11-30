@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Box xmlns:mx="http://www.adobe.com/2006/mxml" horizontalAlign="center" width="100%" height="100%" xmlns:view="com.bedrock.extension.view.*" >
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.extension.event.ExtensionEvent;
+			import com.bedrock.extension.controller.ExtensionController;
+			import mx.managers.PopUpManager;
+			import com.bedrock.framework.plugin.util.ArrayUtil;
+			import com.bedrock.extras.util.VariableUtil;
+			import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
+			import mx.events.ListEvent;
+			import mx.events.ItemClickEvent;
+			import mx.collections.HierarchicalData;
+			import mx.events.CloseEvent;
+			import mx.controls.Alert;
+			import mx.managers.CursorManager;
+			
+		 	[Embed("assets/InfoIcon.png")]
+            private var InfoIcon:Class;
+            
+			public function populate():void
+			{
+				this.frameworkVersionCombo.dataProvider = ExtensionController.getInstance().versions;
+				var numIndex:int = ArrayUtil.findIndex( ExtensionController.getInstance().versions, ExtensionController.getInstance().projectXML.frameworkVersion );
+				this.frameworkVersionCombo.selectedIndex = ( numIndex > -1 ) ? numIndex : 0;
+				
+				this.projectNameText.text = ExtensionController.getInstance().projectXML.@name;
+				this.projectPathText.text = ExtensionController.getInstance().projectXML.path;
+				this.rootPackageText.text = ExtensionController.getInstance().projectXML.rootPackage;
+				this.templateCombo.selectedIndex = ArrayUtil.findIndex( ExtensionController.getInstance().templates, ExtensionController.getInstance().projectXML.template );
+				this.widthText.text = ExtensionController.getInstance().projectXML.width;
+				this.heightText.text = ExtensionController.getInstance().projectXML.height;
+				this.colorPicker.selectedColor = ExtensionController.getInstance().projectXML.stageColor;
+				this.publishFilesCheck.selected = VariableUtil.sanitize( ExtensionController.getInstance().projectXML.publishFiles );
+				
+				this.assetsFolderText.text = ExtensionController.getInstance().projectXML.assetsFolder;
+				this.sourceFolderText.text = ExtensionController.getInstance().projectXML.sourceFolder;
+				this.deployFolderText.text = ExtensionController.getInstance().projectXML.deployFolder;
+				
+			}
+			
+			private function selectLocation():void
+			{
+				this.projectPathText.text = ExtensionController.getInstance().selectProjectFolder();
+				this.updateProperties();
+			}
+			
+			private function updateFrameworkVersion():void
+			{
+				ExtensionController.getInstance().projectXML.frameworkVersion = this.frameworkVersionCombo.selectedLabel;
+				ExtensionController.getInstance().loadTemplates();
+				this.updateProperties();
+			}
+			private function updateProperties():void
+			{
+				ExtensionController.getInstance().projectXML.@name = this.projectNameText.text;
+				ExtensionController.getInstance().projectXML.path = this.projectPathText.text;
+				ExtensionController.getInstance().projectXML.rootPackage = this.rootPackageText.text;
+				ExtensionController.getInstance().projectXML.template = this.templateCombo.selectedLabel;
+				ExtensionController.getInstance().projectXML.frameworkVersion = this.frameworkVersionCombo.selectedLabel;
+				ExtensionController.getInstance().projectXML.width = this.widthText.text;
+				ExtensionController.getInstance().projectXML.height = this.heightText.text;
+				ExtensionController.getInstance().projectXML.stageColor = this.colorPicker.selectedColor;
+				ExtensionController.getInstance().projectXML.publishFiles = this.publishFilesCheck.selected;
+				ExtensionController.getInstance().projectXML.assetsFolder = this._sanitizeFolder( this.assetsFolderText.text );
+				ExtensionController.getInstance().projectXML.sourceFolder = this._sanitizeFolder( this.sourceFolderText.text );
+				ExtensionController.getInstance().projectXML.deployFolder = this._sanitizeFolder( this.deployFolderText.text );
+			}
+			private function _sanitizeFolder( $text:String ):String
+			{
+				if ( $text.charAt( $text.length - 1 ) != "/" ) return ( $text + "/" );
+				return $text;
+			}
+			
+			private function generateProject():void
+			{
+				if ( ExtensionController.getInstance().generateProject() ) {
+					Alert.show( "Project creation complete!", "Attention!" );
+					this._closePopup();
+				} else {
+					Alert.show( "Project creation fail!\nMissing parameters!", "Error!" );
+				}
+			}
+			/*
+			Event Handlers
+			*/
+            private function _onPopulate( $event:ExtensionEvent ):void
+			{
+				this.populate();
+			}
+			private function _closePopup():void
+			{
+				PopUpManager.removePopUp( this );
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:Panel layout="horizontal" title="Create Project" styleName="parentPanel">
+		<mx:VBox height="100%">
+			<mx:Panel title="1. General" width="100%" height="100%">
+				<mx:Form width="100%" height="100%">
+					<mx:FormItem label="Name" width="100%">
+						<mx:TextInput id="projectNameText" width="100%" change="this.updateProperties()"/>
+					</mx:FormItem>
+					<mx:FormItem label="Location">
+						<mx:HBox>
+							<mx:TextInput editable="false" id="projectPathText" width="200"/>
+							<mx:Button id="browseButton" click="this.selectLocation()" label="Browse"/>
+						</mx:HBox>
+					</mx:FormItem>
+				</mx:Form>
+			</mx:Panel>
+			
+			
+			<mx:Panel title="2. Flash" width="100%" height="100%" horizontalAlign="center">
+				<mx:Form >
+					<mx:FormItem label="Dimensions">
+						<mx:HBox horizontalGap="1">
+							<mx:TextInput width="40" id="widthText" change="this.updateProperties()"/>
+							<mx:Label text="x" textAlign="center"/>
+							<mx:TextInput width="40" id="heightText" change="this.updateProperties()"/>
+						</mx:HBox>
+					</mx:FormItem>
+					<mx:FormItem label="FPS">
+						<mx:TextInput text="30" id="fpsText" width="30" maxChars="2" change="this.updateProperties()"/>
+					</mx:FormItem>
+					<mx:FormItem label="Stage Color">
+						<mx:ColorPicker id="colorPicker" change="this.updateProperties()"/>
+					</mx:FormItem>
+					<mx:FormItem label="Publish Files">
+						<mx:CheckBox id="publishFilesCheck" change="this.updateProperties()" />
+					</mx:FormItem>
+					
+				</mx:Form>
+			</mx:Panel>
+		
+			
+		
+		</mx:VBox>
+		
+		<mx:VBox height="100%">
+			<mx:Panel title="3. Framework" width="100%" height="100%" id="frameworkPanel" horizontalAlign="center">
+				<mx:Form height="100%">
+					<mx:FormItem label="Version" width="100%">
+						<mx:ComboBox id="frameworkVersionCombo" width="75" change="this.updateFrameworkVersion()" />
+					</mx:FormItem>
+					<mx:FormItem label="Root Package" direction="vertical">
+						<mx:TextInput id="rootPackageText" width="100%" change="this.updateProperties()"/>
+					</mx:FormItem>
+					<mx:FormItem label="Template">
+						<mx:ComboBox id="templateCombo" change="this.updateProperties()" dataProvider="{ ExtensionController.getInstance().templates }"/>
+					</mx:FormItem>
+				</mx:Form>
+			</mx:Panel>
+		
+			<mx:Panel title="4. Structure" width="100%" height="100%" id="structurePanel">
+				<mx:Form width="100%" height="100%">
+					<mx:FormItem label="Assets" width="100%" >
+						<mx:TextInput width="100%" text="assets" restrict="a-zA-Z0-9 " id="assetsFolderText" change="this.updateProperties()"/>
+					</mx:FormItem>
+					<mx:FormItem label="Source" width="100%" >
+						<mx:TextInput width="100%" text="flash" restrict="a-zA-Z0-9 " id="sourceFolderText" change="this.updateProperties()"/>
+					</mx:FormItem>
+					<mx:FormItem label="Deploy" width="100%" >
+						<mx:TextInput width="100%" text="wwwroot" restrict="a-zA-Z0-9 " id="deployFolderText" change="this.updateProperties()"/>
+					</mx:FormItem>
+				</mx:Form>
+			</mx:Panel>
+		
+		</mx:VBox>
+		
+		<mx:ControlBar>
+			<mx:Button label="Cancel" id="cancelUpdateButton" click="this._closePopup()" height="30" />
+			<mx:Spacer width="100%"/>
+			<mx:Button label="Generate Project" id="generateProjectButton" click="this.generateProject()" height="30"/>
+		</mx:ControlBar>
+	</mx:Panel>
+		
+</mx:Box>

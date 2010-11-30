@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" initialize="this.bootup()">
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.extension.controller.ExtrasController;
+			import com.bedrock.extension.controller.ProjectController;
+			import com.bedrock.extras.util.VariableUtil;
+			import mx.controls.Alert;
+			
+			public function bootup():void
+			{
+				this.fileGrid.columns[ 0 ].width = 150;
+				
+				this.openClassesCheck.selected = VariableUtil.sanitize( ExtrasController.getInstance().classGenerator.data.@openClasses );
+				
+				this.updateList();
+			}
+			
+			public function updateList():void
+			{
+				ExtrasController.getInstance().classGenerator.reset();
+				
+				if ( this.viewCheck.selected ) this.appendFile( this.viewCheck.label, this.viewCombo.selectedLabel );
+				if ( this.modelCheck.selected ) this.appendFile( this.modelCheck.label, null, this.modelSingletonCheck.selected );
+				if ( this.controllerCheck.selected ) this.appendFile( this.controllerCheck.label, null, this.controllerSingletonCheck.selected );
+				if ( this.managerCheck.selected ) this.appendFile( this.managerCheck.label, null, this.managerSingletonCheck.selected );
+				if ( this.dataCheck.selected ) this.appendFile( this.dataCheck.label );
+				if ( this.eventCheck.selected ) this.appendFile( this.eventCheck.label, this.eventCombo.selectedLabel );
+				if ( this.commandCheck.selected ) this.appendFile( this.commandCheck.label );
+				
+				
+				this.toggleModelSingleton();
+				this.toggleControllerSingleton();
+				this.toggleManagerSingleton();
+			}
+			private function appendFile( $type:String, $inherit:String = "", $singleton:Boolean = false ):void
+			{
+				ExtrasController.getInstance().classGenerator.addFile( this.nameText.text, $type, $inherit, $singleton );
+			}
+			private function toggleModelSingleton():void
+			{
+				if ( this.modelCheck.selected ) {
+					this.modelSingletonCheck.enabled = true;
+				} else {
+					this.modelSingletonCheck.enabled = false;
+				}
+			}
+			private function toggleControllerSingleton():void
+			{
+				if ( this.controllerCheck.selected ) {
+					this.controllerSingletonCheck.enabled = true;
+				} else {
+					this.controllerSingletonCheck.enabled = false;
+				}
+			}
+			private function toggleManagerSingleton():void
+			{
+				if ( this.managerCheck.selected ) {
+					this.managerSingletonCheck.enabled = true;
+				} else {
+					this.managerSingletonCheck.enabled = false;
+				}
+			}
+			private function toggleOpenClasses():void
+			{
+				ExtrasController.getInstance().classGenerator.data.@openClasses = this.openClassesCheck.selected;
+			}
+			
+			public function generateClasses():void
+			{
+				if ( ExtrasController.getInstance().classGenerator.generateClasses() ) {
+					Alert.show( "Files created successfully!", "Attention!" );
+				} else {
+					Alert.show( "File creation fail!", "Attention!" );
+				}
+			}
+		]]>
+	</mx:Script>
+	<mx:HBox  width="100%" height="100%" >
+		
+			<mx:Panel width="100%" height="100%" layout="vertical" title="Output">
+				<mx:DataGrid width="100%" height="100%" editable="false" enabled="false" id="fileGrid" dataProvider="{ ExtrasController.getInstance().classGenerator.data.files..file }">
+					<mx:columns>
+						<mx:DataGridColumn headerText="File Name" dataField="@className"/>
+						<mx:DataGridColumn headerText="Class Package" dataField="@classPackage"/>
+						<mx:DataGridColumn headerText="Destination" dataField="@destination"/>
+					</mx:columns>
+				</mx:DataGrid>
+			</mx:Panel>
+		
+			<mx:Panel width="225" layout="vertical" horizontalAlign="center" title="Create">
+				<mx:Form width="100%" height="100%">
+					<mx:FormItem label="Name" fontWeight="bold" width="100%">
+						<mx:TextInput fontWeight="normal" width="100%" id="nameText" change="this.updateList()" restrict="a-zA-Z0-9"/>
+						<mx:Label text="Test, SlideShow, Gallery" color="#999999" fontWeight="normal" fontSize="9"/>
+					</mx:FormItem>
+					<mx:HRule width="100%" />
+					<mx:VBox width="100%">
+						<mx:HBox width="100%">
+							<mx:CheckBox width="100%" label="View" id="viewCheck"  change="this.updateList()"/>
+							<mx:ComboBox id="viewCombo" change="this.updateList()">
+								<mx:Object label="MovieClipView" />
+								<mx:Object label="SpriteView" />
+							</mx:ComboBox>
+						</mx:HBox>
+						<mx:HBox width="100%">
+							<mx:CheckBox label="Model" width="100%" id="modelCheck"  change="this.updateList()"/>
+							<mx:CheckBox label="Singleton"  id="modelSingletonCheck"  change="this.updateList()" selected="true" />
+						</mx:HBox>
+						<mx:HBox width="100%">
+							<mx:CheckBox label="Controller" width="100%"  id="controllerCheck" change="this.updateList()"/>
+							<mx:CheckBox label="Singleton"  id="controllerSingletonCheck"  change="this.updateList()" selected="true" />
+						</mx:HBox>
+						<mx:HBox width="100%">
+							<mx:CheckBox label="Manager" width="100%"  id="managerCheck" change="this.updateList()"/>
+							<mx:CheckBox label="Singleton" id="managerSingletonCheck"  change="this.updateList()" selected="false" />
+						</mx:HBox>
+						<mx:CheckBox label="Data"  id="dataCheck" change="this.updateList()"/>
+						<mx:HBox width="100%">
+							<mx:CheckBox width="100%" label="Event"  id="eventCheck" change="this.updateList()"/>
+							<mx:ComboBox id="eventCombo" change="this.updateList()">
+								<mx:Object label="GenericEvent" />
+								<mx:Object label="Event" />
+							</mx:ComboBox>
+						</mx:HBox>
+						<mx:CheckBox label="Command"  id="commandCheck" change="this.updateList()"/>
+					</mx:VBox>
+				</mx:Form>
+				<mx:HRule width="100%"/>
+				<mx:CheckBox id="openClassesCheck" label="Open classes after creation" change="this.toggleOpenClasses()" />
+				<mx:ControlBar>
+					<mx:Button height="35"  label="Generate Classes" click="this.generateClasses()"/>
+				</mx:ControlBar>
+			</mx:Panel>
+			
+		
+		
+	</mx:HBox>
+	
+</mx:VBox>

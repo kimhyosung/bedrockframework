@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" initialize="this.bootup()" styleName="padded5px" xmlns:view="com.bedrock.extension.base.view.*">
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.extension.controller.ProjectController;
+			import com.bedrock.extension.event.ExtensionEvent;
+			import com.bedrock.extras.util.VariableUtil;
+			import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
+			import com.bedrock.framework.core.logging.Logger;
+			import mx.collections.HierarchicalData;
+			import mx.controls.Alert;
+			import mx.events.ListEvent;
+			import mx.events.CloseEvent;
+			
+			[Embed("assets/RefreshIcon.png")]
+            private var RefreshIcon:Class;
+			[Embed("assets/DeleteIcon.png")]
+            private var DeleteIcon:Class;
+            [Embed("assets/SWFIcon.png")]
+            private var SWFIcon:Class;
+            [Embed("assets/FLAIcon.png")]
+            private var FLAIcon:Class;
+            [Embed("assets/DefaultFLAIcon.png")]
+            private var DefaultFLAIcon:Class;
+            [Embed("assets/ASIcon.png")]
+            private var ASIcon:Class;
+            [Embed("assets/BedrockIcon.png")]
+            private var BedrockIcon:Class;
+            [Embed("assets/TrashIcon.png")]
+            private var TrashIcon:Class;
+            [Embed("assets/UpdateIcon.png")]
+            private var UpdateIcon:Class;
+           
+            
+			private function bootup():void
+			{
+				BedrockDispatcher.addEventListener( ExtensionEvent.PROJECT_REFRESH, this._onProjectRefresh );
+				this.applyIcons();
+			}
+			
+			private function applyIcons():void
+            {
+            	var xmlItem:XML;
+				for each ( xmlItem in ProjectController.getInstance().browser.files..file.( @type == ".swf") ) {
+					this.fileTree.setItemIcon( xmlItem, SWFIcon, SWFIcon );
+				}
+				for each ( xmlItem in ProjectController.getInstance().browser.files..file.( @type == ".fla") ) {
+					if ( xmlItem.@name != "shell" ) {
+						this.fileTree.setItemIcon( xmlItem, FLAIcon, FLAIcon );
+					} else {
+						this.fileTree.setItemIcon( xmlItem, DefaultFLAIcon, DefaultFLAIcon );
+					}
+				}
+				for each ( xmlItem in ProjectController.getInstance().browser.files..file.( @type == ".as") ) {
+					this.fileTree.setItemIcon( xmlItem, ASIcon, ASIcon );
+				}
+				for each ( xmlItem in ProjectController.getInstance().browser.files..file.( @type == ".bedrock") ) {
+					this.fileTree.setItemIcon( xmlItem, BedrockIcon, BedrockIcon );
+				}
+				
+            }
+            
+            
+			private function refreshContents():void
+			{
+				ProjectController.getInstance().browser.refresh();
+			}
+			private function deleteFile():void
+			{
+				Alert.show("Are you sure you want to delete \"" + this.fileTree.selectedItem.@name + "\"?","Warning!", Alert.OK|Alert.CANCEL,this, this.onDeleteConfirmation, null, Alert.OK);
+			}
+			/*
+			Event Handlers
+			*/
+			private function onDeleteConfirmation( $event:CloseEvent ):void
+			{
+				switch ( $event.detail ) {
+					case Alert.OK :
+						ProjectController.getInstance().delegate.deleteFile( this.fileTree.selectedItem.@path );
+						ProjectController.getInstance().browser.refresh();
+						break;
+				}
+			}
+			private function _onProjectRefresh( $event:ExtensionEvent ):void
+			{
+				this.applyIcons();
+			}
+			
+			private function onTreeDoubleClick( $event:ListEvent ):void
+			{
+				switch( VariableUtil.sanitize( this.fileTree.selectedItem.@type ) ) {
+					case ".fla" :
+						ProjectController.getInstance().delegate.openFLA( this.fileTree.selectedItem.@path );
+						break;
+					case ".as" :
+						ProjectController.getInstance().delegate.openScript( this.fileTree.selectedItem.@path );
+						break;
+				}
+			}
+			
+		]]>
+	</mx:Script>
+	<mx:Panel width="100%" height="100%" title="Project Browser" layout="vertical" >
+			<mx:AdvancedDataGrid id="fileTree" dataProvider="{ ProjectController.getInstance().browser.fileHierarchy }" designViewDataType="tree" doubleClickEnabled="true" displayItemsExpanded="false" sortExpertMode="true" width="100%" height="100%" itemDoubleClick="this.onTreeDoubleClick( event )">
+			<mx:headerRenderer>
+				<mx:Component>
+					<mx:AdvancedDataGridHeaderRenderer horizontalAlign="left"/>
+				</mx:Component>
+			</mx:headerRenderer>
+			<mx:columns>
+				<mx:AdvancedDataGridColumn sortable="false" headerText="Name" dataField="@name" />
+				<mx:AdvancedDataGridColumn headerText="Type" dataField="@type" sortable="false" />
+				<mx:AdvancedDataGridColumn resizable="false" sortable="false" dataField="" itemRenderer="com.bedrock.extension.view.misc.FLACheckBox" width="25" />
+				<mx:AdvancedDataGridColumn resizable="false" sortable="false" dataField="" itemRenderer="com.bedrock.extension.view.misc.ExportBox" width="25" />
+			</mx:columns>
+		</mx:AdvancedDataGrid>
+		
+		<!--<mx:Tree id="fileTree" width="100%" showRoot="false" height="100%" labelField="@name" dataProvider="{ ApplicationController.getInstance().project.files }"/>-->
+		<mx:ControlBar horizontalAlign="left">
+			<mx:Button click="this.refreshContents()" id="refreshButton" icon="{ RefreshIcon }"/>
+			<mx:Button click="this.deleteFile()" id="deleteButton" icon="{ TrashIcon }"/>
+			<mx:Spacer width="100%"/>
+			<mx:Button click="BedrockDispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.PROJECT_UPDATE, this ) )" id="updateButton" icon="{ UpdateIcon }" toolTip="Update Project"/>
+		</mx:ControlBar>
+	</mx:Panel>
+	
+</mx:HBox>

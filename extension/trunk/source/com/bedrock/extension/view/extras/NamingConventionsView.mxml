@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" initialize="this._bootup()">
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.extension.controller.ExtensionController;
+			import mx.controls.dataGridClasses.DataGridColumn;
+			
+			private function _bootup():void
+			{
+				var groupView:NamingConventionsGroupView;
+				for each( var group:Object in ExtensionController.getInstance().namingConventions.groups ) {
+					groupView = new NamingConventionsGroupView();
+					groupView.title = group.label;
+					groupView.types = group.types;
+					this.addChild( groupView );
+				}
+			}
+			
+		]]>
+	</mx:Script>
+	
+</mx:VBox>

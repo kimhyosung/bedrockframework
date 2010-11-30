@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+	<mx:Script>
+		<![CDATA[
+			[Bindable]
+			public var code:String;
+		]]>
+	</mx:Script>
+	<mx:ToggleButtonBar width="100%" id="toggleButtonBar" dataProvider="{ [ 'Test', 'Code' ] }" />
+	<mx:ViewStack width="100%" height="100%" selectedIndex="{ this.toggleButtonBar.selectedIndex }" styleName="padded">
+		<mx:Form id="testForm" width="100%" height="100%"/>
+		<mx:Canvas label="Output" width="100%" height="100%">
+			<mx:TextArea width="100%" height="100%" id="codeTextArea" text="{ this.code }" wordWrap="false" />
+		</mx:Canvas>
+	</mx:ViewStack>
+</mx:VBox>

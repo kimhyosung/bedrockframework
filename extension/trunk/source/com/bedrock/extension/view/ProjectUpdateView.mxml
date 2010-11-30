@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Box xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:view="com.bedrock.extension.view.*" horizontalAlign="center">
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.extension.controller.ExtensionController;
+			import mx.managers.PopUpManager;
+			import com.bedrock.framework.plugin.util.ArrayUtil;
+			import com.bedrock.extras.util.VariableUtil;
+			import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
+			import mx.events.ListEvent;
+			import mx.events.ItemClickEvent;
+			import mx.collections.HierarchicalData;
+			import mx.events.CloseEvent;
+			import mx.controls.Alert;
+			
+		 	[Embed("assets/InfoIcon.png")]
+            private var InfoIcon:Class;
+            
+            private var _switchFrameworkVersion:Boolean;
+            
+			public function populate():void
+			{
+				this._switchFrameworkVersion = false;
+				
+				this.frameworkVersionCombo.dataProvider = ExtensionController.getInstance().versions;
+				var numIndex:int = ArrayUtil.findIndex( ExtensionController.getInstance().versions, ExtensionController.getInstance().projectXML.frameworkVersion );
+				this.frameworkVersionCombo.selectedIndex = ( numIndex > -1 ) ? numIndex : 0;
+				
+				this.projectNameText.text = ExtensionController.getInstance().projectXML.@name;
+				this.widthText.text = ExtensionController.getInstance().projectXML.width;
+				this.heightText.text = ExtensionController.getInstance().projectXML.height;
+				this.colorPicker.selectedColor = ExtensionController.getInstance().projectXML.stageColor;
+				this.publishFilesCheck.selected = VariableUtil.sanitize( ExtensionController.getInstance().projectXML.publishFiles );
+			}
+			
+			
+			private function _updateProperties():void
+			{
+				ExtensionController.getInstance().projectXML.@name = this.projectNameText.text;
+				ExtensionController.getInstance().projectXML.frameworkVersion = this.frameworkVersionCombo.selectedLabel;
+				ExtensionController.getInstance().projectXML.width = this.widthText.text;
+				ExtensionController.getInstance().projectXML.height = this.heightText.text;
+				ExtensionController.getInstance().projectXML.stageColor = this.colorPicker.selectedColor;
+				ExtensionController.getInstance().projectXML.publishFiles = this.publishFilesCheck.selected;
+			}
+			private function _sanitizeFolder( $text:String ):String
+			{
+				if ( $text.charAt( $text.length - 1 ) != "/" ) return ( $text + "/" );
+				return $text;
+			}
+			
+			private function _updateProject():void
+			{
+				ExtensionController.getInstance().updateProject( this._switchFrameworkVersion );
+				this._closePopup();
+			}
+			private function _updateFrameworkVersion():void
+			{
+				if ( VariableUtil.sanitizeBoolean( ExtensionController.getInstance().projectXML.@generated ) && !this._switchFrameworkVersion ) {
+					Alert.show("Switching framework versions can be... unpredictable.\nAre you sure you want to proceed?","Warning!", Alert.OK|Alert.CANCEL,this, this._onCloseAlert, null, Alert.OK);
+				} else {
+					this._updateProperties();
+				}
+			}
+			/*
+			Event Handlers
+			*/
+			private function _onCloseAlert($event:CloseEvent):void
+			{
+				switch ( $event.detail ) {
+					case Alert.OK :
+						this._switchFrameworkVersion = true;
+						this._updateProperties();
+						break;
+					default :
+						var numIndex:int = ArrayUtil.findIndex( ExtensionController.getInstance().versions, ExtensionController.getInstance().projectXML.frameworkVersion );
+						this.frameworkVersionCombo.selectedIndex = ( numIndex > -1 ) ? numIndex : 0;
+						break;
+				}
+			}
+			private function _closePopup():void
+			{
+				PopUpManager.removePopUp( this );
+			}
+		]]>
+	</mx:Script>
+		<mx:Panel title="Update Project" layout="vertical" horizontalAlign="center" styleName="parentPanel">
+			
+			<mx:Form width="100%" height="100%">
+				<mx:FormItem label="Name" width="100%">
+					<mx:TextInput id="projectNameText" width="100%" change="this._updateProperties()"/>
+				</mx:FormItem>
+				
+				<mx:HRule width="100%" />
+				
+				<mx:FormItem label="Framework Version" width="100%">
+					<mx:ComboBox id="frameworkVersionCombo" width="75" change="this._updateFrameworkVersion()" />
+				</mx:FormItem>
+				
+				<mx:HRule width="100%" />
+				
+				<mx:FormItem label="Dimensions">
+					<mx:HBox horizontalGap="1">
+						<mx:TextInput width="40" id="widthText" change="this._updateProperties()"/>
+						<mx:Label text="x" textAlign="center"/>
+						<mx:TextInput width="40" id="heightText" change="this._updateProperties()"/>
+					</mx:HBox>
+				</mx:FormItem>
+				<mx:FormItem label="FPS">
+					<mx:TextInput text="30" id="fpsText" width="30" maxChars="2" change="this._updateProperties()"/>
+				</mx:FormItem>
+				<mx:FormItem label="Stage Color">
+					<mx:ColorPicker id="colorPicker" change="this._updateProperties()"/>
+				</mx:FormItem>
+				<mx:FormItem label="Publish Files">
+					<mx:CheckBox id="publishFilesCheck" change="this._updateProperties()" />
+				</mx:FormItem>
+				
+			</mx:Form>
+		
+			<mx:ControlBar>
+				<mx:Button label="Cancel" id="cancelUpdateButton" click="this._closePopup()" height="30" />
+				<mx:Spacer width="100%"/>
+				<mx:Button label="Update" id="updateProjectButton" click="this._updateProject()" height="30" />
+			</mx:ControlBar>
+		</mx:Panel>
+			
+</mx:Box>
