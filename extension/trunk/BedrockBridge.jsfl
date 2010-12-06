@@ -93,8 +93,7 @@
 	function updateProject( $projectXML, $switchFrameworkVersion )
 	{
 		var project = convertProject( $projectXML );
-		
-		if ( $switchFrameworkVersion ) {
+		if ( sanitizeBoolean(  $switchFrameworkVersion ) ) {
 			FLfile.remove( project.projectFrameworkPath );
 			copyFolder( project.selectedFrameworkBedrockPath, project.projectFrameworkPath );
 		}
