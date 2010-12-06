@@ -1,148 +1,90 @@
-<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" initialize="this.bootup()" styleName="padded5px" xmlns:misc="com.bedrock.extension.view.misc.*">
+<mx:HDividedBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" initialize="this.bootup()" styleName="padded5px" xmlns:misc="com.bedrock.extension.view.misc.*">
 	<mx:Script>
 		<![CDATA[
+			import com.bedrock.extension.event.ExtensionEvent;
+			import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
+			import mx.managers.PopUpManager;
+			import com.bedrock.extension.view.popups.LocaleCreationView;
 			import com.bedrock.extension.controller.ProjectController;
 			import com.bedrock.framework.core.logging.Logger;
 			import com.bedrock.framework.engine.data.BedrockData;
 			import com.bedrock.framework.plugin.util.XMLUtil2;
 		
-			[Bindable]
-			public var selectedNode:XML;
-			
             [Embed("assets/LocaleIcon.png")]
             private var LocaleIcon:Class;
             
-            [Embed("assets/CreateIcon.png")]
-            private var CreateIcon:Class;
-            [Embed("assets/DeleteIcon.png")]
-            private var DeleteIcon:Class;
-            [Embed("assets/UpdateIcon.png")]
-            private var UpdateIcon:Class;
-            [Embed("assets/DeselectIcon.png")]
-            private var DeselectIcon:Class;
-            [Embed("assets/RefreshIcon.png")]
-            private var RefreshIcon:Class;
+            
+            private var _localeCreationView:LocaleCreationView;
             
 			public function bootup():void
 			{
+				this._localeCreationView = new LocaleCreationView;
+				this._localeCreationView.initialize();
 			}
 			/*
 			Node
 			*/
 			private function createNode():void
             {
-            	this.createLocale();
-				this.resetInterface();
+            	this._localeCreationView.populate();
+				this._resetInterface();
             }
             private function deleteNode():void
             {
-				this.deleteLocale();
-				this.resetInterface();
+            	if ( this.nodeTree.selectedIndex != -1 ) {
+					this._deleteLocale();
+					this._resetInterface();
+            	}
             }
             /*
 			Locales
 			*/
-            private function createLocale():void
+            private function _deleteLocale():void
             {
-            	if ( this.localeIDText.text != "" && this.localeLabelText.text != "" ) {
-	               ProjectController.getInstance().config.locales.appendChild( <locale id={ this.localeIDText.text } label={ this.localeLabelText.text } /> );
-	               ProjectController.getInstance().config.autoSaveConfig();
-	            }
-            }
-            private function deleteLocale():void
-            {
-            	if ( this.selectedNode != null ) {
-	            	delete ProjectController.getInstance().config.locales..locale.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
-            	}
-            }
-            /*
-			Attributes
-			*/
-            private function createAttribute():void
-            {
-                this.selectedNode.@[ this.attributeEditor.nameText.text ] = this.attributeEditor.valueText.text;
-                this.attributeEditor.resetForm();
-            }
-            private function updateAttribute():void
-            {
-            	this.selectedNode.@[ this.attributeEditor.attributeGrid.selectedItem.name ] = this.attributeEditor.valueText.text;
-				this.attributeEditor.resetForm();
-            }
-            private function deleteAttribute():void
-            {
-            	delete this.selectedNode.@[ this.attributeEditor.attributeGrid.selectedItem.name ];
-            	this.attributeEditor.resetForm();
+            	delete ProjectController.getInstance().config.locales..locale.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
             }
             /*
             Interface Functions
             */
-            private function resetInterface():void
+             private function _resetInterface():void
 			{
 				ProjectController.getInstance().config.autoSaveConfig();
-				this.localeIDText.text = "";
-				this.localeLabelText.text = "";
-				this.selectedNode = null;
-				
-				this.attributeEditor.resetForm();
-				this.attributeEditor.updateForm();
+				this._deselect();
 			}
-			private function deselect():void
+			private function _deselect():void
 			{
-				this.nodeTree.selectedItem = null;
-				this.selectedNode = null;
-				this.attributeEditor.resetForm();
+				this.nodeTree.selectedIndex = -1;
+				this.attributeEditor.clearForm();
             }
 			
 			/*
 			Event Handlers
 			*/
-            private function onTreeSelect( $event:Event ):void
+            private function _onTreeSelect( $event:Event ):void
 			{
-                this.selectedNode = this.nodeTree.selectedItem as XML;
-                this.attributeEditor.populateForm();
+				this.attributeEditor.populateForm( this.nodeTree.selectedItem as XML );
             }
             
             
 		]]>
 	</mx:Script>
 		
-	<mx:VBox height="100%" width="100%">
-		<mx:Panel title="Create : Locale" width="100%" layout="horizontal">
+	<mx:Panel  title="Hierarchy" width="100%" height="100%">
+		<mx:AdvancedDataGrid id="nodeTree" designViewDataType="tree" displayItemsExpanded="true" sortExpertMode="true" width="100%" height="100%" dataProvider="{ ProjectController.getInstance().config.localeHierarchy }" defaultLeafIcon="{ LocaleIcon }" folderOpenIcon="{ LocaleIcon }" folderClosedIcon="{ LocaleIcon }" itemClick="this._onTreeSelect(event)">
+	        <mx:headerRenderer>
+				<mx:Component>
+					<mx:AdvancedDataGridHeaderRenderer horizontalAlign="left"/>
+				</mx:Component>
+	        </mx:headerRenderer>
+			<mx:columns>
+				<mx:AdvancedDataGridColumn headerText="ID" dataField="@id" sortable="false" />
+				<mx:AdvancedDataGridColumn headerText="Label" dataField="@label"/>
+			</mx:columns>
+		</mx:AdvancedDataGrid>
 		
-			<mx:VBox width="100%">
-				<mx:FormItem label="ID" width="100%">
-					<mx:TextInput id="localeIDText" restrict="a-z A-Z 0-9 _"/>
-				</mx:FormItem>
-			</mx:VBox>
-			<mx:VBox width="100%">
-				<mx:FormItem label="Label" width="100%">
-					<mx:TextInput id="localeLabelText" restrict="a-z A-Z 0-9 _" />
-				</mx:FormItem>
-			</mx:VBox>
-			
-			<mx:ControlBar width="100%" horizontalAlign="right">
-				<mx:Button click="this.createNode()" id="nodeCreateButton" styleName="createIcon" icon="{ CreateIcon }" />
-			</mx:ControlBar>
-		</mx:Panel>
-		
-		<mx:Panel  title="Hierarchy" width="100%" height="100%">
-			<mx:AdvancedDataGrid id="nodeTree" designViewDataType="tree" displayItemsExpanded="true" sortExpertMode="true" width="100%" height="100%" dataProvider="{ ProjectController.getInstance().config.localeHierarchy }" defaultLeafIcon="{ LocaleIcon }" folderOpenIcon="{ LocaleIcon }" folderClosedIcon="{ LocaleIcon }" itemClick="this.onTreeSelect(event)">
-		        <mx:headerRenderer>
-					<mx:Component>
-						<mx:AdvancedDataGridHeaderRenderer horizontalAlign="left"/>
-					</mx:Component>
-		        </mx:headerRenderer>
-				<mx:columns>
-					<mx:AdvancedDataGridColumn headerText="ID" dataField="@id" sortable="false" />
-					<mx:AdvancedDataGridColumn headerText="Label" dataField="@label"/>
-				</mx:columns>
-			</mx:AdvancedDataGrid>
-			
-			<misc:HierarchyControlBar id="hierarchyControlBar" deleteNode="this.deleteNode()" deselectNode="this.deselect()" />
-		</mx:Panel>
-		
-	</mx:VBox>
+		<misc:HierarchyControlBar creationOptions="{ ProjectController.getInstance().resources.getBundle( 'localeCreationOptions' ) }" id="hierarchyControlBar" createNode="this.createNode()" deleteNode="this.deleteNode()" deselectNode="this._deselect()" />
+	</mx:Panel>
 	
-	<misc:AttributeEditor id="attributeEditor" selectedNode="{ this.selectedNode }" createAttribute="this.createAttribute()" updateAttribute="this.updateAttribute()" deleteAttribute="this.deleteAttribute()"/>
+	<misc:AttributeEditor id="attributeEditor" />
 		
-</mx:HBox>
+</mx:HDividedBox>

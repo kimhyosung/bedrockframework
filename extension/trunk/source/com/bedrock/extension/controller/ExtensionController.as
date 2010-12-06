@@ -3,9 +3,7 @@ package com.bedrock.extension.controller
 	import com.bedrock.extension.delegate.JSFLDelegate;
 	import com.bedrock.extension.event.ExtensionEvent;
 	import com.bedrock.extension.model.*;
-	import com.bedrock.extension.view.ExtensionSettingsView;
-	import com.bedrock.extension.view.ProjectCreationView;
-	import com.bedrock.extension.view.ProjectUpdateView;
+	import com.bedrock.extension.view.popups.ProjectUpdateView;
 	import com.bedrock.extras.util.StringUtil;
 	import com.bedrock.extras.util.VariableUtil;
 	import com.bedrock.framework.core.base.StandardBase;
@@ -35,6 +33,10 @@ package com.bedrock.extension.controller
 		[Bindable]
 		public var projectXML:XML;
 		[Bindable]
+		public var resourceXML:XML;
+		[Bindable]
+		public var configXML:XML;
+		[Bindable]
 		public var templates:Array;
 		[Bindable]
 		public var versions:Array;
@@ -43,9 +45,10 @@ package com.bedrock.extension.controller
 		[Bindable]
 		public var namingConventions:NamingConventionModel;
 		
-		private var _projectCreationView:ProjectCreationView;
+		
 		private var _projectUpdateView:ProjectUpdateView;
-		private var _extensionSettingsView:ExtensionSettingsView;
+		
+		
 		/*
 		Constructor
 		*/
@@ -59,27 +62,28 @@ package com.bedrock.extension.controller
 			}
 			return ExtensionController.__objInstance;
 		}
-		public function initialize( $root:UIComponent ):void
+		public function setup( $root:UIComponent ):void
 		{
 			this.root = $root;
-			
+		}
+		public function initialize():void
+		{
 			this._createDelegate();
 			this._createModuleLoader();
 			
 			this.loadSettings();
 			this.loadVersions();
 			
-			this._projectCreationView = new ProjectCreationView;
-			this._projectCreationView.initialize();
 			this._projectUpdateView = new ProjectUpdateView;
 			this._projectUpdateView.initialize();
-			this._extensionSettingsView = new ExtensionSettingsView;
-			this._extensionSettingsView.initialize();
 			
 			this.namingConventions = new NamingConventionModel;
 			this.namingConventions.initialize( this.delegate );
 			
+			BedrockDispatcher.addEventListener( ExtensionEvent.SAVE_PROJECT, this._onSaveProject );
 			BedrockDispatcher.addEventListener( ExtensionEvent.PROJECT_UPDATE, this._onProjectUpdate );
+			BedrockDispatcher.addEventListener( ExtensionEvent.DELETE_CONTENT_CONFIRMED, this._onDeleteContentConfirmed );
+			BedrockDispatcher.addEventListener( ExtensionEvent.RELOAD_CONFIG, this._onReloadConfig );
 			
 			this.loadMostRecentProject();
 		}
@@ -242,12 +246,12 @@ package com.bedrock.extension.controller
 					this.projectXML.appendChild( <flas/> );
 				}
 				
-				var configXML:XML = new XML( this.delegate.openConfig( this.projectXML ) );
-				var resourceXML:XML = new XML( this.delegate.getSelectedResourceBundle( this.projectXML ) );
+				this.configXML = new XML( this.delegate.openConfig( this.projectXML ) );
+				this.resourceXML = new XML( this.delegate.getSelectedResourceBundle( this.projectXML ) );
 				
 				this.moduleLoader.loadModule( this.delegate.getSelectedProjectPanelPath( this.projectXML ) );
 				
-				ProjectController.getInstance().initialize( resourceXML, this.settingsXML, this.projectXML, configXML );
+				ProjectController.getInstance().initialize( this.resourceXML, this.settingsXML, this.projectXML, this.configXML );
 				ExtrasController.getInstance().initialize( this.projectXML, this.delegate );
 				
 				BedrockDispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.PROJECT_LOADED, this ) );
@@ -306,6 +310,12 @@ package com.bedrock.extension.controller
 			}
 			
 		}
+		
+		private function _deleteContent( $details:XML ):void
+		{
+			delete ProjectController.getInstance().config.contents..content.( @id == $details.@id )[ 0 ];
+			this.delegate.deleteContent( this.projectXML, $details );
+		}
 		/*
 		Popup Functions
 		*/
@@ -316,28 +326,24 @@ package com.bedrock.extension.controller
 			PopUpManager.addPopUp( this._projectUpdateView, this.root, true );
 			PopUpManager.centerPopUp( this._projectUpdateView );
 		}
-		public function showCreateProject():void
-		{
-			this.createProject();
-			
-			this._projectCreationView.populate();
-			
-			PopUpManager.addPopUp( this._projectCreationView, this.root, true );
-			PopUpManager.centerPopUp( this._projectCreationView );
-		}
-		public function showSettings():void
-		{
-			this._extensionSettingsView.populate();
-			
-			PopUpManager.addPopUp( this._extensionSettingsView, this.root, true );
-			PopUpManager.centerPopUp( this._extensionSettingsView );
-		}
-		/*
-		Event Handlers
-		*/
+		
 		private function _onProjectUpdate( $event:ExtensionEvent ):void
 		{
 			this.showUpdateProject();
+		}
+		private function _onSaveProject( $event:ExtensionEvent ):void
+		{
+			this.saveProject();
+		}
+		private function _onDeleteContentConfirmed( $event:ExtensionEvent ):void
+		{
+			this._deleteContent( $event.details as XML );
+		}
+		
+		private function _onReloadConfig( $event:ExtensionEvent ):void
+		{
+			this.configXML = new XML( this.delegate.openConfig( this.projectXML ) );
+			ProjectController.getInstance().update( this.resourceXML, this.settingsXML, this.projectXML, this.configXML );
 		}
 		/*
 		Property Definitions

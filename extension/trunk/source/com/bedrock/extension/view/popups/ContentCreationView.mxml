@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GenericProjectPopupView xmlns="com.bedrock.extension.view.popups.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:misc="com.bedrock.extension.view.misc.*">
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.extension.controller.ProjectController;
+			import mx.managers.PopUpManager;
+			
+			public function populate():void
+			{
+				this.idText.text = "";
+            	this.labelText.text = "";
+            	this.initialLoadCheck.selected = false;
+            	this.initialTransitionCheck.selected = false;
+            	
+            	this.showPopup();
+			}
+			
+			
+			private function _create():void
+            {
+            	if ( this.idText.text != "" && this.idText.text != null ) {
+	            	var xmlContent:XML = new XML( <content id={ this.idText.text } label={ this.labelText.text } indexed={ this.indexedCheck.selected } priority={ this.priorityStepper.value } assetGroup={ this.assetGroupCombo.selectedLabel } /> ); 
+	            	xmlContent.@initialLoad = this.initialLoadCheck.selected;
+	            	xmlContent.@initialTransition = this.initialTransitionCheck.selected;
+	            	xmlContent.@autoDispose = this.autoDisposeCheck.selected;
+	            	xmlContent.@autoDisposeAssets = this.autoDisposeAssetsCheck.selected;
+	            	
+	            	xmlContent.@[ "container" ] = this.containerCombo.selectedLabel;
+	            	ProjectController.getInstance().config.createContent( xmlContent, this.contentGroupCombo.selectedLabel, this.templateCombo.selectedLabel );
+	            	
+	            	this.closePopup();
+            	}
+            }
+			
+			private function _onGroupChange( $event:Event ):void
+            {
+            	if ( this.contentGroupCombo.selectedIndex != 0 ) {
+            		this.initialLoadCheck.enabled = false;
+            		this.initialLoadCheck.selected = false;
+            		this.initialTransitionCheck.enabled = false;
+            		this.initialTransitionCheck.selected = false;
+            	} else {
+            		this.initialLoadCheck.enabled = true;
+            		this.initialTransitionCheck.enabled = true;
+            	}
+            }
+            private function _onContentInitialTransitionChange( $event:Event ):void
+            {
+            	if ( this.initialTransitionCheck.selected ) {
+            		this.initialLoadCheck.selected = true;
+            		this.initialLoadCheck.enabled = false;
+            	} else {
+            		this.initialLoadCheck.selected = false;
+            		this.initialLoadCheck.enabled = true;
+            	}
+            }
+		]]>
+	</mx:Script>
+
+	<mx:Panel title="Create : Content" layout="horizontal" styleName="parentPanel">
+		
+		<mx:Form width="100%" >
+			<mx:FormItem label="ID" width="100%" >
+				<mx:TextInput id="idText" restrict="a-zA-Z0-9_" />
+			</mx:FormItem>
+			<mx:FormItem label="Label" width="100%" >
+				<mx:TextInput id="labelText"/>
+			</mx:FormItem>
+			<mx:FormItem label="Template">
+				<mx:ComboBox id="templateCombo" dataProvider="{ ProjectController.getInstance().config.contentTemplateArray }" />
+			</mx:FormItem>
+			
+			<mx:HRule width="100%"/>
+			
+			<mx:FormItem label="Container" width="100%">
+				<mx:ComboBox id="containerCombo" dataProvider="{ ProjectController.getInstance().config.containerArray }" />
+			</mx:FormItem>
+			<mx:FormItem label="Priority"  height="100%" horizontalAlign="center">
+				<mx:NumericStepper id="priorityStepper"  minimum="0" maximum="10" stepSize="1" value="0"/>
+			</mx:FormItem>
+			
+			<mx:HRule width="100%"/>
+			
+			<mx:FormItem label="Content Group" width="100%">
+				<mx:ComboBox id="contentGroupCombo" dataProvider="{ ProjectController.getInstance().config.contentGroupsArray }" change="this._onGroupChange( event )" />
+			</mx:FormItem>
+			
+			<mx:FormItem label="Asset Group" width="100%">
+				<mx:ComboBox id="assetGroupCombo" dataProvider="{ ProjectController.getInstance().config.assetGroupsArray }" />
+			</mx:FormItem>
+		</mx:Form>
+		
+		<mx:Form width="100%">
+		
+			<mx:CheckBox  id="initialLoadCheck" label="Include in initial load"  />
+			<mx:CheckBox  id="initialTransitionCheck" label="Include in initial transition" change="this._onContentInitialTransitionChange( event )" />
+			
+			<mx:HRule width="100%"/>
+			
+			<mx:CheckBox  id="indexedCheck" label="Indexed" />
+			
+			<mx:HRule width="100%"/>
+			
+			<mx:CheckBox  id="autoDisposeCheck" label="Auto Dispose" />
+			<mx:CheckBox  id="autoDisposeAssetsCheck" label="Auto Dispose Assets" />
+		</mx:Form>
+			
+		<misc:CreationControlBar cancel="this.closePopup()" create="this._create()"/>
+	</mx:Panel>
+</GenericProjectPopupView>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Box xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.extension.controller.ProjectController;
+			
+			public var rawData:XML;
+			
+			private function _onChange( $event:Event ):void
+			{
+				this[ "update" ]();
+				ProjectController.getInstance().config.autoSaveConfig();
+			}
+			
+			override public function set data( $data:Object ):void
+			{
+				this.rawData = $data as XML;
+				this[ "populate" ]( this.rawData );
+				super.data = $data;
+			}
+			
+			override public function get data():Object
+			{
+				return this.rawData;
+			}
+		]]>
+	</mx:Script>
+	<mx:CheckBox id="checkBox" change="this._onChange( event )" />
+</mx:Box>

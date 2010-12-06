@@ -2,6 +2,8 @@
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" creationComplete="this.bootup()" xmlns:view="com.bedrock.extension.view.*" xmlns:temp="com.bedrock.extension.project.view.temp.*" xmlns:extras="com.bedrock.extension.view.extras.*" xmlns:project="com.bedrock.extension.view.project.*">
 	<mx:Script>
 		<![CDATA[
+			import com.bedrock.extension.view.popups.ExtensionSettingsView;
+			import mx.managers.PopUpManager;
 			import com.bedrock.extras.util.VariableUtil;
 			import com.bedrock.extension.event.ExtensionEvent;
 			import com.bedrock.extension.controller.ExtensionController;
@@ -13,6 +15,7 @@
 			
 			[Embed("assets/BedrockLogo.png")]
             private var BedrockLogo:Class;
+			private var _extensionSettingsView:ExtensionSettingsView;
 			
 			private function bootup():void
 			{
@@ -23,9 +26,21 @@
 				
 				BedrockDispatcher.addEventListener( ExtensionEvent.PROJECT_CREATED, this._onProjectCreated );
 				BedrockDispatcher.addEventListener( ExtensionEvent.PROJECT_LOADED, this._onProjectLoaded );
-				ExtensionController.getInstance().initialize( this );
+				ExtensionController.getInstance().setup( this );
+				ExtensionController.getInstance().initialize();
+				
+				this._extensionSettingsView = new ExtensionSettingsView;
+				this._extensionSettingsView.initialize();
 				
 				this.projectContainer.addChild( ExtensionController.getInstance().moduleLoader );
+			}
+			
+			private function _showSettings():void
+			{
+				this._extensionSettingsView.populate();
+				
+				PopUpManager.addPopUp( this._extensionSettingsView, this, true );
+				PopUpManager.centerPopUp( this._extensionSettingsView );
 			}
 			
 			private function _showNamingConventions():void
@@ -79,7 +94,7 @@
 		<mx:Spacer width="100%"/>
 		<mx:Canvas height="100%" backgroundColor="#FFFFFF" backgroundAlpha="0.2" borderStyle="none" id="buttonContainer">
 			<mx:LinkButton label="- Naming Conventions" id="namingConventionsButton" click="this._showNamingConventions()"/>
-			<mx:LinkButton y="{ this.namingConventionsButton.height }" x="70" label="- Settings" click="ExtensionController.getInstance().showSettings()"/>
+			<mx:LinkButton y="{ this.namingConventionsButton.height }" x="70" label="- Settings" click="this._showSettings()"/>
 		</mx:Canvas>
 	</mx:HBox>
 	

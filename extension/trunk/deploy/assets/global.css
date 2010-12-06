@@ -19,7 +19,11 @@ TabNavigator {
    textIndent: 0;
    borderStyle: solid;
 }
-
+.centeredBox
+{
+	horizontalAlign:center;
+	verticalAlign:middle;
+}
 .myTabs {
    cornerRadius: 0;
    highlightAlphas: 0, 0;
@@ -27,9 +31,14 @@ TabNavigator {
    backgroundAlpha: 1;
 }
 
+
+
 .mySelectedTabs {
 }
-
+FormItem
+{
+	verticalGap:3px;
+}
 .namingConventionDataGrid {
 	horizontalGridLines: true;
    horizontalGridLineColor: #cccccc;

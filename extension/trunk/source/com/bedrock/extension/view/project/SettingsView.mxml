@@ -14,34 +14,35 @@
 			/*
 			Variable Delcarations
 			*/
-			[Bindable]
-			private var _arrCheckBoxes:ArrayCollection;
+			private var _behaviorCheckBoxes:ArrayCollection;
+			private var _resourceCheckBoxes:ArrayCollection;
 			/*
 			Constructor
 			*/
 			private function bootup():void
 			{
 				this.populate();
-				this.createBehaviorOptions();
+				this._behaviorCheckBoxes = new ArrayCollection( this._createOptions( "behaviorSettings", this.behaviorSettingsForm ) );
+				this._resourceCheckBoxes = new ArrayCollection( this._createOptions( "resourceSettings", this.resourceSettingsForm ) );
 			}
 			/*
 			Creation Functions
 			*/
-			private function createBehaviorOptions():void
+			private function _createOptions( $bundleID:String, $form:Form ):Array
 			{
-				this._arrCheckBoxes = new ArrayCollection();
 				var objCheckBox:CheckBox;
-				for each( var objOption:Object in ProjectController.getInstance().resources.getBundle( "behaviorSettings" ) ) {
+				var arrResult:Array = ProjectController.getInstance().resources.getBundle( $bundleID );
+				for each( var objOption:Object in arrResult ) {
 					objCheckBox = new CheckBox;
 					objCheckBox.id = objOption.id + "Check";
 					objCheckBox.label = objOption.label;
 					objCheckBox.selected = ProjectController.getInstance().config.getSettingValue( objOption.id );
-					objCheckBox.addEventListener( Event.CHANGE, this.onChange );
+					objCheckBox.addEventListener( Event.CHANGE, this._onChange );
 					
 					objOption.check = objCheckBox;
-					this._arrCheckBoxes.addItem( objOption );
-					this.behaviorSettingsForm.addChild( objCheckBox );
+					$form.addChild( objCheckBox );
 				}
+				return arrResult;
 			}
 			private function populate():void
 			{
@@ -61,7 +62,7 @@
 				var strLocalizedFiles:String = ProjectController.getInstance().config.getSettingValue( BedrockData.LOCALIZED_FILES );
 				this.fontsCheck.selected = ( strLocalizedFiles.indexOf( BedrockData.FONTS ) != -1 );
 				this.stylesheetCheck.selected = ( strLocalizedFiles.indexOf( BedrockData.STYLESHEET ) != -1 );
-				this.libraryCheck.selected = ( strLocalizedFiles.indexOf( "sharedAssets" ) != -1 );//BedrockData.LIBRARY
+				this.libraryCheck.selected = ( strLocalizedFiles.indexOf( BedrockData.LIBRARY ) != -1 );
 				this.dataBundleCheck.selected = ( strLocalizedFiles.indexOf( BedrockData.DATA_BUNDLE ) != -1 );
 				
 				this.logDetailDepthStepper.value = ProjectController.getInstance().config.getSettingValue( BedrockData.LOG_DETAIL_DEPTH );
@@ -81,7 +82,7 @@
 				
 				this.filenameFontsText.text = ProjectController.getInstance().config.getSettingValue( BedrockData.FONTS_FILENAME );
 				this.filenameDataBundleText.text = ProjectController.getInstance().config.getSettingValue( BedrockData.DATA_BUNDLE_FILENAME );
-				this.filenameLibraryText.text = ProjectController.getInstance().config.getSettingValue( "sharedFilename" );//BedrockData.LIBRARY_FILENAME
+				this.filenameLibraryText.text = ProjectController.getInstance().config.getSettingValue( BedrockData.LIBRARY_FILENAME );
 				this.filenameStylesheetText.text = ProjectController.getInstance().config.getSettingValue( BedrockData.STYLESHEET_FILENAME );
 			}
 			
@@ -90,6 +91,7 @@
 				this.applyGeneralSettings();
 				this.applyLocaleSettings();
 				this.applyBehaviorSettings();
+				this.applyResourceSettings();
 				this.applyLoggerSettings();
 				this.applyFilenameSettings();
 				ProjectController.getInstance().config.autoSaveConfig();
@@ -107,7 +109,13 @@
 			}
 			private function applyBehaviorSettings():void
 			{
-				for each( var objOption:Object in this._arrCheckBoxes.source ) {
+				for each( var objOption:Object in this._behaviorCheckBoxes.source ) {
+					ProjectController.getInstance().config.setSettingValue( objOption.id, objOption.check.selected );
+				}
+			}
+			private function applyResourceSettings():void
+			{
+				for each( var objOption:Object in this._resourceCheckBoxes.source ) {
 					ProjectController.getInstance().config.setSettingValue( objOption.id, objOption.check.selected );
 				}
 			}
@@ -127,7 +135,7 @@
 			}
 			private function applyFilenameSettings():void
 			{
-				ProjectController.getInstance().config.setSettingValue( "sharedFilename", this.filenameLibraryText.text ); //BedrockData.LIBRARY_FILENAME
+				ProjectController.getInstance().config.setSettingValue( BedrockData.LIBRARY_FILENAME, this.filenameLibraryText.text );
 				ProjectController.getInstance().config.setSettingValue( BedrockData.FONTS_FILENAME, this.filenameFontsText.text );
 				ProjectController.getInstance().config.setSettingValue( BedrockData.STYLESHEET_FILENAME, this.filenameStylesheetText.text );
 				ProjectController.getInstance().config.setSettingValue( BedrockData.DATA_BUNDLE_FILENAME, this.filenameDataBundleText.text );
@@ -145,7 +153,7 @@
 			/*
 			Event Handlers
 			*/
-			private function onChange( $event:Event ):void
+			private function _onChange( $event:Event ):void
 			{
 				this.updateSettings();
 			}
@@ -171,25 +179,25 @@
 			<mx:Panel layout="vertical" title="General Settings" width="100%" height="50%">
 				<mx:Form id="generalSettingsForm">
 					<mx:FormItem label="Stage Alignment" width="100%">
-						<mx:ComboBox id="stageAlignmentCombo" dataProvider="{ ProjectController.getInstance().resources.getBundle( 'stageAlignmentOptions' ) }" change="this.onChange( event )" />
+						<mx:ComboBox id="stageAlignmentCombo" dataProvider="{ ProjectController.getInstance().resources.getBundle( 'stageAlignmentOptions' ) }" change="this._onChange( event )" />
 					</mx:FormItem>
 					<mx:FormItem label="Stage Scale Mode" width="100%">
-						<mx:ComboBox id="stageScaleModeCombo" dataProvider="{ ProjectController.getInstance().resources.getBundle( 'stageScaleModeOptions' ) }" change="this.onChange( event )" />
+						<mx:ComboBox id="stageScaleModeCombo" dataProvider="{ ProjectController.getInstance().resources.getBundle( 'stageScaleModeOptions' ) }" change="this._onChange( event )" />
 					</mx:FormItem>
 					<mx:FormItem label="Default Transition Style" width="100%">
-						<mx:ComboBox id="defaultTransitionStyleCombo" dataProvider="{ ProjectController.getInstance().resources.getBundle( 'defaultTransitionStyleOptions' ) }" change="this.onChange( event )" />
+						<mx:ComboBox id="defaultTransitionStyleCombo" dataProvider="{ ProjectController.getInstance().resources.getBundle( 'defaultTransitionStyleOptions' ) }" change="this._onChange( event )" />
 					</mx:FormItem>
 					<mx:FormItem label="Initial Preloader Time">
-						<mx:NumericStepper id="initialPreloaderTimeStepper" stepSize="0.1" change="this.onChange( event )" />
+						<mx:NumericStepper id="initialPreloaderTimeStepper" stepSize="0.1" change="this._onChange( event )" />
 					</mx:FormItem>
 					<mx:FormItem label="Default Preloader Time">
-						<mx:NumericStepper id="defaultPreloaderTimeStepper" stepSize="0.1" change="this.onChange( event )"/>
+						<mx:NumericStepper id="defaultPreloaderTimeStepper" stepSize="0.1" change="this._onChange( event )"/>
 					</mx:FormItem>
 					<mx:FormItem label="Blocker Alpha">
-						<mx:NumericStepper id="blockerAlphaStepper" change="this.onChange( event )" stepSize="0.1" minimum="0" maximum="1"/>
+						<mx:NumericStepper id="blockerAlphaStepper" change="this._onChange( event )" stepSize="0.1" minimum="0" maximum="1"/>
 					</mx:FormItem>
 					<mx:FormItem label="Blocker Color">
-						<mx:ColorPicker id="blockerColorPicker" change="this.onChange( event )" selectedColor="#000000"/>
+						<mx:ColorPicker id="blockerColorPicker" change="this._onChange( event )" selectedColor="#000000"/>
 					</mx:FormItem>
 				</mx:Form>
 			</mx:Panel>
@@ -197,73 +205,79 @@
 			<mx:Panel layout="vertical" title="Locale Settings" width="100%" height="100%">
 		  		<mx:Form width="100%" height="100%">
 		  			<mx:FormItem label="Locales Enabled">
-						<mx:CheckBox id="localesEnabledCheck" selected="false" change="this.onChange( event )" />
+						<mx:CheckBox id="localesEnabledCheck" selected="false" change="this._onChange( event )" />
 					</mx:FormItem>
 					<mx:FormItem label="Locale Delimiter">
-						<mx:TextInput id="localeDelimiterText" width="100%" text="_" maxChars="1" change="this.onChange( event )"/>
+						<mx:TextInput id="localeDelimiterText" width="100%" text="_" maxChars="1" change="this._onChange( event )"/>
 					</mx:FormItem>
 					<mx:FormItem label="Default Locale">
-						<mx:ComboBox id="defaultLocaleCombo" dataProvider="{ ProjectController.getInstance().config.locales..locale }" labelField="@id"  change="this.onChange( event )"/>
+						<mx:ComboBox id="defaultLocaleCombo" dataProvider="{ ProjectController.getInstance().config.locales..locale }" labelField="@id"  change="this._onChange( event )"/>
 					</mx:FormItem>
 					<mx:FormItem label="Localized Files">
-						<mx:CheckBox id="libraryCheck" label="Shared Assets" change="this.onChange( event )"/>
-						<mx:CheckBox id="fontsCheck" label="Fonts" change="this.onChange( event )"/>
-						<mx:CheckBox id="stylesheetCheck" label="Stylesheet" change="this.onChange( event )"/>
-						<mx:CheckBox id="dataBundleCheck" label="Resource Bundle" change="this.onChange( event )"/>
+						<mx:CheckBox id="libraryCheck" label="Library" change="this._onChange( event )"/>
+						<mx:CheckBox id="fontsCheck" label="Fonts" change="this._onChange( event )"/>
+						<mx:CheckBox id="stylesheetCheck" label="Stylesheet" change="this._onChange( event )"/>
+						<mx:CheckBox id="dataBundleCheck" label="Resource Bundle" change="this._onChange( event )"/>
 					</mx:FormItem>
 				</mx:Form>
 			</mx:Panel>
 			
 		</mx:VBox>
 		
-		<mx:Panel layout="vertical" title="Behavior Settings" height="100%">
-			<mx:Form id="behaviorSettingsForm"/>
-		</mx:Panel>
+		<mx:VBox height="100%">
+			
+			<mx:Panel layout="vertical" title="Behavior Settings" height="100%" width="100%">
+				<mx:Form id="behaviorSettingsForm"/>
+			</mx:Panel>
+			<mx:Panel layout="vertical" title="Resource Settings" width="100%" height="100%">
+				<mx:Form id="resourceSettingsForm"/>
+			</mx:Panel>
+			
+		</mx:VBox>
 		
 		
 		<mx:VBox height="100%">
-		
 			<mx:Panel layout="vertical" title="Logger Settings" width="100%" height="100%">
 		  		<mx:Form width="100%" height="100%">
 		  			<mx:FormItem label="Log Detail Depth">
-						<mx:NumericStepper id="logDetailDepthStepper" minimum="0" stepSize="1" maximum="25" change="this.onChange( event )" />
+						<mx:NumericStepper id="logDetailDepthStepper" minimum="0" stepSize="1" maximum="25" change="this._onChange( event )" />
 					</mx:FormItem>
 					<mx:FormItem label="Errors Enabled">
-						<mx:CheckBox id="errorsEnabledCheck" selected="true" change="this.onChange( event )" />
+						<mx:CheckBox id="errorsEnabledCheck" selected="true" change="this._onChange( event )" />
 					</mx:FormItem>
 					<mx:HRule width="100%" />
 					<mx:FormItem label="Trace Log Level">
-						<mx:ComboBox id="traceLogLevelCombo" labelField="label" change="this.onChange( event )" />
+						<mx:ComboBox id="traceLogLevelCombo" labelField="label" change="this._onChange( event )" />
 					</mx:FormItem>
 					<mx:FormItem label="Event Log Level">
-						<mx:ComboBox id="eventLogLevelCombo" labelField="label" change="this.onChange( event )"/>
+						<mx:ComboBox id="eventLogLevelCombo" labelField="label" change="this._onChange( event )"/>
 					</mx:FormItem>
 					<mx:FormItem label="Monster Log Level">
-						<mx:ComboBox id="monsterLogLevelCombo" labelField="label" change="this.onChange( event )"/>
+						<mx:ComboBox id="monsterLogLevelCombo" labelField="label" change="this._onChange( event )"/>
 					</mx:FormItem>
 					<mx:FormItem label="Remote Log Level">
-						<mx:ComboBox id="remoteLogLevelCombo" labelField="label" change="this.onChange( event )"/>
+						<mx:ComboBox id="remoteLogLevelCombo" labelField="label" change="this._onChange( event )"/>
 					</mx:FormItem>
 					<mx:FormItem label="Remote Log URL" width="100%">
-						<mx:TextInput id="remoteLogURLText"  width="125" change="this.onChange( event )"/>
+						<mx:TextInput id="remoteLogURLText"  width="125" change="this._onChange( event )"/>
 					</mx:FormItem>
-					
 				</mx:Form>
 			</mx:Panel>
 			
+			
 			<mx:Panel layout="vertical" title="Resource Filenames" width="100%" height="100%">
 				<mx:Form width="100%" height="100%">
-					<mx:FormItem label="Shared Assets">
-						<mx:TextInput width="125" id="filenameLibraryText" change="this.onChange( event )"/>
+					<mx:FormItem label="Library">
+						<mx:TextInput width="125" id="filenameLibraryText" change="this._onChange( event )"/>
 					</mx:FormItem>
 					<mx:FormItem label="Fonts">
-						<mx:TextInput width="125" id="filenameFontsText" change="this.onChange( event )"/>
+						<mx:TextInput width="125" id="filenameFontsText" change="this._onChange( event )"/>
 					</mx:FormItem>
 					<mx:FormItem label="Stylesheet">
-						<mx:TextInput width="125" id="filenameStylesheetText" change="this.onChange( event )"/>
+						<mx:TextInput width="125" id="filenameStylesheetText" change="this._onChange( event )"/>
 					</mx:FormItem>
 					<mx:FormItem label="Data Bundle">
-						<mx:TextInput width="125" id="filenameDataBundleText" change="this.onChange( event )"/>
+						<mx:TextInput width="125" id="filenameDataBundleText" change="this._onChange( event )"/>
 					</mx:FormItem>
 				</mx:Form>
 			</mx:Panel>

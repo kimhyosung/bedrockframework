@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:ControlBar xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="35" verticalAlign="middle">
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.extension.event.ExtensionEvent;
+			
+			private function _notify( $event:String ):void
+			{
+				this.dispatchEvent( new ExtensionEvent( $event, this ) );
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Metadata>
+        [Event(name="create", type="com.bedrock.extension.event.ExtensionEvent")]
+        [Event(name="cancel", type="com.bedrock.extension.event.ExtensionEvent")]
+    </mx:Metadata>
+    <mx:Button label="Cancel" height="30" click="this._notify( 'cancel' )"/>
+	<mx:Spacer width="100%" />
+	<mx:Button label="Create" height="30" click="this._notify( 'create' )"/>
+</mx:ControlBar>

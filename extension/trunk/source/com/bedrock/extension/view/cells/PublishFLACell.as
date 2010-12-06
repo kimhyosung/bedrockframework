@@ -1,34 +1,23 @@
-package com.bedrock.extension.view.misc
+package com.bedrock.extension.view.cells
 {
 	
 	import com.bedrock.extension.controller.ProjectController;
+	import com.bedrock.extension.event.ExtensionEvent;
 	import com.bedrock.extras.util.VariableUtil;
+	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
 	
 	import flash.events.Event;
 	
-	import mx.controls.CheckBox;
 	import mx.controls.listClasses.IListItemRenderer;
-	import mx.core.UIComponent;
 
-	public class FLACheckBox extends UIComponent implements IListItemRenderer
+	public class PublishFLACell extends GenericCheckBoxCell implements IListItemRenderer
 	{
-		public var checkBox:CheckBox;
 		private var _xmlData:XML;
 		
-		public function FLACheckBox()
+		public function PublishFLACell()
 		{
-			this.createCheckBox();
 		}
-		private function createCheckBox( $selected:Boolean = false ):void
-		{
-			this.checkBox = new CheckBox();
-			this.checkBox.x = 5;
-			this.checkBox.y = 8;
-			this.checkBox.selected = $selected;
-			this.checkBox.addEventListener( Event.CHANGE, this._onChange );
-			
-			this.addChild( this.checkBox );
-		}
+
 		private function applyToolTip():void
 		{
 			if ( this.checkBox.selected ) {
@@ -38,14 +27,15 @@ package com.bedrock.extension.view.misc
 			}
 		}
 		
-		private function _onChange( $event:Event ):void
+		public function update( $event:Event ):void
 		{
 			this.applyToolTip();
-			this._xmlData.@publish = this.checkBox.selected;
-			//VersionController.getInstance().project.saveProject();
+			this.rawData.@publish = this.checkBox.selected;
+			
+			BedrockDispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.SAVE_PROJECT, this ) );
 		}
 		
-		public function set data( $data:Object ):void
+		public function populate( $data:Object ):void
 		{
 			if ( $data != null && $data.@type == ".fla" ) {
 				
@@ -64,11 +54,6 @@ package com.bedrock.extension.view.misc
 				this._xmlData = null;
 				this.checkBox.visible = false;
 			}
-		}
-		
-		public function get data():Object
-		{
-			return this._xmlData;
 		}
 		
 	}

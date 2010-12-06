@@ -2,8 +2,10 @@ package com.bedrock.extension.model
 {
 	import com.bedrock.extension.data.OptionData;
 	import com.bedrock.extension.delegate.JSFLDelegate;
+	import com.bedrock.extension.event.ExtensionEvent;
 	import com.bedrock.extras.util.VariableUtil;
 	import com.bedrock.framework.core.base.StandardBase;
+	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
 	import com.bedrock.framework.engine.data.BedrockData;
 	
 	import mx.collections.ArrayCollection;
@@ -36,13 +38,19 @@ package com.bedrock.extension.model
 		[Bindable]
 		public var contents:XMLList;
 		[Bindable]
+		public var contentHierarchy:HierarchicalData;
+		[Bindable]
 		public var contentTemplateArray:ArrayCollection;
 		[Bindable]
-		public var contentParentArray:ArrayCollection;
+		public var contentGroupsArray:ArrayCollection;
 		[Bindable]
 		public var contentContainerArray:ArrayCollection;
 		[Bindable]
-		public var contentHierarchy:HierarchicalData;
+		public var assets:XMLList;
+		[Bindable]
+		public var assetGroupsArray:ArrayCollection;
+		[Bindable]
+		public var assetHierarchy:HierarchicalData;
 		[Bindable]
 		public var environments:XMLList;
 		[Bindable]
@@ -76,10 +84,15 @@ package com.bedrock.extension.model
 			this.refreshContainerArray();
 			this.refreshContainerHierarchy();
 			this.contents = this.configXML.contents;
-			this.refreshContentArray();
+			this.refreshContentArrays();
 			this.refreshContentHierarchy();
+			this.assets = this.configXML.assets;
+			this.refreshAssetArrays();
+			this.refreshAssetHierarchy();
 			this.environments = this.configXML.environments;
 			this._storePaths();
+			
+			BedrockDispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.CONFIG_LOADED, this ) );
 		}
 		
 		public function saveConfig():void
@@ -130,14 +143,14 @@ package com.bedrock.extension.model
 			
 			this.autoSaveConfig();
 		}
-		public function refreshContentArray():void
+		public function refreshContentArrays():void
 		{
-			this.contentParentArray = new ArrayCollection;
-			this.contentParentArray.addItem( OptionData.NONE );
+			this.contentGroupsArray = new ArrayCollection;
+			this.contentGroupsArray.addItem( OptionData.NONE );
 			
 			var contentXML:XML;
 			for each( contentXML in this.contents..contentGroup ) {
-				this.contentParentArray.addItem( VariableUtil.sanitize( contentXML.@id ) );
+				this.contentGroupsArray.addItem( VariableUtil.sanitize( contentXML.@id ) );
 			}
 			
 			this.contentTemplateArray = new ArrayCollection;
@@ -148,6 +161,23 @@ package com.bedrock.extension.model
 		public function refreshContentHierarchy():void
 		{
 			this.contentHierarchy = new HierarchicalData( this.contents.children() );
+		}
+		/*
+		Assets
+		*/
+		public function refreshAssetArrays():void
+		{
+			this.assetGroupsArray = new ArrayCollection;
+			this.assetGroupsArray.addItem( OptionData.NONE );
+			
+			var assetXML:XML;
+			for each( assetXML in this.assets.children() ) {
+				this.assetGroupsArray.addItem( VariableUtil.sanitize( assetXML.@id ) );
+			}
+		}
+		public function refreshAssetHierarchy():void
+		{
+			this.assetHierarchy = new HierarchicalData( this.assets.children() );
 		}
 		/*
 		Containers

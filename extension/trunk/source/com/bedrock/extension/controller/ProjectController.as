@@ -6,6 +6,7 @@ package com.bedrock.extension.controller
 	import com.bedrock.framework.engine.manager.DataBundleManager;
 	import com.greensock.TweenMax;
 	
+	import mx.core.UIComponent;
 	import mx.managers.CursorManager;
 	
 	public class ProjectController extends StandardBase
@@ -20,6 +21,7 @@ package com.bedrock.extension.controller
 		public var configXML:XML;
 		public var resourcesXML:XML;
 		
+		public var root:UIComponent;
 		
 		public var delegate:JSFLDelegate;
 		[Bindable]
@@ -42,24 +44,29 @@ package com.bedrock.extension.controller
 			}
 			return ProjectController.__objInstance;
 		}
+		public function setup( $root:UIComponent ):void
+		{
+			this.root = $root;
+		}
 		public function initialize( $resources:XML, $settings:XML, $project:XML, $config:XML ):void
+		{
+			this.createDelegate();
+			
+			this.browser = new BrowserController;
+			this.resources = new DataBundleManager();
+			this.config = new ConfigModel;
+			
+			this.update( $resources, $settings, $project, $config );
+		}
+		public function update( $resources:XML, $settings:XML, $project:XML, $config:XML ):void
 		{
 			this.settingsXML = $settings;
 			this.projectXML = $project;
 			this.resourcesXML = $resources;
 			this.configXML = $config;
-			
-			this.createDelegate();
-			
-			this.browser = new BrowserController;
 			this.browser.initialize( this.settingsXML, this.projectXML, this.delegate );
-			
-			this.resources = new DataBundleManager();
 			this.resources.parse( this.resourcesXML.toXMLString() );
-			
-			this.config = new ConfigModel;
 			this.config.initialize( this.settingsXML, this.projectXML, this.configXML, this.delegate );
-			
 		}
 		private function createDelegate():void
 		{
