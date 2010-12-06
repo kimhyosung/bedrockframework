@@ -7,7 +7,8 @@
     <setting id="defaultPreloaderTime" value="1"/>
     <setting id="blockerAlpha" value="0.1"/>
     <setting id="blockerColor" value="16777215"/>
-    <setting id="autoTransitionDefaultContent" value="true"/>
+    <setting id="autoPrepareInitialLoad" value="false"/>
+    <setting id="autoPrepareInitialTransition" value="false"/>
     <setting id="showBlockerDuringTransitions" value="true"/>
     <setting id="deeplinkingEnabled" value="true"/>
     <setting id="deeplinkContent" value="true"/>
@@ -34,33 +35,34 @@
     <setting id="remoteLogURL" value=""/>
     <setting id="errorsEnabled" value="true"/>
   </settings>
+  <contents>
+    <content id="content1" container="container2" indexed="true" initialTransition="false" label="Content 1" priority="0" deeplink="" assetGroup="content1" initialLoad="false" autoDispose="true" autoDisposeAssets="true"/>
+    <content id="content2" container="container1" indexed="true" initialTransition="false" label="Content 2" priority="0" deeplink="" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false"/>
+    <contentGroup id="nested" indexed="true" initialTransition="true" label="Content Group 1" priority="5" deeplink="" initialLoad="true">
+      <content id="content3" container="container1" indexed="false" initialTransition="false" label="Content 3" priority="0" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false"/>
+      <content id="content4" container="container2" indexed="false" initialTransition="false" label="Content 4" priority="0" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false"/>
+    </contentGroup>
+    <content id="navigation" container="navigation" indexed="false" initialTransition="true" label="Navigation" priority="2" deeplink="" assetGroup="none" initialLoad="true" autoDispose="false" autoDisposeAssets="false"/>
+  </contents>
+  <assets>
+    <assetGroup id="shell" initialLoad="true"/>
+    <assetGroup id="content1" initialLoad="false">
+      <asset id="test" path="xmlPath" url="test.xml" type="xml"/>
+    </assetGroup>
+  </assets>
+  <containers>
+    <container id="container1"/>
+    <container id="container2" x="150"/>
+    <container id="navigation"/>
+    <container id="overlay"/>
+    <container id="preloader"/>
+  </containers>
   <locales>
     <locale id="en_GB" label="English"/>
     <locale id="sp_ES" label="Spanish"/>
     <locale id="fr_FR" label="French"/>
     <locale id="jp_JP" label="Japanese"/>
   </locales>
-  <containers>
-    <container id="site"/>
-    <container id="container1"/>
-    <container id="container2" x="250"/>
-    <container id="overlay"/>
-    <container id="navigation"/>
-    <container id="preloader"/>
-  </containers>
-  <contents>
-    <content id="shell" indexed="false" default="false" label="Shell"/>
-    <content id="site" container="site" indexed="false" default="true" label="Site" priority="0" deeplink=""/>
-    <content id="content1" container="container1" indexed="true" default="true" label="Content 1" priority="0" deeplink="">
-      <asset id="test" path="xmlPath" url="test.xml" type="xml" autoLoad="true"/>
-    </content>
-    <content id="content2" container="container1" indexed="true" default="false" label="Content 2" priority="0" deeplink=""/>
-    <contentGroup id="nested" indexed="true" default="false" label="Content Group 1" priority="5" deeplink="">
-      <content id="content3" container="container1" indexed="false" default="false" label="Content 3" priority="0"/>
-      <content id="content4" container="container2" indexed="false" default="false" label="Content 4" priority="0"/>
-    </contentGroup>
-    <content id="navigation" container="navigation" indexed="false" default="true" label="Navigation" priority="2" deeplink=""/>
-  </contents>
   <environments>
     <environment id="default">
       <path id="xmlPath" value="../xml/"/>

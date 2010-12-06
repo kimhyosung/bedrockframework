@@ -36,7 +36,7 @@
 			data.autoSpacing = true;
 			data.direction = ClonerData.HORIZONTAL;
 			data.paddingX = 10;
-			data.total = BedrockEngine.contentManager.filterContent( "indexed", true ).length;
+			data.total = BedrockEngine.contentManager.filterContents( true, "indexed" ).length;
 			
 			this._cloner = new Cloner;
 			this._cloner.addEventListener( ClonerEvent.CREATE, this._onCloneCreate );
@@ -65,7 +65,7 @@
 	 	*/
 	 	private function _onCloneCreate( $event:ClonerEvent ):void
 		{
-			var data:Object = BedrockEngine.contentManager.filterContent( "indexed", true )[ $event.details.index ];
+			var data:Object = BedrockEngine.contentManager.filterContents( true, "indexed" )[ $event.details.index ];
 			var childButton:MovieClip = $event.details.child;
 			childButton.label.text = data.label;
 			childButton.name = data.id;

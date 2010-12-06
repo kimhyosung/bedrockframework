@@ -12,7 +12,7 @@
 		
 		public function initialize():void
 		{
-			this.registerFont( HorseHair );
+			//this.registerFont( FontName );
 			this.status( "Initialize" );
 		}
 		

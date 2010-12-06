@@ -1,7 +1,10 @@
 ﻿package __template
 {
-	import com.bedrock.framework.engine.builder.BedrockBuilder;
+	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
+	import com.bedrock.framework.engine.BedrockEngine;
 	import com.bedrock.framework.engine.api.IBedrockBuilder;
+	import com.bedrock.framework.engine.builder.BedrockBuilder;
+	import com.bedrock.framework.engine.event.BedrockEvent;
 	import com.bedrock.framework.plugin.view.IView;
 	import com.greensock.TweenLite;
 	
@@ -24,13 +27,11 @@
 		
 		public function preinitialize():void
 		{
-			
 		}
 		
 		public function initialize($data:Object=null):void
 		{
 			this.status( "Initialize" );
-			this.label.text = this.properties.label;
 			this.initializeComplete();
 		}
 		
@@ -52,6 +53,8 @@
 		/*
 		Event Handlers
 	 	*/
-		
+		private function _onLoadComplete( $event:BedrockEvent ):void
+		{
+		}
 	}
 }
