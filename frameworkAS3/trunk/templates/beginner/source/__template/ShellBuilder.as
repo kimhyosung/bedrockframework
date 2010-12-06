@@ -53,8 +53,5 @@
 		/*
 		Event Handlers
 	 	*/
-		private function _onLoadComplete( $event:BedrockEvent ):void
-		{
-		}
 	}
 }
