@@ -2,9 +2,14 @@ package com.bedrock.framework.engine.api
 {
 	public interface IResourceDelegate
 	{
-		function getFontPath( $locale:String = null ):String
-		function getStylesheetPath( $locale:String = null ):String;
-		function getDataBundlePath( $locale:String = null ):String;
-		function getLibraryPath( $locale:String = null ):String;
+		function prepareFontsLoader( $localized:Boolean, $locale:String = null ):*;
+		function prepareStylesheetLoader( $localized:Boolean, $locale:String = null ):*;
+		function prepareDataBundleLoader( $localized:Boolean, $locale:String = null ):*;
+		function prepareLibraryLoader( $localized:Boolean, $locale:String = null ):*;
+		
+		function get dataBundleLoader():*;
+		function get fontsLoader():*;
+		function get libraryLoader():*;
+		function get stylesheetLoader():*;
 	}
 }

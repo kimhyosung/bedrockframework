@@ -38,7 +38,7 @@
 		}
 		private function createContentItems():void
 		{
-			var arrPages:Array = BedrockEngine.contentManager.filterContent( "indexed", true );
+			var arrPages:Array = BedrockEngine.contentManager.filterContents( true, "indexed" );
 			for ( var p:int = 0; p < arrPages.length; p ++ ) {
 				this.createItem( arrPages[ p ].id, arrPages[ p ].label, this._onContentSelected, ( p == 0 ) );
 			}

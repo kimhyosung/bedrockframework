@@ -4,64 +4,107 @@
 	import com.bedrock.framework.engine.BedrockEngine;
 	import com.bedrock.framework.engine.api.IResourceDelegate;
 	import com.bedrock.framework.engine.data.BedrockData;
+	import com.greensock.loading.CSSLoader;
+	import com.greensock.loading.SWFLoader;
+	import com.greensock.loading.XMLLoader;
 
 	public class DefaultResourceDelegate extends StandardBase implements IResourceDelegate
 	{
+		/*
+		Variable Declarations
+		*/
+		private var _dataBundleLoader:XMLLoader;
+		private var _fontsLoader:SWFLoader;
+		private var _libraryLoader:SWFLoader;
+		private var _stylesheetLoader:CSSLoader;
+		/*
+		Constructor
+	 	*/
 		public function DefaultResourceDelegate()
 		{
+			this._dataBundleLoader = new XMLLoader( null, { name:BedrockData.DATA_BUNDLE } );
+			this._fontsLoader = new SWFLoader( null, { name:BedrockData.FONTS } );
+			this._libraryLoader = new SWFLoader( null, { name:BedrockData.LIBRARY } );
+			this._stylesheetLoader = new CSSLoader( null, { name:BedrockData.STYLESHEET } );
 		}
 		
-		public function getFontPath( $locale:String = null ):String
+		public function prepareFontsLoader( $localized:Boolean, $locale:String = null ):*
 		{
-			var strPath:String = BedrockEngine.config.getPathValue( BedrockData.FONTS_PATH );
-			strPath += BedrockEngine.config.getSettingValue( BedrockData.FONTS_FILENAME );
+			var path:String = BedrockEngine.config.getPathValue( BedrockData.FONTS_PATH );
+			path += BedrockEngine.config.getSettingValue( BedrockData.FONTS_FILENAME );
 			
-			if ( $locale == null ) {
-				strPath += ".swf";
+			if ( $localized ) {
+				path += BedrockEngine.localeManager.delimiter + $locale + ".swf";
 			} else {
-				strPath += BedrockEngine.localeManager.delimiter + $locale + ".swf";
+				path += ".swf";
 			}
-			return strPath;
+			this._fontsLoader.url = path;
+			return this._fontsLoader;
 		}
 		
-		public function getStylesheetPath( $locale:String = null ):String
+		public function prepareStylesheetLoader( $localized:Boolean, $locale:String = null ):*
 		{
-			var strPath:String = BedrockEngine.config.getPathValue( BedrockData.STYLESHEET_PATH );
-			strPath += BedrockEngine.config.getSettingValue( BedrockData.STYLESHEET_FILENAME );
+			var path:String = BedrockEngine.config.getPathValue( BedrockData.STYLESHEET_PATH );
+			path += BedrockEngine.config.getSettingValue( BedrockData.STYLESHEET_FILENAME );
 			
-			if ( $locale == null ) {
-				strPath += ".css";
+			if ( $localized ) {
+				path += BedrockEngine.localeManager.delimiter + $locale + ".css";
 			} else {
-				strPath += BedrockEngine.localeManager.delimiter + $locale + ".css";
+				path += ".css";
 			}
-			return strPath;
+			this._stylesheetLoader.url = path;
+			return this._stylesheetLoader;
 		}
 		
-		public function getDataBundlePath( $locale:String = null ):String
+		public function prepareDataBundleLoader( $localized:Boolean, $locale:String = null ):*
 		{
-			var strPath:String = BedrockEngine.config.getPathValue( BedrockData.DATA_BUNDLE_PATH );
-			strPath += BedrockEngine.config.getSettingValue( BedrockData.DATA_BUNDLE_FILENAME );
+			var path:String = BedrockEngine.config.getPathValue( BedrockData.DATA_BUNDLE_PATH );
+			path += BedrockEngine.config.getSettingValue( BedrockData.DATA_BUNDLE_FILENAME );
 			
-			if ( $locale == null ) {
-				strPath += ".xml";
+			if ( $localized ) {
+				path += BedrockEngine.localeManager.delimiter + $locale + ".xml";
 			} else {
-				strPath += BedrockEngine.localeManager.delimiter + $locale + ".xml";
+				path += ".xml";
 			}
-			return strPath;
+			this._dataBundleLoader.url = path;
+			return this._dataBundleLoader;
 		}
 		
-		public function getLibraryPath( $locale:String = null ):String
+		public function prepareLibraryLoader( $localized:Boolean, $locale:String = null ):*
 		{
-			var strPath:String = BedrockEngine.config.getPathValue( BedrockData.LIBRARY_PATH );
-			strPath += BedrockEngine.config.getSettingValue( BedrockData.LIBRARY_FILENAME );
+			var path:String = BedrockEngine.config.getPathValue( BedrockData.LIBRARY_ASSETS_PATH );
+			path += BedrockEngine.config.getSettingValue( BedrockData.LIBRARY_FILENAME );
 			
-			if ( $locale == null ) {
-				strPath +=  ".swf";
+			if ( $localized ) {
+				path += BedrockEngine.localeManager.delimiter + $locale + ".swf";
 			} else {
-				strPath += BedrockEngine.localeManager.delimiter + $locale + ".swf";
+				path +=  ".swf";
 			}
-			return strPath;
+			this._libraryLoader.url = path;
+			return this._libraryLoader;
 		}
-		
+		/*
+		Event Handlers
+	 	*/
+	 	
+	 	/*
+		Accessors
+	 	*/
+	 	public function get dataBundleLoader():*
+	 	{
+	 		return this._dataBundleLoader;
+	 	}
+	 	public function get fontsLoader():*
+	 	{
+	 		return this._fontsLoader;
+	 	}
+	 	public function get libraryLoader():*
+	 	{
+	 		return this._libraryLoader;
+	 	}
+	 	public function get stylesheetLoader():*
+	 	{
+	 		return this._stylesheetLoader;
+	 	}
 	}
 }

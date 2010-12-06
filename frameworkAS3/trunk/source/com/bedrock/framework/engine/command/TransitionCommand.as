@@ -7,6 +7,7 @@
 	import com.bedrock.framework.engine.BedrockEngine;
 	import com.bedrock.framework.engine.bedrock;
 	import com.bedrock.framework.engine.data.BedrockContentData;
+	import com.bedrock.framework.engine.data.BedrockContentGroupData;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.engine.data.BedrockSequenceData;
 	import com.bedrock.framework.engine.event.BedrockEvent;
@@ -29,8 +30,9 @@
 		{
 			var transitioning:Boolean = false;
 			this._sequence = new BedrockSequenceData;
+			
 			switch( $event.type ) {
-				case BedrockEvent.DEFAULT_TRANSITION :
+				case BedrockEvent.INITIAL_TRANSITION :
 					transitioning = this._prepareDefaultTransition( $event.details );
 					break;
 				case BedrockEvent.TRANSITION :
@@ -47,18 +49,18 @@
 			this._sequence.preloader = BedrockData.INITIAL_PRELOADER;
 			this._sequence.preloaderTime = BedrockEngine.config.getSettingValue( BedrockData.INITIAL_PRELOADER_TIME );
 			
-			var defaultContent:Array = BedrockEngine.contentManager.filterContent( BedrockData.DEFAULT, true );
-			this._appendAndConvert( ArrayUtil.filter( defaultContent, false, "indexed" ), "incoming" );
+			var defaultContent:Array = BedrockEngine.contentManager.filterContents( true, BedrockData.INITIAL_TRANSITION );
+			this._appendIndexedContent( defaultContent, "incoming", false );
 			
 			if ( $details.path == null  || $details.path == this._sequence.deeplink || $details.path == "/" ) {
-				this._appendAndConvert( ArrayUtil.filter( defaultContent, true, "indexed" ), "incoming" );
+				this._appendIndexedContent( defaultContent, "incoming" );
 			} else {
-				var content:Object = BedrockEngine.contentManager.filterContent( "deeplink", $details.path )[ 0 ];
+				var content:Object = BedrockEngine.contentManager.filterContents( "deeplink", $details.path )[ 0 ];
 				if ( content != null ) {
 					this._sequence.deeplink = content.deeplink;
-					this._appendAndConvert( [ content ], "incoming" );
+					this._sequence.appendIncoming( [ content ] );
 				} else {
-					this._appendAndConvert( ArrayUtil.filter( defaultContent, true, "indexed" ), "incoming" );
+					this._appendIndexedContent( defaultContent, "incoming" );
 				}
 			}
 			
@@ -67,14 +69,14 @@
 		}
 		private function _prepareDeeplinkTransition( $details:Object ):Boolean
 		{
-			var content:Object = BedrockEngine.contentManager.filterContent( "deeplink", $details.path )[ 0 ];
-			this._sequence.style = $details.style || BedrockSequenceData[ BedrockEngine.config.getSettingValue( BedrockData.DEFAULT_TRANSITION_STYLE ) ];
+			var content:Object = BedrockEngine.contentManager.filterContents( "deeplink", $details.path )[ 0 ];
+			if ( $details.style != null ) this._sequence.style = $details.style;
 			
 			if ( content != null ) {
 				return this._prepareStandardTransition( content );
 			} else if ( $details.path == this._sequence.deeplink ) {
-				var defaultContent:Array = BedrockEngine.contentManager.filterContent( BedrockData.DEFAULT, true );
-				this._appendAndConvert( ArrayUtil.filter( defaultContent, true, "indexed" ), "incoming" );
+				var defaultContent:Array = BedrockEngine.contentManager.filterContents( true, BedrockData.INITIAL_TRANSITION );
+				this._appendIndexedContent( defaultContent, "incoming" );
 				this._appendOutgoing( $details );
 				
 				BedrockEngine.bedrock::transitionController.runSequence( this._sequence );
@@ -91,13 +93,13 @@
 				return false;
 			}
 			if ( this._isContentInHistory( $details.incoming || $details.id ) ) {
-				this.warning( "Content \"" + ( $details.incoming || $details.id ) + "\" already loaded!" );
+				this.warning( "Content \"" + ( $details.incoming || $details.id ) + "\" is already being viewed!" );
 				return false;
 			}
 			
 			if ( $details.preloader != null ) this._sequence.preloader = $details.preloader;
 			if ( $details.preloaderTime != null ) this._sequence.preloaderTime = $details.preloaderTime;
-			this._sequence.style = $details.style || BedrockSequenceData[ BedrockEngine.config.getSettingValue( BedrockData.DEFAULT_TRANSITION_STYLE ) ];
+			if ( $details.style != null ) this._sequence.style = $details.style;
 			
 			this._appendIncoming( $details );
 			this._appendOutgoing( $details );
@@ -110,23 +112,23 @@
 		*/
 		private function _appendIncoming( $details:Object ):void
 		{
-			var data:Object = BedrockEngine.contentManager.getContent( $details.incoming || $details.id );
+			var data:BedrockContentData = BedrockEngine.contentManager.getContent( $details.incoming || $details.id );
 			this._sequence.deeplink = $details.deeplink || data.deeplink;
 			data.container = $details.container || data.container;
 			
-			this._sequence.appendIncoming( [ new BedrockContentData( data ) ] );
+			this._sequence.appendIncoming( [ data ] );
 		}
 		
 		private function _appendOutgoing( $details:Object ):void
 		{
-			var data:Object;
+			var data:BedrockContentData;
 			if ( $details.outgoing != null ) data = BedrockEngine.contentManager.getContent( $details.outgoing );
 			if ( data == null ) {
 				for each( var queue:Array in BedrockEngine.history.current.incoming ) {
 					this._appendIndexedContent( queue, "outgoing" );
 				}
 			} else {
-				this._sequence.appendOutgoing( [ new BedrockContentData( data ) ] );
+				this._sequence.appendOutgoing( [ data ] );
 			}
 		}
 		/*
@@ -134,7 +136,7 @@
 		*/
 		private function _appendIndexedContent( $queue:Array, $flow:String, $indexed:Boolean = true ):void
 		{
-			var content:Array = ArrayUtil.filter( $queue, $indexed, "indexed" );
+			var content:Array = ArrayUtil.filter( $queue, $indexed, BedrockData.INDEXED );
 			if ( content.length > 0 ) {
 				switch( $flow ) {
 					case "incoming" :
@@ -147,25 +149,12 @@
 			}
 		}
 		
-		private function _appendAndConvert( $queue:Array, $flow:String ):void
-		{
-			for each( var data:Object in $queue ) {
-				switch( $flow ) {
-					case "incoming" :
-						this._sequence.appendIncoming( [ new BedrockContentData( data ) ] );
-						break;
-					case "outgoing" :
-						this._sequence.appendOutgoing( [ new BedrockContentData( data ) ] );
-						break;
-				}
-			}
-		}
 		
 		private function _isContentInHistory( $id:String ):Boolean
 		{
 			for each ( var queue:Array in BedrockEngine.history.current.incoming ) {
 				for each ( var data:BedrockContentData in queue ) {
-					if ( data.isComplex ) {
+					if ( data is BedrockContentGroupData ) {
 						if ( data.id == $id ) return true;
 						for each( var subData:BedrockContentData in data.contents ) {
 							if ( subData.id == $id ) return true;

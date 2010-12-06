@@ -28,11 +28,17 @@
 			
 			this.data = $data;
 			this._selectedIndex = -1;
+			
+			
+		}
+		public function refresh():void
+		{
+			this.clear();
 			this._setContainer( this.data.container );
 			
 			if ( this.data.manageViewsAsChildren ) {
 				for each( var item:Object in this.data.stack ) {
-					this.addChild( item.view );
+					this._container.addChild( item.view );
 				}
 			}
 			
@@ -43,13 +49,14 @@
 					this.selectByIndex( this.data.defaultIndex );
 				}
 			}
-			
 		}
 		public function clear():void
 		{
-			if ( this.data != null && this.data.manageViewsAsChildren && this._container == this ) {
+			if ( this.data != null && this.data.manageViewsAsChildren ) {
 				for each( var item:Object in this.data.stack ) {
-					this.removeChild( item.view );
+					if ( this._container.getChildIndex( item.view ) != -1 ) {
+						this._container.removeChild( item.view );
+					}
 				}
 			}
 		}
@@ -75,7 +82,7 @@
 		}
 		public function selectByID( $id:String ):void
 		{
-			this.selectByIndex( ArrayUtil.findIndex( this.data.stack.source, $id, "id" ) );
+			this.selectByIndex( ArrayUtil.findIndex( this.data.stack, $id, "id" ) );
 		}
 		
 		private function _runSequence( $outgoing:Object = null, $incoming:Object = null ):void

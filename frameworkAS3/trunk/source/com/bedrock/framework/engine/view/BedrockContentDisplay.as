@@ -1,9 +1,10 @@
 ﻿package com.bedrock.framework.engine.view
 {
+	import com.bedrock.framework.core.logging.Logger;
 	import com.bedrock.framework.plugin.storage.HashMap;
+	import com.bedrock.framework.plugin.view.IView;
 	import com.greensock.loading.core.LoaderItem;
 	import com.greensock.loading.display.ContentDisplay;
-	import com.bedrock.framework.plugin.view.IView;
 
 	public class BedrockContentDisplay extends ContentDisplay implements IView
 	{
@@ -14,7 +15,11 @@
 		
 		public function initialize($data:Object=null):void
 		{
-			Object( this.rawContent ).initialize( $data );
+			try {
+				Object( this.rawContent ).initialize( $data );
+			} catch( $error:Error ) {
+				Logger.warning( "Initialize Failed! Check for compile errors and make sure the content view extends BedrockContentView and implements IView.", this.rawContent );
+			}
 		}
 		
 		public function intro($data:Object=null):void
@@ -60,6 +65,19 @@
 		public function set bundle( $bundle:* ):void
 		{
 			Object( this.rawContent ).bundle = $bundle;
+		}
+		
+		public function get properties():Object
+		{
+			return Object( this.rawContent ).properties;
+		}
+		public function get assets():HashMap
+		{
+			return Object( this.rawContent ).assets;
+		}
+		public function get bundle():*
+		{
+			return Object( this.rawContent ).bundle;
 		}
 	}
 }

@@ -1,15 +1,15 @@
 ﻿package com.bedrock.framework.engine.api
 {
+	import com.bedrock.framework.engine.data.BedrockContentData;
+	
 
 	public interface IContentManager
 	{
 		function initialize( $data:XML ):void;
-		function addContent( $id:String, $data:Object ):void;
-		function addAssetToContent( $contentID:String, $asset:Object ):void;
-		function getContent( $id:String ):Object;
+		function addContent( $data:BedrockContentData ):void;
+		function getContent( $id:String ):BedrockContentData;
 		function hasContent( $id:String ):Boolean;
-		function filterContent( $field:String, $value:* ):Array;
+		function filterContents( $value:*, $field:String ):Array;
 		function get data():Array;
-		
 	}
 }
