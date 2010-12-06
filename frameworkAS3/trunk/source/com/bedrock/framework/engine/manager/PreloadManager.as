@@ -14,9 +14,11 @@
 		private var _trigger:Trigger;
 		private var _preloader:IPreloader;
 		
-		private var _percentage:Number;
 		private var _timeInSeconds:Number;
 		private var _timeInMilliseconds:Number;
+		
+		private var _loadProgress:uint;
+		private var _timerProgress:uint;
 		
 		private var _useTimer:Boolean;
 		private var _timerDone:Boolean;
@@ -43,20 +45,26 @@
 			this._trigger.addEventListener( TriggerEvent.STOPWATCH_TRIGGER, this._onStopwatchTrigger);
 			this._trigger.silenceLogging = true;
 		}
+		
+		private function _reset():void
+		{
+			this._loaderDone = false;
+			this._timerDone = false;
+			this._loadProgress = 0;
+			this._timerProgress = 0;
+		}
 		/*
 		Update
 		*/
 		public function loadBegin():void
 		{
-			this._loaderDone = false;
-			this._timerDone = false;
+			this._reset();
 			if ( this._useTimer ) {
 				this._trigger.clearStopwatch();
 				this._trigger.startTimer( this._timeInSeconds );
 				this._trigger.startStopwatch( 0.01 );
 			}
-			this._percentage = 0;
-			this._updatePreloader( this._percentage );
+			this._updatePreloader( 0 );
 		}
 		public function loadComplete():void
 		{
@@ -66,10 +74,9 @@
 		/*
 		Preloader Functions
 		*/
-		private function _updatePreloader( $progress:Number ):void
+		private function _updatePreloader( $progress:uint ):void
 		{
-			this._percentage = $progress;
-			this._preloader.displayProgress( this._calculatePercentage() );
+			this._preloader.displayProgress( $progress );
 		}
 		private function _stopPreloader():void
 		{
@@ -87,28 +94,30 @@
 				this._trigger.stopTimer();
 				this._trigger.stopStopwatch();
 			}
-			this._percentage = 100;
-			this._updatePreloader( this._percentage );
+			this._updatePreloader( 100 );
 			this._preloader.outro();
 		}
 		
-		private function _calculatePercentage():Number
+		private function _getPercentage():uint
 		{
-			var displayPercentage:uint;
 			if ( this._useTimer ) {
-				var timerPercentage:uint = Math.round( (this._trigger.elapsedMilliseconds / this._timeInMilliseconds) * 100 );
-				displayPercentage = ( timerPercentage < this._percentage) ? timerPercentage : this._percentage;
+				if ( this._loadProgress < this._timerProgress ) {
+					return this._loadProgress;
+				} else {
+					return this._timerProgress;
+				}
 			} else {
-				displayPercentage = this._percentage;
+				return this._loadProgress;
 			}
-			return displayPercentage;
 		}
+		
 		/*
 		Trigger Handlers
 		*/
 		private function _onStopwatchTrigger( $event:TriggerEvent ):void
 		{
-			this._updatePreloader(this._percentage);
+			this._timerProgress = Math.round( (this._trigger.elapsedMilliseconds / this._timeInMilliseconds) * 100 );
+			this._updatePreloader( this._getPercentage() );
 		}
 		private function _onTimerTrigger($event:TriggerEvent):void
 		{
@@ -122,17 +131,22 @@
 		{
 			this._timeInSeconds = $seconds;
 			this._timeInMilliseconds = this._timeInSeconds * 1000;
-			this._useTimer = ( this._timeInSeconds == 0 ) ? false : true;
+			this._useTimer = ( this._timeInSeconds > 0 );
 		}
 		
 		public function set progress( $progress:Number ):void
 		{
-			this._updatePreloader( $progress * 100 );
+			var tempProgress:uint = Math.round( $progress * 100 );
+			if ( tempProgress > this._loadProgress ) {
+				this._loadProgress = tempProgress;
+				this._updatePreloader( this._getPercentage() );
+			}
 		}
 		
 		public function set preloader( $preloader:IPreloader ):void
 		{
 			this._preloader = $preloader;
+			this._reset();
 			this._updatePreloader( 0 );
 		}
 	}
