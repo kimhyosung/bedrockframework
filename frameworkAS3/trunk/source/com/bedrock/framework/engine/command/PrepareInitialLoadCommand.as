@@ -32,7 +32,7 @@ package com.bedrock.framework.engine.command
 					BedrockEngine.loadController.appendContent( data );
 				}
 			}
-			if ( $event.details.load || $event.details.load == null ) BedrockEngine.loadController.load();
+			
 		}
 		
 	}

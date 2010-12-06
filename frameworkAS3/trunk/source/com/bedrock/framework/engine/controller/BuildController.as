@@ -146,12 +146,13 @@
 			BedrockEngine.bedrock::resourceController.queue( false );
 			
 			if ( BedrockEngine.config.getSettingValue(BedrockData.AUTO_PREPARE_INITIAL_LOAD ) ) {
-				BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.PREPARE_INITIAL_LOAD, this, { load:false } ) );
+				BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.PREPARE_INITIAL_LOAD, this ) );
 			}
 			if ( BedrockEngine.config.getSettingValue(BedrockData.AUTO_PREPARE_INITIAL_TRANSITION ) ) {
 				BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.PREPARE_INITIAL_TRANSITION, this ) );
+			} else {
+				BedrockEngine.loadController.load();
 			}
-			BedrockEngine.loadController.load();
 			
 			this._initializeComplete();
 		}

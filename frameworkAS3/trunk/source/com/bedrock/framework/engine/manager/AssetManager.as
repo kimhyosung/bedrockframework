@@ -5,7 +5,6 @@
 	import com.bedrock.framework.engine.api.IAssetManager;
 	import com.bedrock.framework.engine.data.BedrockAssetData;
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
-	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	import com.bedrock.framework.plugin.util.ArrayUtil;
 	import com.bedrock.framework.plugin.util.XMLUtil2;
@@ -30,19 +29,19 @@
 		private function _parse( $data:XML ):void
 		{
 			this._assets = new HashMap;
-			var assetArray:Array;
 			var assetGroupData:BedrockAssetGroupData;
 			for each( var assetGroupXML:XML in $data.children() ) {
 				assetGroupData = new BedrockAssetGroupData( XMLUtil2.getAttributesAsObject( assetGroupXML ) );
-				
-				assetArray = new Array;
 				for each( var assetXML:XML in assetGroupXML.children() ) {
 					assetGroupData.assets.push( new BedrockAssetData( XMLUtil2.getAttributesAsObject( assetXML ) ) );
 				}
-				this._assets.saveValue( VariableUtil.sanitize( assetGroupData.id ), assetGroupData );
+				this.addGroup( assetGroupData );
 			}
 		}
-		
+		public function addGroup( $group:BedrockAssetGroupData ):void
+		{
+			this._assets.saveValue( $group.id, $group );
+		}
 		public function getGroup( $id:String ):BedrockAssetGroupData
 		{
 			return this._assets.getValue( $id );
@@ -58,7 +57,7 @@
 		
 		public function addAssetToGroup( $groupID:String, $asset:BedrockAssetData ):void
 		{
-			if ( this._assets.containsKey( $groupID ) ) {
+			if ( this.hasGroup( $groupID ) ) {
 				this.getGroup( $groupID ).assets.push( $asset );
 			}
 		}
