@@ -36,7 +36,7 @@ package __template.view
 			TweenLite.to(this, 1, { alpha:0, onComplete:this.outroComplete } );
 			//this.outroComplete();
 		}
-		public function displayProgress( $value:Number ):void
+		public function displayProgress( $value:uint ):void
 		{
 			this.display.text= $value + " %";
 		}
