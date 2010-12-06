@@ -16,12 +16,13 @@
 			
 			private function _create():void
             {
+            	var containerXML:XML = new XML( <container id={ this.idText.text } x={ this.xText.text } y={ this.yText.text }/> );
             	if ( this.idText.text != "" ) {
             		if ( this.parentCombo.selectedItem == OptionData.ROOT ) {
-	            		ProjectController.getInstance().config.containers.appendChild( <container id={ this.idText.text } /> );
+	            		ProjectController.getInstance().config.containers.appendChild( containerXML );
             		} else {
 	            		var xmlParent:XML = ProjectController.getInstance().config.containers..container.( @id == this.parentCombo.selectedLabel )[ 0 ];
-	            		xmlParent.appendChild( <container id={ this.idText.text } /> );
+	            		xmlParent.appendChild( containerXML );
             		}
             		ProjectController.getInstance().config.autoSaveConfig();
             		
@@ -39,6 +40,12 @@
 			</mx:FormItem>
 			<mx:FormItem label="Parent" width="100%">
 				<mx:ComboBox id="parentCombo" dataProvider="{ ProjectController.getInstance().config.containerArray }" />
+			</mx:FormItem>
+			<mx:FormItem label="X">
+				<mx:TextInput id="xText" restrict="0-9." width="60" text="0"/>
+			</mx:FormItem>
+			<mx:FormItem label="Y">
+				<mx:TextInput id="yText" restrict="0-9." width="60" text="0"/>
 			</mx:FormItem>
 		</mx:Form>
 		

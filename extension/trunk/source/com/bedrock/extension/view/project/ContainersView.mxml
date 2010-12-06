@@ -93,6 +93,8 @@
 	        </mx:headerRenderer>
 			<mx:columns>
 				<mx:AdvancedDataGridColumn headerText="ID" dataField="@id" sortable="false" />
+				<mx:AdvancedDataGridColumn headerText="X" dataField="@x" sortable="false" />
+				<mx:AdvancedDataGridColumn headerText="Y" dataField="@y" sortable="false" />
 			</mx:columns>
 		</mx:AdvancedDataGrid>
 		<misc:HierarchyControlBar id="hierarchyControlBar" creationOptions="{ ProjectController.getInstance().resources.getBundle( 'containerCreationOptions' ) }" createNode="this.createNode()" deleteNode="this.deleteNode()" deselectNode="this._deselect()" />
