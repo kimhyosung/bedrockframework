@@ -5,12 +5,15 @@
 	public class BedrockEvent extends GenericEvent
 	{
 		public static const TRANSITION:String="BedrockEvent._onTransition";
-		public static const DEFAULT_TRANSITION:String="BedrockEvent._onDefaultTransition";
+		public static const INITIAL_TRANSITION:String="BedrockEvent._onInitialTransition";
 		public static const TRANSITION_PREPARED:String="BedrockEvent._onTransitionPrepared";
 		public static const TRANSITION_COMPLETE:String="BedrockEvent._onTransitionComplete";
 		
 		public static const CONFIG_LOADED:String="BedrockEvent.onConfigLoaded";
 		public static const INITIALIZE_COMPLETE:String="BedrockEvent.onInitializeComplete";
+		
+		public static const PREPARE_INITIAL_LOAD:String="BedrockEvent._onPrepareInitialLoad";
+		public static const PREPARE_INITIAL_TRANSITION:String="BedrockEvent._onPrepareInitialTransition";
 
 		public static const DEEPLINK_CHANGE:String="BedrockEvent.onDeeplinkChange";
 		public static const DEEPLINKING_INITIALIZED:String="BedrockEvent.onDeeplinkingInitialized";

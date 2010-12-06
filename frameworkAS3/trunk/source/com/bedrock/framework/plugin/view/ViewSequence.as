@@ -30,6 +30,7 @@
 		
 		private function _queue():void
 		{
+			
 			this._views = new SuperArray();
 			var viewProxy:ViewProxy;
 			for each( var flowData:ViewFlowData in this._sequence.getSelected() ) {

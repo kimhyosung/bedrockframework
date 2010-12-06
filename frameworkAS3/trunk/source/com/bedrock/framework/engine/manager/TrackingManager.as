@@ -37,7 +37,7 @@
 		private function _createTrigger():void
 		{
 			this._trigger = new Trigger;
-			this._trigger.addEventListener( TriggerEvent.TIMER_TRIGGER, this._onTimerTrigger );
+			this._trigger.addEventListener( TriggerEvent.INTERVAL_TRIGGER, this._onTrack );
 			this._trigger.silenceLogging = true;
 		}
 		/*
@@ -45,7 +45,7 @@
 		*/
 		public function track($id:String, $details:Object):void
 		{
-			if ( this.enabled ) {
+			if (this.enabled) {
 				var objService:Object = this.getService($id);
 				if (objService) {
 					this._appendCall( $id, $details );
@@ -56,11 +56,11 @@
 		/*
 		Add/ Get Services
 		*/
-		public function addService( $id:String, $service:ITrackingService ):void
+		public function addService($id:String, $service:ITrackingService):void
 		{
-			this._services.saveValue( $id, $service );
+			this._services.saveValue($id, $service);
 		}
-		public function getService( $id:String ):*
+		public function getService($id:String):*
 		{
 			return this._services.getValue($id);
 		}
@@ -88,7 +88,7 @@
 		*/
 		private function _appendCall($id:String, $details:Object):void
 		{
-			this._queue.push( { id:$id, details:$details } );
+			this._queue.push({id:$id, details:$details});
 		}
 		private function _getNext():Object
 		{
@@ -97,10 +97,10 @@
 		/*
 		Event Handlers
 		*/
-		private function _onTimerTrigger( $event:TriggerEvent ):void
+		private function _onTrack($event:TriggerEvent):void
 		{
 			var objDetails:Object = this._getNext();
-			if ( objDetails != null ) {
+			if (objDetails != null) {
 				this.execute(objDetails.id, objDetails.details);
 			}
 			this._startDelay()

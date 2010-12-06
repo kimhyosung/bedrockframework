@@ -4,10 +4,10 @@
 	import com.bedrock.framework.core.controller.*;
 	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
 	import com.bedrock.framework.core.logging.*;
-	import com.bedrock.framework.engine.builder.BedrockBuilder;
 	import com.bedrock.framework.engine.BedrockEngine;
 	import com.bedrock.framework.engine.api.IBedrockBuilder;
 	import com.bedrock.framework.engine.bedrock;
+	import com.bedrock.framework.engine.builder.BedrockBuilder;
 	import com.bedrock.framework.engine.command.*;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.engine.delegate.DefaultResourceDelegate;
@@ -99,19 +99,20 @@
 			BedrockEngine.bedrock::resourceController = new ResourceController;
 			BedrockEngine.frontController = new FrontController;
 			
-			BedrockEngine.libraryManager = new LibraryManager;
+			BedrockEngine.assetManager = new AssetManager;
 			BedrockEngine.containerManager = new ContainerManager;
 			BedrockEngine.contentManager = new ContentManager;
 			BedrockEngine.contextMenuManager = new ContextMenuManager;
 			BedrockEngine.dataBundleManager = new DataBundleManager;
 			BedrockEngine.deeplinkingManager = new DeeplinkingManager;
-			BedrockEngine.loadManager = new LoadManager;
+			BedrockEngine.libraryManager = new LibraryManager;
+			BedrockEngine.loadController = new LoadController;
 			BedrockEngine.localeManager = new LocaleManager;
 			BedrockEngine.bedrock::preloadManager = new PreloadManager;
 			BedrockEngine.stylesheetManager = new StylesheetManager;
 			BedrockEngine.trackingManager = new TrackingManager;
 			
-			if ( BedrockEngine.resourceDelegate == null ) BedrockEngine.resourceDelegate = new DefaultResourceDelegate;
+			BedrockEngine.resourceDelegate = new DefaultResourceDelegate;
 			
 			BedrockEngine.config = new Config;
 			BedrockEngine.history = new History;
@@ -143,7 +144,14 @@
 			
 			IBedrockBuilder( this.builder ).preinitialize();
 			BedrockEngine.bedrock::resourceController.queue( false );
-			if ( BedrockEngine.config.getSettingValue(BedrockData.AUTO_TRANSITION_DEFAULT_CONTENT ) ) this._prepareInitialTransition();
+			
+			if ( BedrockEngine.config.getSettingValue(BedrockData.AUTO_PREPARE_INITIAL_LOAD ) ) {
+				BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.PREPARE_INITIAL_LOAD, this, { load:false } ) );
+			}
+			if ( BedrockEngine.config.getSettingValue(BedrockData.AUTO_PREPARE_INITIAL_TRANSITION ) ) {
+				BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.PREPARE_INITIAL_TRANSITION, this ) );
+			}
+			BedrockEngine.loadController.load();
 			
 			this._initializeComplete();
 		}
@@ -157,8 +165,8 @@
 		private function _piggybackEvents():void
 		{
 			BedrockEngine.bedrock::transitionController.addEventListener( BedrockEvent.TRANSITION_COMPLETE, BedrockDispatcher.dispatchEvent );
-			BedrockEngine.loadManager.addEventListener( BedrockEvent.LOAD_COMPLETE, BedrockDispatcher.dispatchEvent );
-			BedrockEngine.loadManager.addEventListener( BedrockEvent.LOAD_PROGRESS, BedrockDispatcher.dispatchEvent );
+			BedrockEngine.loadController.addEventListener( BedrockEvent.LOAD_COMPLETE, BedrockDispatcher.dispatchEvent );
+			BedrockEngine.loadController.addEventListener( BedrockEvent.LOAD_PROGRESS, BedrockDispatcher.dispatchEvent );
 			
 			if ( BedrockEngine.config.getSettingValue( BedrockData.DEEPLINKING_ENABLED ) ) {
 				BedrockEngine.deeplinkingManager.addEventListener( BedrockEvent.DEEPLINK_CHANGE, BedrockDispatcher.dispatchEvent );
@@ -167,11 +175,14 @@
 		}
 		private function _setupCommands():void
 		{
+			BedrockEngine.frontController.addCommand( BedrockEvent.INITIAL_TRANSITION, TransitionCommand );
 			BedrockEngine.frontController.addCommand( BedrockEvent.TRANSITION, TransitionCommand );
-			BedrockEngine.frontController.addCommand( BedrockEvent.DEFAULT_TRANSITION, TransitionCommand );
 			
 			BedrockEngine.frontController.addCommand( BedrockEvent.SHOW_BLOCKER, ShowBlockerCommand );
 			BedrockEngine.frontController.addCommand( BedrockEvent.HIDE_BLOCKER, HideBlockerCommand );
+
+			BedrockEngine.frontController.addCommand( BedrockEvent.PREPARE_INITIAL_LOAD, PrepareInitialLoadCommand );
+			BedrockEngine.frontController.addCommand( BedrockEvent.PREPARE_INITIAL_TRANSITION, PrepareInitialTransitionCommand );
 			
 			if ( BedrockEngine.config.getSettingValue( BedrockData.DEEPLINKING_ENABLED ) && BedrockEngine.config.getSettingValue( BedrockData.DEEPLINK_CONTENT ) ) {
 				BedrockEngine.frontController.addCommand( BedrockEvent.DEEPLINK_CHANGE, TransitionCommand );
@@ -206,14 +217,14 @@
 		private function _initializeVitals():void
 		{
 			BedrockEngine.bedrock::transitionController.initialize( this.builder );
+			BedrockEngine.contentManager.initialize( BedrockEngine.config.contents );
+			BedrockEngine.assetManager.initialize( BedrockEngine.config.assets );
+			
+			BedrockEngine.loadController.initialize( this.builder, this.builder.loaderInfo.applicationDomain );
 			
 			BedrockEngine.libraryManager.initialize( this.builder.loaderInfo.applicationDomain );
-			BedrockEngine.loadManager.initialize( this.builder.loaderInfo.applicationDomain );
-			
 			BedrockEngine.containerManager.initialize( BedrockEngine.config.containers, this.builder );
-			BedrockEngine.contentManager.initialize( BedrockEngine.config.contents );
-			
-			BedrockEngine.bedrock::preloadManager.initialize( BedrockEngine.config.getSettingValue(BedrockData.INITIAL_PRELOADER_TIME ) );
+			BedrockEngine.bedrock::preloadManager.initialize( BedrockEngine.config.getSettingValue( BedrockData.INITIAL_PRELOADER_TIME ) );
 			
 			BedrockEngine.trackingManager.initialize( BedrockEngine.config.getSettingValue( BedrockData.TRACKING_ENABLED ) );
 		}
@@ -232,6 +243,7 @@
 			BedrockEngine.deeplinkingManager.addEventListener( BedrockEvent.DEEPLINKING_INITIALIZED, this._onDeeplinkingInitialized );
 			BedrockEngine.deeplinkingManager.initialize();
 		}
+		
 		private function _setupContextMenu():void
 		{
 			BedrockEngine.contextMenuManager.initialize();
@@ -243,21 +255,13 @@
 			var strDefaultLocale:String = BedrockEngine.config.getSettingValue( BedrockData.DEFAULT_LOCALE );
 			BedrockEngine.localeManager.initialize( BedrockEngine.config.locales, BedrockEngine.config.getSettingValue( BedrockData.LOCALIZED_FILES ), strDefaultLocale, strCurrentLocale, BedrockEngine.config.getSettingValue( BedrockData.LOCALE_DELIMITER ) );
 		}
-		private function _prepareInitialTransition():void
-		{
-			var details:Object = new Object;
-			if ( BedrockEngine.config.getSettingValue( BedrockData.DEEPLINKING_ENABLED ) && BedrockEngine.config.getSettingValue( BedrockData.DEEPLINK_CONTENT ) ) {
-				details.path = BedrockEngine.deeplinkingManager.getPath();
-			}
-			BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.DEFAULT_TRANSITION, this, details ) );
-		}
 		/*
 		Load Completion Notice
 		*/
 		private function _initializeComplete():void
 		{
 			this.dispatchEvent( new BedrockEvent(BedrockEvent.INITIALIZE_COMPLETE, this ) );
-			this.status("Initialization Complete!");
+			this.status( "Initialization Complete!" );
 		}
 		
 		/*

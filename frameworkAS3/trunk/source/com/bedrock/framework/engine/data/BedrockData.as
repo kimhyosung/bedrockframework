@@ -22,7 +22,8 @@
 		*/
 		public static const INITIAL_PRELOADER_TIME:String = "initialPreloaderTime";
 		public static const DEFAULT_PRELOADER_TIME:String = "defaultPreloaderTime";
-		public static const AUTO_TRANSITION_DEFAULT_CONTENT:String = "autoTransitionDefaultContent";
+		public static const AUTO_PREPARE_INITIAL_LOAD:String = "autoPrepareInitialLoad";
+		public static const AUTO_PREPARE_INITIAL_TRANSITION:String = "autoPrepareInitialTransition";
 		
 		public static const STAGE_ALIGNMENT:String = "stageAlignment";
 		public static const STAGE_SCALE_MODE:String = "stageScaleMode";
@@ -88,7 +89,7 @@
 		*/
 		public static const DATA_BUNDLE_PATH:String = "dataBundlePath";
 		public static const FONTS_PATH:String = "fontsPath";
-		public static const LIBRARY_PATH:String = "libraryPath";
+		public static const LIBRARY_ASSETS_PATH:String = "libraryPath";
 		public static const AUDIO_PATH:String = "audioPath";
 		public static const STYLESHEET_PATH:String = "stylesheetPath";
 		public static const XML_PATH:String = "xmlPath";
@@ -108,6 +109,13 @@
 		*/
 		public static const SHOW_PAGES_IN_CONTEXT_MENU:String = "showPagesInContextMenu";
 		public static const SHOW_ABOUT_IN_CONTEXT_MENU:String = "showAboutInContextMenu";
+		
+		public static const INDEXED:String = "indexed";
+		public static const PRIORITY:String = "priority";
+		public static const INITIAL_TRANSITION:String = "initialTransition";
+		public static const INITIAL_LOAD:String = "initialLoad";
+		public static const AUTO_DISPOSE:String = "autoDispose";
+		public static const AUTO_DISPOSE_ASSETS:String = "autoDisposeAssets";
 		
 		public static const XML:String = "xml";
 		public static const IMAGE:String = "image";

@@ -22,5 +22,6 @@
 		function get containers():XML;
 		function get locales():XML;
 		function get contents():XML;
+		function get assets():XML;
 	}
 }

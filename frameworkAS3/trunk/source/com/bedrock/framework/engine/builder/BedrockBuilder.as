@@ -17,6 +17,7 @@ package com.bedrock.framework.engine.builder
 	
 	import flash.events.Event;
 	import com.bedrock.framework.engine.view.BedrockContentView;
+	import com.bedrock.framework.plugin.storage.HashMap;
 	
 	public class BedrockBuilder extends BedrockContentView
 	{

@@ -1,33 +1,26 @@
 ﻿package com.bedrock.framework.engine.data
 {
-	public class BedrockContentData
+	import com.bedrock.extras.util.VariableUtil;
+	
+	dynamic public class BedrockContentData extends GenericData
 	{
 		
 		public var id:String;
 		public var container:String;
 		public var indexed:Boolean;
 		public var priority:int;
-		public var contents:Array;
-		public var isComplex:Boolean;
+		public var deeplink:String;
 		
 		public function BedrockContentData( $data:Object )
 		{
-			this.id = $data.id;
-			this.container = $data.container;
-			this.indexed = $data.indexed;
-			this.priority = $data.priority;
+			super( $data );
 			
-			this.contents = new Array;
-			if( $data.contents != null && $data.contents.length > 0 ) this._convertContents( $data.contents );
-			this.isComplex = ( this.contents.length > 0 );
+			this.name = this.id;
+			this.deeplink = "/" + this.id + "/";
+			
+			if ( this.initialTransition ) this.initialLoad = true;
+			
 		}
 		
-		private function _convertContents( $contents:Array ):void
-		{
-			this.contents = new Array;
-			for each( var data:Object in $contents ) {
-				this.contents.push( new BedrockContentData( data ) );
-			}
-		}
 	}
 }

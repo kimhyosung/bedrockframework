@@ -27,6 +27,9 @@ package com.bedrock.framework.engine.view
 		*/
 		public function BedrockContentView()
 		{
+			this.properties = new Object;
+			this.assets = new HashMap;
+			this.bundle = new Object;
 			super();
 		}
 		

@@ -2,9 +2,10 @@
 {
 	import com.bedrock.framework.core.base.StandardBase;
 	import com.bedrock.framework.engine.api.IContentManager;
+	import com.bedrock.framework.engine.data.BedrockContentData;
+	import com.bedrock.framework.engine.data.BedrockContentGroupData;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.plugin.util.ArrayUtil;
-	import com.bedrock.framework.plugin.util.CoreUtil;
 	import com.bedrock.framework.plugin.util.XMLUtil2;
 
 	public class ContentManager extends StandardBase implements IContentManager
@@ -23,76 +24,68 @@
 		public function initialize( $data:XML ):void
 		{
 			this._parse( $data );
-			this._prepareShell();
 		}
 		private function _parse( $data:XML ):void
 		{
 			this._contents = new Array;
-			var contentObj:Object;
-			var subContentObj:Object;
-			for each( var contentXML:XML in $data.children() ) {
-				contentObj = this._getContentAsObject( contentXML );
-				
-				for each( var subContentXML:XML in contentXML..content ) {
-					subContentObj = this._getContentAsObject( subContentXML, true );
-					contentObj.deeplink += subContentObj.id + "/";
-					
-					contentObj.contents.push( subContentObj );
-					this._contents.push( subContentObj );
+			var contentData:BedrockContentData;
+			for each( var contentXML:XML in $data..content ) {
+				contentData = new BedrockContentData( XMLUtil2.getAttributesAsObject( contentXML ) );
+				this.addContent( contentData );
+			}
+			
+			var contentGroupData:BedrockContentGroupData;
+			var subContentData:BedrockContentData;
+			for each ( var contentGroupXML:XML in $data..contentGroup ) {
+				contentGroupData = new BedrockContentGroupData( XMLUtil2.getAttributesAsObject( contentGroupXML ) );
+				for each( var subContentXML:XML in contentGroupXML..content ) {
+					subContentData = this.getContent( subContentXML.@id );
+					subContentData[ BedrockData.INITIAL_TRANSITION ] = false;
+					contentGroupData.deeplink += subContentData.id + "/"; 
+					contentGroupData.contents.push ( subContentData ); 
 				}
-				contentObj.contents.sortOn( "priority", Array.DESCENDING | Array.NUMERIC );
-				this._contents.push( contentObj );
+				contentGroupData.contents.sortOn( BedrockData.PRIORITY, Array.DESCENDING | Array.NUMERIC );
+				this.addContent( contentGroupData );
 			}
-			this._contents.sortOn( "priority", Array.DESCENDING | Array.NUMERIC );
+			
+			this._contents.sortOn( BedrockData.PRIORITY, Array.DESCENDING | Array.NUMERIC );
 		}
-		private function _prepareShell():void
+		public function addContent( $data:BedrockContentData ):void
 		{
-			var shell:Object = this.getContent( BedrockData.SHELL );
-			if ( shell.id == BedrockData.SHELL ) {
-				shell[ BedrockData.DEFAULT ] = false;
-				shell.indexed= false;
+			if ( $data.id != null && !this.hasContent( $data.id ) ) {
+				this._contents.push( $data );
+			} else {
+				this.error( "Content missing id!" );
 			}
-		}
-		private function _getContentAsObject( $content:XML, $child:Boolean = false ):Object
-		{
-			var contentObj:Object = XMLUtil2.getAttributesAsObject( $content );
-			contentObj.assets = new Array;
-			contentObj.deeplink = "/" + contentObj.id + "/";
-			for each( var assetXML:XML in $content..asset ) {
-				contentObj.assets.push( XMLUtil2.getAttributesAsObject( assetXML ) );
-			}
-			contentObj.contents = new Array;
-			if ( $child ) {
-				contentObj[ BedrockData.DEFAULT ] = false;
-			}
-			return contentObj;
-		}
-		public function addContent( $id:String, $data:Object ):void
-		{
-			$data.id = $id;
-			this._contents.push( $data );
 		}
 		public function addAssetToContent( $contentID:String, $asset:Object ):void
 		{
-			if ( this.hasContent( $contentID ) && CoreUtil.objectHasValues( $asset, [ "id", "path", "file", "type" ] ) ) {
+			if ( this.hasContent( $contentID ) ) {
+				$asset.parentContent = $contentID;
 				var content:Object = this.getContent( $contentID );
 				content.assets.push( $asset );
 			}  else {
 				this.warning( "Content \"" + $contentID + "\" does not exist!" );
 			}
 		}
-		public function getContent( $id:String ):Object
+		public function getContent( $id:String ):BedrockContentData
 		{
-			return this._contents[ ArrayUtil.findIndex( this._contents, $id, "id" ) ];
+			if ( this.hasContent( $id ) ) {
+				return this._contents[ ArrayUtil.findIndex( this._contents, $id, "id" ) ];
+			} else {
+				this.warning( "Content \"" + $id + "\" does not exist!" );
+				return null;
+			}
 		}
 		public function hasContent( $id:String ):Boolean
 		{
 			return ArrayUtil.containsItem( this._contents, $id, "id" );
 		}
-		public function filterContent( $field:String, $value:* ):Array
+		public function filterContents( $value:*, $field:String ):Array
 		{
 			return ArrayUtil.filter( this._contents, $value, $field );
 		}
+		
 		
 		public function get data():Array
 		{

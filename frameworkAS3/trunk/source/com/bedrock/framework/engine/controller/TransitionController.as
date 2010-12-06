@@ -4,24 +4,24 @@
 	import com.bedrock.framework.engine.BedrockEngine;
 	import com.bedrock.framework.engine.api.ITransitionController;
 	import com.bedrock.framework.engine.bedrock;
+	import com.bedrock.framework.engine.command.PrepareInitialLoadCommand;
+	import com.bedrock.framework.engine.command.PrepareInitialTransitionCommand;
 	import com.bedrock.framework.engine.data.BedrockContentData;
+	import com.bedrock.framework.engine.data.BedrockContentGroupData;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.engine.data.BedrockSequenceData;
 	import com.bedrock.framework.engine.event.BedrockEvent;
 	import com.bedrock.framework.engine.view.BedrockContentDisplay;
 	import com.bedrock.framework.engine.view.IPreloader;
-	import com.bedrock.framework.plugin.storage.HashMap;
+	import com.bedrock.framework.plugin.view.*;
 	
 	import flash.events.Event;
-	import com.bedrock.framework.plugin.view.*;
-	import com.bedrock.framework.plugin.util.CoreUtil;
 	
 	public class TransitionController extends DispatcherBase implements ITransitionController
 	{
 		/*
 		Variable Declarations
 		*/
-		private var _transition:BedrockContentData;
 		private var _bedrockSequenceData:BedrockSequenceData;
 		private var _viewSequence:ViewSequence;
 		private var _viewSequenceData:ViewSequenceData;
@@ -57,34 +57,24 @@
 			
 			BedrockEngine.deeplinkingManager.disableChangeHandler();
 			
-			BedrockEngine.loadManager.addEventListener( BedrockEvent.LOAD_COMPLETE, this._onLoadComplete );
-			BedrockEngine.loadManager.addEventListener( BedrockEvent.LOAD_PROGRESS, this._onLoadProgress );
-			
-			if ( !this._initialTransitionComplete ) this._prepareShellLoad();
+			BedrockEngine.loadController.addEventListener( BedrockEvent.LOAD_COMPLETE, this._onLoadComplete );
+			BedrockEngine.loadController.addEventListener( BedrockEvent.LOAD_PROGRESS, this._onLoadProgress );
 			
 			this._preparePreloader();
 			this._prepareContentLoad();
 			this._prepareSequence();
 		}
 		
-		private function _prepareShellLoad():void
-		{
-			var shell:Object = BedrockEngine.contentManager.getContent( BedrockData.SHELL );
-			for each ( var assetObj:Object in shell.assets ) {
-				if ( assetObj.autoLoad ) BedrockEngine.loadManager.appendAsset( assetObj );
-			}
-		}
-		
 		private function _prepareContentLoad():void
 		{
 			for each( var queue:Array in this._bedrockSequenceData.incoming ) {
 				for each( var data:BedrockContentData in queue ) {
-					if ( data.isComplex ) {
+					if ( data is BedrockContentGroupData ) {
 						for each( var subData:BedrockContentData in data.contents ) {
-							BedrockEngine.loadManager.appendContent( BedrockEngine.contentManager.getContent( subData.id ) );
+							BedrockEngine.loadController.appendContent( BedrockEngine.contentManager.getContent( subData.id ) );
 						}
 					} else {
-						BedrockEngine.loadManager.appendContent( BedrockEngine.contentManager.getContent( data.id ) );
+						BedrockEngine.loadController.appendContent( BedrockEngine.contentManager.getContent( data.id ) );
 					}
 				}
 			}
@@ -118,6 +108,7 @@
 				case BedrockSequenceData.CROSS :
 					this._viewSequenceData.append( [ new ViewFlowData( this._preloader, ViewFlowData.ROUND_TRIP ) ] );
 					//sequenceData.append.apply( this, this._appendFlows( this._sequence.incoming ).concat( this._appendOutgoingFlows( this._sequence.outgoing ) ) );
+					
 					break;
 				case BedrockSequenceData.CUSTOM :
 					break;
@@ -127,16 +118,16 @@
 		}
 		private function _appendFlows( $sequence:Array, $flow:Array ):void
 		{
-			var flows:Array
+			var flows:Array;
 			for each ( var queue:Array in $sequence ) {
 				for each( var data:BedrockContentData in queue ) {
 					flows = new Array;
-					if ( data.isComplex ) {
+					if ( data is BedrockContentGroupData ) {
 						for each ( var subData:BedrockContentData in data.contents ) {
-							flows.push( new ViewFlowData( BedrockEngine.loadManager.getContent( subData.id ), $flow ) );
+							flows.push( new ViewFlowData( BedrockEngine.loadController.getLoaderContent( subData.id ), $flow ) );
 						}
 					} else {
-						flows.push( new ViewFlowData( BedrockEngine.loadManager.getContent( data.id ), $flow ) );
+						flows.push( new ViewFlowData( BedrockEngine.loadController.getLoaderContent( data.id ), $flow ) );
 					}
 					this._viewSequenceData.append( flows );
 				}
@@ -162,20 +153,11 @@
 		}
 		
 		
-		private function _prepareShellExtras():void
-		{
-			this._shellView.properties = BedrockEngine.contentManager.getContent( BedrockData.SHELL );
-			this._shellView.assets = this._collectAssets( BedrockData.SHELL );
-			this._shellView.bundle = this._collectBundle( BedrockData.SHELL );
-		}
-		
 		private function _prepareIncoming():void
 		{
 			for each( var queue:Array in this._bedrockSequenceData.incoming ) {
-				
 				for each( var data:BedrockContentData in queue ) {
-					
-					if ( data.isComplex ) {
+					if ( data is BedrockContentGroupData ) {
 						for each( var subData:BedrockContentData in data.contents ) {
 							this._collectExtras( subData.id );
 							this._addContentToContainer( subData );
@@ -193,37 +175,13 @@
 		private function _addContentToContainer( $data:BedrockContentData ):void
 		{
 			if ( BedrockEngine.containerManager.hasContainer( $data.container ) ) {
-				BedrockEngine.containerManager.getContainer( $data.container ).addChild( BedrockEngine.loadManager.getContent( $data.id ) );
+				BedrockEngine.containerManager.getContainer( $data.container ).addChild( BedrockEngine.loadController.getLoaderContent( $data.id ) );
 			} else {
 				this.warning( "Container \"" + $data.container + "\" not found for content \"" + $data.id + "\"!" );
 			}
 		}
 		
-		private function _collectExtras( $id:String ):void
-		{
-			var content:BedrockContentDisplay = BedrockEngine.loadManager.getContent( $id );
-			
-			content.properties = BedrockEngine.contentManager.getContent( $id );
-			content.assets = this._collectAssets( $id );
-			content.bundle = this._collectBundle( $id );
-		}
-		private function _collectBundle( $id:String ):*
-		{
-			if ( BedrockEngine.config.getSettingValue( BedrockData.DATA_BUNDLE_ENABLED ) ) {
-				 if ( BedrockEngine.dataBundleManager.hasBundle( $id ) ) {
-					return BedrockEngine.dataBundleManager.getBundle( $id );
-				} 
-			}
-			return null;
-		}
-		private function _collectAssets( $page:String ):HashMap
-		{
-			var assetsHash:HashMap = new HashMap;
-			for each( var assetObj:Object in BedrockEngine.contentManager.getContent( $page ).assets ) {
-				assetsHash.saveValue( CoreUtil.sanitize( assetObj.id ), BedrockEngine.loadManager.getContent( assetObj.id ) );
-			}
-			return assetsHash;
-		}
+		
 		
 		
 		private function _disposePreloader():void
@@ -236,23 +194,49 @@
 			for each( var queue:Array in this._bedrockSequenceData.outgoing ) {
 				
 				for each( var data:BedrockContentData in queue ) {
-					if ( data.isComplex ) {
+					if ( data is BedrockContentGroupData ) {
 						for each( var subData:BedrockContentData in data.contents ) {
-							contentDisplay = BedrockEngine.loadManager.getContent( subData.id );
-							contentDisplay.dispose();
+							if ( subData.autoDispose ) BedrockEngine.loadController.disposeContent( subData.id );
 						}
 					} else {
-						contentDisplay = BedrockEngine.loadManager.getContent( data.id );
-						contentDisplay.dispose();
+						if ( data.autoDispose ) BedrockEngine.loadController.disposeContent( data.id );
 					}
 				}
 				
 			}
 		}
-		
 		private function _updateDeeplinking():void
 		{
 			BedrockEngine.deeplinkingManager.setPath( this._bedrockSequenceData.deeplink );
+		}
+		
+		
+		/*
+		Collect
+		*/
+		private function _collectShellExtras():void
+		{
+			this._shellView.assets = BedrockEngine.loadController.getAssetGroup( BedrockData.SHELL );
+			this._shellView.bundle = this._collectBundle( BedrockData.SHELL );
+		}
+		private function _collectExtras( $id:String ):void
+		{
+			var contentObj:Object = BedrockEngine.contentManager.getContent( $id );
+			var contentView:BedrockContentDisplay = BedrockEngine.loadController.getLoaderContent( $id );
+			var id:String = ( contentObj.assetGroup != BedrockData.NONE ) ? contentObj.assetGroup : contentObj.id;
+			
+			contentView.properties = BedrockEngine.contentManager.getContent( $id );
+			contentView.assets = BedrockEngine.loadController.getAssetGroup( id );
+			contentView.bundle = this._collectBundle( id );
+		}
+		private function _collectBundle( $id:String ):*
+		{
+			if ( BedrockEngine.config.getSettingValue( BedrockData.DATA_BUNDLE_ENABLED ) ) {
+				 if ( BedrockEngine.dataBundleManager.hasBundle( $id ) ) {
+					return BedrockEngine.dataBundleManager.getBundle( $id );
+				} 
+			}
+			return new Object;
 		}
 		/*
 		Event Handlers
@@ -260,7 +244,7 @@
 		private function _onPreloaderIntroComplete( $event:ViewEvent ):void
 		{
 			BedrockEngine.bedrock::preloadManager.loadBegin();
-			BedrockEngine.loadManager.load();
+			BedrockEngine.loadController.load();
 		}
 		private function _onPreloaderClearComplete( $event:ViewEvent ):void
 		{
@@ -270,7 +254,7 @@
 		
 		private function _onLoadComplete($event:BedrockEvent):void
 		{
-			this._prepareShellExtras();
+			if ( !this._initialTransitionComplete ) this._collectShellExtras();
 			this._prepareIncoming();
 			BedrockEngine.bedrock::preloadManager.loadComplete();
 		}
@@ -286,8 +270,8 @@
 			
 			BedrockEngine.deeplinkingManager.enableChangeHandler();
 			
-			BedrockEngine.loadManager.removeEventListener( BedrockEvent.LOAD_COMPLETE, this._onLoadComplete );
-			BedrockEngine.loadManager.removeEventListener( BedrockEvent.LOAD_PROGRESS, this._onLoadProgress );
+			BedrockEngine.loadController.removeEventListener( BedrockEvent.LOAD_COMPLETE, this._onLoadComplete );
+			BedrockEngine.loadController.removeEventListener( BedrockEvent.LOAD_PROGRESS, this._onLoadProgress );
 			
 			this.dispatchEvent( new BedrockEvent( BedrockEvent.TRANSITION_COMPLETE, this ) );
 			this._disposeOutgoing();
