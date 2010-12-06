@@ -11,6 +11,7 @@
 <sourceAttachmentPath/>
 </compiler>
 <applications>
+<application path="Bedrock.mxml"/>
 <application path="BedrockProjectPanel.mxml"/>
 </applications>
 <modules/>
