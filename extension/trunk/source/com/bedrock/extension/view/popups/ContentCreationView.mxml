@@ -24,8 +24,7 @@
 	            	xmlContent.@initialTransition = this.initialTransitionCheck.selected;
 	            	xmlContent.@autoDispose = this.autoDisposeCheck.selected;
 	            	xmlContent.@autoDisposeAssets = this.autoDisposeAssetsCheck.selected;
-	            	
-	            	xmlContent.@[ "container" ] = this.containerCombo.selectedLabel;
+	            	xmlContent.@container = this.containerCombo.selectedLabel;
 	            	ProjectController.getInstance().config.createContent( xmlContent, this.contentGroupCombo.selectedLabel, this.templateCombo.selectedLabel );
 	            	
 	            	this.closePopup();
