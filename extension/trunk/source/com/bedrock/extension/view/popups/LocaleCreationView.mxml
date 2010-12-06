@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GenericProjectPopupView xmlns="com.bedrock.extension.view.popups.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:misc="com.bedrock.extension.view.misc.*">
+	<mx:Script>
+		<![CDATA[
+			import mx.managers.PopUpManager;
+			import com.bedrock.extension.controller.ProjectController;
+			
+			public function populate():void
+			{
+				this.idText.text = "";
+				this.labelText.text = "";
+				
+				this.showPopup();
+			}
+			private function _create():void
+            {
+            	if ( this.idText.text != "" && this.labelText.text != "" ) {
+	               ProjectController.getInstance().config.locales.appendChild( <locale id={ this.idText.text } label={ this.labelText.text } /> );
+	               ProjectController.getInstance().config.autoSaveConfig();
+	            }
+	            this.closePopup();
+            }
+		]]>
+	</mx:Script>
+	<mx:Panel title="Create : Locale" width="100%" styleName="parentPanel">
+		
+		<mx:Form width="100%">
+			<mx:FormItem label="ID" width="100%">
+				<mx:TextInput id="idText" restrict="a-z A-Z 0-9 _"/>
+			</mx:FormItem>
+			<mx:FormItem label="Label" width="100%">
+				<mx:TextInput id="labelText" restrict="a-z A-Z 0-9 _" />
+			</mx:FormItem>
+		</mx:Form>
+		
+		<misc:CreationControlBar cancel="this.closePopup()" create="this._create()"/>
+	</mx:Panel>
+</GenericProjectPopupView>

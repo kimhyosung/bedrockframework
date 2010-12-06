@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Box xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:view="com.bedrock.extension.view.*" horizontalAlign="center">
+<GenericExtensionPopupView xmlns="com.bedrock.extension.view.popups.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:misc="com.bedrock.extension.view.misc.*">
 	<mx:Script>
 		<![CDATA[
 			import com.bedrock.extension.controller.ExtensionController;
@@ -52,7 +52,7 @@
 			private function _updateProject():void
 			{
 				ExtensionController.getInstance().updateProject( this._switchFrameworkVersion );
-				this._closePopup();
+				this.closePopup();
 			}
 			private function _updateFrameworkVersion():void
 			{
@@ -77,10 +77,6 @@
 						this.frameworkVersionCombo.selectedIndex = ( numIndex > -1 ) ? numIndex : 0;
 						break;
 				}
-			}
-			private function _closePopup():void
-			{
-				PopUpManager.removePopUp( this );
 			}
 		]]>
 	</mx:Script>
@@ -119,10 +115,10 @@
 			</mx:Form>
 		
 			<mx:ControlBar>
-				<mx:Button label="Cancel" id="cancelUpdateButton" click="this._closePopup()" height="30" />
+				<mx:Button label="Cancel" id="cancelUpdateButton" click="this.closePopup()" height="30" />
 				<mx:Spacer width="100%"/>
 				<mx:Button label="Update" id="updateProjectButton" click="this._updateProject()" height="30" />
 			</mx:ControlBar>
 		</mx:Panel>
 			
-</mx:Box>
+</GenericExtensionPopupView>

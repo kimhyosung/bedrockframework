@@ -22,8 +22,10 @@
 			{
 				this.dispatchEvent( new ExtensionEvent( $event, this ) );
 			}
-			public function populateForm():void
+			public function populateForm( $selectedNode:XML = null ):void
 			{
+				this.resetForm();
+				this.selectedNode = $selectedNode || this.selectedNode;
 				if ( this.selectedNode != null ) {
 					var objData:Object = XMLUtil2.getAttributesAsObject( this.selectedNode );
 					var arrAttributes:ArrayCollection = new ArrayCollection;
@@ -53,11 +55,15 @@
                 		break;
                 }
 			}
+			public function clearForm():void
+			{
+				this.selectedNode = null;
+				this.attributeGrid.dataProvider = null;
+				this.resetForm();
+			}
 			public function resetForm():void
 			{
-				ProjectController.getInstance().config.autoSaveConfig();
 				this.attributeGrid.selectedIndex = -1;
-				this.populateForm();
 				this.nameText.text = "";
 				this.valueText.text = "";
 				this.createButton.enabled = true;
@@ -65,17 +71,32 @@
             	this.nameText.enabled = true;
             	this.valueText.enabled = true;
 			}
+			
+			private function _createAttribute():void
+            {
+                this.selectedNode.@[this.nameText.text ] = this.valueText.text;
+				this.populateForm();
+				ProjectController.getInstance().config.autoSaveConfig();
+            }
+            public function _updateAttribute():void
+            {
+				this.selectedNode.@[ this.attributeGrid.selectedItem.name ] = this.valueText.text;
+               this.populateForm();
+               ProjectController.getInstance().config.autoSaveConfig();
+            }
+            public function _deleteAttribute():void
+            {
+            	delete this.selectedNode.@[ this.attributeGrid.selectedItem.name ];
+            	this.populateForm();
+            	ProjectController.getInstance().config.autoSaveConfig();
+            }
+			
 			private function onGridSelect( $event:Event ):void
 			{
                 this.updateForm();
             }
 		]]>
 	</mx:Script>
-	<mx:Metadata>
-        [Event(name="createAttribute", type="com.bedrock.extension.event.ExtensionEvent")]
-        [Event(name="updateAttribute", type="com.bedrock.extension.event.ExtensionEvent")]
-        [Event(name="deleteAttribute", type="com.bedrock.extension.event.ExtensionEvent")]
-    </mx:Metadata>
     
 	<mx:DataGrid width="100%" height="100%" id="attributeGrid" itemClick="this.onGridSelect( event )">
 		<mx:columns>
@@ -96,8 +117,8 @@
 	</mx:Form>
 	
 	<mx:ControlBar>
-		<mx:Button click="this.notify( 'createAttribute' )" id="createButton" icon="{ CreateIcon }" toolTip="Create Attribute"/>
-		<mx:Button click="this.notify( 'updateAttribute' )" id="updateButton" icon="{ UpdateIcon }" toolTip="Update Attribute"/>
-		<mx:Button click="this.notify( 'deleteAttribute' )" id="deleteButton" icon="{ DeleteIcon }"  toolTip="Delete Attribute"/>
+		<mx:Button click="this._createAttribute()" id="createButton"  icon="{ CreateIcon }" toolTip="Create Attribute"/>
+		<mx:Button click="this._updateAttribute()" id="updateButton"  icon="{ UpdateIcon }" toolTip="Update Attribute"/>
+		<mx:Button click="this._deleteAttribute()" id="deleteButton"  icon="{ DeleteIcon }"  toolTip="Delete Attribute"/>
 	</mx:ControlBar>
 </mx:Panel>

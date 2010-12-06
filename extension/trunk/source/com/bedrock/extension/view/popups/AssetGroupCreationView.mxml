@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GenericProjectPopupView xmlns="com.bedrock.extension.view.popups.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:misc="com.bedrock.extension.view.misc.*">
+	<mx:Script>
+		<![CDATA[
+			import mx.managers.PopUpManager;
+			import com.bedrock.extension.controller.ProjectController;
+			
+			public function populate():void
+			{
+				this.showPopup();
+			}
+			
+			private function _create():void
+            {
+            	if ( this.idText.text != "" && this.idText.text != null ) {
+	            	var xmlContent:XML = new XML( <assetGroup id={ this.idText.text } initialLoad={ this.initialLoadCheck.selected } /> ); 
+	            	ProjectController.getInstance().config.assets.appendChild( xmlContent );
+            	}
+            	
+            	this.closePopup();
+            }
+			
+			
+		]]>
+	</mx:Script>
+	<mx:Panel layout="horizontal" title="Create : Asset Group" styleName="parentPanel">
+	
+		<mx:Form width="100%" >
+			<mx:FormItem label="ID" width="100%" >
+				<mx:TextInput id="idText" restrict="a-zA-Z0-9_" />
+			</mx:FormItem>
+			<mx:FormItem height="100%" horizontalAlign="center">
+					<mx:CheckBox  id="initialLoadCheck" label="Initial Load" />
+			</mx:FormItem>
+		</mx:Form>
+		
+		<misc:CreationControlBar cancel="this.closePopup()" create="this._create()"/>
+		
+	</mx:Panel>
+</GenericProjectPopupView>

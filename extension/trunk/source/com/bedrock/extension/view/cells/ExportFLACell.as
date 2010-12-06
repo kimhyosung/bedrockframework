@@ -1,4 +1,4 @@
-package com.bedrock.extension.view.misc
+package com.bedrock.extension.view.cells
 {
 	
 	import com.bedrock.extension.controller.ProjectController;
@@ -12,7 +12,7 @@ package com.bedrock.extension.view.misc
 	import mx.controls.listClasses.IListItemRenderer;
 	import mx.core.UIComponent;
 
-	public class ExportBox extends UIComponent implements IListItemRenderer
+	public class ExportFLACell extends UIComponent implements IListItemRenderer
 	{
 		private var _xmlData:XML;
 		
@@ -20,7 +20,7 @@ package com.bedrock.extension.view.misc
 		private var _normalLoader:Loader;
 		private var _overLoader:Loader;
 		
-		public function ExportBox()
+		public function ExportFLACell()
 		{
 			this.toolTip = "Export SWF";
 			this.createButton();

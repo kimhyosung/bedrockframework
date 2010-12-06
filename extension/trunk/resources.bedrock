@@ -1,5 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <bundles>
+  <bundle id="resourceSettings" type="array">
+    <setting id="libraryEnabled" label="Library Enabled" />
+    <setting id="fontsEnabled" label="Fonts Enabled" />
+    <setting id="stylesheetEnabled" label="Stylesheet Enabled" />
+    <setting id="dataBundleEnabled" label="Data Bundle Enabled" />
+  </bundle>
+  <bundle id="behaviorSettings" type="array">
+    <setting id="autoPrepareInitialLoad" label="Auto Prepare Initial Load" />
+    <setting id="autoPrepareInitialTransition" label="Auto Prepare Initial Transition" />
+    <setting id="showBlockerDuringTransitions" label="Show Blocker During Transitions" />
+    <setting id="deeplinkingEnabled" label="Deeplinking Enabled" />
+    <setting id="deeplinkContent" label="Deeplink Content" />
+    <setting id="trackingEnabled" label="Tracking Enabled" />
+    <setting id="showPagesInContextMenu" label="Show Page in Context Menu" />
+    <setting id="showAboutInContextMenu" label="Show About in Context Menu" />
+  </bundle>
   <bundle id="stageScaleModeOptions" type="array">
     <value>NO_SCALE</value>
     <value>SHOW_ALL</value>
@@ -23,23 +39,19 @@
     <level>ERROR</level>
     <level>FATAL</level>
   </bundle>
-  <bundle id="behaviorSettings" type="array">
-    <setting id="autoTransitionDefaultContent" label="Auto Transition Default Content" />
-    <setting id="showBlockerDuringTransitions" label="Show Blocker During Transitions" />
-    <setting id="deeplinkingEnabled" label="Deeplinking Enabled" />
-    <setting id="deeplinkContent" label="Deeplink Content" />
-    <setting id="trackingEnabled" label="Tracking Enabled" />
-    <setting id="libraryEnabled" label="Library Enabled" />
-    <setting id="fontsEnabled" label="Fonts Enabled" />
-    <setting id="stylesheetEnabled" label="Stylesheet Enabled" />
-    <setting id="dataBundleEnabled" label="Data Bundle Enabled" />
-    <setting id="showPagesInContextMenu" label="Show Page in Context Menu" />
-    <setting id="showAboutInContextMenu" label="Show About in Context Menu" />
-  </bundle>
   <bundle id="contentCreationOptions" type="array">
     <option label="Content" value="content" />
     <option label="Content Group" value="contentGroup" />
+  </bundle>
+  <bundle id="assetCreationOptions" type="array">
     <option label="Asset" value="asset" />
+    <option label="Asset Group" value="assetGroup" />
+  </bundle>
+  <bundle id="localeCreationOptions" type="array">
+    <option label="Locale" value="locale" />
+  </bundle>
+  <bundle id="containerCreationOptions" type="array">
+    <option label="Container" value="container" />
   </bundle>
   <bundle id="environmentCreationOptions" type="array">
     <option label="Environment" value="environment" />

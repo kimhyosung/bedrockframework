@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Box xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.extension.event.ExtensionEvent;
+			import com.bedrock.extension.controller.ProjectController;
+			import mx.managers.PopUpManager;
+			
+			public function showPopup():void
+			{
+				PopUpManager.addPopUp( this, ProjectController.getInstance().root, true );
+				PopUpManager.centerPopUp( this );
+			}
+			
+			public function closePopup():void
+			{
+				ProjectController.getInstance().config.autoSaveConfig();
+				PopUpManager.removePopUp( this );
+				
+				this.dispatchEvent( new ExtensionEvent( ExtensionEvent.CLOSE, this ) );
+			}
+			
+		]]>
+	</mx:Script>
+	<mx:Metadata>
+        [Event(name="close", type="com.bedrock.extension.event.ExtensionEvent")]
+    </mx:Metadata>
+</mx:Box>

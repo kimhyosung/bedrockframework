@@ -5,8 +5,6 @@
 	function initializeBedrockPanel()
 	{
 		fl.outputPanel.clear();
-		fl.outputPanel.trace( "Bedrock Panel | Version 1.0.0" );
-		fl.outputPanel.trace( "" );
 	}
 	function getConstants()
 	{
@@ -209,7 +207,23 @@
 	}
 	
 	
-	
+	function deleteContent( $projectXML, $details )
+	{
+		var project = convertProject( $projectXML );
+		var detailsXML = new XML( unescape( $details ) );
+		
+		if ( sanitizeBoolean( detailsXML.deleteDocumentClass ) ) {
+			var flaDocument =  fl.openDocument( project.sourcePath + detailsXML.@id.toString() + ".fla" );
+			FLfile.remove( project.sourcePath + flaDocument.docClass.split(".").join("/") +".as" );
+			flaDocument.close();
+		}
+		if ( sanitizeBoolean( detailsXML.deleteFLA ) ) {
+			FLfile.remove( project.sourcePath + detailsXML.@id.toString() + ".fla" );
+		}
+		if ( sanitizeBoolean( detailsXML.deleteSWF ) ) {
+			FLfile.remove( project.deployPath + "assets/swfs/" + detailsXML.@id.toString() + ".swf" );
+		}
+	}
 	
 	
 	

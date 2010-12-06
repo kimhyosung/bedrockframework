@@ -35,10 +35,10 @@
 			private function bootup():void
 			{
 				BedrockDispatcher.addEventListener( ExtensionEvent.PROJECT_REFRESH, this._onProjectRefresh );
-				this.applyIcons();
+				this._applyIcons();
 			}
 			
-			private function applyIcons():void
+			private function _applyIcons():void
             {
             	var xmlItem:XML;
 				for each ( xmlItem in ProjectController.getInstance().browser.files..file.( @type == ".swf") ) {
@@ -83,7 +83,7 @@
 			}
 			private function _onProjectRefresh( $event:ExtensionEvent ):void
 			{
-				this.applyIcons();
+				this._applyIcons();
 			}
 			
 			private function onTreeDoubleClick( $event:ListEvent ):void
@@ -110,8 +110,8 @@
 			<mx:columns>
 				<mx:AdvancedDataGridColumn sortable="false" headerText="Name" dataField="@name" />
 				<mx:AdvancedDataGridColumn headerText="Type" dataField="@type" sortable="false" />
-				<mx:AdvancedDataGridColumn resizable="false" sortable="false" dataField="" itemRenderer="com.bedrock.extension.view.misc.FLACheckBox" width="25" />
-				<mx:AdvancedDataGridColumn resizable="false" sortable="false" dataField="" itemRenderer="com.bedrock.extension.view.misc.ExportBox" width="25" />
+				<mx:AdvancedDataGridColumn resizable="false" sortable="false" itemRenderer="com.bedrock.extension.view.cells.PublishFLACell" width="25" />
+				<mx:AdvancedDataGridColumn resizable="false" sortable="false" itemRenderer="com.bedrock.extension.view.cells.ExportFLACell" width="25" />
 			</mx:columns>
 		</mx:AdvancedDataGrid>
 		

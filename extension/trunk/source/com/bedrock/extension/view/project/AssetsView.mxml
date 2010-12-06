@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HDividedBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" creationComplete="this.bootup()" styleName="padded5px" xmlns:misc="com.bedrock.extension.view.misc.*">
+	<mx:Script>
+		<![CDATA[
+			import mx.managers.PopUpManager;
+			import com.bedrock.extension.view.popups.AssetGroupCreationView;
+			import com.bedrock.extension.view.popups.AssetCreationView;
+			import com.bedrock.extension.event.ExtensionEvent;
+			import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
+			import com.bedrock.extension.controller.ProjectController;
+			import com.bedrock.framework.engine.data.BedrockData;
+			import mx.events.DragEvent;
+		
+			[Embed("assets/AssetGroupIcon.png")]
+            private var AssetGroupIcon:Class;
+            [Embed("assets/GenericIcon.png")]
+            private var GenericIcon:Class;
+            [Embed("assets/ImageIcon.png")]
+            private var ImageIcon:Class;
+            [Embed("assets/VideoIcon.png")]
+            private var VideoIcon:Class;
+            [Embed("assets/SoundIcon.png")]
+            private var SoundIcon:Class;
+            [Embed("assets/StylesheetIcon.png")]
+            private var StylesheetIcon:Class;
+            [Embed("assets/SWFIcon.png")]
+            private var SWFIcon:Class;
+            [Embed("assets/XMLIcon.png")]
+            private var XMLIcon:Class;
+            
+            [Embed("assets/CreateIcon.png")]
+            private var CreateIcon:Class;
+            
+           	private var _assetCreationView:AssetCreationView;
+            private var _assetGroupCreationView:AssetGroupCreationView;
+            
+			public function bootup():void
+			{
+				this._applyIcons();
+				
+				this._assetCreationView = new AssetCreationView;
+				this._assetCreationView.initialize();
+				this._assetGroupCreationView = new AssetGroupCreationView;
+				this._assetGroupCreationView.initialize();
+				
+				BedrockDispatcher.addEventListener( ExtensionEvent.CONFIG_LOADED, this._onConfigLoaded );
+			}
+            /*
+			Nodes
+			*/
+            private function createNode():void
+            {
+            	switch( this.hierarchyControlBar.creationCombo.selectedItem.value ) {
+            		case "asset" :
+						this._assetCreationView.populate();
+            			break;
+            		case "assetGroup" :
+						this._assetGroupCreationView.populate();
+            			break;
+            	}
+            	this._resetInterface();
+            }
+            private function deleteNode():void
+            {
+            	if ( this.nodeTree.selectedIndex != -1 ) {
+            		switch( String( this.nodeTree.selectedItem.name() ) ) {
+            			case "asset" :
+							this.deleteAsset();
+            				break;
+            			case "assetGroup" :
+							this.deleteAssetGroup();
+            				break;
+            		}
+	            	this._resetInterface();
+            	}
+            }
+            
+            /*
+            Content Groups
+            */
+            
+            private function deleteAssetGroup():void
+            {
+            	delete ProjectController.getInstance().config.assets..assetGroup.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
+            }
+            /*
+            Asset
+            */
+            private function deleteAsset():void
+            {
+            	delete ProjectController.getInstance().config.assets..asset.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
+            }
+            /*
+            Insterface Functions
+            */
+            private function _resetInterface():void
+            {
+            	ProjectController.getInstance().config.autoSaveConfig();
+            	this._deselect();
+            	this._applyIcons();
+            }
+            private function _deselect():void
+			{
+				this.nodeTree.selectedIndex = -1;
+				this.attributeEditor.clearForm();
+            }
+			private function _applyIcons():void
+			{
+				for each( var xmlNode:XML in ProjectController.getInstance().config.assets..asset ) {
+					switch( String( xmlNode.@type ) ) {
+						case BedrockData.STYLESHEET :
+							this.nodeTree.setItemIcon( xmlNode, StylesheetIcon, StylesheetIcon );
+							break;
+						case BedrockData.IMAGE :
+							this.nodeTree.setItemIcon( xmlNode, ImageIcon, ImageIcon );
+							break;
+						case BedrockData.AUDIO :
+							this.nodeTree.setItemIcon( xmlNode, SoundIcon, SoundIcon );
+							break;
+						case BedrockData.SWF :
+							this.nodeTree.setItemIcon( xmlNode, SWFIcon, SWFIcon );
+							break;
+						case BedrockData.VIDEO :
+							this.nodeTree.setItemIcon( xmlNode, VideoIcon, VideoIcon );
+							break;
+						case BedrockData.XML :
+							this.nodeTree.setItemIcon( xmlNode, XMLIcon, XMLIcon );
+							break;
+						default :
+							this.nodeTree.setItemIcon( xmlNode, GenericIcon, GenericIcon );
+							break;
+					}
+				}
+			}
+			/*
+			Event Handlers
+			*/
+            private function _onTreeSelect( $event:Event ):void
+			{
+				this.attributeEditor.populateForm( this.nodeTree.selectedItem as XML );
+            }
+            
+            private function _onConfigLoaded( $event:ExtensionEvent ):void
+			{
+                this._applyIcons();
+            }
+            private function _onDragStop( $event:DragEvent ):void
+			{
+                ProjectController.getInstance().config.reorderContent( ProjectController.getInstance().config.contentHierarchy.source.toString() );
+                this._applyIcons();
+            }
+            
+		]]>
+	</mx:Script>
+		
+	
+	
+	
+	
+	
+	<mx:Panel  title="Hierarchy" width="100%" height="100%">
+		<mx:AdvancedDataGrid id="nodeTree" designViewDataType="tree" displayItemsExpanded="true" sortExpertMode="true" width="100%" height="100%" dataProvider="{ ProjectController.getInstance().config.assetHierarchy }" defaultLeafIcon="{ AssetGroupIcon }" folderOpenIcon="{ AssetGroupIcon }" folderClosedIcon="{ AssetGroupIcon }" itemClick="this._onTreeSelect( event )">
+			<mx:headerRenderer>
+				<mx:Component>
+					<mx:AdvancedDataGridHeaderRenderer horizontalAlign="left"/>
+				</mx:Component>
+	        </mx:headerRenderer>
+			<mx:columns>
+				<mx:AdvancedDataGridColumn headerText="ID" dataField="@id" sortable="false" />
+				<mx:AdvancedDataGridColumn headerText="Type" dataField="@type" sortable="false"/>
+				<mx:AdvancedDataGridColumn headerText="Path" dataField="@path" sortable="false"/>
+				<mx:AdvancedDataGridColumn headerText="URL" dataField="@url" sortable="false"/>
+				<mx:AdvancedDataGridColumn headerText="Initial Load" resizable="false" sortable="false" dataField="" itemRenderer="com.bedrock.extension.view.cells.AssetGroupInitialLoadCell" />
+			</mx:columns>
+		</mx:AdvancedDataGrid>
+		<misc:HierarchyControlBar id="hierarchyControlBar" creationOptions="{ ProjectController.getInstance().resources.getBundle( 'assetCreationOptions' ) }" createNode="this.createNode()" deleteNode="this.deleteNode()" deselectNode="this._deselect()" />
+	</mx:Panel>
+	
+	<misc:AttributeEditor id="attributeEditor" />
+	
+</mx:HDividedBox>

@@ -10,7 +10,6 @@
 			private function bootup():void
 			{
 				this.samplePanel.combo.labelField = "@name";
-				this.samplePanel.combo.addEventListener( Event.CHANGE, this._onComboChange );
 			}
 			private function openSample():void
 			{
@@ -23,7 +22,7 @@
 			}
 		]]>
 	</mx:Script>
-	<misc:ComboPanel title="Sample : " id="samplePanel" width="100%" height="100%" dataProvider="{ ExtrasController.getInstance().sampleBrowser.data..sample }" >
+	<misc:ComboPanel title="Sample : " id="samplePanel" width="100%" height="100%" change="this._onComboChange( event )" dataProvider="{ ExtrasController.getInstance().sampleBrowser.data..sample }" >
 		<extras:SamplerView id="sampler" />
 	</misc:ComboPanel>
 </mx:HBox>

@@ -2,13 +2,18 @@
 <mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" layout="vertical" initialize="this.bootup()" title="Project Archive">
 	<mx:Script>
 		<![CDATA[
+			import com.bedrock.extension.view.popups.ProjectCreationView;
+			import mx.managers.PopUpManager;
 			import com.bedrock.extension.controller.ExtensionController;
 			import mx.events.CloseEvent;
 			import mx.controls.Alert;
 			
+			private var _projectCreationView:ProjectCreationView;
 			
 			private function bootup():void
 			{
+				this._projectCreationView = new ProjectCreationView;
+				this._projectCreationView.initialize();
 			}
 			
 			private function findProject():void
@@ -17,10 +22,15 @@
 					Alert.show( "Invalid project file!", "Warning!" );
 				}
 			}
-			private function createProject():void
+			public function _showCreateProject():void
 			{
 				this.projectGrid.selectedIndex = -1;
-				ExtensionController.getInstance().showCreateProject();
+				ExtensionController.getInstance().createProject();
+				
+				this._projectCreationView.populate();
+				
+				PopUpManager.addPopUp( this._projectCreationView, this, true );
+				PopUpManager.centerPopUp( this._projectCreationView );
 			}
 			private function loadProject():void
 			{
@@ -56,7 +66,7 @@
 		</mx:columns>
 	</mx:DataGrid>
 	<mx:HBox width="100%">
-		<mx:Button label="Create Project" width="100%" height="40" click="this.createProject()" />
+		<mx:Button label="Create Project" width="100%" height="40" click="this._showCreateProject()" />
 		<mx:Button label="Load Project" width="100%" height="40" id="loadProjectButton" click="this.loadProject()" enabled="{ this.projectGrid.selectedIndex != -1 }"/>
 		<mx:Button label="Find Project" width="100%" height="40" click="this.findProject()"/>
 		<mx:Button label="Remove Project" width="100%" height="40" click="this.removeProject()"/>
