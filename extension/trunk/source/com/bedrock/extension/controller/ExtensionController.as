@@ -196,12 +196,12 @@ package com.bedrock.extension.controller
 		private function _createProjectXML():void
 		{
 			var today:Date = new Date();
-			var creationDate:String = today.getDate() + "." + today.getMonth() + "." + today.getFullYear();
+			var creationDate:String = today.getDate() + "." + ( today.getMonth() + 1 ) + "." + today.getFullYear();
 			this.projectXML = new XML( <project id={ new Date().getTime() } name="" generated="false">
 				  <path />
 				  <rootPackage/>
 				  <template>beginner</template>
-				  <frameworkVersion>3.0.3</frameworkVersion>
+				  <frameworkVersion>{ this.versions[ 0 ] }</frameworkVersion>
 				  <width>900</width>
 				  <height>600</height>
 				  <fps>30</fps>

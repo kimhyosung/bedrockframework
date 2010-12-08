@@ -3,10 +3,10 @@ package com.bedrock.extension.model
 	import com.bedrock.extension.data.OptionData;
 	import com.bedrock.extension.delegate.JSFLDelegate;
 	import com.bedrock.extension.event.ExtensionEvent;
-	import com.bedrock.extras.util.VariableUtil;
 	import com.bedrock.framework.core.base.StandardBase;
 	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
 	import com.bedrock.framework.engine.data.BedrockData;
+	import com.bedrock.framework.plugin.util.VariableUtil;
 	
 	import mx.collections.ArrayCollection;
 	import mx.collections.HierarchicalData;
@@ -196,6 +196,7 @@ package com.bedrock.extension.model
 		public function refreshContainerArray():void
 		{
 			this.containerArray = new ArrayCollection;
+			this.containerArray.addItem( OptionData.NONE );
 			this.containerArray.addItem( OptionData.ROOT );
 			for each( var containerXML:XML in this.containers..container ) {
 				this.containerArray.addItem( VariableUtil.sanitize( containerXML.@id ) );

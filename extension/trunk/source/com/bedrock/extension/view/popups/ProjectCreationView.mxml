@@ -21,8 +21,6 @@
 			public function populate():void
 			{
 				this.frameworkVersionCombo.dataProvider = ExtensionController.getInstance().versions;
-				var numIndex:int = ArrayUtil.findIndex( ExtensionController.getInstance().versions, ExtensionController.getInstance().projectXML.frameworkVersion );
-				this.frameworkVersionCombo.selectedIndex = ( numIndex > -1 ) ? numIndex : 0;
 				
 				this.projectNameText.text = ExtensionController.getInstance().projectXML.@name;
 				this.projectPathText.text = ExtensionController.getInstance().projectXML.path;
