@@ -9,6 +9,5 @@ package com.bedrock.framework.engine.data
 			super( $data );
 			this.contents = new Array;
 		}
-
 	}
 }

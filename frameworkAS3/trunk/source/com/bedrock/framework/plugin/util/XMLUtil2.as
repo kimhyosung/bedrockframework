@@ -7,7 +7,7 @@
 		
 		public static function getAsObject( $data:* ):Object
 		{
-			return CoreUtil.combineObjects(  XMLUtil2.getAttributesAsObject( $data ), XMLUtil2.getNodesAsObject( $data ) );
+			return VariableUtil.combineObjects(  XMLUtil2.getAttributesAsObject( $data ), XMLUtil2.getNodesAsObject( $data ) );
 		}
 		
 		public static function getNodesAsObject( $data:* ):Object
@@ -18,7 +18,7 @@
 			if ( xmlData.hasComplexContent() ) {
 				var numLength:Number = xmlData.children().length();
 				for (var i:int = 0; i  < numLength; i++) {
-					objConversion[ xmlData.child( i ).name() ] = CoreUtil.sanitize( xmlData.child( i ) );
+					objConversion[ xmlData.child( i ).name() ] = VariableUtil.sanitize( xmlData.child( i ) );
 				}
 			}
 			return objConversion;
@@ -32,7 +32,7 @@
 			
 			var numLength:int = xmlAttributes.length();
 			for (var i:int = 0; i < numLength; i ++) {
-				objResult[ xmlAttributes[ i ].name().toString() ] = CoreUtil.sanitize( xmlAttributes[ i ] );
+				objResult[ xmlAttributes[ i ].name().toString() ] = VariableUtil.sanitize( xmlAttributes[ i ] );
 			}	
 				
 			return objResult;

@@ -116,13 +116,6 @@
 		public static const INITIAL_LOAD:String = "initialLoad";
 		public static const AUTO_DISPOSE:String = "autoDispose";
 		public static const AUTO_DISPOSE_ASSETS:String = "autoDisposeAssets";
-		
-		public static const XML:String = "xml";
-		public static const IMAGE:String = "image";
-		public static const SWF:String = "swf";
-		public static const AUDIO:String = "audio";
-		public static const VIDEO:String = "video";
-		public static const DATA:String = "data";
 	}
 	
 }

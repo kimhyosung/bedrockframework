@@ -1,6 +1,5 @@
 ﻿package com.bedrock.framework.engine.manager
 {
-	import com.bedrock.extras.util.VariableUtil;
 	import com.bedrock.framework.core.base.StandardBase;
 	import com.bedrock.framework.engine.api.IAssetManager;
 	import com.bedrock.framework.engine.data.BedrockAssetData;

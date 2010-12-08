@@ -4,8 +4,6 @@
 	import com.bedrock.framework.engine.BedrockEngine;
 	import com.bedrock.framework.engine.api.ITransitionController;
 	import com.bedrock.framework.engine.bedrock;
-	import com.bedrock.framework.engine.command.PrepareInitialLoadCommand;
-	import com.bedrock.framework.engine.command.PrepareInitialTransitionCommand;
 	import com.bedrock.framework.engine.data.BedrockContentData;
 	import com.bedrock.framework.engine.data.BedrockContentGroupData;
 	import com.bedrock.framework.engine.data.BedrockData;
@@ -160,29 +158,15 @@
 					if ( data is BedrockContentGroupData ) {
 						for each( var subData:BedrockContentData in data.contents ) {
 							this._collectExtras( subData.id );
-							this._addContentToContainer( subData );
 						}
 					} else {
 						this._collectExtras( data.id );
-						this._addContentToContainer( data );
 					}
 					
 				}
 				
 			}
 		}
-		
-		private function _addContentToContainer( $data:BedrockContentData ):void
-		{
-			if ( BedrockEngine.containerManager.hasContainer( $data.container ) ) {
-				BedrockEngine.containerManager.getContainer( $data.container ).addChild( BedrockEngine.loadController.getLoaderContent( $data.id ) );
-			} else {
-				this.warning( "Container \"" + $data.container + "\" not found for content \"" + $data.id + "\"!" );
-			}
-		}
-		
-		
-		
 		
 		private function _disposePreloader():void
 		{
@@ -216,18 +200,17 @@
 		*/
 		private function _collectShellExtras():void
 		{
-			this._shellView.assets = BedrockEngine.loadController.getAssetGroup( BedrockData.SHELL );
+			this._shellView.assets = BedrockEngine.loadController.getAssetGroupContents( BedrockData.SHELL );
 			this._shellView.bundle = this._collectBundle( BedrockData.SHELL );
 		}
 		private function _collectExtras( $id:String ):void
 		{
 			var contentObj:Object = BedrockEngine.contentManager.getContent( $id );
-			var contentView:BedrockContentDisplay = BedrockEngine.loadController.getLoaderContent( $id );
-			var id:String = ( contentObj.assetGroup != BedrockData.NONE ) ? contentObj.assetGroup : contentObj.id;
 			
-			contentView.properties = BedrockEngine.contentManager.getContent( $id );
-			contentView.assets = BedrockEngine.loadController.getAssetGroup( id );
-			contentView.bundle = this._collectBundle( id );
+			var contentView:BedrockContentDisplay = BedrockEngine.loadController.getLoaderContent( $id );
+			contentView.assets = BedrockEngine.loadController.getAssetGroupContents( contentObj.assetGroup );
+			contentView.data = BedrockEngine.contentManager.getContent( $id );
+			contentView.bundle = this._collectBundle( $id );
 		}
 		private function _collectBundle( $id:String ):*
 		{

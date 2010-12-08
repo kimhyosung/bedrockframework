@@ -1,4 +1,4 @@
-﻿package com.bedrock.extras.util
+﻿package com.bedrock.framework.plugin.util
 {
 	import com.bedrock.framework.core.base.StaticBase;
 	

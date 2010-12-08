@@ -218,13 +218,13 @@
 		private function _initializeVitals():void
 		{
 			BedrockEngine.bedrock::transitionController.initialize( this.builder );
+			BedrockEngine.containerManager.initialize( BedrockEngine.config.containers, this.builder );
 			BedrockEngine.contentManager.initialize( BedrockEngine.config.contents );
 			BedrockEngine.assetManager.initialize( BedrockEngine.config.assets );
 			
 			BedrockEngine.loadController.initialize( this.builder, this.builder.loaderInfo.applicationDomain );
 			
 			BedrockEngine.libraryManager.initialize( this.builder.loaderInfo.applicationDomain );
-			BedrockEngine.containerManager.initialize( BedrockEngine.config.containers, this.builder );
 			BedrockEngine.bedrock::preloadManager.initialize( BedrockEngine.config.getSettingValue( BedrockData.INITIAL_PRELOADER_TIME ) );
 			
 			BedrockEngine.trackingManager.initialize( BedrockEngine.config.getSettingValue( BedrockData.TRACKING_ENABLED ) );

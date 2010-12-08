@@ -12,7 +12,6 @@
 	import com.bedrock.framework.plugin.storage.HashMap;
 	import com.greensock.events.LoaderEvent;
 	import com.greensock.loading.*;
-	import com.greensock.loading.core.LoaderCore;
 	import com.greensock.loading.core.LoaderItem;
 	import com.greensock.loading.display.ContentDisplay;
 	
@@ -55,7 +54,7 @@
 		
 		public function appendLoader( $loader:* ):void
 		{
-			if ( $loader is LoaderCore ) {
+			if ( $loader is LoaderItem ) {
 				this._loader.append( $loader );
 			}
 		}
@@ -63,34 +62,45 @@
 		public function appendContent( $content:BedrockContentData ):void
 		{
 			if ( !this.hasLoader( $content.id ) || ( this.hasLoader( $content.id ) && this.getLoader( $content.id ).status >= LoaderStatus.FAILED ) ) {
-				var loader:LoaderItem = this.getLoader( $content.id );
 				
-				if ( BedrockEngine.assetManager.hasGroup( $content.assetGroup || $content.id ) ) {
-					this.appendAssets( BedrockEngine.assetManager.getGroup( $content.assetGroup || $content.id ).assets );
+				if ( BedrockEngine.assetManager.hasGroup( $content.assetGroup ) ) {
+					this.appendAssets( BedrockEngine.assetManager.getGroup( $content.assetGroup ).assets );
 				}
 				
 				LoaderMax.contentDisplayClass = BedrockContentDisplay;
-				loader = new SWFLoader( BedrockEngine.config.getPathValue( BedrockData.SWF_PATH ) + $content.id + ".swf", { name:$content.id, context:this._getLoaderContext() } );
+				this.appendLoader( this._getContentLoader( $content ) );
 				LoaderMax.contentDisplayClass = ContentDisplay;
-				this.appendLoader( loader );
 			} else {
 				switch ( this.getLoader( $content.id ).status ) {
 					case LoaderStatus.LOADING :
 						this.status( "Content \"" + $content.id + "\" loading." );
 						break;
 					case LoaderStatus.COMPLETED :
-						this.status( "Content \"" + $content.id + "\" loaded." );
+						this.status( "Content \"" + $content.id + "\" already loaded." );
 						break;
 				}
 			}
 		}
 		
+		private function _getContentLoader( $content:BedrockContentData ):LoaderItem
+		{
+			var loaderVars:Object = new Object;
+			loaderVars.name =  $content.id;
+			loaderVars.context = this._getLoaderContext();
+			
+			if ( BedrockEngine.containerManager.hasContainer( $content.container ) ) {
+				loaderVars.container = BedrockEngine.containerManager.getContainer( $content.container );
+			} else if ( $content.container != BedrockData.NONE ) {
+				this.warning( "Container \"" + $content.container + "\" not found for content \"" + $content.id + "\"!" );
+			}
+			return new SWFLoader( $content.url, loaderVars );
+		}
 		
- 	 	
+		
  	 	
 		public function disposeContent( $id:String ):void
 		{
-			if ( !this.hasLoader( $id ) ) {
+			if ( this.hasLoader( $id ) ) {
 				var content:BedrockContentData = BedrockEngine.contentManager.getContent( $id );
 				
 				this.getLoader( content.id ).dispose();
@@ -101,7 +111,8 @@
 						}
 					}
 				}
-				
+			} else {
+				this.warning( "Loader \"" + $id + "\" not found!" );
 			}
 		}
 		
@@ -119,45 +130,56 @@
 		}
 		public function appendAsset( $asset:BedrockAssetData ):void
 		{
-			if ( !this.hasLoader( $asset.id ) ) {
-				
-				var url:String;
-				if ( $asset.path != BedrockData.NONE && $asset.path != null ) {
-					url = ( BedrockEngine.config.getPathValue( $asset.path ) + $asset.url );
-				} else {
-					url = $asset.url;
-				}
-				
-				var loader:LoaderItem;
-				var vars:Object = { name:$asset.id };
-				switch( $asset.type ) {
-					case "swf" :
-						vars.context = this._getLoaderContext();
-						loader = new SWFLoader( url, vars );
-						break;
-					case "xml" :
-						loader = new XMLLoader( url, vars );
-						break;
-					case "stylesheet" :
-						loader = new CSSLoader( url, vars );
-						break;
-					case "image" :
-						loader = new ImageLoader( url, vars );
-						break;
-					case "video" :
-						loader = new VideoLoader( url, vars );
-						break;
-					case "audio" :
-						loader = new MP3Loader( url, vars );
-						break;
-					case "data" :
-						loader = new DataLoader( url, vars );
-						break;
-				}
-				this.appendLoader( loader );
+			if ( !this.hasLoader( $asset.id ) || ( this.hasLoader( $asset.id ) && this.getLoader( $asset.id ).status >= LoaderStatus.FAILED ) ) {
+				this.appendLoader( this._getAssetLoader( $asset ) );
 			} else {
-				this.status( "Asset \"" + $asset.id + "\" already loaded." );
+				switch ( this.getLoader( $asset.id ).status ) {
+					case LoaderStatus.LOADING :
+						this.status( "Asset \"" + $asset.id + "\" loading." );
+						break;
+					case LoaderStatus.COMPLETED :
+						this.status( "Asset \"" + $asset.id + "\" already loaded." );
+						break;
+				}
+				
 			}
+		}
+		private function _getAssetLoader( $asset:BedrockAssetData ):LoaderItem
+		{
+			var loaderVars:Object = new Object;
+			loaderVars.name =  $asset.id;
+			
+			var loader:LoaderItem;
+			switch( $asset.type ) {
+				case BedrockAssetData.SWF :
+					if ( BedrockEngine.containerManager.hasContainer( $asset.container ) ) {
+						loaderVars.container = BedrockEngine.containerManager.getContainer( $asset.container );
+					} else if ( $asset.container != BedrockData.NONE ) {
+						this.warning( "Container \"" + $asset.container + "\" not found for asset \"" + $asset.id + "\"!" );
+					}
+					loaderVars.context = this._getLoaderContext();
+					loader = new SWFLoader( $asset.url, loaderVars );
+					break;
+				case BedrockAssetData.XML :
+					loader = new XMLLoader( $asset.url, loaderVars );
+					break;
+				case BedrockAssetData.STYLESHEET :
+					loader = new CSSLoader( $asset.url, loaderVars );
+					break;
+				case BedrockAssetData.IMAGE :
+					loader = new ImageLoader( $asset.url, loaderVars );
+					break;
+				case BedrockAssetData.VIDEO :
+					loader = new VideoLoader( $asset.url, loaderVars );
+					break;
+				case BedrockAssetData.AUDIO :
+					loader = new MP3Loader( $asset.url, loaderVars );
+					break;
+				case BedrockAssetData.DATA :
+					loader = new DataLoader( $asset.url, loaderVars );
+					break;
+			}
+			return loader;
 		}
 		/*
 		Getters
@@ -170,12 +192,16 @@
 		{
 			return this._loader.getContent( $nameOrURL );
 		}
+		public function getRawLoaderContent( $nameOrURL:String ):*
+		{
+			return this._loader.getContent( $nameOrURL ).rawContent;
+		}
 		private function _getLoaderContext():LoaderContext
 		{
 			return new LoaderContext( this._checkPolicyFile, this._applicationDomain );
 		}
 		
-		public function getAssetGroup( $id:String ):HashMap
+		public function getAssetGroupContents( $id:String ):HashMap
 		{
 			var assetsHash:HashMap = new HashMap;
 			if ( BedrockEngine.assetManager.hasGroup( $id ) ) {
