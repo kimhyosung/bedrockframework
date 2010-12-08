@@ -24,12 +24,10 @@
 		}
 		public function initialize( $data:ViewStackData ):void
 		{
-			this.clear();
-			
 			this.data = $data;
 			this._selectedIndex = -1;
-			
-			
+		
+			this.refresh();
 		}
 		public function refresh():void
 		{
@@ -52,7 +50,7 @@
 		}
 		public function clear():void
 		{
-			if ( this.data != null && this.data.manageViewsAsChildren ) {
+			if ( this.data != null && this.data.manageViewsAsChildren && this._container != null ) {
 				for each( var item:Object in this.data.stack ) {
 					if ( this._container.getChildIndex( item.view ) != -1 ) {
 						this._container.removeChild( item.view );
@@ -85,6 +83,12 @@
 			this.selectByIndex( ArrayUtil.findIndex( this.data.stack, $id, "id" ) );
 		}
 		
+		public function deselect():void
+		{
+			this._runSequence( this.getByIndex( this._selectedIndex ) );
+			this._selectedIndex = -1;
+		}
+		
 		private function _runSequence( $outgoing:Object = null, $incoming:Object = null ):void
 		{
 			var data:ViewSequenceData = new ViewSequenceData;
@@ -107,6 +111,8 @@
 		{
 			return this.getByIndex( ArrayUtil.findIndex( this.data.stack, $id, "id" ) );
 		}
+		
+		
 		/*
 		External Next/ Previous
 		*/
@@ -137,11 +143,7 @@
 		*/
 		public function get selectedIndex():int
 		{
-			return this.data.stack.selectedIndex;
-		}
-		public function get selectedView():*
-		{
-			return this.data.stack.selectedItem;
+			return this._selectedIndex;
 		}
 	}
 

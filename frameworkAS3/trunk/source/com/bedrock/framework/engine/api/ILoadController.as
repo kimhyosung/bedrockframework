@@ -23,7 +23,8 @@
 		function hasLoader( $nameOrURL:String ):Boolean;
 		function getLoader( $nameOrURL:String ):*;
 		function getLoaderContent( $nameOrURL:String ):*;
-		function getAssetGroup( $id:String ):HashMap;
+		function getRawLoaderContent( $nameOrURL:String ):*;
+		function getAssetGroupContents( $id:String ):HashMap;
 		/*
 		Property Definitions
 		*/

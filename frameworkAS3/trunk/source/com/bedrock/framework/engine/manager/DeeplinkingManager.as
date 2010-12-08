@@ -6,7 +6,7 @@ package com.bedrock.framework.engine.manager
 	import com.bedrock.framework.core.base.DispatcherBase;
 	import com.bedrock.framework.engine.api.IDeeplinkingManager;
 	import com.bedrock.framework.engine.event.BedrockEvent;
-	import com.bedrock.framework.plugin.util.CoreUtil;
+	import com.bedrock.framework.plugin.util.VariableUtil;
 	
 	public class DeeplinkingManager extends DispatcherBase implements IDeeplinkingManager
 	{
@@ -192,7 +192,7 @@ package com.bedrock.framework.engine.manager
 
 
 				var tmpValueName:String = arrPair[0];
-				var tmpValueClean:* = CoreUtil.sanitize(arrPair[1]);
+				var tmpValueClean:* = VariableUtil.sanitize(arrPair[1]);
 
 				// Look for an existing value by that name
 

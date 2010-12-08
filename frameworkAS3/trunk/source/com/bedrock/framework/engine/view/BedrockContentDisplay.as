@@ -1,6 +1,7 @@
 ﻿package com.bedrock.framework.engine.view
 {
 	import com.bedrock.framework.core.logging.Logger;
+	import com.bedrock.framework.engine.data.BedrockContentData;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	import com.bedrock.framework.plugin.view.IView;
 	import com.greensock.loading.core.LoaderItem;
@@ -54,9 +55,9 @@
 			if( this.rawContent != null ) Object( this.rawContent ).removeEventListener( type, listener, useCapture );
 		}
 		
-		public function set properties( $properties:Object ):void
+		public function set data( $data:BedrockContentData ):void
 		{
-			Object( this.rawContent ).properties = $properties;
+			Object( this.rawContent ).data = $data;
 		}
 		public function set assets( $assets:HashMap ):void
 		{
@@ -67,9 +68,9 @@
 			Object( this.rawContent ).bundle = $bundle;
 		}
 		
-		public function get properties():Object
+		public function get data():BedrockContentData
 		{
-			return Object( this.rawContent ).properties;
+			return Object( this.rawContent ).data;
 		}
 		public function get assets():HashMap
 		{

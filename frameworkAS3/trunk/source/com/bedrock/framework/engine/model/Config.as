@@ -16,7 +16,7 @@ package com.bedrock.framework.engine.model
 	import com.bedrock.framework.engine.data.BedrockData;
 	
 	import flash.system.Capabilities;
-	import com.bedrock.framework.plugin.util.CoreUtil;
+	import com.bedrock.framework.plugin.util.VariableUtil;
 	
 	public class Config extends StandardBase implements IConfig
 	{
@@ -121,7 +121,7 @@ package com.bedrock.framework.engine.model
 		private function parseParamObject( $data:Object ):void
 		{
 			for (var d:String in $data){
-				this.saveParamValue( d, CoreUtil.sanitize( $data[ d ] ) ); 
+				this.saveParamValue( d, VariableUtil.sanitize( $data[ d ] ) ); 
 			}
 		}
 		private function parseParamString( $params:String, $variableSeparator:String ="&", $valueSeparator:String =  "=" ):void
@@ -166,15 +166,15 @@ package com.bedrock.framework.engine.model
 		*/
 		public function getSettingValue($id:String):*
 		{
-			return CoreUtil.sanitize( this._settingValues.children().( @id == $id )[ 0 ].@value );
+			return VariableUtil.sanitize( this._settingValues.children().( @id == $id )[ 0 ].@value );
 		}
 		public function getPathValue($id:String):*
 		{
-			return CoreUtil.sanitize( this._pathValues.children().( @id == $id )[ 0 ].@value );
+			return VariableUtil.sanitize( this._pathValues.children().( @id == $id )[ 0 ].@value );
 		}
 		public function getVariableValue($id:String):*
 		{
-			return CoreUtil.sanitize( this._variableValues.children().( @id == $id )[ 0 ].@value );
+			return VariableUtil.sanitize( this._variableValues.children().( @id == $id )[ 0 ].@value );
 		}
 		
 		/*

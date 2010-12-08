@@ -3,7 +3,7 @@
 	import com.bedrock.framework.core.base.StandardBase;
 	import com.bedrock.framework.engine.api.IDataBundleManager;
 	import com.bedrock.framework.plugin.storage.HashMap;
-	import com.bedrock.framework.plugin.util.CoreUtil;
+	import com.bedrock.framework.plugin.util.VariableUtil;
 	import com.bedrock.framework.plugin.util.XMLUtil2;
 	
 	public class DataBundleManager extends StandardBase implements IDataBundleManager
@@ -78,7 +78,7 @@
 					if ( xmlItem.attributes().length() > 0 ) {
 						arrData.push( XMLUtil2.getAsObject( xmlItem ) );
 					} else {
-						arrData.push( CoreUtil.sanitize( xmlItem.toString() ) );
+						arrData.push( VariableUtil.sanitize( xmlItem.toString() ) );
 					}
 				}
 			}

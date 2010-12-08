@@ -13,13 +13,14 @@ package com.bedrock.framework.engine.view
 {
 	import com.bedrock.framework.plugin.storage.HashMap;
 	import com.bedrock.framework.plugin.view.MovieClipView;
+	import com.bedrock.framework.engine.data.BedrockContentData;
 
 	public class BedrockContentView extends MovieClipView
 	{
 		/*
 		Variable Declarations
 		*/
-		public var properties:Object;
+		public var data:BedrockContentData;
 		public var assets:HashMap;
 		public var bundle:*;
 		/*
@@ -27,9 +28,6 @@ package com.bedrock.framework.engine.view
 		*/
 		public function BedrockContentView()
 		{
-			this.properties = new Object;
-			this.assets = new HashMap;
-			this.bundle = new Object;
 			super();
 		}
 		
