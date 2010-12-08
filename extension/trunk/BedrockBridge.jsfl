@@ -481,7 +481,7 @@
 	function selectProjectFile()
 	{
 		var strLocation = fl.browseForFileURL("select", "Select a project.bedrock file");
-		if ( strLocation.indexOf( "project.bedrock" ) != -1 ) {
+		if ( strLocation != null && strLocation.indexOf( "project.bedrock" ) != -1 ) {
 			return strLocation;
 		} else {
 			return "";

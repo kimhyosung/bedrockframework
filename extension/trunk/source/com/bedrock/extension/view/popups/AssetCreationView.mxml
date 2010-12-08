@@ -16,7 +16,7 @@
             {
             	if ( this.idText.text != "" && this.idText.text != null ) {
 	            	var xmlNode:XML = ProjectController.getInstance().config.assets..assetGroup.( @id == this.assetGroupCombo.selectedLabel )[ 0 ];
-					xmlNode.appendChild( <asset id={ this.idText.text } type={ this.typeCombo.selectedLabel } path={ this.pathCombo.selectedLabel } url={ this.urlText.text } /> );
+					xmlNode.appendChild( <asset id={ this.idText.text } type={ this.typeCombo.selectedLabel } path={ this.pathCombo.selectedLabel } url={ this.urlText.text } priority={ this.priorityStepper.value } /> );
 	            	this.closePopup();
             	}
             }
