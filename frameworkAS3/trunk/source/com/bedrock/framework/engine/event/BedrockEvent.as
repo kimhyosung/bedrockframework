@@ -38,9 +38,9 @@
 		public static const SHOW_BLOCKER:String="BedrockEvent.onShowBlocker";
 		public static const HIDE_BLOCKER:String="BedrockEvent.onHideBlocker";
 		
-		public static const RESOURCE_BUNDLE_CHANGE:String="BedrockEvent.onResourceBundleChange";
-		public static const RESOURCE_BUNDLE_LOADED:String="BedrockEvent.onResourceBundleLoaded";
-		public static const RESOURCE_BUNDLE_ERROR:String="BedrockEvent.onResourceBundleError";
+		public static const DATA_BUNDLE_CHANGE:String="BedrockEvent.onDataBundleChange";
+		public static const DATA_BUNDLE_LOADED:String="BedrockEvent.onDataBundleLoaded";
+		public static const DATA_BUNDLE_ERROR:String="BedrockEvent.onDataBundleError";
 		
 		public static const LOCALE_CHANGE:String="BedrockEvent.onLocaleChange";
 		public static const LOCALE_LOADED:String="BedrockEvent.onLocaleLoaded";

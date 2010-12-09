@@ -1,4 +1,4 @@
-package com.bedrock.framework.engine.command
+﻿package com.bedrock.framework.engine.command
 {
 	import com.bedrock.framework.core.command.Command;
 	import com.bedrock.framework.core.command.ICommand;
@@ -20,7 +20,7 @@ package com.bedrock.framework.engine.command
 		public function execute($event:GenericEvent):void
 		{
 			for each( var assetGroup:BedrockAssetGroupData in BedrockEngine.assetManager.filterGroups( true, BedrockData.INITIAL_LOAD ) ) {
-				BedrockEngine.loadController.appendAssets( assetGroup.assets );
+				BedrockEngine.loadController.appendAssetGroup( assetGroup );
 			}
 			
 			for each( var data:BedrockContentData in BedrockEngine.contentManager.filterContents( true, BedrockData.INITIAL_LOAD ) ) {

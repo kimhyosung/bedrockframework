@@ -1,6 +1,7 @@
 ﻿package com.bedrock.framework.engine.api
 {
 	import com.bedrock.framework.engine.data.BedrockAssetData;
+	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
 	import com.bedrock.framework.engine.data.BedrockContentData;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	
@@ -16,7 +17,7 @@
 		function appendContent( $content:BedrockContentData ):void;
 		function disposeContent( $id:String ):void;
 		function appendAsset( $asset:BedrockAssetData ):void;
-		function appendAssets( $assets:Array ):void;
+		function appendAssetGroup( $assetGroup:BedrockAssetGroupData ):void;
 		/*
 		Getters
 		*/
