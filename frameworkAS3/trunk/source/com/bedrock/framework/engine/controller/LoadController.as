@@ -5,6 +5,7 @@
 	import com.bedrock.framework.engine.api.ILoadController;
 	import com.bedrock.framework.engine.builder.BedrockBuilder;
 	import com.bedrock.framework.engine.data.BedrockAssetData;
+	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
 	import com.bedrock.framework.engine.data.BedrockContentData;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.engine.event.BedrockEvent;
@@ -64,7 +65,7 @@
 			if ( !this.hasLoader( $content.id ) || ( this.hasLoader( $content.id ) && this.getLoader( $content.id ).status >= LoaderStatus.FAILED ) ) {
 				
 				if ( BedrockEngine.assetManager.hasGroup( $content.assetGroup ) ) {
-					this.appendAssets( BedrockEngine.assetManager.getGroup( $content.assetGroup ).assets );
+					this.appendAssetGroup( BedrockEngine.assetManager.getGroup( $content.assetGroup ) );
 				}
 				
 				LoaderMax.contentDisplayClass = BedrockContentDisplay;
@@ -121,10 +122,9 @@
 			return ( this.getLoader( $nameOrURL ) != null );
 		}
 		
-		public function appendAssets( $assets:Array ):void
+		public function appendAssetGroup( $assetGroup:BedrockAssetGroupData ):void
 		{
-			for each( var assetObj:BedrockAssetData in $assets ) {
-				
+			for each( var assetObj:BedrockAssetData in $assetGroup.assets ) {
 				this.appendAsset( assetObj );
 			}
 		}

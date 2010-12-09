@@ -214,12 +214,11 @@
 		*/
 		public function getProperties($property:String):Array
 		{
-			var numLength:int=this._data.length;
-			var arrReturn:Array=new Array;
-			for (var i:int=0; i < numLength; i++) {
-				arrReturn.push(this._data[i][$property]);
+			var result:Array = new Array;
+			for each ( var data:* in this._data ) {
+				result.push( data[ $property ] );
 			}
-			return arrReturn;
+			return result;
 		}
 		/*
 		Search: Returns array with results
