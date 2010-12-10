@@ -37,13 +37,12 @@
             {
             	switch( this.hierarchyControlBar.creationCombo.selectedItem.value ) {
             		case "content" :
-						this._contentCreationView.populate();
+						this._contentCreationView.populate( this.nodeTree.selectedItem as XML );
             			break;
             		case "contentGroup" :
 						this._contentGroupCreationView.populate();
             			break;
             	}
-            	this._resetInterface();
             }
             private function deleteNode():void
             {
@@ -56,7 +55,8 @@
 							this.deleteContentGroup();
             				break;
             		}
-	            	this._resetInterface();
+	            	ProjectController.getInstance().config.autoSaveConfig();
+	            	this.attributeEditor.clearForm();
             	}
             }
             
@@ -70,11 +70,6 @@
             /*
             Insterface Functions
             */
-            private function _resetInterface():void
-            {
-            	ProjectController.getInstance().config.autoSaveConfig();
-            	this._deselect();
-            }
             private function _deselect():void
 			{
 				this.nodeTree.selectedItem = null;
@@ -122,6 +117,6 @@
 		<misc:HierarchyControlBar creationOptions="{ ProjectController.getInstance().resources.getBundle( 'contentCreationOptions' ) }" id="hierarchyControlBar" createNode="this.createNode()" deleteNode="this.deleteNode()" deselectNode="this._deselect()" />
 	</mx:Panel>
 	
-	<misc:AttributeEditor id="attributeEditor" />
+	<misc:AttributeEditor id="attributeEditor" title="Editing : { this.nodeTree.selectedItem.@id }" />
 	
 </mx:HDividedBox>

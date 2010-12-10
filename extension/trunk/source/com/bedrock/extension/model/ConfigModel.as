@@ -34,6 +34,8 @@ package com.bedrock.extension.model
 		[Bindable]
 		public var containerArray:ArrayCollection;
 		[Bindable]
+		public var containerParentArray:ArrayCollection;
+		[Bindable]
 		public var containerHierarchy:HierarchicalData;
 		[Bindable]
 		public var contents:XMLList;
@@ -46,6 +48,8 @@ package com.bedrock.extension.model
 		[Bindable]
 		public var contentContainerArray:ArrayCollection;
 		[Bindable]
+		public var contentAssetGroupsArray:ArrayCollection;
+		[Bindable]
 		public var assets:XMLList;
 		[Bindable]
 		public var assetGroupsArray:ArrayCollection;
@@ -53,6 +57,8 @@ package com.bedrock.extension.model
 		public var assetHierarchy:HierarchicalData;
 		[Bindable]
 		public var environments:XMLList;
+		[Bindable]
+		public var environmentsArray:ArrayCollection;
 		[Bindable]
 		public var pathArray:ArrayCollection;
 		
@@ -90,6 +96,7 @@ package com.bedrock.extension.model
 			this.refreshAssetArrays();
 			this.refreshAssetHierarchy();
 			this.environments = this.configXML.environments;
+			this.refreshEnvironmentsArray();
 			this._storePaths();
 			
 			BedrockDispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.CONFIG_LOADED, this ) );
@@ -167,11 +174,13 @@ package com.bedrock.extension.model
 		*/
 		public function refreshAssetArrays():void
 		{
+			this.contentAssetGroupsArray = new ArrayCollection;
 			this.assetGroupsArray = new ArrayCollection;
-			this.assetGroupsArray.addItem( OptionData.NONE );
+			this.contentAssetGroupsArray.addItem( OptionData.NONE );
 			
 			var assetXML:XML;
 			for each( assetXML in this.assets.children() ) {
+				this.contentAssetGroupsArray.addItem( VariableUtil.sanitize( assetXML.@id ) );
 				this.assetGroupsArray.addItem( VariableUtil.sanitize( assetXML.@id ) );
 			}
 		}
@@ -196,15 +205,27 @@ package com.bedrock.extension.model
 		public function refreshContainerArray():void
 		{
 			this.containerArray = new ArrayCollection;
+			this.containerParentArray = new ArrayCollection;
 			this.containerArray.addItem( OptionData.NONE );
 			this.containerArray.addItem( OptionData.ROOT );
+			this.containerParentArray.addItem( OptionData.ROOT );
 			for each( var containerXML:XML in this.containers..container ) {
 				this.containerArray.addItem( VariableUtil.sanitize( containerXML.@id ) );
+				this.containerParentArray.addItem( VariableUtil.sanitize( containerXML.@id ) );
 			}
 		}
 		public function refreshContainerHierarchy():void
 		{
 			this.containerHierarchy = new HierarchicalData( this.containers.children() );
+		}
+		/*
+		*/
+		private function refreshEnvironmentsArray():void
+		{
+			this.environmentsArray = new ArrayCollection;
+			for each( var environmentXML:XML in this.environments..environment ) {
+				this.environmentsArray.addItem( VariableUtil.sanitize( environmentXML.@id ) );
+			}
 		}
 		/*
 		Paths

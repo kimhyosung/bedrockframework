@@ -24,6 +24,7 @@ package com.bedrock.extension.event
 		public static const CREATE_NODE:String = "createNode";
 		public static const DESELECT_NODE:String = "deselectNode";
 		public static const DELETE_NODE:String = "deleteNode";
+		public static const DUPLICATE_NODE:String = "duplicateNode";
 		
 		public static const CREATE:String = "create";
 		public static const CANCEL:String = "cancel";

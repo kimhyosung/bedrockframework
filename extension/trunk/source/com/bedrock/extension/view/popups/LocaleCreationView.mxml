@@ -18,7 +18,7 @@
 	               ProjectController.getInstance().config.locales.appendChild( <locale id={ this.idText.text } label={ this.labelText.text } /> );
 	               ProjectController.getInstance().config.autoSaveConfig();
 	            }
-	            this.closePopup();
+	            this.closePopup( true );
             }
 		]]>
 	</mx:Script>
@@ -33,6 +33,6 @@
 			</mx:FormItem>
 		</mx:Form>
 		
-		<misc:CreationControlBar cancel="this.closePopup()" create="this._create()"/>
+		<misc:CreationControlBar cancel="this.closePopup( false )" create="this._create()"/>
 	</mx:Panel>
 </GenericProjectPopupView>

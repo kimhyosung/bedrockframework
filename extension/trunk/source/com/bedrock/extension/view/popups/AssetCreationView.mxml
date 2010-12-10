@@ -2,22 +2,30 @@
 <GenericProjectPopupView xmlns="com.bedrock.extension.view.popups.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:misc="com.bedrock.extension.view.misc.*">
 	<mx:Script>
 		<![CDATA[
+			import com.bedrock.framework.plugin.util.ArrayUtil;
+			import com.bedrock.framework.core.logging.Logger;
 			import com.bedrock.extension.controller.ProjectController;
 			import mx.managers.PopUpManager;
 			
-			public function populate():void
+			public function populate( $selectedNode:XML ):void
 			{
 				this.idText.text = "";
+				this.assetGroupCombo.dataProvider = ProjectController.getInstance().config.assetGroupsArray;
+				if ( $selectedNode != null && $selectedNode.name() == "assetGroup" ) {
+					this.assetGroupCombo.selectedIndex = ArrayUtil.findIndex( ProjectController.getInstance().config.assetGroupsArray.source, $selectedNode.@id.toString() );
+				} else {
+					this.assetGroupCombo.selectedIndex = 0;
+				}
+				
 				this.showPopup();
 			}
-			
 			
 			private function _create():void
             {
             	if ( this.idText.text != "" && this.idText.text != null ) {
 	            	var xmlNode:XML = ProjectController.getInstance().config.assets..assetGroup.( @id == this.assetGroupCombo.selectedLabel )[ 0 ];
-					xmlNode.appendChild( <asset id={ this.idText.text } type={ this.typeCombo.selectedLabel } path={ this.pathCombo.selectedLabel } url={ this.urlText.text } priority={ this.priorityStepper.value } /> );
-	            	this.closePopup();
+					xmlNode.appendChild( <asset id={ this.idText.text } type={ this.typeCombo.selectedLabel } path={ this.pathCombo.selectedLabel } url={ this.urlText.text } /> );
+	            	this.closePopup( true );
             	}
             }
             
@@ -44,13 +52,10 @@
 			<mx:HRule width="100%"/>
 			
 			<mx:FormItem label="Group" width="100%" >
-				<mx:ComboBox id="assetGroupCombo" dataProvider="{ ProjectController.getInstance().config.assets..assetGroup }" labelField="@id"/>
-			</mx:FormItem>
-			<mx:FormItem label="Priority"  height="100%" horizontalAlign="center">
-				<mx:NumericStepper id="priorityStepper"  minimum="0" maximum="10" stepSize="1" value="0"/>
+				<mx:ComboBox id="assetGroupCombo" />
 			</mx:FormItem>
 		</mx:Form>
-		<misc:CreationControlBar cancel="this.closePopup()" create="this._create()"/>
+		<misc:CreationControlBar cancel="this.closePopup( false )" create="this._create()"/>
 		
 	</mx:Panel>
 </GenericProjectPopupView>

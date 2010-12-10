@@ -2,10 +2,10 @@
 <GenericExtensionPopupView xmlns="com.bedrock.extension.view.popups.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:misc="com.bedrock.extension.view.misc.*">
 	<mx:Script>
 		<![CDATA[
+			import com.bedrock.framework.plugin.util.VariableUtil;
 			import com.bedrock.extension.controller.ExtensionController;
 			import mx.managers.PopUpManager;
 			import com.bedrock.framework.plugin.util.ArrayUtil;
-			import com.bedrock.extras.util.VariableUtil;
 			import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
 			import mx.events.ListEvent;
 			import mx.events.ItemClickEvent;

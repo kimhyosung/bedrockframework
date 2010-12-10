@@ -27,13 +27,13 @@
 			private function createNode():void
             {
             	this._localeCreationView.populate();
-				this._resetInterface();
             }
             private function deleteNode():void
             {
             	if ( this.nodeTree.selectedIndex != -1 ) {
 					this._deleteLocale();
-					this._resetInterface();
+					ProjectController.getInstance().config.autoSaveConfig();
+					this.attributeEditor.clearForm();
             	}
             }
             /*
@@ -46,11 +46,6 @@
             /*
             Interface Functions
             */
-             private function _resetInterface():void
-			{
-				ProjectController.getInstance().config.autoSaveConfig();
-				this._deselect();
-			}
 			private function _deselect():void
 			{
 				this.nodeTree.selectedIndex = -1;
@@ -85,6 +80,6 @@
 		<misc:HierarchyControlBar creationOptions="{ ProjectController.getInstance().resources.getBundle( 'localeCreationOptions' ) }" id="hierarchyControlBar" createNode="this.createNode()" deleteNode="this.deleteNode()" deselectNode="this._deselect()" />
 	</mx:Panel>
 	
-	<misc:AttributeEditor id="attributeEditor" />
+	<misc:AttributeEditor id="attributeEditor" title="Editing : { this.nodeTree.selectedItem.@id }" />
 		
 </mx:HDividedBox>

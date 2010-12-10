@@ -62,19 +62,18 @@
             			this._environmentCreationView.populate();
             			break;
             		case "pattern" :
-            			this._patternCreationView.populate();
+            			this._patternCreationView.populate( this.nodeTree.selectedItem as XML );
             			break;
             		case "setting" :
-            			this._settingCreationView.populate();
+            			this._settingCreationView.populate( this.nodeTree.selectedItem as XML );
             			break;
             		case "path" :
-            			this._pathCreationView.populate();
+            			this._pathCreationView.populate( this.nodeTree.selectedItem as XML );
             			break;
             		case "variable" :
-            			this._variableCreationView.populate();
+            			this._variableCreationView.populate( this.nodeTree.selectedItem as XML );
             			break;
             	}
-            	this._resetInterface();
             }
             private function deleteNode():void
             {
@@ -96,7 +95,8 @@
             			this.deleteVariable();
             			break;
             		}
-	            	this._resetInterface();
+	            	ProjectController.getInstance().config.autoSaveConfig();
+	            	this.attributeEditor.clearForm();
             	}
             }
             /*
@@ -125,12 +125,6 @@
             /*
             Interface Functions
             */
-            private function _resetInterface():void
-			{
-				ProjectController.getInstance().config.autoSaveConfig();
-				this._deselect();
-				this._applyIcons();
-			}
 			private function _deselect():void
 			{
 				this.nodeTree.selectedItem = null;
@@ -189,6 +183,6 @@
 		<misc:HierarchyControlBar id="hierarchyControlBar" creationOptions="{ ProjectController.getInstance().resources.getBundle( 'environmentCreationOptions' ) }" createNode="this.createNode()" deleteNode="this.deleteNode()" deselectNode="this._deselect()" />
 	</mx:Panel>		
 	
-	<misc:AttributeEditor id="attributeEditor" />
+	<misc:AttributeEditor id="attributeEditor" title="Editing : { this.nodeTree.selectedItem.@id }" />
 		
 </mx:HDividedBox>

@@ -15,9 +15,8 @@
             	if ( this.idText.text != "" && this.idText.text != null ) {
 	            	var xmlContent:XML = new XML( <assetGroup id={ this.idText.text } initialLoad={ this.initialLoadCheck.selected } /> ); 
 	            	ProjectController.getInstance().config.assets.appendChild( xmlContent );
+	            	this.closePopup( true );
             	}
-            	
-            	this.closePopup();
             }
 			
 			
@@ -34,7 +33,7 @@
 			</mx:FormItem>
 		</mx:Form>
 		
-		<misc:CreationControlBar cancel="this.closePopup()" create="this._create()"/>
+		<misc:CreationControlBar cancel="this.closePopup( false )" create="this._create()"/>
 		
 	</mx:Panel>
 </GenericProjectPopupView>

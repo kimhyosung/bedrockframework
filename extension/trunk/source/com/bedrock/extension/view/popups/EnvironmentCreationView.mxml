@@ -12,11 +12,12 @@
 			private function _create():void
             {
             	if ( this.idText.text != "" ) {
-	            	var xml:XML = new XML( ProjectController.getInstance().config.environments.children().( @id == this.environmentCombo.selectedItem.@id ).toXMLString() );
-	            	xml.@id = this.idText.text;
-	            	ProjectController.getInstance().config.environments.appendChild( xml );
+	            	var environmentXML:XML = new XML( <environment id={ this.idText.text } /> );
+	            	environmentXML.appendChild( <pattern value={ this.patternText.text } /> );
 	            	
-	            	this.closePopup();
+	            	ProjectController.getInstance().config.environments.appendChild( environmentXML );
+	            	
+	            	this.closePopup( true );
             	}
             }
             
@@ -29,11 +30,12 @@
 			<mx:FormItem label="ID" width="100%" >
 				<mx:TextInput id="idText" />
 			</mx:FormItem>
-			<mx:FormItem label="Copy" width="100%" >
-				<mx:ComboBox id="environmentCombo" dataProvider="{ ProjectController.getInstance().config.environments..environment }" labelField="@id" />
+			<mx:HRule width="100%"/>
+			<mx:FormItem label="Pattern" width="100%" >
+				<mx:TextInput id="patternText" />
 			</mx:FormItem>
 		</mx:Form>
-		<misc:CreationControlBar cancel="this.closePopup()" create="this._create()"/>
+		<misc:CreationControlBar cancel="this.closePopup( false )" create="this._create()"/>
 	</mx:Panel>
 	
 </GenericProjectPopupView>

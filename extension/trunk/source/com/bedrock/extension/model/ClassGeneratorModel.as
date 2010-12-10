@@ -23,16 +23,16 @@ package com.bedrock.extension.model
 			this.projectXML = $project;
 			this.delegate = $delegate;
 			
-			this.createData();
+			this._createData();
 		}
 		/*
 		Creation Functions
 		*/
 		public function reset():void
 		{
-			this.data = new XML();
+			this._createData();
 		}
-		private function createData():void
+		private function _createData():void
 		{
 			this.data = new XML( <data openClasses="false"><files/></data>);
 			this.data.frameworkVersion = this.projectXML.frameworkVersion;

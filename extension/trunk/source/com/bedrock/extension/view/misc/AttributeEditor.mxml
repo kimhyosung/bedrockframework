@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" height="100%" title="Attribute Editor">
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" height="100%">
 	<mx:Script>
 		<![CDATA[
 			import com.bedrock.extension.event.ExtensionEvent;
@@ -32,7 +32,7 @@
 					for( var d:String in objData ) {
 						arrAttributes.addItem( { name:d.toString(), value:objData[d].toString() } );
 					}
-					arrAttributes.source.reverse();
+					arrAttributes.source.sortOn( "name" );
 					this.attributeGrid.dataProvider = arrAttributes;
 				} else {
 					this.attributeGrid.dataProvider = null;
