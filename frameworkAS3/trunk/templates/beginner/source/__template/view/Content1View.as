@@ -25,7 +25,7 @@
 		public function initialize($data:Object=null):void
 		{
 			this.status( "Initialize" );
-			this.label.text = this.properties.label;
+			this.label.text = this.data.label;
 			trace( this.assets.getValue( "test" ) );
 			this.initializeComplete();
 		}

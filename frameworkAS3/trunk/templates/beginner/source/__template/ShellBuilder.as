@@ -1,10 +1,7 @@
 ﻿package __template
 {
-	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
-	import com.bedrock.framework.engine.BedrockEngine;
 	import com.bedrock.framework.engine.api.IBedrockBuilder;
 	import com.bedrock.framework.engine.builder.BedrockBuilder;
-	import com.bedrock.framework.engine.event.BedrockEvent;
 	import com.bedrock.framework.plugin.view.IView;
 	import com.greensock.TweenLite;
 	
