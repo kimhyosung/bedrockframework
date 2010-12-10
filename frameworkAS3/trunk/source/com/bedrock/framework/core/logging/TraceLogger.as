@@ -1,5 +1,7 @@
-package com.bedrock.framework.core.logging
+﻿package com.bedrock.framework.core.logging
 {
+	import com.bedrock.framework.plugin.trigger.Trigger;
+	
 	import flash.utils.describeType;
 	
 	public class TraceLogger implements ILogger
@@ -14,65 +16,77 @@ package com.bedrock.framework.core.logging
 		public static const NULL:String = "null";
 		
 		private var _detailDepth:uint;
+		private var _trigger:Trigger;
 		/*
 		Constructor
 		*/
 		public function TraceLogger( $detailDepth:uint = 10 )
 		{
 			this._detailDepth = $detailDepth;
+			
+			this._trigger = new Trigger;
+			this._trigger.silenceLogging = true;
+			this._trigger.startStopwatch( 0.01 );
 		}
 		/*
 		Creation Functions
 		*/
 		public function log( $trace:*, $target:*, $category:int ):String
 		{
-			var strTrace:String = this.format( $trace, $target, $category );
+			var strTrace:String = this._format( $trace, $target, $category );
 			trace( strTrace );
-			return strTrace + "\n";
+			return strTrace;
 		}
 		
 		
 		
-		private function format( $trace:*, $target:*, $category:int ):String
+		private function _format( $trace:*, $target:*, $category:int ):String
 		{
-			var strTarget:String = ( $target != null ) ? this.getClassNameFormat( describeType( $target ).@name ) : "[Global] ";
+			var strTarget:String = ( $target != null ) ? this._getClassNameFormat( describeType( $target ).@name ) : "[Global] ";
 			var strCategory:String = this.getCategoryFormat( $category );
+			var strTime:String = this._getTimeStamp();
 			
 			if ( $trace != null ) {
 				switch( this.getType( describeType( $trace ).@name ) ) {
 					case TraceLogger.DYNAMIC :
 					case TraceLogger.STATIC :
 						if ( this._detailDepth > 0 ) {
-							return this.getComplexFormat( $trace, strTarget, strCategory );
+							return this._getComplexFormat( $trace, strTarget, strCategory, strTime );
 						} else {
-							return strTarget + strCategory + " : " + $trace.toString();
+							return strTarget + strCategory + strTime + ": " + $trace.toString();
 						}
 						break;
 					case TraceLogger.PRIMITIVE :
-						return strTarget + strCategory + " : " + $trace.toString();
+						return strTarget + strCategory + strTime + ": " + $trace.toString();
 						break;
 					case TraceLogger.DATA :
-						return strTarget + strCategory + " : " + $trace.toXMLString();
+						return strTarget + strCategory + strTime + ": " + $trace.toXMLString();
 						break;
 				}
 			} else {
-				return strTarget + strCategory + " : null";
+				return strTarget + strTime + strCategory + " : null";
 			}
 			
 			return new String;
 		}
 		
-		private function getComplexFormat( $object:*, $target:*, $category:String ):String
+		private function _getTimeStamp():String
+		{
+			var time:Object = this._trigger.elapsed;
+			return "[" + time.displayMinutes + ":" + time.displaySeconds + ":" + time.displayMilliseconds + "] ";
+		}
+		
+		private function _getComplexFormat( $object:*, $target:*, $category:String, $time:String ):String
 		{
 			var strReturn:String = new String;
-			strReturn += $target + ": " + $category + "\n";
+			strReturn += $target + $category + $time + "\n";
 			strReturn += ("------------------------------------------------" + "\n");
 			switch( this.getType( describeType( $object ).@name ) ) {
 				case TraceLogger.DYNAMIC :
-					strReturn += this.getDynamicFormat( $object, this._detailDepth );
+					strReturn += this._getDynamicFormat( $object, this._detailDepth );
 					break;
 				case TraceLogger.STATIC :
-					strReturn += this.getStaticFormat( $object, this._detailDepth );
+					strReturn += this._getStaticFormat( $object, this._detailDepth );
 					break;
 			}
 			
@@ -80,7 +94,7 @@ package com.bedrock.framework.core.logging
 		}
 		
 		
-		private function getDynamicFormat( $object:*, $detailLevel:uint = 3, $depth:uint = 0 ):String
+		private function _getDynamicFormat( $object:*, $detailLevel:uint = 3, $depth:uint = 0 ):String
 		{
 			var numDepth:uint = $depth += 1;
 			var objTrace:Object = $object;
@@ -95,14 +109,14 @@ package com.bedrock.framework.core.logging
 					
 					switch( this.getType( xmlDescription.@name ) ) {
 						case TraceLogger.DYNAMIC :
-							strReturn += this.getVariableFormat( xmlDescription.@name, t, objTrace[ t ], numDepth, "+") + this.getDynamicFormat( objTrace[ t ], $detailLevel, numDepth+1 );
+							strReturn += this._getVariableFormat( xmlDescription.@name, t, objTrace[ t ], numDepth, "+") + this._getDynamicFormat( objTrace[ t ], $detailLevel, numDepth+1 );
 							break;
 						case TraceLogger.STATIC :
-							strReturn += this.getVariableFormat( xmlDescription.@name, t, objTrace[ t ], numDepth, "+") + this.getStaticFormat( objTrace[ t ], $detailLevel, numDepth+1 );
+							strReturn += this._getVariableFormat( xmlDescription.@name, t, objTrace[ t ], numDepth, "+") + this._getStaticFormat( objTrace[ t ], $detailLevel, numDepth+1 );
 							break;
 						case TraceLogger.PRIMITIVE :
 						case TraceLogger.DATA :
-							strReturn += this.getVariableFormat( xmlDescription.@name, t, objTrace[ t ], numDepth );
+							strReturn += this._getVariableFormat( xmlDescription.@name, t, objTrace[ t ], numDepth );
 							break;
 					}
 					
@@ -111,7 +125,7 @@ package com.bedrock.framework.core.logging
 			return strReturn;
 		}
 		
-		private function getStaticFormat( $object:*, $detailLevel:uint = 3, $depth:uint = 0 ):String
+		private function _getStaticFormat( $object:*, $detailLevel:uint = 3, $depth:uint = 0 ):String
 		{
 			var numDepth:uint = $depth += 1;
 			var strReturn:String = new String;
@@ -123,14 +137,14 @@ package com.bedrock.framework.core.logging
 					
 					switch( this.getType( xmlVariable.@type ) ) {
 						case TraceLogger.DYNAMIC :
-							strReturn += this.getVariableFormat( xmlVariable.@type, xmlVariable.@name, $object[ xmlVariable.@name ], numDepth, "+") + this.getDynamicFormat( $object[ xmlVariable.@name ], $detailLevel, numDepth+1 );
+							strReturn += this._getVariableFormat( xmlVariable.@type, xmlVariable.@name, $object[ xmlVariable.@name ], numDepth, "+") + this._getDynamicFormat( $object[ xmlVariable.@name ], $detailLevel, numDepth+1 );
 							break;
 						case TraceLogger.STATIC :
-							strReturn += this.getVariableFormat( xmlVariable.@type, xmlVariable.@name, $object[ xmlVariable.@name ], numDepth, "+") + this.getStaticFormat( $object[ xmlVariable.@name ], $detailLevel, numDepth+1 );
+							strReturn += this._getVariableFormat( xmlVariable.@type, xmlVariable.@name, $object[ xmlVariable.@name ], numDepth, "+") + this._getStaticFormat( $object[ xmlVariable.@name ], $detailLevel, numDepth+1 );
 							break;
 						case TraceLogger.PRIMITIVE :
 						case TraceLogger.DATA :
-							strReturn += this.getVariableFormat( xmlVariable.@type, xmlVariable.@name, $object[ xmlVariable.@name ], numDepth );
+							strReturn += this._getVariableFormat( xmlVariable.@type, xmlVariable.@name, $object[ xmlVariable.@name ], numDepth );
 							break;
 					}
 					
@@ -141,7 +155,7 @@ package com.bedrock.framework.core.logging
 			return strReturn;
 		}
 		
-		private function getVariableFormat( $className:String, $variableName:String, $value:*, $depth:uint = 0, $prefix:String = "-"):String
+		private function _getVariableFormat( $className:String, $variableName:String, $value:*, $depth:uint = 0, $prefix:String = "-"):String
 		{
 			var strValue:String;
 			if ( $value is XML || $value is XMLList ) {
@@ -151,9 +165,9 @@ package com.bedrock.framework.core.logging
 			} else {
 				strValue = $value.toString();
 			}
-			return ( this.getTabs( $depth ) + $prefix + this.getClassNameFormat( $className ) + $variableName + " : " + strValue + "\n");
+			return ( this._getTabs( $depth ) + $prefix + this._getClassNameFormat( $className ) + $variableName + " : " + strValue + "\n");
 		}
-		private function getTabs( $count:uint ):String
+		private function _getTabs( $count:uint ):String
 		{
 			var strTabs:String = new String();
 			for (var i:int = 0 ; i < $count; i++) {
@@ -162,7 +176,7 @@ package com.bedrock.framework.core.logging
 			return strTabs
 		}
 		
-		private function getClassNameFormat( $name:String ):String
+		private function _getClassNameFormat( $name:String ):String
 		{
 			if ( $name.lastIndexOf( "::" ) != -1 ) {
 				return "[" + $name.substring( ( $name.lastIndexOf( "::" ) +2 ), $name.length ) + "] ";
@@ -173,7 +187,7 @@ package com.bedrock.framework.core.logging
 		
 		private function getCategoryFormat($category:int):String
 		{
-			return "[" + Logger.getCategoryLabel( $category ) + "]";
+			return "[" + Logger.getCategoryLabel( $category ) + "] ";
 		}
 		/*
 		Check whether argument is an object

@@ -45,15 +45,15 @@
 		{
 			var strMilliseconds:String=$milliseconds.toString();
 			if ($milliseconds < 10) {
-				strMilliseconds=TimeUtil.getZeros(2) + strMilliseconds;
+				strMilliseconds=TimeUtil.__getZeros(3) + strMilliseconds;
 			} else if ($milliseconds < 100) {
-				strMilliseconds=TimeUtil.getZeros(1) + strMilliseconds;
+				strMilliseconds=TimeUtil.__getZeros(2) + strMilliseconds;
 			} else if ($milliseconds < 1000) {
-				strMilliseconds=TimeUtil.getZeros(0) + strMilliseconds;
+				strMilliseconds=TimeUtil.__getZeros(1) + strMilliseconds;
 			}
-			return strMilliseconds;
+			return strMilliseconds.substring( 0, 2 );
 		}
-		private static function getZeros($total:Number = 0):String
+		private static function __getZeros($total:Number = 0):String
 		{
 			var strZeros:String = "";
 			var numLength:int = $total;
