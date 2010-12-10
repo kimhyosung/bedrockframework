@@ -2,9 +2,10 @@ package com.bedrock.extension.controller
 {
 	import com.bedrock.extension.delegate.JSFLDelegate;
 	import com.bedrock.extension.event.ExtensionEvent;
-	import com.bedrock.extras.util.VariableUtil;
 	import com.bedrock.framework.core.base.StandardBase;
 	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
+	import com.bedrock.framework.core.logging.Logger;
+	import com.bedrock.framework.plugin.util.VariableUtil;
 	
 	import mx.collections.HierarchicalData;
 
@@ -47,6 +48,7 @@ package com.bedrock.extension.controller
 				this.files = new XML( this.delegate.refreshProjectStructure( path, this.settingsXML.includeSubFoldersInProjectBrowser ) );
 				this.validateFLAs();
 				this.processFLAs( this.files );
+				BedrockDispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.SAVE_PROJECT, this ) );
 				
 				this.fileHierarchy = new HierarchicalData( new XMLList( this.files.children() ) );
 				BedrockDispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.PROJECT_REFRESH, this ) );

@@ -18,6 +18,8 @@
             private var RefreshIcon:Class;
             [Embed("assets/SaveIcon.png")]
             private var SaveIcon:Class;
+            [Embed("assets/DuplicateIcon.png")]
+            private var DuplicateIcon:Class;
             
 			private function _notify( $event:String ):void
 			{
@@ -34,6 +36,7 @@
 	<mx:Metadata>
         [Event(name="createNode", type="com.bedrock.extension.event.ExtensionEvent")]
         [Event(name="deselectNode", type="com.bedrock.extension.event.ExtensionEvent")]
+        [Event(name="duplicateNode", type="com.bedrock.extension.event.ExtensionEvent")]
         [Event(name="deleteNode", type="com.bedrock.extension.event.ExtensionEvent")]
     </mx:Metadata>
     <mx:Button click="ProjectController.getInstance().config.saveConfig()" id="saveConfigButton" icon="{ SaveIcon }" toolTip="Save Config"/>
@@ -42,6 +45,8 @@
 	<mx:Spacer width="100%"/>
     <mx:ComboBox id="creationCombo" dataProvider="{ this.creationOptions }" />
 	<mx:Button click="this._notify( 'createNode' )" id="nodeCreateButton" icon="{ CreateIcon }" toolTip="Create"/>
+    <!--<mx:VRule height="100%"/>
+	<mx:Button click="this._notify( 'duplicateNode' )" id="nodeDuplicateButton" icon="{ DuplicateIcon }" toolTip="Duplicate"/>-->
     <mx:VRule height="100%"/>
 	<mx:Button click="this._notify( 'deleteNode' )" id="nodeDeleteButton" icon="{ DeleteIcon }" toolTip="Delete"/>
 </mx:ControlBar>

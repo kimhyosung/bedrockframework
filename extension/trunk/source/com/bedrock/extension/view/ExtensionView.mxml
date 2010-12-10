@@ -2,9 +2,9 @@
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" creationComplete="this.bootup()" xmlns:view="com.bedrock.extension.view.*" xmlns:temp="com.bedrock.extension.project.view.temp.*" xmlns:extras="com.bedrock.extension.view.extras.*" xmlns:project="com.bedrock.extension.view.project.*">
 	<mx:Script>
 		<![CDATA[
+			import com.bedrock.framework.plugin.util.VariableUtil;
 			import com.bedrock.extension.view.popups.ExtensionSettingsView;
 			import mx.managers.PopUpManager;
-			import com.bedrock.extras.util.VariableUtil;
 			import com.bedrock.extension.event.ExtensionEvent;
 			import com.bedrock.extension.controller.ExtensionController;
 			import com.bedrock.extension.logging.JSFLLogger;

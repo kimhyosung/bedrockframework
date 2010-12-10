@@ -2,14 +2,22 @@
 <GenericProjectPopupView xmlns="com.bedrock.extension.view.popups.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:misc="com.bedrock.extension.view.misc.*">
 	<mx:Script>
 		<![CDATA[
+			import com.bedrock.framework.plugin.util.ArrayUtil;
 			import com.bedrock.extension.data.OptionData;
 			import com.bedrock.extension.controller.ProjectController;
 			import mx.managers.PopUpManager;
 			
-			public function populate():void
+			public function populate( $selectedNode:XML ):void
 			{
 				this.idText.text = "";
 				this.parentCombo.selectedIndex = 0;
+				
+				this.parentCombo.dataProvider = ProjectController.getInstance().config.containerParentArray;
+				if ( $selectedNode != null ) {
+					this.parentCombo.selectedIndex = ArrayUtil.findIndex( ProjectController.getInstance().config.containerParentArray.source, $selectedNode.@id.toString() );
+				} else {
+					this.parentCombo.selectedIndex = 0;
+				}
 				
 				this.showPopup();
 			}
@@ -24,9 +32,7 @@
 	            		var xmlParent:XML = ProjectController.getInstance().config.containers..container.( @id == this.parentCombo.selectedLabel )[ 0 ];
 	            		xmlParent.appendChild( containerXML );
             		}
-            		ProjectController.getInstance().config.autoSaveConfig();
-            		
-            		this.closePopup();
+            		this.closePopup( true );
            		 }
             }
 			
@@ -39,7 +45,7 @@
 				<mx:TextInput id="idText" restrict="a-z A-Z 0-9 _"/>
 			</mx:FormItem>
 			<mx:FormItem label="Parent" width="100%">
-				<mx:ComboBox id="parentCombo" dataProvider="{ ProjectController.getInstance().config.containerArray }" />
+				<mx:ComboBox id="parentCombo"  />
 			</mx:FormItem>
 			<mx:FormItem label="X">
 				<mx:TextInput id="xText" restrict="0-9." width="60" text="0"/>
@@ -49,7 +55,7 @@
 			</mx:FormItem>
 		</mx:Form>
 		
-		<misc:CreationControlBar cancel="this.closePopup()" create="this._create()"/>
+		<misc:CreationControlBar cancel="this.closePopup( false )" create="this._create()"/>
 		
 	</mx:Panel>
 </GenericProjectPopupView>

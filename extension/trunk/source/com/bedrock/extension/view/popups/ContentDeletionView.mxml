@@ -24,7 +24,7 @@
 				
 				BedrockDispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.DELETE_CONTENT_CONFIRMED, this, detailsXML ) );
 				
-				this.closePopup();
+				this.closePopup( true );
 			}
 			
 			
@@ -39,7 +39,7 @@
 			</mx:FormItem>
 		</mx:Form>
 		<mx:ControlBar>
-			<mx:Button label="Cancel" height="30" click="this.closePopup()"/>
+			<mx:Button label="Cancel" height="30" click="this.closePopup( false )"/>
 			<mx:Spacer width="100%"/>
 			<mx:Button label="Delete" height="30" click="this._deleteContent()"/>
 		</mx:ControlBar>

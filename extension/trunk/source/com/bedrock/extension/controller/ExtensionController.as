@@ -5,10 +5,10 @@ package com.bedrock.extension.controller
 	import com.bedrock.extension.model.*;
 	import com.bedrock.extension.view.popups.ProjectUpdateView;
 	import com.bedrock.extras.util.StringUtil;
-	import com.bedrock.extras.util.VariableUtil;
 	import com.bedrock.framework.core.base.StandardBase;
 	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
 	import com.bedrock.framework.plugin.util.ArrayUtil;
+	import com.bedrock.framework.plugin.util.VariableUtil;
 	
 	import flash.system.ApplicationDomain;
 	
@@ -249,6 +249,7 @@ package com.bedrock.extension.controller
 				this.configXML = new XML( this.delegate.openConfig( this.projectXML ) );
 				this.resourceXML = new XML( this.delegate.getSelectedResourceBundle( this.projectXML ) );
 				
+				this.moduleLoader.unloadModule();
 				this.moduleLoader.loadModule( this.delegate.getSelectedProjectPanelPath( this.projectXML ) );
 				
 				ProjectController.getInstance().initialize( this.resourceXML, this.settingsXML, this.projectXML, this.configXML );

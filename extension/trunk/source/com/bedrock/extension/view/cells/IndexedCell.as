@@ -1,16 +1,10 @@
 package com.bedrock.extension.view.cells
 {
 	
-	import com.bedrock.extension.controller.ProjectController;
-	import com.bedrock.extras.util.VariableUtil;
 	import com.bedrock.framework.engine.data.BedrockData;
-	import com.bedrock.framework.plugin.util.XMLUtil2;
+	import com.bedrock.framework.plugin.util.VariableUtil;
 	
-	import flash.events.Event;
-	
-	import mx.controls.CheckBox;
 	import mx.controls.listClasses.IListItemRenderer;
-	import mx.core.UIComponent;
 
 	public class IndexedCell extends GenericCheckBoxCell implements IListItemRenderer
 	{

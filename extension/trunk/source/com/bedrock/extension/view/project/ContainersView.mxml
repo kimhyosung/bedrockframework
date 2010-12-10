@@ -37,14 +37,14 @@
 			*/
             private function createNode():void
             {
-				this._containerCreationView.populate();
-            	this._resetInterface();
+				this._containerCreationView.populate( this.nodeTree.selectedItem as XML );
             }
             private function deleteNode():void
             {
             	if ( this.nodeTree.selectedIndex != -1 ) {
 	            	this._deleteContainer();
-	            	this._resetInterface();
+	            	ProjectController.getInstance().config.autoSaveConfig();
+	            	this.attributeEditor.clearForm();
             	}
             }
             /*
@@ -59,11 +59,6 @@
             /*
             Interface Functions
             */
-            private function _resetInterface():void
-            {
-            	ProjectController.getInstance().config.autoSaveConfig();
-            	this._deselect();
-            }
 			private function _deselect():void
 			{
 				this.nodeTree.selectedItem = null;
@@ -100,6 +95,6 @@
 		<misc:HierarchyControlBar id="hierarchyControlBar" creationOptions="{ ProjectController.getInstance().resources.getBundle( 'containerCreationOptions' ) }" createNode="this.createNode()" deleteNode="this.deleteNode()" deselectNode="this._deselect()" />
 	</mx:Panel>
 	
-	<misc:AttributeEditor id="attributeEditor" />
+	<misc:AttributeEditor id="attributeEditor" title="Editing : { this.nodeTree.selectedItem.@id }" />
 	
 </mx:HDividedBox>

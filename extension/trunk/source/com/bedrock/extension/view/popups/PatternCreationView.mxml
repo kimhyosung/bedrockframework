@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GenericProjectPopupView xmlns="com.bedrock.extension.view.popups.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:misc="com.bedrock.extension.view.misc.*">
+<GenericEnvironmentPopupView xmlns="com.bedrock.extension.view.popups.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:misc="com.bedrock.extension.view.misc.*">
 	<mx:Script>
 		<![CDATA[
 			import com.bedrock.extension.controller.ProjectController;
 			
-			public function populate():void
+			override public function populate( $selectedNode:XML ):void
 			{
+				super.populate( $selectedNode );
+				this.environmentCombo.dataProvider = ProjectController.getInstance().config.environmentsArray;
+				this.environmentCombo.selectedIndex = this.selectedEnvironment;
 				this.showPopup();
 			}
 			
 			private function _create():void
             {
-            	var xmlNode:XML = ProjectController.getInstance().config.environments..environment.( @id == this.environmentCombo.selectedLabel )[ 0 ];
-            	xmlNode.appendChild( <pattern value={ this.valueText.text } /> );
-            	
-            	this.closePopup();
+            	if ( this.valueText.text != "" ) {
+	            	var xmlNode:XML = ProjectController.getInstance().config.environments..environment.( @id == this.environmentCombo.selectedLabel )[ 0 ];
+	            	xmlNode.appendChild( <pattern value={ this.valueText.text } /> );
+	            	
+	            	this.closePopup( true );
+            	}
             }
 		]]>
 	</mx:Script>
@@ -26,10 +31,10 @@
 				<mx:TextInput id="valueText" />
 			</mx:FormItem>
 			<mx:FormItem label="Environment" width="100%" >
-				<mx:ComboBox id="environmentCombo" dataProvider="{ ProjectController.getInstance().config.environments..environment }" labelField="@id" />
+				<mx:ComboBox id="environmentCombo" />
 			</mx:FormItem>
 		</mx:Form>
-		<misc:CreationControlBar cancel="this.closePopup()" create="this._create()"/>
+		<misc:CreationControlBar cancel="this.closePopup( false )" create="this._create()"/>
 	</mx:Panel>
 	
-</GenericProjectPopupView>
+</GenericEnvironmentPopupView>

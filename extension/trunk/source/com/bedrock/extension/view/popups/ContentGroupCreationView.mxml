@@ -18,7 +18,7 @@
 	            	xmlContent.@initialTransition = this.initialTransitionCheck.selected;
 	            	
 	            	ProjectController.getInstance().config.contents.appendChild( xmlContent );
-	            	this.closePopup();
+	            	this.closePopup( true );
             	}
             }
 			
@@ -62,6 +62,6 @@
 			
 			
 		</mx:Form>
-		<misc:CreationControlBar cancel="this.closePopup()" create="this._create()"/>
+		<misc:CreationControlBar cancel="this.closePopup( false )" create="this._create()"/>
 	</mx:Panel>
 </GenericProjectPopupView>

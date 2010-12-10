@@ -5,7 +5,7 @@
 	function initializeBedrockPanel()
 	{
 		fl.outputPanel.clear();
-		fl.outputPanel.trace( "Bedrock Panel | Version 2.0" );
+		fl.outputPanel.trace( "Bedrock Panel | Version 2.0.0" );
 		fl.outputPanel.trace( "" );
 	}
 	function getConstants()
@@ -268,7 +268,6 @@
 				
 				objDocument.exportPublishProfile( project.publishProfilePath );
 				
-				objDocument.save();
 				if ( xmlFLA.@name != "shell" ) {
 					objDocument.exportSWF( getExportDestination( project.publishProfilePath, project.path ) );
 				} else {
@@ -519,7 +518,7 @@
 	}
 	function fileExists( $path )
 	{
-		FLfile.exists( unescape( $path ) );
+		return FLfile.exists( unescape( $path ) );
 	}
 	/*
 	Save Operations
