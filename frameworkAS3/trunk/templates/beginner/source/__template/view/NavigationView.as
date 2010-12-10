@@ -31,19 +31,19 @@
 		
 		public function initialize($data:Object=null):void
 		{
-			var data:ClonerData = new ClonerData;
-			data.clone = MenuButton;
-			data.autoSpacing = true;
-			data.direction = ClonerData.HORIZONTAL;
-			data.paddingX = 10;
-			data.total = BedrockEngine.contentManager.filterContents( true, "indexed" ).length;
+			var clonerData:ClonerData = new ClonerData;
+			clonerData.clone = MenuButton;
+			clonerData.autoSpacing = true;
+			clonerData.direction = ClonerData.HORIZONTAL;
+			clonerData.paddingX = 10;
+			clonerData.total = BedrockEngine.contentManager.filterContents( true, "indexed" ).length;
 			
 			this._cloner = new Cloner;
 			this._cloner.addEventListener( ClonerEvent.CREATE, this._onCloneCreate );
 			this.addChild( this._cloner );
 			this._cloner.x = 5;
 			this._cloner.y = 5;
-			this._cloner.initialize( data );
+			this._cloner.initialize( clonerData );
 			
 			this.initializeComplete();
 		}

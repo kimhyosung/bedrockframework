@@ -1,4 +1,4 @@
-package __template.view
+﻿package __template.view
 {
 	import com.bedrock.framework.engine.view.BedrockContentView;
 	import com.bedrock.framework.plugin.view.IView;
@@ -25,7 +25,7 @@ package __template.view
 		public function initialize($data:Object=null):void
 		{
 			this.status( "Initialize" );
-			this.label.text = this.properties.label;
+			this.label.text = this.data.label;
 			this.initializeComplete();
 		}
 		public function intro($data:Object=null):void
