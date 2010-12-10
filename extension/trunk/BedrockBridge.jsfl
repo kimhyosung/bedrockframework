@@ -5,7 +5,7 @@
 	function initializeBedrockPanel()
 	{
 		fl.outputPanel.clear();
-		fl.outputPanel.trace( "Bedrock Panel | Version 2.0.0" );
+		fl.outputPanel.trace( "Bedrock Panel | Version 2.0.1" );
 		fl.outputPanel.trace( "" );
 	}
 	function getConstants()
