@@ -147,16 +147,25 @@ package com.bedrock.framework.engine.model
 		{
 			var xmlResult:XML = this._settingValues.children().( @id == $id )[ 0 ];
 			if ( xmlResult != null ) {
-				xmlResult.children().( @id == $id )[ 0 ].@value = $value;
+				xmlResult.@value = $value;
 			} else if ( !$overrideOnly ) {
 				this._settingValues.appendChild( <setting id={$id} value={$value} /> );
+			}
+		}
+		public function savePathValue($id:String, $value:*, $overrideOnly:Boolean = false ):void
+		{
+			var xmlResult:XML = this._pathValues.children().( @id == $id )[ 0 ];
+			if ( xmlResult != null ) {
+				xmlResult.@value = $value;
+			} else if ( !$overrideOnly ) {
+				this._pathValues.appendChild( <path id={$id} value={$value} /> );
 			}
 		}
 		public function saveVariableValue($id:String, $value:*, $overrideOnly:Boolean = false ):void
 		{
 			var xmlResult:XML = this._variableValues.children().( @id == $id )[ 0 ];
 			if ( xmlResult != null ) {
-				xmlResult.children().( @id == $id )[ 0 ].@value = $value;
+				xmlResult.@value = $value;
 			} else if ( !$overrideOnly ) {
 				this._variableValues.appendChild( <variable id={$id} value={$value} /> );
 			}
@@ -166,15 +175,30 @@ package com.bedrock.framework.engine.model
 		*/
 		public function getSettingValue($id:String):*
 		{
-			return VariableUtil.sanitize( this._settingValues.children().( @id == $id )[ 0 ].@value );
+			try {
+				return VariableUtil.sanitize( this._settingValues.children().( @id == $id )[ 0 ].@value );
+			} catch ( $error:Error ) {
+				this.warning( "Setting \"" + $id + "\" not found!" );
+				return null;
+			}
 		}
 		public function getPathValue($id:String):*
 		{
-			return VariableUtil.sanitize( this._pathValues.children().( @id == $id )[ 0 ].@value );
+			try {
+				return VariableUtil.sanitize( this._pathValues.children().( @id == $id )[ 0 ].@value )
+			} catch ( $error:Error ) {
+				this.warning( "Path \"" + $id + "\" not found!" );
+				return null;
+			}
 		}
 		public function getVariableValue($id:String):*
 		{
-			return VariableUtil.sanitize( this._variableValues.children().( @id == $id )[ 0 ].@value );
+			try {
+				return VariableUtil.sanitize( this._variableValues.children().( @id == $id )[ 0 ].@value );
+			} catch ( $error:Error ) {
+				this.warning( "Variable \"" + $id + "\" not found!" );
+				return null;
+			}
 		}
 		
 		/*

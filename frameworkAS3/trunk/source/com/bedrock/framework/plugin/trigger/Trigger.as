@@ -38,7 +38,7 @@
 		*/
 		public function startTimer( $seconds:Number ):void
 		{
-			if (!this.timerRunning) {
+			if ( !this.timerRunning ) {
 				this.status("Start Timer");
 				this._timerID = setTimeout( this._timerTrigger, $seconds * 1000 );
 				this.dispatchEvent( new TriggerEvent( TriggerEvent.TIMER_START, this ) );
@@ -46,16 +46,17 @@
 		}
 		public function stopTimer():void
 		{
-			if (this.timerRunning) {
-				this.status("Stop Timer");
+			if ( this.timerRunning ) {
+				this.status( "Stop Timer" );
 				clearTimeout(this._timerID);
-				 this._timerID = -1;
+				this._timerID = -1;
 				this.dispatchEvent( new TriggerEvent(TriggerEvent.TIMER_STOP, this ) );
 			}
 		}
 		private function _timerTrigger():void
 		{
 			this.dispatchEvent( new TriggerEvent( TriggerEvent.TIMER_TRIGGER, this));
+			this.stopTimer();
 		}
 		/*
 		Interval

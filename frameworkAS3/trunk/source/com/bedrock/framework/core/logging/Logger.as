@@ -43,14 +43,14 @@ package com.bedrock.framework.core.logging
 		public static function initialize():void
 		{
 			Logger.__initialized = true;
-			Logger.createCategoryColors();
-			Logger.createCategoryLabels();
+			Logger.__createCategoryColors();
+			Logger.__createCategoryLabels();
 			Logger.traceLogger = new TraceLogger( Logger.detailDepth );
 			Logger.eventLogger = new EventLogger;
 			Logger.remoteLogger = new RemoteLogger;
 		}
 		
-		private static function createCategoryColors():void
+		private static function __createCategoryColors():void
 		{
 			Logger.__colors = new Dictionary;
 			Logger.__colors[ LogLevel.STATUS.toString() ] = 0x33cc33;
@@ -59,7 +59,7 @@ package com.bedrock.framework.core.logging
 			Logger.__colors[ LogLevel.ERROR.toString() ] = 0xcc0000;
 			Logger.__colors[ LogLevel.FATAL.toString() ] = 0xff00ff;
 		}
-		private static function createCategoryLabels():void
+		private static function __createCategoryLabels():void
 		{
 			Logger.__labels = new Dictionary;
 			Logger.__labels[ LogLevel.STATUS.toString() ] = "Status";
