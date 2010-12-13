@@ -14,6 +14,7 @@ package com.bedrock.framework.engine.api
 		*/
 		function addService($id:String, $service:ITrackingService):void;
 		function getService($id:String):*;
+		function hasService( $id:String ):Boolean;
 		/*
 		Property Definitions
 		*/

@@ -17,7 +17,7 @@ package com.bedrock.framework.engine.command
 		
 		public function execute($event:GenericEvent):void
 		{
-			var details:Object = new Object;
+			var details:Object = $event.details || new Object;k
 			if ( BedrockEngine.config.getSettingValue( BedrockData.DEEPLINKING_ENABLED ) && BedrockEngine.config.getSettingValue( BedrockData.DEEPLINK_CONTENT ) ) {
 				details.path = BedrockEngine.deeplinkingManager.getPath();
 			}

@@ -37,20 +37,22 @@
 		private function _createTrigger():void
 		{
 			this._trigger = new Trigger;
-			this._trigger.addEventListener( TriggerEvent.INTERVAL_TRIGGER, this._onTrack );
-			this._trigger.silenceLogging = true;
+			this._trigger.addEventListener( TriggerEvent.TIMER_TRIGGER, this._onTrack );
+			//this._trigger.silenceLogging = true;
 		}
 		/*
 		Run Tracking
 		*/
 		public function track($id:String, $details:Object):void
 		{
+			this.debug( "THE ID : " + $id );
+			this.debug( "IS TRACKING ENABLED?? : " + this.enabled );
 			if (this.enabled) {
 				var objService:Object = this.getService($id);
-				if (objService) {
+				if ( this.hasService( $id ) ) {
 					this._appendCall( $id, $details );
+					this._startDelay();
 				}
-				this._startDelay();
 			}
 		}
 		/*
@@ -64,6 +66,10 @@
 		{
 			return this._services.getValue($id);
 		}
+		public function hasService( $id:String ):Boolean
+		{
+			return this._services.containsKey( $id );
+		}
 		/*
 		Internal
 		*/
@@ -71,13 +77,17 @@
 		{
 			var objService:Object = this.getService($id);
 			if (objService) {
+				this.debug( "THE SERVICE IS :" );
+				this.debug( $details );
 				objService.track($details);
 			}
 		}
 		private function _startDelay():void
 		{
-			if (this._queue.length > 0) {
-				if ( !this._trigger.timerRunning ) {
+			if (this._queue.length > 0)
+			{
+				if ( !this._trigger.timerRunning )
+				{
 					this._trigger.startTimer( 0.3 );
 				}
 			}
@@ -89,9 +99,12 @@
 		private function _appendCall($id:String, $details:Object):void
 		{
 			this._queue.push({id:$id, details:$details});
+			this.debug( "APPENDED :" );
+			this.debug( this._queue );
 		}
 		private function _getNext():Object
 		{
+			this.debug( "GET NEXT CALLED!!" );
 			return this._queue.shift();
 		}
 		/*
@@ -99,8 +112,10 @@
 		*/
 		private function _onTrack($event:TriggerEvent):void
 		{
+			this.debug( "_onTrack" );
 			var objDetails:Object = this._getNext();
 			if (objDetails != null) {
+				this.debug( "EXECUTE!" );
 				this.execute(objDetails.id, objDetails.details);
 			}
 			this._startDelay()
