@@ -12,6 +12,8 @@
 	{
 		function initialize( $builder:*, $applicationDomain:ApplicationDomain ):void;
 		function load():void;
+		function pause():void;
+		function resume():void;
 		
 		function appendLoader( $loader:* ):void;
 		function appendContent( $content:BedrockContentData ):void;
@@ -38,5 +40,6 @@
 		function set applicationDomain( $applicationDomain:ApplicationDomain ):void;
 		function get applicationDomain():ApplicationDomain;
 		
+		function get empty():Boolean;
 	}
 }

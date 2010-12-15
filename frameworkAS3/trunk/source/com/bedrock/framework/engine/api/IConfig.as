@@ -16,6 +16,10 @@
 		function saveSettingValue( $id:String, $value:*, $overrideOnly:Boolean = false ):void;
 		function savePathValue($id:String, $value:*, $overrideOnly:Boolean = false ):void;
 		function saveVariableValue( $id:String, $value:*, $overrideOnly:Boolean = false ):void;
+		
+		function hasSettingValue($id:String):Boolean;
+		function hasPathValue($id:String):Boolean;
+		function hasVariableValue($id:String):Boolean;
 
 		function parseParams( $data:* ):void;
 		

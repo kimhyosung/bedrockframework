@@ -98,6 +98,7 @@
 			BedrockEngine.bedrock::transitionController = new TransitionController;
 			BedrockEngine.bedrock::resourceController = new ResourceController;
 			BedrockEngine.frontController = new FrontController;
+			BedrockEngine.data = BedrockData.getInstance();
 			
 			BedrockEngine.assetManager = new AssetManager;
 			BedrockEngine.containerManager = new ContainerManager;
@@ -136,8 +137,8 @@
 		}
 		private function _initializeFeatureGroupB():void
 		{
-			this._initializeVitals();
 			this._setupLogger();
+			this._initializeVitals();
 			this._prepareBlocker();
 			if ( BedrockEngine.config.getSettingValue(BedrockData.SHOW_PAGES_IN_CONTEXT_MENU ) ) this._setupContextMenu();
 			if ( BedrockEngine.config.getSettingValue(BedrockData.LOCALES_ENABLED ) ) this._setupLocales();
@@ -145,13 +146,13 @@
 			IBedrockBuilder( this.builder ).preinitialize();
 			BedrockEngine.bedrock::resourceController.queue( false );
 			
-			if ( BedrockEngine.config.getSettingValue(BedrockData.AUTO_PREPARE_INITIAL_LOAD ) ) {
+			if ( !BedrockEngine.data.autoPrepareInitialLoad && !BedrockEngine.data.autoPrepareInitialTransition ) {
+				BedrockEngine.bedrock::transitionController.runShellTransition();
+			} else if ( BedrockEngine.data.autoPrepareInitialLoad && !BedrockEngine.data.autoPrepareInitialTransition ) {
 				BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.PREPARE_INITIAL_LOAD, this ) );
-			}
-			if ( BedrockEngine.config.getSettingValue(BedrockData.AUTO_PREPARE_INITIAL_TRANSITION ) ) {
+				BedrockEngine.bedrock::transitionController.runShellTransition();
+			} else if ( BedrockEngine.data.autoPrepareInitialLoad && BedrockEngine.data.autoPrepareInitialTransition ) {
 				BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.PREPARE_INITIAL_TRANSITION, this ) );
-			} else {
-				BedrockEngine.loadController.load();
 			}
 			
 			this._initializeComplete();
@@ -176,19 +177,9 @@
 		}
 		private function _setupCommands():void
 		{
-			BedrockEngine.frontController.addCommand( BedrockEvent.INITIAL_TRANSITION, TransitionCommand );
-			BedrockEngine.frontController.addCommand( BedrockEvent.TRANSITION, TransitionCommand );
-			
 			BedrockEngine.frontController.addCommand( BedrockEvent.SHOW_BLOCKER, ShowBlockerCommand );
 			BedrockEngine.frontController.addCommand( BedrockEvent.HIDE_BLOCKER, HideBlockerCommand );
 
-			BedrockEngine.frontController.addCommand( BedrockEvent.PREPARE_INITIAL_LOAD, PrepareInitialLoadCommand );
-			BedrockEngine.frontController.addCommand( BedrockEvent.PREPARE_INITIAL_TRANSITION, PrepareInitialTransitionCommand );
-			
-			if ( BedrockEngine.config.getSettingValue( BedrockData.DEEPLINKING_ENABLED ) && BedrockEngine.config.getSettingValue( BedrockData.DEEPLINK_CONTENT ) ) {
-				BedrockEngine.frontController.addCommand( BedrockEvent.DEEPLINK_CHANGE, TransitionCommand );
-			}
-			
 			if ( BedrockEngine.config.getSettingValue( BedrockData.SHOW_BLOCKER_DURING_TRANSITIONS ) ) {
 				BedrockEngine.frontController.addCommand( BedrockEvent.TRANSITION_PREPARED, ShowBlockerCommand );
 				BedrockEngine.frontController.addCommand( BedrockEvent.TRANSITION_COMPLETE, HideBlockerCommand );

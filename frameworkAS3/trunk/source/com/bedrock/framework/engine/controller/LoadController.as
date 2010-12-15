@@ -30,6 +30,7 @@
 		private var _applicationDomain:ApplicationDomain;
 		private var _securityDomain:SecurityDomain;
 		private var _builder:BedrockBuilder;
+		private var _empty:Boolean;
 		/*
 		Constructor
 		*/	
@@ -47,15 +48,26 @@
 			this._loader.addEventListener( LoaderEvent.PROGRESS, this._onLoadProgress );
 			this._loader.addEventListener( LoaderEvent.ERROR, this._onLoadError );
 			this._loader.skipFailed = true;
+			
+			this._empty = true;
 		}
 		public function load():void
 		{
 			this._loader.load();
 		}
+		public function pause():void
+		{
+			this._loader.pause();
+		}
+		public function resume():void
+		{
+			this._loader.resume();
+		}
 		
 		public function appendLoader( $loader:* ):void
 		{
 			if ( $loader is LoaderItem ) {
+				this._empty = false;
 				this._loader.append( $loader );
 			}
 		}
@@ -82,6 +94,7 @@
 				}
 			}
 		}
+		
 		
 		private function _getContentLoader( $content:BedrockContentData ):LoaderItem
 		{
@@ -220,6 +233,7 @@
 		}
 		private function _onLoadComplete( $event:LoaderEvent ):void
 		{
+			this._empty = true;
 			this.dispatchEvent( new BedrockEvent( BedrockEvent.LOAD_COMPLETE, this ) );
 		}
 		private function _onLoadError( $event:LoaderEvent ):void
@@ -254,6 +268,11 @@
 		public function get applicationDomain():ApplicationDomain
 		{
 			return this._applicationDomain;	
+		}
+		
+		public function get empty():Boolean
+		{
+			return this._empty;	
 		}
 		
 	}

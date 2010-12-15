@@ -19,7 +19,7 @@
 			try {
 				Object( this.rawContent ).initialize( $data );
 			} catch( $error:Error ) {
-				Logger.warning( "Initialize Failed! Check for compile errors and make sure the content view extends BedrockContentView and implements IView.", this.rawContent );
+				trace( $error.getStackTrace() );
 			}
 		}
 		

@@ -10,17 +10,23 @@
 		public static const REVERSE:String = "reverse";
 		public static const CUSTOM:String = "custom";
 		public static const CROSS:String = "cross";
+
+		public static const INITIAL_LOAD:String = "initialLoad";
+		public static const INITIAL_TRANSITION:String = "initialTransition";
+		public static const STANDARD_TRANSITION:String = "initialTransition";
 		
 		public var style:String;
 		public var preloader:String;
 		public var preloaderTime:Number;
 		public var deeplink:String;
+		public var type:String;
 		private var _incoming:Array;
 		private var _outgoing:Array;
 		
 		
 		public function BedrockSequenceData()
 		{
+			this.type = BedrockSequenceData.STANDARD_TRANSITION;
 			this._incoming = new Array;
 			this._outgoing = new Array;
 			this.style = BedrockSequenceData.NORMAL;

@@ -30,7 +30,7 @@ package com.bedrock.framework.core.logging
 			this.request = new URLRequest();
 		}
 
-		public function log( $trace:*, $target:*, $category:int ):String
+		public function log( $trace:*, $data:LogData ):String
 		{
 			if (this.request.url != null) {
 				this.connection.load( this.request );

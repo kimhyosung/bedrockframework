@@ -13,6 +13,6 @@ package com.bedrock.framework.core.logging
 {
 	public interface ILogger
 	{
-		function log( $trace:*, $target:*, $category:int ):String;
+		function log( $trace:*, $data:LogData ):String;
 	}
 }

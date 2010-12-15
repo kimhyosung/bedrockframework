@@ -76,7 +76,7 @@
 		*/
 		private function _updatePreloader( $progress:uint ):void
 		{
-			this._preloader.displayProgress( $progress );
+			this._preloader.displayProgress( $progress / 100 );
 		}
 		private function _stopPreloader():void
 		{
@@ -116,7 +116,7 @@
 		*/
 		private function _onStopwatchTrigger( $event:TriggerEvent ):void
 		{
-			this._timerProgress = Math.round( (this._trigger.elapsedMilliseconds / this._timeInMilliseconds) * 100 );
+			this._timerProgress = Math.round( ( this._trigger.elapsedMilliseconds / this._timeInMilliseconds) * 100 );
 			this._updatePreloader( this._getPercentage() );
 		}
 		private function _onTimerTrigger($event:TriggerEvent):void
