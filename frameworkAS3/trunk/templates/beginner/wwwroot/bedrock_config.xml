@@ -28,7 +28,7 @@
     <setting id="stylesheetFilename" value="flash_style"/>
     <setting id="dataBundleFilename" value="data_bundle"/>
     <setting id="logDetailDepth" value="10"/>
-    <setting id="traceLogLevel" value="DEBUG"/>
+    <setting id="traceLogLevel" value="ALL"/>
     <setting id="eventLogLevel" value="WARNING"/>
     <setting id="remoteLogLevel" value="NONE"/>
     <setting id="monsterLogLevel" value="NONE"/>
