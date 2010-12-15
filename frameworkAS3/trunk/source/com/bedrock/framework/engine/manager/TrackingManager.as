@@ -92,7 +92,7 @@
 		}
 		private function _executeNext():void
 		{
-			if ( this._queue.length > 0 {
+			if ( this._queue.length > 0 ) {
 				var queueData:Object = this._queue.shift();
 				this._execute( queueData.id, queueData.details );
 				if ( this._queue.length > 0 ) this._startTimer();
