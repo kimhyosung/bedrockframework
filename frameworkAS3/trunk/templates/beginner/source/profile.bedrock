@@ -14,29 +14,29 @@
     <flashDefaultName>0</flashDefaultName>
     <projectorWinDefaultName>1</projectorWinDefaultName>
     <projectorMacDefaultName>1</projectorMacDefaultName>
-    <htmlDefaultName>1</htmlDefaultName>
+    <htmlDefaultName>0</htmlDefaultName>
     <gifDefaultName>1</gifDefaultName>
     <jpegDefaultName>1</jpegDefaultName>
     <pngDefaultName>1</pngDefaultName>
     <qtDefaultName>1</qtDefaultName>
     <rnwkDefaultName>1</rnwkDefaultName>
-    <flashFileName>../wwwroot/assets/swfs/fonts.swf</flashFileName>
-    <projectorWinFileName>fonts.exe</projectorWinFileName>
-    <projectorMacFileName>fonts.app</projectorMacFileName>
-    <htmlFileName>fonts.html</htmlFileName>
-    <gifFileName>fonts.gif</gifFileName>
-    <jpegFileName>fonts.jpg</jpegFileName>
-    <pngFileName>fonts.png</pngFileName>
-    <qtFileName>fonts.mov</qtFileName>
-    <rnwkFileName>fonts.smil</rnwkFileName>
+    <flashFileName>../wwwroot/assets/swfs/shell.swf</flashFileName>
+    <projectorWinFileName>shell.exe</projectorWinFileName>
+    <projectorMacFileName>shell.app</projectorMacFileName>
+    <htmlFileName>../wwwroot/shell.html</htmlFileName>
+    <gifFileName>shell.gif</gifFileName>
+    <jpegFileName>shell.jpg</jpegFileName>
+    <pngFileName>shell.png</pngFileName>
+    <qtFileName>shell.mov</qtFileName>
+    <rnwkFileName>shell.smil</rnwkFileName>
   </PublishFormatProperties>
   <PublishHtmlProperties enabled="true">
     <VersionDetectionIfAvailable>0</VersionDetectionIfAvailable>
     <VersionInfo>10,1,52,0;9,0,124,0;8,0,24,0;7,0,14,0;6,0,79,0;5,0,58,0;4,0,32,0;3,0,8,0;2,0,1,12;1,0,0,1;</VersionInfo>
     <UsingDefaultContentFilename>1</UsingDefaultContentFilename>
     <UsingDefaultAlternateFilename>1</UsingDefaultAlternateFilename>
-    <ContentFilename>fonts_content.html</ContentFilename>
-    <AlternateFilename>fonts_alternate.html</AlternateFilename>
+    <ContentFilename>shell_content.html</ContentFilename>
+    <AlternateFilename>shell_alternate.html</AlternateFilename>
     <UsingOwnAlternateFile>0</UsingOwnAlternateFile>
     <OwnAlternateFilename></OwnAlternateFilename>
     <Width>900</Width>
@@ -84,7 +84,7 @@
     <StreamUse8kSampleRate>0</StreamUse8kSampleRate>
     <EventUse8kSampleRate>0</EventUse8kSampleRate>
     <UseNetwork>0</UseNetwork>
-    <DocumentClass>__template.FontsBuilder</DocumentClass>
+    <DocumentClass>__template.ShellBuilder</DocumentClass>
     <AS3Strict>2</AS3Strict>
     <AS3Coach>4</AS3Coach>
     <AS3AutoDeclare>0</AS3AutoDeclare>
@@ -93,16 +93,20 @@
     <AS3Optimize>1</AS3Optimize>
     <ExportSwc>0</ExportSwc>
     <ScriptStuckDelay>15</ScriptStuckDelay>
-    <IncludeXMP>1</IncludeXMP>
+    <IncludeXMP>0</IncludeXMP>
     <HardwareAcceleration>0</HardwareAcceleration>
     <AS3Flags>6</AS3Flags>
     <DefaultLibraryLinkage>rsl</DefaultLibraryLinkage>
     <RSLPreloaderMethod>wrap</RSLPreloaderMethod>
-    <RSLPreloaderSWF></RSLPreloaderSWF>
+    <RSLPreloaderSWF>$(AppConfig)/ActionScript 3.0/rsls/loader_animation.swf</RSLPreloaderSWF>
     <LibraryPath>
       <library-path-entry>
         <swc-path>$(AppConfig)/ActionScript 3.0/libs</swc-path>
         <linkage>merge</linkage>
+      </library-path-entry>
+      <library-path-entry>
+        <swc-path>.</swc-path>
+        <linkage>external</linkage>
       </library-path-entry>
       <library-path-entry>
         <swc-path>$(AppConfig)/ActionScript 3.0/libs/11.0/textLayout.swc</swc-path>

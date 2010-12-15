@@ -28,7 +28,7 @@
     <setting id="stylesheetFilename" value="flash_style"/>
     <setting id="dataBundleFilename" value="data_bundle"/>
     <setting id="logDetailDepth" value="10"/>
-    <setting id="traceLogLevel" value="ALL"/>
+    <setting id="traceLogLevel" value="DEBUG"/>
     <setting id="eventLogLevel" value="WARNING"/>
     <setting id="remoteLogLevel" value="NONE"/>
     <setting id="monsterLogLevel" value="NONE"/>
@@ -36,7 +36,7 @@
     <setting id="errorsEnabled" value="true"/>
   </settings>
   <contents>
-    <content id="content1" container="container1" indexed="true" initialTransition="true" label="Content 1" priority="0" deeplink="" assetGroup="content1" initialLoad="true" autoDispose="true" autoDisposeAssets="true"/>
+    <content id="content1" container="container1" indexed="true" initialTransition="true" label="Content 1" priority="0" deeplink="" assetGroup="content1" initialLoad="true" autoDispose="false" autoDisposeAssets="false"/>
     <content id="content2" container="container2" indexed="true" initialTransition="false" label="Content 2" priority="0" deeplink="" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false"/>
     <contentGroup id="nested" indexed="true" initialTransition="false" label="Content Group 1" priority="5" deeplink="" initialLoad="false">
       <content id="content3" container="container1" indexed="false" initialTransition="false" label="Content 3" priority="0" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false"/>
