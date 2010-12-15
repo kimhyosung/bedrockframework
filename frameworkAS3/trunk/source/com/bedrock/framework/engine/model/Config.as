@@ -14,9 +14,9 @@ package com.bedrock.framework.engine.model
 	import com.bedrock.framework.core.base.StandardBase;
 	import com.bedrock.framework.engine.api.IConfig;
 	import com.bedrock.framework.engine.data.BedrockData;
+	import com.bedrock.framework.plugin.util.VariableUtil;
 	
 	import flash.system.Capabilities;
-	import com.bedrock.framework.plugin.util.VariableUtil;
 	
 	public class Config extends StandardBase implements IConfig
 	{
@@ -62,9 +62,9 @@ package com.bedrock.framework.engine.model
 		
 		private function parseXML($data:String):void
 		{
-			this._settingValues = this.getAsXML( this._xmlConfig.settings..setting );
-			this._pathValues = this.getAsXML( this._xmlConfig.settings..path );
-			this._variableValues = this.getAsXML( this._xmlConfig.settings..variable );
+			this._settingValues = this._getAsXML( this._xmlConfig.settings..setting );
+			this._pathValues = this._getAsXML( this._xmlConfig.settings..path );
+			this._variableValues = this._getAsXML( this._xmlConfig.settings..variable );
 			
 			this._contentValues = new XML( this._xmlConfig.contents );
 			this._assetValues = new XML( this._xmlConfig.assets );
@@ -200,11 +200,29 @@ package com.bedrock.framework.engine.model
 				return null;
 			}
 		}
+		/*
+		Has Functions
+		*/
+		public function hasSettingValue($id:String):Boolean
+		{
+			var xmlResult:XML = this._settingValues.children().( @id == $id )[ 0 ];
+			return ( xmlResult != null );
+		}
+		public function hasPathValue($id:String):Boolean
+		{
+			var xmlResult:XML = this._pathValues.children().( @id == $id )[ 0 ];
+			return ( xmlResult != null );
+		}
+		public function hasVariableValue($id:String):Boolean
+		{
+			var xmlResult:XML = this._variableValues.children().( @id == $id )[ 0 ];
+			return ( xmlResult != null );
+		}
 		
 		/*
 		Internal Functions
 		*/
-		private function getAsXML( $list:XMLList ):XML
+		private function _getAsXML( $list:XMLList ):XML
 		{
 			var xmlData:XML = new XML( <data/> );
 			xmlData.appendChild( $list );

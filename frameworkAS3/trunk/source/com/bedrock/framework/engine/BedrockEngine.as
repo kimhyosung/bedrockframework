@@ -2,8 +2,9 @@
 {
 	import com.bedrock.framework.core.base.StandardBase;
 	import com.bedrock.framework.core.controller.IFrontController;
-	import com.bedrock.framework.core.logging.Logger;
 	import com.bedrock.framework.engine.api.*;
+	import com.bedrock.framework.engine.controller.TransitionController;
+	import com.bedrock.framework.engine.data.BedrockData;
 
 	public class BedrockEngine extends StandardBase
 	{
@@ -12,7 +13,9 @@
 	 	*/
 		public static var available:Boolean = false;
 		
-		bedrock static var transitionController:ITransitionController;
+		public static var data:BedrockData;
+		bedrock static var transitionController:TransitionController;
+		//bedrock static var sequenceController:SequenceController;
 		bedrock static var resourceController:IResourceController;
 		public static var frontController:IFrontController;
 		public static var loadController:ILoadController;
@@ -34,10 +37,5 @@
 		
 		public static var config:IConfig;
 		public static var history:IHistory;
-		/*
-		Constructor
-	 	*/
-	 	Logger.status( "Initialized", BedrockEngine );
-		
 	}
 }

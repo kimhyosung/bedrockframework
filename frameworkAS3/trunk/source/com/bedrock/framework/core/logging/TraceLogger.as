@@ -1,7 +1,5 @@
 ﻿package com.bedrock.framework.core.logging
 {
-	import com.bedrock.framework.plugin.trigger.Trigger;
-	
 	import flash.utils.describeType;
 	
 	public class TraceLogger implements ILogger
@@ -16,7 +14,8 @@
 		public static const NULL:String = "null";
 		
 		private var _detailDepth:uint;
-		private var _trigger:Trigger;
+		
+		public var data:LogData;
 		/*
 		Constructor
 		*/
@@ -24,16 +23,14 @@
 		{
 			this._detailDepth = $detailDepth;
 			
-			this._trigger = new Trigger;
-			this._trigger.silenceLogging = true;
-			this._trigger.startStopwatch( 0.01 );
 		}
 		/*
 		Creation Functions
 		*/
-		public function log( $trace:*, $target:*, $category:int ):String
+		public function log( $trace:*, $data:LogData ):String
 		{
-			var strTrace:String = this._format( $trace, $target, $category );
+			this.data = $data;
+			var strTrace:String = this._format( $trace, null, $data.category );
 			trace( strTrace );
 			return strTrace;
 		}
@@ -42,46 +39,37 @@
 		
 		private function _format( $trace:*, $target:*, $category:int ):String
 		{
-			var strTarget:String = ( $target != null ) ? this._getClassNameFormat( describeType( $target ).@name ) : "[Global] ";
-			var strCategory:String = this.getCategoryFormat( $category );
-			var strTime:String = this._getTimeStamp();
-			
 			if ( $trace != null ) {
-				switch( this.getType( describeType( $trace ).@name ) ) {
+				switch( this._getType( describeType( $trace ).@name ) ) {
 					case TraceLogger.DYNAMIC :
 					case TraceLogger.STATIC :
 						if ( this._detailDepth > 0 ) {
-							return this._getComplexFormat( $trace, strTarget, strCategory, strTime );
+							return this._getComplexFormat( $trace, this.data.detailMedium, this.data.categoryLabel, this.data.timeStamp );
 						} else {
-							return strTarget + strCategory + strTime + ": " + $trace.toString();
+							return this.data.detailMedium + this.data.categoryLabel + this.data.timeStamp + ": " + $trace.toString();
 						}
 						break;
 					case TraceLogger.PRIMITIVE :
-						return strTarget + strCategory + strTime + ": " + $trace.toString();
+						return this.data.detailMedium + this.data.categoryLabel + this.data.timeStamp + ": " + $trace.toString();
 						break;
 					case TraceLogger.DATA :
-						return strTarget + strCategory + strTime + ": " + $trace.toXMLString();
+						return this.data.detailMedium + this.data.categoryLabel + this.data.timeStamp + ": " + $trace.toXMLString();
 						break;
 				}
 			} else {
-				return strTarget + strTime + strCategory + " : null";
+				return this.data.detailMedium + this.data.timeStamp + this.data.categoryLabel + " : null";
 			}
 			
 			return new String;
 		}
 		
-		private function _getTimeStamp():String
-		{
-			var time:Object = this._trigger.elapsed;
-			return "[" + time.displayMinutes + ":" + time.displaySeconds + ":" + time.displayMilliseconds + "] ";
-		}
 		
 		private function _getComplexFormat( $object:*, $target:*, $category:String, $time:String ):String
 		{
 			var strReturn:String = new String;
 			strReturn += $target + $category + $time + "\n";
 			strReturn += ("------------------------------------------------" + "\n");
-			switch( this.getType( describeType( $object ).@name ) ) {
+			switch( this._getType( describeType( $object ).@name ) ) {
 				case TraceLogger.DYNAMIC :
 					strReturn += this._getDynamicFormat( $object, this._detailDepth );
 					break;
@@ -107,7 +95,7 @@
 					
 					xmlDescription = describeType( objTrace[ t ] );
 					
-					switch( this.getType( xmlDescription.@name ) ) {
+					switch( this._getType( xmlDescription.@name ) ) {
 						case TraceLogger.DYNAMIC :
 							strReturn += this._getVariableFormat( xmlDescription.@name, t, objTrace[ t ], numDepth, "+") + this._getDynamicFormat( objTrace[ t ], $detailLevel, numDepth+1 );
 							break;
@@ -135,16 +123,16 @@
 				var xmlDescription:*= describeType( $object );
 				for each( var xmlVariable:* in xmlDescription..variable ) {
 					
-					switch( this.getType( xmlVariable.@type ) ) {
+					switch( this._getType( xmlVariable.@type ) ) {
 						case TraceLogger.DYNAMIC :
-							strReturn += this._getVariableFormat( xmlVariable.@type, xmlVariable.@name, $object[ xmlVariable.@name ], numDepth, "+") + this._getDynamicFormat( $object[ xmlVariable.@name ], $detailLevel, numDepth+1 );
+							strReturn += this._getVariableFormat( xmlVariable.@type, xmlVariable.@name, $object[ xmlVariable.@name.toString() ], numDepth, "+") + this._getDynamicFormat( $object[ xmlVariable.@name.toString() ], $detailLevel, numDepth+1 );
 							break;
 						case TraceLogger.STATIC :
-							strReturn += this._getVariableFormat( xmlVariable.@type, xmlVariable.@name, $object[ xmlVariable.@name ], numDepth, "+") + this._getStaticFormat( $object[ xmlVariable.@name ], $detailLevel, numDepth+1 );
+							strReturn += this._getVariableFormat( xmlVariable.@type, xmlVariable.@name, $object[ xmlVariable.@name.toString() ], numDepth, "+") + this._getStaticFormat( $object[ xmlVariable.@name.toString() ], $detailLevel, numDepth+1 );
 							break;
 						case TraceLogger.PRIMITIVE :
 						case TraceLogger.DATA :
-							strReturn += this._getVariableFormat( xmlVariable.@type, xmlVariable.@name, $object[ xmlVariable.@name ], numDepth );
+							strReturn += this._getVariableFormat( xmlVariable.@type, xmlVariable.@name, $object[ xmlVariable.@name.toString() ], numDepth );
 							break;
 					}
 					
@@ -187,12 +175,12 @@
 		
 		private function getCategoryFormat($category:int):String
 		{
-			return "[" + Logger.getCategoryLabel( $category ) + "] ";
+			return "[" + "BLAH" + "] ";
 		}
 		/*
 		Check whether argument is an object
 	 	*/
-		private function getType( $name:String ):String
+		private function _getType( $name:String ):String
 		{
 			if ( $name == "Array" || $name == "Object" ) {
 				return TraceLogger.DYNAMIC;

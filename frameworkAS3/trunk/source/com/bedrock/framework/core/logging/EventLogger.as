@@ -12,9 +12,9 @@
 package com.bedrock.framework.core.logging
 {
 	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
+	import com.bedrock.framework.core.event.LogEvent;
 	
 	import flash.utils.Dictionary;
-	import com.bedrock.framework.core.event.LogEvent;
 
 	public class EventLogger implements ILogger
 	{
@@ -36,9 +36,9 @@ package com.bedrock.framework.core.logging
 		}
 		
 		
-		public function log( $trace:*, $target:*, $category:int ):String
+		public function log( $trace:*, $data:LogData ):String
 		{
-			BedrockDispatcher.dispatchEvent( new LogEvent( this._categoryDictionary[ $category.toString() ], $target || this, $trace ) );
+			BedrockDispatcher.dispatchEvent( new LogEvent( this._categoryDictionary[ $data.category ], this, $data ) );
 			return null;
 		}
 		

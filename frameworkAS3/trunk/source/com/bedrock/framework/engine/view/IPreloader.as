@@ -15,6 +15,6 @@ package com.bedrock.framework.engine.view
 	
 	public interface IPreloader extends IView
 	{
-		function displayProgress( $value:uint ):void;
+		function displayProgress( $value:Number ):void;
 	}
 }

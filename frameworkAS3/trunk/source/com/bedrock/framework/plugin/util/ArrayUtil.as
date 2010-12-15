@@ -154,6 +154,7 @@
 			}
 			return arrResults;
 		}
+		
 		/*
 		Search for and remove an item from an array
 		*/

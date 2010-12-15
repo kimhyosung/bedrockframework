@@ -43,7 +43,7 @@ package com.bedrock.framework.core.base
 	 	*/
 		private function log( $trace:*, $category:int ):String
 		{
-			return Logger.log( $trace, this, $category );
+			return Logger.log( $trace, $category );
 		}
 		public function status($trace:*):String
 		{

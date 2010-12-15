@@ -33,7 +33,6 @@
 				contentData = new BedrockContentData( XMLUtil2.getAttributesAsObject( contentXML ) );
 				this.addContent( contentData );
 			}
-			
 			var contentGroupData:BedrockContentGroupData;
 			var subContentData:BedrockContentData;
 			for each ( var contentGroupXML:XML in $data..contentGroup ) {

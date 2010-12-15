@@ -20,7 +20,7 @@ package com.bedrock.framework.core.base
 	{
 		public function StaticBase()
 		{
-			Logger.error( this, "Cannot Instantiate static class!" );
+			throw new Error( "Cannot Instantiate static class!" );
 		}
 	}
 }
