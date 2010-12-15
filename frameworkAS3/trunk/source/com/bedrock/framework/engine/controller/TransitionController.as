@@ -29,6 +29,7 @@
 		private var _shellView:*;
 		private var _preloader:IPreloader;
 		private var _initialTransitionComplete:Boolean;
+		private var _initialLoadPrepared:Boolean;
 		/*
 		Constructor
 		*/
@@ -41,6 +42,7 @@
 		public function initialize( $shellView:* ):void
 		{
 			this._initialTransitionComplete = false;
+			this._initialLoadPrepared = false;
 			
 			this._shellView = $shellView;
 			
@@ -59,8 +61,9 @@
 		/*
 		Initial Run Functions
 		*/
-		public function _prepareInitialLoad():void
+		private function _prepareInitialLoad():void
 		{
+			this._initialLoadPrepared = true;
 			for each( var assetGroup:BedrockAssetGroupData in BedrockEngine.assetManager.filterGroups( true, BedrockData.INITIAL_LOAD ) ) {
 				BedrockEngine.loadController.appendAssetGroup( assetGroup );
 			}
@@ -294,7 +297,7 @@
 					if ( !BedrockEngine.loadController.empty ) {
 						this._viewSequenceData.append( [ new ViewFlowData( this._preloader, ViewFlowData.ROUND_TRIP ) ] );
 					} else {
-						this._loadComplete();
+						this._prepareIncomingContent();
 					}
 					if ( !this._initialTransitionComplete ) {
 						this._viewSequenceData.append( [ new ViewFlowData( this._shellView, ViewFlowData.INCOMING ) ] );
@@ -306,7 +309,7 @@
 					if ( !BedrockEngine.loadController.empty ) {
 						this._viewSequenceData.append( [ new ViewFlowData( this._preloader, ViewFlowData.ROUND_TRIP ) ] );
 					} else {
-						this._loadComplete();
+						this._prepareIncomingContent();
 					}
 					this._appendFlows( this._bedrockSequenceData.outgoing, ViewFlowData.OUTGOING );
 					this._appendFlows( this._bedrockSequenceData.incoming, ViewFlowData.INCOMING );
@@ -316,7 +319,7 @@
 					if ( !BedrockEngine.loadController.empty ) {
 						this._viewSequenceData.append( [ new ViewFlowData( this._preloader, ViewFlowData.ROUND_TRIP ) ] );
 					} else {
-						this._loadComplete();
+						this._prepareIncomingContent();
 					}
 					this._appendFlows( this._bedrockSequenceData.incoming, ViewFlowData.INCOMING );
 					this._appendFlows( this._bedrockSequenceData.outgoing, ViewFlowData.OUTGOING );
@@ -356,6 +359,8 @@
 		
 		private function _prepareIncomingContent():void
 		{
+			if ( !this._initialTransitionComplete ) this._collectShellExtras();
+			
 			for each( var queue:Array in this._bedrockSequenceData.incoming ) {
 				for each( var data:BedrockContentData in queue ) {
 					if ( data is BedrockContentGroupData ) {
@@ -421,12 +426,6 @@
 			}
 		}
 		
-		private function _loadComplete():void
-		{
-			if ( !this._initialTransitionComplete ) this._collectShellExtras();
-			this._prepareIncomingContent();
-			BedrockEngine.bedrock::preloadManager.loadComplete();
-		}
 		/*
 		Event Handlers
 		*/
@@ -443,7 +442,8 @@
 		
 		private function _onLoadComplete($event:BedrockEvent):void
 		{
-			this._loadComplete();
+			this._prepareIncomingContent();
+			BedrockEngine.bedrock::preloadManager.loadComplete();
 		}
 		private function _onLoadProgress($event:BedrockEvent):void
 		{
