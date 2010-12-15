@@ -152,6 +152,7 @@
 				BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.PREPARE_INITIAL_LOAD, this ) );
 				BedrockEngine.bedrock::transitionController.runShellTransition();
 			} else if ( BedrockEngine.data.autoPrepareInitialLoad && BedrockEngine.data.autoPrepareInitialTransition ) {
+				BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.PREPARE_INITIAL_LOAD, this ) );
 				BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.PREPARE_INITIAL_TRANSITION, this ) );
 			}
 			
