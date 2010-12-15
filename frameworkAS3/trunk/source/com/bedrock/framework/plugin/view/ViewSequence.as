@@ -134,6 +134,7 @@ class ViewProxy extends DispatcherBase
 				this.data.view.clear();
 				break;
 			case ViewFlowData.HOLD :
+				this.flow.selectNext();
 				break;
 		}
 	}
