@@ -1,4 +1,4 @@
-package __template.view
+﻿package __template.view
 {
 	import com.bedrock.framework.engine.view.BedrockContentView;
 	import com.bedrock.framework.engine.view.IPreloader;
@@ -36,9 +36,9 @@ package __template.view
 			TweenLite.to(this, 1, { alpha:0, onComplete:this.outroComplete } );
 			//this.outroComplete();
 		}
-		public function displayProgress( $value:uint ):void
+		public function displayProgress( $value:Number ):void
 		{
-			this.display.text= $value + " %";
+			this.display.text= ( $value * 100 ) + " %";
 		}
 		public function clear():void
 		{
