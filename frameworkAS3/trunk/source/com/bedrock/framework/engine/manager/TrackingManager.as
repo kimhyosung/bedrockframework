@@ -37,7 +37,7 @@
 		private function _createTrigger():void
 		{
 			this._trigger = new Trigger;
-			this._trigger.addEventListener( TriggerEvent.TIMER_TRIGGER, this._onTrack );
+			this._trigger.addEventListener( TriggerEvent.TIMER_TRIGGER, this._onTrackTimer );
 			this._trigger.silenceLogging = true;
 		}
 		/*
@@ -45,10 +45,10 @@
 		*/
 		public function track($id:String, $details:Object):void
 		{
-			if (this.enabled) {
+			if ( this.enabled ) {
 				if ( this.hasService( $id ) ) {
 					this._appendCall( $id, $details );
-					this._startDelay();
+					this._executeNext();
 				}
 			}
 		}
@@ -70,18 +70,16 @@
 		/*
 		Internal
 		*/
-		private function execute($id:String, $details:Object):void
+		private function _execute($id:String, $details:Object):void
 		{
 			if ( this.hasService( $id ) ) {
 				this.getService( $id ).track( $details );
 			}
 		}
-		private function _startDelay():void
+		private function _startTimer():void
 		{
-			if (this._queue.length > 0) {
-				if ( !this._trigger.timerRunning ) {
-					this._trigger.startTimer( 0.3 );
-				}
+			if ( !this._trigger.timerRunning ) {
+				this._trigger.startTimer( 0.3 );
 			}
 		}
 		
@@ -92,25 +90,25 @@
 		{
 			this._queue.push( { id:$id, details:$details } );
 		}
-		private function _getNext():Object
+		private function _executeNext():void
 		{
-			return this._queue.shift();
+			if ( this._queue.length > 0 {
+				var queueData:Object = this._queue.shift();
+				this._execute( queueData.id, queueData.details );
+				if ( this._queue.length > 0 ) this._startTimer();
+			}
 		}
 		/*
 		Event Handlers
 		*/
-		private function _onTrack($event:TriggerEvent):void
+		private function _onTrackTimer( $event:TriggerEvent ):void
 		{
-			var objDetails:Object = this._getNext();
-			if (objDetails != null) {
-				this.execute(objDetails.id, objDetails.details);
-			}
-			this._startDelay()
+			this._executeNext();
 		}
 		/*
 		Property Definitions
 		*/
-		public function set enabled($status:Boolean):void
+		public function set enabled( $status:Boolean ):void
 		{
 			this._enabled = $status;
 			if ( this._enabled ) {
