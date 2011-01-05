@@ -15,7 +15,7 @@
 
 		public function log( $trace:*, $data:LogData ):void
 		{
-			MonsterDebugger.inspect( $trace );
+			MonsterDebugger.trace( this, $trace, $data.categoryColor );
 		}
 		
 		public function set level( $level:uint ):void
