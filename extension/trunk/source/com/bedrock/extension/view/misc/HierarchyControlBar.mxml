@@ -43,7 +43,7 @@
 	<mx:Button click="this._reloadConfig()" id="refreshConfigButton" icon="{ RefreshIcon }" toolTip="Reload Config"/>
 	<mx:Button click="this._notify( 'deselectNode' )" id="nodeDeselectButton" icon="{ DeselectIcon }" toolTip="Deselect"/>
 	<mx:Spacer width="100%"/>
-    <mx:ComboBox id="creationCombo" dataProvider="{ this.creationOptions }" />
+    <mx:ComboBox id="creationCombo" change="this._notify( 'createNode' )" dataProvider="{ this.creationOptions }" />
 	<mx:Button click="this._notify( 'createNode' )" id="nodeCreateButton" icon="{ CreateIcon }" toolTip="Create"/>
     <!--<mx:VRule height="100%"/>
 	<mx:Button click="this._notify( 'duplicateNode' )" id="nodeDuplicateButton" icon="{ DuplicateIcon }" toolTip="Duplicate"/>-->

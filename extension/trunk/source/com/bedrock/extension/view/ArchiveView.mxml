@@ -34,10 +34,10 @@
 			}
 			private function loadProject():void
 			{
-				if ( ExtensionController.getInstance().loadProject( this.projectGrid.selectedItem.@path ) ) {
-					Alert.show( "Ok! Project \"" + this.projectGrid.selectedItem.@name + "\" loaded!", "Attention!" );
+				if ( ExtensionController.getInstance().loadProject( this.projectGrid.selectedItem.path ) ) {
+					Alert.show( "Ok! Project \"" + this.projectGrid.selectedItem.name + "\" loaded!", "Attention!" );
 				} else {
-					Alert.show( "Boo! Project \"" + this.projectGrid.selectedItem.@name + "\" failed!", "Warning!" );
+					Alert.show( "Boo! Project \"" + this.projectGrid.selectedItem.name + "\" failed!", "Warning!" );
 				}
 			}
 			private function removeProject():void
@@ -57,12 +57,12 @@
 		]]>
 	</mx:Script>
 		
-	<mx:DataGrid width="100%" height="100%" sortableColumns="true" id="projectGrid" doubleClickEnabled="true" dataProvider="{ ExtensionController.getInstance().settingsXML.projects..project }" itemClick="{ this.loadProjectButton.enabled = true }" itemDoubleClick="this.loadProject()">
+	<mx:DataGrid width="100%" height="100%" sortableColumns="true" id="projectGrid" doubleClickEnabled="true" dataProvider="{ ExtensionController.getInstance().projects }" itemClick="{ this.loadProjectButton.enabled = true }" itemDoubleClick="this.loadProject()">
 		<mx:columns>
-			<mx:DataGridColumn headerText="Name" dataField="@name" width="150"/>
-			<mx:DataGridColumn headerText="Path" dataField="@path"/>
-			<mx:DataGridColumn headerText="Version" dataField="@frameworkVersion" width="75"/>
-			<mx:DataGridColumn headerText="Created" dataField="@created" width="100"/>
+			<mx:DataGridColumn headerText="Name" dataField="name" width="150"/>
+			<mx:DataGridColumn headerText="Path" dataField="path"/>
+			<mx:DataGridColumn headerText="Version" dataField="frameworkVersion" width="75"/>
+			<mx:DataGridColumn headerText="Created" dataField="created" width="100"/>
 		</mx:columns>
 	</mx:DataGrid>
 	<mx:HBox width="100%">

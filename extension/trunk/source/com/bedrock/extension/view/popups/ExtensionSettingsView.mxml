@@ -11,10 +11,11 @@
 			
 			public function populate():void
 			{
-				this.addBedrockClassPathsCheck.selected = VariableUtil.sanitizeBoolean( ExtensionController.getInstance().settingsXML.addBedrockToClassPaths );
-				this.autoLoadMostRecentProjectCheck.selected = VariableUtil.sanitizeBoolean( ExtensionController.getInstance().settingsXML.autoLoadMostRecentProject );
-				this.autoSaveConfigChangesCheck.selected = VariableUtil.sanitizeBoolean( ExtensionController.getInstance().settingsXML.autoSaveConfigChanges );
-				this.includeSubFoldersInProjectBrowserCheck.selected = VariableUtil.sanitizeBoolean( ExtensionController.getInstance().settingsXML.includeSubFoldersInProjectBrowser );
+				this.addBedrockClassPathsCheck.selected = VariableUtil.sanitize( ExtensionController.getInstance().settingsXML.addBedrockToClassPaths );
+				this.autoLoadMostRecentProjectCheck.selected = VariableUtil.sanitize( ExtensionController.getInstance().settingsXML.autoLoadMostRecentProject );
+				this.autoSaveConfigChangesCheck.selected = VariableUtil.sanitize( ExtensionController.getInstance().settingsXML.autoSaveConfigChanges );
+				this.includeSubFoldersInProjectBrowserCheck.selected = VariableUtil.sanitize( ExtensionController.getInstance().settingsXML.includeSubFoldersInProjectBrowser );
+				this.autoHideMenuCheck.selected = VariableUtil.sanitize( ExtensionController.getInstance().settingsXML.autoHideMenu );
 				
 				this.frameworkVersionCombo.dataProvider = ExtensionController.getInstance().versions;
 				this.frameworkVersionCombo.enabled = this.addBedrockClassPathsCheck.selected;
@@ -45,6 +46,11 @@
 				ExtensionController.getInstance().settingsXML.includeSubFoldersInProjectBrowser = this.includeSubFoldersInProjectBrowserCheck.selected;
 				ExtensionController.getInstance().saveSettings();
 			}
+			private function _toggleAutoHideMenu():void
+			{
+				ExtensionController.getInstance().settingsXML.autoHideMenu = this.autoHideMenuCheck.selected;
+				ExtensionController.getInstance().saveSettings();
+			}
 			private function _clearSettings():void
 			{
 				Alert.show( "This will clear all of your stored projects & settings!\nAre you sure you want to proceed?", "Warning!", Alert.OK | Alert.CANCEL,this, this._onCloseAlert, null, Alert.OK);
@@ -68,6 +74,7 @@
 					<mx:CheckBox label="Automatically load most recent project" id="autoLoadMostRecentProjectCheck" change="this._toggleAutoLoadMostRecentProject()"/>
 					<mx:CheckBox label="Automatically save config after every change" id="autoSaveConfigChangesCheck" change="this._toggleAutoSaveConfigChanges()"/>
 					<mx:CheckBox label="Include sub folders in project browser" id="includeSubFoldersInProjectBrowserCheck" change="this._toggleIncludeSubFoldersInProjectBrowser()"/>
+					<mx:CheckBox label="Auto hide menu" id="autoHideMenuCheck" change="this._toggleAutoHideMenu()"/>
 				</mx:FormItem>
 			</mx:Form>
 		</mx:Panel>

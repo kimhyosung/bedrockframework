@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" creationComplete="this.bootup()" xmlns:view="com.bedrock.extension.view.*" xmlns:temp="com.bedrock.extension.project.view.temp.*" xmlns:extras="com.bedrock.extension.view.extras.*" xmlns:project="com.bedrock.extension.view.project.*">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" creationComplete="this._initialize()" xmlns:view="com.bedrock.extension.view.*" xmlns:temp="com.bedrock.extension.project.view.temp.*" xmlns:extras="com.bedrock.extension.view.extras.*" xmlns:project="com.bedrock.extension.view.project.*" xmlns:misc="com.bedrock.extension.view.misc.*">
 	<mx:Script>
 		<![CDATA[
+			import com.greensock.easing.Circ;
+			import com.greensock.easing.Expo;
+			import com.greensock.TweenLite;
+			import mx.logging.Log;
 			import com.bedrock.framework.plugin.util.VariableUtil;
 			import com.bedrock.extension.view.popups.ExtensionSettingsView;
 			import mx.managers.PopUpManager;
@@ -15,19 +19,22 @@
 			
 			[Embed("assets/BedrockLogo.png")]
             private var BedrockLogo:Class;
+			[Embed("assets/HeaderBackground.png")]
+            private var HeaderBackground:Class;
 			private var _extensionSettingsView:ExtensionSettingsView;
+			private var _menuVisible:Boolean;
 			
-			private function bootup():void
+			private function _initialize():void
 			{
 				Logger.initialize();
-				Logger.traceLogger = new JSFLLogger;
+				Logger.addTarget( new JSFLLogger );
 				
 				this._toggleButtons( false );
+				this._updateAutoHideMenu();
 				
 				BedrockDispatcher.addEventListener( ExtensionEvent.PROJECT_CREATED, this._onProjectCreated );
 				BedrockDispatcher.addEventListener( ExtensionEvent.PROJECT_LOADED, this._onProjectLoaded );
-				ExtensionController.getInstance().setup( this );
-				ExtensionController.getInstance().initialize();
+				BedrockDispatcher.addEventListener( ExtensionEvent.SETTINGS_SAVED, this._onSettingsSaved );
 				
 				this._extensionSettingsView = new ExtensionSettingsView;
 				this._extensionSettingsView.initialize();
@@ -48,9 +55,60 @@
 				this.panelStack.selectedIndex = 4;
 				this.projectButtonBar.selectedIndex = -1;
 			}
+			private function _toggleButtons( $enabled:Boolean ):void
+			{
+				Button( this.projectButtonBar.getChildAt( 1 ) ).enabled = $enabled;
+				Button( this.projectButtonBar.getChildAt( 2 ) ).enabled = $enabled;
+				Button( this.projectButtonBar.getChildAt( 3 ) ).enabled = $enabled;
+			}
+			
+			
+			private function _updateAutoHideMenu():void
+			{
+				var autoHideMenu:Boolean = VariableUtil.sanitize( ExtensionController.getInstance().settingsXML.autoHideMenu );
+				if ( autoHideMenu ) {
+					this.addEventListener( Event.ENTER_FRAME, this._onEnterFrame );
+					this._hideMainNavigation();
+				} else {
+					this.removeEventListener( Event.ENTER_FRAME, this._onEnterFrame );
+					this._showMainNavigation();
+				}
+			}
+			private function _hideMainNavigation():void
+			{
+				//TweenLite.to( this.projectBarContainer, 1, { y:0, ease:Expo.easeIn } );
+				//TweenLite.to( this.panelStack, 1, { y:57, ease:Expo.easeIn } );
+				TweenLite.killTweensOf( this.projectBarContainer );
+				this.projectBarContainer.y = 0;
+				this.panelStack.y = 57;
+			}
+			private function _showMainNavigation():void
+			{
+				TweenLite.to( this.projectBarContainer, 0.5, { y:54, ease:Circ.easeOut } );
+				//TweenLite.to( this.panelStack, 1, { y:76, ease:Expo.easeOut } );
+				this.panelStack.y = 76;
+			}
+			
+			
+			private function _onEnterFrame( $event:Event ):void
+			{
+				var isWithin:Boolean = this.headerArea.hitTestPoint( this.stage.mouseX, this.stage.mouseY );
+				if ( isWithin != this._menuVisible ) {
+					this._menuVisible = isWithin;
+					if ( this._menuVisible ) {
+						this._showMainNavigation();
+					} else {
+						this._hideMainNavigation();
+					}
+				}
+			}
 			private function _onItemClick( $event:ItemClickEvent ):void
 			{
 				this.panelStack.selectedIndex = $event.index;
+			}
+			private function _onSettingsSaved( $event:Event ):void
+			{
+				this._updateAutoHideMenu();
 			}
 			private function _onProjectCreated( $event:Event ):void
 			{
@@ -62,43 +120,47 @@
 				this.projectButtonBar.selectedIndex = 1;
 				this.panelStack.selectedIndex = 1;
 			}
-			private function _toggleButtons( $enabled:Boolean ):void
-			{
-				Button( this.projectButtonBar.getChildAt( 1 ) ).enabled = $enabled;
-				Button( this.projectButtonBar.getChildAt( 2 ) ).enabled = $enabled;
-				Button( this.projectButtonBar.getChildAt( 3 ) ).enabled = $enabled;
-			}
+			
 		]]>
 	</mx:Script>
-	<mx:HBox horizontalAlign="center" y="54" width="100%">
-		<mx:ToggleButtonBar itemClick="this._onItemClick( event )" id="projectButtonBar">
-			<mx:dataProvider>
-	            <mx:String>Archive</mx:String>
-	            <mx:String>Project</mx:String>
-	            <mx:String>Class Generator</mx:String>
-	            <mx:String>Sample Browser</mx:String>
-	        </mx:dataProvider>  
-		</mx:ToggleButtonBar>
-		
-	</mx:HBox>
-	<mx:HBox x="0" y="0" width="100%" height="55" verticalAlign="middle" horizontalAlign="center" backgroundColor="#000000" paddingLeft="5" paddingRight="5">
-		<mx:Spacer width="100%"/>
-		<mx:Button skin="{ BedrockLogo }" width="197" height="47"/>
-		<mx:Spacer width="100%"/>
-	</mx:HBox>
-	<mx:HBox x="0" y="0" width="100%" height="55" verticalAlign="middle" horizontalAlign="center" styleName="padded">
-		<mx:Canvas height="100%" backgroundColor="#FFFFFF" visible="{ VariableUtil.sanitizeBoolean( ExtensionController.getInstance().projectXML.@generated ) }" backgroundAlpha="0.2" borderStyle="none" id="projectDetailContainer" click="this._onProjectLoaded( event )" buttonMode="true" mouseChildren="false">
-			<mx:Label y="3" id="projectLabel"  text="Project : { ExtensionController.getInstance().projectXML.@name }" color="#FFFFFF" fontWeight="bold" paddingLeft="5" paddingRight="5" />
-			<mx:Label y="18" id="versionLabel"  text="Version : { ExtensionController.getInstance().projectXML.frameworkVersion }" color="#FFFFFF" fontWeight="bold" paddingLeft="5" paddingRight="5"  />
-		</mx:Canvas>
-		<mx:Spacer width="100%"/>
-		<mx:Canvas height="100%" backgroundColor="#FFFFFF" backgroundAlpha="0.2" borderStyle="none" id="buttonContainer">
-			<mx:LinkButton label="- Naming Conventions" id="namingConventionsButton" click="this._showNamingConventions()"/>
-			<mx:LinkButton y="{ this.namingConventionsButton.height }" x="70" label="- Settings" click="this._showSettings()"/>
-		</mx:Canvas>
-	</mx:HBox>
+	<mx:Canvas x="0" y="0" width="100%" id="headerArea">
 	
-	<mx:ViewStack x="0" y="76" width="100%" height="100%" id="panelStack" styleName="padded">
+		<mx:HBox id="projectBarContainer" horizontalAlign="center" width="100%">
+			<mx:ToggleButtonBar itemClick="this._onItemClick( event )" id="projectButtonBar">
+				<mx:dataProvider>
+		            <mx:String>Archive</mx:String>
+		            <mx:String>Project</mx:String>
+		            <mx:String>Class Generator</mx:String>
+		            <mx:String>Sample Browser</mx:String>
+		        </mx:dataProvider>  
+			</mx:ToggleButtonBar>
+		</mx:HBox>
+		
+		<mx:HBox x="0" y="0" width="100%" height="55" verticalAlign="middle" horizontalAlign="center" backgroundColor="#095d77">
+			<mx:Spacer width="100%"/>
+			<mx:Button skin="{ HeaderBackground }" width="412" height="55"/>
+			<mx:Spacer width="100%"/>
+		</mx:HBox>
+		<mx:HBox x="0" y="0" width="100%" height="55" verticalAlign="middle" horizontalAlign="center">
+			<mx:Spacer width="100%"/>
+			<mx:Button skin="{ BedrockLogo }" width="197" height="47"/>
+			<mx:Spacer width="100%"/>
+		</mx:HBox>
+		<mx:HBox x="0" y="0" width="100%" height="55" verticalAlign="middle" horizontalAlign="center" styleName="padded">
+			<mx:VBox height="100%"  visible="{ VariableUtil.sanitize( ExtensionController.getInstance().projectXML.@generated ) }" styleName="menuBox" id="projectDetailContainer" click="this._onProjectLoaded( event )" buttonMode="true" mouseChildren="false">
+				<mx:Label id="projectLabel"  text="Project : { ExtensionController.getInstance().projectXML.@name }" color="#FFFFFF"/>
+				<mx:Label id="versionLabel"  text="Version : { ExtensionController.getInstance().projectXML.frameworkVersion }" color="#FFFFFF"/>
+			</mx:VBox>
+			<mx:Spacer width="100%"/>
+			<mx:VBox height="100%" backgroundColor="#000000" id="buttonContainer" styleName="menuBox" horizontalAlign="right" >
+				<misc:SimpleButton text="Naming Conventions" id="namingConventionsButton" click="this._showNamingConventions()" styleName="simpleNormal"/>
+				<misc:SimpleButton text="Settings" id="settingsButton" click="this._showSettings()" styleName="simpleNormal"/>
+			</mx:VBox>
+		</mx:HBox>
+		<mx:HRule width="100%" y="55" strokeColor="#000000"  />
+	</mx:Canvas>
+	
+	<mx:ViewStack x="0" width="100%" height="100%" id="panelStack" styleName="padded">
 		<view:ArchiveView />
 		<mx:Canvas width="100%" height="100%" id="projectContainer" />
 		<extras:ClassGeneratorView />

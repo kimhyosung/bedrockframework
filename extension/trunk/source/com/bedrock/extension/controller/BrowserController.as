@@ -4,7 +4,6 @@ package com.bedrock.extension.controller
 	import com.bedrock.extension.event.ExtensionEvent;
 	import com.bedrock.framework.core.base.StandardBase;
 	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
-	import com.bedrock.framework.core.logging.Logger;
 	import com.bedrock.framework.plugin.util.VariableUtil;
 	
 	import mx.collections.HierarchicalData;
@@ -34,6 +33,8 @@ package com.bedrock.extension.controller
 			this.settingsXML = $settings;
 			this.delegate = $delegate;
 			
+			BedrockDispatcher.addEventListener( ExtensionEvent.SETTINGS_SAVED, this._onSettingsSaved );
+			
 			this.refresh();
 		}
 		
@@ -56,7 +57,7 @@ package com.bedrock.extension.controller
 		}
 		public function processFLAs( $data:XML ):void
 		{
-			for each( var xmlFLA:XML in $data..file.( @type == ".fla" ) ) {
+			for each( var xmlFLA:XML in $data.children().( @type == ".fla" ) ) {
 				this.addFLA( xmlFLA );
 			}
 		}
@@ -120,7 +121,10 @@ package com.bedrock.extension.controller
 		/*
 		Event Handlers
 	 	*/
-	 	
+	 	private function _onSettingsSaved( $event:ExtensionEvent ):void
+		{
+			this.refresh();
+		}
 	 	/*
 		Accessors
 	 	*/

@@ -31,9 +31,16 @@ TabNavigator {
    backgroundAlpha: 1;
 }
 
-
-
 .mySelectedTabs {
+}
+.simpleNormal
+{
+	text-decoration:none;
+}
+.simpleOver
+{
+	text-decoration:underline;
+	color:#FFFFFF;
 }
 FormItem
 {
@@ -41,8 +48,8 @@ FormItem
 }
 .namingConventionDataGrid {
 	horizontalGridLines: true;
-   horizontalGridLineColor: #cccccc;
-   headerStyleName: "dataGridHeaderStyle";
+	horizontalGridLineColor: #cccccc;
+	headerStyleName: "dataGridHeaderStyle";
 }
 .dataGridHeaderStyle {
    textAlign:center;
@@ -133,6 +140,21 @@ TextInput
 	fontSize: 11;
 	textAlign:center;
 	fontWeight: bold;
+}
+.menuBox
+{
+	verticalGap: 0;
+	padding-left:5px;
+	padding-right:5px;
+	backgroundAlpha:0.2;
+	backgroundColor:#000000;
+	borderStyle:none;
+	borderColor:#333333;
+	verticalAlign:middle;
+}
+.simpleNormal
+{
+	color:#FFFFFF;
 }
 .padded
 {

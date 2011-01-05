@@ -34,8 +34,12 @@ package com.bedrock.extension.delegate
 			} else {
 				strExecute = "fl.runScript( fl.configURI + '" + this.jsfl + "', '" + $function + "', '" + strArguments + "');";
 			}
-			var objResult:* = MMExecute(strExecute);
-			return unescape( objResult );
+			try {
+				var objResult:* = MMExecute(strExecute);
+				return unescape( objResult );
+			} catch( $error:Error ) {
+				return null;
+			}
 		}
 		private function escapeArguments( $arguments:Array ):String
 		{

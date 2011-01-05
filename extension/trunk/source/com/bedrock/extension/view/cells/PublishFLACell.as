@@ -32,16 +32,13 @@ package com.bedrock.extension.view.cells
 		{
 			this._applyToolTip();
 			this._xmlData.@publish = this.checkBox.selected;
-			
-				Logger.debug( this._xmlData );
 			BedrockDispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.SAVE_PROJECT, this ) );
 		}
 		
 		public function populate( $data:Object ):void
 		{
-			if ( $data != null && $data.@type == ".fla" ) {
-				
-				this._xmlData = ProjectController.getInstance().projectXML..file.( @name == $data.@name )[ 0 ];
+			this._xmlData = ProjectController.getInstance().projectXML..file.( @name == $data.@name )[ 0 ];
+			if ( this._xmlData != null ) {
 				this.checkBox.enabled = true;
 				this.checkBox.visible = true;
 				this.checkBox.selected = VariableUtil.sanitize( this._xmlData.@publish );

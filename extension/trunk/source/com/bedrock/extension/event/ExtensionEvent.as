@@ -11,6 +11,8 @@ package com.bedrock.extension.event
 		public static const PROJECT_UPDATE:String = "InterfaceEvent.onProjectUpdate";
 		public static const SAVE_PROJECT:String = "InterfaceEvent.onSaveProject";
 		
+		public static const SETTINGS_SAVED:String = "InterfaceEvent._onSettingsSaved";
+		
 		public static const DELETE_CONTENT:String = "InterfaceEvent.onDeleteContent";
 		public static const DELETE_CONTENT_CONFIRMED:String = "InterfaceEvent.onDeleteContentConfirmed";
 		
