@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Label xmlns:mx="http://www.adobe.com/2006/mxml" initialize="this._initialize()">
+	<mx:Script>
+		<![CDATA[
+			
+			private function _initialize():void
+			{
+				this.addEventListener( MouseEvent.MOUSE_OVER, this._onOver );
+				this.addEventListener( MouseEvent.MOUSE_OUT, this._onOut );
+			}
+			
+			private function _onOver( $event:MouseEvent ):void
+			{
+				this.setStyle( "color", "0xEBEBEB" );
+				this.setStyle( "fontWeight", "bold" );
+			}
+			private function _onOut( $event:MouseEvent ):void
+			{
+				this.setStyle( "color", "0xFFFFFF" );
+				this.setStyle( "fontWeight", "normal" );
+			}
+		]]>
+	</mx:Script>
+</mx:Label>
