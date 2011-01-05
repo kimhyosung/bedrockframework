@@ -20,80 +20,74 @@ package com.bedrock.framework.core.logging
 		/*
 		Variable Declarations
 		*/
-		public static var traceLevel:int = LogLevel.ALL;
-		public static var eventLevel:int = LogLevel.ERROR;
-		public static var remoteLevel:int = LogLevel.FATAL;
-		public static var monsterLevel:int = LogLevel.NONE;
-		
-		public static var traceLogger:ILogger;
-		public static var eventLogger:ILogger;
-		public static var remoteLogger:IRemoteLogger;
-		
 		public static var errorsEnabled:Boolean = true;
-		public static var detailDepth:uint = 10;
 		
 		private static var __initialized:Boolean = false;
+		private static var __available:Boolean;
+		private static var __targets:Array;
 		
 		public static function initialize():void
 		{
 			Logger.__initialized = true;
-			Logger.traceLogger = new TraceLogger( Logger.detailDepth );
-			Logger.eventLogger = new EventLogger;
-			Logger.remoteLogger = new RemoteLogger;
+			Logger.__targets = new Array;
+			Logger.__available = Logger.__getAvailability();
+		}
+		private static function __getAvailability():Boolean
+		{
+			var error:Error = new Error;
+			return ( error.getStackTrace() != null );
 		}
 		
-		public static function log( $trace:*=null, $category:int = 0 ):String
+		public static function log( $trace:*=null, $level:int = 0 ):void
 		{
 			if ( !Logger.__initialized ) Logger.initialize();
 			
-			var data:LogData = new LogData( new Error, $category );
-			
-			if ($category >= Logger.remoteLevel) {
-				Logger.remoteLogger.log( $trace, data );
+			if ( Logger.available ) {
+				var data:LogData = new LogData( new Error, $level );
+				
+				for each( var logger:ILogger in Logger.__targets ) {
+					if ( $level >= logger.level ) {
+						logger.log( $trace, data );
+					}
+				}
 			}
-			if ($category >= Logger.eventLevel) {
-				Logger.eventLogger.log( $trace, data );
-			}
-			if ($category >= Logger.monsterLevel ) {
-				MonsterDebugger.inspect( $trace );
-			}
-			
-			if ($category >= Logger.traceLevel) {
-				return Logger.traceLogger.log( $trace, data );
-			}
-			return null;
 		}
-		public static function status( $trace:*=null ):String
+		
+		public static function addTarget( $target:ILogger ):void
 		{
-			return Logger.log( $trace, LogLevel.STATUS );
+			Logger.__targets.push( $target );
 		}
-		public static function debug( $trace:*=null ):String
+		
+		public static function status( $trace:*=null ):void
 		{
-			return Logger.log( $trace, LogLevel.DEBUG );
+			Logger.log( $trace, LogLevel.STATUS );
 		}
-		public static function warning( $trace:*=null ):String
+		public static function debug( $trace:*=null ):void
 		{
-			return Logger.log( $trace, LogLevel.WARNING );
+			Logger.log( $trace, LogLevel.DEBUG );
 		}
-		public static function error( $trace:*=null ):String
+		public static function warning( $trace:*=null ):void
+		{
+			Logger.log( $trace, LogLevel.WARNING );
+		}
+		public static function error( $trace:*=null ):void
 		{
 			if ( Logger.errorsEnabled ) {
 				Logger.log( $trace, LogLevel.ERROR );
 				throw new Error( $trace.toString() );
 			} else {
-				return Logger.log( $trace, LogLevel.ERROR );
+				Logger.log( $trace, LogLevel.ERROR );
 			}
 		}
-		public static function fatal( $trace:*=null ):String
+		public static function fatal( $trace:*=null ):void
 		{
-			return Logger.log( $trace, LogLevel.FATAL );
+			Logger.log( $trace, LogLevel.FATAL );
 		}
 		
 		
-		
-		public static function set remoteLogURL($url:String):void
+		public static function get available():Boolean
 		{
-			Logger.remoteLogger.loggerURL = $url;
+			return Logger.__available;
 		}
 	}
 }

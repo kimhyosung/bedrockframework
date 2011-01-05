@@ -12,16 +12,13 @@
 package com.bedrock.framework.core.logging
 {
 
-	/**
-	 *  All loggers within the logging framework must implement this interface.
-	 */
 	public interface ILogable
 	{
-		function debug( $trace:*):String;
-		function error( $trace:*):String;
-		function fatal( $trace:*):String;
-		function status( $trace:*):String;
-		function warning( $trace:*):String;
+		function debug( $trace:*):void;
+		function error( $trace:*):void;
+		function fatal( $trace:*):void;
+		function status( $trace:*):void;
+		function warning( $trace:*):void;
 	}
 
 }

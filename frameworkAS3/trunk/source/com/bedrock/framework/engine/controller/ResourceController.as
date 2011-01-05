@@ -28,10 +28,10 @@
 		{
 			var currentLocale:String = BedrockEngine.localeManager.currentLocale;
 			
-			this._queueDataBundle( BedrockEngine.config.getSettingValue( BedrockData.DATA_BUNDLE_ENABLED ), BedrockEngine.localeManager.isFileLocalized( BedrockData.DATA_BUNDLE ), currentLocale );
-			this._queueStylesheet( BedrockEngine.config.getSettingValue( BedrockData.STYLESHEET_ENABLED ), BedrockEngine.localeManager.isFileLocalized( BedrockData.STYLESHEET ), currentLocale );
-			this._queueFonts( BedrockEngine.config.getSettingValue( BedrockData.FONTS_ENABLED ), BedrockEngine.localeManager.isFileLocalized( BedrockData.FONTS ), currentLocale );
-			this._queueLibrary( BedrockEngine.config.getSettingValue( BedrockData.LIBRARY_ENABLED ), BedrockEngine.localeManager.isFileLocalized( BedrockData.LIBRARY ), currentLocale );
+			this._queueDataBundle( BedrockEngine.data.dataBundleEnabled, BedrockEngine.localeManager.isFileLocalized( BedrockData.DATA_BUNDLE ), currentLocale );
+			this._queueStylesheet( BedrockEngine.data.stylesheetEnabled, BedrockEngine.localeManager.isFileLocalized( BedrockData.STYLESHEET ), currentLocale );
+			this._queueFonts( BedrockEngine.data.fontsEnabled, BedrockEngine.localeManager.isFileLocalized( BedrockData.FONTS ), currentLocale );
+			this._queueLibrary( BedrockEngine.data.libraryEnabled, BedrockEngine.localeManager.isFileLocalized( BedrockData.LIBRARY ), currentLocale );
 			
 			if ( $autoLoad ) BedrockEngine.loadController.load();
 		}

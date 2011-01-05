@@ -10,6 +10,7 @@
 		public var functionName:String;
 		public var classPath:String;
 		public var timeStamp:String;
+		public var detailNone:String;
 		public var detailLow:String;
 		public var detailMedium:String;
 		public var detailHigh:String;
@@ -25,7 +26,7 @@
 		
 		public function LogData( $error:Error, $category:uint )
 		{
-			if ( LogData.__initialized == false ) {
+			if ( !LogData.__initialized ) {
 				LogData.__createTrigger();
 				LogData.__createCategoryColors();
 				LogData.__createCategoryLabels();
@@ -67,6 +68,7 @@
 			endIndex = culledLine.lastIndexOf(")");
 			this.functionName = culledLine.substring(startIndex + 1, endIndex + 1);
 			
+			this.detailNone = " ";
 			this.detailLow = "[" + this.className + "] ";
 			this.detailMedium = "[" + this.className + "." + this.functionName + "] ";
 			this.detailHigh = "[" + this.classPath + "::" + this.className + "." + this.functionName + "] ";
@@ -77,6 +79,7 @@
 			var time:Object = LogData.__trigger.elapsed;
 			this.timeStamp = "[" + time.displayMinutes + ":" + time.displaySeconds + ":" + time.displayMilliseconds + "] ";
 		}
+		
 		
 		private static function __createTrigger():void
 		{

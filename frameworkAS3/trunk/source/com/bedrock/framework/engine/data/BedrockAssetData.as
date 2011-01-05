@@ -1,6 +1,7 @@
 ﻿package com.bedrock.framework.engine.data
 {
 	import com.bedrock.framework.engine.BedrockEngine;
+	import com.bedrock.framework.engine.bedrock;
 
 	dynamic public class BedrockAssetData extends GenericData
 	{
@@ -21,9 +22,8 @@
 			
 			super( $data );
 			this.name = this.id;
-			
 			if ( this.path != BedrockData.NONE && this.path != null ) {
-				this.url = ( BedrockEngine.config.getPathValue( this.path ) + this.url );
+				this.url = ( BedrockEngine.data[ this.path ] + this.url );
 			}
 			
 		}

@@ -141,12 +141,11 @@
 			this.dispatchEvent( new TriggerEvent( TriggerEvent.STOPWATCH_TRIGGER, this, this.elapsed ) );
 		}
 		
-		override public function status( $trace:* ) :String
+		override public function status( $trace:* ) :void
 		{
 			if ( !this.silenceLogging ) {
-				return super.status( $trace );
+				super.status( $trace );
 			}
-			return null;
 		}
 	 	/*
 		Accessors

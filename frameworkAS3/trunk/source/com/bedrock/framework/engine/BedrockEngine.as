@@ -35,7 +35,7 @@
 		
 		public static var resourceDelegate:IResourceDelegate;
 		
-		public static var config:IConfig;
+		bedrock static var config:IConfig;
 		public static var history:IHistory;
 	}
 }

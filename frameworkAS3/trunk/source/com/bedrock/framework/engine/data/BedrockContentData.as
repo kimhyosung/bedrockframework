@@ -1,6 +1,7 @@
 ﻿package com.bedrock.framework.engine.data
 {
 	import com.bedrock.framework.engine.BedrockEngine;
+	import com.bedrock.framework.engine.bedrock;
 	
 	dynamic public class BedrockContentData extends GenericData
 	{
@@ -21,7 +22,7 @@
 			
 			this.deeplink = "/" + this.id + "/";
 			
-			this.url = BedrockEngine.config.getPathValue( BedrockData.SWF_PATH ) + this.id + ".swf";
+			this.url = BedrockEngine.data.swfPath + this.id + ".swf";
 			
 			if ( this.initialTransition ) this.initialLoad = true;
 			
