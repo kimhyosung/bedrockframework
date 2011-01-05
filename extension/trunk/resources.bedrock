@@ -13,7 +13,7 @@
     <setting id="deeplinkingEnabled" label="Deeplinking Enabled" />
     <setting id="deeplinkContent" label="Deeplink Content" />
     <setting id="trackingEnabled" label="Tracking Enabled" />
-    <setting id="showPagesInContextMenu" label="Show Page in Context Menu" />
+    <setting id="showPagesInContextMenu" label="Show Pages in Context Menu" />
     <setting id="showAboutInContextMenu" label="Show About in Context Menu" />
   </bundle>
   <bundle id="stageScaleModeOptions" type="array">

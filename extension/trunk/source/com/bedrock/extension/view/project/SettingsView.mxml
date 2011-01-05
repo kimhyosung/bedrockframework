@@ -2,6 +2,8 @@
 <mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" styleName="padded5px" creationComplete="this.bootup()" horizontalAlign="center">
 	<mx:Script>
 		<![CDATA[
+			import com.bedrock.extension.model.ConfigModel;
+			import com.bedrock.extension.model.ConfigSettingsProxy;
 			import com.bedrock.framework.plugin.util.ArrayUtil;
 			import mx.collections.ArrayCollection;
 			import com.bedrock.extension.controller.ProjectController;
@@ -16,14 +18,17 @@
 			*/
 			private var _behaviorCheckBoxes:ArrayCollection;
 			private var _resourceCheckBoxes:ArrayCollection;
+			private var _settingsProxy:ConfigSettingsProxy;
 			/*
 			Constructor
 			*/
 			private function bootup():void
 			{
+				this._settingsProxy = new ConfigSettingsProxy( ProjectController.getInstance().config );
+				
 				this.populate();
 				this._behaviorCheckBoxes = new ArrayCollection( this._createOptions( "behaviorSettings", this.behaviorSettingsForm ) );
-				this._resourceCheckBoxes = new ArrayCollection( this._createOptions( "resourceSettings", this.resourceSettingsForm ) );
+				this._resourceCheckBoxes = new ArrayCollection( this._createOptions( "resourceSettings", this.resourceSettingsForm ) ); 
 			}
 			/*
 			Creation Functions
@@ -46,44 +51,47 @@
 			}
 			private function populate():void
 			{
-				this.stageAlignmentCombo.selectedIndex = ArrayUtil.findIndex( ProjectController.getInstance().resources.getBundle( 'stageAlignmentOptions' ), ProjectController.getInstance().config.getSettingValue( BedrockData.STAGE_ALIGNMENT ) );
-				this.stageScaleModeCombo.selectedIndex = ArrayUtil.findIndex( ProjectController.getInstance().resources.getBundle( 'stageScaleModeOptions' ), ProjectController.getInstance().config.getSettingValue( BedrockData.STAGE_SCALE_MODE ) );
-				this.defaultTransitionStyleCombo.selectedIndex = ArrayUtil.findIndex( ProjectController.getInstance().resources.getBundle( 'defaultTransitionStyleOptions' ), ProjectController.getInstance().config.getSettingValue( BedrockData.DEFAULT_TRANSITION_STYLE ) );
+				this.stageAlignmentCombo.dataProvider = ProjectController.getInstance().resources.getBundle( "stageAlignmentOptions" );
+				this.stageAlignmentCombo.selectedIndex = this._findIndexInBundle( "stageAlignmentOptions", this._settingsProxy.stageAlignment );
+				this.stageScaleModeCombo.dataProvider = ProjectController.getInstance().resources.getBundle( "stageScaleModeOptions" );
+				this.stageScaleModeCombo.selectedIndex = this._findIndexInBundle( "stageScaleModeOptions", this._settingsProxy.stageScaleMode );
+				this.defaultTransitionStyleCombo.dataProvider = ProjectController.getInstance().resources.getBundle( "defaultTransitionStyleOptions" );
+				this.defaultTransitionStyleCombo.selectedIndex = this._findIndexInBundle( "defaultTransitionStyleOptions", this._settingsProxy.defaultTransitionStyle );
 				
-				this.initialPreloaderTimeStepper.value = ProjectController.getInstance().config.getSettingValue( BedrockData.INITIAL_PRELOADER_TIME );
-				this.defaultPreloaderTimeStepper.value = ProjectController.getInstance().config.getSettingValue( BedrockData.DEFAULT_PRELOADER_TIME );
-				this.blockerAlphaStepper.value = ProjectController.getInstance().config.getSettingValue( BedrockData.BLOCKER_ALPHA );
-				this.blockerColorPicker.selectedColor = ProjectController.getInstance().config.getSettingValue( BedrockData.BLOCKER_COLOR );
+				this.initialPreloaderTimeStepper.value = this._settingsProxy.initialPreloaderTime;
+				this.defaultPreloaderTimeStepper.value = this._settingsProxy.defaultPreloaderTime;
+				this.blockerAlphaStepper.value = this._settingsProxy.blockerAlpha;
+				this.blockerColorPicker.selectedColor = this._settingsProxy.blockerColor;
 				
-				this.localesEnabledCheck.selected = ProjectController.getInstance().config.getSettingValue( BedrockData.LOCALES_ENABLED );
-				this.defaultLocaleCombo.selectedIndex = this.findIndex( ProjectController.getInstance().config.getSettingValue( BedrockData.DEFAULT_LOCALE ), ProjectController.getInstance().config.locales..locale );
-				this.localeDelimiterText.text = ProjectController.getInstance().config.getSettingValue( BedrockData.LOCALE_DELIMITER );
+				this.localesEnabledCheck.selected = this._settingsProxy.localesEnabled;
+				this.defaultLocaleCombo.selectedIndex = this._findIndexInXML( this._settingsProxy.defaultLocale, ProjectController.getInstance().config.locales..locale );
+				this.localeDelimiterText.text = this._settingsProxy.localeDelimiter;
 				
-				var strLocalizedFiles:String = ProjectController.getInstance().config.getSettingValue( BedrockData.LOCALIZED_FILES );
+				var strLocalizedFiles:String = this._settingsProxy.localizedFiles;
 				this.fontsCheck.selected = ( strLocalizedFiles.indexOf( BedrockData.FONTS ) != -1 );
 				this.stylesheetCheck.selected = ( strLocalizedFiles.indexOf( BedrockData.STYLESHEET ) != -1 );
 				this.libraryCheck.selected = ( strLocalizedFiles.indexOf( BedrockData.LIBRARY ) != -1 );
 				this.dataBundleCheck.selected = ( strLocalizedFiles.indexOf( BedrockData.DATA_BUNDLE ) != -1 );
 				
-				this.logDetailDepthStepper.value = ProjectController.getInstance().config.getSettingValue( BedrockData.LOG_DETAIL_DEPTH );
-				this.errorsEnabledCheck.selected = ProjectController.getInstance().config.getSettingValue( BedrockData.ERRORS_ENABLED );
+				this.logDetailDepthStepper.value = this._settingsProxy.logDetailDepth;
+				this.errorsEnabledCheck.selected = this._settingsProxy.errorsEnabled;
 				
 				var arrLogLevels:Array = ProjectController.getInstance().resources.getBundle( "logOptions" );
 				this.traceLogLevelCombo.dataProvider = arrLogLevels;
-				this.traceLogLevelCombo.selectedIndex = ArrayUtil.findIndex( arrLogLevels, ProjectController.getInstance().config.getSettingValue( BedrockData.TRACE_LOG_LEVEL ) );
+				this.traceLogLevelCombo.selectedIndex = this._findIndexInArray( arrLogLevels, this._settingsProxy.traceLogLevel );
 				this.eventLogLevelCombo.dataProvider = arrLogLevels;
-				this.eventLogLevelCombo.selectedIndex = ArrayUtil.findIndex( arrLogLevels, ProjectController.getInstance().config.getSettingValue( BedrockData.EVENT_LOG_LEVEL ) );
+				this.eventLogLevelCombo.selectedIndex = this._findIndexInArray( arrLogLevels, this._settingsProxy.eventLogLevel );
 				this.monsterLogLevelCombo.dataProvider = arrLogLevels;
-				this.monsterLogLevelCombo.selectedIndex = ArrayUtil.findIndex( arrLogLevels, ProjectController.getInstance().config.getSettingValue( BedrockData.MONSTER_LOG_LEVEL ) );
+				this.monsterLogLevelCombo.selectedIndex = this._findIndexInArray( arrLogLevels, this._settingsProxy.monsterLogLevel );
 				this.remoteLogLevelCombo.dataProvider = arrLogLevels;
-				this.remoteLogLevelCombo.selectedIndex = ArrayUtil.findIndex( arrLogLevels, ProjectController.getInstance().config.getSettingValue( BedrockData.REMOTE_LOG_LEVEL ) );
+				this.remoteLogLevelCombo.selectedIndex = this._findIndexInArray( arrLogLevels, this._settingsProxy.remoteLogLevel );
 				
-				this.remoteLogURLText.text = ProjectController.getInstance().config.getSettingValue( BedrockData.REMOTE_LOG_URL );
+				this.remoteLogURLText.text = this._settingsProxy.remoteLogURL;
 				
-				this.filenameFontsText.text = ProjectController.getInstance().config.getSettingValue( BedrockData.FONTS_FILENAME );
-				this.filenameDataBundleText.text = ProjectController.getInstance().config.getSettingValue( BedrockData.DATA_BUNDLE_FILENAME );
-				this.filenameLibraryText.text = ProjectController.getInstance().config.getSettingValue( BedrockData.LIBRARY_FILENAME );
-				this.filenameStylesheetText.text = ProjectController.getInstance().config.getSettingValue( BedrockData.STYLESHEET_FILENAME );
+				this.filenameFontsText.text = this._settingsProxy.fontsFilename;
+				this.filenameDataBundleText.text = this._settingsProxy.dataBundleFilename;
+				this.filenameLibraryText.text = this._settingsProxy.libraryFilename;
+				this.filenameStylesheetText.text = this._settingsProxy.stylesheetFilename;
 			}
 			
 			private function updateSettings():void
@@ -99,13 +107,13 @@
 			
 			private function applyGeneralSettings():void
 			{
-				ProjectController.getInstance().config.setSettingValue( BedrockData.STAGE_ALIGNMENT, this.stageAlignmentCombo.selectedLabel );
-				ProjectController.getInstance().config.setSettingValue( BedrockData.STAGE_SCALE_MODE, this.stageScaleModeCombo.selectedLabel );
-				ProjectController.getInstance().config.setSettingValue( BedrockData.DEFAULT_TRANSITION_STYLE, this.defaultTransitionStyleCombo.selectedLabel );
-				ProjectController.getInstance().config.setSettingValue( BedrockData.INITIAL_PRELOADER_TIME, this.initialPreloaderTimeStepper.value );
-				ProjectController.getInstance().config.setSettingValue( BedrockData.DEFAULT_PRELOADER_TIME, this.defaultPreloaderTimeStepper.value );
-				ProjectController.getInstance().config.setSettingValue( BedrockData.BLOCKER_ALPHA, this.blockerAlphaStepper.value );
-				ProjectController.getInstance().config.setSettingValue( BedrockData.BLOCKER_COLOR, this.blockerColorPicker.selectedColor );
+				this._settingsProxy.stageAlignment = this.stageAlignmentCombo.selectedLabel;
+				this._settingsProxy.stageScaleMode = this.stageScaleModeCombo.selectedLabel;
+				this._settingsProxy.defaultTransitionStyle = this.defaultTransitionStyleCombo.selectedLabel;
+				this._settingsProxy.initialPreloaderTime = this.initialPreloaderTimeStepper.value;
+				this._settingsProxy.defaultPreloaderTime = this.defaultPreloaderTimeStepper.value;
+				this._settingsProxy.blockerAlpha = this.blockerAlphaStepper.value;
+				this._settingsProxy.blockerColor = this.blockerColorPicker.selectedColor;
 			}
 			private function applyBehaviorSettings():void
 			{
@@ -121,9 +129,9 @@
 			}
 			private function applyLocaleSettings():void
 			{
-				ProjectController.getInstance().config.setSettingValue( BedrockData.LOCALES_ENABLED, this.localesEnabledCheck.selected );
-				ProjectController.getInstance().config.setSettingValue( BedrockData.LOCALE_DELIMITER, this.localeDelimiterText.text );
-				ProjectController.getInstance().config.setSettingValue( BedrockData.DEFAULT_LOCALE, this.defaultLocaleCombo.selectedItem.@id );
+				this._settingsProxy.localesEnabled = this.localesEnabledCheck.selected;
+				this._settingsProxy.localeDelimiter = this.localeDelimiterText.text;
+				this._settingsProxy.defaultLocale = this.defaultLocaleCombo.selectedItem.@id;
 				
 				var arrLocalizedFiles:Array = new Array;
 				if ( this.fontsCheck.selected ) arrLocalizedFiles.push( BedrockData.FONTS );
@@ -131,24 +139,25 @@
 				if ( this.libraryCheck.selected ) arrLocalizedFiles.push( BedrockData.LIBRARY );
 				if ( this.dataBundleCheck.selected ) arrLocalizedFiles.push( BedrockData.DATA_BUNDLE );
 				
-				ProjectController.getInstance().config.setSettingValue( BedrockData.LOCALIZED_FILES, arrLocalizedFiles.toString() );
+				this._settingsProxy.localizedFiles = arrLocalizedFiles.toString();
 			}
 			private function applyFilenameSettings():void
 			{
-				ProjectController.getInstance().config.setSettingValue( BedrockData.LIBRARY_FILENAME, this.filenameLibraryText.text );
-				ProjectController.getInstance().config.setSettingValue( BedrockData.FONTS_FILENAME, this.filenameFontsText.text );
-				ProjectController.getInstance().config.setSettingValue( BedrockData.STYLESHEET_FILENAME, this.filenameStylesheetText.text );
-				ProjectController.getInstance().config.setSettingValue( BedrockData.DATA_BUNDLE_FILENAME, this.filenameDataBundleText.text );
+				this._settingsProxy.libraryFilename = this.filenameLibraryText.text;
+				this._settingsProxy.libraryFilename = this.filenameLibraryText.text;
+				this._settingsProxy.fontsFilename = this.filenameFontsText.text;
+				this._settingsProxy.stylesheetFilename = this.filenameStylesheetText.text;
+				this._settingsProxy.dataBundleFilename = this.filenameDataBundleText.text;
 			}
 			private function applyLoggerSettings():void
 			{
-				ProjectController.getInstance().config.setSettingValue( BedrockData.LOG_DETAIL_DEPTH, this.logDetailDepthStepper.value );
-				ProjectController.getInstance().config.setSettingValue( BedrockData.ERRORS_ENABLED, this.errorsEnabledCheck.selected );
+				this._settingsProxy.logDetailDepth = this.logDetailDepthStepper.value;
+				this._settingsProxy.errorsEnabled = this.errorsEnabledCheck.selected;
 				
-				ProjectController.getInstance().config.setSettingValue( BedrockData.TRACE_LOG_LEVEL, this.traceLogLevelCombo.selectedLabel );
-				ProjectController.getInstance().config.setSettingValue( BedrockData.EVENT_LOG_LEVEL, this.eventLogLevelCombo.selectedLabel );
-				ProjectController.getInstance().config.setSettingValue( BedrockData.REMOTE_LOG_LEVEL, this.remoteLogLevelCombo.selectedLabel );
-				ProjectController.getInstance().config.setSettingValue( BedrockData.MONSTER_LOG_LEVEL, this.monsterLogLevelCombo.selectedLabel );
+				this._settingsProxy.traceLogLevel = this.traceLogLevelCombo.selectedLabel;
+				this._settingsProxy.eventLogLevel = this.eventLogLevelCombo.selectedLabel;
+				this._settingsProxy.remoteLogLevel = this.remoteLogLevelCombo.selectedLabel;
+				this._settingsProxy.monsterLogLevel = this.monsterLogLevelCombo.selectedLabel;
 			}
 			/*
 			Event Handlers
@@ -158,7 +167,17 @@
 				this.updateSettings();
 			}
 			
-			private function findIndex( $id:String, $list:XMLList ):int
+			
+			
+			private function _findIndexInBundle( $bundle:String, $id:String ):int
+			{
+				return this._findIndexInArray( ProjectController.getInstance().resources.getBundle( $bundle ), $id );
+			}
+			private function _findIndexInArray( $array:Array, $id:String ):int
+			{
+				return ArrayUtil.findIndex( $array, $id );
+			}
+			private function _findIndexInXML( $id:String, $list:XMLList ):int
 			{
 				var i:int;
 				var xmlList:XML = XMLUtil2.sanitizeXML( $list );
@@ -179,13 +198,13 @@
 			<mx:Panel layout="vertical" title="General Settings" width="100%" height="50%">
 				<mx:Form id="generalSettingsForm">
 					<mx:FormItem label="Stage Alignment" width="100%">
-						<mx:ComboBox id="stageAlignmentCombo" dataProvider="{ ProjectController.getInstance().resources.getBundle( 'stageAlignmentOptions' ) }" change="this._onChange( event )" />
+						<mx:ComboBox id="stageAlignmentCombo" change="this._onChange( event )" />
 					</mx:FormItem>
 					<mx:FormItem label="Stage Scale Mode" width="100%">
-						<mx:ComboBox id="stageScaleModeCombo" dataProvider="{ ProjectController.getInstance().resources.getBundle( 'stageScaleModeOptions' ) }" change="this._onChange( event )" />
+						<mx:ComboBox id="stageScaleModeCombo" change="this._onChange( event )" />
 					</mx:FormItem>
 					<mx:FormItem label="Default Transition Style" width="100%">
-						<mx:ComboBox id="defaultTransitionStyleCombo" dataProvider="{ ProjectController.getInstance().resources.getBundle( 'defaultTransitionStyleOptions' ) }" change="this._onChange( event )" />
+						<mx:ComboBox id="defaultTransitionStyleCombo" change="this._onChange( event )" />
 					</mx:FormItem>
 					<mx:FormItem label="Initial Preloader Time">
 						<mx:NumericStepper id="initialPreloaderTimeStepper" stepSize="0.1" change="this._onChange( event )" />

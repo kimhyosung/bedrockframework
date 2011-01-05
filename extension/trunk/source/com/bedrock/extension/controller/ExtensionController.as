@@ -9,6 +9,7 @@ package com.bedrock.extension.controller
 	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
 	import com.bedrock.framework.plugin.util.ArrayUtil;
 	import com.bedrock.framework.plugin.util.VariableUtil;
+	import com.bedrock.framework.plugin.util.XMLUtil2;
 	
 	import flash.system.ApplicationDomain;
 	
@@ -40,6 +41,8 @@ package com.bedrock.extension.controller
 		public var templates:Array;
 		[Bindable]
 		public var versions:Array;
+		[Bindable]
+		public var projects:Array;
 		
 		public var delegate:JSFLDelegate;
 		[Bindable]
@@ -84,8 +87,6 @@ package com.bedrock.extension.controller
 			BedrockDispatcher.addEventListener( ExtensionEvent.PROJECT_UPDATE, this._onProjectUpdate );
 			BedrockDispatcher.addEventListener( ExtensionEvent.DELETE_CONTENT_CONFIRMED, this._onDeleteContentConfirmed );
 			BedrockDispatcher.addEventListener( ExtensionEvent.RELOAD_CONFIG, this._onReloadConfig );
-			
-			this.loadMostRecentProject();
 		}
 		private function _createDelegate():void
 		{
@@ -105,6 +106,14 @@ package com.bedrock.extension.controller
 		/*
 		Settings Functions
 		*/
+		private function _parseProjects():void
+		{
+			this.projects = new Array;
+			for each ( var projectXML:XML in this.settingsXML.projects..project ) {
+				this.projects.push( XMLUtil2.getAttributesAsObject( projectXML ) );
+			}
+			this.projects.reverse();
+		}
 		/*
 		Load Versions
 		*/
@@ -123,6 +132,7 @@ package com.bedrock.extension.controller
 			} else {
 				this.createSettings();
 			}
+			this._parseProjects();
 		}
 	 	public function createSettings():void
 		{
@@ -140,6 +150,8 @@ package com.bedrock.extension.controller
 		public function saveSettings():void
 		{
 			this.delegate.saveSettingsFile( this.settingsXML.toXMLString() );
+			BedrockDispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.SETTINGS_SAVED, this ) );
+			this.loadSettings();
 		}
 		
 		/*
