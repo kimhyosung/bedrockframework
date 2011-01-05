@@ -30,8 +30,8 @@
 		
 		public function prepareFontsLoader( $localized:Boolean, $locale:String = null ):*
 		{
-			var path:String = BedrockEngine.config.getPathValue( BedrockData.FONTS_PATH );
-			path += BedrockEngine.config.getSettingValue( BedrockData.FONTS_FILENAME );
+			var path:String = BedrockEngine.data.fontsPath;
+			path += BedrockEngine.data.fontsFilename;
 			
 			if ( $localized ) {
 				path += BedrockEngine.localeManager.delimiter + $locale + ".swf";
@@ -44,8 +44,8 @@
 		
 		public function prepareStylesheetLoader( $localized:Boolean, $locale:String = null ):*
 		{
-			var path:String = BedrockEngine.config.getPathValue( BedrockData.STYLESHEET_PATH );
-			path += BedrockEngine.config.getSettingValue( BedrockData.STYLESHEET_FILENAME );
+			var path:String = BedrockEngine.data.stylesheetPath;
+			path += BedrockEngine.data.stylesheetFilename;
 			
 			if ( $localized ) {
 				path += BedrockEngine.localeManager.delimiter + $locale + ".css";
@@ -58,8 +58,8 @@
 		
 		public function prepareDataBundleLoader( $localized:Boolean, $locale:String = null ):*
 		{
-			var path:String = BedrockEngine.config.getPathValue( BedrockData.DATA_BUNDLE_PATH );
-			path += BedrockEngine.config.getSettingValue( BedrockData.DATA_BUNDLE_FILENAME );
+			var path:String = BedrockEngine.data.dataBundlePath;
+			path += BedrockEngine.data.dataBundleFilename;
 			
 			if ( $localized ) {
 				path += BedrockEngine.localeManager.delimiter + $locale + ".xml";
@@ -72,8 +72,8 @@
 		
 		public function prepareLibraryLoader( $localized:Boolean, $locale:String = null ):*
 		{
-			var path:String = BedrockEngine.config.getPathValue( BedrockData.LIBRARY_ASSETS_PATH );
-			path += BedrockEngine.config.getSettingValue( BedrockData.LIBRARY_FILENAME );
+			var path:String = BedrockEngine.data.libraryPath;
+			path += BedrockEngine.data.libraryFilename;
 			
 			if ( $localized ) {
 				path += BedrockEngine.localeManager.delimiter + $locale + ".swf";

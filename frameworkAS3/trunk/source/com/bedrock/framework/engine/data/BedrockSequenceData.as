@@ -32,8 +32,8 @@
 			this.style = BedrockSequenceData.NORMAL;
 			this.preloader = BedrockData.DEFAULT_PRELOADER;
 			this.deeplink = "/" + BedrockData.DEFAULT + "/";
-			this.preloaderTime = BedrockEngine.config.getSettingValue( BedrockData.DEFAULT_PRELOADER_TIME );
-			this.style = BedrockSequenceData[ BedrockEngine.config.getSettingValue( BedrockData.DEFAULT_TRANSITION_STYLE ) ];
+			this.preloaderTime = BedrockEngine.data.defaultPreloaderTime;
+			this.style = BedrockSequenceData[ BedrockEngine.data.defaultTransitionStyle ];
 		}
 		
 		public function appendIncoming( $data:Array ):void

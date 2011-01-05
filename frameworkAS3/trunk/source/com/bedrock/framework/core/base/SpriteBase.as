@@ -41,29 +41,29 @@ package com.bedrock.framework.core.base
 		/*
 		Logging Functions
 	 	*/
-		private function log( $trace:*, $category:int ):String
+		private function _log( $trace:*, $category:int ):void
 		{
-			return Logger.log( $trace, $category );
+			Logger.log( $trace, $category );
 		}
-		public function status($trace:*):String
+		public function status($trace:*):void
 		{
-			return this.log( $trace, LogLevel.STATUS );
+			this._log( $trace, LogLevel.STATUS );
 		}
-		public function debug($trace:*):String
+		public function debug($trace:*):void
 		{
-			return this.log( $trace, LogLevel.DEBUG );
+			this._log( $trace, LogLevel.DEBUG );
 		}
-		public function warning($trace:*):String
+		public function warning($trace:*):void
 		{
-			return this.log( $trace, LogLevel.WARNING );
+			this._log( $trace, LogLevel.WARNING );
 		}
-		public function error($trace:*):String
+		public function error($trace:*):void
 		{
-			return this.log( $trace, LogLevel.ERROR );
+			this._log( $trace, LogLevel.ERROR );
 		}
-		public function fatal($trace:*):String
+		public function fatal($trace:*):void
 		{
-			return this.log( $trace, LogLevel.FATAL );
+			this._log( $trace, LogLevel.FATAL );
 		}
 		
 		/*

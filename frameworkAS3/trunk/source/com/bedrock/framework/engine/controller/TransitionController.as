@@ -53,7 +53,7 @@
 			BedrockDispatcher.addEventListener( BedrockEvent.PREPARE_INITIAL_LOAD, this._onPrepareInitialLoad );
 			BedrockDispatcher.addEventListener( BedrockEvent.TRANSITION, this._onTransition );
 			
-			if ( BedrockEngine.config.getSettingValue( BedrockData.DEEPLINKING_ENABLED ) && BedrockEngine.config.getSettingValue( BedrockData.DEEPLINK_CONTENT ) ) {
+			if ( BedrockEngine.data.deeplinkingEnabled && BedrockEngine.data.deeplinkContent ) {
 				BedrockDispatcher.addEventListener( BedrockEvent.DEEPLINK_CHANGE, this._onDeeplinkChange );
 			}
 			
@@ -82,14 +82,14 @@
 		{
 			this._bedrockSequenceData = new BedrockSequenceData;
 			var deeplinkPath:String;
-			var deeplinkEnabled:Boolean = ( BedrockEngine.config.getSettingValue( BedrockData.DEEPLINKING_ENABLED ) && BedrockEngine.config.getSettingValue( BedrockData.DEEPLINK_CONTENT ) );
+			var deeplinkEnabled:Boolean = ( BedrockEngine.data.deeplinkingEnabled && BedrockEngine.data.deeplinkContent );
 			if ( deeplinkEnabled ) deeplinkPath = BedrockEngine.deeplinkingManager.getPath();
 			deeplinkEnabled = ( deeplinkEnabled && deeplinkPath != this._bedrockSequenceData.deeplink && deeplinkPath != "/" && deeplinkPath != null );
 			
 			var idEnabled:Boolean = ( $details.id != null && BedrockEngine.contentManager.hasContent( $details.id ) );
 			
 			this._bedrockSequenceData.preloader = BedrockData.INITIAL_PRELOADER;
-			this._bedrockSequenceData.preloaderTime = BedrockEngine.config.getSettingValue( BedrockData.INITIAL_PRELOADER_TIME );
+			this._bedrockSequenceData.preloaderTime = BedrockEngine.data.initialPreloaderTime;
 			
 			var defaultContent:Array = BedrockEngine.contentManager.filterContents( true, BedrockData.INITIAL_TRANSITION );
 			this._appendIndexedContent( defaultContent, "incoming", false );
@@ -258,7 +258,7 @@
 		
 		private function _preparePreloader():void
 		{
-			if ( BedrockEngine.config.getSettingValue( BedrockData.LIBRARY_ENABLED ) ) {
+			if ( BedrockEngine.data.libraryEnabled ) {
 				if ( BedrockEngine.libraryManager.hasPreloader( this._bedrockSequenceData.preloader ) ) {
 					this._preloader = BedrockEngine.libraryManager.getPreloader( this._bedrockSequenceData.preloader );
 				}
@@ -410,7 +410,7 @@
 		private function _collectShellExtras():void
 		{
 			this._shellView.assets = BedrockEngine.loadController.getAssetGroupContents( BedrockData.SHELL );
-			if ( BedrockEngine.config.getSettingValue( BedrockData.DATA_BUNDLE_ENABLED ) && BedrockEngine.dataBundleManager.hasBundle( BedrockData.SHELL ) ) {
+			if ( BedrockEngine.data.dataBundleEnabled && BedrockEngine.dataBundleManager.hasBundle( BedrockData.SHELL ) ) {
 				this._shellView.bundle = BedrockEngine.dataBundleManager.getBundle( BedrockData.SHELL );
 			}
 		}
@@ -421,7 +421,7 @@
 			var contentView:BedrockContentDisplay = BedrockEngine.loadController.getLoaderContent( $id );
 			contentView.assets = BedrockEngine.loadController.getAssetGroupContents( contentObj.assetGroup );
 			contentView.data = BedrockEngine.contentManager.getContent( $id );
-			if ( BedrockEngine.config.getSettingValue( BedrockData.DATA_BUNDLE_ENABLED ) && BedrockEngine.dataBundleManager.hasBundle( $id ) ) {
+			if ( BedrockEngine.data.dataBundleEnabled && BedrockEngine.dataBundleManager.hasBundle( $id ) ) {
 				contentView.bundle = BedrockEngine.dataBundleManager.getBundle( $id );
 			}
 		}
@@ -437,7 +437,7 @@
 		private function _onPreloaderClearComplete( $event:ViewEvent ):void
 		{
 			this._disposePreloader();
-			if ( BedrockEngine.config.getSettingValue( BedrockData.DEEPLINK_CONTENT ) ) this._updateDeeplinking();
+			if ( BedrockEngine.data.deeplinkContent ) this._updateDeeplinking();
 		}
 		
 		private function _onLoadComplete($event:BedrockEvent):void

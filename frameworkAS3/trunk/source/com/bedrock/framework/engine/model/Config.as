@@ -12,6 +12,7 @@
 package com.bedrock.framework.engine.model
 {
 	import com.bedrock.framework.core.base.StandardBase;
+	import com.bedrock.framework.engine.BedrockEngine;
 	import com.bedrock.framework.engine.api.IConfig;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.plugin.util.VariableUtil;
@@ -71,7 +72,7 @@ package com.bedrock.framework.engine.model
 			this._containerValues = new XML( this._xmlConfig.containers );
 			this._localeValues = new XML( this._xmlConfig.locales );
 			
-			this.saveSettingValue( BedrockData.CURRENT_LOCALE, this.getSettingValue( BedrockData.DEFAULT_LOCALE ) );
+			this.saveSettingValue( "currentLocale", this.getSettingValue( "defaultLocale" ) );
 		}
 		/*
 		Environment Functions
