@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<template>
+  <name>light</name>
+  <versions>*</versions>
+  <assetsFolder>assets/</assetsFolder>
+  <sourceFolder>source/</sourceFolder>
+  <deployFolder>wwwroot/</deployFolder>
+</template>

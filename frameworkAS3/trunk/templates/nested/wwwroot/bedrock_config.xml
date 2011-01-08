@@ -1,0 +1,91 @@
+<config>
+  <settings>
+    <setting id="stageAlignment" value="TOP_LEFT"/>
+    <setting id="stageScaleMode" value="NO_SCALE"/>
+    <setting id="defaultTransitionStyle" value="NORMAL"/>
+    <setting id="initialPreloaderTime" value="0"/>
+    <setting id="defaultPreloaderTime" value="0"/>
+    <setting id="blockerAlpha" value="0.1"/>
+    <setting id="blockerColor" value="16777215"/>
+    <setting id="autoPrepareInitialLoad" value="true"/>
+    <setting id="autoPrepareInitialTransition" value="true"/>
+    <setting id="showBlockerDuringTransitions" value="true"/>
+    <setting id="deeplinkingEnabled" value="true"/>
+    <setting id="deeplinkContent" value="true"/>
+    <setting id="trackingEnabled" value="true"/>
+    <setting id="libraryEnabled" value="true"/>
+    <setting id="fontsEnabled" value="true"/>
+    <setting id="stylesheetEnabled" value="true"/>
+    <setting id="dataBundleEnabled" value="true"/>
+    <setting id="showPagesInContextMenu" value="true"/>
+    <setting id="showAboutInContextMenu" value="false"/>
+    <setting id="localesEnabled" value="false"/>
+    <setting id="defaultLocale" value="en_GB"/>
+    <setting id="localizedFiles" value=""/>
+    <setting id="localeDelimiter" value="_"/>
+    <setting id="libraryFilename" value="library"/>
+    <setting id="fontsFilename" value="fonts"/>
+    <setting id="stylesheetFilename" value="flash_style"/>
+    <setting id="dataBundleFilename" value="data_bundle"/>
+    <setting id="logDetailDepth" value="10"/>
+    <setting id="traceLogLevel" value="ALL"/>
+    <setting id="eventLogLevel" value="WARNING"/>
+    <setting id="remoteLogLevel" value="NONE"/>
+    <setting id="monsterLogLevel" value="NONE"/>
+    <setting id="remoteLogURL" value=""/>
+    <setting id="errorsEnabled" value="true"/>
+  </settings>
+  <contents>
+    <contentGroup id="nested1" indexed="true" initialTransition="true" label="Content Group 1" priority="5" deeplink="" initialLoad="true">
+      <content id="content1" container="container1" indexed="true" initialTransition="true" label="Content 1" priority="0" deeplink="" assetGroup="none" initialLoad="true" autoDispose="false" autoDisposeAssets="false"/>
+      <content id="content2" container="container2" indexed="true" initialTransition="false" label="Content 2" priority="0" deeplink="" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false"/>
+    </contentGroup>
+    <contentGroup id="nested2" indexed="true" initialTransition="false" label="Content Group 2" priority="5" deeplink="" initialLoad="false">
+      <content id="content3" container="container1" indexed="false" initialTransition="false" label="Content 3" priority="0" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false"/>
+      <content id="content4" container="container2" indexed="false" initialTransition="false" label="Content 4" priority="0" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false"/>
+    </contentGroup>
+    <content id="navigation" container="navigation" indexed="false" initialTransition="true" label="Navigation" priority="2" deeplink="" assetGroup="none" initialLoad="true" autoDispose="false" autoDisposeAssets="false"/>
+  </contents>
+  <assets>
+    <assetGroup id="shell" initialLoad="true"/>
+    <assetGroup id="content1" initialLoad="false">
+      <asset id="test" path="xmlPath" url="test.xml" type="xml"/>
+    </assetGroup>
+  </assets>
+  <containers>
+    <container id="container1" x="0" y="0"/>
+    <container id="container2" x="200" y="0"/>
+    <container id="preloader" x="0" y="0"/>
+    <container id="overlay" x="0" y="0"/>
+    <container id="navigation" x="0" y="0"/>
+  </containers>
+  <locales>
+    <locale id="en_GB" label="English"/>
+    <locale id="sp_ES" label="Spanish"/>
+    <locale id="fr_FR" label="French"/>
+    <locale id="jp_JP" label="Japanese"/>
+  </locales>
+  <environments>
+    <environment id="default">
+      <path id="xmlPath" value="../xml/"/>
+      <path id="imagePath" value="../images/"/>
+      <path id="videoPath" value="../video/"/>
+      <path id="swfPath" value="../swfs/"/>
+      <path id="audioPath" value="../audio/"/>
+      <path id="fontsPath" value="../swfs/"/>
+      <path id="stylesheetPath" value="../stylesheet/"/>
+      <path id="dataBundlePath" value="../xml/"/>
+      <path id="libraryPath" value="../swfs/"/>
+    </environment>
+    <environment id="local">
+      <pattern value="file://"/>
+    </environment>
+    <environment id="development">
+      <pattern value="dev"/>
+    </environment>
+    <environment id="staging">
+      <pattern value="staging"/>
+    </environment>
+    <environment id="production"/>
+  </environments>
+</config>
