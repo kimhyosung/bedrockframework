@@ -183,6 +183,7 @@
 					loader = new ImageLoader( $asset.url, loaderVars );
 					break;
 				case BedrockAssetData.VIDEO :
+					loaderVars.autoPlay = $asset.autoPlay || false;
 					loader = new VideoLoader( $asset.url, loaderVars );
 					break;
 				case BedrockAssetData.AUDIO :
