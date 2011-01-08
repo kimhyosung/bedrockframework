@@ -1,0 +1,27 @@
+<project id="1291111521314122" name="Nested" generated="true">
+  <path>file:///D|/Projects/Bedrock/project/frameworkAS3/trunk/templates/nested/</path>
+  <rootPackage>__template</rootPackage>
+  <template>nested</template>
+  <frameworkVersion>3.1.0</frameworkVersion>
+  <width>900</width>
+  <height>550</height>
+  <fps>30</fps>
+  <playerVersion>10</playerVersion>
+  <autoDeclareStageInstances>false</autoDeclareStageInstances>
+  <publishFiles>false</publishFiles>
+  <created>30.10.2010</created>
+  <stageColor>3355443</stageColor>
+  <assetsFolder>assets/</assetsFolder>
+  <sourceFolder>source/</sourceFolder>
+  <deployFolder>wwwroot/</deployFolder>
+  <flas>
+    <file name="content1" path="source/content1.fla" type=".fla" publish="true"/>
+    <file name="content2" path="source/content2.fla" type=".fla" publish="true"/>
+    <file name="content3" path="source/content3.fla" type=".fla" publish="true"/>
+    <file name="content4" path="source/content4.fla" type=".fla" publish="true"/>
+    <file name="fonts" path="source/fonts.fla" type=".fla" publish="true"/>
+    <file name="library" path="source/library.fla" type=".fla" publish="true"/>
+    <file name="navigation" path="source/navigation.fla" type=".fla" publish="true"/>
+    <file name="shell" path="source/shell.fla" type=".fla" publish="true"/>
+  </flas>
+</project>
