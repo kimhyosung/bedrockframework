@@ -1,19 +1,15 @@
-package
+﻿package
 {
-	import com.bedrock.sampler.BedrockSampler;
-	
-	public class TestDocument extends BedrockSampler
+	public class TestDocument extends BedrockSampleBuilder
 	{
-		public function TestDocument()
-		{
-			super();
+		public function initialize():void
+		{			
+			this.addTestItem( "test1", new Test1 );
+			this.addTestItem( "test2", new Test2 );
+			this.addTestItem( "test3", new Test3 );
+			this.addTestItem( "test4", new Test3 );
 			
-			this._addTestItem( "test1", new Test1 );
-			this._addTestItem( "test2", new Test2 );
-			this._addTestItem( "test3", new Test3 );
-			this._addTestItem( "test4", new Test3 );
-			
-			this._initializeComplete();
+			this.initializeComplete();
 		}
 		
 	}

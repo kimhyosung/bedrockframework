@@ -1,19 +1,17 @@
 ﻿package
 {
-	public class TestDocument extends SampleTestBed
+	public class TestDocument extends BedrockSampleBuilder
 	{
-		public function TestDocument()
+		public function initialize():void
 		{
-			super();
+			this.addTestItem( "test1", new Test1 );
 			
-			this._addTestItem( "test1", new Test1 );
-			
-			this._initializeComplete();
+			this.initializeComplete();
 		}
 		
 	}
 }
-/* <initializingCloner> */
+/* <generalViewStack> */
 import com.bedrock.framework.plugin.view.ViewStack;
 import com.bedrock.framework.plugin.view.ViewStackData;
 
@@ -65,5 +63,5 @@ class Test1 extends MovieClip
 			this.viewStack.selectByIndex( $data.index );
 		}
 }
-/* </initializingCloner> */
+/* </generalViewStack> */
 
