@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GenericExtensionPopupView xmlns="com.bedrock.extension.view.popups.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:misc="com.bedrock.extension.view.misc.*">
+<GenericExtensionPopupView direction="horizontal" initialize="this._initialize()" xmlns="com.bedrock.extension.view.popups.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" xmlns:misc="com.bedrock.extension.view.misc.*">
 	<mx:Script>
 		<![CDATA[
 			import com.bedrock.framework.plugin.util.VariableUtil;
@@ -8,6 +8,14 @@
 			import mx.controls.Alert;
 			import mx.events.CloseEvent;
 			import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
+			
+			private var _templateManagementView:TemplateManagementView;
+			
+			private function _initialize():void
+			{
+				this._templateManagementView = new TemplateManagementView;
+				this._templateManagementView.initialize();
+			}
 			
 			public function populate():void
 			{
@@ -20,6 +28,15 @@
 				this.frameworkVersionCombo.dataProvider = ExtensionController.getInstance().versions;
 				this.frameworkVersionCombo.enabled = this.addBedrockClassPathsCheck.selected;
 			}
+			
+			private function _showTemplateManager():void
+			{
+				this.closePopup();
+				
+				PopUpManager.addPopUp( this._templateManagementView, ExtensionController.getInstance().root, true );
+				PopUpManager.centerPopUp( this._templateManagementView );
+			}
+			
 			private function _toggleBedrockClassPath():void
 			{
 				if ( this.addBedrockClassPathsCheck.selected ) {
@@ -64,11 +81,14 @@
 						break;
 				}
 			}
+			
+			
+			
 		]]>
 	</mx:Script>
-	<mx:Panel title="Panel Settings" verticalAlign="middle" styleName="parentPanel">
+	<mx:Panel title="Panel Settings" verticalAlign="middle" styleName="parentPanel" horizontalAlign="center">
 	
-		<mx:Panel title="Panel Settings" height="100%" horizontalAlign="center">
+		<mx:Panel title="Panel Behavior" height="100%" horizontalAlign="center">
 			<mx:Form >
 				<mx:FormItem>
 					<mx:CheckBox label="Automatically load most recent project" id="autoLoadMostRecentProjectCheck" change="this._toggleAutoLoadMostRecentProject()"/>
@@ -88,12 +108,13 @@
 				</mx:FormItem>
 			</mx:Form>
 		</mx:Panel>
+		<mx:Button label="Manage Templates" height="35" click="this._showTemplateManager()"/>
 		<mx:ControlBar >
 			<mx:Button label="Clear Settings" height="35" click="this._clearSettings()"/>
 			<mx:Spacer width="100%"/>
 			<mx:Button label="Done" height="35" click="this.closePopup()"/>
 		</mx:ControlBar>
-		
 	</mx:Panel>
+	
 	
 </GenericExtensionPopupView>

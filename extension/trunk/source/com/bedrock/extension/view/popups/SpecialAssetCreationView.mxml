@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GenericProjectPopupView xmlns="com.bedrock.extension.view.popups.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:misc="com.bedrock.extension.view.misc.*">
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.framework.engine.data.BedrockAssetData;
+			import com.bedrock.framework.engine.data.BedrockData;
+			import com.bedrock.extension.controller.ExtensionController;
+			import com.bedrock.framework.plugin.util.ArrayUtil;
+			import com.bedrock.framework.core.logging.Logger;
+			import com.bedrock.extension.controller.ProjectController;
+			import mx.managers.PopUpManager;
+			
+			public function populate():void
+			{
+				this.showPopup();
+			}
+			
+			private function _create():void
+            {
+        		var assetXML:XML = new XML( <asset id={ this.idCombo.selectedLabel } path={ this.pathCombo.selectedLabel }  /> );
+        		switch( this.idCombo.selectedLabel ) {
+        			case BedrockData.DATA_BUNDLE :
+		        		assetXML.@type = BedrockAssetData.XML;
+        				break;
+        			case BedrockData.FONTS :
+        			case BedrockData.LIBRARY :
+		        		assetXML.@type = BedrockAssetData.SWF;
+        				break;
+        			case BedrockData.STYLESHEET :
+		        		assetXML.@type = BedrockAssetData.STYLESHEET;
+        				break;
+        		}
+        		assetXML.@defaultURL = this.defaultURLText.text; 
+        		assetXML.@alternateURL = this.alternateURLText.text; 
+        		assetXML.@localeURL = this.localeURLText.text;
+        		assetXML.@localeEnabled = this.localeEnabledCheck.selected;
+        		
+            	var groupXML:XML = ProjectController.getInstance().config.assets..assetGroup.( @id == BedrockData.SHELL )[ 0 ];
+				groupXML.appendChild( assetXML );
+				
+            	this.closePopup( true );
+            }
+            
+			
+		]]>
+	</mx:Script>
+
+	<mx:Panel title="Create : Special Asset" styleName="parentPanel">
+	
+		<mx:Form width="100%" >
+			<mx:FormItem label="ID" width="100%" >
+				<mx:ComboBox id="idCombo" dataProvider="{ ProjectController.getInstance().resources.getBundle( 'specialAssetIDs' ) }" />
+			</mx:FormItem>
+			<mx:FormItem label="Path" width="100%" >
+				<mx:ComboBox id="pathCombo" dataProvider="{ ProjectController.getInstance().config.pathArray }" />
+			</mx:FormItem>
+			<mx:FormItem label="Default URL" width="100%" >
+				<mx:TextInput id="defaultURLText" />
+			</mx:FormItem>
+			<mx:FormItem label="Alternate URL" width="100%" >
+				<mx:TextInput id="alternateURLText" />
+			</mx:FormItem>
+			
+			<mx:HRule width="100%"/>
+			
+			<mx:FormItem label="Locale URL" width="100%" >
+				<mx:TextInput id="localeURLText" enabled="{ this.localeEnabledCheck.selected }" />
+			</mx:FormItem>
+			<mx:FormItem width="100%" >
+				<mx:CheckBox id="localeEnabledCheck" label="Locale Enabled"/>
+			</mx:FormItem>
+			
+		</mx:Form>
+		<misc:CreationControlBar cancel="this.closePopup( false )" create="this._create()"/>
+		
+	</mx:Panel>
+</GenericProjectPopupView>

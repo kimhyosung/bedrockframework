@@ -28,7 +28,6 @@
 				
 				this.populate();
 				this._behaviorCheckBoxes = new ArrayCollection( this._createOptions( "behaviorSettings", this.behaviorSettingsForm ) );
-				this._resourceCheckBoxes = new ArrayCollection( this._createOptions( "resourceSettings", this.resourceSettingsForm ) ); 
 			}
 			/*
 			Creation Functions
@@ -65,13 +64,6 @@
 				
 				this.localesEnabledCheck.selected = this._settingsProxy.localesEnabled;
 				this.defaultLocaleCombo.selectedIndex = this._findIndexInXML( this._settingsProxy.defaultLocale, ProjectController.getInstance().config.locales..locale );
-				this.localeDelimiterText.text = this._settingsProxy.localeDelimiter;
-				
-				var strLocalizedFiles:String = this._settingsProxy.localizedFiles;
-				this.fontsCheck.selected = ( strLocalizedFiles.indexOf( BedrockData.FONTS ) != -1 );
-				this.stylesheetCheck.selected = ( strLocalizedFiles.indexOf( BedrockData.STYLESHEET ) != -1 );
-				this.libraryCheck.selected = ( strLocalizedFiles.indexOf( BedrockData.LIBRARY ) != -1 );
-				this.dataBundleCheck.selected = ( strLocalizedFiles.indexOf( BedrockData.DATA_BUNDLE ) != -1 );
 				
 				this.logDetailDepthStepper.value = this._settingsProxy.logDetailDepth;
 				this.errorsEnabledCheck.selected = this._settingsProxy.errorsEnabled;
@@ -83,15 +75,6 @@
 				this.eventLogLevelCombo.selectedIndex = this._findIndexInArray( arrLogLevels, this._settingsProxy.eventLogLevel );
 				this.monsterLogLevelCombo.dataProvider = arrLogLevels;
 				this.monsterLogLevelCombo.selectedIndex = this._findIndexInArray( arrLogLevels, this._settingsProxy.monsterLogLevel );
-				this.remoteLogLevelCombo.dataProvider = arrLogLevels;
-				this.remoteLogLevelCombo.selectedIndex = this._findIndexInArray( arrLogLevels, this._settingsProxy.remoteLogLevel );
-				
-				this.remoteLogURLText.text = this._settingsProxy.remoteLogURL;
-				
-				this.filenameFontsText.text = this._settingsProxy.fontsFilename;
-				this.filenameDataBundleText.text = this._settingsProxy.dataBundleFilename;
-				this.filenameLibraryText.text = this._settingsProxy.libraryFilename;
-				this.filenameStylesheetText.text = this._settingsProxy.stylesheetFilename;
 			}
 			
 			private function updateSettings():void
@@ -101,7 +84,6 @@
 				this.applyBehaviorSettings();
 				this.applyResourceSettings();
 				this.applyLoggerSettings();
-				this.applyFilenameSettings();
 				ProjectController.getInstance().config.autoSaveConfig();
 			}
 			
@@ -130,24 +112,7 @@
 			private function applyLocaleSettings():void
 			{
 				this._settingsProxy.localesEnabled = this.localesEnabledCheck.selected;
-				this._settingsProxy.localeDelimiter = this.localeDelimiterText.text;
 				this._settingsProxy.defaultLocale = this.defaultLocaleCombo.selectedItem.@id;
-				
-				var arrLocalizedFiles:Array = new Array;
-				if ( this.fontsCheck.selected ) arrLocalizedFiles.push( BedrockData.FONTS );
-				if ( this.stylesheetCheck.selected ) arrLocalizedFiles.push( BedrockData.STYLESHEET );
-				if ( this.libraryCheck.selected ) arrLocalizedFiles.push( BedrockData.LIBRARY );
-				if ( this.dataBundleCheck.selected ) arrLocalizedFiles.push( BedrockData.DATA_BUNDLE );
-				
-				this._settingsProxy.localizedFiles = arrLocalizedFiles.toString();
-			}
-			private function applyFilenameSettings():void
-			{
-				this._settingsProxy.libraryFilename = this.filenameLibraryText.text;
-				this._settingsProxy.libraryFilename = this.filenameLibraryText.text;
-				this._settingsProxy.fontsFilename = this.filenameFontsText.text;
-				this._settingsProxy.stylesheetFilename = this.filenameStylesheetText.text;
-				this._settingsProxy.dataBundleFilename = this.filenameDataBundleText.text;
 			}
 			private function applyLoggerSettings():void
 			{
@@ -156,7 +121,6 @@
 				
 				this._settingsProxy.traceLogLevel = this.traceLogLevelCombo.selectedLabel;
 				this._settingsProxy.eventLogLevel = this.eventLogLevelCombo.selectedLabel;
-				this._settingsProxy.remoteLogLevel = this.remoteLogLevelCombo.selectedLabel;
 				this._settingsProxy.monsterLogLevel = this.monsterLogLevelCombo.selectedLabel;
 			}
 			/*
@@ -195,7 +159,7 @@
 		
 		
 		<mx:VBox height="100%">
-			<mx:Panel layout="vertical" title="General Settings" width="100%" height="50%">
+			<mx:Panel layout="vertical" title="General Settings" width="100%" height="100%">
 				<mx:Form id="generalSettingsForm">
 					<mx:FormItem label="Stage Alignment" width="100%">
 						<mx:ComboBox id="stageAlignmentCombo" change="this._onChange( event )" />
@@ -221,35 +185,12 @@
 				</mx:Form>
 			</mx:Panel>
 			
-			<mx:Panel layout="vertical" title="Locale Settings" width="100%" height="100%">
-		  		<mx:Form width="100%" height="100%">
-		  			<mx:FormItem label="Locales Enabled">
-						<mx:CheckBox id="localesEnabledCheck" selected="false" change="this._onChange( event )" />
-					</mx:FormItem>
-					<mx:FormItem label="Locale Delimiter">
-						<mx:TextInput id="localeDelimiterText" width="100%" text="_" maxChars="1" change="this._onChange( event )"/>
-					</mx:FormItem>
-					<mx:FormItem label="Default Locale">
-						<mx:ComboBox id="defaultLocaleCombo" dataProvider="{ ProjectController.getInstance().config.locales..locale }" labelField="@id"  change="this._onChange( event )"/>
-					</mx:FormItem>
-					<mx:FormItem label="Localized Files">
-						<mx:CheckBox id="libraryCheck" label="Library" change="this._onChange( event )"/>
-						<mx:CheckBox id="fontsCheck" label="Fonts" change="this._onChange( event )"/>
-						<mx:CheckBox id="stylesheetCheck" label="Stylesheet" change="this._onChange( event )"/>
-						<mx:CheckBox id="dataBundleCheck" label="Resource Bundle" change="this._onChange( event )"/>
-					</mx:FormItem>
-				</mx:Form>
-			</mx:Panel>
-			
 		</mx:VBox>
 		
 		<mx:VBox height="100%">
 			
-			<mx:Panel layout="vertical" title="Behavior Settings" height="100%" width="100%">
+			<mx:Panel layout="vertical" title="Behavior Settings" width="100%" height="100%">
 				<mx:Form id="behaviorSettingsForm"/>
-			</mx:Panel>
-			<mx:Panel layout="vertical" title="Resource Settings" width="100%" height="100%">
-				<mx:Form id="resourceSettingsForm"/>
 			</mx:Panel>
 			
 		</mx:VBox>
@@ -274,29 +215,16 @@
 					<mx:FormItem label="Monster Log Level">
 						<mx:ComboBox id="monsterLogLevelCombo" labelField="label" change="this._onChange( event )"/>
 					</mx:FormItem>
-					<mx:FormItem label="Remote Log Level">
-						<mx:ComboBox id="remoteLogLevelCombo" labelField="label" change="this._onChange( event )"/>
-					</mx:FormItem>
-					<mx:FormItem label="Remote Log URL" width="100%">
-						<mx:TextInput id="remoteLogURLText"  width="125" change="this._onChange( event )"/>
-					</mx:FormItem>
 				</mx:Form>
 			</mx:Panel>
 			
-			
-			<mx:Panel layout="vertical" title="Resource Filenames" width="100%" height="100%">
-				<mx:Form width="100%" height="100%">
-					<mx:FormItem label="Library">
-						<mx:TextInput width="125" id="filenameLibraryText" change="this._onChange( event )"/>
+			<mx:Panel layout="vertical" title="Locale Settings" width="100%" height="100%">
+		  		<mx:Form width="100%" height="100%">
+		  			<mx:FormItem label="Locales Enabled">
+						<mx:CheckBox id="localesEnabledCheck" selected="false" change="this._onChange( event )" />
 					</mx:FormItem>
-					<mx:FormItem label="Fonts">
-						<mx:TextInput width="125" id="filenameFontsText" change="this._onChange( event )"/>
-					</mx:FormItem>
-					<mx:FormItem label="Stylesheet">
-						<mx:TextInput width="125" id="filenameStylesheetText" change="this._onChange( event )"/>
-					</mx:FormItem>
-					<mx:FormItem label="Data Bundle">
-						<mx:TextInput width="125" id="filenameDataBundleText" change="this._onChange( event )"/>
+					<mx:FormItem label="Default Locale">
+						<mx:ComboBox id="defaultLocaleCombo" dataProvider="{ ProjectController.getInstance().config.locales..locale }" labelField="@id"  change="this._onChange( event )"/>
 					</mx:FormItem>
 				</mx:Form>
 			</mx:Panel>

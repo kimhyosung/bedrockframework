@@ -95,10 +95,10 @@
 			<mx:FormItem label="Asset Group" width="100%">
 				<mx:ComboBox id="assetGroupCombo" dataProvider="{ ProjectController.getInstance().config.contentAssetGroupsArray }" />
 			</mx:FormItem>
+			
 		</mx:Form>
-		
 		<mx:Form width="100%">
-		
+			
 			<mx:CheckBox  id="initialLoadCheck" label="Include in initial load"  />
 			<mx:CheckBox  id="initialTransitionCheck" label="Include in initial transition" change="this._onContentInitialTransitionChange( event )" />
 			
@@ -110,7 +110,27 @@
 			
 			<mx:CheckBox  id="autoDisposeCheck" label="Auto Dispose" />
 			<mx:CheckBox  id="autoDisposeAssetsCheck" label="Auto Dispose Assets" />
+			
 		</mx:Form>
+		<!--<mx:Form width="100%">
+		
+			<mx:FormItem width="100%">
+				<mx:CheckBox  id="specifyCheck" label="Specify swf filename" />
+			</mx:FormItem>
+			<mx:FormItem label="Filename" width="100%">
+				<mx:TextInput width="100%" enabled="{ this.specifyCheck.selected }"  />
+			</mx:FormItem>
+			
+			<mx:HRule width="100%"/>
+			
+			<mx:FormItem width="100%">
+				<mx:CheckBox  id="localeCheck" label="Locale Enabled" />
+			</mx:FormItem>
+			<mx:FormItem label="Locale URL" width="100%">
+				<mx:TextInput width="100%" enabled="{ this.localeCheck.selected }" />
+			</mx:FormItem>
+			
+		</mx:Form>-->
 			
 		<misc:CreationControlBar cancel="this.closePopup( false )" create="this._create()"/>
 	</mx:Panel>
