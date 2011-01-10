@@ -161,6 +161,7 @@
 		{
 			var loaderVars:Object = new Object;
 			loaderVars.name =  $asset.id;
+			loaderVars.alternateURL = $asset.alternateURL;
 			
 			var loader:LoaderItem;
 			switch( $asset.type ) {

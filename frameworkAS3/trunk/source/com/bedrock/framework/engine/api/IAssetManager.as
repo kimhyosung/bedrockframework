@@ -1,8 +1,8 @@
 ﻿package com.bedrock.framework.engine.api
 {
 	import com.bedrock.framework.engine.data.BedrockAssetData;
-	import com.bedrock.framework.plugin.storage.HashMap;
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
+	import com.bedrock.framework.plugin.storage.HashMap;
 
 	public interface IAssetManager
 	{

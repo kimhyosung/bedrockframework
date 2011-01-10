@@ -8,11 +8,15 @@
 	{
 		private var _level:uint;
 		
-		public function MonsterLogger( $logLevel:uint )
+		public function MonsterLogger()
+		{
+		}
+		
+		public function initialize( $logLevel:uint, $detailDepth:uint ):void
 		{
 			this.level = $logLevel;
 		}
-
+		
 		public function log( $trace:*, $data:LogData ):void
 		{
 			MonsterDebugger.trace( this, $trace, $data.categoryColor );

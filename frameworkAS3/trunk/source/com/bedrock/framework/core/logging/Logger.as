@@ -55,6 +55,7 @@ package com.bedrock.framework.core.logging
 		
 		public static function addTarget( $target:ILogger ):void
 		{
+			if ( !Logger.__initialized ) Logger.initialize();
 			Logger.__targets.push( $target );
 		}
 		
