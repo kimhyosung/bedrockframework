@@ -5,7 +5,7 @@
 	function initializeBedrockPanel()
 	{
 		fl.outputPanel.clear();
-		fl.outputPanel.trace( "Bedrock Panel | Version 2.0.1" );
+		fl.outputPanel.trace( "Bedrock Panel | Version 2.0.3" );
 		fl.outputPanel.trace( "" );
 	}
 	function getConstants()
@@ -62,26 +62,42 @@
 		projectObj.selectedFrameworkSamplesPath = projectObj.selectedFrameworkPath + "samples/";
 		projectObj.selectedFrameworkTemplatePath = projectObj.selectedFrameworkPath + "templates/";
 		projectObj.selectedFrameworkClassTemplatePath = projectObj.selectedFrameworkTemplatePath + "classes/";
-		projectObj.selectedTemplatePath = projectObj.selectedFrameworkTemplatePath + projectObj.template + "/";
-		projectObj.selectedTemplateSourcePath = projectObj.selectedTemplatePath + constants.projectSourceFolder;
-		projectObj.selectedTemplateDeployPath = projectObj.selectedTemplatePath + constants.projectDeployFolder;
-		
+				
 		return projectObj;
 	}
-	
+	function convertTemplate( $data )
+	{
+		var templateXML = new XML( unescape( $data ) );
+		
+		var templateObj = new Object;
+		for each( var item in templateXML.children() ) {
+			templateObj[ item.name() ] = sanitize( item.toString() );
+		}
+		
+		templateObj.templateAssetsPath = templateObj.path + templateObj.assetsFolder;
+		templateObj.templateSourcePath = templateObj.path + templateObj.sourceFolder;
+		templateObj.templateDeployPath = templateObj.path + templateObj.deployFolder;
+		
+		fl.trace( templateObj.templateAssetsPath );
+		
+		return templateObj;
+	}
 	/*
 	Project Management
 	*/
-	function generateProject( $projectXML )
+	function generateProject( $projectXML, $templateXML )
 	{
 		var project = convertProject( $projectXML );
+		var template = convertTemplate( $templateXML );
 		
 		FLfile.createFolder( project.assetsPath );
 		FLfile.createFolder( project.sourcePath );
 		FLfile.createFolder( project.deployPath );
 		
-		copyFolder( project.selectedTemplateSourcePath, project.sourcePath );
-		copyFolder( project.selectedTemplateDeployPath, project.deployPath );
+		copyFolder( template.templateAssetsPath, project.assetsPath );
+		copyFolder( template.templateSourcePath, project.sourcePath );
+		copyFolder( template.templateDeployPath, project.deployPath );
+		
 		moveFolder( project.tempClassPath, project.rootPackagePath );
 		
 		changeASPackagePaths( project.rootPackagePath, project.rootPackage );
@@ -419,11 +435,19 @@
 	
 	
 	
-	function getTemplates( $project )
+	function getVersionTemplates( $project )
 	{
+		var templatesXML = new XML( <templates/> );
 		var project = convertProject( $project );
 		var folders = FLfile.listFolder( project.selectedFrameworkTemplatePath, "directories" );
-		return escape( folders.toString() );
+		var path;
+		for each( var folder in folders ) {
+			path = project.selectedFrameworkTemplatePath + folder + "/template.bedrock";
+			if ( FLfile.exists( path ) ) {
+				templatesXML.appendChild( <template path={ path } /> );
+			}
+		}
+		return escape( templatesXML.toXMLString() );
 	}
 	
 	
@@ -444,7 +468,7 @@
 	function openConfig( $projectXML )
 	{
 		var project = convertProject( $projectXML );
-		if ( FLfile.exists ( project.configPath ) ) {
+		if ( FLfile.exists( project.configPath ) ) {
 			return FLfile.read( project.configPath );
 		} else {
 			return new String;
@@ -476,6 +500,15 @@
 	function selectProjectFolder()
 	{
 		return fl.browseForFolderURL("Select a new Bedrock Project folder");
+	}
+	function selectTemplateFile()
+	{
+		var strLocation = fl.browseForFileURL("select", "Select a template.bedrock file");
+		if ( strLocation != null && strLocation.indexOf( "template.bedrock" ) != -1 ) {
+			return strLocation;
+		} else {
+			return "";
+		}
 	}
 	function selectProjectFile()
 	{

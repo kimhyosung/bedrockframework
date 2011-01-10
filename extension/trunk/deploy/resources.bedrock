@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <bundles>
-  <bundle id="resourceSettings" type="array">
-    <setting id="libraryEnabled" label="Library Enabled" />
-    <setting id="fontsEnabled" label="Fonts Enabled" />
-    <setting id="stylesheetEnabled" label="Stylesheet Enabled" />
-    <setting id="dataBundleEnabled" label="Data Bundle Enabled" />
+  <bundle id="specialAssetIDs" type="array">
+    <asset>dataBundle</asset>
+    <asset>library</asset>
+    <asset>fonts</asset>
+    <asset>stylesheet</asset>
   </bundle>
   <bundle id="behaviorSettings" type="array">
     <setting id="autoPrepareInitialLoad" label="Auto Prepare Initial Load" />
@@ -45,6 +45,7 @@
   </bundle>
   <bundle id="assetCreationOptions" type="array">
     <option label="Asset" value="asset" />
+    <option label="Special Asset" value="specialAsset" />
     <option label="Asset Group" value="assetGroup" />
   </bundle>
   <bundle id="localeCreationOptions" type="array">

@@ -38,6 +38,8 @@ package com.bedrock.extension.controller
 		[Bindable]
 		public var configXML:XML;
 		[Bindable]
+		public var templateXML:XML;
+		[Bindable]
 		public var templates:Array;
 		[Bindable]
 		public var versions:Array;
@@ -50,6 +52,7 @@ package com.bedrock.extension.controller
 		
 		
 		private var _projectUpdateView:ProjectUpdateView;
+		private var _customTemplates:Array;
 		
 		
 		/*
@@ -133,6 +136,7 @@ package com.bedrock.extension.controller
 				this.createSettings();
 			}
 			this._parseProjects();
+			this._parseTemplates();
 		}
 	 	public function createSettings():void
 		{
@@ -143,6 +147,7 @@ package com.bedrock.extension.controller
 				<addBedrockToClassPaths>false</addBedrockToClassPaths>
 				<includeSubFoldersInProjectBrowser>true</includeSubFoldersInProjectBrowser>
 				<projects/>
+				<templates/>
 			</settings> );
 
 			this.saveSettings();
@@ -230,8 +235,33 @@ package com.bedrock.extension.controller
 		}
 		public function loadTemplates():void
 		{
-			this.templates = this.delegate.getTemplates( this.projectXML ).split( "," );
-			ArrayUtil.findAndRemove( this.templates, "classes" );
+			this.templates = new Array;
+			this._loadVersionTemplates();
+			this._loadCustomTemplates();
+		}
+		private function _loadVersionTemplates():void
+		{
+			var templatesXML:XML = new XML( this.delegate.getVersionTemplates( this.projectXML ) );
+			var templateSettingsXML:XML;
+			var path:String;
+			for each ( var templateXML:XML in templatesXML..template ) {
+				templateSettingsXML = this._openTemplate( templateXML.@path );
+				
+				path = StringUtil.replace( VariableUtil.sanitize( templateXML.@path ), "template.bedrock", "" );
+				this.templates.push( { name:VariableUtil.sanitize( templateSettingsXML.name ), path:path } );
+			}
+		}
+		private function _loadCustomTemplates():void
+		{
+			for each ( var templateObj:Object in this._customTemplates ) {
+				if ( templateObj.versions.length == 0 ) {
+					this.templates.push( templateObj );
+				} else {
+					if ( ArrayUtil.containsItem( templateObj.versions, this.projectXML.frameworkVersion ) ) {
+						this.templates.push( templateObj );
+					}
+				}
+			}
 		}
 		public function findProject():Boolean
 		{
@@ -312,7 +342,7 @@ package com.bedrock.extension.controller
 		{
 			if ( this.projectXML.rootPackage != "" && this.projectXML.path != "" && this.projectXML.@name != "") {
 				this.projectXML.@generated = true;
-				this.delegate.generateProject( this.projectXML );
+				this.delegate.generateProject( this.projectXML, this.templateXML );
 				this.saveProject();
 				this.registerProject( this.projectXML );
 				this.loadProject( this.projectXML.path );
@@ -328,6 +358,64 @@ package com.bedrock.extension.controller
 		{
 			delete ProjectController.getInstance().config.contents..content.( @id == $details.@id )[ 0 ];
 			this.delegate.deleteContent( this.projectXML, $details );
+		}
+		/*
+		Templates
+		*/
+		public function findTemplate():Boolean
+		{
+			var strLocation:String = this.delegate.selectTemplateFile();
+			if ( strLocation != "" ) {
+				this.registerTemplate( strLocation );
+				return true;
+			} else {
+				return false;
+			}
+		}
+		public function registerTemplate( $path:String ):void
+		{
+			var templateXML:XML = this._openTemplate( $path );
+			if ( templateXML != null ) {
+				this.settingsXML.templates.appendChild( <template name={ templateXML.name } path={ StringUtil.replace( $path, "template.bedrock", "" ) } versions={ templateXML.versions } /> );
+			}
+			this.saveSettings();
+		}
+		public function loadTemplate( $name:String ):void
+		{
+			var template:Object = ArrayUtil.findItem( this.templates, $name, "name" );
+			if ( template != null ) {
+				this.templateXML = this._openTemplate( template.path + "template.bedrock" );
+				this.templateXML.path = template.path;
+			}
+		}
+		public function removeTemplate( $name:String ):void
+		{
+			delete this.settingsXML.templates..template.( @name == $name )[ 0 ];
+			this.saveSettings();
+		}
+		
+		private function _openTemplate( $path:String ):XML
+		{
+			var strContent:String = this.delegate.openFile( $path );
+			if ( strContent != "" && strContent != null ) {
+				return new XML( strContent );
+			}
+			return null;
+		}
+		
+		private function _parseTemplates():void
+		{
+			var templateObj:Object;
+			this._customTemplates = new Array;
+			for each( var templateXML:XML in this.settingsXML.templates..template ) {
+				templateObj = XMLUtil2.getAttributesAsObject( templateXML );
+				if ( templateObj.versions == "*" ) {
+					templateObj.versions = new Array;
+				} else {
+					templateObj.versions = templateObj.versions.split( "," );
+				}
+				this._customTemplates.push( templateObj );
+			}
 		}
 		/*
 		Popup Functions

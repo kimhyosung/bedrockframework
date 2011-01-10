@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GenericExtensionPopupView xmlns="com.bedrock.extension.view.popups.*" xmlns:mx="http://www.adobe.com/2006/mxml">
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.extension.controller.ExtensionController;
+			
+			[Embed("assets/CreateIcon.png")]
+            private var CreateIcon:Class;
+            [Embed("assets/DeleteIcon.png")]
+            private var DeleteIcon:Class;
+			
+			private function _findTemplate():void
+			{
+				ExtensionController.getInstance().findTemplate();
+			}
+			private function _removeTemplate():void
+			{
+				ExtensionController.getInstance().removeTemplate( this.templateGrid.selectedItem.@name );
+			}
+			
+		]]>
+	</mx:Script>
+	<mx:Panel title="Templates" styleName="parentPanel" height="100%">
+		<mx:DataGrid height="100%" width="400" id="templateGrid" dataProvider="{ ExtensionController.getInstance().settingsXML.templates..template }">
+			<mx:columns>
+				<mx:DataGridColumn headerText="Name" dataField="@name"/>
+				<mx:DataGridColumn headerText="Path" dataField="@path"/>
+				<mx:DataGridColumn headerText="Versions" dataField="@versions"/>
+			</mx:columns>
+		</mx:DataGrid>
+		<mx:ControlBar >
+			<mx:Button click="this._findTemplate()" id="createButton"  icon="{ CreateIcon }" toolTip="Add Template"/>
+			<mx:Button click="this._removeTemplate()" id="deleteButton"  icon="{ DeleteIcon }"  toolTip="Remove Template"  enabled="{ this.templateGrid.selectedIndex != -1 }"/>
+			
+			<mx:Spacer width="100%"/>
+			<mx:Button label="Done" height="35" click="this.closePopup()"/>
+		</mx:ControlBar>
+	</mx:Panel>
+	
+</GenericExtensionPopupView>

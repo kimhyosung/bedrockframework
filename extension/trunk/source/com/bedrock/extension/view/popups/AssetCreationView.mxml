@@ -23,8 +23,15 @@
 			private function _create():void
             {
             	if ( this.idText.text != "" && this.idText.text != null ) {
-	            	var xmlNode:XML = ProjectController.getInstance().config.assets..assetGroup.( @id == this.assetGroupCombo.selectedLabel )[ 0 ];
-					xmlNode.appendChild( <asset id={ this.idText.text } type={ this.typeCombo.selectedLabel } path={ this.pathCombo.selectedLabel } url={ this.urlText.text } /> );
+            		var assetXML:XML = new XML( <asset id={ this.idText.text } type={ this.typeCombo.selectedLabel } path={ this.pathCombo.selectedLabel }  /> );
+            		assetXML.@defaultURL = this.defaultURLText.text; 
+            		assetXML.@alternateURL = this.alternateURLText.text; 
+            		assetXML.@localeURL = this.localeURLText.text;
+            		assetXML.@localeEnabled = this.localeEnabledCheck.selected;
+            		
+	            	var groupXML:XML = ProjectController.getInstance().config.assets..assetGroup.( @id == this.assetGroupCombo.selectedLabel )[ 0 ];
+					groupXML.appendChild( assetXML );
+					
 	            	this.closePopup( true );
             	}
             }
@@ -39,14 +46,26 @@
 			<mx:FormItem label="ID" width="100%" >
 				<mx:TextInput id="idText" restrict="a-zA-Z0-9_"/>
 			</mx:FormItem>
+			<mx:FormItem label="Type" width="100%" >
+				<mx:ComboBox id="typeCombo" dataProvider="{ ProjectController.getInstance().resources.getBundle( 'assetTypeOptions' ) }" />
+			</mx:FormItem>
 			<mx:FormItem label="Path" width="100%" >
 				<mx:ComboBox id="pathCombo" dataProvider="{ ProjectController.getInstance().config.pathArray }" />
 			</mx:FormItem>
-			<mx:FormItem label="URL" width="100%" >
-				<mx:TextInput id="urlText" restrict="a-zA-Z0-9._"/>
+			<mx:FormItem label="Default URL" width="100%" >
+				<mx:TextInput id="defaultURLText" />
 			</mx:FormItem>
-			<mx:FormItem label="Type" width="100%" >
-				<mx:ComboBox id="typeCombo" dataProvider="{ ProjectController.getInstance().resources.getBundle( 'assetTypeOptions' ) }" />
+			<mx:FormItem label="Alternate URL" width="100%" >
+				<mx:TextInput id="alternateURLText" />
+			</mx:FormItem>
+			
+			<mx:HRule width="100%"/>
+			
+			<mx:FormItem label="Locale URL" width="100%" >
+				<mx:TextInput id="localeURLText" enabled="{ this.localeEnabledCheck.selected }" />
+			</mx:FormItem>
+			<mx:FormItem width="100%" >
+				<mx:CheckBox id="localeEnabledCheck" label="Locale Enabled"/>
 			</mx:FormItem>
 			
 			<mx:HRule width="100%"/>

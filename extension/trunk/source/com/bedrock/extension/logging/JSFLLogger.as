@@ -3,6 +3,7 @@ package com.bedrock.extension.logging
 	import com.bedrock.extension.delegate.JSFLDelegate;
 	import com.bedrock.framework.core.logging.ILogger;
 	import com.bedrock.framework.core.logging.LogData;
+	import com.bedrock.framework.plugin.logging.LogFormatter;
 
 	public class JSFLLogger implements ILogger
 	{
@@ -11,14 +12,21 @@ package com.bedrock.extension.logging
 		public var data:LogData;
 		public var delegate:JSFLDelegate;
 		
-		public function JSFLLogger( $detailDepth:uint=10 )
+		private var _formatter:LogFormatter;
+		
+		public function JSFLLogger()
 		{
 			this.delegate = new JSFLDelegate;
 			this.delegate.initialize( "Bedrock Framework/BedrockBridge.jsfl" );
 		}
+		public function initialize( $logLevel:uint, $detailDepth:uint ):void
+		{
+			this.level = $logLevel;
+			this._formatter = new LogFormatter( $detailDepth );
+		}
 		public function log( $trace:*, $data:LogData ):void
 		{
-			this.delegate.output ( $trace.toString() );
+			this.delegate.output ( this._formatter.format( $trace, $data ) );
 		}
 		public function set level( $level:uint ):void
 		{
