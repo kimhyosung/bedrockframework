@@ -41,7 +41,6 @@
   </assets>
   <containers>
     <container id="container1" x="0" y="0"/>
-    <container id="container2" x="200" y="0"/>
     <container id="preloader" x="0" y="0"/>
     <container id="overlay" x="0" y="0"/>
     <container id="navigation" x="0" y="0"/>
