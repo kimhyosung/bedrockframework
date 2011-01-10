@@ -33,8 +33,6 @@
 		public static var stylesheetManager:IStylesheetManager;
 		public static var trackingManager:ITrackingManager;
 		
-		public static var resourceDelegate:IResourceDelegate;
-		
 		bedrock static var config:IConfig;
 		public static var history:IHistory;
 	}

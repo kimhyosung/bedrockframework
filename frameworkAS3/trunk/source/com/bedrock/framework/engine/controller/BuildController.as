@@ -10,7 +10,6 @@
 	import com.bedrock.framework.engine.builder.BedrockBuilder;
 	import com.bedrock.framework.engine.command.*;
 	import com.bedrock.framework.engine.data.BedrockData;
-	import com.bedrock.framework.engine.delegate.DefaultResourceDelegate;
 	import com.bedrock.framework.engine.event.BedrockEvent;
 	import com.bedrock.framework.engine.manager.*;
 	import com.bedrock.framework.engine.model.*;
@@ -116,8 +115,6 @@
 			BedrockEngine.stylesheetManager = new StylesheetManager;
 			BedrockEngine.trackingManager = new TrackingManager;
 			
-			BedrockEngine.resourceDelegate = new DefaultResourceDelegate;
-			
 			BedrockEngine.bedrock::config = new Config;
 			BedrockEngine.history = new History;
 		}
@@ -141,12 +138,15 @@
 		private function _initializeFeatureGroupB():void
 		{
 			this._setupLogger();
+			if ( BedrockEngine.data.localesEnabled ) this._setupLocales();
 			this._initializeVitals();
 			this._prepareBlocker();
 			if ( BedrockEngine.data.showPagesInContextMenu ) this._setupContextMenu();
-			if ( BedrockEngine.data.localesEnabled ) this._setupLocales();
+
+			BedrockEngine.bedrock::resourceController.initialize();
 			
 			IBedrockBuilder( this.builder ).preinitialize();
+			
 			BedrockEngine.bedrock::resourceController.queue( false );
 			
 			if ( !BedrockEngine.data.autoPrepareInitialLoad && !BedrockEngine.data.autoPrepareInitialTransition ) {
@@ -204,9 +204,18 @@
 		{
 			Logger.errorsEnabled = BedrockEngine.data.errorsEnabled;
 			
-			Logger.addTarget( new TraceLogger( LogLevel[ BedrockEngine.data.traceLogLevel ], BedrockEngine.data.logDetailDepth ) );
-			Logger.addTarget( new EventLogger( LogLevel[ BedrockEngine.data.eventLogLevel ] ) );
-			Logger.addTarget( new MonsterLogger( LogLevel[ BedrockEngine.data.monsterLogLevel ] ) );
+			var logger:ILogger = new TraceLogger;
+			logger.initialize( LogLevel[ BedrockEngine.data.traceLogLevel ], BedrockEngine.data.logDetailDepth );
+			Logger.addTarget( logger );
+			
+			logger = new EventLogger;
+			logger.initialize( LogLevel[ BedrockEngine.data.eventLogLevel ], BedrockEngine.data.logDetailDepth );
+			Logger.addTarget( logger );
+			
+			logger = new MonsterLogger;
+			logger.initialize( LogLevel[ BedrockEngine.data.monsterLogLevel ], BedrockEngine.data.logDetailDepth );
+			Logger.addTarget( logger );
+			
 		}
 		private function _initializeVitals():void
 		{
@@ -245,9 +254,8 @@
 		}
 		private function _setupLocales():void
 		{
-			var strCurrentLocale:String = BedrockEngine.data.currentLocale;
-			var strDefaultLocale:String = BedrockEngine.data.defaultLocale;
-			BedrockEngine.localeManager.initialize( BedrockEngine.bedrock::config.locales, BedrockEngine.data.localizedFiles, strDefaultLocale, strCurrentLocale, BedrockEngine.data.localeDelimiter );
+			if ( BedrockEngine.data.currentLocale == null ) BedrockEngine.data.defaultLocale;
+			BedrockEngine.localeManager.initialize( BedrockEngine.bedrock::config.locales, BedrockEngine.data.defaultLocale, BedrockEngine.data.currentLocale );
 		}
 		/*
 		Load Completion Notice

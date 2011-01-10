@@ -3,9 +3,14 @@
 	import com.bedrock.framework.core.base.StandardBase;
 	import com.bedrock.framework.engine.BedrockEngine;
 	import com.bedrock.framework.engine.api.IResourceController;
+	import com.bedrock.framework.engine.data.BedrockAssetData;
+	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
 	import com.bedrock.framework.engine.data.BedrockData;
-	import com.bedrock.framework.engine.event.BedrockEvent;
+	import com.bedrock.framework.plugin.util.ArrayUtil;
 	import com.greensock.events.LoaderEvent;
+	import com.greensock.loading.CSSLoader;
+	import com.greensock.loading.SWFLoader;
+	import com.greensock.loading.XMLLoader;
 	import com.greensock.loading.core.LoaderItem;
 	
 	import flash.system.LoaderContext;
@@ -15,75 +20,105 @@
 		/*
 		Variable Declarations
 		*/
-		
+		private var _shellGroup:BedrockAssetGroupData;
 		/*
 		Constructor
 	 	*/
 		public function ResourceController()
 		{
-			
+		}
+		
+		public function initialize():void
+		{
+			this._shellGroup = BedrockEngine.assetManager.getGroup( BedrockData.SHELL );
+			BedrockEngine.data.dataBundleEnabled = this._isResourceEnabled( BedrockData.DATA_BUNDLE );
+			BedrockEngine.data.libraryEnabled = this._isResourceEnabled( BedrockData.LIBRARY );
+			BedrockEngine.data.fontsEnabled = this._isResourceEnabled( BedrockData.FONTS );
+			BedrockEngine.data.stylesheetEnabled = this._isResourceEnabled( BedrockData.STYLESHEET );
 		}
 		
 		public function queue( $autoLoad:Boolean = true ):void
 		{
 			var currentLocale:String = BedrockEngine.localeManager.currentLocale;
 			
-			this._queueDataBundle( BedrockEngine.data.dataBundleEnabled, BedrockEngine.localeManager.isFileLocalized( BedrockData.DATA_BUNDLE ), currentLocale );
-			this._queueStylesheet( BedrockEngine.data.stylesheetEnabled, BedrockEngine.localeManager.isFileLocalized( BedrockData.STYLESHEET ), currentLocale );
-			this._queueFonts( BedrockEngine.data.fontsEnabled, BedrockEngine.localeManager.isFileLocalized( BedrockData.FONTS ), currentLocale );
-			this._queueLibrary( BedrockEngine.data.libraryEnabled, BedrockEngine.localeManager.isFileLocalized( BedrockData.LIBRARY ), currentLocale );
+			this._prepareDataBundle();
+			this._prepareLibrary();
+			this._prepareFonts();
+			this._prepareStylesheet();
 			
 			if ( $autoLoad ) BedrockEngine.loadController.load();
 		}
 		
-		private function _queueFonts( $enabled:Boolean, $localized:Boolean, $locale:String = null ):void
+		private function _isResourceEnabled( $id:String ):Boolean
 		{
-			if ( $enabled ) {
-				var loader:LoaderItem = BedrockEngine.resourceDelegate.prepareFontsLoader( $localized, $locale );
-				loader.vars.context = this._getLoaderContext();
-				if ( loader != null ) {
-					loader.addEventListener( LoaderEvent.COMPLETE, this._onFontsComplete, false, 10000 );
-					BedrockEngine.loadController.appendLoader( loader );
-				} else {
-					this.warning( "Fonts loader does not extend LoaderItem!" );
-				}
+			return ArrayUtil.containsItem( this._shellGroup.assets, $id, "id" );
+		}
+		private function _getResourceData( $id:String ):BedrockAssetData
+		{
+			return ArrayUtil.findItem( this._shellGroup.assets, $id, "id" );
+		}
+		
+		private function _prepareDataBundle():void
+		{
+			if ( this._isResourceEnabled( BedrockData.DATA_BUNDLE ) ) {
+				var data:BedrockAssetData = this._getResourceData( BedrockData.DATA_BUNDLE );
+				
+				var loaderVars:Object = new Object;
+				loaderVars.name = BedrockData.DATA_BUNDLE;
+				loaderVars.alternateURL = data.alternateURL;
+				
+				var loader:LoaderItem = new XMLLoader( data.url, loaderVars );
+				loader.addEventListener( LoaderEvent.COMPLETE, this._onDataBundleComplete, false, 10000 );
+				
+				BedrockEngine.loadController.appendLoader( loader );
 			}
 		}
-		private function _queueStylesheet( $enabled:Boolean, $localized:Boolean, $locale:String = null ):void
+		private function _prepareLibrary():void
 		{
-			if ( $enabled ) {
-				var loader:LoaderItem = BedrockEngine.resourceDelegate.prepareStylesheetLoader( $localized, $locale );
-				if ( loader != null ) {
-					loader.addEventListener( LoaderEvent.COMPLETE, this._onStylesheetComplete, false, 10000 );
-					BedrockEngine.loadController.appendLoader( loader );
-				} else {
-					this.warning( "Stylesheet loader does not extend LoaderItem!" );
-				}
+			if ( this._isResourceEnabled( BedrockData.LIBRARY ) ) {
+				var data:BedrockAssetData = this._getResourceData( BedrockData.LIBRARY );
+				
+				var loaderVars:Object = new Object;
+				loaderVars.name = BedrockData.LIBRARY;
+				loaderVars.alternateURL = data.alternateURL;
+				loaderVars.context = this._getLoaderContext();
+				
+				var loader:LoaderItem = new SWFLoader( data.url, loaderVars );
+				loader.addEventListener( LoaderEvent.COMPLETE, this._onLibraryComplete, false, 10000 );
+				
+				BedrockEngine.loadController.appendLoader( loader );
 			}
 		}
-		private function _queueDataBundle( $enabled:Boolean, $localized:Boolean, $locale:String = null ):void
+		private function _prepareFonts():void
 		{
-			if ( $enabled ) {
-				var loader:LoaderItem = BedrockEngine.resourceDelegate.prepareDataBundleLoader( $localized, $locale );
-				if ( loader != null ) {
-					loader.addEventListener( LoaderEvent.COMPLETE, this._onDataBundleComplete, false, 10000 );
-					BedrockEngine.loadController.appendLoader( loader );
-				} else {
-					this.warning( "DataBundle loader does not extend LoaderItem!" );
-				}
+			if ( this._isResourceEnabled( BedrockData.FONTS ) ) {
+				var data:BedrockAssetData = this._getResourceData( BedrockData.FONTS );
+				
+				var loaderVars:Object = new Object;
+				loaderVars.name = BedrockData.FONTS;
+				loaderVars.alternateURL = data.alternateURL;
+				loaderVars.context = this._getLoaderContext();
+				
+				var loader:LoaderItem = new SWFLoader( data.url, loaderVars );
+				loader.addEventListener( LoaderEvent.COMPLETE, this._onFontsComplete, false, 10000 );
+				
+				BedrockEngine.loadController.appendLoader( loader );
 			}
 		}
-		private function _queueLibrary( $enabled:Boolean, $localized:Boolean, $locale:String = null ):void
+		private function _prepareStylesheet():void
 		{
-			if ( $enabled ) {
-				var loader:LoaderItem = BedrockEngine.resourceDelegate.prepareLibraryLoader( $localized, $locale );
-				loader.vars.context = this._getLoaderContext();
-				if ( loader != null ) {
-					loader.addEventListener( LoaderEvent.COMPLETE, this._onLibraryComplete, false, 10000 );
-					BedrockEngine.loadController.appendLoader( loader );
-				} else {
-					this.warning( "Library loader does not extend LoaderItem!" );
-				}
+			if ( this._isResourceEnabled( BedrockData.STYLESHEET ) ) {
+				var data:BedrockAssetData = this._getResourceData( BedrockData.STYLESHEET );
+				
+				var loaderVars:Object = new Object;
+				loaderVars.name = BedrockData.STYLESHEET;
+				loaderVars.alternateURL = data.alternateURL;
+				loaderVars.context = this._getLoaderContext();
+				
+				var loader:LoaderItem = new CSSLoader( data.url, loaderVars );
+				loader.addEventListener( LoaderEvent.COMPLETE, this._onStylesheetComplete, false, 10000 );
+				
+				BedrockEngine.loadController.appendLoader( loader );
 			}
 		}
 		

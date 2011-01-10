@@ -24,10 +24,10 @@ package com.bedrock.framework.plugin.logging
 		private var _categoryDictionary:Dictionary;
 		private var _level:uint;
 		
-		public function EventLogger( $logLevel:uint )
+		public function EventLogger()
 		{
-			this.level = $logLevel;
 			this.createCategoryLabels();
+			
 		}
 		
 		private function createCategoryLabels():void
@@ -40,7 +40,10 @@ package com.bedrock.framework.plugin.logging
 			this._categoryDictionary[LogLevel.WARNING.toString()] = LogEvent.WARNING;
 		}
 		
-		
+		public function initialize( $logLevel:uint, $detailDepth:uint ):void
+		{
+			this.level = $logLevel;
+		}
 		public function log( $trace:*, $data:LogData ):void
 		{
 			BedrockDispatcher.dispatchEvent( new LogEvent( this._categoryDictionary[ $data.category ], this, $data ) );

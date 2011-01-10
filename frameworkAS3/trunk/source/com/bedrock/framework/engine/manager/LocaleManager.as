@@ -4,34 +4,29 @@
 	import com.bedrock.framework.engine.BedrockEngine;
 	import com.bedrock.framework.engine.api.ILocaleManager;
 	import com.bedrock.framework.engine.bedrock;
-	import com.bedrock.framework.plugin.util.XMLUtil2;
 	import com.bedrock.framework.plugin.util.ArrayUtil;
+	import com.bedrock.framework.plugin.util.XMLUtil2;
 	
 	public class LocaleManager extends StandardBase implements ILocaleManager
 	{
 		/*
 		Variable Declarations
 		*/
-		private var _delimiter:String;
 		private var _defaultLocale:String;
 		private var _currentLocale:String;
 		private var _data:Array;
-		private var _localizedFiles:String;
 		/*
 		Constructor
 		*/
 		public function LocaleManager()
 		{
 			this._data = new Array;
-			this._localizedFiles = "";
 		}
-		public function initialize( $data:XML, $localizedFiles:String, $defaultLocale:String = null, $currentLocale:String = null, $delimiter:String = "_" ):void
+		public function initialize( $data:XML, $defaultLocale:String, $currentLocale:String ):void
 		{
 			this.parse( $data );
-			this._localizedFiles = $localizedFiles;
 			this._defaultLocale = $defaultLocale;
-			this._currentLocale = $currentLocale || this._defaultLocale;
-			this._delimiter = $delimiter;
+			this._currentLocale = $currentLocale;
 		}
 		private function parse( $data:XML ):void
 		{
@@ -42,7 +37,7 @@
 		}
 		public function load($locale:String = null ):void
 		{
-			if ( !this.isLocaleAvailable($locale) ) {
+			if ( !this.hasLocale($locale) ) {
 				this.warning( "Locale not available - " + $locale );
 			} else {
 				this.status( "Loading Locale - " + $locale );
@@ -51,32 +46,21 @@
 			}
 		}
 		
-		public function isLocaleAvailable($locale:String):Boolean
+		public function getLocale( $id:String ):Object
+		{
+			return ArrayUtil.findItem( this._data, $id, "id" );
+		}
+		
+		public function hasLocale($locale:String):Boolean
 		{
 			return ArrayUtil.containsItem( this._data, $locale );
-		}
-		public function isFileLocalized( $file:String ):Boolean
-		{
-			return ( this._localizedFiles.indexOf( $file ) != -1 );
 		}
 		/*
 		Property Definitions
 		*/
-		public function set delimiter( $delimiter:String ):void
-		{
-			this._delimiter = $delimiter;
-		}
-		public function get delimiter():String
-		{
-			return this._delimiter;
-		}
 		public function get data():Array
 		{
 			return this._data;
-		}
-		public function set currentLocale( $value:String ):void
-		{
-			this._currentLocale = $value;
 		}
 		public function get currentLocale():String
 		{

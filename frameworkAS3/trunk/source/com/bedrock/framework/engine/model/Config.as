@@ -71,8 +71,6 @@ package com.bedrock.framework.engine.model
 			this._assetValues = new XML( this._xmlConfig.assets );
 			this._containerValues = new XML( this._xmlConfig.containers );
 			this._localeValues = new XML( this._xmlConfig.locales );
-			
-			this.saveSettingValue( "currentLocale", this.getSettingValue( "defaultLocale" ) );
 		}
 		/*
 		Environment Functions

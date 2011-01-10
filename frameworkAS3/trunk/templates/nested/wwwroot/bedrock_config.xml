@@ -13,26 +13,14 @@
     <setting id="deeplinkingEnabled" value="true"/>
     <setting id="deeplinkContent" value="true"/>
     <setting id="trackingEnabled" value="true"/>
-    <setting id="libraryEnabled" value="true"/>
-    <setting id="fontsEnabled" value="true"/>
-    <setting id="stylesheetEnabled" value="true"/>
-    <setting id="dataBundleEnabled" value="true"/>
     <setting id="showPagesInContextMenu" value="true"/>
     <setting id="showAboutInContextMenu" value="false"/>
     <setting id="localesEnabled" value="false"/>
     <setting id="defaultLocale" value="en_GB"/>
-    <setting id="localizedFiles" value=""/>
-    <setting id="localeDelimiter" value="_"/>
-    <setting id="libraryFilename" value="library"/>
-    <setting id="fontsFilename" value="fonts"/>
-    <setting id="stylesheetFilename" value="flash_style"/>
-    <setting id="dataBundleFilename" value="data_bundle"/>
     <setting id="logDetailDepth" value="10"/>
     <setting id="traceLogLevel" value="ALL"/>
     <setting id="eventLogLevel" value="WARNING"/>
-    <setting id="remoteLogLevel" value="NONE"/>
     <setting id="monsterLogLevel" value="NONE"/>
-    <setting id="remoteLogURL" value=""/>
     <setting id="errorsEnabled" value="true"/>
   </settings>
   <contents>
@@ -47,7 +35,9 @@
     <content id="navigation" container="navigation" indexed="false" initialTransition="true" label="Navigation" priority="2" deeplink="" assetGroup="none" initialLoad="true" autoDispose="false" autoDisposeAssets="false"/>
   </contents>
   <assets>
-    <assetGroup id="shell" initialLoad="true"/>
+    <assetGroup id="shell" initialLoad="true">
+      <asset id="library" path="swfPath" type="swf" defaultURL="library.swf" alternateURL="" localeURL="" localeEnabled="false"/>
+    </assetGroup>
     <assetGroup id="content1" initialLoad="false">
       <asset id="test" path="xmlPath" url="test.xml" type="xml"/>
     </assetGroup>
@@ -72,10 +62,7 @@
       <path id="videoPath" value="../video/"/>
       <path id="swfPath" value="../swfs/"/>
       <path id="audioPath" value="../audio/"/>
-      <path id="fontsPath" value="../swfs/"/>
       <path id="stylesheetPath" value="../stylesheet/"/>
-      <path id="dataBundlePath" value="../xml/"/>
-      <path id="libraryPath" value="../swfs/"/>
     </environment>
     <environment id="local">
       <pattern value="file://"/>

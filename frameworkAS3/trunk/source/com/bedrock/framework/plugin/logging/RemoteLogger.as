@@ -28,14 +28,15 @@ package com.bedrock.framework.plugin.logging
 		/*
 		Constructor
 		*/
-		public function RemoteLogger( $logLevel:uint, $loggerURL:String )
+		public function RemoteLogger()
 		{
-			this.level = $logLevel;
 			this.connection = new URLLoader;
 			this.request = new URLRequest();
-			this.loggerURL = $loggerURL;
 		}
-
+		public function initialize( $logLevel:uint, $detailDepth:uint ):void
+		{
+			this.level = $logLevel;
+		}
 		public function log( $trace:*, $data:LogData ):void
 		{
 			if (this.request.url != null) {
