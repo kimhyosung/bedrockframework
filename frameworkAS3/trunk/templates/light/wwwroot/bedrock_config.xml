@@ -14,18 +14,14 @@
     <setting id="deeplinkingEnabled" value="true" />
     <setting id="deeplinkContent" value="true" />
     <setting id="trackingEnabled" value="true" />
-   
     <setting id="showPagesInContextMenu" value="true" />
     <setting id="showAboutInContextMenu" value="false" />
     <setting id="localesEnabled" value="false" />
     <setting id="defaultLocale" value="en_GB" />
-   
     <setting id="logDetailDepth" value="10" />
     <setting id="traceLogLevel" value="ALL" />
     <setting id="eventLogLevel" value="WARNING" />
-   
     <setting id="monsterLogLevel" value="NONE" />
-  
     <setting id="errorsEnabled" value="true" />
   </settings>
   <contents>

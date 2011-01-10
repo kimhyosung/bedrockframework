@@ -26,7 +26,6 @@
 		{
 			this.status( "Initialize" );
 			this.label.text = this.data.label;
-			trace( this.assets.getValue( "test" ) );
 			this.initializeComplete();
 		}
 		public function intro($data:Object=null):void
