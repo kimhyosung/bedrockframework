@@ -2,8 +2,7 @@
 {
 	import com.bedrock.framework.engine.*;
 	
-	import flash.utils.Proxy;
-	import flash.utils.flash_proxy;
+	import flash.utils.*;
 	
 	dynamic public class BedrockData extends Proxy
 	{
