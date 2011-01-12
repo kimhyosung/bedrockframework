@@ -1,5 +1,6 @@
 ﻿package __template
 {
+	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.engine.api.ISharedFontsBuilder;
 	import com.bedrock.framework.engine.builder.SharedFontsBuilder;
 
@@ -13,7 +14,7 @@
 		public function initialize():void
 		{
 			//this.registerFont( FontName );
-			this.status( "Initialize" );
+			Bedrock.logger.status( "Initialize" );
 		}
 		
 	}

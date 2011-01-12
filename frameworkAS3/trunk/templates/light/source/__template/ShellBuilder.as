@@ -1,15 +1,14 @@
 ﻿package __template
 {
-	import com.asual.swfaddress.SWFAddress;
-	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
+	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.engine.api.IBedrockBuilder;
 	import com.bedrock.framework.engine.builder.BedrockBuilder;
 	import com.bedrock.framework.engine.event.BedrockEvent;
 	import com.bedrock.framework.plugin.view.IView;
 	import com.greensock.TweenLite;
 	
-	import flash.events.Event;
 	import flash.text.TextField;
+	import flash.events.Event;
 	
 	public class ShellBuilder extends BedrockBuilder implements IView, IBedrockBuilder
 	{
@@ -28,18 +27,18 @@
 		
 		public function preinitialize():void
 		{
-			//BedrockDispatcher.addEventListener( BedrockEvent.TRANSITION_COMPLETE, this._onTransitionComplete );
+			//Bedrock.dispatcher.addEventListener( BedrockEvent.TRANSITION_COMPLETE, this._onTransitionComplete );
 		}
 		
 		public function initialize($data:Object=null):void
 		{
-			this.debug( "Initialize" );
+			Bedrock.logger.debug( "Initialize" );
 			this.initializeComplete();
 		}
 		
 		public function intro($data:Object=null):void
 		{
-			this.debug( "Intro" );
+			Bedrock.logger.debug( "Intro" );
 			TweenLite.to( this.label, 1, { alpha:1, onComplete:this.introComplete } );
 		}
 		
@@ -57,10 +56,9 @@
 	 	*/
 	 	private function _onTransitionComplete( $event:Event ):void
 		{
-			//BedrockDispatcher.removeEventListener( BedrockEvent.LOAD_COMPLETE, this._onLoadComplete );
-			//BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.PREPARE_INITIAL_TRANSITION, this ) );
-			BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.PREPARE_INITIAL_LOAD, this ) );
-			BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.PREPARE_INITIAL_TRANSITION, this ) );
+			//Bedrock.dispatcher.removeEventListener( BedrockEvent.TRANSITION_COMPLETE, this._onTransitionComplete );
+			Bedrock.api.queueInitialLoad();
+			Bedrock.api.transition();
 		}
 	}
 }
