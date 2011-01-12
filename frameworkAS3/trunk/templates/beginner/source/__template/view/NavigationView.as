@@ -3,10 +3,11 @@
 	import com.bedrock.extras.cloner.Cloner;
 	import com.bedrock.extras.cloner.ClonerData;
 	import com.bedrock.extras.cloner.ClonerEvent;
-	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
-	import com.bedrock.framework.engine.BedrockEngine;
-	import com.bedrock.framework.engine.event.BedrockEvent;
+	import com.bedrock.framework.core.logging.BedrockLogger;
+	import com.bedrock.framework.engine.Bedrock;
+	import com.bedrock.framework.engine.data.BedrockContentData;
 	import com.bedrock.framework.engine.view.BedrockContentView;
+	import com.bedrock.framework.plugin.audio.GlobalSound;
 	import com.bedrock.framework.plugin.util.ButtonUtil;
 	import com.bedrock.framework.plugin.view.IView;
 	import com.greensock.TweenLite;
@@ -36,7 +37,7 @@
 			clonerData.autoSpacing = true;
 			clonerData.direction = ClonerData.HORIZONTAL;
 			clonerData.paddingX = 10;
-			clonerData.total = BedrockEngine.contentManager.filterContents( true, "indexed" ).length;
+			clonerData.total = Bedrock.api.getIndexedContent().length;
 			
 			this._cloner = new Cloner;
 			this._cloner.addEventListener( ClonerEvent.CREATE, this._onCloneCreate );
@@ -65,7 +66,7 @@
 	 	*/
 	 	private function _onCloneCreate( $event:ClonerEvent ):void
 		{
-			var data:Object = BedrockEngine.contentManager.filterContents( true, "indexed" )[ $event.details.index ];
+			var data:BedrockContentData = Bedrock.api.getIndexedContent()[ $event.details.index ];
 			var childButton:MovieClip = $event.details.child;
 			childButton.label.text = data.label;
 			childButton.name = data.id;
@@ -73,7 +74,7 @@
 		}
 		private function _onButtonClick( $event:MouseEvent ):void
 		{
-			BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.TRANSITION, this, { id:$event.currentTarget.name } ) );
+			Bedrock.api.transition( $event.currentTarget.name );
 		}
 	 	/*
 		Accessors

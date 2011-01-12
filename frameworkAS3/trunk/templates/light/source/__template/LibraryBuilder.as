@@ -1,5 +1,6 @@
 ﻿package __template
 {
+	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.engine.api.ISharedLibraryBuilder;
 	import com.bedrock.framework.engine.builder.SharedLibraryBuilder;
 	import com.bedrock.framework.engine.data.BedrockData;
@@ -19,7 +20,7 @@
 		public function initialize():void
 		{
 			this.registerPreloader( BedrockData.DEFAULT_PRELOADER, "DefaultPreloader" );
-			this.status( "Initialize" );
+			Bedrock.logger.status( "Initialize" );
 		}
 	}
 }

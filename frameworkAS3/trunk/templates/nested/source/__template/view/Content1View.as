@@ -1,5 +1,6 @@
 ﻿package __template.view
 {
+	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.engine.view.BedrockContentView;
 	import com.bedrock.framework.plugin.view.IView;
 	import com.greensock.TweenLite;
@@ -24,14 +25,13 @@
 	 	*/
 		public function initialize($data:Object=null):void
 		{
-			this.status( "Initialize" );
+			Bedrock.logger.status( "Initialize" );
 			this.label.text = this.data.label;
-			trace( this.assets.getValue( "test" ) );
 			this.initializeComplete();
 		}
 		public function intro($data:Object=null):void
 		{
-			this.status( "Intro" );
+			Bedrock.logger.status( "Intro" );
 			TweenLite.to(this, 1, { alpha:1, onComplete:this.introComplete } );
 			//this.introComplete();
 		}
