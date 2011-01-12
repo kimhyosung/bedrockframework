@@ -1,7 +1,5 @@
 ﻿package com.bedrock.framework.engine.manager
 {
-	import com.bedrock.framework.core.base.StandardBase;
-	import com.bedrock.framework.engine.api.IContainerManager;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	
@@ -9,7 +7,7 @@
 	import flash.display.Sprite;
 	import com.bedrock.framework.plugin.util.XMLUtil2;
 
-	public class ContainerManager extends StandardBase implements IContainerManager
+	public class ContainerManager
 	{
 		/*
 		Variable Declarations

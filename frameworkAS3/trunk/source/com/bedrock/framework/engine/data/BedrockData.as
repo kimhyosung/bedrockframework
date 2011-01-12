@@ -1,10 +1,9 @@
 ﻿package com.bedrock.framework.engine.data
 {
-	import com.bedrock.framework.engine.BedrockEngine;
+	import com.bedrock.framework.engine.*;
 	
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
-	import com.bedrock.framework.engine.bedrock;
 	
 	dynamic public class BedrockData extends Proxy
 	{
@@ -28,7 +27,6 @@
 		Constant Settings
 		*/
 		public static const CONFIG_URL:String = "configURL";
-		
 		public static const BLOCKER:String = "blocker";
 		/*
 		Locale Settings
@@ -39,7 +37,7 @@
 		public static const SHELL:String = "shell";
 		public static const FONTS:String = "fonts";
 		public static const STYLESHEET:String = "stylesheet";
-		public static const DATA_BUNDLE:String = "dataBundle";
+		public static const RESOURCE_BUNDLE:String = "resourceBundle";
 		public static const LIBRARY:String = "library";
 		/*
 		Logger Settings
@@ -50,17 +48,14 @@
 		Constant File Names
 		*/
 		public static const CONFIG_FILENAME:String = "bedrock_config";
-		
 		/*
 		Constant Containers
 		*/
-		public static const NONE:String = "none";
 		public static const ROOT:String = "root";
-		public static const SITE:String = "site";
 		public static const OVERLAY:String = "overlay";
 		public static const PRELOADER:String = "preloader";
 		/*
-		Context Menus
+		Assets and Contents
 		*/
 		public static const INDEXED:String = "indexed";
 		public static const PRIORITY:String = "priority";
@@ -69,6 +64,8 @@
 		public static const AUTO_DISPOSE:String = "autoDispose";
 		public static const AUTO_DISPOSE_ASSETS:String = "autoDisposeAssets";
 		
+		public static const NONE:String = "none";
+		public static const INITIAL:String = "initial";
 		/*
 		Variable Declarations
 		*/
@@ -79,7 +76,7 @@
 		public function BedrockData( $singletonEnforcer:SingletonEnforcer )
 		{
 		}
-		public static function getInstance():BedrockData
+		public static function get instance():BedrockData
 		{
 			if ( BedrockData.__instance == null ) {
 				BedrockData.__instance = new BedrockData( new SingletonEnforcer );
@@ -97,9 +94,9 @@
 		flash_proxy override function getProperty( $name:* ):*
 		{
 			var name:String = $name.toString();
-			if ( BedrockEngine.bedrock::config.hasSettingValue( name ) ) return BedrockEngine.bedrock::config.getSettingValue( name );
-			if ( BedrockEngine.bedrock::config.hasPathValue( name ) ) return BedrockEngine.bedrock::config.getPathValue( name );
-			if ( BedrockEngine.bedrock::config.hasVariableValue( name ) ) return BedrockEngine.bedrock::config.hasVariableValue( name );
+			if ( Bedrock.engine::config.hasSettingValue( name ) ) return Bedrock.engine::config.getSettingValue( name );
+			if ( Bedrock.engine::config.hasPathValue( name ) ) return Bedrock.engine::config.getPathValue( name );
+			if ( Bedrock.engine::config.hasVariableValue( name ) ) return Bedrock.engine::config.hasVariableValue( name );
 			return null;
 		}
 
@@ -107,10 +104,10 @@
 		flash_proxy override function setProperty( $name:*, $value:* ):void
 		{
 			var name:String = $name.toString();
-			if ( BedrockEngine.bedrock::config.hasSettingValue( name ) ) BedrockEngine.bedrock::config.saveSettingValue( name, $value );
-			if ( BedrockEngine.bedrock::config.hasPathValue( name ) ) BedrockEngine.bedrock::config.savePathValue( name, $value );
-			if ( BedrockEngine.bedrock::config.hasVariableValue( name ) || ( !BedrockEngine.bedrock::config.hasSettingValue( name ) && !BedrockEngine.bedrock::config.hasPathValue( name ) ) ) {
-				BedrockEngine.bedrock::config.saveVariableValue( name, $value );
+			if ( Bedrock.engine::config.hasSettingValue( name ) ) Bedrock.engine::config.saveSettingValue( name, $value );
+			if ( Bedrock.engine::config.hasPathValue( name ) ) Bedrock.engine::config.savePathValue( name, $value );
+			if ( Bedrock.engine::config.hasVariableValue( name ) || ( !Bedrock.engine::config.hasSettingValue( name ) && !Bedrock.engine::config.hasPathValue( name ) ) ) {
+				Bedrock.engine::config.saveVariableValue( name, $value );
 			}
 		}
 

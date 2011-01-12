@@ -1,6 +1,6 @@
 ﻿package com.bedrock.framework.engine.data
 {
-	import com.bedrock.framework.engine.BedrockEngine;
+	import com.bedrock.framework.engine.Bedrock;
 	
 	
 	public class BedrockSequenceData
@@ -32,8 +32,8 @@
 			this.style = BedrockSequenceData.NORMAL;
 			this.preloader = BedrockData.DEFAULT_PRELOADER;
 			this.deeplink = "/" + BedrockData.DEFAULT + "/";
-			this.preloaderTime = BedrockEngine.data.defaultPreloaderTime;
-			this.style = BedrockSequenceData[ BedrockEngine.data.defaultTransitionStyle ];
+			this.preloaderTime = Bedrock.data.defaultPreloaderTime;
+			this.style = BedrockSequenceData[ Bedrock.data.defaultTransitionStyle ];
 		}
 		
 		public function appendIncoming( $data:Array ):void

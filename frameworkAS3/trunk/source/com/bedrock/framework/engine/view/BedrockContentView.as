@@ -11,9 +11,9 @@
 */
 package com.bedrock.framework.engine.view
 {
-	import com.bedrock.framework.plugin.storage.HashMap;
-	import com.bedrock.framework.plugin.view.MovieClipView;
+	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
 	import com.bedrock.framework.engine.data.BedrockContentData;
+	import com.bedrock.framework.plugin.view.MovieClipView;
 
 	public class BedrockContentView extends MovieClipView
 	{
@@ -21,7 +21,7 @@ package com.bedrock.framework.engine.view
 		Variable Declarations
 		*/
 		public var data:BedrockContentData;
-		public var assets:HashMap;
+		public var assets:BedrockAssetGroupData;
 		public var bundle:*;
 		/*
 		Constructor

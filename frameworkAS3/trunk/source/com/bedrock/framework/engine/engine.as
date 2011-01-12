@@ -7,5 +7,5 @@ package com.bedrock.framework.engine
 	 *  APIs in this namespace are completely unsupported and are likely to
 	 *  change in future versions of Bedrock.
 	 */
-	public namespace bedrock = "http://www.builtonbedrock.com/bedrock/framework/engine";
+	public namespace engine = "http://www.builtonbedrock.com/bedrock/framework/engine/";
 }

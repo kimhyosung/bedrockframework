@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Bedrock Framework for Adobe Flash ©2007-2008
  * 
  * Written by: Alex Toledo
@@ -11,11 +11,11 @@
 */
 package com.bedrock.framework.engine.builder
 {
-	import com.bedrock.framework.core.base.MovieClipBase;
 	
 	import flash.text.Font;
+	import flash.display.MovieClip;
 
-	public class SharedFontsBuilder extends MovieClipBase
+	public class SharedFontsBuilder extends MovieClip
 	{
 		public function SharedFontsBuilder()
 		{

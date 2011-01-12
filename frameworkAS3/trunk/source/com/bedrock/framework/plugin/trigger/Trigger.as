@@ -1,6 +1,7 @@
 ﻿package com.bedrock.framework.plugin.trigger
 {
 	import com.bedrock.framework.core.base.DispatcherBase;
+	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.plugin.util.TimeUtil;
 	
 	import flash.utils.*;
@@ -39,7 +40,7 @@
 		public function startTimer( $seconds:Number ):void
 		{
 			if ( !this.timerRunning ) {
-				this.status("Start Timer");
+				if ( !this.silenceLogging ) Bedrock.logger.status("Start Timer");
 				this._timerID = setTimeout( this._timerTrigger, $seconds * 1000 );
 				this.dispatchEvent( new TriggerEvent( TriggerEvent.TIMER_START, this ) );
 			}
@@ -47,7 +48,7 @@
 		public function stopTimer():void
 		{
 			if ( this.timerRunning ) {
-				this.status( "Stop Timer" );
+				if ( !this.silenceLogging ) Bedrock.logger.status( "Stop Timer" );
 				clearTimeout(this._timerID);
 				this._timerID = -1;
 				this.dispatchEvent( new TriggerEvent(TriggerEvent.TIMER_STOP, this ) );
@@ -68,7 +69,7 @@
 				this._intervalRepetitions = $repetitions;
 				this._intervalCount = 0;
 				this.dispatchEvent(new TriggerEvent(TriggerEvent.INTERVAL_START, this ) );
-				this.status("Start Interval");
+				if ( !this.silenceLogging ) Bedrock.logger.status("Start Interval");
 			}
 		}
 		public function stopInterval():void
@@ -78,7 +79,7 @@
 				this._intervalCount = 0;
 				 this._intervalID = -1;
 				this.dispatchEvent(new TriggerEvent(TriggerEvent.INTERVAL_STOP, this, { loops:this._intervalRepetitions } ) );
-				this.status("Stop Interval");
+				if ( !this.silenceLogging ) Bedrock.logger.status("Stop Interval");
 			}			
 		}
 		private function _intervalTrigger():void
@@ -97,7 +98,7 @@
 		public function startStopwatch( $updateInterval:Number = 0.5 ):void
 		{
 			if ( !this.stopwatchRunning ){
-				this.status("Start Stopwatch");
+				if ( !this.silenceLogging ) Bedrock.logger.status("Start Stopwatch");
 				this.clearStopwatch();
 				this.dispatchEvent(new TriggerEvent( TriggerEvent.STOPWATCH_START, this) );
 				this._stopwatchStart = getTimer();
@@ -112,7 +113,7 @@
 			if (this.stopwatchRunning) {
 				clearInterval(this._stopwatchID);
 				this._stopwatchID = -1;
-				this.status("Stop Stopwatch" );
+				if ( !this.silenceLogging ) Bedrock.logger.status("Stop Stopwatch" );
 				this.dispatchEvent( new TriggerEvent(TriggerEvent.STOPWATCH_STOP, this, this.elapsed) );
 				return this.elapsed;
 			}
@@ -141,12 +142,6 @@
 			this.dispatchEvent( new TriggerEvent( TriggerEvent.STOPWATCH_TRIGGER, this, this.elapsed ) );
 		}
 		
-		override public function status( $trace:* ) :void
-		{
-			if ( !this.silenceLogging ) {
-				super.status( $trace );
-			}
-		}
 	 	/*
 		Accessors
 	 	*/

@@ -1,19 +1,18 @@
 ﻿package com.bedrock.framework.engine.manager
 {
-	import com.bedrock.framework.core.base.StandardBase;
-	import com.bedrock.framework.engine.api.IAssetManager;
 	import com.bedrock.framework.engine.data.BedrockAssetData;
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	import com.bedrock.framework.plugin.util.ArrayUtil;
 	import com.bedrock.framework.plugin.util.XMLUtil2;
 
-	public class AssetManager extends StandardBase implements IAssetManager
+	public class AssetManager
 	{
 		/*
 		Variable Declarations
 		*/
-		private var _assets:HashMap;
+		private var _assetGroups:HashMap;
+		private var _assets:Array;
 		/*
 		Constructor
 	 	*/
@@ -27,45 +26,59 @@
 		}
 		private function _parse( $data:XML ):void
 		{
-			this._assets = new HashMap;
+			var data:BedrockAssetData;
+			this._assetGroups = new HashMap;
+			this._assets = new Array;
 			var assetGroupData:BedrockAssetGroupData;
 			for each( var assetGroupXML:XML in $data.children() ) {
 				assetGroupData = new BedrockAssetGroupData( XMLUtil2.getAttributesAsObject( assetGroupXML ) );
 				for each( var assetXML:XML in assetGroupXML.children() ) {
-					assetGroupData.assets.push( new BedrockAssetData( XMLUtil2.getAttributesAsObject( assetXML ) ) );
+					data = new BedrockAssetData( XMLUtil2.getAttributesAsObject( assetXML ) );
+					assetGroupData.assets.push( data );
+					this._assets.push( data );
 				}
 				this.addGroup( assetGroupData );
 			}
 		}
+		public function getAsset( $id:String ):BedrockAssetData
+		{
+			return ArrayUtil.findItem( this._assets, $id, "id" );
+		}
+		public function hasAsset( $id:String ):Boolean
+		{
+			return ArrayUtil.containsItem( this._assets, $id, "id" );
+		}
+		public function filterAssets( $value:*, $field:String ):Array
+		{
+			return ArrayUtil.filter( this._assets, $value, $field );
+		}
+		
 		public function addGroup( $group:BedrockAssetGroupData ):void
 		{
-			this._assets.saveValue( $group.id, $group );
+			this._assetGroups.saveValue( $group.id, $group );
 		}
 		public function getGroup( $id:String ):BedrockAssetGroupData
 		{
-			return this._assets.getValue( $id );
+			return this._assetGroups.getValue( $id );
 		}
 		public function hasGroup( $id:String ):Boolean
 		{
-			return this._assets.containsKey( $id );
+			return this._assetGroups.containsKey( $id );
 		}
 		public function filterGroups( $value:*, $field:String ):Array
 		{
-			return ArrayUtil.filter( this._assets.getValues(), $value, $field );
+			return ArrayUtil.filter( this._assetGroups.getValues(), $value, $field );
 		}
 		
 		public function addAssetToGroup( $groupID:String, $asset:BedrockAssetData ):void
 		{
 			if ( this.hasGroup( $groupID ) ) {
-				this.getGroup( $groupID ).assets.push( $asset );
+				var group:BedrockAssetGroupData = this.getGroup( $groupID );
+				if ( !group.hasAsset( $asset.id ) ) {
+					group.assets.push( $asset );
+					this._assets.push( $asset );
+				}
 			}
-		}
-	 	/*
-		Accessors
-	 	*/
-		public function get data():HashMap
-		{
-			return this._assets;
 		}
 		
 	}

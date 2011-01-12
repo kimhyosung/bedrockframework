@@ -1,12 +1,10 @@
 ﻿package com.bedrock.framework.engine.manager
 {
-	import com.bedrock.framework.core.base.StandardBase;
-	import com.bedrock.framework.engine.api.IDataBundleManager;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	import com.bedrock.framework.plugin.util.VariableUtil;
 	import com.bedrock.framework.plugin.util.XMLUtil2;
 	
-	public class DataBundleManager extends StandardBase implements IDataBundleManager
+	public class ResourceBundleManager
 	{
 		/*
 		Variable Declarations
@@ -15,7 +13,7 @@
 		/*
 		Constructor
 		*/
-		public function DataBundleManager()
+		public function ResourceBundleManager()
 		{
 			XML.ignoreComments = true;
 			XML.ignoreWhitespace = true;
@@ -29,6 +27,7 @@
 		}
 		public function getBundle( $id:String, $type:String = null ):*
 		{
+			if ( this._data == null ) return null;
 			var bundleType:String = $type || this._getBundleAsXML( $id ).@type;
 			switch( bundleType ) {
 				case "object" :
@@ -47,6 +46,7 @@
 		}
 		public function hasBundle( $id:String ):Boolean
 		{
+			if ( this._data == null ) return false;
 			return ( this._getBundleAsXML( $id ) != null );
 		}
 		/*

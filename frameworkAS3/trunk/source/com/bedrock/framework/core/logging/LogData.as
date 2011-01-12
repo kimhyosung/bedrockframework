@@ -18,7 +18,7 @@
 		public var categoryLabel:String;
 		public var categoryColor:uint;
 		
-		private static const __STACK_LINE:int = 4;
+		private static const __STACK_LINE:int = 3;
 		private static var __trigger:Trigger;
 		private static var __colors:Dictionary;
 		private static var __labels:Dictionary;

@@ -1,13 +1,10 @@
 ﻿package com.bedrock.framework.engine.manager
 {
-	import com.bedrock.framework.core.base.StandardBase;
-	import com.bedrock.framework.engine.BedrockEngine;
-	import com.bedrock.framework.engine.api.ILocaleManager;
-	import com.bedrock.framework.engine.bedrock;
+	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.plugin.util.ArrayUtil;
 	import com.bedrock.framework.plugin.util.XMLUtil2;
 	
-	public class LocaleManager extends StandardBase implements ILocaleManager
+	public class LocaleManager
 	{
 		/*
 		Variable Declarations
@@ -35,33 +32,19 @@
 				this._data.push( XMLUtil2.getAttributesAsObject( xmlItem ) );
 			}
 		}
-		public function load($locale:String = null ):void
-		{
-			if ( !this.hasLocale($locale) ) {
-				this.warning( "Locale not available - " + $locale );
-			} else {
-				this.status( "Loading Locale - " + $locale );
-				this._currentLocale = $locale;
-				BedrockEngine.bedrock::fileManager.load( this._currentLocale );
-			}
-		}
 		
 		public function getLocale( $id:String ):Object
 		{
 			return ArrayUtil.findItem( this._data, $id, "id" );
 		}
 		
-		public function hasLocale($locale:String):Boolean
+		public function hasLocale( $id:String ):Boolean
 		{
-			return ArrayUtil.containsItem( this._data, $locale );
+			return ArrayUtil.containsItem( this._data, $id );
 		}
 		/*
 		Property Definitions
 		*/
-		public function get data():Array
-		{
-			return this._data;
-		}
 		public function get currentLocale():String
 		{
 			return this._currentLocale;
@@ -69,6 +52,10 @@
 		public function get defaultLocale():String
 		{
 			return this._defaultLocale;
+		}
+		public function get data():Array
+		{
+			return this._data;
 		}
 	}
 }

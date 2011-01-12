@@ -1,10 +1,8 @@
 ﻿package com.bedrock.framework.plugin.util
 {
-	import com.bedrock.framework.core.base.StaticBase;
-	
 	import flash.utils.*;
 	
-	public class ArrayUtil extends StaticBase
+	public class ArrayUtil
 	{
 		public static  function wrapIndex($index:Number,$total:Number,$wrap:Boolean=false):Number
 		{

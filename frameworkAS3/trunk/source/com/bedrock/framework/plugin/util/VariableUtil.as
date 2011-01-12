@@ -1,11 +1,9 @@
 ﻿package com.bedrock.framework.plugin.util
 {
-	import com.bedrock.framework.core.base.StaticBase;
-	
 	import flash.utils.ByteArray;
 	import flash.utils.describeType;
 
-	public class VariableUtil extends StaticBase
+	public class VariableUtil
 	{
 		public static function mimic( $target:*, $source:* ):void
 		{

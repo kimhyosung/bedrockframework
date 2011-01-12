@@ -3,8 +3,6 @@
 	/*
 	Imports
 	*/
-	import com.bedrock.framework.core.base.StandardBase;
-	import com.bedrock.framework.engine.api.ILibraryManager;
 	import com.bedrock.framework.engine.view.IPreloader;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	
@@ -16,7 +14,7 @@
 	/*
 	Class Declaration
 	*/
-	public class LibraryManager extends StandardBase implements ILibraryManager
+	public class LibraryManager
 	{
 		/*
 		* Variable Declarations

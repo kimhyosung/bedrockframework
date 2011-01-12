@@ -11,13 +11,13 @@
 */
 package com.bedrock.framework.plugin.logging
 {
-	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
 	import com.bedrock.framework.core.event.LogEvent;
 	import com.bedrock.framework.core.logging.ILogger;
 	import com.bedrock.framework.core.logging.LogData;
+	import com.bedrock.framework.core.logging.LogLevel;
+	import com.bedrock.framework.engine.Bedrock;
 	
 	import flash.utils.Dictionary;
-	import com.bedrock.framework.core.logging.LogLevel;
 
 	public class EventLogger implements ILogger
 	{
@@ -46,7 +46,7 @@ package com.bedrock.framework.plugin.logging
 		}
 		public function log( $trace:*, $data:LogData ):void
 		{
-			BedrockDispatcher.dispatchEvent( new LogEvent( this._categoryDictionary[ $data.category ], this, $data ) );
+			Bedrock.dispatcher.dispatchEvent( new LogEvent( this._categoryDictionary[ $data.category ], this, $data ) );
 		}
 		
 		public function set level( $level:uint ):void

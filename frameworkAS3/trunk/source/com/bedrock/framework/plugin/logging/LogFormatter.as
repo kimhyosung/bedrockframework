@@ -1,6 +1,7 @@
 package com.bedrock.framework.plugin.logging
 {
 	import com.bedrock.framework.core.logging.LogData;
+	import com.bedrock.framework.core.logging.LogLevel;
 	
 	import flash.utils.describeType;
 	
@@ -22,26 +23,35 @@ package com.bedrock.framework.plugin.logging
 		
 		public function format( $trace:*, $data:LogData ):String
 		{
+			this._data = $data;
+			
+			var baseFormat:String;
+			if ( $data.category > LogLevel.STATUS ) {
+				baseFormat = this._data.detailMedium + this._data.categoryLabel;
+			} else {
+				baseFormat = this._data.detailLow + this._data.categoryLabel;
+			}
+			
 			if ( $trace != null ) {
-				this._data = $data;
+				
 				switch( this._getType( describeType( $trace ).@name ) ) {
 					case LogFormatter.DYNAMIC :
 					case LogFormatter.STATIC :
 						if ( this._detailDepth > 0 ) {
 							return this._getComplexFormat( $trace, this._data.detailMedium, this._data.categoryLabel, this._data.timeStamp );
 						} else {
-							return this._data.detailMedium + this._data.categoryLabel + this._data.timeStamp + ": " + $trace.toString();
+							return baseFormat + this._data.timeStamp + ": " + $trace.toString();
 						}
 						break;
 					case LogFormatter.PRIMITIVE :
-						return this._data.detailMedium + this._data.categoryLabel + this._data.timeStamp + ": " + $trace.toString();
+						return baseFormat + this._data.timeStamp + ": " + $trace.toString();
 						break;
 					case LogFormatter.DATA :
-						return this._data.detailMedium + this._data.categoryLabel + this._data.timeStamp + ": " + $trace.toXMLString();
+						return baseFormat + this._data.timeStamp + ": " + $trace.toXMLString();
 						break;
 				}
 			} else {
-				return this._data.detailMedium + this._data.timeStamp + this._data.categoryLabel + " : null";
+				return baseFormat + this._data.timeStamp + " : null";
 			}
 			
 			return new String;

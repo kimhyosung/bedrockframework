@@ -1,21 +1,15 @@
 ﻿package com.bedrock.framework.engine.manager
 {
-	import com.bedrock.framework.core.base.StandardBase;
-	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
-	import com.bedrock.framework.engine.BedrockEngine;
-	import com.bedrock.framework.engine.api.IContextMenuManager;
-	import com.bedrock.framework.engine.data.BedrockData;
+	import com.bedrock.framework.engine.*;
 	import com.bedrock.framework.engine.event.BedrockEvent;
 	import com.bedrock.framework.plugin.storage.HashMap;
+	import com.bedrock.framework.plugin.util.ArrayUtil;
 	
 	import flash.events.ContextMenuEvent;
 	import flash.ui.ContextMenu;
 	import flash.ui.ContextMenuItem;
 	
-	import com.bedrock.framework.engine.bedrock;
-	import com.bedrock.framework.plugin.util.ArrayUtil;
-	
-	public class ContextMenuManager extends StandardBase implements IContextMenuManager
+	public class ContextMenuManager
 	{
 		private var _menu:ContextMenu;
 		private var _items:HashMap;
@@ -25,7 +19,7 @@
 		}
 		public function initialize():void
 		{
-			this.status( "Initialized" );
+			Bedrock.logger.status( "Initialized" );
 			this._items = new HashMap;
 			this.createMenu();
 			this.createContentItems();
@@ -38,9 +32,9 @@
 		}
 		private function createContentItems():void
 		{
-			var arrPages:Array = BedrockEngine.contentManager.filterContents( true, "indexed" );
-			for ( var p:int = 0; p < arrPages.length; p ++ ) {
-				this.createItem( arrPages[ p ].id, arrPages[ p ].label, this._onContentSelected, ( p == 0 ) );
+			var contents:Array = Bedrock.engine::contentManager.filterContent( true, "indexed" );
+			for ( var p:int = 0; p < contents.length; p ++ ) {
+				this.createItem( contents[ p ].id, contents[ p ].label, this._onContentSelected, ( p == 0 ) );
 			}
 		}
 		
@@ -60,7 +54,7 @@
 		*/
 		private function _onContentSelected( $event:ContextMenuEvent ):void
 		{
-			BedrockDispatcher.dispatchEvent( new BedrockEvent( BedrockEvent.TRANSITION, this, { id:this._items.getValue( $event.target.caption ) } ) );
+			Bedrock.api.transition( this._items.getValue( $event.target.caption ) );
 		}
 		/*
 		Property Definitions

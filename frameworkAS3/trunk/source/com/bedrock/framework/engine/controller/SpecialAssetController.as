@@ -1,8 +1,6 @@
 ﻿package com.bedrock.framework.engine.controller
 {
-	import com.bedrock.framework.core.base.StandardBase;
-	import com.bedrock.framework.engine.BedrockEngine;
-	import com.bedrock.framework.engine.api.IResourceController;
+	import com.bedrock.framework.engine.*;
 	import com.bedrock.framework.engine.data.BedrockAssetData;
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
 	import com.bedrock.framework.engine.data.BedrockData;
@@ -12,10 +10,8 @@
 	import com.greensock.loading.SWFLoader;
 	import com.greensock.loading.XMLLoader;
 	import com.greensock.loading.core.LoaderItem;
-	
-	import flash.system.LoaderContext;
 
-	public class ResourceController extends StandardBase implements IResourceController
+	public class SpecialAssetController
 	{
 		/*
 		Variable Declarations
@@ -24,126 +20,125 @@
 		/*
 		Constructor
 	 	*/
-		public function ResourceController()
+		public function SpecialAssetController()
 		{
 		}
 		
 		public function initialize():void
 		{
-			this._shellGroup = BedrockEngine.assetManager.getGroup( BedrockData.SHELL );
-			BedrockEngine.data.dataBundleEnabled = this._isResourceEnabled( BedrockData.DATA_BUNDLE );
-			BedrockEngine.data.libraryEnabled = this._isResourceEnabled( BedrockData.LIBRARY );
-			BedrockEngine.data.fontsEnabled = this._isResourceEnabled( BedrockData.FONTS );
-			BedrockEngine.data.stylesheetEnabled = this._isResourceEnabled( BedrockData.STYLESHEET );
+			this._shellGroup = Bedrock.engine::assetManager.getGroup( BedrockData.SHELL );
+			
+			this._saveSetting( BedrockData.RESOURCE_BUNDLE );
+			this._saveSetting( BedrockData.LIBRARY );
+			this._saveSetting( BedrockData.FONTS );
+			this._saveSetting( BedrockData.STYLESHEET );
+		}
+		
+		private function _saveSetting( $id:String ):void
+		{
+			Bedrock.engine::config.saveSettingValue( $id + "Enabled", this._isAssetEnabled( $id ) ); 
 		}
 		
 		public function queue( $autoLoad:Boolean = true ):void
 		{
-			var currentLocale:String = BedrockEngine.localeManager.currentLocale;
-			
-			this._prepareDataBundle();
+			this._prepareResourceBundle();
 			this._prepareLibrary();
 			this._prepareFonts();
 			this._prepareStylesheet();
 			
-			if ( $autoLoad ) BedrockEngine.loadController.load();
+			if ( $autoLoad ) Bedrock.engine::loadController.load();
 		}
 		
-		private function _isResourceEnabled( $id:String ):Boolean
+		private function _isAssetEnabled( $id:String ):Boolean
 		{
 			return ArrayUtil.containsItem( this._shellGroup.assets, $id, "id" );
 		}
-		private function _getResourceData( $id:String ):BedrockAssetData
+		private function _getAssetData( $id:String ):BedrockAssetData
 		{
 			return ArrayUtil.findItem( this._shellGroup.assets, $id, "id" );
 		}
 		
-		private function _prepareDataBundle():void
+		private function _prepareResourceBundle():void
 		{
-			if ( this._isResourceEnabled( BedrockData.DATA_BUNDLE ) ) {
-				var data:BedrockAssetData = this._getResourceData( BedrockData.DATA_BUNDLE );
+			if ( this._isAssetEnabled( BedrockData.RESOURCE_BUNDLE ) ) {
+				var data:BedrockAssetData = this._getAssetData( BedrockData.RESOURCE_BUNDLE );
 				
 				var loaderVars:Object = new Object;
-				loaderVars.name = BedrockData.DATA_BUNDLE;
+				loaderVars.name = BedrockData.RESOURCE_BUNDLE;
 				loaderVars.alternateURL = data.alternateURL;
 				
 				var loader:LoaderItem = new XMLLoader( data.url, loaderVars );
 				loader.addEventListener( LoaderEvent.COMPLETE, this._onDataBundleComplete, false, 10000 );
 				
-				BedrockEngine.loadController.appendLoader( loader );
+				Bedrock.engine::loadController.appendLoader( loader );
 			}
 		}
 		private function _prepareLibrary():void
 		{
-			if ( this._isResourceEnabled( BedrockData.LIBRARY ) ) {
-				var data:BedrockAssetData = this._getResourceData( BedrockData.LIBRARY );
+			if ( this._isAssetEnabled( BedrockData.LIBRARY ) ) {
+				var data:BedrockAssetData = this._getAssetData( BedrockData.LIBRARY );
 				
 				var loaderVars:Object = new Object;
 				loaderVars.name = BedrockData.LIBRARY;
 				loaderVars.alternateURL = data.alternateURL;
-				loaderVars.context = this._getLoaderContext();
+				loaderVars.context = Bedrock.engine::loadController.getLoaderContext();
 				
 				var loader:LoaderItem = new SWFLoader( data.url, loaderVars );
 				loader.addEventListener( LoaderEvent.COMPLETE, this._onLibraryComplete, false, 10000 );
 				
-				BedrockEngine.loadController.appendLoader( loader );
+				Bedrock.engine::loadController.appendLoader( loader );
 			}
 		}
 		private function _prepareFonts():void
 		{
-			if ( this._isResourceEnabled( BedrockData.FONTS ) ) {
-				var data:BedrockAssetData = this._getResourceData( BedrockData.FONTS );
+			if ( this._isAssetEnabled( BedrockData.FONTS ) ) {
+				var data:BedrockAssetData = this._getAssetData( BedrockData.FONTS );
 				
 				var loaderVars:Object = new Object;
 				loaderVars.name = BedrockData.FONTS;
 				loaderVars.alternateURL = data.alternateURL;
-				loaderVars.context = this._getLoaderContext();
+				loaderVars.context = Bedrock.engine::loadController.getLoaderContext();
 				
 				var loader:LoaderItem = new SWFLoader( data.url, loaderVars );
 				loader.addEventListener( LoaderEvent.COMPLETE, this._onFontsComplete, false, 10000 );
 				
-				BedrockEngine.loadController.appendLoader( loader );
+				Bedrock.engine::loadController.appendLoader( loader );
 			}
 		}
 		private function _prepareStylesheet():void
 		{
-			if ( this._isResourceEnabled( BedrockData.STYLESHEET ) ) {
-				var data:BedrockAssetData = this._getResourceData( BedrockData.STYLESHEET );
+			if ( this._isAssetEnabled( BedrockData.STYLESHEET ) ) {
+				var data:BedrockAssetData = this._getAssetData( BedrockData.STYLESHEET );
 				
 				var loaderVars:Object = new Object;
 				loaderVars.name = BedrockData.STYLESHEET;
 				loaderVars.alternateURL = data.alternateURL;
-				loaderVars.context = this._getLoaderContext();
 				
 				var loader:LoaderItem = new CSSLoader( data.url, loaderVars );
 				loader.addEventListener( LoaderEvent.COMPLETE, this._onStylesheetComplete, false, 10000 );
 				
-				BedrockEngine.loadController.appendLoader( loader );
+				Bedrock.engine::loadController.appendLoader( loader );
 			}
 		}
 		
-		private function _getLoaderContext():LoaderContext
-		{
-			return new LoaderContext( BedrockEngine.loadController.checkPolicyFile, BedrockEngine.loadController.applicationDomain );
-		}
 		/*
 		Event Handlers
 	 	*/
 		private function _onDataBundleComplete( $event:LoaderEvent ):void
 		{
-			BedrockEngine.dataBundleManager.parse( BedrockEngine.loadController.getLoaderContent( BedrockData.DATA_BUNDLE ) );
+			Bedrock.engine::resourceBundleManager.parse( Bedrock.engine::loadController.getLoaderContent( BedrockData.RESOURCE_BUNDLE ) );
 		}
 		private function _onStylesheetComplete( $event:LoaderEvent ):void
 		{
-			BedrockEngine.stylesheetManager.parse( BedrockEngine.loadController.getLoaderContent( BedrockData.STYLESHEET ) );
+			Bedrock.engine::stylesheetManager.parse( Bedrock.engine::loadController.getLoaderContent( BedrockData.STYLESHEET ) );
 		}
 		private function _onLibraryComplete( $event:LoaderEvent ):void
 		{
-			BedrockEngine.loadController.getLoaderContent( BedrockData.LIBRARY ).rawContent.initialize();
+			Bedrock.engine::loadController.getLoaderContent( BedrockData.LIBRARY ).rawContent.initialize();
 		}
 		private function _onFontsComplete( $event:LoaderEvent ):void
 		{
-			BedrockEngine.loadController.getLoaderContent( BedrockData.FONTS ).rawContent.initialize();
+			Bedrock.engine::loadController.getLoaderContent( BedrockData.FONTS ).rawContent.initialize();
 		}
 	}
 }

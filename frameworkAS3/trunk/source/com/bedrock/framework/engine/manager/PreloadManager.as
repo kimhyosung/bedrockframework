@@ -1,12 +1,10 @@
 ﻿package com.bedrock.framework.engine.manager
 {
-	import com.bedrock.framework.core.base.StandardBase;
-	import com.bedrock.framework.engine.api.IPreloadManager;
 	import com.bedrock.framework.engine.view.IPreloader;
 	import com.bedrock.framework.plugin.trigger.Trigger;
 	import com.bedrock.framework.plugin.trigger.TriggerEvent;
 	
-	public class PreloadManager extends StandardBase implements IPreloadManager
+	public class PreloadManager
 	{
 		/*
 		Variable Declarations
