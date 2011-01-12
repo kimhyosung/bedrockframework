@@ -1,11 +1,9 @@
 ﻿package com.bedrock.framework.engine.model
 {
-	import com.bedrock.framework.core.base.StandardBase;
-	import com.bedrock.framework.engine.api.IHistory;
 	import com.bedrock.framework.plugin.storage.SuperArray;
 	import com.bedrock.framework.engine.data.BedrockSequenceData;
 
-	public class History extends StandardBase implements IHistory
+	public class History
 	{
 		/*
 		Variable Declarations

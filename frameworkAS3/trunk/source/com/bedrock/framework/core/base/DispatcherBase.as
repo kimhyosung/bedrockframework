@@ -11,13 +11,11 @@
 */
 package com.bedrock.framework.core.base
 {
-	import com.bedrock.framework.core.logging.*;
-	
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
 
-	public class DispatcherBase extends EventDispatcher implements IEventDispatcher, ILogable
+	public class DispatcherBase extends EventDispatcher implements IEventDispatcher
 	{
 		/*
 		Constructor
@@ -35,33 +33,6 @@ package com.bedrock.framework.core.base
 		override public  function addEventListener($type:String,$listener:Function,$capture:Boolean=false,$priority:int=0,$weak:Boolean=true):void
 		{
 			super.addEventListener($type,$listener,$capture,$priority,$weak);
-		}
-		/*
-		Logging Functions
-	 	*/
-		private function _log( $trace:*, $level:int ):void
-		{
-			Logger.log( $trace, $level );
-		}
-		public function status($trace:*):void
-		{
-			this._log( $trace, LogLevel.STATUS );
-		}
-		public function debug($trace:*):void
-		{
-			this._log( $trace, LogLevel.DEBUG );
-		}
-		public function warning($trace:*):void
-		{
-			this._log( $trace, LogLevel.WARNING );
-		}
-		public function error($trace:*):void
-		{
-			this._log( $trace, LogLevel.ERROR );
-		}
-		public function fatal($trace:*):void
-		{
-			this._log( $trace, LogLevel.FATAL );
 		}
 	}
 }

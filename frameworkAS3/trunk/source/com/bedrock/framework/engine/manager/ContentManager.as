@@ -1,14 +1,13 @@
 ﻿package com.bedrock.framework.engine.manager
 {
-	import com.bedrock.framework.core.base.StandardBase;
-	import com.bedrock.framework.engine.api.IContentManager;
+	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.engine.data.BedrockContentData;
 	import com.bedrock.framework.engine.data.BedrockContentGroupData;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.plugin.util.ArrayUtil;
 	import com.bedrock.framework.plugin.util.XMLUtil2;
 
-	public class ContentManager extends StandardBase implements IContentManager
+	public class ContentManager
 	{
 		/*
 		Variable Declarations
@@ -54,7 +53,7 @@
 			if ( $data.id != null && !this.hasContent( $data.id ) ) {
 				this._contents.push( $data );
 			} else {
-				this.error( "Content missing id!" );
+				Bedrock.logger.error( "Content missing id!" );
 			}
 		}
 		public function addAssetToContent( $contentID:String, $asset:Object ):void
@@ -64,7 +63,7 @@
 				var content:Object = this.getContent( $contentID );
 				content.assets.push( $asset );
 			}  else {
-				this.warning( "Content \"" + $contentID + "\" does not exist!" );
+				Bedrock.logger.warning( "Content \"" + $contentID + "\" does not exist!" );
 			}
 		}
 		public function getContent( $id:String ):BedrockContentData
@@ -72,7 +71,7 @@
 			if ( this.hasContent( $id ) ) {
 				return this._contents[ ArrayUtil.findIndex( this._contents, $id, "id" ) ];
 			} else {
-				this.warning( "Content \"" + $id + "\" does not exist!" );
+				Bedrock.logger.warning( "Content \"" + $id + "\" does not exist!" );
 				return null;
 			}
 		}
@@ -80,15 +79,9 @@
 		{
 			return ArrayUtil.containsItem( this._contents, $id, "id" );
 		}
-		public function filterContents( $value:*, $field:String ):Array
+		public function filterContent( $value:*, $field:String ):Array
 		{
 			return ArrayUtil.filter( this._contents, $value, $field );
-		}
-		
-		
-		public function get data():Array
-		{
-			return this._contents;
 		}
 		
 	}

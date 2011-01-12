@@ -1,8 +1,7 @@
 ﻿package com.bedrock.framework.plugin.util
 {
-	import com.bedrock.framework.core.base.StaticBase;
 	
-	public class XMLUtil2 extends StaticBase
+	public class XMLUtil2
 	{
 		
 		public static function getAsObject( $data:* ):Object

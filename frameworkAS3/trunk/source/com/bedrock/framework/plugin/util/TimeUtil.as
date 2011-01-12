@@ -1,8 +1,6 @@
 ﻿package com.bedrock.framework.plugin.util
 {
-	import com.bedrock.framework.core.base.StaticBase;
-
-	public class TimeUtil extends StaticBase
+	public class TimeUtil
 	{
 		public static function getDisplayTime($time:Object):Object
 		{

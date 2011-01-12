@@ -12,7 +12,8 @@
 package com.bedrock.framework.plugin.view
 {
 	import com.greensock.TweenLite;
-	import com.bedrock.framework.core.base.MovieClipBase;
+	
+	import flash.display.MovieClip;
 	
 	[Event(name="ViewEvent.onInitializeComplete", type="com.bedrock.framework.plugin.event.ViewEvent")]
 	[Event(name="ViewEvent.onIntroComplete", type="com.bedrock.framework.plugin.event.ViewEvent")]
@@ -20,7 +21,7 @@ package com.bedrock.framework.plugin.view
 	[Event(name="ViewEvent.onClearComplete", type="com.bedrock.framework.plugin.event.ViewEvent")]
 	
 	
-	public class MovieClipView extends MovieClipBase
+	public class MovieClipView extends MovieClip
 	{
 		/*
 		Variable Declarations

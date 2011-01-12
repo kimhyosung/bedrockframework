@@ -1,15 +1,16 @@
 ﻿package com.bedrock.framework.plugin.view
 {
-	import com.bedrock.framework.core.base.SpriteBase;
+	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	import com.bedrock.framework.plugin.util.ButtonUtil;
 	
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	/*
 	Class Declarations
 	*/
-	public class Blocker extends SpriteBase
+	public class Blocker extends Sprite
 	{
 		private static var __replacements:HashMap;
 		/*
@@ -41,7 +42,7 @@
 		public function show():void
 		{
 			if (! this.active) {
-				this.status("Show");
+				Bedrock.logger.status("Show");
 				this._active=true;
 				this.stage.focus = this;
 				this.stage.addEventListener( Event.RESIZE, this._onStageResize );
@@ -51,7 +52,7 @@
 		}
 		public function hide():void
 		{
-			this.status("Hide");
+			Bedrock.logger.status("Hide");
 			this._active=false;
 			this.clear();
 			this.stage.focus = null;
@@ -80,7 +81,7 @@
 				ButtonUtil.addListeners(this,{down:this._onMouseInteraction,up:this._onMouseInteraction,over:this._onMouseInteraction,out:this._onMouseInteraction},false);
 				//
 			} else {
-				this.error("Blocker must be added to stage before it can be shown!");
+				Bedrock.logger.error("Blocker must be added to stage before it can be shown!");
 			}
 		}
 		/*
@@ -89,7 +90,7 @@
 		private function _onMouseInteraction($event:MouseEvent):void
 		{
 			if ( $event.type == MouseEvent.MOUSE_DOWN ) {
-				this.warning( "Blocker is active!" );
+				Bedrock.logger.warning( "Blocker is active!" );
 			}
 			this.dispatchEvent(new BlockerEvent(Blocker.__replacements.getValue($event.type),this));
 		}

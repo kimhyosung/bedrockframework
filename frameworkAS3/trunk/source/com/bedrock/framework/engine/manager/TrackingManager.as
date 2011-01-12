@@ -1,13 +1,12 @@
 ﻿package com.bedrock.framework.engine.manager
 {
-	import com.bedrock.framework.core.base.StandardBase;
-	import com.bedrock.framework.engine.api.ITrackingManager;
+	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	import com.bedrock.framework.plugin.tracking.ITrackingService;
 	import com.bedrock.framework.plugin.trigger.Trigger;
 	import com.bedrock.framework.plugin.trigger.TriggerEvent;
 
-	public class TrackingManager extends StandardBase implements ITrackingManager
+	public class TrackingManager
 	{
 		/*
 		Variable Declarations
@@ -28,7 +27,13 @@
 		*/
 		public function initialize($enabled:Boolean = true):void
 		{
-			this.enabled = $enabled;
+			this._enabled = $enabled;
+			if ( this._enabled ) {
+				Bedrock.logger.status( "Tracking Enabled" );
+			} else {
+				Bedrock.logger.status( "Tracking Disabled" );
+			}
+			
 			this._services = new HashMap();
 			this._queue = new Array;
 			
@@ -108,15 +113,6 @@
 		/*
 		Property Definitions
 		*/
-		public function set enabled( $status:Boolean ):void
-		{
-			this._enabled = $status;
-			if ( this._enabled ) {
-				this.status( "Tracking Enabled" );
-			} else {
-				this.status( "Tracking Disabled" );
-			}
-		}
 		public function get enabled():Boolean
 		{
 			return this._enabled;

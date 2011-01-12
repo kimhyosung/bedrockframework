@@ -11,10 +11,11 @@
 */
 package com.bedrock.framework.engine.builder
 {
-	import com.bedrock.framework.core.base.MovieClipBase;
-	import com.bedrock.framework.engine.BedrockEngine;
+	import com.bedrock.framework.engine.*;
+	
+	import flash.display.MovieClip;
 
-	public class SharedLibraryBuilder extends MovieClipBase
+	public class SharedLibraryBuilder extends MovieClip
 	{
 		public function SharedLibraryBuilder()
 		{
@@ -23,19 +24,19 @@ package com.bedrock.framework.engine.builder
 		
 		protected function registerView( $id:String, $linkage:String ):void
 		{
-			BedrockEngine.libraryManager.registerView( $id, $linkage );
+			Bedrock.engine::libraryManager.registerView( $id, $linkage );
 		}
 		protected function registerPreloader( $id:String, $linkage:String ):void
 		{
-			BedrockEngine.libraryManager.registerPreloader( $id, $linkage );
+			Bedrock.engine::libraryManager.registerPreloader( $id, $linkage );
 		}
 		protected function registerBitmap( $id:String, $linkage:String ):void
 		{
-			BedrockEngine.libraryManager.registerBitmap( $id, $linkage );
+			Bedrock.engine::libraryManager.registerBitmap( $id, $linkage );
 		}
 		protected function registerSound( $id:String, $linkage:String ):void
 		{
-			BedrockEngine.libraryManager.registerSound( $id, $linkage );
+			Bedrock.engine::libraryManager.registerSound( $id, $linkage );
 		}
 		
 	}

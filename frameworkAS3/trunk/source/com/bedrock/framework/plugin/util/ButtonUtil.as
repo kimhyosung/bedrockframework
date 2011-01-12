@@ -3,10 +3,9 @@
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
-	import com.bedrock.framework.core.base.StaticBase;
 	import flash.events.Event;
 
-	public class ButtonUtil extends StaticBase
+	public class ButtonUtil
 	{
 		public static function addListeners( $clip:DisplayObject, $handlers:Object, $buttonMode:Boolean=true, $mouseChildren:Boolean=false):void
 		{

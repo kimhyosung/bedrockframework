@@ -1,13 +1,11 @@
 ﻿package com.bedrock.framework.engine.data
 {
-	import com.bedrock.framework.engine.BedrockEngine;
-	import com.bedrock.framework.engine.bedrock;
+	import com.bedrock.framework.engine.*;
 	
 	dynamic public class BedrockContentData extends GenericData
 	{
 		
 		public var id:String;
-		public var url:String;
 		public var container:String;
 		public var indexed:Boolean;
 		public var priority:int;
@@ -22,11 +20,25 @@
 			
 			this.deeplink = "/" + this.id + "/";
 			
-			this.url = BedrockEngine.data.swfPath + this.id + ".swf";
-			
 			if ( this.initialTransition ) this.initialLoad = true;
-			
 		}
 		
+		public function get url():String
+		{
+			return Bedrock.data.swfPath + this.id + ".swf";
+		}
+		
+		public function get loader():*
+		{
+			return Bedrock.engine::loadController.getLoader( this.id );
+		}
+		public function get content():*
+		{
+			return Bedrock.engine::loadController.getLoaderContent( this.id );
+		}
+		public function get rawContent():*
+		{
+			return Bedrock.engine::loadController.getRawLoaderContent( this.id );
+		}
 	}
 }

@@ -11,15 +11,13 @@
 */
 package com.bedrock.framework.engine.model
 {
-	import com.bedrock.framework.core.base.StandardBase;
-	import com.bedrock.framework.engine.BedrockEngine;
-	import com.bedrock.framework.engine.api.IConfig;
+	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.plugin.util.VariableUtil;
 	
 	import flash.system.Capabilities;
 	
-	public class Config extends StandardBase implements IConfig
+	public class Config
 	{
 		/*
 		Variable Declarations
@@ -130,7 +128,7 @@ package com.bedrock.framework.engine.model
 					this.saveParamValue( pair.split( $valueSeparator )[ 0 ], pair.split( $valueSeparator )[ 1 ] ); 
 				}
 			} else {
-				this.warning("No params to parse!");
+				Bedrock.logger.warning("No params to parse!");
 			}
 		}
 		public function saveParamValue( $id:String, $value:*):void

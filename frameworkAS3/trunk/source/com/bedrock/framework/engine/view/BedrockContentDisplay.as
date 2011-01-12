@@ -1,6 +1,6 @@
 ﻿package com.bedrock.framework.engine.view
 {
-	import com.bedrock.framework.core.logging.Logger;
+	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
 	import com.bedrock.framework.engine.data.BedrockContentData;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	import com.bedrock.framework.plugin.view.IView;
@@ -59,22 +59,23 @@
 		{
 			Object( this.rawContent ).data = $data;
 		}
-		public function set assets( $assets:HashMap ):void
-		{
-			Object( this.rawContent ).assets = $assets;
-		}
-		public function set bundle( $bundle:* ):void
-		{
-			Object( this.rawContent ).bundle = $bundle;
-		}
-		
 		public function get data():BedrockContentData
 		{
 			return Object( this.rawContent ).data;
 		}
-		public function get assets():HashMap
+		
+		public function set assets( $assets:BedrockAssetGroupData ):void
+		{
+			Object( this.rawContent ).assets = $assets;
+		}
+		public function get assets():BedrockAssetGroupData
 		{
 			return Object( this.rawContent ).assets;
+		}
+		
+		public function set bundle( $bundle:* ):void
+		{
+			Object( this.rawContent ).bundle = $bundle;
 		}
 		public function get bundle():*
 		{

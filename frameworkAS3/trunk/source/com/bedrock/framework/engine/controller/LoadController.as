@@ -1,8 +1,7 @@
 ﻿package com.bedrock.framework.engine.controller
 {
 	import com.bedrock.framework.core.base.DispatcherBase;
-	import com.bedrock.framework.engine.BedrockEngine;
-	import com.bedrock.framework.engine.api.ILoadController;
+	import com.bedrock.framework.engine.*;
 	import com.bedrock.framework.engine.builder.BedrockBuilder;
 	import com.bedrock.framework.engine.data.BedrockAssetData;
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
@@ -20,7 +19,7 @@
 	import flash.system.LoaderContext;
 	import flash.system.SecurityDomain;
 
-	public class LoadController extends DispatcherBase implements ILoadController
+	public class LoadController extends DispatcherBase
 	{
 		/*
 		Variable Declarations
@@ -54,6 +53,7 @@
 		public function load():void
 		{
 			this._loader.load();
+			this.dispatchEvent( new BedrockEvent( BedrockEvent.LOAD_BEGIN, this ) );
 		}
 		public function pause():void
 		{
@@ -76,8 +76,8 @@
 		{
 			if ( !this.hasLoader( $content.id ) || ( this.hasLoader( $content.id ) && this.getLoader( $content.id ).status >= LoaderStatus.FAILED ) ) {
 				
-				if ( BedrockEngine.assetManager.hasGroup( $content.assetGroup ) ) {
-					this.appendAssetGroup( BedrockEngine.assetManager.getGroup( $content.assetGroup ) );
+				if ( Bedrock.engine::assetManager.hasGroup( $content.assetGroup ) ) {
+					this.appendAssetGroup( Bedrock.engine::assetManager.getGroup( $content.assetGroup ) );
 				}
 				
 				LoaderMax.contentDisplayClass = BedrockContentDisplay;
@@ -86,10 +86,10 @@
 			} else {
 				switch ( this.getLoader( $content.id ).status ) {
 					case LoaderStatus.LOADING :
-						this.status( "Content \"" + $content.id + "\" loading." );
+						Bedrock.logger.status( "Content \"" + $content.id + "\" loading." );
 						break;
 					case LoaderStatus.COMPLETED :
-						this.status( "Content \"" + $content.id + "\" already loaded." );
+						Bedrock.logger.status( "Content \"" + $content.id + "\" already loaded." );
 						break;
 				}
 			}
@@ -100,12 +100,12 @@
 		{
 			var loaderVars:Object = new Object;
 			loaderVars.name =  $content.id;
-			loaderVars.context = this._getLoaderContext();
+			loaderVars.context = this.getLoaderContext();
 			
-			if ( BedrockEngine.containerManager.hasContainer( $content.container ) ) {
-				loaderVars.container = BedrockEngine.containerManager.getContainer( $content.container );
+			if ( Bedrock.engine::containerManager.hasContainer( $content.container ) ) {
+				loaderVars.container = Bedrock.engine::containerManager.getContainer( $content.container );
 			} else if ( $content.container != BedrockData.NONE ) {
-				this.warning( "Container \"" + $content.container + "\" not found for content \"" + $content.id + "\"!" );
+				Bedrock.logger.warning( "Container \"" + $content.container + "\" not found for content \"" + $content.id + "\"!" );
 			}
 			return new SWFLoader( $content.url, loaderVars );
 		}
@@ -115,18 +115,18 @@
 		public function disposeContent( $id:String ):void
 		{
 			if ( this.hasLoader( $id ) ) {
-				var content:BedrockContentData = BedrockEngine.contentManager.getContent( $id );
+				var content:BedrockContentData = Bedrock.engine::contentManager.getContent( $id );
 				
 				this.getLoader( content.id ).dispose();
 				if ( content.autoDisposeAssets ) {
-					if ( BedrockEngine.assetManager.hasGroup( content.assetGroup ) ) {
-						for each ( var assetData:BedrockAssetData in BedrockEngine.assetManager.getGroup( content.assetGroup ) ) {
-							BedrockEngine.loadController.getLoader( assetData.id ).dispose();
+					if ( Bedrock.engine::assetManager.hasGroup( content.assetGroup ) ) {
+						for each ( var assetData:BedrockAssetData in Bedrock.engine::assetManager.getGroup( content.assetGroup ) ) {
+							this.getLoader( assetData.id ).dispose();
 						}
 					}
 				}
 			} else {
-				this.warning( "Loader \"" + $id + "\" not found!" );
+				Bedrock.logger.warning( "Loader \"" + $id + "\" not found!" );
 			}
 		}
 		
@@ -148,10 +148,10 @@
 			} else {
 				switch ( this.getLoader( $asset.id ).status ) {
 					case LoaderStatus.LOADING :
-						this.status( "Asset \"" + $asset.id + "\" loading." );
+						Bedrock.logger.status( "Asset \"" + $asset.id + "\" loading." );
 						break;
 					case LoaderStatus.COMPLETED :
-						this.status( "Asset \"" + $asset.id + "\" already loaded." );
+						Bedrock.logger.status( "Asset \"" + $asset.id + "\" already loaded." );
 						break;
 				}
 				
@@ -166,12 +166,12 @@
 			var loader:LoaderItem;
 			switch( $asset.type ) {
 				case BedrockAssetData.SWF :
-					if ( BedrockEngine.containerManager.hasContainer( $asset.container ) ) {
-						loaderVars.container = BedrockEngine.containerManager.getContainer( $asset.container );
+					if ( Bedrock.engine::containerManager.hasContainer( $asset.container ) ) {
+						loaderVars.container = Bedrock.engine::containerManager.getContainer( $asset.container );
 					} else if ( $asset.container != BedrockData.NONE ) {
-						this.warning( "Container \"" + $asset.container + "\" not found for asset \"" + $asset.id + "\"!" );
+						Bedrock.logger.warning( "Container \"" + $asset.container + "\" not found for asset \"" + $asset.id + "\"!" );
 					}
-					loaderVars.context = this._getLoaderContext();
+					loaderVars.context = this.getLoaderContext();
 					loader = new SWFLoader( $asset.url, loaderVars );
 					break;
 				case BedrockAssetData.XML :
@@ -211,7 +211,7 @@
 		{
 			return this._loader.getContent( $nameOrURL ).rawContent;
 		}
-		private function _getLoaderContext():LoaderContext
+		public function getLoaderContext():LoaderContext
 		{
 			return new LoaderContext( this._checkPolicyFile, this._applicationDomain );
 		}
@@ -219,8 +219,8 @@
 		public function getAssetGroupContents( $id:String ):HashMap
 		{
 			var assetsHash:HashMap = new HashMap;
-			if ( BedrockEngine.assetManager.hasGroup( $id ) ) {
-				for each( var assetObj:Object in BedrockEngine.assetManager.getGroup( $id ).assets ) {
+			if ( Bedrock.engine::assetManager.hasGroup( $id ) ) {
+				for each( var assetObj:Object in Bedrock.engine::assetManager.getGroup( $id ).assets ) {
 					assetsHash.saveValue( assetObj.id, this.getLoaderContent( assetObj.id ) );
 				}
 			}
@@ -245,14 +245,6 @@
 		/*
 		Property Definitions
 		*/
-		public function set checkPolicyFile( $status:Boolean ):void
-		{
-			this._checkPolicyFile = $status;	
-		}
-		public function get checkPolicyFile():Boolean
-		{
-			return this._checkPolicyFile;	
-		}
 		
 		public function set maxConnections( $count:uint ):void
 		{
@@ -261,15 +253,6 @@
 		public function get maxConnections():uint
 		{
 			return this._loader.maxConnections;	
-		}
-		
-		public function set applicationDomain( $applicationDomain:ApplicationDomain ):void
-		{
-			this._applicationDomain =$applicationDomain;			
-		}
-		public function get applicationDomain():ApplicationDomain
-		{
-			return this._applicationDomain;	
 		}
 		
 		public function get empty():Boolean

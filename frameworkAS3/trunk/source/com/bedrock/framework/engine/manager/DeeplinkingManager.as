@@ -4,11 +4,10 @@ package com.bedrock.framework.engine.manager
 	import com.asual.swfaddress.SWFAddress;
 	import com.asual.swfaddress.SWFAddressEvent;
 	import com.bedrock.framework.core.base.DispatcherBase;
-	import com.bedrock.framework.engine.api.IDeeplinkingManager;
 	import com.bedrock.framework.engine.event.BedrockEvent;
 	import com.bedrock.framework.plugin.util.VariableUtil;
 	
-	public class DeeplinkingManager extends DispatcherBase implements IDeeplinkingManager
+	public class DeeplinkingManager extends DispatcherBase
 	{
 		/*
 		Variable Declarations

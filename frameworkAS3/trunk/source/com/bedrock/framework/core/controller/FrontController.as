@@ -11,19 +11,19 @@
 */
 package com.bedrock.framework.core.controller
 {
-	import com.bedrock.framework.core.base.StandardBase;
-	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
-	
-	import flash.utils.getQualifiedClassName;
-	import com.bedrock.framework.core.event.GenericEvent;
 	import com.bedrock.framework.core.command.ICommand;
+	import com.bedrock.framework.core.event.GenericEvent;
+	
+	import flash.events.EventDispatcher;
+	import flash.utils.getQualifiedClassName;
 
-	public class FrontController extends StandardBase implements IFrontController
+	public class FrontController implements IFrontController
 	{
 		/*
 		Variable Declarations
 		*/
 		private var _commands:Array;
+		private var _dispatcher:EventDispatcher;
 		/*
 		Constructor
 		*/
@@ -32,10 +32,15 @@ package com.bedrock.framework.core.controller
 			this._commands=new Array  ;
 		}
 		
+		public function initialize( $dispatcher:EventDispatcher ):void
+		{
+			this._dispatcher = $dispatcher;
+		}
+		
 		public function addCommand($type:String,$command:Class):void
 		{
 			this._commands.push( { type:$type,command:$command } );
-			BedrockDispatcher.addEventListener($type, this._executeCommand );
+			this._dispatcher.addEventListener($type, this._executeCommand );
 		}
 		
 		public function removeCommand($type:String,$command:Class):void
@@ -44,7 +49,7 @@ package com.bedrock.framework.core.controller
 			for (var i:int=0; i < arrResults.length; i++) {
 				if (arrResults[i].command === $command) {
 					this._findAndRemove( this._getClassName( $command ) );
-					BedrockDispatcher.removeEventListener($type,this._executeCommand );
+					this._dispatcher.removeEventListener($type,this._executeCommand );
 				}
 			}
 		}
