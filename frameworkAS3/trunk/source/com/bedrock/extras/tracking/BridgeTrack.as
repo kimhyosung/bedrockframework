@@ -5,7 +5,7 @@
 	
 	import flash.external.ExternalInterface;
 
-	public class BridgeTrack extends StandardBase implements ITrackingService
+	public class BridgeTrack implements ITrackingService
 	{
 		public function BridgeTrack()
 		{

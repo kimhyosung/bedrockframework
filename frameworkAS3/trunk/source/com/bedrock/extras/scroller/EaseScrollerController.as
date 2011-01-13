@@ -10,7 +10,7 @@
 	import gs.easing.Quad;
 	import gs.events.TweenEvent;
 	
-	public class EaseScrollerController extends StandardBase implements IScrollerController
+	public class EaseScrollerController ontroller
 	{
 		/*
 		Variable Declarations

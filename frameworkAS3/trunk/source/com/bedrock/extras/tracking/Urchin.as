@@ -5,7 +5,7 @@
 	
 	import flash.external.ExternalInterface;
 	
-	public class Urchin extends StandardBase implements ITrackingService
+	public class Urchin implements ITrackingService
 	{
 		/*
 		Constructor

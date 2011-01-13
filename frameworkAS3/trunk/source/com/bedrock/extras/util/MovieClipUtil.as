@@ -1,11 +1,9 @@
 ﻿package com.bedrock.extras.util
 {
-	import com.bedrock.framework.core.base.StaticBase;
-	
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 
-	public class MovieClipUtil extends StaticBase
+	public class MovieClipUtil
 	{
 		
 		/**

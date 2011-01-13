@@ -1,13 +1,13 @@
 ﻿package com.bedrock.extras.cloner
 {
 	import com.bedrock.extras.util.MathUtil;
-	import com.bedrock.framework.core.base.SpriteBase;
+	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	
-	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
 
-	public class Cloner extends SpriteBase
+	public class Cloner extends Sprite
 	{
 
 		/*
@@ -43,7 +43,7 @@
 			this.data = $data;
 			this.clear();
 			//
-			this.status("Initialize");
+			Bedrock.logger.status("Initialize");
 			this.dispatchEvent( new ClonerEvent( ClonerEvent.INITIALIZE, this, { total:this.data.total } ) );
 			
 			if ( this.data.autoPositioning && this.data.positionClonesOn == ClonerData.CREATION ) {
@@ -82,7 +82,7 @@
 			this._arrClones = new Array;
 
 			this.dispatchEvent(new ClonerEvent(ClonerEvent.CLEAR,this));
-			this.status("Cleared");
+			Bedrock.logger.status("Cleared");
 		}
 		
 		

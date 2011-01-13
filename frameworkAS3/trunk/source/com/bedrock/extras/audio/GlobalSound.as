@@ -1,4 +1,4 @@
-﻿package com.bedrock.framework.plugin.audio
+﻿package com.bedrock.extras.audio
 {
 	/**
 	* Manages the global sound within the flash application.
@@ -9,14 +9,13 @@
 	*/
 	import flash.media.SoundMixer;
 	import flash.media.SoundTransform;
-	import com.bedrock.framework.core.base.StandardBase;
 
-	public class GlobalSound extends StandardBase
+	public class GlobalSound
 	{
 		/*
 		Variable Declarations
 		*/
-		private var _objAudioMixer:AudioMixer
+		private var _objAudioMixer:AudioMixer;
 		private var _objSoundTransform:SoundTransform;
 		private var _numVolume:Number;
 		/*

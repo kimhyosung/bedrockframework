@@ -1,4 +1,4 @@
-﻿package com.bedrock.framework.engine.api
+﻿package com.bedrock.extras.audio
 {
 	import com.bedrock.framework.plugin.audio.ISoundBoard;
 	

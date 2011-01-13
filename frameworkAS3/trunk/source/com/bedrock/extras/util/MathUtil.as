@@ -1,10 +1,8 @@
 ﻿package com.bedrock.extras.util
 {
-	import com.bedrock.framework.core.base.StaticBase;
-	
 	import flash.utils.*;
 	
-	public class MathUtil extends StaticBase
+	public class MathUtil
 	{
 		public static  function wrapIndex($index:Number,$total:Number,$wrap:Boolean=false):Number
 		{

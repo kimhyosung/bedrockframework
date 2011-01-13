@@ -1,4 +1,4 @@
-package com.bedrock.framework.plugin.audio
+package com.bedrock.extras.audio
 {
 	import flash.media.SoundTransform;
 	

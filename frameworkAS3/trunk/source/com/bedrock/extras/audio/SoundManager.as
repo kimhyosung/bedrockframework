@@ -1,14 +1,13 @@
 ﻿package com.bedrock.extras.audio
 {
-	import com.bedrock.framework.core.base.StandardBase;
 	import com.bedrock.framework.engine.api.ISoundManager;
 	import com.bedrock.framework.plugin.audio.GlobalSound;
 	import com.bedrock.framework.plugin.audio.SoundBoard;
+	import com.bedrock.framework.plugin.audio.SoundData;
 	
 	import flash.media.SoundChannel;
-	import com.bedrock.framework.plugin.audio.SoundData;
 
-	public class SoundManager extends StandardBase implements ISoundManager
+	public class SoundManager implements ISoundManager
 	{
 		/*
 		Variable Declarations

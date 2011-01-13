@@ -1,8 +1,8 @@
 ﻿package com.bedrock.extras.display
 {
 	import com.bedrock.framework.core.base.MovieClipBase;
-	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
-	import com.bedrock.framework.engine.BedrockEngine;
+	import com.bedrock.framework.core.dispatcher.BedrockDispatcher2;
+	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.engine.event.BedrockEvent;
 	import com.bedrock.framework.plugin.data.TextDisplayData;
@@ -149,14 +149,14 @@
 			if ( this.data.styleName != null ) {
 				
 				if ( this.data.autoStyle ) {
-					var objStyle:Object = this.data.styleObject || BedrockEngine.stylesheetManager.getStyleAsObject( this.data.styleName );
+					var objStyle:Object = this.data.styleObject || Bedrock.stylesheetManager.getStyleAsObject( this.data.styleName );
 					var objFormat:TextLayoutFormat = new TextLayoutFormat();
 					for (var s:String in objStyle) {
 						objFormat[ s ] = VariableUtil.sanitize( objStyle[ s ] );
 					}
 				}
 				
-				if ( this.data.autoLocale ) objFormat.locale = BedrockEngine.config.getSettingValue( BedrockData.CURRENT_LOCALE );
+				if ( this.data.autoLocale ) objFormat.locale = Bedrock.config.getSettingValue( BedrockData.CURRENT_LOCALE );
 				objFormat.fontLookup = FontLookup.EMBEDDED_CFF;
 				objFormat.renderingMode = RenderingMode.CFF;
 				
@@ -174,7 +174,7 @@
 			objFormat.fontSize = 12;
 			objFormat.fontLookup = FontLookup.EMBEDDED_CFF;
 			objFormat.renderingMode = RenderingMode.CFF;
-			if ( this.data.autoLocale ) objFormat.locale = BedrockEngine.config.getSettingValue( BedrockData.CURRENT_LOCALE );
+			if ( this.data.autoLocale ) objFormat.locale = Bedrock.config.getSettingValue( BedrockData.CURRENT_LOCALE );
 			
 			return objFormat;
 		}

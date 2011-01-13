@@ -11,12 +11,10 @@
 */
 package com.bedrock.extras.util
 {
-	import com.bedrock.framework.core.base.StaticBase;
-	
 	import flash.net.LocalConnection;
 	import flash.utils.*;
 	
-	public class ClassUtil extends StaticBase
+	public class ClassUtil
 	{
 		public static function getClassName($instance:Object):String
 		{
