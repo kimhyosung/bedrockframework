@@ -1,12 +1,12 @@
 ﻿package com.bedrock.framework.plugin.view
 {
-	import com.bedrock.framework.core.base.SpriteBase;
 	import com.bedrock.framework.plugin.util.ArrayUtil;
 	
 	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
 	
 
-	public class ViewStack extends SpriteBase
+	public class ViewStack extends Sprite
 	{
 		/*
 		Variable Declarations
