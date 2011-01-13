@@ -4,6 +4,7 @@
 	import com.bedrock.framework.engine.view.BedrockContentView;
 	import com.bedrock.framework.plugin.view.IView;
 	import com.greensock.TweenLite;
+	import com.greensock.loading.display.ContentDisplay;
 	
 	import flash.text.TextField;
 	
@@ -27,7 +28,12 @@
 		{
 			Bedrock.logger.status( "Initialize" );
 			this.label.text = this.data.label;
-			trace( Bedrock.api.getAsset( "test" ).content );
+			
+			var image:ContentDisplay = Bedrock.api.getAsset( "caged" ).content;
+			image.x = 250;
+			image.y = 50;
+			this.addChildAt( image, 0 );
+			
 			this.initializeComplete();
 		}
 		public function intro($data:Object=null):void

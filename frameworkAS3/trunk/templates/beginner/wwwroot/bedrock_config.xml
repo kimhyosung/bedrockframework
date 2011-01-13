@@ -38,6 +38,9 @@
     <assetGroup id="content1" initialLoad="false">
       <asset id="test" type="xml" path="xmlPath" defaultURL="test.xml" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="1126"/>
     </assetGroup>
+    <assetGroup id="content2" initialLoad="false">
+      <asset id="caged" type="image" path="imagePath" defaultURL="caged.jpg" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="93485"/>
+    </assetGroup>
   </assets>
   <containers>
     <container id="container1" x="0" y="0"/>
