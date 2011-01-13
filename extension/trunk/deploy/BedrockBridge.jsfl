@@ -175,8 +175,6 @@
 		
 	}
 	
-	
-	
 	function getSize( $path )
 	{
 		var location = unescape( $path );
