@@ -16,10 +16,10 @@ package com.bedrock.framework.engine.builder
 	import com.bedrock.framework.engine.event.BedrockEvent;
 	
 	import flash.events.Event;
-	import com.bedrock.framework.engine.view.BedrockContentView;
+	import com.bedrock.framework.engine.view.BedrockModuleView;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	
-	public class BedrockBuilder extends BedrockContentView
+	public class BedrockBuilder extends BedrockModuleView
 	{
 		/*
 		Variable Declarations

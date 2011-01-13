@@ -21,5 +21,8 @@
     <file name="library" path="source/library.fla" type=".fla" publish="true"/>
     <file name="navigation" path="source/navigation.fla" type=".fla" publish="true"/>
     <file name="shell" path="source/shell.fla" type=".fla" publish="true"/>
+    <file name="module1" path="source/module1.fla" type=".fla" publish="true"/>
+    <file name="module2" path="source/module2.fla" type=".fla" publish="true"/>
+    <file name="module3" path="source/module3.fla" type=".fla" publish="true"/>
   </flas>
 </project>

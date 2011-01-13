@@ -2,7 +2,7 @@
 {
 	import com.bedrock.framework.engine.*;
 	
-	dynamic public class BedrockContentData extends GenericData
+	dynamic public class BedrockModuleData extends GenericData
 	{
 		
 		public var id:String;
@@ -11,7 +11,7 @@
 		public var priority:int;
 		public var deeplink:String;
 		
-		public function BedrockContentData( $data:Object )
+		public function BedrockModuleData( $data:Object )
 		{
 			super( $data );
 			

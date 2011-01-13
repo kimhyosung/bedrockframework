@@ -172,7 +172,7 @@
 				Bedrock.engine::frontController.addCommand( BedrockEvent.TRANSITION_PREPARED, ShowBlockerCommand );
 				Bedrock.engine::frontController.addCommand( BedrockEvent.TRANSITION_COMPLETE, HideBlockerCommand );
 			}
-			if ( Bedrock.data.deeplinkingEnabled && Bedrock.data.deeplinkContent ) {
+			if ( Bedrock.data.deeplinkingEnabled && Bedrock.data.deeplinkModules ) {
 				Bedrock.engine::frontController.addCommand( BedrockEvent.DEEPLINK_CHANGE, DeeplinkChangeCommand );
 			}
 		}
@@ -208,7 +208,7 @@
 		{
 			Bedrock.engine::transitionController.initialize( this.builder );
 			Bedrock.engine::containerManager.initialize( Bedrock.engine::config.containers, this.builder );
-			Bedrock.engine::contentManager.initialize( Bedrock.engine::config.contents );
+			Bedrock.engine::moduleManager.initialize( Bedrock.engine::config.modules );
 			Bedrock.engine::assetManager.initialize( Bedrock.engine::config.assets );
 			
 			Bedrock.engine::loadController.initialize( this.builder, this.builder.loaderInfo.applicationDomain );

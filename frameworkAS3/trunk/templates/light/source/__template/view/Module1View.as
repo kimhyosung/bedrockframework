@@ -1,13 +1,13 @@
 ﻿package __template.view
 {
 	import com.bedrock.framework.engine.Bedrock;
-	import com.bedrock.framework.engine.view.BedrockContentView;
+	import com.bedrock.framework.engine.view.BedrockModuleView;
 	import com.bedrock.framework.plugin.view.IView;
 	import com.greensock.TweenLite;
 	
 	import flash.text.TextField;
 	
-	public class Content1View extends BedrockContentView implements IView
+	public class Module1View extends BedrockModuleView implements IView
 	{
 		/*
 		Variable Declarations
@@ -16,7 +16,7 @@
 		/*
 		Constructor
 		*/
-		public function Content1View()
+		public function Module1View()
 		{
 			this.alpha = 0;
 		}

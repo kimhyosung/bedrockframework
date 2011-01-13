@@ -13,6 +13,10 @@ package com.bedrock.framework.engine.data
 			super( $data );
 			this.assets = new Array;
 		}
+		public function addAsset( $asset:BedrockAssetData ):void
+		{
+			this.assets.push( $asset );
+		}
 		public function filterAssets( $value:*, $field:String ):Array
 		{
 			return ArrayUtil.filter( this.assets, $value, $field );

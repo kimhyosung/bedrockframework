@@ -19,5 +19,6 @@
     <file name="fonts" path="source/fonts.fla" type=".fla" publish="true"/>
     <file name="library" path="source/library.fla" type=".fla" publish="true"/>
     <file name="shell" path="source/shell.fla" type=".fla" publish="true"/>
+    <file name="module1" path="source/module1.fla" type=".fla" publish="true"/>
   </flas>
 </project>

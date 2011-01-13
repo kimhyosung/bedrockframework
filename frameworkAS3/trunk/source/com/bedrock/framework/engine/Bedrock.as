@@ -7,7 +7,7 @@
 	import com.bedrock.framework.engine.controller.*;
 	import com.bedrock.framework.engine.data.BedrockAssetData;
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
-	import com.bedrock.framework.engine.data.BedrockContentData;
+	import com.bedrock.framework.engine.data.BedrockModuleData;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.engine.manager.*;
 	import com.bedrock.framework.engine.model.*;
@@ -36,7 +36,7 @@
 		
 		engine static var assetManager:AssetManager;
 		engine static var containerManager:ContainerManager;
-		engine static var contentManager:ContentManager;
+		engine static var moduleManager:ModuleManager;
 		engine static var contextMenuManager:ContextMenuManager;
 		engine static var resourceBundleManager:ResourceBundleManager;
 		engine static var deeplinkingManager:DeeplinkingManager;
@@ -75,7 +75,7 @@
 			
 			Bedrock.engine::assetManager = new AssetManager;
 			Bedrock.engine::containerManager = new ContainerManager;
-			Bedrock.engine::contentManager = new ContentManager;
+			Bedrock.engine::moduleManager = new ModuleManager;
 			Bedrock.engine::contextMenuManager = new ContextMenuManager;
 			Bedrock.engine::resourceBundleManager = new ResourceBundleManager;
 			Bedrock.engine::deeplinkingManager = new DeeplinkingManager;
@@ -157,31 +157,31 @@
 			return Bedrock.engine::assetManager.filterGroups( $value, $field );
 		}
 		/*
-		ContentManager
+		ModuleManager
 		*/
-		public function addContent($data:BedrockContentData):void
+		public function addModule($data:BedrockModuleData):void
 		{
-			Bedrock.engine::contentManager.addContent( $data );
+			Bedrock.engine::moduleManager.addModule( $data );
 		}
-		public function addAssetToContent( $contentID:String, $asset:BedrockAssetData ):void
+		public function addAssetToModule( $moduleID:String, $asset:BedrockAssetData ):void
 		{
-			Bedrock.engine::contentManager.addAssetToContent( $contentID, $asset );
+			Bedrock.engine::moduleManager.addAssetToModule( $moduleID, $asset );
 		}
-		public function getContent($id:String):BedrockContentData
+		public function getModule($id:String):BedrockModuleData
 		{
-			return Bedrock.engine::contentManager.getContent( $id );
+			return Bedrock.engine::moduleManager.getModule( $id );
 		}
-		public function hasContent($id:String):Boolean
+		public function hasModule($id:String):Boolean
 		{
-			return Boolean( Bedrock.engine::contentManager.hasContent( $id ) );
+			return Boolean( Bedrock.engine::moduleManager.hasModule( $id ) );
 		}
-		public function getIndexedContent():Array
+		public function getIndexedModules():Array
 		{
-			return this.filterContent( true, BedrockData.INDEXED );
+			return this.filterModules( true, BedrockData.INDEXED );
 		}
-		public function filterContent( $value:*, $field:String):Array
+		public function filterModules( $value:*, $field:String):Array
 		{
-			return Bedrock.engine::contentManager.filterContent( $value, $field );
+			return Bedrock.engine::moduleManager.filterModules( $value, $field );
 		}
 		/*
 		ContainerManager
@@ -256,9 +256,9 @@
 			Bedrock.engine::loadController.resume();
 		}
 		
-		public function appendContentToLoad( $content:BedrockContentData ):void
+		public function appendModuleToLoad( $module:BedrockModuleData ):void
 		{
-			Bedrock.engine::loadController.appendContent( $content );
+			Bedrock.engine::loadController.appendModule( $module );
 		}
 		public function appendAssetToLoad( $asset:BedrockAssetData ):void
 		{

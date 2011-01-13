@@ -11,9 +11,9 @@
     <setting id="autoPrepareInitialTransition" value="true"/>
     <setting id="showBlockerDuringTransitions" value="true"/>
     <setting id="deeplinkingEnabled" value="true"/>
-    <setting id="deeplinkContent" value="true"/>
+    <setting id="deeplinkModules" value="true"/>
     <setting id="trackingEnabled" value="true"/>
-    <setting id="showPagesInContextMenu" value="true"/>
+    <setting id="showModulesInContextMenu" value="true"/>
     <setting id="showAboutInContextMenu" value="false"/>
     <setting id="localesEnabled" value="false"/>
     <setting id="defaultLocale" value="en_GB"/>
@@ -23,22 +23,22 @@
     <setting id="monsterLogLevel" value="NONE"/>
     <setting id="errorsEnabled" value="true"/>
   </settings>
-  <contents>
-    <content id="content1" container="container1" indexed="true" initialTransition="true" label="Content 1" priority="0" deeplink="" assetGroup="content1" initialLoad="true" autoDispose="false" autoDisposeAssets="false" estimatedBytes="82963"/>
-    <content id="content2" container="container1" indexed="true" initialTransition="false" label="Content 2" priority="0" deeplink="" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false" estimatedBytes="82622"/>
-    <content id="navigation" container="navigation" indexed="false" initialTransition="true" label="Navigation" priority="2" deeplink="" assetGroup="none" initialLoad="true" autoDispose="false" autoDisposeAssets="false" estimatedBytes="86048"/>
-  </contents>
+  <modules>
+    <module id="module1" container="container1" indexed="true" initialTransition="false" label="Module 1" priority="0" deeplink="" assetGroup="module1" initialLoad="false" autoDispose="false" autoDisposeAssets="false" estimatedBytes="82979"/>
+    <module id="module2" container="container1" indexed="true" initialTransition="false" label="Module 2" priority="0" deeplink="" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false" estimatedBytes="82627"/>
+    <module id="navigation" container="navigation" indexed="false" initialTransition="true" label="Navigation" priority="2" deeplink="" assetGroup="none" initialLoad="true" autoDispose="false" autoDisposeAssets="false" estimatedBytes="85053"/>
+  </modules>
   <assets>
     <assetGroup id="shell" initialLoad="true">
       <asset id="resourceBundle" path="xmlPath" type="xml" defaultURL="resource_bundle.xml" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="4734"/>
-      <asset id="library" type="swf" path="swfPath" defaultURL="library.swf" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="80045"/>
-      <asset id="fonts" path="swfPath" type="swf" defaultURL="fonts.swf" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="73497"/>
+      <asset id="library" type="swf" path="swfPath" defaultURL="library.swf" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="79254"/>
+      <asset id="fonts" path="swfPath" type="swf" defaultURL="fonts.swf" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="73421"/>
       <asset id="stylesheet" path="stylesheetPath" type="stylesheet" defaultURL="flash_style.css" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="179"/>
     </assetGroup>
-    <assetGroup id="content1" initialLoad="false">
-      <asset id="test" type="xml" path="xmlPath" defaultURL="test.xml" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="1126"/>
+    <assetGroup id="module1" initialLoad="false">
+      <asset id="test" type="xml" path="xmlPath" defaultURL="test.xml" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="264"/>
     </assetGroup>
-    <assetGroup id="content2" initialLoad="false">
+    <assetGroup id="module2" initialLoad="false">
       <asset id="caged" type="image" path="imagePath" defaultURL="caged.jpg" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="93485"/>
     </assetGroup>
   </assets>
