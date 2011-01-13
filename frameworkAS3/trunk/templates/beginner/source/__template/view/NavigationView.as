@@ -7,7 +7,6 @@
 	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.engine.data.BedrockContentData;
 	import com.bedrock.framework.engine.view.BedrockContentView;
-	import com.bedrock.framework.plugin.audio.GlobalSound;
 	import com.bedrock.framework.plugin.util.ButtonUtil;
 	import com.bedrock.framework.plugin.view.IView;
 	import com.greensock.TweenLite;

@@ -32,13 +32,13 @@
 		
 		public function initialize($data:Object=null):void
 		{
-			Bedrock.logger.debug( "Initialize" );
+			Bedrock.logger.status( "Initialize" );
 			this.initializeComplete();
 		}
 		
 		public function intro($data:Object=null):void
 		{
-			Bedrock.logger.debug( "Intro" );
+			Bedrock.logger.status( "Intro" );
 			TweenLite.to( this.label, 1, { alpha:1, onComplete:this.introComplete } );
 		}
 		
