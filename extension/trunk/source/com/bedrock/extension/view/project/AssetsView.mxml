@@ -2,13 +2,14 @@
 <mx:HDividedBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" creationComplete="this.bootup()" styleName="padded5px" xmlns:misc="com.bedrock.extension.view.misc.*">
 	<mx:Script>
 		<![CDATA[
+			import com.greensock.loading.XMLLoader;
+			import com.bedrock.framework.engine.Bedrock;
 			import com.bedrock.extension.view.popups.SpecialAssetCreationView;
 			import com.bedrock.framework.engine.data.BedrockAssetData;
 			import mx.managers.PopUpManager;
 			import com.bedrock.extension.view.popups.AssetGroupCreationView;
 			import com.bedrock.extension.view.popups.AssetCreationView;
 			import com.bedrock.extension.event.ExtensionEvent;
-			import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
 			import com.bedrock.extension.controller.ProjectController;
 			import com.bedrock.framework.engine.data.BedrockData;
 			import mx.events.DragEvent;
@@ -48,7 +49,7 @@
 				this._assetGroupCreationView = new AssetGroupCreationView;
 				this._assetGroupCreationView.initialize();
 				
-				BedrockDispatcher.addEventListener( ExtensionEvent.CONFIG_LOADED, this._onConfigLoaded );
+				Bedrock.dispatcher.addEventListener( ExtensionEvent.CONFIG_LOADED, this._onConfigLoaded );
 			}
             /*
 			Nodes
@@ -181,12 +182,13 @@
 				<mx:AdvancedDataGridColumn headerText="Type" dataField="@type" sortable="false"/>
 				<mx:AdvancedDataGridColumn headerText="Path" dataField="@path" sortable="false"/>
 				<mx:AdvancedDataGridColumn headerText="Default URL" dataField="@defaultURL" sortable="false"/>
-				<mx:AdvancedDataGridColumn headerText="Alternate URL" dataField="@alternateURL" sortable="false"/>
 				<mx:AdvancedDataGridColumn headerText="Locale URL" dataField="@localeURL" sortable="false"/>
+				<mx:AdvancedDataGridColumn headerText="Estimated Bytes" dataField="@estimatedBytes" sortable="false"/>
 				<mx:AdvancedDataGridColumn headerText="Initial Load" resizable="false" sortable="false" width="75" itemRenderer="com.bedrock.extension.view.cells.AssetGroupInitialLoadCell" />
+				<mx:AdvancedDataGridColumn resizable="false" sortable="false" width="25" itemRenderer="com.bedrock.extension.view.cells.CalculateSizeCell" />
 			</mx:columns>
 		</mx:AdvancedDataGrid>
-		<misc:HierarchyControlBar id="hierarchyControlBar" creationOptions="{ ProjectController.getInstance().resources.getBundle( 'assetCreationOptions' ) }" createNode="this.createNode()" deleteNode="this.deleteNode()" deselectNode="this._deselect()" duplicateNode="this._duplicate()" />
+		<misc:HierarchyControlBar id="hierarchyControlBar" creationOptions="{ ProjectController.getInstance().resources.getBundle( 'assetCreationOptions' ) }" createNode="this.createNode()" deleteNode="this.deleteNode()" deselectNode="this._deselect()" duplicateNode="this._duplicate()" showCalculateBytesButton="true" calculateBytes="ProjectController.getInstance().config.updateAssetBytes()" />
 	</mx:Panel>
 	
 	<misc:AttributeEditor id="attributeEditor" title="Editing : { this.nodeTree.selectedItem.@id }" />

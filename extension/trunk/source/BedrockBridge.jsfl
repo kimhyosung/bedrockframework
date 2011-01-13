@@ -152,6 +152,8 @@
 					objDocument.exportSWF( getExportDestination( project.publishProfilePath, project.path ) );
 				}
 				
+				FLfile.remove( project.publishProfilePath );
+				
 				objDocument.save();
 				if ( filename != "shell.fla" ) objDocument.close();
 			}
@@ -175,7 +177,15 @@
 	
 	
 	
-	
+	function getSize( $path )
+	{
+		var location = unescape( $path );
+		if ( FLfile.exists( location ) ) {
+			return FLfile.getSize( location );
+		} else {
+			return 0;
+		}
+	}
 	
 	/*
 	Copy Content
@@ -215,6 +225,8 @@
 		replaceStringInFile( project.publishProfilePath, xmlSource.@id, xmlTarget.@id );
 		replaceStringInFile( project.publishProfilePath, objSourceFLA.docClass, ( project.viewPackage + "." + strTargetViewName ) );
 		objTargetFLA.importPublishProfile( project.publishProfilePath );
+		
+		FLfile.remove( project.publishProfilePath );
 		
 		openScript( strTargetAS );
 		
@@ -289,6 +301,8 @@
 				} else {
 					objDocument.testMovie();
 				}
+				FLfile.remove( project.publishProfilePath );
+				
 				if ( !sanitizeBoolean( xmlFLA.@open ) && xmlFLA.@name != "shell" ) objDocument.close();
 			}
 	}

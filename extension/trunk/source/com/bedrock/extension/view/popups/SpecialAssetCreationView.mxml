@@ -6,7 +6,7 @@
 			import com.bedrock.framework.engine.data.BedrockData;
 			import com.bedrock.extension.controller.ExtensionController;
 			import com.bedrock.framework.plugin.util.ArrayUtil;
-			import com.bedrock.framework.core.logging.Logger;
+			import com.bedrock.framework.core.logging.BedrockLogger;
 			import com.bedrock.extension.controller.ProjectController;
 			import mx.managers.PopUpManager;
 			
@@ -19,7 +19,7 @@
             {
         		var assetXML:XML = new XML( <asset id={ this.idCombo.selectedLabel } path={ this.pathCombo.selectedLabel }  /> );
         		switch( this.idCombo.selectedLabel ) {
-        			case BedrockData.DATA_BUNDLE :
+        			case BedrockData.RESOURCE_BUNDLE :
 		        		assetXML.@type = BedrockAssetData.XML;
         				break;
         			case BedrockData.FONTS :

@@ -7,7 +7,6 @@
 			import com.bedrock.extension.controller.ExtensionController;
 			import mx.managers.PopUpManager;
 			import com.bedrock.framework.plugin.util.ArrayUtil;
-			import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
 			import mx.events.ListEvent;
 			import mx.events.ItemClickEvent;
 			import mx.collections.HierarchicalData;

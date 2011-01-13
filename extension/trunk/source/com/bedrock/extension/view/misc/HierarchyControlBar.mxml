@@ -2,7 +2,7 @@
 <mx:ControlBar xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="35" verticalAlign="middle">
 	<mx:Script>
 		<![CDATA[
-			import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
+			import com.bedrock.framework.engine.Bedrock;
 			import com.bedrock.extension.controller.ProjectController;
 			import com.bedrock.extension.event.ExtensionEvent;
 			
@@ -20,6 +20,11 @@
             private var SaveIcon:Class;
             [Embed("assets/DuplicateIcon.png")]
             private var DuplicateIcon:Class;
+            [Embed("assets/CalculateBytesIcon.png")]
+            private var CalculateBytesIcon:Class;
+            
+            [Bindable]
+            public var showCalculateBytesButton:Boolean = false;
             
 			private function _notify( $event:String ):void
 			{
@@ -27,7 +32,7 @@
 			}
 			private function _reloadConfig():void
 			{
-				BedrockDispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.RELOAD_CONFIG, this ) );
+				Bedrock.dispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.RELOAD_CONFIG, this ) );
 			}
 			
 		]]>
@@ -38,10 +43,12 @@
         [Event(name="deselectNode", type="com.bedrock.extension.event.ExtensionEvent")]
         [Event(name="duplicateNode", type="com.bedrock.extension.event.ExtensionEvent")]
         [Event(name="deleteNode", type="com.bedrock.extension.event.ExtensionEvent")]
+        [Event(name="calculateBytes", type="com.bedrock.extension.event.ExtensionEvent")]
     </mx:Metadata>
     <mx:Button click="ProjectController.getInstance().config.saveConfig()" id="saveConfigButton" icon="{ SaveIcon }" toolTip="Save Config"/>
 	<mx:Button click="this._reloadConfig()" id="refreshConfigButton" icon="{ RefreshIcon }" toolTip="Reload Config"/>
 	<mx:Button click="this._notify( 'deselectNode' )" id="nodeDeselectButton" icon="{ DeselectIcon }" toolTip="Deselect"/>
+	<mx:Button click="this._notify( 'calculateBytes' )" id="calculateBytesButton" icon="{ CalculateBytesIcon }" toolTip="Calculate Bytes" visible="{ this.showCalculateBytesButton }"/>
 	<mx:Spacer width="100%"/>
     <mx:ComboBox id="creationCombo" change="this._notify( 'createNode' )" dataProvider="{ this.creationOptions }" />
 	<mx:Button click="this._notify( 'createNode' )" id="nodeCreateButton" icon="{ CreateIcon }" toolTip="Create"/>

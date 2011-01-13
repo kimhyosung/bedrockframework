@@ -2,14 +2,13 @@ package com.bedrock.extension.controller
 {
 	import com.bedrock.extension.delegate.JSFLDelegate;
 	import com.bedrock.extension.model.ConfigModel;
-	import com.bedrock.framework.core.base.StandardBase;
-	import com.bedrock.framework.engine.manager.DataBundleManager;
+	import com.bedrock.framework.engine.manager.ResourceBundleManager;
 	import com.greensock.TweenMax;
 	
 	import mx.core.UIComponent;
 	import mx.managers.CursorManager;
 	
-	public class ProjectController extends StandardBase
+	public class ProjectController
 	{
 		/*
 		Variable Delcarations
@@ -28,7 +27,7 @@ package com.bedrock.extension.controller
 		public var config:ConfigModel;
 		
 		[Bindable]
-		public var resources:DataBundleManager;
+		public var resources:ResourceBundleManager;
 		[Bindable]
 		public var browser:BrowserController;
 		/*
@@ -53,7 +52,7 @@ package com.bedrock.extension.controller
 			this.createDelegate();
 			
 			this.browser = new BrowserController;
-			this.resources = new DataBundleManager();
+			this.resources = new ResourceBundleManager();
 			this.config = new ConfigModel;
 			
 			this.update( $resources, $settings, $project, $config );

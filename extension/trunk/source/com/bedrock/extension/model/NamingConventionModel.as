@@ -1,11 +1,10 @@
 package com.bedrock.extension.model
 {
 	import com.bedrock.extension.delegate.JSFLDelegate;
-	import com.bedrock.framework.core.base.StandardBase;
 	import com.bedrock.framework.plugin.util.ArrayUtil;
 	import com.bedrock.framework.plugin.util.XMLUtil2;
 	
-	public class NamingConventionModel extends StandardBase
+	public class NamingConventionModel
 	{
 		/*
 		Variable Delcarations

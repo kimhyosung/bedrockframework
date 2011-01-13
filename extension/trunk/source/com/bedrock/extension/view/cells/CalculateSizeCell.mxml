@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Box xmlns:mx="http://www.adobe.com/2006/mxml" initialize="this._initialize()" width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" >
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import com.bedrock.extension.controller.ProjectController;
+			
+			[Embed("assets/CalculateBytesNormal.png")]
+            private var CalculateBytesNormal:Class;
+			[Embed("assets/CalculateBytesOver.png")]
+            private var CalculateBytesOver:Class;
+            
+            public var rawData:XML;
+			
+			private function _initialize():void
+			{
+				this.toolTip = "Calculate Size";
+				this.mouseChildren = false;
+				this.buttonOver.visible = false;
+				this.addEventListener( MouseEvent.MOUSE_OVER, this._onMouseOver );
+				this.addEventListener( MouseEvent.MOUSE_OUT, this._onMouseOut );
+				this.addEventListener( MouseEvent.CLICK, this._onCalculateBytes );
+			}
+			
+			private function _onCalculateBytes( $event:MouseEvent ):void
+			{
+				ProjectController.getInstance().config.updateBytes( this.rawData );
+				ProjectController.getInstance().config.autoSaveConfig();
+			}
+			
+			private function _onMouseOver( $event:MouseEvent ):void
+			{
+				this.buttonOver.visible = true;
+				this.buttonNormal.visible = false;				
+			}
+			private function _onMouseOut( $event:MouseEvent ):void
+			{
+				this.buttonOver.visible = false;
+				this.buttonNormal.visible = true;				
+			}
+			
+			override public function set data( $data:Object ):void
+			{
+				this.rawData = $data as XML;
+				if ( this.rawData.name().toString() == "asset" || this.rawData.name().toString() == "content" ) {
+					this.buttonContainer.visible = true;
+				} else {
+					this.buttonContainer.visible = false;
+				}
+			}
+			
+			override public function get data():Object
+			{
+				return this.rawData;
+			}
+			
+		]]>
+	</mx:Script>
+	<mx:Canvas id="buttonContainer" width="12" height="14">
+		<mx:Button skin="{ CalculateBytesNormal }" id="buttonNormal" width="12" height="14" />
+		<mx:Button skin="{ CalculateBytesOver }" id="buttonOver"  width="12" height="14" />
+	</mx:Canvas>
+</mx:Box>

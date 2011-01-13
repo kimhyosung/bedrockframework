@@ -2,8 +2,8 @@
 <mx:HDividedBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"  creationComplete="this.bootup()" xmlns:view="com.bedrock.project.extension.view.*" styleName="padded5px" xmlns:misc="com.bedrock.extension.view.misc.*">
 	<mx:Script>
 		<![CDATA[
+			import com.bedrock.framework.engine.Bedrock;
 			import com.bedrock.extension.event.ExtensionEvent;
-			import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
 			import mx.managers.PopUpManager;
 			import com.bedrock.extension.view.popups.PatternCreationView;
 			import com.bedrock.extension.view.popups.VariableCreationView;
@@ -49,7 +49,7 @@
 				this._variableCreationView = new VariableCreationView;
 				this._variableCreationView.initialize();
 				
-				BedrockDispatcher.addEventListener( ExtensionEvent.CONFIG_LOADED, this._onConfigLoaded );
+				Bedrock.dispatcher.addEventListener( ExtensionEvent.CONFIG_LOADED, this._onConfigLoaded );
 			}
 			
 			/*

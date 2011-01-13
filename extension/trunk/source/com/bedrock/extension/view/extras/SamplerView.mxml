@@ -5,7 +5,7 @@
 			import com.bedrock.framework.plugin.util.VariableUtil;
 			import mx.events.ItemClickEvent;
 			import mx.containers.ViewStack;
-			import com.bedrock.framework.core.logging.Logger;
+			import com.bedrock.framework.core.logging.BedrockLogger;
 			import mx.controls.DataGrid;
 			import mx.controls.HRule;
 			import com.bedrock.framework.plugin.util.XMLUtil2;
