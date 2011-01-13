@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <bundles>
   <bundle id="specialAssetIDs" type="array">
-    <asset>dataBundle</asset>
+    <asset>resourceBundle</asset>
     <asset>library</asset>
     <asset>fonts</asset>
     <asset>stylesheet</asset>
@@ -13,7 +13,7 @@
     <setting id="deeplinkingEnabled" label="Deeplinking Enabled" />
     <setting id="deeplinkContent" label="Deeplink Content" />
     <setting id="trackingEnabled" label="Tracking Enabled" />
-    <setting id="showPagesInContextMenu" label="Show Pages in Context Menu" />
+    <setting id="showPagesInContextMenu" label="Show Indexed Content in Context Menu" />
     <setting id="showAboutInContextMenu" label="Show About in Context Menu" />
   </bundle>
   <bundle id="stageScaleModeOptions" type="array">

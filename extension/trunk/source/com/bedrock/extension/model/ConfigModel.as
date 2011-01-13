@@ -3,15 +3,15 @@ package com.bedrock.extension.model
 	import com.bedrock.extension.data.OptionData;
 	import com.bedrock.extension.delegate.JSFLDelegate;
 	import com.bedrock.extension.event.ExtensionEvent;
-	import com.bedrock.framework.core.base.StandardBase;
-	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
+	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.plugin.util.VariableUtil;
 	
 	import mx.collections.ArrayCollection;
 	import mx.collections.HierarchicalData;
+	import mx.controls.Alert;
 
-	public class ConfigModel extends StandardBase
+	public class ConfigModel
 	{
 		/*
 		Variable Delcarations
@@ -99,7 +99,7 @@ package com.bedrock.extension.model
 			this.refreshEnvironmentsArray();
 			this._storePaths();
 			
-			BedrockDispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.CONFIG_LOADED, this ) );
+			Bedrock.dispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.CONFIG_LOADED, this ) );
 		}
 		
 		public function saveConfig():void
@@ -119,6 +119,7 @@ package com.bedrock.extension.model
 		public function createContent( $data:XML, $parent:String, $template:String ):Boolean
 		{
 			var xmlData:XML = $data;
+			this.updateBytes( xmlData );
 			
 			if ( $parent != OptionData.NONE && $parent != OptionData.ROOT ) {
 				var xmlParent:XML = this.contents.children().( @id == $parent )[ 0 ] as XML;
@@ -131,6 +132,7 @@ package com.bedrock.extension.model
 				var xmlTemplate:XML = this.contents..content.( @id == $template )[ 0 ] as XML;
 				this.delegate.copyContent( this.projectXML, xmlData, xmlTemplate );
 			}
+			
 			
 			this.saveConfig();
 			
@@ -253,6 +255,53 @@ package com.bedrock.extension.model
 			} catch( $error:Error ) {
 				this.warning( "Failed to pull setting \"" + $id + "\"!" );
 			}
+		}
+		
+		/*
+		Audit File Size
+		*/
+		
+		public function updateBytes( $target:XML ):void
+		{
+			var filePath:String;
+			var defaultEnvironment:XML = this.configXML.environments..environment.( @id == BedrockData.DEFAULT )[ 0 ];
+			var pathXML:XML;
+			
+			switch ( $target.name().toString() ) {
+				case "asset" :
+					if ( $target.@path != BedrockData.NONE ) {
+						pathXML = defaultEnvironment..path.( @id == $target.@path )[ 0 ];
+						filePath = pathXML.@value;
+						filePath +=  $target.@defaultURL;
+					} else {
+						filePath = VariableUtil.sanitize( $target.@defaultURL );
+					}
+					break;
+				case "content" :
+					pathXML = defaultEnvironment..path.( @id == "swfPath" )[ 0 ];
+					filePath = pathXML.@value;
+					filePath +=  $target.@id + ".swf";
+					break;
+			} 
+			
+			filePath = VariableUtil.sanitize( projectXML.path ) + VariableUtil.sanitize( projectXML.deployFolder ) + filePath;
+			filePath = filePath.split( "../" ).join( "assets/" );
+			
+			$target.@estimatedBytes = this.delegate.getSize( filePath );
+		}
+		public function updateAssetBytes():void
+		{
+			for each ( var assetXML:XML in this.configXML.assets..asset ) {
+				this.updateBytes( assetXML );
+			}
+			this.autoSaveConfig();
+		}
+		public function updateContentBytes():void
+		{
+			for each ( var contentXML:XML in this.configXML.contents..content ) {
+				this.updateBytes( contentXML );
+			}
+			this.autoSaveConfig();
 		}
 		/*
 		Event Handlers

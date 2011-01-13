@@ -3,11 +3,8 @@ package com.bedrock.extension.view.cells
 	
 	import com.bedrock.extension.controller.ProjectController;
 	import com.bedrock.extension.event.ExtensionEvent;
-	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
-	import com.bedrock.framework.core.logging.Logger;
+	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.plugin.util.VariableUtil;
-	
-	import flash.events.Event;
 	
 	import mx.controls.listClasses.IListItemRenderer;
 
@@ -32,7 +29,7 @@ package com.bedrock.extension.view.cells
 		{
 			this._applyToolTip();
 			this._xmlData.@publish = this.checkBox.selected;
-			BedrockDispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.SAVE_PROJECT, this ) );
+			Bedrock.dispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.SAVE_PROJECT, this ) );
 		}
 		
 		public function populate( $data:Object ):void

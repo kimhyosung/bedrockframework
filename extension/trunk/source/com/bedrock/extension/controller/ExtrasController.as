@@ -3,9 +3,8 @@ package com.bedrock.extension.controller
 	import com.bedrock.extension.delegate.JSFLDelegate;
 	import com.bedrock.extension.model.ClassGeneratorModel;
 	import com.bedrock.extension.model.SampleBrowserModel;
-	import com.bedrock.framework.core.base.StandardBase;
 
-	public class ExtrasController extends StandardBase
+	public class ExtrasController
 	{
 		/*
 		Variable Delcarations

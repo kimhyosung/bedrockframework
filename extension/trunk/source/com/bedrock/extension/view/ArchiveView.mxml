@@ -32,15 +32,13 @@
 				PopUpManager.addPopUp( this._projectCreationView, this, true );
 				PopUpManager.centerPopUp( this._projectCreationView );
 			}
-			private function loadProject():void
+			private function _loadProject():void
 			{
-				if ( ExtensionController.getInstance().loadProject( this.projectGrid.selectedItem.path ) ) {
-					Alert.show( "Ok! Project \"" + this.projectGrid.selectedItem.name + "\" loaded!", "Attention!" );
-				} else {
+				if ( !ExtensionController.getInstance().loadProject( this.projectGrid.selectedItem.path ) ) {
 					Alert.show( "Boo! Project \"" + this.projectGrid.selectedItem.name + "\" failed!", "Warning!" );
 				}
 			}
-			private function removeProject():void
+			private function _removeProject():void
 			{
 				Alert.show("This will only erase the project from the archive, not from your hard drive.\nAre you sure you want to proceed?","Warning!", Alert.OK|Alert.CANCEL,this, this.onCloseAlert, null, Alert.OK);
 			}
@@ -48,7 +46,7 @@
 			{
 				switch ( $event.detail ) {
 					case Alert.OK :
-						ExtensionController.getInstance().removeProject( this.projectGrid.selectedItem.@id );
+						ExtensionController.getInstance().removeProject( this.projectGrid.selectedItem.id );
 						break;
 				}
 			}
@@ -57,7 +55,7 @@
 		]]>
 	</mx:Script>
 		
-	<mx:DataGrid width="100%" height="100%" sortableColumns="true" id="projectGrid" doubleClickEnabled="true" dataProvider="{ ExtensionController.getInstance().projects }" itemClick="{ this.loadProjectButton.enabled = true }" itemDoubleClick="this.loadProject()">
+	<mx:DataGrid width="100%" height="100%" sortableColumns="true" id="projectGrid" doubleClickEnabled="true" dataProvider="{ ExtensionController.getInstance().projects }" itemClick="{ this.loadProjectButton.enabled = true }" itemDoubleClick="this._loadProject()">
 		<mx:columns>
 			<mx:DataGridColumn headerText="Name" dataField="name" width="150"/>
 			<mx:DataGridColumn headerText="Path" dataField="path"/>
@@ -67,9 +65,9 @@
 	</mx:DataGrid>
 	<mx:HBox width="100%">
 		<mx:Button label="Create Project" width="100%" height="40" click="this._showCreateProject()" />
-		<mx:Button label="Load Project" width="100%" height="40" id="loadProjectButton" click="this.loadProject()" enabled="{ this.projectGrid.selectedIndex != -1 }"/>
+		<mx:Button label="Load Project" width="100%" height="40" id="loadProjectButton" click="this._loadProject()" enabled="{ this.projectGrid.selectedIndex != -1 }"/>
 		<mx:Button label="Find Project" width="100%" height="40" click="this.findProject()"/>
-		<mx:Button label="Remove Project" width="100%" height="40" click="this.removeProject()"/>
+		<mx:Button label="Remove Project" width="100%" height="40" click="this._removeProject()"/>
 	</mx:HBox>
 	
 </mx:Panel>

@@ -3,7 +3,7 @@
 	<mx:Script>
 		<![CDATA[
 			import com.bedrock.extension.controller.ExtrasController;
-			import com.bedrock.framework.core.logging.Logger;
+			import com.bedrock.framework.core.logging.BedrockLogger;
 			[Bindable]
 			public var loadedSample:XML;
 		

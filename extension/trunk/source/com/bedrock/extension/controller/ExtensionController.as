@@ -5,8 +5,7 @@ package com.bedrock.extension.controller
 	import com.bedrock.extension.model.*;
 	import com.bedrock.extension.view.popups.ProjectUpdateView;
 	import com.bedrock.extras.util.StringUtil;
-	import com.bedrock.framework.core.base.StandardBase;
-	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
+	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.plugin.util.ArrayUtil;
 	import com.bedrock.framework.plugin.util.VariableUtil;
 	import com.bedrock.framework.plugin.util.XMLUtil2;
@@ -18,7 +17,7 @@ package com.bedrock.extension.controller
 	import mx.managers.PopUpManager;
 	import mx.modules.ModuleLoader;
 	
-	public class ExtensionController extends StandardBase
+	public class ExtensionController
 	{
 		/*
 		Variable Delcarations
@@ -86,10 +85,10 @@ package com.bedrock.extension.controller
 			this.namingConventions = new NamingConventionModel;
 			this.namingConventions.initialize( this.delegate );
 			
-			BedrockDispatcher.addEventListener( ExtensionEvent.SAVE_PROJECT, this._onSaveProject );
-			BedrockDispatcher.addEventListener( ExtensionEvent.PROJECT_UPDATE, this._onProjectUpdate );
-			BedrockDispatcher.addEventListener( ExtensionEvent.DELETE_CONTENT_CONFIRMED, this._onDeleteContentConfirmed );
-			BedrockDispatcher.addEventListener( ExtensionEvent.RELOAD_CONFIG, this._onReloadConfig );
+			Bedrock.dispatcher.addEventListener( ExtensionEvent.SAVE_PROJECT, this._onSaveProject );
+			Bedrock.dispatcher.addEventListener( ExtensionEvent.PROJECT_UPDATE, this._onProjectUpdate );
+			Bedrock.dispatcher.addEventListener( ExtensionEvent.DELETE_CONTENT_CONFIRMED, this._onDeleteContentConfirmed );
+			Bedrock.dispatcher.addEventListener( ExtensionEvent.RELOAD_CONFIG, this._onReloadConfig );
 		}
 		private function _createDelegate():void
 		{
@@ -155,7 +154,7 @@ package com.bedrock.extension.controller
 		public function saveSettings():void
 		{
 			this.delegate.saveSettingsFile( this.settingsXML.toXMLString() );
-			BedrockDispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.SETTINGS_SAVED, this ) );
+			Bedrock.dispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.SETTINGS_SAVED, this ) );
 			this.loadSettings();
 		}
 		
@@ -208,7 +207,7 @@ package com.bedrock.extension.controller
 		{
 			this._createProjectXML();
 			this.loadTemplates();
-			BedrockDispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.PROJECT_CREATED, this ) );
+			Bedrock.dispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.PROJECT_CREATED, this ) );
 		}
 		private function _createProjectXML():void
 		{
@@ -276,9 +275,9 @@ package com.bedrock.extension.controller
 		}
 		public function loadProject( $path:String, $clearFLAs:Boolean = false ):Boolean
 		{
-			var strContent:String = this.delegate.openFile( $path + "project.bedrock" );
-			if ( strContent != "" && strContent != null ) {
-				this.projectXML = new XML( strContent );
+			var rawContent:String = this.delegate.openFile( $path + "project.bedrock" );
+			if ( rawContent != "" && rawContent != null ) {
+				this.projectXML = new XML( rawContent );
 				this.projectXML.path = $path;
 				
 				this.setMostRecentProject( $path );
@@ -297,7 +296,7 @@ package com.bedrock.extension.controller
 				ProjectController.getInstance().initialize( this.resourceXML, this.settingsXML, this.projectXML, this.configXML );
 				ExtrasController.getInstance().initialize( this.projectXML, this.delegate );
 				
-				BedrockDispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.PROJECT_LOADED, this ) );
+				Bedrock.dispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.PROJECT_LOADED, this ) );
 				return true;
 			} else { 
 				return false;
@@ -346,7 +345,7 @@ package com.bedrock.extension.controller
 				this.saveProject();
 				this.registerProject( this.projectXML );
 				this.loadProject( this.projectXML.path );
-				BedrockDispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.PROJECT_GENERATED, this ) );
+				Bedrock.dispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.PROJECT_GENERATED, this ) );
 				return true;
 			} else {
 				return false;

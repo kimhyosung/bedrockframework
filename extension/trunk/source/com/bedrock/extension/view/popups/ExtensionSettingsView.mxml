@@ -7,7 +7,6 @@
 			import mx.managers.PopUpManager;
 			import mx.controls.Alert;
 			import mx.events.CloseEvent;
-			import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
 			
 			private var _templateManagementView:TemplateManagementView;
 			

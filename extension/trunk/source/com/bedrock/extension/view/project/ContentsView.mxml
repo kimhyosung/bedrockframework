@@ -7,7 +7,6 @@
 			import mx.managers.PopUpManager;
 			import com.bedrock.extension.view.popups.ContentDeletionView;
 			import com.bedrock.extension.event.ExtensionEvent;
-			import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
 			import com.bedrock.extension.controller.ProjectController;
 			import com.bedrock.framework.engine.data.BedrockData;
 			import mx.events.DragEvent;
@@ -112,9 +111,10 @@
 				<mx:AdvancedDataGridColumn headerText="Indexed" resizable="false" sortable="false" dataField="@indexed" itemRenderer="com.bedrock.extension.view.cells.IndexedCell" />
 				<mx:AdvancedDataGridColumn headerText="Auto Dispose" resizable="false" sortable="false" dataField="@autoDispose" itemRenderer="com.bedrock.extension.view.cells.ContentAutoDisposeCell" />
 				<mx:AdvancedDataGridColumn headerText="Auto Dispose Assets" resizable="false" sortable="false" dataField="@autoDisposeAssets" itemRenderer="com.bedrock.extension.view.cells.ContentAutoDisposeAssetsCell" />
+				<mx:AdvancedDataGridColumn resizable="false" sortable="false" width="25" itemRenderer="com.bedrock.extension.view.cells.CalculateSizeCell" />
 			</mx:columns>
 		</mx:AdvancedDataGrid>
-		<misc:HierarchyControlBar creationOptions="{ ProjectController.getInstance().resources.getBundle( 'contentCreationOptions' ) }" id="hierarchyControlBar" createNode="this.createNode()" deleteNode="this.deleteNode()" deselectNode="this._deselect()" />
+		<misc:HierarchyControlBar creationOptions="{ ProjectController.getInstance().resources.getBundle( 'contentCreationOptions' ) }" id="hierarchyControlBar" createNode="this.createNode()" deleteNode="this.deleteNode()" deselectNode="this._deselect()" showCalculateBytesButton="true" calculateBytes="ProjectController.getInstance().config.updateContentBytes()" />
 	</mx:Panel>
 	
 	<misc:AttributeEditor id="attributeEditor" title="Editing : { this.nodeTree.selectedItem.@id }" />

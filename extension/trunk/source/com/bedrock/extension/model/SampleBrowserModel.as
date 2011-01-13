@@ -1,9 +1,8 @@
 ﻿package com.bedrock.extension.model
 {
 	import com.bedrock.extension.delegate.JSFLDelegate;
-	import com.bedrock.framework.core.base.StandardBase;
 	
-	public class SampleBrowserModel extends StandardBase
+	public class SampleBrowserModel
 	{
 		/*
 		Variable Delcarations
