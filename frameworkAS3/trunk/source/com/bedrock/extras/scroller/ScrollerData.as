@@ -4,7 +4,7 @@
 	
 	import flash.display.Sprite;
 
-	public class ScrollerData extends StandardBase
+	public class ScrollerData
 	{
 		public static  var HORIZONTAL:String = "horizontal";
 		public static  var VERTICAL:String = "vertical";

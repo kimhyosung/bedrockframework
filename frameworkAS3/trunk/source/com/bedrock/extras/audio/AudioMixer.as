@@ -1,13 +1,12 @@
-﻿package com.bedrock.framework.plugin.audio
+﻿package com.bedrock.extras.audio
 {
-	import com.bedrock.framework.core.base.StandardBase;
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Linear;
 	
 	import flash.media.SoundChannel;
 	import flash.media.SoundTransform;
 
-	public class AudioMixer extends StandardBase
+	public class AudioMixer
 	{
 		/*
 		Variable Declarations

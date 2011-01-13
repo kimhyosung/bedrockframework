@@ -9,7 +9,7 @@
 	*/
 	import com.bedrock.framework.core.base.StaticBase;
 	import com.bedrock.framework.core.logging.LogLevel;
-	import com.bedrock.framework.core.logging.Logger;
+	import com.bedrock.framework.core.logging.BedrockLogger;
 	import com.bedrock.framework.plugin.data.StageMonitorData;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	
@@ -18,7 +18,7 @@
 	import flash.events.Event;
 	import flash.geom.Point;
 
-	public class StageMonitor extends StaticBase
+	public class StageMonitor
 	{
 		/*
 		Variable Declarations
@@ -28,7 +28,7 @@
 		/*
 		Constructor
 		*/
-		Logger.log(StageMonitor, LogLevel.CONSTRUCTOR, "Constructed");
+		BedrockLogger.log(StageMonitor, LogLevel.CONSTRUCTOR, "Constructed");
 		/*
 		Initialize passing in an instance of stage
 	 	*/
@@ -47,7 +47,7 @@
 				StageMonitor.__mapTargets.saveValue($name, {target:$target, data:$data});
 				if ($auto) StageMonitor.updateTarget($target, $data);
 			} else {
-				Logger.log(StageMonitor, LogLevel.ERROR, "Stage value is null!");
+				BedrockLogger.log(StageMonitor, LogLevel.ERROR, "Stage value is null!");
 			}
 		}
 		public static function removeTarget($name:String):void

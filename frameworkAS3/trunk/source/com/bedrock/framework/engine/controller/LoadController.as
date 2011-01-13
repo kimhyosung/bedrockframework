@@ -100,6 +100,7 @@
 		{
 			var loaderVars:Object = new Object;
 			loaderVars.name =  $content.id;
+			loaderVars.estimatedBytes =  $content.estimatedBytes;
 			loaderVars.context = this.getLoaderContext();
 			
 			if ( Bedrock.engine::containerManager.hasContainer( $content.container ) ) {
@@ -161,6 +162,7 @@
 		{
 			var loaderVars:Object = new Object;
 			loaderVars.name =  $asset.id;
+			loaderVars.estimatedBytes =  $asset.estimatedBytes;
 			loaderVars.alternateURL = $asset.alternateURL;
 			
 			var loader:LoaderItem;

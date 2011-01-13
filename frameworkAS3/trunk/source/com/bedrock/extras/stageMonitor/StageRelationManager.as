@@ -9,7 +9,7 @@
 	*/
 	import com.bedrock.framework.core.base.StaticBase;
 	import com.bedrock.framework.core.logging.LogLevel;
-	import com.bedrock.framework.core.logging.Logger;
+	import com.bedrock.framework.core.logging.BedrockLogger;
 	import com.bedrock.framework.plugin.data.StageRelationData;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	
@@ -18,7 +18,7 @@
 	import flash.events.Event;
 	import flash.geom.Point;
 
-	public class StageRelationManager extends StaticBase
+	public class StageRelationManager
 	{
 		/*
 		Variable Declarations
@@ -28,7 +28,7 @@
 		/*
 		Constructor
 		*/
-		Logger.log(StageRelationManager, LogLevel.CONSTRUCTOR, "Constructed");
+		BedrockLogger.log(StageRelationManager, LogLevel.CONSTRUCTOR, "Constructed");
 		/*
 		Initialize passing in an instance of stage
 	 	*/
@@ -47,7 +47,7 @@
 				StageRelationManager.__mapTargets.saveValue( $data.id, $data );
 				StageRelationManager.updateTarget( $data);
 			} else {
-				Logger.log( StageRelationManager, LogLevel.ERROR, "Stage value is null!" );
+				BedrockLogger.log( StageRelationManager, LogLevel.ERROR, "Stage value is null!" );
 			}
 		}
 		public static function remove( $id:String ):void

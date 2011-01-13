@@ -5,7 +5,7 @@
 	
 	import flash.external.ExternalInterface;
 	
-	public class Omniture extends StandardBase implements ITrackingService
+	public class Omniture implements ITrackingService
 	{
 		/*
 		Constructor

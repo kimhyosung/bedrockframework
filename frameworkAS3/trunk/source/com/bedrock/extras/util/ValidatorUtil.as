@@ -2,7 +2,7 @@ package com.bedrock.extras.util
 {
 	import com.bedrock.framework.core.base.StaticBase;
 	
-    public class ValidatorUtil extends StaticBase
+    public class ValidatorUtil
     {
     	public static const CCTYPE_VISA:String = "Visa";
 		public static const CCTYPE_MASTERCARD:String = "Mastercard";

@@ -335,11 +335,11 @@
 		}
 		public function toggleMute():Boolean
 		{
-			return Bedrock.engine::globalSound.toggleMute();
+			return Boolean( Bedrock.engine::globalSound.toggleMute() );
 		}
 		public function get isMuted():Boolean
 		{
-			return Bedrock.engine::globalSound.isMuted;
+			return Boolean( Bedrock.engine::globalSound.isMuted );
 		}
 		/*
 		TransitionController
@@ -348,7 +348,7 @@
 		{
 			Bedrock.engine::transitionController.prepareInitialLoad();
 		}
-		public function transition( $detail:* ):void
+		public function transition( $detail:* = null ):void
 		{
 			Bedrock.engine::transitionController.transition( $detail );
 		}

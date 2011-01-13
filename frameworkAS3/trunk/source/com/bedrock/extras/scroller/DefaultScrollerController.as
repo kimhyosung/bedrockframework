@@ -5,7 +5,7 @@
 	import com.bedrock.framework.plugin.event.ScrollerEvent;
 	import com.bedrock.framework.plugin.gadget.Scroller;
 	
-	public class DefaultScrollerController extends StandardBase implements IScrollerController
+	public class DefaultScrollerController ontroller
 	{
 		public var data:ScrollerData;
 		public var scroller:Scroller;

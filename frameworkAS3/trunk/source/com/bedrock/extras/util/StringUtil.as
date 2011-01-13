@@ -1,10 +1,7 @@
 ﻿package com.bedrock.extras.util
 {
-	import com.bedrock.framework.core.base.StaticBase;
-
-	public class StringUtil extends StaticBase
+	public class StringUtil
 	{
-
 		/*
 		Splits a string into an array according to a specified length.
 		*/

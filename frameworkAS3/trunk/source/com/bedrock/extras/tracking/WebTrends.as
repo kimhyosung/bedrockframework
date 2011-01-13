@@ -5,7 +5,7 @@
 	
 	import flash.external.ExternalInterface;
 
-	public class WebTrends extends StandardBase implements ITrackingService
+	public class WebTrends implements ITrackingService
 	{
 		/*
 		Constructor
