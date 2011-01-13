@@ -1,13 +1,14 @@
 ﻿package __template.view
 {
 	import com.bedrock.framework.engine.Bedrock;
-	import com.bedrock.framework.engine.view.BedrockContentView;
+	import com.bedrock.framework.engine.view.BedrockModuleView;
 	import com.bedrock.framework.plugin.view.IView;
 	import com.greensock.TweenLite;
+	import com.greensock.loading.display.ContentDisplay;
 	
 	import flash.text.TextField;
 	
-	public class Content4View extends BedrockContentView implements IView
+	public class Module2View extends BedrockModuleView implements IView
 	{
 		/*
 		Variable Declarations
@@ -16,7 +17,7 @@
 		/*
 		Constructor
 		*/
-		public function Content4View()
+		public function Module2View()
 		{
 			this.alpha = 0;
 		}
@@ -27,6 +28,12 @@
 		{
 			Bedrock.logger.status( "Initialize" );
 			this.label.text = this.data.label;
+			
+			var image:ContentDisplay = Bedrock.api.getAsset( "caged" ).content;
+			image.x = 250;
+			image.y = 50;
+			this.addChildAt( image, 0 );
+			
 			this.initializeComplete();
 		}
 		public function intro($data:Object=null):void

@@ -5,8 +5,8 @@
 	import com.bedrock.extras.cloner.ClonerEvent;
 	import com.bedrock.framework.core.logging.BedrockLogger;
 	import com.bedrock.framework.engine.Bedrock;
-	import com.bedrock.framework.engine.data.BedrockContentData;
-	import com.bedrock.framework.engine.view.BedrockContentView;
+	import com.bedrock.framework.engine.data.BedrockModuleData;
+	import com.bedrock.framework.engine.view.BedrockModuleView;
 	import com.bedrock.framework.plugin.util.ButtonUtil;
 	import com.bedrock.framework.plugin.view.IView;
 	import com.greensock.TweenLite;
@@ -14,7 +14,7 @@
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
 
-	public class NavigationView extends BedrockContentView implements IView
+	public class NavigationView extends BedrockModuleView implements IView
 	{
 		/*
 		Variable Declarations
@@ -36,7 +36,7 @@
 			clonerData.autoSpacing = true;
 			clonerData.direction = ClonerData.HORIZONTAL;
 			clonerData.paddingX = 10;
-			clonerData.total = Bedrock.api.getIndexedContent().length;
+			clonerData.total = Bedrock.api.getIndexedModules().length;
 			
 			this._cloner = new Cloner;
 			this._cloner.addEventListener( ClonerEvent.CREATE, this._onCloneCreate );
@@ -65,7 +65,7 @@
 	 	*/
 	 	private function _onCloneCreate( $event:ClonerEvent ):void
 		{
-			var data:BedrockContentData = Bedrock.api.getIndexedContent()[ $event.details.index ];
+			var data:BedrockModuleData = Bedrock.api.getIndexedModules()[ $event.details.index ];
 			var childButton:MovieClip = $event.details.child;
 			childButton.label.text = data.label;
 			childButton.name = data.id;

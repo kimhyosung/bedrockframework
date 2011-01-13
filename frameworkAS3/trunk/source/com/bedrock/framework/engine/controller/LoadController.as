@@ -5,10 +5,10 @@
 	import com.bedrock.framework.engine.builder.BedrockBuilder;
 	import com.bedrock.framework.engine.data.BedrockAssetData;
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
-	import com.bedrock.framework.engine.data.BedrockContentData;
+	import com.bedrock.framework.engine.data.BedrockModuleData;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.engine.event.BedrockEvent;
-	import com.bedrock.framework.engine.view.BedrockContentDisplay;
+	import com.bedrock.framework.engine.view.BedrockModuleDisplay;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	import com.greensock.events.LoaderEvent;
 	import com.greensock.loading.*;
@@ -72,56 +72,56 @@
 			}
 		}
 		
-		public function appendContent( $content:BedrockContentData ):void
+		public function appendModule( $module:BedrockModuleData ):void
 		{
-			if ( !this.hasLoader( $content.id ) || ( this.hasLoader( $content.id ) && this.getLoader( $content.id ).status >= LoaderStatus.FAILED ) ) {
+			if ( !this.hasLoader( $module.id ) || ( this.hasLoader( $module.id ) && this.getLoader( $module.id ).status >= LoaderStatus.FAILED ) ) {
 				
-				if ( Bedrock.engine::assetManager.hasGroup( $content.assetGroup ) ) {
-					this.appendAssetGroup( Bedrock.engine::assetManager.getGroup( $content.assetGroup ) );
+				if ( Bedrock.engine::assetManager.hasGroup( $module.assetGroup ) ) {
+					this.appendAssetGroup( Bedrock.engine::assetManager.getGroup( $module.assetGroup ) );
 				}
 				
-				LoaderMax.contentDisplayClass = BedrockContentDisplay;
-				this.appendLoader( this._getContentLoader( $content ) );
+				LoaderMax.contentDisplayClass = BedrockModuleDisplay;
+				this.appendLoader( this._getModuleLoader( $module ) );
 				LoaderMax.contentDisplayClass = ContentDisplay;
 			} else {
-				switch ( this.getLoader( $content.id ).status ) {
+				switch ( this.getLoader( $module.id ).status ) {
 					case LoaderStatus.LOADING :
-						Bedrock.logger.status( "Content \"" + $content.id + "\" loading." );
+						Bedrock.logger.status( "Module \"" + $module.id + "\" loading." );
 						break;
 					case LoaderStatus.COMPLETED :
-						Bedrock.logger.status( "Content \"" + $content.id + "\" already loaded." );
+						Bedrock.logger.status( "Module \"" + $module.id + "\" already loaded." );
 						break;
 				}
 			}
 		}
 		
 		
-		private function _getContentLoader( $content:BedrockContentData ):LoaderItem
+		private function _getModuleLoader( $modules:BedrockModuleData ):LoaderItem
 		{
 			var loaderVars:Object = new Object;
-			loaderVars.name =  $content.id;
-			loaderVars.estimatedBytes =  $content.estimatedBytes;
+			loaderVars.name =  $modules.id;
+			loaderVars.estimatedBytes =  $modules.estimatedBytes;
 			loaderVars.context = this.getLoaderContext();
 			
-			if ( Bedrock.engine::containerManager.hasContainer( $content.container ) ) {
-				loaderVars.container = Bedrock.engine::containerManager.getContainer( $content.container );
-			} else if ( $content.container != BedrockData.NONE ) {
-				Bedrock.logger.warning( "Container \"" + $content.container + "\" not found for content \"" + $content.id + "\"!" );
+			if ( Bedrock.engine::containerManager.hasContainer( $modules.container ) ) {
+				loaderVars.container = Bedrock.engine::containerManager.getContainer( $modules.container );
+			} else if ( $modules.container != BedrockData.NONE ) {
+				Bedrock.logger.warning( "Container \"" + $modules.container + "\" not found for module \"" + $modules.id + "\"!" );
 			}
-			return new SWFLoader( $content.url, loaderVars );
+			return new SWFLoader( $modules.url, loaderVars );
 		}
 		
 		
  	 	
-		public function disposeContent( $id:String ):void
+		public function disposeModule( $id:String ):void
 		{
 			if ( this.hasLoader( $id ) ) {
-				var content:BedrockContentData = Bedrock.engine::contentManager.getContent( $id );
+				var module:BedrockModuleData = Bedrock.engine::moduleManager.getModule( $id );
 				
-				this.getLoader( content.id ).dispose();
-				if ( content.autoDisposeAssets ) {
-					if ( Bedrock.engine::assetManager.hasGroup( content.assetGroup ) ) {
-						for each ( var assetData:BedrockAssetData in Bedrock.engine::assetManager.getGroup( content.assetGroup ) ) {
+				this.getLoader( module.id ).dispose();
+				if ( module.autoDisposeAssets ) {
+					if ( Bedrock.engine::assetManager.hasGroup( module.assetGroup ) ) {
+						for each ( var assetData:BedrockAssetData in Bedrock.engine::assetManager.getGroup( module.assetGroup ) ) {
 							this.getLoader( assetData.id ).dispose();
 						}
 					}
@@ -218,16 +218,6 @@
 			return new LoaderContext( this._checkPolicyFile, this._applicationDomain );
 		}
 		
-		public function getAssetGroupContents( $id:String ):HashMap
-		{
-			var assetsHash:HashMap = new HashMap;
-			if ( Bedrock.engine::assetManager.hasGroup( $id ) ) {
-				for each( var assetObj:Object in Bedrock.engine::assetManager.getGroup( $id ).assets ) {
-					assetsHash.saveValue( assetObj.id, this.getLoaderContent( assetObj.id ) );
-				}
-			}
-			return assetsHash;
-		}
 		/*
 		Event Handlers
 		*/

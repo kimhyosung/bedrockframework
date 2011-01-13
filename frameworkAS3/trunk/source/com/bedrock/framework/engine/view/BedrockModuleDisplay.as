@@ -1,15 +1,15 @@
 ﻿package com.bedrock.framework.engine.view
 {
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
-	import com.bedrock.framework.engine.data.BedrockContentData;
+	import com.bedrock.framework.engine.data.BedrockModuleData;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	import com.bedrock.framework.plugin.view.IView;
 	import com.greensock.loading.core.LoaderItem;
 	import com.greensock.loading.display.ContentDisplay;
 
-	public class BedrockContentDisplay extends ContentDisplay implements IView
+	public class BedrockModuleDisplay extends ContentDisplay implements IView
 	{
-		public function BedrockContentDisplay( loader:LoaderItem )
+		public function BedrockModuleDisplay( loader:LoaderItem )
 		{
 			super(loader);
 		}
@@ -55,11 +55,11 @@
 			if( this.rawContent != null ) Object( this.rawContent ).removeEventListener( type, listener, useCapture );
 		}
 		
-		public function set data( $data:BedrockContentData ):void
+		public function set data( $data:BedrockModuleData ):void
 		{
 			Object( this.rawContent ).data = $data;
 		}
-		public function get data():BedrockContentData
+		public function get data():BedrockModuleData
 		{
 			return Object( this.rawContent ).data;
 		}

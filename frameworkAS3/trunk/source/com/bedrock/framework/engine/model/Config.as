@@ -29,7 +29,7 @@ package com.bedrock.framework.engine.model
 		private var _pathValues:XML;
 		private var _variableValues:XML;
 		
-		private var _contentValues:XML;
+		private var _moduleValues:XML;
 		private var _assetValues:XML;
 		private var _containerValues:XML;
 		private var _localeValues:XML;
@@ -65,7 +65,7 @@ package com.bedrock.framework.engine.model
 			this._pathValues = this._getAsXML( this._xmlConfig.settings..path );
 			this._variableValues = this._getAsXML( this._xmlConfig.settings..variable );
 			
-			this._contentValues = new XML( this._xmlConfig.contents );
+			this._moduleValues = new XML( this._xmlConfig.modules );
 			this._assetValues = new XML( this._xmlConfig.assets );
 			this._containerValues = new XML( this._xmlConfig.containers );
 			this._localeValues = new XML( this._xmlConfig.locales );
@@ -254,9 +254,9 @@ package com.bedrock.framework.engine.model
 		{
 			return this._localeValues;
 		}
-		public function get contents():XML
+		public function get modules():XML
 		{
-			return this._contentValues;
+			return this._moduleValues;
 		}
 		public function get assets():XML
 		{

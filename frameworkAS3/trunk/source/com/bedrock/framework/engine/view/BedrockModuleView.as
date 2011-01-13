@@ -12,21 +12,21 @@
 package com.bedrock.framework.engine.view
 {
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
-	import com.bedrock.framework.engine.data.BedrockContentData;
+	import com.bedrock.framework.engine.data.BedrockModuleData;
 	import com.bedrock.framework.plugin.view.MovieClipView;
 
-	public class BedrockContentView extends MovieClipView
+	public class BedrockModuleView extends MovieClipView
 	{
 		/*
 		Variable Declarations
 		*/
-		public var data:BedrockContentData;
+		public var data:BedrockModuleData;
 		public var assets:BedrockAssetGroupData;
 		public var bundle:*;
 		/*
 		Constructor
 		*/
-		public function BedrockContentView()
+		public function BedrockModuleView()
 		{
 			super();
 		}
