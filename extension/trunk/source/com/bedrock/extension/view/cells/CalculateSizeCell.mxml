@@ -14,7 +14,7 @@
 			
 			private function _initialize():void
 			{
-				this.toolTip = "Calculate Size";
+				
 				this.mouseChildren = false;
 				this.buttonOver.visible = false;
 				this.addEventListener( MouseEvent.MOUSE_OVER, this._onMouseOver );
@@ -42,10 +42,12 @@
 			override public function set data( $data:Object ):void
 			{
 				this.rawData = $data as XML;
-				if ( this.rawData.name().toString() == "asset" || this.rawData.name().toString() == "content" ) {
+				if ( this.rawData.name().toString() == "asset" || this.rawData.name().toString() == "module" ) {
 					this.buttonContainer.visible = true;
+					this.toolTip = "Calculate Size";
 				} else {
 					this.buttonContainer.visible = false;
+					this.toolTip = "";
 				}
 			}
 			

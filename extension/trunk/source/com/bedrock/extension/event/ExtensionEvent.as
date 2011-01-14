@@ -13,8 +13,8 @@ package com.bedrock.extension.event
 		
 		public static const SETTINGS_SAVED:String = "InterfaceEvent._onSettingsSaved";
 		
-		public static const DELETE_CONTENT:String = "InterfaceEvent.onDeleteContent";
-		public static const DELETE_CONTENT_CONFIRMED:String = "InterfaceEvent.onDeleteContentConfirmed";
+		public static const DELETE_MODULE:String = "InterfaceEvent.onDeleteModule";
+		public static const DELETE_MODULE_CONFIRMED:String = "InterfaceEvent.onDeleteModuleConfirmed";
 		
 		public static const RELOAD_CONFIG:String = "InterfaceEvent.onReloadConfig";
 		public static const CONFIG_LOADED:String = "InterfaceEvent.onConfigLoaded";
@@ -27,8 +27,6 @@ package com.bedrock.extension.event
 		public static const DESELECT_NODE:String = "deselectNode";
 		public static const DELETE_NODE:String = "deleteNode";
 		public static const DUPLICATE_NODE:String = "duplicateNode";
-		
-		public static const UPDATE_BYTES:String = "updateBytes";
 		
 		public static const CREATE:String = "create";
 		public static const CANCEL:String = "cancel";

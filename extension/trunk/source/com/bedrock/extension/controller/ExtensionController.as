@@ -87,7 +87,6 @@ package com.bedrock.extension.controller
 			
 			Bedrock.dispatcher.addEventListener( ExtensionEvent.SAVE_PROJECT, this._onSaveProject );
 			Bedrock.dispatcher.addEventListener( ExtensionEvent.PROJECT_UPDATE, this._onProjectUpdate );
-			Bedrock.dispatcher.addEventListener( ExtensionEvent.DELETE_CONTENT_CONFIRMED, this._onDeleteContentConfirmed );
 			Bedrock.dispatcher.addEventListener( ExtensionEvent.RELOAD_CONFIG, this._onReloadConfig );
 		}
 		private function _createDelegate():void
@@ -353,11 +352,6 @@ package com.bedrock.extension.controller
 			
 		}
 		
-		private function _deleteContent( $details:XML ):void
-		{
-			delete ProjectController.getInstance().config.contents..content.( @id == $details.@id )[ 0 ];
-			this.delegate.deleteContent( this.projectXML, $details );
-		}
 		/*
 		Templates
 		*/
@@ -435,10 +429,7 @@ package com.bedrock.extension.controller
 		{
 			this.saveProject();
 		}
-		private function _onDeleteContentConfirmed( $event:ExtensionEvent ):void
-		{
-			this._deleteContent( $event.details as XML );
-		}
+		
 		
 		private function _onReloadConfig( $event:ExtensionEvent ):void
 		{

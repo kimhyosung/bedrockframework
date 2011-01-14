@@ -38,17 +38,17 @@ package com.bedrock.extension.model
 		[Bindable]
 		public var containerHierarchy:HierarchicalData;
 		[Bindable]
-		public var contents:XMLList;
+		public var modules:XMLList;
 		[Bindable]
-		public var contentHierarchy:HierarchicalData;
+		public var moduleHierarchy:HierarchicalData;
 		[Bindable]
-		public var contentTemplateArray:ArrayCollection;
+		public var moduleTemplateArray:ArrayCollection;
 		[Bindable]
-		public var contentGroupsArray:ArrayCollection;
+		public var moduleGroupsArray:ArrayCollection;
 		[Bindable]
-		public var contentContainerArray:ArrayCollection;
+		public var moduleContainerArray:ArrayCollection;
 		[Bindable]
-		public var contentAssetGroupsArray:ArrayCollection;
+		public var moduleAssetGroupsArray:ArrayCollection;
 		[Bindable]
 		public var assets:XMLList;
 		[Bindable]
@@ -89,9 +89,9 @@ package com.bedrock.extension.model
 			this.containers = this.configXML.containers;
 			this.refreshContainerArray();
 			this.refreshContainerHierarchy();
-			this.contents = this.configXML.contents;
-			this.refreshContentArrays();
-			this.refreshContentHierarchy();
+			this.modules = this.configXML.modules;
+			this.refreshModuleArrays();
+			this.refreshModuleHierarchy();
 			this.assets = this.configXML.assets;
 			this.refreshAssetArrays();
 			this.refreshAssetHierarchy();
@@ -116,21 +116,21 @@ package com.bedrock.extension.model
 		/*
 		Creation Functions
 		*/
-		public function createContent( $data:XML, $parent:String, $template:String ):Boolean
+		public function createModule( $data:XML, $parent:String, $template:String ):Boolean
 		{
 			var xmlData:XML = $data;
 			this.updateBytes( xmlData );
 			
 			if ( $parent != OptionData.NONE && $parent != OptionData.ROOT ) {
-				var xmlParent:XML = this.contents.children().( @id == $parent )[ 0 ] as XML;
+				var xmlParent:XML = this.modules.children().( @id == $parent )[ 0 ] as XML;
 	        	xmlParent.appendChild( xmlData );
 			} else {
-	        	this.contents.appendChild( xmlData );
+	        	this.modules.appendChild( xmlData );
 			}
 			
 			if ( $template != OptionData.NONE ) {
-				var xmlTemplate:XML = this.contents..content.( @id == $template )[ 0 ] as XML;
-				this.delegate.copyContent( this.projectXML, xmlData, xmlTemplate );
+				var xmlTemplate:XML = this.modules..module.( @id == $template )[ 0 ] as XML;
+				this.delegate.copyModule( this.projectXML, xmlData, xmlTemplate );
 			}
 			
 			
@@ -138,51 +138,56 @@ package com.bedrock.extension.model
 			
 			return true;
 		}
+		public function deleteModule( $details:XML ):void
+		{
+			delete this.modules..module.( @id == $details.@id )[ 0 ];
+			this.delegate.deleteModule( this.projectXML, $details );
+		}
 		/*
 		Content
 		*/
-		public function reorderContent( $contents:String ):void
+		public function reorderModules( $modules:String ):void
 		{
-			for each ( var xmlItem:XML in this.configXML.contents.children() ) {
-				delete this.configXML.contents..content.( @id == xmlItem.@id )[ 0 ];
+			for each ( var xmlItem:XML in this.configXML.modules.children() ) {
+				delete this.configXML.modules..module.( @id == xmlItem.@id )[ 0 ];
 			}
 			
-			this.configXML.contents.appendChild( new XMLList( $contents ) );
-			this.refreshContentHierarchy();
+			this.configXML.modules.appendChild( new XMLList( $modules ) );
+			this.refreshModuleHierarchy();
 			
 			this.autoSaveConfig();
 		}
-		public function refreshContentArrays():void
+		public function refreshModuleArrays():void
 		{
-			this.contentGroupsArray = new ArrayCollection;
-			this.contentGroupsArray.addItem( OptionData.NONE );
+			this.moduleGroupsArray = new ArrayCollection;
+			this.moduleGroupsArray.addItem( OptionData.NONE );
 			
-			var contentXML:XML;
-			for each( contentXML in this.contents..contentGroup ) {
-				this.contentGroupsArray.addItem( VariableUtil.sanitize( contentXML.@id ) );
+			var moduleXML:XML;
+			for each( moduleXML in this.modules..moduleGroup ) {
+				this.moduleGroupsArray.addItem( VariableUtil.sanitize( moduleXML.@id ) );
 			}
 			
-			this.contentTemplateArray = new ArrayCollection;
-			for each( contentXML in this.contents..content ) {
-				if ( VariableUtil.sanitize( contentXML.@id ) != BedrockData.SHELL ) this.contentTemplateArray.addItem( VariableUtil.sanitize( contentXML.@id ) );
+			this.moduleTemplateArray = new ArrayCollection;
+			for each( moduleXML in this.modules..module ) {
+				if ( VariableUtil.sanitize( moduleXML.@id ) != BedrockData.SHELL ) this.moduleTemplateArray.addItem( VariableUtil.sanitize( moduleXML.@id ) );
 			}
 		}
-		public function refreshContentHierarchy():void
+		public function refreshModuleHierarchy():void
 		{
-			this.contentHierarchy = new HierarchicalData( this.contents.children() );
+			this.moduleHierarchy = new HierarchicalData( this.modules.children() );
 		}
 		/*
 		Assets
 		*/
 		public function refreshAssetArrays():void
 		{
-			this.contentAssetGroupsArray = new ArrayCollection;
+			this.moduleAssetGroupsArray = new ArrayCollection;
 			this.assetGroupsArray = new ArrayCollection;
-			this.contentAssetGroupsArray.addItem( OptionData.NONE );
+			this.moduleAssetGroupsArray.addItem( OptionData.NONE );
 			
 			var assetXML:XML;
 			for each( assetXML in this.assets.children() ) {
-				this.contentAssetGroupsArray.addItem( VariableUtil.sanitize( assetXML.@id ) );
+				this.moduleAssetGroupsArray.addItem( VariableUtil.sanitize( assetXML.@id ) );
 				this.assetGroupsArray.addItem( VariableUtil.sanitize( assetXML.@id ) );
 			}
 		}
@@ -277,7 +282,7 @@ package com.bedrock.extension.model
 						filePath = VariableUtil.sanitize( $target.@defaultURL );
 					}
 					break;
-				case "content" :
+				case "module" :
 					pathXML = defaultEnvironment..path.( @id == "swfPath" )[ 0 ];
 					filePath = pathXML.@value;
 					filePath +=  $target.@id + ".swf";
@@ -296,10 +301,10 @@ package com.bedrock.extension.model
 			}
 			this.autoSaveConfig();
 		}
-		public function updateContentBytes():void
+		public function updateModuleBytes():void
 		{
-			for each ( var contentXML:XML in this.configXML.contents..content ) {
-				this.updateBytes( contentXML );
+			for each ( var moduleXML:XML in this.configXML.modules..module ) {
+				this.updateBytes( moduleXML );
 			}
 			this.autoSaveConfig();
 		}

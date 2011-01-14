@@ -22,7 +22,7 @@
 				detailsXML.deleteSWF = this.deleteSWFCheck.selected;
 				detailsXML.deleteDocumentClass = this.deleteDocumentClassCheck.selected;
 				
-				Bedrock.dispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.DELETE_CONTENT_CONFIRMED, this, detailsXML ) );
+				Bedrock.dispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.DELETE_MODULE_CONFIRMED, this, detailsXML ) );
 				
 				this.closePopup( true );
 			}

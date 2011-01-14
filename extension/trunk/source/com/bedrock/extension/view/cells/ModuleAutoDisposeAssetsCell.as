@@ -6,10 +6,10 @@ package com.bedrock.extension.view.cells
 	
 	import mx.controls.listClasses.IListItemRenderer;
 
-	public class ContentAutoDisposeAssetsCell extends GenericCheckBoxCell implements IListItemRenderer
+	public class ModuleAutoDisposeAssetsCell extends GenericCheckBoxCell implements IListItemRenderer
 	{
 		
-		public function ContentAutoDisposeAssetsCell()
+		public function ModuleAutoDisposeAssetsCell()
 		{
 			
 		}
@@ -20,7 +20,7 @@ package com.bedrock.extension.view.cells
 		}
 		public function populate( $data:Object ):void
 		{
-			if ( this.rawData.name() == "content" ) {
+			if ( this.rawData.name() == "module" ) {
 				this.checkBox.visible = true;
 				this.checkBox.selected = VariableUtil.sanitize( this.rawData.@[ BedrockData.AUTO_DISPOSE_ASSETS ] );
 				this.checkBox.toolTip = "Dispose assets on clear complete.";

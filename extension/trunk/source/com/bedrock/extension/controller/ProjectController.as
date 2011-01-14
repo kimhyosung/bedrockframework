@@ -1,7 +1,9 @@
 package com.bedrock.extension.controller
 {
 	import com.bedrock.extension.delegate.JSFLDelegate;
+	import com.bedrock.extension.event.ExtensionEvent;
 	import com.bedrock.extension.model.ConfigModel;
+	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.engine.manager.ResourceBundleManager;
 	import com.greensock.TweenMax;
 	
@@ -51,6 +53,8 @@ package com.bedrock.extension.controller
 		{
 			this.createDelegate();
 			
+			Bedrock.dispatcher.addEventListener( ExtensionEvent.DELETE_MODULE_CONFIRMED, this._onDeleteModuleConfirmed );
+			
 			this.browser = new BrowserController;
 			this.resources = new ResourceBundleManager();
 			this.config = new ConfigModel;
@@ -84,15 +88,13 @@ package com.bedrock.extension.controller
 			//PopUpManager.removePopUp( this._objPopup );
 		}
 		
-		
-		
 		/*
-		Creation Functions
+		Event Handlers
 		*/
-		
-		/*
-		Property Definitions
-		*/
+		private function _onDeleteModuleConfirmed( $event:ExtensionEvent ):void
+		{
+			this.config.deleteModule( $event.details as XML );
+		}
 	}
 }
 /*

@@ -13,11 +13,11 @@
             	this.initialLoadCheck.selected = false;
             	this.initialTransitionCheck.selected = false;
             	
-            	this.contentGroupCombo.dataProvider = ProjectController.getInstance().config.contentGroupsArray;
-				if ( $selectedNode != null && $selectedNode.name() == "contentGroup" ) {
-					this.contentGroupCombo.selectedIndex = ArrayUtil.findIndex( ProjectController.getInstance().config.contentGroupsArray.source, $selectedNode.@id.toString() );
+            	this.moduleGroupCombo.dataProvider = ProjectController.getInstance().config.moduleGroupsArray;
+				if ( $selectedNode != null && $selectedNode.name() == "moduleGroup" ) {
+					this.moduleGroupCombo.selectedIndex = ArrayUtil.findIndex( ProjectController.getInstance().config.moduleGroupsArray.source, $selectedNode.@id.toString() );
 				} else {
-					this.contentGroupCombo.selectedIndex = 0;
+					this.moduleGroupCombo.selectedIndex = 0;
 				}
             	
             	this.showPopup();
@@ -27,13 +27,13 @@
 			private function _create():void
             {
             	if ( this.idText.text != "" && this.idText.text != null ) {
-	            	var xmlContent:XML = new XML( <content id={ this.idText.text } label={ this.labelText.text } indexed={ this.indexedCheck.selected } priority={ this.priorityStepper.value } assetGroup={ this.assetGroupCombo.selectedLabel } /> ); 
-	            	xmlContent.@initialLoad = this.initialLoadCheck.selected;
-	            	xmlContent.@initialTransition = this.initialTransitionCheck.selected;
-	            	xmlContent.@autoDispose = this.autoDisposeCheck.selected;
-	            	xmlContent.@autoDisposeAssets = this.autoDisposeAssetsCheck.selected;
-	            	xmlContent.@container = this.containerCombo.selectedLabel;
-	            	ProjectController.getInstance().config.createContent( xmlContent, this.contentGroupCombo.selectedLabel, this.templateCombo.selectedLabel );
+	            	var xmlModule:XML = new XML( <module id={ this.idText.text } label={ this.labelText.text } indexed={ this.indexedCheck.selected } priority={ this.priorityStepper.value } assetGroup={ this.assetGroupCombo.selectedLabel } /> ); 
+	            	xmlModule.@initialLoad = this.initialLoadCheck.selected;
+	            	xmlModule.@initialTransition = this.initialTransitionCheck.selected;
+	            	xmlModule.@autoDispose = this.autoDisposeCheck.selected;
+	            	xmlModule.@autoDisposeAssets = this.autoDisposeAssetsCheck.selected;
+	            	xmlModule.@container = this.containerCombo.selectedLabel;
+	            	ProjectController.getInstance().config.createModule( xmlModule, this.moduleGroupCombo.selectedLabel, this.templateCombo.selectedLabel );
 	            	
 	            	this.closePopup( true );
             	}
@@ -41,7 +41,7 @@
 			
 			private function _onGroupChange( $event:Event ):void
             {
-            	if ( this.contentGroupCombo.selectedIndex != 0 ) {
+            	if ( this.moduleGroupCombo.selectedIndex != 0 ) {
             		this.initialLoadCheck.enabled = false;
             		this.initialLoadCheck.selected = false;
             		this.initialTransitionCheck.enabled = false;
@@ -64,7 +64,7 @@
 		]]>
 	</mx:Script>
 
-	<mx:Panel title="Create : Content" layout="horizontal" styleName="parentPanel">
+	<mx:Panel title="Create : Module" layout="horizontal" styleName="parentPanel">
 		
 		<mx:Form width="100%" >
 			<mx:FormItem label="ID" width="100%" >
@@ -74,7 +74,7 @@
 				<mx:TextInput id="labelText"/>
 			</mx:FormItem>
 			<mx:FormItem label="Template">
-				<mx:ComboBox id="templateCombo" dataProvider="{ ProjectController.getInstance().config.contentTemplateArray }" />
+				<mx:ComboBox id="templateCombo" dataProvider="{ ProjectController.getInstance().config.moduleTemplateArray }" />
 			</mx:FormItem>
 			
 			<mx:HRule width="100%"/>
@@ -88,12 +88,12 @@
 			
 			<mx:HRule width="100%"/>
 			
-			<mx:FormItem label="Content Group" width="100%">
-				<mx:ComboBox id="contentGroupCombo" change="this._onGroupChange( event )" />
+			<mx:FormItem label="Module Group" width="100%">
+				<mx:ComboBox id="moduleGroupCombo" change="this._onGroupChange( event )" />
 			</mx:FormItem>
 			
 			<mx:FormItem label="Asset Group" width="100%">
-				<mx:ComboBox id="assetGroupCombo" dataProvider="{ ProjectController.getInstance().config.contentAssetGroupsArray }" />
+				<mx:ComboBox id="assetGroupCombo" dataProvider="{ ProjectController.getInstance().config.moduleAssetGroupsArray }" />
 			</mx:FormItem>
 			
 		</mx:Form>
@@ -112,25 +112,6 @@
 			<mx:CheckBox  id="autoDisposeAssetsCheck" label="Auto Dispose Assets" />
 			
 		</mx:Form>
-		<!--<mx:Form width="100%">
-		
-			<mx:FormItem width="100%">
-				<mx:CheckBox  id="specifyCheck" label="Specify swf filename" />
-			</mx:FormItem>
-			<mx:FormItem label="Filename" width="100%">
-				<mx:TextInput width="100%" enabled="{ this.specifyCheck.selected }"  />
-			</mx:FormItem>
-			
-			<mx:HRule width="100%"/>
-			
-			<mx:FormItem width="100%">
-				<mx:CheckBox  id="localeCheck" label="Locale Enabled" />
-			</mx:FormItem>
-			<mx:FormItem label="Locale URL" width="100%">
-				<mx:TextInput width="100%" enabled="{ this.localeCheck.selected }" />
-			</mx:FormItem>
-			
-		</mx:Form>-->
 			
 		<misc:CreationControlBar cancel="this.closePopup( false )" create="this._create()"/>
 	</mx:Panel>
