@@ -54,7 +54,7 @@
 		public static const OVERLAY:String = "overlay";
 		public static const PRELOADER:String = "preloader";
 		/*
-		Assets and Contents
+		Assets and Modules
 		*/
 		public static const INDEXED:String = "indexed";
 		public static const PRIORITY:String = "priority";
