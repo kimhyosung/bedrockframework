@@ -8,10 +8,10 @@ package com.bedrock.extension.view.cells
 	
 	import mx.controls.listClasses.IListItemRenderer;
 
-	public class ContentInitialLoadCell extends GenericCheckBoxCell implements IListItemRenderer
+	public class ModuleInitialLoadCell extends GenericCheckBoxCell implements IListItemRenderer
 	{
 		
-		public function ContentInitialLoadCell()
+		public function ModuleInitialLoadCell()
 		{
 			
 		}
@@ -41,13 +41,13 @@ package com.bedrock.extension.view.cells
 			} else {
 				this.checkBox.enabled = false;
 				this.checkBox.selected = false;
-				this.checkBox.toolTip = "Apply initial load value to the parent content group.";
+				this.checkBox.toolTip = "Apply initial load value to the parent module group.";
 			}
 		}
 		
 		private function _isNested( $id:String ):Boolean
 		{
-			return ( XMLUtil2.filterByAttribute( ProjectController.getInstance().config.contents.children(), "id", $id )[ 0 ] == null );
+			return ( XMLUtil2.filterByAttribute( ProjectController.getInstance().config.modules.children(), "id", $id )[ 0 ] == null );
 		}
 	}
 }

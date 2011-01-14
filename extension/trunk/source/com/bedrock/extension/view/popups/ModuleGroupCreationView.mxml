@@ -13,17 +13,17 @@
 			private function _create():void
             {
             	if ( this.idText.text != "" && this.idText.text != null ) {
-	            	var xmlContent:XML = new XML( <contentGroup id={ this.idText.text } label={ this.labelText.text } indexed={ this.indexedCheck.selected } priority={ this.priorityStepper.value } /> ); 
+	            	var xmlContent:XML = new XML( <moduleGroup id={ this.idText.text } label={ this.labelText.text } indexed={ this.indexedCheck.selected } priority={ this.priorityStepper.value } /> ); 
 	            	xmlContent.@initialLoad = this.initialLoadCheck.selected;
 	            	xmlContent.@initialTransition = this.initialTransitionCheck.selected;
 	            	
-	            	ProjectController.getInstance().config.contents.appendChild( xmlContent );
+	            	ProjectController.getInstance().config.modules.appendChild( xmlContent );
 	            	this.closePopup( true );
             	}
             }
 			
 			
-			private function _onContentGroupInitialTransitionChange( $event:Event ):void
+			private function _onInitialTransitionChange( $event:Event ):void
             {
             	if ( this.initialTransitionCheck.selected ) {
             		this.initialLoadCheck.selected = true;
@@ -35,7 +35,7 @@
             }
 		]]>
 	</mx:Script>
-	<mx:Panel title="Create : Content Group" styleName="parentPanel">
+	<mx:Panel title="Create : Module Group" styleName="parentPanel">
 	
 		<mx:Form width="100%" >
 			<mx:FormItem label="ID" width="100%" >
@@ -54,7 +54,7 @@
 					<mx:CheckBox  id="initialLoadCheck" />
 			</mx:FormItem>
 			<mx:FormItem label="Initial Transition"  height="100%" horizontalAlign="center">
-					<mx:CheckBox  id="initialTransitionCheck" change="this._onContentGroupInitialTransitionChange( event )" />
+					<mx:CheckBox  id="initialTransitionCheck" change="this._onInitialTransitionChange( event )" />
 			</mx:FormItem>
 			<mx:FormItem label="Indexed"  height="100%" horizontalAlign="center">
 					<mx:CheckBox  id="indexedCheck" />

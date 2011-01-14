@@ -73,10 +73,10 @@
             	if ( this.nodeTree.selectedIndex != -1 ) {
             		switch( String( this.nodeTree.selectedItem.name() ) ) {
             			case "asset" :
-							this.deleteAsset();
+							this._deleteAsset();
             				break;
             			case "assetGroup" :
-							this.deleteAssetGroup();
+							this._deleteAssetGroup();
             				break;
             		}
 	            	ProjectController.getInstance().config.autoSaveConfig();
@@ -88,19 +88,19 @@
             Content Groups
             */
             
-            private function deleteAssetGroup():void
+            private function _deleteAssetGroup():void
             {
             	delete ProjectController.getInstance().config.assets..assetGroup.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
             }
             /*
             Asset
             */
-            private function deleteAsset():void
+            private function _deleteAsset():void
             {
             	delete ProjectController.getInstance().config.assets..asset.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
             }
             /*
-            Insterface Functions
+            Interface Functions
             */
             private function _deselect():void
 			{
@@ -114,6 +114,11 @@
 					ProjectController.getInstance().config.autoSaveConfig();
 				}
             }
+            private function _calculateBytes():void
+			{
+				ProjectController.getInstance().config.updateAssetBytes();
+				this.attributeEditor.clearForm();
+			}
 			private function _applyIcons():void
 			{
 				for each( var xmlNode:XML in ProjectController.getInstance().config.assets..asset ) {
@@ -158,7 +163,7 @@
             }
             private function _onDragStop( $event:DragEvent ):void
 			{
-                ProjectController.getInstance().config.reorderContent( ProjectController.getInstance().config.contentHierarchy.source.toString() );
+                ProjectController.getInstance().config.reorderModules( ProjectController.getInstance().config.moduleHierarchy.source.toString() );
                 this._applyIcons();
             }
             
@@ -188,7 +193,7 @@
 				<mx:AdvancedDataGridColumn resizable="false" sortable="false" width="25" itemRenderer="com.bedrock.extension.view.cells.CalculateSizeCell" />
 			</mx:columns>
 		</mx:AdvancedDataGrid>
-		<misc:HierarchyControlBar id="hierarchyControlBar" creationOptions="{ ProjectController.getInstance().resources.getBundle( 'assetCreationOptions' ) }" createNode="this.createNode()" deleteNode="this.deleteNode()" deselectNode="this._deselect()" duplicateNode="this._duplicate()" showCalculateBytesButton="true" calculateBytes="ProjectController.getInstance().config.updateAssetBytes()" />
+		<misc:HierarchyControlBar id="hierarchyControlBar" creationOptions="{ ProjectController.getInstance().resources.getBundle( 'assetCreationOptions' ) }" createNode="this.createNode()" deleteNode="this.deleteNode()" deselectNode="this._deselect()" duplicateNode="this._duplicate()" showCalculateBytesButton="true" calculateBytes="this._calculateBytes()" />
 	</mx:Panel>
 	
 	<misc:AttributeEditor id="attributeEditor" title="Editing : { this.nodeTree.selectedItem.@id }" />

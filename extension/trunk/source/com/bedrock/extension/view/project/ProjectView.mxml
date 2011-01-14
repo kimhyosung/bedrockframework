@@ -24,7 +24,7 @@
 	<mx:TabNavigator width="100%" height="100%" id="projectTabNavigation">
 		<project:BrowserView label="Browser" />
 		<project:SettingsView label="Settings" />
-		<project:ContentsView label="Contents" />
+		<project:ModulesView label="Modules" />
 		<project:AssetsView label="Assets" />
 		<project:ContainersView label="Containers" />
 		<project:LocalesView label="Locales" />

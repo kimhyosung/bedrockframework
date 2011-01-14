@@ -5,7 +5,7 @@
 	function initializeBedrockPanel()
 	{
 		fl.outputPanel.clear();
-		fl.outputPanel.trace( "Bedrock Panel | Version 2.0.3" );
+		fl.outputPanel.trace( "Bedrock Panel | Version 2.1.0" );
 		fl.outputPanel.trace( "" );
 	}
 	function getConstants()
@@ -62,6 +62,7 @@
 		projectObj.selectedFrameworkSamplesPath = projectObj.selectedFrameworkPath + "samples/";
 		projectObj.selectedFrameworkTemplatePath = projectObj.selectedFrameworkPath + "templates/";
 		projectObj.selectedFrameworkClassTemplatePath = projectObj.selectedFrameworkTemplatePath + "classes/";
+		projectObj.selectedFrameworkSpecialAssetTemplatePath = projectObj.selectedFrameworkTemplatePath + "specialAssets/";
 				
 		return projectObj;
 	}
@@ -188,7 +189,7 @@
 	/*
 	Copy Content
 	*/
-	function copyContent( $projectXML, $target, $source )
+	function copyModule( $projectXML, $target, $source )
 	{
 		var project = convertProject( $projectXML );
 		
@@ -234,7 +235,7 @@
 	}
 	
 	
-	function deleteContent( $projectXML, $details )
+	function deleteModule( $projectXML, $details )
 	{
 		var project = convertProject( $projectXML );
 		var detailsXML = new XML( unescape( $details ) );
@@ -316,7 +317,21 @@
 	
 	
 	
-	
+	function generateSpecialAsset( $projectXML, $assetID )
+	{
+		var project = convertProject( $projectXML );
+		
+		switch( $assetID ) {
+			case "library" :
+				break;
+			case "fonts" :
+				break;
+			case "resourceBundle" :
+				break;
+			case "stylesheet" :
+				break;
+		}
+	}
 	
 	
 	

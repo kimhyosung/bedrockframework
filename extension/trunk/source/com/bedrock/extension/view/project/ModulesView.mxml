@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HDividedBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" creationComplete="this._initialize()" styleName="padded5px" xmlns:misc="com.bedrock.extension.view.misc.*">
+	<mx:Script>
+		<![CDATA[
+			import com.bedrock.extension.view.popups.ModuleGroupCreationView;
+			import com.bedrock.extension.view.popups.ModuleCreationView;
+			import mx.managers.PopUpManager;
+			import com.bedrock.extension.view.popups.ModuleDeletionView;
+			import com.bedrock.extension.event.ExtensionEvent;
+			import com.bedrock.extension.controller.ProjectController;
+			import com.bedrock.framework.engine.data.BedrockData;
+			import mx.events.DragEvent;
+		
+			[Embed("assets/ModuleIcon.png")]
+            private var ModuleIcon:Class;
+			[Embed("assets/ModuleGroupIcon.png")]
+            private var ModuleGroupIcon:Class;
+            
+            private var _moduleDeletionView:ModuleDeletionView;
+            private var _moduleCreationView:ModuleCreationView;
+            private var _moduleGroupCreationView:ModuleGroupCreationView;
+            
+			private function _initialize():void
+			{
+				this._moduleDeletionView = new ModuleDeletionView;
+				this._moduleDeletionView.initialize();
+				this._moduleCreationView = new ModuleCreationView;
+				this._moduleCreationView.initialize();
+				this._moduleGroupCreationView = new ModuleGroupCreationView;
+				this._moduleGroupCreationView.initialize();
+			}
+            /*
+			Nodes
+			*/
+            private function _createNode():void
+            {
+            	switch( this.hierarchyControlBar.creationCombo.selectedItem.value ) {
+            		case "module" :
+						this._moduleCreationView.populate( this.nodeTree.selectedItem as XML );
+            			break;
+            		case "moduleGroup" :
+						this._moduleGroupCreationView.populate();
+            			break;
+            	}
+            }
+            private function _deleteNode():void
+            {
+            	if ( this.nodeTree.selectedIndex != -1 ) {
+            		switch( String( this.nodeTree.selectedItem.name() ) ) {
+            			case "module" :
+							this._moduleDeletionView.populate( this.nodeTree.selectedItem.@id );
+            				break;
+            			case "moduleGroup" :
+							this._deleteModuleGroup();
+            				break;
+            		}
+	            	ProjectController.getInstance().config.autoSaveConfig();
+	            	this.attributeEditor.clearForm();
+            	}
+            }
+            
+            /*
+            Content Groups
+            */
+            private function _deleteModuleGroup():void
+            {
+            	delete ProjectController.getInstance().config.modules..moduleGroup.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
+            }
+            /*
+            Insterface Functions
+            */
+            private function _calculateBytes():void
+			{
+				ProjectController.getInstance().config.updateModuleBytes();
+				this.attributeEditor.clearForm();
+			}
+            private function _deselect():void
+			{
+				this.nodeTree.selectedItem = null;
+				this.attributeEditor.clearForm();
+            }
+			/*
+			Event Handlers
+			*/
+            private function _onTreeSelect( $event:Event ):void
+			{
+				this.attributeEditor.populateForm( this.nodeTree.selectedItem as XML );
+            }
+            
+            private function _onDragStop( $event:DragEvent ):void
+			{
+                ProjectController.getInstance().config.reorderModules( ProjectController.getInstance().config.moduleHierarchy.source.toString() );
+            }
+            
+		]]>
+	</mx:Script>
+		
+	
+	
+	
+	
+	
+	<mx:Panel  title="Hierarchy" width="100%" height="100%">
+		<mx:AdvancedDataGrid id="nodeTree" designViewDataType="tree" displayItemsExpanded="true" sortExpertMode="true" width="100%" height="100%" dataProvider="{ ProjectController.getInstance().config.moduleHierarchy }" defaultLeafIcon="{ ModuleIcon }" folderOpenIcon="{ ModuleGroupIcon }" folderClosedIcon="{ ModuleGroupIcon }" itemClick="this._onTreeSelect( event )">
+			<mx:headerRenderer>
+				<mx:Component>
+					<mx:AdvancedDataGridHeaderRenderer horizontalAlign="left"/>
+				</mx:Component>
+	        </mx:headerRenderer>
+			<mx:columns>
+				<mx:AdvancedDataGridColumn headerText="ID" dataField="@id" sortable="false" width="125" />
+				<mx:AdvancedDataGridColumn headerText="Container" dataField="@container" sortable="false" width="100"/>
+				<mx:AdvancedDataGridColumn headerText="Asset Group" dataField="@assetGroup" sortable="false" width="100"/>
+				<mx:AdvancedDataGridColumn headerText="Initial Load" resizable="false" sortable="false" dataField="@initialLoad" itemRenderer="com.bedrock.extension.view.cells.ModuleInitialLoadCell" />
+				<mx:AdvancedDataGridColumn headerText="Initial Transition" resizable="false" sortable="false" dataField="@initialTransition" itemRenderer="com.bedrock.extension.view.cells.ModuleInitialTransitionCell" />
+				<mx:AdvancedDataGridColumn headerText="Indexed" resizable="false" sortable="false" dataField="@indexed" itemRenderer="com.bedrock.extension.view.cells.IndexedCell" />
+				<mx:AdvancedDataGridColumn headerText="Auto Dispose" resizable="false" sortable="false" dataField="@autoDispose" itemRenderer="com.bedrock.extension.view.cells.ModuleAutoDisposeCell" />
+				<mx:AdvancedDataGridColumn headerText="Auto Dispose Assets" resizable="false" sortable="false" dataField="@autoDisposeAssets" itemRenderer="com.bedrock.extension.view.cells.ModuleAutoDisposeAssetsCell" />
+				<mx:AdvancedDataGridColumn resizable="false" sortable="false" width="25" itemRenderer="com.bedrock.extension.view.cells.CalculateSizeCell" />
+			</mx:columns>
+		</mx:AdvancedDataGrid>
+		<misc:HierarchyControlBar creationOptions="{ ProjectController.getInstance().resources.getBundle( 'contentCreationOptions' ) }" id="hierarchyControlBar" createNode="this._createNode()" deleteNode="this._deleteNode()" deselectNode="this._deselect()" showCalculateBytesButton="true" calculateBytes="this._calculateBytes()" />
+	</mx:Panel>
+	
+	<misc:AttributeEditor id="attributeEditor" title="Editing : { this.nodeTree.selectedItem.@id }" />
+	
+</mx:HDividedBox>

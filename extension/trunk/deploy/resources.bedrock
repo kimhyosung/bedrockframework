@@ -11,9 +11,9 @@
     <setting id="autoPrepareInitialTransition" label="Auto Prepare Initial Transition" />
     <setting id="showBlockerDuringTransitions" label="Show Blocker During Transitions" />
     <setting id="deeplinkingEnabled" label="Deeplinking Enabled" />
-    <setting id="deeplinkContent" label="Deeplink Content" />
+    <setting id="deeplinkModules" label="Deeplink Modules" />
     <setting id="trackingEnabled" label="Tracking Enabled" />
-    <setting id="showPagesInContextMenu" label="Show Indexed Content in Context Menu" />
+    <setting id="showModulesInContextMenu" label="Show Indexed Modules in Context Menu" />
     <setting id="showAboutInContextMenu" label="Show About in Context Menu" />
   </bundle>
   <bundle id="stageScaleModeOptions" type="array">
@@ -40,8 +40,8 @@
     <level>FATAL</level>
   </bundle>
   <bundle id="contentCreationOptions" type="array">
-    <option label="Content" value="content" />
-    <option label="Content Group" value="contentGroup" />
+    <option label="Module" value="module" />
+    <option label="Module Group" value="moduleGroup" />
   </bundle>
   <bundle id="assetCreationOptions" type="array">
     <option label="Asset" value="asset" />
