@@ -96,19 +96,18 @@
 		}
 		
 		
-		private function _getModuleLoader( $modules:BedrockModuleData ):LoaderItem
+		private function _getModuleLoader( $module:BedrockModuleData ):LoaderItem
 		{
-			var loaderVars:Object = new Object;
-			loaderVars.name =  $modules.id;
-			loaderVars.estimatedBytes =  $modules.estimatedBytes;
+			var loaderVars:Object = $module.export();
+			delete loaderVars.autoDispose;
 			loaderVars.context = this.getLoaderContext();
 			
-			if ( Bedrock.engine::containerManager.hasContainer( $modules.container ) ) {
-				loaderVars.container = Bedrock.engine::containerManager.getContainer( $modules.container );
-			} else if ( $modules.container != BedrockData.NONE ) {
-				Bedrock.logger.warning( "Container \"" + $modules.container + "\" not found for module \"" + $modules.id + "\"!" );
+			if ( Bedrock.engine::containerManager.hasContainer( $module.container ) ) {
+				loaderVars.container = Bedrock.engine::containerManager.getContainer( $module.container );
+			} else if ( $module.container != BedrockData.NONE ) {
+				Bedrock.logger.warning( "Container \"" + $module.container + "\" not found for module \"" + $module.id + "\"!" );
 			}
-			return new SWFLoader( $modules.url, loaderVars );
+			return new SWFLoader( $module.url, loaderVars );
 		}
 		
 		
@@ -160,10 +159,8 @@
 		}
 		private function _getAssetLoader( $asset:BedrockAssetData ):LoaderItem
 		{
-			var loaderVars:Object = new Object;
-			loaderVars.name =  $asset.id;
-			loaderVars.estimatedBytes =  $asset.estimatedBytes;
-			loaderVars.alternateURL = $asset.alternateURL;
+			var loaderVars:Object = $asset.export();
+			delete loaderVars.autoDispose;
 			
 			var loader:LoaderItem;
 			switch( $asset.type ) {
