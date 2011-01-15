@@ -117,7 +117,7 @@
 			if ( Bedrock.data.localesEnabled ) this._setupLocales();
 			this._initializeVitals();
 			this._prepareBlocker();
-			if ( Bedrock.data.showPagesInContextMenu ) this._setupContextMenu();
+			if ( Bedrock.data.showModulesInContextMenu ) this._setupContextMenu();
 
 			Bedrock.engine::specialAssetController.initialize();
 			
