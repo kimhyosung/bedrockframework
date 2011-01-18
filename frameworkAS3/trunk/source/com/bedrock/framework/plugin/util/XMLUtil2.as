@@ -50,12 +50,12 @@
 			}
 		}
 		
-		public static function filterByAttribute( $data:*, $attribute:String, $value:* ):XMLList
+		public static function filterByAttribute( $data:*, $name:String, $value:* ):XMLList
 		{
 			if ( $data is XML ) {
-				return $data.children().(attribute($attribute) == $value.toString() );
+				return $data.children().(attribute($name) == $value.toString() );
 			} else {
-				return $data.(attribute($attribute) == $value.toString() );
+				return $data.(attribute($name) == $value.toString() );
 			}
 		}
 		public static function filterByNode( $data:XML, $name:String, $value:String):XML

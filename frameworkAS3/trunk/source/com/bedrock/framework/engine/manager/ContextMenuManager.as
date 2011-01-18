@@ -1,9 +1,8 @@
 ﻿package com.bedrock.framework.engine.manager
 {
 	import com.bedrock.framework.engine.*;
-	import com.bedrock.framework.engine.event.BedrockEvent;
+	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.plugin.storage.HashMap;
-	import com.bedrock.framework.plugin.util.ArrayUtil;
 	
 	import flash.events.ContextMenuEvent;
 	import flash.ui.ContextMenu;
@@ -32,7 +31,7 @@
 		}
 		private function _createModuleItems():void
 		{
-			var modules:Array = Bedrock.engine::moduleManager.filterModules( true, "indexed" );
+			var modules:Array = Bedrock.engine::moduleManager.filterModules( BedrockData.INDEXED, true );
 			for ( var p:int = 0; p < modules.length; p ++ ) {
 				this._createItem( modules[ p ].id, modules[ p ].label, this._onModuleSelected, ( p == 0 ) );
 			}

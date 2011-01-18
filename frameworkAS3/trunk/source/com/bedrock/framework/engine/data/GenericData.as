@@ -4,10 +4,12 @@
 	
 	dynamic public class GenericData
 	{
-		public function GenericData( $data:Object )
+		public function GenericData( $data:Object = null )
 		{
-			for (var d:String in $data) {
-				this[ d ] = $data[ d ];
+			if ( $data != null ) {
+				for (var d:String in $data) {
+					this[ d ] = $data[ d ];
+				}
 			}
 		}
 		
@@ -21,6 +23,7 @@
 			for each ( p in VariableUtil.getVariables( this ) ) {
 				data[ p ] = this[ p ];
 			}
+			data.name = this.id;
 			return data;
 		}
 

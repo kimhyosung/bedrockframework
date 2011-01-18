@@ -5,11 +5,10 @@
 	import com.bedrock.framework.engine.builder.BedrockBuilder;
 	import com.bedrock.framework.engine.data.BedrockAssetData;
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
-	import com.bedrock.framework.engine.data.BedrockModuleData;
 	import com.bedrock.framework.engine.data.BedrockData;
+	import com.bedrock.framework.engine.data.BedrockModuleData;
 	import com.bedrock.framework.engine.event.BedrockEvent;
 	import com.bedrock.framework.engine.view.BedrockModuleDisplay;
-	import com.bedrock.framework.plugin.storage.HashMap;
 	import com.greensock.events.LoaderEvent;
 	import com.greensock.loading.*;
 	import com.greensock.loading.core.LoaderItem;
@@ -137,7 +136,7 @@
 		
 		public function appendAssetGroup( $assetGroup:BedrockAssetGroupData ):void
 		{
-			for each( var assetObj:BedrockAssetData in $assetGroup.assets ) {
+			for each( var assetObj:BedrockAssetData in $assetGroup.contents ) {
 				this.appendAsset( assetObj );
 			}
 		}
@@ -167,7 +166,7 @@
 				case BedrockAssetData.SWF :
 					if ( Bedrock.engine::containerManager.hasContainer( $asset.container ) ) {
 						loaderVars.container = Bedrock.engine::containerManager.getContainer( $asset.container );
-					} else if ( $asset.container != BedrockData.NONE ) {
+					} else if ( $asset.container != BedrockData.NONE && $asset.container != null && $asset.container != undefined ) {
 						Bedrock.logger.warning( "Container \"" + $asset.container + "\" not found for asset \"" + $asset.id + "\"!" );
 					}
 					loaderVars.context = this.getLoaderContext();

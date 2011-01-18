@@ -53,7 +53,7 @@
 		*/
 		public function transition( $detail:* = null ):void
 		{
-			if ( this._initialTransitionComplete ) {
+			if ( this._initialTransitionComplete && $detail != null ) {
 				
 				if ( $detail is String ) {
 					if ( StringUtil.contains( $detail, "/" ) ) {
@@ -71,14 +71,14 @@
 				
 			} else {
 				
-				if ( $detail is String ) {
+				 if ( $detail == null ) {
+					this.prepareInitialTransition( {} );
+				} else if ( $detail is String ) {
 					if ( StringUtil.contains( $detail, "/" ) ) {
 						this.prepareInitialTransition( { path:$detail } );
 					} else {
 						this.prepareInitialTransition( { id:$detail } );
 					}
-				} else if ( $detail == null ) {
-					this.prepareInitialTransition( {} );
 				} else {
 					this.prepareInitialTransition( $detail );
 				}
@@ -91,11 +91,11 @@
 		public function prepareInitialLoad():void
 		{
 			this._initialLoadPrepared = true;
-			for each( var assetGroup:BedrockAssetGroupData in Bedrock.engine::assetManager.filterGroups( true, BedrockData.INITIAL_LOAD ) ) {
+			for each( var assetGroup:BedrockAssetGroupData in Bedrock.engine::assetManager.filterGroups( BedrockData.INITIAL_LOAD, true ) ) {
 				Bedrock.engine::loadController.appendAssetGroup( assetGroup );
 			}
 			
-			for each( var data:BedrockModuleData in Bedrock.engine::moduleManager.filterModules( true, BedrockData.INITIAL_LOAD ) ) {
+			for each( var data:BedrockModuleData in Bedrock.engine::moduleManager.filterModules( BedrockData.INITIAL_LOAD, true ) ) {
 				if ( data is BedrockModuleGroupData ) {
 					for each( var subData:BedrockModuleData in data.modules ) {
 						Bedrock.engine::loadController.appendModule( subData );
@@ -118,14 +118,14 @@
 			this._bedrockSequenceData.preloader = BedrockData.INITIAL_PRELOADER;
 			this._bedrockSequenceData.preloaderTime = Bedrock.data.initialPreloaderTime;
 			
-			var defaultModules:Array = Bedrock.engine::moduleManager.filterModules( true, BedrockData.INITIAL_TRANSITION );
+			var defaultModules:Array = Bedrock.engine::moduleManager.filterModules( BedrockData.INITIAL_TRANSITION, true );
 			this._appendIndexedModules( defaultModules, "incoming", false );
 			
 			var module:BedrockModuleData;
 			if ( !deeplinkEnabled && !idEnabled ) {
 				this._appendIndexedModules( defaultModules, "incoming" );
 			} else if ( deeplinkEnabled ) {
-				module = Bedrock.engine::moduleManager.filterModules( deeplinkPath, "deeplink" )[ 0 ];
+				module = Bedrock.engine::moduleManager.filterModules( "deeplink", deeplinkPath )[ 0 ];
 				if ( module != null ) {
 					this._bedrockSequenceData.deeplink = module.deeplink;
 					this._bedrockSequenceData.appendIncoming( [ module ] );
@@ -168,13 +168,13 @@
 		public function prepareDeeplinkTransition( $details:Object ):void
 		{
 			this._bedrockSequenceData = new BedrockSequenceData;
-			var module:BedrockModuleData = Bedrock.engine::moduleManager.filterModules( $details.path, "deeplink" )[ 0 ];
+			var module:BedrockModuleData = Bedrock.engine::moduleManager.filterModules( "deeplink", $details.path )[ 0 ];
 			if ( $details.style != null ) this._bedrockSequenceData.style = $details.style;
 			
 			if ( module != null ) {
 				return this.prepareStandardTransition( module );
 			} else if ( $details.path == this._bedrockSequenceData.deeplink ) {
-				var defaultModules:Array = Bedrock.engine::moduleManager.filterModules( true, BedrockData.INITIAL_TRANSITION );
+				var defaultModules:Array = Bedrock.engine::moduleManager.filterModules( BedrockData.INITIAL_TRANSITION, true );
 				this._appendIndexedModules( defaultModules, "incoming" );
 				this._appendOutgoingModules( $details );
 				
@@ -437,7 +437,7 @@
 		private function _collectShellExtras():void
 		{
 			this._shellView.assets = Bedrock.engine::assetManager.getGroup( BedrockData.SHELL );
-			if ( Bedrock.data.dataBundleEnabled && Bedrock.engine::resourceBundleManager.hasBundle( BedrockData.SHELL ) ) {
+			if ( Bedrock.data.resourceBundleEnabled && Bedrock.engine::resourceBundleManager.hasBundle( BedrockData.SHELL ) ) {
 				this._shellView.bundle = Bedrock.engine::resourceBundleManager.getBundle( BedrockData.SHELL );
 			}
 		}
@@ -449,7 +449,7 @@
 			moduleView.assets = Bedrock.engine::assetManager.getGroup( moduleData.assetGroup );
 			
 			moduleView.data = Bedrock.engine::moduleManager.getModule( $id );
-			if ( Bedrock.data.dataBundleEnabled && Bedrock.engine::resourceBundleManager.hasBundle( $id ) ) {
+			if ( Bedrock.data.resourceBundleEnabled && Bedrock.engine::resourceBundleManager.hasBundle( $id ) ) {
 				moduleView.bundle = Bedrock.engine::resourceBundleManager.getBundle( $id );
 			}
 		}

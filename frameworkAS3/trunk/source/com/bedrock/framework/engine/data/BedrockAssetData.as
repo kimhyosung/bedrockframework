@@ -16,7 +16,7 @@
 		
 		public var id:String;
 		
-		public function BedrockAssetData( $data:Object )
+		public function BedrockAssetData( $data:Object = null )
 		{
 			this.path = BedrockData.NONE;
 			
@@ -36,7 +36,7 @@
 					url = localeURL;
 				}
 			} else {
-				if ( this.path != BedrockData.NONE && this.path != null ) {
+				if ( this.path != BedrockData.NONE && this.path != null && this.path != undefined ) {
 					url = ( Bedrock.data[ this.path ] + this.defaultURL );
 				} else {
 					url = this.defaultURL;
