@@ -6,6 +6,7 @@ package com.bedrock.extras.media
 	
 	public interface IMedia extends IEventDispatcher
 	{
+		//something...
 		function play( $event:Event=null ):void;
 		function pause( $event:Event=null ):void;
 		function set paused( $value:Boolean ):void;
