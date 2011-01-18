@@ -121,17 +121,13 @@
 
 			Bedrock.engine::specialAssetController.initialize();
 			
+			if ( Bedrock.data.autoPrepareInitialLoad ) Bedrock.engine::transitionController.prepareInitialLoad();
+			
 			IBedrockBuilder( this.builder ).preinitialize();
 			
-			Bedrock.engine::specialAssetController.queue( false );
-			
-			if ( !Bedrock.data.autoPrepareInitialLoad && !Bedrock.data.autoPrepareInitialTransition ) {
+			if ( !Bedrock.data.autoPrepareInitialTransition ) {
 				Bedrock.engine::transitionController.runShellTransition();
-			} else if ( Bedrock.data.autoPrepareInitialLoad && !Bedrock.data.autoPrepareInitialTransition ) {
-				Bedrock.engine::transitionController.prepareInitialLoad();
-				Bedrock.engine::transitionController.runShellTransition();
-			} else if ( Bedrock.data.autoPrepareInitialLoad && Bedrock.data.autoPrepareInitialTransition ) {
-				Bedrock.engine::transitionController.prepareInitialLoad();
+			} else if ( Bedrock.data.autoPrepareInitialTransition ) {
 				Bedrock.engine::transitionController.prepareInitialTransition( {} );
 			}
 			

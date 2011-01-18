@@ -1,14 +1,18 @@
 ﻿package __template
 {
+	import __template.test.Test;
+	
 	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.engine.api.IBedrockBuilder;
 	import com.bedrock.framework.engine.builder.BedrockBuilder;
+	import com.bedrock.framework.engine.data.BedrockAssetData;
 	import com.bedrock.framework.engine.event.BedrockEvent;
 	import com.bedrock.framework.plugin.view.IView;
 	import com.greensock.TweenLite;
+	import com.greensock.events.LoaderEvent;
 	
-	import flash.text.TextField;
 	import flash.events.Event;
+	import flash.text.TextField;
 	
 	public class ShellBuilder extends BedrockBuilder implements IView, IBedrockBuilder
 	{
@@ -27,7 +31,6 @@
 		
 		public function preinitialize():void
 		{
-			//Bedrock.dispatcher.addEventListener( BedrockEvent.TRANSITION_COMPLETE, this._onTransitionComplete );
 		}
 		
 		public function initialize($data:Object=null):void
@@ -54,11 +57,5 @@
 		/*
 		Event Handlers
 	 	*/
-	 	private function _onTransitionComplete( $event:Event ):void
-		{
-			//Bedrock.dispatcher.removeEventListener( BedrockEvent.TRANSITION_COMPLETE, this._onTransitionComplete );
-			Bedrock.api.queueInitialLoad();
-			Bedrock.api.transition();
-		}
 	}
 }

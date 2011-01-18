@@ -7,8 +7,8 @@
 	import com.bedrock.framework.engine.controller.*;
 	import com.bedrock.framework.engine.data.BedrockAssetData;
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
-	import com.bedrock.framework.engine.data.BedrockModuleData;
 	import com.bedrock.framework.engine.data.BedrockData;
+	import com.bedrock.framework.engine.data.BedrockModuleData;
 	import com.bedrock.framework.engine.manager.*;
 	import com.bedrock.framework.engine.model.*;
 	import com.bedrock.framework.plugin.sound.GlobalSound;
@@ -136,9 +136,13 @@
 		{
 			return Boolean( Bedrock.engine::assetManager.hasAsset( $id ) );
 		}
-		public function filterAssets($value:*, $field:String):Array
+		public function filterAssets( $field:String, $value:* ):Array
 		{
-			return Bedrock.engine::assetManager.filterAssets( $value, $field );
+			return Bedrock.engine::assetManager.filterAssets( $field, $value );
+		}
+		public function addAsset( $asset:BedrockAssetData ):void
+		{
+			Bedrock.engine::assetManager.addAsset( $asset );
 		}
 		public function addAssetToGroup($groupID:String, $asset:BedrockAssetData):void
 		{
@@ -152,9 +156,9 @@
 		{
 			return Bedrock.engine::assetManager.getGroup( $id );
 		}
-		public function filterAssetGroups($value:*, $field:String):Array
+		public function filterAssetGroups( $field:String, $value:* ):Array
 		{
-			return Bedrock.engine::assetManager.filterGroups( $value, $field );
+			return Bedrock.engine::assetManager.filterGroups( $field, $value );
 		}
 		/*
 		ModuleManager
@@ -177,11 +181,11 @@
 		}
 		public function getIndexedModules():Array
 		{
-			return this.filterModules( true, BedrockData.INDEXED );
+			return this.filterModules( BedrockData.INDEXED, true );
 		}
-		public function filterModules( $value:*, $field:String):Array
+		public function filterModules( $field:String, $value:* ):Array
 		{
-			return Bedrock.engine::moduleManager.filterModules( $value, $field );
+			return Bedrock.engine::moduleManager.filterModules( $field, $value );
 		}
 		/*
 		ContainerManager
@@ -262,6 +266,7 @@
 		}
 		public function appendAssetToLoad( $asset:BedrockAssetData ):void
 		{
+			Bedrock.engine::assetManager.addAsset( $asset );
 			Bedrock.engine::loadController.appendAsset( $asset );
 		}
 		public function appendAssetGroupToLoad( $assetGroup:BedrockAssetGroupData ):void
@@ -344,7 +349,7 @@
 		/*
 		TransitionController
 		*/
-		public function queueInitialLoad():void
+		public function prepareInitialLoad():void
 		{
 			Bedrock.engine::transitionController.prepareInitialLoad();
 		}

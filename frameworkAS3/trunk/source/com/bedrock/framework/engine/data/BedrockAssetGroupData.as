@@ -6,28 +6,28 @@ package com.bedrock.framework.engine.data
 	{
 		public var id:String;
 		public var initialLoad:Boolean;
-		public var assets:Array;
+		public var contents:Array;
 		
 		public function BedrockAssetGroupData( $data:Object )
 		{
 			super( $data );
-			this.assets = new Array;
+			this.contents = new Array;
 		}
 		public function addAsset( $asset:BedrockAssetData ):void
 		{
-			this.assets.push( $asset );
+			this.contents.push( $asset );
 		}
-		public function filterAssets( $value:*, $field:String ):Array
+		public function filterAssets( $field:String, $value:* ):Array
 		{
-			return ArrayUtil.filter( this.assets, $value, $field );
+			return ArrayUtil.filter( this.contents, $value, $field );
 		}
 		public function hasAsset( $id:String ):Boolean
 		{
-			return ArrayUtil.containsItem( this.assets, $id, "id" );
+			return ArrayUtil.containsItem( this.contents, $id, "id" );
 		}
 		public function getAsset( $id:String ):BedrockAssetData
 		{
-			return ArrayUtil.findItem( this.assets, $id, "id" );
+			return ArrayUtil.findItem( this.contents, $id, "id" );
 		}
 	}
 }

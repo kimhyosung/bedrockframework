@@ -28,34 +28,34 @@
 		{
 			this._shellGroup = Bedrock.engine::assetManager.getGroup( BedrockData.SHELL );
 			
-			this._saveSetting( BedrockData.RESOURCE_BUNDLE );
-			this._saveSetting( BedrockData.LIBRARY );
-			this._saveSetting( BedrockData.FONTS );
-			this._saveSetting( BedrockData.STYLESHEET );
+			this._saveEnabledSetting( BedrockData.RESOURCE_BUNDLE );
+			this._saveEnabledSetting( BedrockData.LIBRARY );
+			this._saveEnabledSetting( BedrockData.FONTS );
+			this._saveEnabledSetting( BedrockData.STYLESHEET );
+			
+			this._queue();
 		}
 		
-		private function _saveSetting( $id:String ):void
+		private function _saveEnabledSetting( $id:String ):void
 		{
 			Bedrock.engine::config.saveSettingValue( $id + "Enabled", this._isAssetEnabled( $id ) ); 
 		}
 		
-		public function queue( $autoLoad:Boolean = true ):void
+		private function _queue():void
 		{
 			this._prepareResourceBundle();
 			this._prepareLibrary();
 			this._prepareFonts();
 			this._prepareStylesheet();
-			
-			if ( $autoLoad ) Bedrock.engine::loadController.load();
 		}
 		
 		private function _isAssetEnabled( $id:String ):Boolean
 		{
-			return ArrayUtil.containsItem( this._shellGroup.assets, $id, "id" );
+			return ArrayUtil.containsItem( this._shellGroup.contents, $id, "id" );
 		}
 		private function _getAssetData( $id:String ):BedrockAssetData
 		{
-			return ArrayUtil.findItem( this._shellGroup.assets, $id, "id" );
+			return ArrayUtil.findItem( this._shellGroup.contents, $id, "id" );
 		}
 		
 		private function _prepareResourceBundle():void

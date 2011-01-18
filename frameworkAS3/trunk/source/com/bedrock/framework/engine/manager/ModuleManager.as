@@ -89,7 +89,7 @@
 		{
 			return ArrayUtil.containsItem( this._modules, $id, "id" );
 		}
-		public function filterModules( $value:*, $field:String ):Array
+		public function filterModules( $field:String, $value:* ):Array
 		{
 			return ArrayUtil.filter( this._modules, $value, $field );
 		}
