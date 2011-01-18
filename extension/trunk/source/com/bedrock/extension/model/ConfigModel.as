@@ -252,6 +252,7 @@ package com.bedrock.extension.model
 		{
 			var xmlResult:XML = this.settings..setting.(@id == $id )[ 0 ];
 			xmlResult.@value = $value;
+			this.autoSaveConfig();
 		}
 		public function getSettingValue( $id:String ):*
 		{
