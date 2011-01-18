@@ -18,6 +18,7 @@
 		constantsObj.frameworkSourceFolder = "source/";
 		constantsObj.projectSourceFolder = "source/";
 		constantsObj.projectDeployFolder = "wwwroot/";
+		
 		return constantsObj;
 	}
 	function getSelectedProjectPanelPath( $projectXML )
