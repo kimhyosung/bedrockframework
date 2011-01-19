@@ -10,7 +10,7 @@
 	import gs.easing.Quad;
 	import gs.events.TweenEvent;
 	
-	public class EaseScrollerController ontroller
+	public class EaseScrollerController
 	{
 		/*
 		Variable Declarations
