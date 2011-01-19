@@ -21,6 +21,10 @@ package com.bedrock.framework.engine.data
 		{
 			return ArrayUtil.filter( this.contents, $value, $field );
 		}
+		public function filterAssetsByType( $type:String ):Array
+		{
+			return this.filterAssets( $type, BedrockData.TYPE );
+		}
 		public function hasAsset( $id:String ):Boolean
 		{
 			return ArrayUtil.containsItem( this.contents, $id, "id" );

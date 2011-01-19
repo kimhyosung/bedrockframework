@@ -7,7 +7,9 @@
 	import flash.events.ContextMenuEvent;
 	import flash.ui.ContextMenu;
 	import flash.ui.ContextMenuItem;
-	
+	/**
+	 * @private
+	 */
 	public class ContextMenuManager
 	{
 		private var _menu:ContextMenu;

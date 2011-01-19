@@ -23,30 +23,89 @@
 		/*
 		Variable Definitions
 	 	*/
+	 	/**
+		 * @private
+		 */
 		engine static var data:BedrockData;
+		/**
+		 * @private
+		 */
 		engine static var logger:BedrockLogger;
+		/**
+		 * @private
+		 */
 		engine static var dispatcher:BedrockDispatcher;
+		/**
+		 * @private
+		 */
 		engine static var globalSound:GlobalSound;
-		
+		/**
+		 * @private
+		 */
 		engine static var transitionController:TransitionController;
-		//bedrock static var sequenceController:SequenceController;
+		/**
+		 * @private
+		 */
 		engine static var specialAssetController:SpecialAssetController;
+		/**
+		 * @private
+		 */
 		engine static var frontController:FrontController;
+		/**
+		 * @private
+		 */
 		engine static var loadController:LoadController;
-		
+		/**
+		 * @private
+		 */		
 		engine static var assetManager:AssetManager;
+		/**
+		 * @private
+		 */
 		engine static var containerManager:ContainerManager;
+		/**
+		 * @private
+		 */
 		engine static var moduleManager:ModuleManager;
+		/**
+		 * @private
+		 */
 		engine static var contextMenuManager:ContextMenuManager;
+		/**
+		 * @private
+		 */
 		engine static var resourceBundleManager:ResourceBundleManager;
+		/**
+		 * @private
+		 */
 		engine static var deeplinkingManager:DeeplinkingManager;
+		/**
+		 * @private
+		 */
 		engine static var libraryManager:LibraryManager;
+		/**
+		 * @private
+		 */
 		engine static var localeManager:LocaleManager;
-		engine static var preloadManager:PreloadManager;		
+		/**
+		 * @private
+		 */
+		engine static var preloadManager:PreloadManager;
+		/**
+		 * @private
+		 */		
 		engine static var stylesheetManager:StylesheetManager;
+		/**
+		 * @private
+		 */
 		engine static var trackingManager:TrackingManager;
-		
+		/**
+		 * @private
+		 */
 		engine static var config:Config;
+		/**
+		 * @private
+		 */
 		engine static var history:History;
 		
 		/*
@@ -117,7 +176,7 @@
 			if ( !Bedrock.__instance ) Bedrock.__initialize();
 			return Bedrock.engine::libraryManager;
 		}
-		public static function get deeplink():DeeplinkingManager
+		public static function get deeplinking():DeeplinkingManager
 		{
 			if ( !Bedrock.__instance ) Bedrock.__initialize();
 			return Bedrock.engine::deeplinkingManager;

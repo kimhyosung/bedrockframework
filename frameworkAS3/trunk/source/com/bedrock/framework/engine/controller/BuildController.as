@@ -21,7 +21,9 @@
 	import flash.events.Event;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
-
+	/**
+	 * @private
+	 */
 	public class BuildController extends DispatcherBase
 	{
 		/*

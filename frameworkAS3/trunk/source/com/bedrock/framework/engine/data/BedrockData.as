@@ -56,6 +56,7 @@
 		/*
 		Assets and Modules
 		*/
+		public static const TYPE:String = "type";
 		public static const INDEXED:String = "indexed";
 		public static const PRIORITY:String = "priority";
 		public static const INITIAL_TRANSITION:String = "initialTransition";

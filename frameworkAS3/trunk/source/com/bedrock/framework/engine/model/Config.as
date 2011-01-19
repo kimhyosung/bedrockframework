@@ -16,7 +16,9 @@ package com.bedrock.framework.engine.model
 	import com.bedrock.framework.plugin.util.VariableUtil;
 	
 	import flash.system.Capabilities;
-	
+	/**
+	 * @private
+	 */
 	public class Config
 	{
 		/*

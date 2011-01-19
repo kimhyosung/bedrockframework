@@ -1,6 +1,5 @@
 ﻿package com.bedrock.framework.engine.controller
 {
-	import com.bedrock.extras.util.StringUtil;
 	import com.bedrock.framework.core.base.DispatcherBase;
 	import com.bedrock.framework.engine.*;
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
@@ -15,7 +14,9 @@
 	import com.bedrock.framework.plugin.view.*;
 	
 	import flash.events.Event;
-	
+	/**
+	 * @private
+	 */
 	public class TransitionController extends DispatcherBase
 	{
 		/*
@@ -56,7 +57,7 @@
 			if ( this._initialTransitionComplete && $detail != null ) {
 				
 				if ( $detail is String ) {
-					if ( StringUtil.contains( $detail, "/" ) ) {
+					if ( this._stringContains( $detail, "/" ) ) {
 						this.prepareDeeplinkTransition( { path:$detail } );
 					} else {
 						this.prepareStandardTransition( { id:$detail } );
@@ -74,7 +75,7 @@
 				 if ( $detail == null ) {
 					this.prepareInitialTransition( {} );
 				} else if ( $detail is String ) {
-					if ( StringUtil.contains( $detail, "/" ) ) {
+					if ( this._stringContains( $detail, "/" ) ) {
 						this.prepareInitialTransition( { path:$detail } );
 					} else {
 						this.prepareInitialTransition( { id:$detail } );
@@ -84,6 +85,13 @@
 				}
 				
 			}
+		}
+		private function _stringContains($string:String, $char:String):Boolean
+		{
+			if ($string == null) {
+				return false;
+			}
+			return $string.indexOf($char) != -1;
 		}
 		/*
 		Initial Run Functions

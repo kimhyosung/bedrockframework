@@ -6,7 +6,9 @@
 	import com.bedrock.framework.plugin.storage.HashMap;
 	import com.bedrock.framework.plugin.util.ArrayUtil;
 	import com.bedrock.framework.plugin.util.XMLUtil2;
-
+	/**
+	 * @private
+	 */
 	public class AssetManager
 	{
 		/*

@@ -6,7 +6,9 @@
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import com.bedrock.framework.plugin.util.XMLUtil2;
-
+	/**
+	 * @private
+	 */
 	public class ContainerManager
 	{
 		/*

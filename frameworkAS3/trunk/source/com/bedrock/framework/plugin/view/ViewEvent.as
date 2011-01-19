@@ -7,7 +7,6 @@
 		public static const INTRO_COMPLETE:String="ViewEvent.onIntroComplete";
 		public static const OUTRO_COMPLETE:String="ViewEvent.onOutroComplete";
 		public static const CLEAR_COMPLETE:String="ViewEvent.onClearComplete";
-		public static const CHANGE:String = "ViewEvent.onChange";
 
 		public function ViewEvent($type:String, $origin:Object, $details:Object=null, $bubbles:Boolean=false, $cancelable:Boolean=true)
 		{

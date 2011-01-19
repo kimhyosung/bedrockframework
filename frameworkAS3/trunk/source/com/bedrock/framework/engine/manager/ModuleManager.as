@@ -8,7 +8,9 @@
 	import com.bedrock.framework.engine.data.BedrockModuleGroupData;
 	import com.bedrock.framework.plugin.util.ArrayUtil;
 	import com.bedrock.framework.plugin.util.XMLUtil2;
-
+	/**
+	 * @private
+	 */
 	public class ModuleManager
 	{
 		/*
