@@ -2,7 +2,9 @@
 {
 	import flash.text.StyleSheet;
 	import flash.text.TextFormat;
-
+	/**
+	 * @private
+	 */
 	public class StylesheetManager
 	{
 		/*

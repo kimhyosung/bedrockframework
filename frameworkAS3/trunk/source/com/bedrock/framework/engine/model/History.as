@@ -2,7 +2,9 @@
 {
 	import com.bedrock.framework.plugin.storage.SuperArray;
 	import com.bedrock.framework.engine.data.BedrockSequenceData;
-
+	/**
+	 * @private
+	 */
 	public class History
 	{
 		/*

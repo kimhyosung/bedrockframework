@@ -18,7 +18,9 @@ package com.bedrock.framework.engine.builder
 	import flash.events.Event;
 	import com.bedrock.framework.engine.view.BedrockModuleView;
 	import com.bedrock.framework.plugin.storage.HashMap;
-	
+	/**
+	 * @private
+	 */
 	public class BedrockBuilder extends BedrockModuleView
 	{
 		/*

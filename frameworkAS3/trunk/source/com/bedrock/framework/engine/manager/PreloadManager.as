@@ -3,7 +3,9 @@
 	import com.bedrock.framework.engine.view.IPreloader;
 	import com.bedrock.framework.plugin.trigger.Trigger;
 	import com.bedrock.framework.plugin.trigger.TriggerEvent;
-	
+	/**
+	 * @private
+	 */
 	public class PreloadManager
 	{
 		/*

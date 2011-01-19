@@ -10,7 +10,9 @@
 	import com.greensock.loading.SWFLoader;
 	import com.greensock.loading.XMLLoader;
 	import com.greensock.loading.core.LoaderItem;
-
+	/**
+	 * @private
+	 */
 	public class SpecialAssetController
 	{
 		/*

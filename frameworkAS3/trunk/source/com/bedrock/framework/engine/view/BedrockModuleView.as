@@ -14,6 +14,7 @@ package com.bedrock.framework.engine.view
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
 	import com.bedrock.framework.engine.data.BedrockModuleData;
 	import com.bedrock.framework.plugin.view.MovieClipView;
+	import com.bedrock.framework.plugin.view.ViewEvent;
 
 	public class BedrockModuleView extends MovieClipView
 	{

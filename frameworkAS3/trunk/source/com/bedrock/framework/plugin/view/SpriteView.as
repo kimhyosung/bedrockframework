@@ -11,15 +11,16 @@
 */
 package com.bedrock.framework.plugin.view
 {
-	import com.bedrock.framework.core.base.SpriteBase;
 	import com.greensock.TweenLite;
+	
+	import flash.display.Sprite;
 	
 	[Event(name="ViewEvent.onInitializeComplete", type="com.bedrock.framework.plugin.event.ViewEvent")]
 	[Event(name="ViewEvent.onIntroComplete", type="com.bedrock.framework.plugin.event.ViewEvent")]
 	[Event(name="ViewEvent.onOutroComplete", type="com.bedrock.framework.plugin.event.ViewEvent")]
 	[Event(name="ViewEvent.onClearComplete", type="com.bedrock.framework.plugin.event.ViewEvent")]
 	
-	public class SpriteView extends SpriteBase
+	public class SpriteView extends Sprite
 	{
 		/*
 		Variable Declarations

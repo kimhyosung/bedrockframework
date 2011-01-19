@@ -17,7 +17,9 @@
 	import flash.system.ApplicationDomain;
 	import flash.system.LoaderContext;
 	import flash.system.SecurityDomain;
-
+	/**
+	 * @private
+	 */
 	public class LoadController extends DispatcherBase
 	{
 		/*

@@ -1,6 +1,5 @@
 ﻿package com.bedrock.framework.engine.data
 {
-	import com.bedrock.extras.util.StringUtil;
 	import com.bedrock.framework.engine.*;
 	import com.greensock.loading.core.LoaderItem;
 
@@ -29,7 +28,7 @@
 		{
 			var url:String;
 			if ( this.localeEnabled && Bedrock.data.localesEnabled ) {
-				var localeURL:String = StringUtil.replace( this.localeURL, "%%locale%%", Bedrock.engine::localeManager.currentLocale );
+				var localeURL:String = this._replaceString( this.localeURL, "%%locale%%", Bedrock.engine::localeManager.currentLocale );
 				if ( this.path != BedrockData.NONE && this.path != null ) {
 					url = Bedrock.data[ this.path ] + localeURL;
 				} else if ( this.path == BedrockData.NONE && this.path != null ) {
@@ -43,6 +42,11 @@
 				}
 			}
 			return url;
+		}
+		
+		private function _replaceString( $raw:String, $tag:String, $content:String):String
+		{
+			return $raw.split( $tag ).join( $content );
 		}
 		
 		public function get loader():LoaderItem

@@ -15,10 +15,10 @@ package com.bedrock.framework.plugin.view
 	
 	import flash.display.MovieClip;
 	
-	[Event(name="ViewEvent.onInitializeComplete", type="com.bedrock.framework.plugin.event.ViewEvent")]
-	[Event(name="ViewEvent.onIntroComplete", type="com.bedrock.framework.plugin.event.ViewEvent")]
-	[Event(name="ViewEvent.onOutroComplete", type="com.bedrock.framework.plugin.event.ViewEvent")]
-	[Event(name="ViewEvent.onClearComplete", type="com.bedrock.framework.plugin.event.ViewEvent")]
+	[Event(name="initializeComplete", type="com.bedrock.framework.plugin.event.ViewEvent")]
+	[Event(name="introComplete", type="com.bedrock.framework.plugin.event.ViewEvent")]
+	[Event(name="outroComplete", type="com.bedrock.framework.plugin.event.ViewEvent")]
+	[Event(name="clearComplete", type="com.bedrock.framework.plugin.event.ViewEvent")]
 	
 	
 	public class MovieClipView extends MovieClip
@@ -74,6 +74,29 @@ package com.bedrock.framework.plugin.view
 		public function get hasInitialized():Boolean
 		{
 			return this._hasInitialized;
+		}
+		
+		/*
+		Returns an Array of the children of the Movieclip.
+		*/
+		public function get children():Array
+		{
+			var arrChildren:Array = new Array;
+			var numLength:uint = this.numChildren;
+			for(var i:uint = 0; i < numLength; i++) {
+				arrChildren.push( this.getChildAt( i ) );
+			}
+			return arrChildren;
+		}
+		/*        
+		Removes all of the children of the Movieclip.
+		*/        
+		public function removeChildren():void
+		{
+			var numLength:int = this.children.length;
+			for ( var i:int = 0; i < numLength; i ++ ) {
+				this.removeChildAt(0);
+			}
 		}
 	}
 

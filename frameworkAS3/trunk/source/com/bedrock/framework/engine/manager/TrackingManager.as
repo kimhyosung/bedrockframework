@@ -5,7 +5,9 @@
 	import com.bedrock.framework.plugin.tracking.ITrackingService;
 	import com.bedrock.framework.plugin.trigger.Trigger;
 	import com.bedrock.framework.plugin.trigger.TriggerEvent;
-
+	/**
+	 * @private
+	 */
 	public class TrackingManager
 	{
 		/*
