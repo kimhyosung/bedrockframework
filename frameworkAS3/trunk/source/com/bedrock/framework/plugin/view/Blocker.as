@@ -2,6 +2,7 @@
 {
 	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.plugin.storage.HashMap;
+	import com.bedrock.framework.plugin.util.ButtonUtil;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -61,7 +62,7 @@
 		public function clear():void
 		{
 			this.graphics.clear();
-			this._removeListeners();
+			ButtonUtil.removeListeners(this,{down:this._onMouseInteraction,up:this._onMouseInteraction,over:this._onMouseInteraction,out:this._onMouseInteraction},false);
 		}
 		/*
 		Draw the blocker
@@ -77,25 +78,11 @@
 				this.graphics.lineTo(0,this.stage.stageHeight);
 				this.graphics.endFill();
 				//
-				this._addListeners();
+				ButtonUtil.addListeners(this,{down:this._onMouseInteraction,up:this._onMouseInteraction,over:this._onMouseInteraction,out:this._onMouseInteraction},false);
 				//
 			} else {
 				Bedrock.logger.error("Blocker must be added to stage before it can be shown!");
 			}
-		}
-		private function _addListeners():void
-		{
-			this.addEventListener( MouseEvent.MOUSE_DOWN, this._onMouseInteraction );
-			this.addEventListener( MouseEvent.MOUSE_UP, this._onMouseInteraction );
-			this.addEventListener( MouseEvent.MOUSE_OUT, this._onMouseInteraction );
-			this.addEventListener( MouseEvent.MOUSE_OVER, this._onMouseInteraction );
-		}
-		private function _removeListeners():void
-		{
-			this.removeEventListener( MouseEvent.MOUSE_DOWN, this._onMouseInteraction );
-			this.removeEventListener( MouseEvent.MOUSE_UP, this._onMouseInteraction );
-			this.removeEventListener( MouseEvent.MOUSE_OUT, this._onMouseInteraction );
-			this.removeEventListener( MouseEvent.MOUSE_OVER, this._onMouseInteraction );
 		}
 		/*
 		Mouse Handlers
