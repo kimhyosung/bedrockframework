@@ -9,7 +9,7 @@
  * By using the Bedrock Framework, you agree to keep the above contact information in the source code.
  *
 */
-package com.bedrock.framework.core.base
+package com.bedrock.framework.core.dispatcher
 {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -26,11 +26,7 @@ package com.bedrock.framework.core.base
 		/*
 		Overrides adding additional functionality
 		*/
-		override public  function dispatchEvent($event:Event):Boolean
-		{
-			return super.dispatchEvent($event);
-		}
-		override public  function addEventListener($type:String,$listener:Function,$capture:Boolean=false,$priority:int=0,$weak:Boolean=true):void
+		override public function addEventListener($type:String,$listener:Function,$capture:Boolean=false,$priority:int=0,$weak:Boolean=true):void
 		{
 			super.addEventListener($type,$listener,$capture,$priority,$weak);
 		}

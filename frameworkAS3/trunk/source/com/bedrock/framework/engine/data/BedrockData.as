@@ -96,7 +96,7 @@
 			var name:String = $name.toString();
 			if ( Bedrock.engine::config.hasSettingValue( name ) ) return Bedrock.engine::config.getSettingValue( name );
 			if ( Bedrock.engine::config.hasPathValue( name ) ) return Bedrock.engine::config.getPathValue( name );
-			if ( Bedrock.engine::config.hasVariableValue( name ) ) return Bedrock.engine::config.hasVariableValue( name );
+			if ( Bedrock.engine::config.hasVariableValue( name ) ) return Bedrock.engine::config.getVariableValue( name );
 			return null;
 		}
 

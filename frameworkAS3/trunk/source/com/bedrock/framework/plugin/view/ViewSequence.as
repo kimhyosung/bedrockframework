@@ -1,6 +1,6 @@
 ﻿package com.bedrock.framework.plugin.view
 {
-	import com.bedrock.framework.core.base.DispatcherBase;
+	import com.bedrock.framework.core.dispatcher.DispatcherBase;
 	import com.bedrock.framework.plugin.storage.SuperArray;
 	
 	import flash.events.Event;
@@ -87,7 +87,7 @@
 
 }
 	import com.bedrock.framework.plugin.storage.SuperArray;
-	import com.bedrock.framework.core.base.DispatcherBase;
+	import com.bedrock.framework.core.dispatcher.DispatcherBase;
 	import flash.events.Event;
 	import com.bedrock.framework.plugin.view.ViewFlowData;
 	import com.bedrock.framework.plugin.view.ViewEvent;

@@ -132,7 +132,7 @@
 		}
 		private function _onStylesheetComplete( $event:LoaderEvent ):void
 		{
-			Bedrock.engine::stylesheetManager.parse( Bedrock.engine::loadController.getLoaderContent( BedrockData.STYLESHEET ) );
+			Bedrock.engine::stylesheetManager.initialize( Bedrock.engine::loadController.getLoaderContent( BedrockData.STYLESHEET ) );
 		}
 		private function _onLibraryComplete( $event:LoaderEvent ):void
 		{

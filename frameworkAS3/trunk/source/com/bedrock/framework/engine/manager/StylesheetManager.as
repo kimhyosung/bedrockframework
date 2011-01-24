@@ -21,10 +21,9 @@
 		/*
 		Parse the StyleSheet
 		*/
-		public function parse( $data:String ):void
+		public function initialize( $stylesheet:StyleSheet ):void
 		{
-			this._data = new StyleSheet();
-			this._data.parseCSS( $data );
+			this._data = $stylesheet;
 		}
 		/*
 		Get Style Object

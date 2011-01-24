@@ -1,6 +1,6 @@
 ﻿package com.bedrock.framework.plugin.trigger
 {
-	import com.bedrock.framework.core.base.DispatcherBase;
+	import com.bedrock.framework.core.dispatcher.DispatcherBase;
 	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.plugin.util.TimeUtil;
 	

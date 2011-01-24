@@ -1,6 +1,6 @@
 ﻿package com.bedrock.framework.engine.controller
 {
-	import com.bedrock.framework.core.base.DispatcherBase;
+	import com.bedrock.framework.core.dispatcher.DispatcherBase;
 	import com.bedrock.framework.engine.*;
 	import com.bedrock.framework.engine.builder.BedrockBuilder;
 	import com.bedrock.framework.engine.data.BedrockAssetData;

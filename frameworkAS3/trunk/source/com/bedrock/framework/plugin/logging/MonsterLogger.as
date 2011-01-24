@@ -2,6 +2,9 @@
 {
 	import com.bedrock.framework.core.logging.ILogger;
 	import com.bedrock.framework.core.logging.LogData;
+	/**
+	 * @private
+	 */
 	import nl.demonsters.debugger.MonsterDebugger;
 
 	public class MonsterLogger implements ILogger
