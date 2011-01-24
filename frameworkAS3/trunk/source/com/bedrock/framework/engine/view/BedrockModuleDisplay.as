@@ -38,10 +38,6 @@
 			Object( this.rawContent ).clear();
 		}
 		
-		public function get hasInitialized():Boolean
-		{
-			return Object( this.rawContent ).hasInitialized;
-		}
 		
 		override public function addEventListener( type:String, listener:Function, useCapture:Boolean=false, priority:int=0, useWeakReference:Boolean=false):void
 		{
@@ -55,13 +51,18 @@
 			if( this.rawContent != null ) Object( this.rawContent ).removeEventListener( type, listener, useCapture );
 		}
 		
-		public function set data( $data:BedrockModuleData ):void
+		public function get hasInitialized():Boolean
 		{
-			Object( this.rawContent ).data = $data;
+			return Object( this.rawContent ).hasInitialized;
 		}
-		public function get data():BedrockModuleData
+		
+		public function set details( $details:BedrockModuleData ):void
 		{
-			return Object( this.rawContent ).data;
+			Object( this.rawContent ).details = $details;
+		}
+		public function get details():BedrockModuleData
+		{
+			return Object( this.rawContent ).details;
 		}
 		
 		public function set assets( $assets:BedrockAssetGroupData ):void

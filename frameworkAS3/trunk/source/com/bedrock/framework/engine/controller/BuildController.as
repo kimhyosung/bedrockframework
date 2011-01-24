@@ -1,6 +1,6 @@
 ﻿package com.bedrock.framework.engine.controller
 {
-	import com.bedrock.framework.core.base.DispatcherBase;
+	import com.bedrock.framework.core.dispatcher.DispatcherBase;
 	import com.bedrock.framework.core.controller.*;
 	import com.bedrock.framework.core.logging.*;
 	import com.bedrock.framework.engine.*;
@@ -14,6 +14,7 @@
 	import com.bedrock.framework.plugin.logging.EventLogger;
 	import com.bedrock.framework.plugin.logging.MonsterLogger;
 	import com.bedrock.framework.plugin.logging.TraceLogger;
+	import com.bedrock.framework.plugin.storage.SuperArray;
 	import com.bedrock.framework.plugin.view.Blocker;
 	
 	import flash.display.StageAlign;
@@ -31,30 +32,34 @@
 		*/
 		public var builder:BedrockBuilder;
 		
-		private var _configURL:String;
+		public var _configURLIndex:uint;
+		public var _configURLs:SuperArray;
 		private var _configLoader:URLLoader;
 		/*
 		Constructor
 		*/
 		public function BuildController()
 		{
+			Bedrock.api;
 		}
 		/**
 		 * The initialize function is automatically called once the shell.swf has finished loading itself.
 		 */
-		public function initialize( $builder:BedrockBuilder ):void
+		public function initialize( $builder:BedrockBuilder, $configURL:String = null ):void
 		{
 			this.builder = $builder;
-			Bedrock.api;
+			
+			this._configURLs = new SuperArray;
+			if ( this.builder.loaderInfo.parameters[ BedrockData.CONFIG_URL ] != null ) this._configURLs.push( $configURL );
+			if ( $configURL != null ) this._configURLs.push( $configURL );
+			this._determineConfigURLs();
 			
 			this._createConfigLoader();
-			this._determineConfigURL();
 			
 			XML.ignoreComments = true;
 			XML.ignoreWhitespace = true;
 			
-			Bedrock.logger.status( this.builder.loaderInfo.url );
-			this._loadConfig( this.builder.loaderInfo.parameters[ BedrockData.CONFIG_URL ] || this._configURL );
+			this._loadConfig( this._configURLs.getSelected() );
 		}
 		/*
 		Config Functions
@@ -78,20 +83,6 @@
 			this._configLoader.load( new URLRequest( $path ) );
 		}
 		
-		private function _determineConfigURL():void
-		{
-			if ( this._configURL == null ) {
-				if ( this.builder.loaderInfo.url.indexOf( "file://" ) != -1 ) {
-				} else {
-					this._configURL = "../../" + BedrockData.CONFIG_FILENAME + ".xml";
-				}
-				var strURL:String = this.builder.loaderInfo.url;
-				for (var i:int = 0 ; i < 3; i++) {
-					strURL = strURL.substring( 0, strURL.lastIndexOf( "/" ) );
-				}
-				this._configURL = strURL + "/" + BedrockData.CONFIG_FILENAME + ".xml";
-			}
-		}
 		/*
 		Engine Classes
 		*/
@@ -250,7 +241,15 @@
 			this.dispatchEvent( new BedrockEvent(BedrockEvent.INITIALIZE_COMPLETE, this ) );
 			Bedrock.logger.status( "Initialization Complete!" );
 		}
-		
+		/*
+		Config URLs
+		*/
+		private function _determineConfigURLs():void
+		{
+			this._configURLs.push( "../../" + BedrockData.CONFIG_FILENAME + ".xml" );
+			this._configURLs.push( "../" + BedrockData.CONFIG_FILENAME + ".xml" );
+			this._configURLs.push( BedrockData.CONFIG_FILENAME + ".xml" );
+		}
 		/*
 		Config Handlers
 		*/
@@ -262,6 +261,10 @@
 		private function _onConfigLoaded( $event:Event ):void
 		{
 			Bedrock.engine::config.initialize( this._configLoader.data, ( this.builder.loaderInfo.parameters.environmentURL ||  this.builder.loaderInfo.url ) );
+			
+			Bedrock.logger.status( this.builder.loaderInfo.url );
+			Bedrock.logger.status( Bedrock.data.environment );
+			
 			this.dispatchEvent( new BedrockEvent( BedrockEvent.CONFIG_LOADED, this ) );
 			this._clearConfigLoader();
 			
@@ -269,7 +272,11 @@
 		}
 		private function _onConfigError( $event:Event ):void
 		{
-			Bedrock.logger.fatal( "Could not parse config!" );
+			if ( this._configURLs.hasNext() ) {
+				this._loadConfig( this._configURLs.selectNext() );
+			} else {
+				trace( "[Bedrock] [Fatal] : Could not load config!" );
+			}
 		}
 	}
 }

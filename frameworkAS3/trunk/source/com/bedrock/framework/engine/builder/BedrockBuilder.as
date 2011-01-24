@@ -13,20 +13,19 @@ package com.bedrock.framework.engine.builder
 {
 	
 	import com.bedrock.framework.engine.controller.BuildController;
+	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.engine.event.BedrockEvent;
+	import com.bedrock.framework.engine.view.BedrockModuleView;
 	
 	import flash.events.Event;
-	import com.bedrock.framework.engine.view.BedrockModuleView;
-	import com.bedrock.framework.plugin.storage.HashMap;
-	/**
-	 * @private
-	 */
+
 	public class BedrockBuilder extends BedrockModuleView
 	{
 		/*
 		Variable Declarations
 		*/
 		private var _buildController:BuildController;
+		public var configURL:String;
 		/*
 		Constructor
 	 	*/
@@ -38,7 +37,7 @@ package com.bedrock.framework.engine.builder
 		{
 			this._buildController = new BuildController;
 			this._buildController.addEventListener( BedrockEvent.INITIALIZE_COMPLETE, this._onInitializeComplete );
-			this._buildController.initialize( this );
+			this._buildController.initialize( this, this.configURL );
 		}
 		private function _disposeBuildController():void
 		{

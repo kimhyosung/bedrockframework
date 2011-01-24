@@ -1,6 +1,6 @@
 ﻿package com.bedrock.framework.engine.controller
 {
-	import com.bedrock.framework.core.base.DispatcherBase;
+	import com.bedrock.framework.core.dispatcher.DispatcherBase;
 	import com.bedrock.framework.engine.*;
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
 	import com.bedrock.framework.engine.data.BedrockData;
@@ -52,36 +52,36 @@
 		/*
 		Public Transition Function
 		*/
-		public function transition( $detail:* = null ):void
+		public function transition( $details:* = null ):void
 		{
-			if ( this._initialTransitionComplete && $detail != null ) {
+			if ( this._initialTransitionComplete && $details != null ) {
 				
-				if ( $detail is String ) {
-					if ( this._stringContains( $detail, "/" ) ) {
-						this.prepareDeeplinkTransition( { path:$detail } );
+				if ( $details is String ) {
+					if ( this._stringContains( $details, "/" ) ) {
+						this.prepareDeeplinkTransition( { path:$details } );
 					} else {
-						this.prepareStandardTransition( { id:$detail } );
+						this.prepareStandardTransition( { id:$details } );
 					}
 				} else {
-					if ( $detail.path != null ) {
-						this.prepareDeeplinkTransition( $detail );
+					if ( $details.path != null ) {
+						this.prepareDeeplinkTransition( $details );
 					} else {
-						this.prepareStandardTransition( $detail );
+						this.prepareStandardTransition( $details );
 					}
 				}
 				
 			} else {
 				
-				 if ( $detail == null ) {
+				 if ( $details == null ) {
 					this.prepareInitialTransition( {} );
-				} else if ( $detail is String ) {
-					if ( this._stringContains( $detail, "/" ) ) {
-						this.prepareInitialTransition( { path:$detail } );
+				} else if ( $details is String ) {
+					if ( this._stringContains( $details, "/" ) ) {
+						this.prepareInitialTransition( { path:$details } );
 					} else {
-						this.prepareInitialTransition( { id:$detail } );
+						this.prepareInitialTransition( { id:$details } );
 					}
 				} else {
-					this.prepareInitialTransition( $detail );
+					this.prepareInitialTransition( $details );
 				}
 				
 			}
@@ -456,7 +456,7 @@
 			var moduleView:BedrockModuleDisplay = Bedrock.engine::loadController.getLoaderContent( $id );
 			moduleView.assets = Bedrock.engine::assetManager.getGroup( moduleData.assetGroup );
 			
-			moduleView.data = Bedrock.engine::moduleManager.getModule( $id );
+			moduleView.details = Bedrock.engine::moduleManager.getModule( $id );
 			if ( Bedrock.data.resourceBundleEnabled && Bedrock.engine::resourceBundleManager.hasBundle( $id ) ) {
 				moduleView.bundle = Bedrock.engine::resourceBundleManager.getBundle( $id );
 			}

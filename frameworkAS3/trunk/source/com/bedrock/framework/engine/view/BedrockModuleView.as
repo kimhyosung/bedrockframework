@@ -21,7 +21,7 @@ package com.bedrock.framework.engine.view
 		/*
 		Variable Declarations
 		*/
-		public var data:BedrockModuleData;
+		public var details:BedrockModuleData;
 		public var assets:BedrockAssetGroupData;
 		public var bundle:*;
 		/*

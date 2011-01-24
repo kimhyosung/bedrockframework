@@ -354,7 +354,7 @@
 		/*
 		Stylesheet Manager
 		*/
-		public function getStylesheet():StyleSheet
+		public function get stylesheet():StyleSheet
 		{
 			return Bedrock.engine::stylesheetManager.data;
 		}

@@ -3,7 +3,7 @@ package com.bedrock.framework.engine.manager
 {
 	import com.asual.swfaddress.SWFAddress;
 	import com.asual.swfaddress.SWFAddressEvent;
-	import com.bedrock.framework.core.base.DispatcherBase;
+	import com.bedrock.framework.core.dispatcher.DispatcherBase;
 	import com.bedrock.framework.engine.event.BedrockEvent;
 	import com.bedrock.framework.plugin.util.VariableUtil;
 	

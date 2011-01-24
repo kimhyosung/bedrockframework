@@ -11,8 +11,6 @@
 */
 package com.bedrock.framework.core.logging
 {
-	import nl.demonsters.debugger.MonsterDebugger;
-
 	public class BedrockLogger
 	{
 		/*

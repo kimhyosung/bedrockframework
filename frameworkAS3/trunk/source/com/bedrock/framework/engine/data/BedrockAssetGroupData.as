@@ -16,6 +16,7 @@ package com.bedrock.framework.engine.data
 		public function addAsset( $asset:BedrockAssetData ):void
 		{
 			this.contents.push( $asset );
+			this.contents.sortOn( "priority", Array.DESCENDING );
 		}
 		public function filterAssets( $field:String, $value:* ):Array
 		{
