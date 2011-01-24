@@ -2,6 +2,8 @@
 <template>
   <name>beginner</name>
   <versions>*</versions>
+  <width>900</width>
+  <height>600</height>
   <assetsFolder>assets/</assetsFolder>
   <sourceFolder>source/</sourceFolder>
   <deployFolder>wwwroot/</deployFolder>

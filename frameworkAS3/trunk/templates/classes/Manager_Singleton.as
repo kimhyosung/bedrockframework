@@ -1,8 +1,6 @@
 ﻿package %%classPackage%%
 {
-	import com.bedrock.framework.core.base.StandardBase;
-	
-	public class %%className%% extends StandardBase
+	public class %%className%%
 	{
 		/*
 		Variable Declarations

@@ -1,7 +1,5 @@
 ﻿package __template
 {
-	import __template.test.Test;
-	
 	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.engine.api.IBedrockBuilder;
 	import com.bedrock.framework.engine.builder.BedrockBuilder;

@@ -27,7 +27,7 @@
 		
 		public function preinitialize():void
 		{
-			//Bedrock.dispatcher.addEventListener( BedrockEvent.TRANSITION_COMPLETE, this._onTransitionComplete );
+			
 		}
 		
 		public function initialize($data:Object=null):void
@@ -54,11 +54,6 @@
 		/*
 		Event Handlers
 	 	*/
-	 	private function _onTransitionComplete( $event:Event ):void
-		{
-			//Bedrock.dispatcher.removeEventListener( BedrockEvent.TRANSITION_COMPLETE, this._onTransitionComplete );
-			Bedrock.api.queueInitialLoad();
-			Bedrock.api.transition();
-		}
+	 	
 	}
 }

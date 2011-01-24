@@ -1,10 +1,9 @@
-package %%classPackage%%
+﻿package %%classPackage%%
 {
 	import com.bedrock.framework.core.command.ICommand;
-	import com.bedrock.framework.core.command.Command;
 	import com.bedrock.framework.core.event.GenericEvent;
 
-	public class %%className%% extends Command implements ICommand
+	public class %%className%% implements ICommand
 	{
 		/*
 		Variable Declarations
@@ -15,7 +14,6 @@ package %%classPackage%%
 		*/
 		public function %%className%%()
 		{
-			super();
 		}
 		
 		public function execute( $event:GenericEvent ):void

@@ -1,8 +1,6 @@
 ﻿package __template.view
 {
 	import com.bedrock.extras.cloner.Cloner;
-	import com.bedrock.extras.cloner.ClonerData;
-	import com.bedrock.extras.cloner.ClonerEvent;
 	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.engine.data.BedrockModuleData;
 	import com.bedrock.framework.engine.view.BedrockModuleView;
@@ -10,7 +8,6 @@
 	import com.bedrock.framework.plugin.view.IView;
 	import com.greensock.TweenLite;
 	
-	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
 
 	public class NavigationView extends BedrockModuleView implements IView
@@ -19,31 +16,22 @@
 		Variable Declarations
 		*/
 		private var _cloner:Cloner;
+		private var _itemCount:uint;
+		private var _itemSpacing:uint;
 		/*
 		Constructor
 	 	*/
 		public function NavigationView()
 		{
 			super();
+			this._itemCount = 0;
+			this._itemSpacing = 160;
 			this.alpha = 0;
 		}
 		
 		public function initialize($data:Object=null):void
 		{
-			var clonerData:ClonerData = new ClonerData;
-			clonerData.clone = MenuButton;
-			clonerData.autoSpacing = true;
-			clonerData.direction = ClonerData.HORIZONTAL;
-			clonerData.paddingX = 10;
-			clonerData.total = Bedrock.api.getIndexedModules().length;
-			
-			this._cloner = new Cloner;
-			this._cloner.addEventListener( ClonerEvent.CREATE, this._onCloneCreate );
-			this.addChild( this._cloner );
-			this._cloner.x = 5;
-			this._cloner.y = 5;
-			this._cloner.initialize( clonerData );
-			
+			this._createMenu();
 			this.initializeComplete();
 		}
 		
@@ -54,22 +42,36 @@
 		
 		public function outro($data:Object=null):void
 		{
+			this.outroComplete();
 		}
 		
 		public function clear():void
 		{
+			this.clearComplete();
+		}
+		
+		/*
+		CreateMenu
+	 	*/
+	 	private function _createMenu():void
+		{
+			var menuItem:MenuButton;
+			var data:BedrockModuleData;
+			var modules:Array = Bedrock.api.getIndexedModules();
+			var count:uint = modules.length;
+			for ( var i:uint; i < count; i++ ) {
+				data = modules[ i ];
+				menuItem = new MenuButton();
+				menuItem.label.text = data.label;
+				menuItem.name = data.id;
+				menuItem.x = this._itemSpacing * i;
+				ButtonUtil.addListeners( menuItem, { down:this._onButtonClick } );
+				this.addChild( menuItem );
+			}
 		}
 		/*
 		Event Handlers
 	 	*/
-	 	private function _onCloneCreate( $event:ClonerEvent ):void
-		{
-			var data:BedrockModuleData = Bedrock.api.getIndexedModules()[ $event.details.index ];
-			var childButton:MovieClip = $event.details.child;
-			childButton.label.text = data.label;
-			childButton.name = data.id;
-			ButtonUtil.addListeners( childButton, { down:this._onButtonClick } );
-		}
 		private function _onButtonClick( $event:MouseEvent ):void
 		{
 			Bedrock.api.transition( $event.currentTarget.name );

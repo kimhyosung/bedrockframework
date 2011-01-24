@@ -1,76 +1,75 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
   <settings>
-    <setting id="stageAlignment" value="TOP_LEFT" />
-    <setting id="stageScaleMode" value="NO_SCALE" />
-    <setting id="defaultTransitionStyle" value="NORMAL" />
-    <setting id="initialPreloaderTime" value="0" />
-    <setting id="defaultPreloaderTime" value="0" />
-    <setting id="blockerAlpha" value="0.1" />
-    <setting id="blockerColor" value="16777215" />
-    <setting id="autoPrepareInitialLoad" value="true" />
-    <setting id="autoPrepareInitialTransition" value="true" />
-    <setting id="showBlockerDuringTransitions" value="true" />
-    <setting id="deeplinkingEnabled" value="true" />
-    <setting id="deeplinkModules" value="true" />
-    <setting id="trackingEnabled" value="true" />
-    <setting id="showModulesInContextMenu" value="true" />
-    <setting id="showAboutInContextMenu" value="false" />
-    <setting id="localesEnabled" value="false" />
-    <setting id="defaultLocale" value="en_GB" />
-    <setting id="logDetailDepth" value="10" />
-    <setting id="traceLogLevel" value="ALL" />
-    <setting id="eventLogLevel" value="WARNING" />
-    <setting id="monsterLogLevel" value="NONE" />
-    <setting id="errorsEnabled" value="true" />
+    <setting id="stageAlignment" value="TOP_LEFT"/>
+    <setting id="stageScaleMode" value="NO_SCALE"/>
+    <setting id="defaultTransitionStyle" value="NORMAL"/>
+    <setting id="initialPreloaderTime" value="0"/>
+    <setting id="defaultPreloaderTime" value="0"/>
+    <setting id="blockerAlpha" value="0.1"/>
+    <setting id="blockerColor" value="16777215"/>
+    <setting id="autoPrepareInitialLoad" value="true"/>
+    <setting id="autoPrepareInitialTransition" value="true"/>
+    <setting id="showBlockerDuringTransitions" value="true"/>
+    <setting id="deeplinkingEnabled" value="true"/>
+    <setting id="deeplinkModules" value="true"/>
+    <setting id="trackingEnabled" value="true"/>
+    <setting id="showModulesInContextMenu" value="true"/>
+    <setting id="showAboutInContextMenu" value="false"/>
+    <setting id="localesEnabled" value="false"/>
+    <setting id="defaultLocale" value="en_GB"/>
+    <setting id="logDetailDepth" value="10"/>
+    <setting id="traceLogLevel" value="ALL"/>
+    <setting id="eventLogLevel" value="WARNING"/>
+    <setting id="monsterLogLevel" value="NONE"/>
+    <setting id="errorsEnabled" value="true"/>
   </settings>
   <modules>
     <moduleGroup id="nested1" indexed="true" initialTransition="true" label="Module Group 1" priority="5" deeplink="" initialLoad="true">
-      <module id="module1" container="container1" indexed="false" initialTransition="true" label="Module 1" priority="0" deeplink="" assetGroup="none" initialLoad="true" autoDispose="false" autoDisposeAssets="false" estimatedBytes="82953" />
-      <module id="module2" container="container2" indexed="false" initialTransition="false" label="Module 2" priority="0" deeplink="" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false" estimatedBytes="82636" />
+      <module id="module1" container="container1" indexed="false" initialTransition="true" label="Module 1" priority="0" deeplink="" assetGroup="none" initialLoad="true" autoDispose="false" autoDisposeAssets="false" estimatedBytes="82953"/>
+      <module id="module2" container="container2" indexed="false" initialTransition="false" label="Module 2" priority="0" deeplink="" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false" estimatedBytes="82636"/>
     </moduleGroup>
     <moduleGroup id="nested2" indexed="true" initialTransition="false" label="Module Group 2" priority="5" deeplink="" initialLoad="false">
-      <module id="module3" container="container1" indexed="false" initialTransition="false" label="Module 3" priority="0" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false" estimatedBytes="82552" />
-      <module id="module4" container="container2" indexed="false" initialTransition="false" label="Module 4" priority="0" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false" estimatedBytes="82606" />
+      <module id="module3" container="container1" indexed="false" initialTransition="false" label="Module 3" priority="0" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false" estimatedBytes="82552"/>
+      <module id="module4" container="container2" indexed="false" initialTransition="false" label="Module 4" priority="0" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false" estimatedBytes="82606"/>
     </moduleGroup>
-    <module id="navigation" container="navigation" indexed="false" initialTransition="true" label="Navigation" priority="2" deeplink="" assetGroup="none" initialLoad="true" autoDispose="false" autoDisposeAssets="false" estimatedBytes="85048" />
+    <module id="navigation" container="navigation" indexed="false" initialTransition="true" label="Navigation" priority="2" deeplink="" assetGroup="none" initialLoad="true" autoDispose="false" autoDisposeAssets="false" estimatedBytes="85048"/>
   </modules>
   <assets>
     <assetGroup id="shell" initialLoad="true">
-      <asset id="library" path="swfPath" type="swf" defaultURL="library.swf" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="79231" />
+      <asset id="library" path="swfPath" type="swf" defaultURL="library.swf" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="79231"/>
     </assetGroup>
   </assets>
   <containers>
-    <container id="container1" x="0" y="0" />
-    <container id="container2" x="200" y="0" />
-    <container id="preloader" x="0" y="0" />
-    <container id="overlay" x="0" y="0" />
-    <container id="navigation" x="0" y="0" />
+    <container id="container1" x="0" y="0"/>
+    <container id="container2" x="200" y="0"/>
+    <container id="preloader" x="0" y="0"/>
+    <container id="overlay" x="0" y="0"/>
+    <container id="navigation" x="0" y="0"/>
   </containers>
   <locales>
-    <locale id="en_GB" label="English" />
-    <locale id="sp_ES" label="Spanish" />
-    <locale id="fr_FR" label="French" />
-    <locale id="jp_JP" label="Japanese" />
+    <locale id="en_GB" label="English"/>
+    <locale id="sp_ES" label="Spanish"/>
+    <locale id="fr_FR" label="French"/>
+    <locale id="jp_JP" label="Japanese"/>
   </locales>
   <environments>
     <environment id="default">
-      <path id="xmlPath" value="../xml/" />
-      <path id="imagePath" value="../images/" />
-      <path id="videoPath" value="../video/" />
-      <path id="swfPath" value="../swfs/" />
-      <path id="audioPath" value="../audio/" />
-      <path id="stylesheetPath" value="../stylesheet/" />
+      <path id="xmlPath" value="../xml/"/>
+      <path id="imagePath" value="../images/"/>
+      <path id="videoPath" value="../video/"/>
+      <path id="swfPath" value="../swfs/"/>
+      <path id="audioPath" value="../audio/"/>
+      <path id="stylesheetPath" value="../stylesheet/"/>
     </environment>
     <environment id="local">
-      <pattern value="file://" />
+      <pattern value="file://"/>
     </environment>
     <environment id="development">
-      <pattern value="dev" />
+      <pattern value="dev"/>
     </environment>
     <environment id="staging">
-      <pattern value="staging" />
+      <pattern value="staging"/>
     </environment>
-    <environment id="production" />
+    <environment id="production"/>
   </environments>
 </config>
