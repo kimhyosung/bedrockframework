@@ -26,7 +26,7 @@
 		public function initialize($data:Object=null):void
 		{
 			Bedrock.logger.status( "Initialize" );
-			this.label.text = this.data.label;
+			this.label.text = this.details.label;
 			trace( this.assets.getAsset( "test" ).content );
 			this.initializeComplete();
 		}

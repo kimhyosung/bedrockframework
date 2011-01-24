@@ -31,8 +31,8 @@
   <assets>
     <assetGroup id="shell" initialLoad="true">
       <asset id="resourceBundle" path="xmlPath" type="xml" defaultURL="resource_bundle.xml" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="4734"/>
-      <asset id="library" type="swf" path="swfPath" defaultURL="library.swf" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="79254"/>
-      <asset id="fonts" path="swfPath" type="swf" defaultURL="fonts.swf" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="73421"/>
+      <asset id="library" type="swf" path="swfPath" defaultURL="library.swf" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="76664"/>
+      <asset id="fonts" path="swfPath" type="swf" defaultURL="fonts.swf" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="70774"/>
       <asset id="stylesheet" path="stylesheetPath" type="stylesheet" defaultURL="flash_style.css" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="179"/>
     </assetGroup>
     <assetGroup id="module1" initialLoad="false">
