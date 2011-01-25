@@ -334,7 +334,7 @@ package com.bedrock.extension.controller
 			this.delegate.updateProject( this.projectXML, $switchFrameworkVersion );
 			
 			if ( VariableUtil.sanitize( this.projectXML.publishProject ) ) {
-				ProjectController.getInstance().browser.publishProject();
+				TweenLite.delayedCall( 0.5, ProjectController.getInstance().browser.publishProject );
 			}
 			
 			this.saveProject();
