@@ -166,11 +166,6 @@
 			var loader:LoaderItem;
 			switch( $asset.type ) {
 				case BedrockAssetData.SWF :
-					if ( Bedrock.engine::containerManager.hasContainer( $asset.container ) ) {
-						loaderVars.container = Bedrock.engine::containerManager.getContainer( $asset.container );
-					} else if ( $asset.container != BedrockData.NONE && $asset.container != null && $asset.container != undefined ) {
-						Bedrock.logger.warning( "Container \"" + $asset.container + "\" not found for asset \"" + $asset.id + "\"!" );
-					}
 					loaderVars.context = this.getLoaderContext();
 					loader = new SWFLoader( $asset.url, loaderVars );
 					break;

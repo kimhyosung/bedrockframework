@@ -29,6 +29,7 @@
             		assetXML.@alternateURL = this.alternateURLText.text; 
             		assetXML.@localeURL = this.localeURLText.text;
             		assetXML.@localeEnabled = this.localeEnabledCheck.selected;
+            		assetXML.@priority = this.priorityStepper.value;
             		
             		ProjectController.getInstance().config.updateBytes( assetXML );
             		
@@ -72,6 +73,9 @@
 			
 			<mx:HRule width="100%"/>
 			
+			<mx:FormItem label="Priority"  height="100%" horizontalAlign="center">
+				<mx:NumericStepper id="priorityStepper"  minimum="0" maximum="10" stepSize="1" value="0"/>
+			</mx:FormItem>
 			<mx:FormItem label="Group" width="100%" >
 				<mx:ComboBox id="assetGroupCombo" />
 			</mx:FormItem>

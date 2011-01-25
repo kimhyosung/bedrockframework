@@ -20,8 +20,6 @@ package com.bedrock.framework.plugin.logging
 		Variable Delcarations
 		*/
 		private var _level:uint;
-		
-		public var data:LogData;
 		private var _formatter:LogFormatter;
 		/*
 		Constructor
@@ -40,15 +38,8 @@ package com.bedrock.framework.plugin.logging
 		}
 		public function log( $trace:*, $data:LogData ):void
 		{
-			this.data = $data;
-			var strTrace:String = this._formatter.format( $trace, $data );
-			trace( strTrace );
+			trace( this._formatter.format( $trace, $data ) );
 		}
-		
-		
-		
-		
-		
 		
 		
 		public function set level( $level:uint ):void
