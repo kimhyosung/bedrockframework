@@ -29,7 +29,7 @@
 				this.widthText.text = ExtensionController.getInstance().projectXML.width;
 				this.heightText.text = ExtensionController.getInstance().projectXML.height;
 				this.colorPicker.selectedColor = ExtensionController.getInstance().projectXML.stageColor;
-				this.publishFilesCheck.selected = VariableUtil.sanitize( ExtensionController.getInstance().projectXML.publishFiles );
+				this.publishProjectCheck.selected = VariableUtil.sanitize( ExtensionController.getInstance().projectXML.publishProject );
 			}
 			
 			
@@ -40,7 +40,7 @@
 				ExtensionController.getInstance().projectXML.width = this.widthText.text;
 				ExtensionController.getInstance().projectXML.height = this.heightText.text;
 				ExtensionController.getInstance().projectXML.stageColor = this.colorPicker.selectedColor;
-				ExtensionController.getInstance().projectXML.publishFiles = this.publishFilesCheck.selected;
+				ExtensionController.getInstance().projectXML.publishProject = this.publishProjectCheck.selected;
 			}
 			private function _sanitizeFolder( $text:String ):String
 			{
@@ -107,8 +107,8 @@
 				<mx:FormItem label="Stage Color">
 					<mx:ColorPicker id="colorPicker" change="this._updateProperties()"/>
 				</mx:FormItem>
-				<mx:FormItem label="Publish Files">
-					<mx:CheckBox id="publishFilesCheck" change="this._updateProperties()" />
+				<mx:FormItem label="Publish Project">
+					<mx:CheckBox id="publishProjectCheck" change="this._updateProperties()" />
 				</mx:FormItem>
 				
 			</mx:Form>
