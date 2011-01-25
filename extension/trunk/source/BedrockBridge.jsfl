@@ -16,8 +16,6 @@
 		constantsObj.versionsPath = constantsObj.bedrockPath + "versions/";
 		constantsObj.baseIDEClassPath = "$(LocalData)/Bedrock Framework/versions/bedrock";
 		constantsObj.frameworkSourceFolder = "source/";
-		constantsObj.projectSourceFolder = "source/";
-		constantsObj.projectDeployFolder = "wwwroot/";
 		return constantsObj;
 	}
 	function getSelectedProjectPanelPath( $projectXML )
@@ -41,9 +39,14 @@
 			if ( item.name() != "flas" ) projectObj[ item.name() ] = sanitize( item.toString() );
 			if ( item.name() == "frameworkVersion" ) projectObj[ item.name() ] = item.toString();
 		}
-		projectObj.assetsPath = projectObj.path + projectObj.assetsFolder;
+		
+		projectObj.deployAssetsFolder = projectObj.deployFolder + projectObj.assetsFolder;
+		
 		projectObj.sourcePath = projectObj.path + projectObj.sourceFolder;
 		projectObj.deployPath = projectObj.path + projectObj.deployFolder;
+		projectObj.assetsPath = projectObj.deployPath + projectObj.assetsFolder;
+		projectObj.swfsPath = projectObj.assetsPath + "swfs/";
+		
 		projectObj.projectFilePath = projectObj.path + "project.bedrock";
 		projectObj.projectFrameworkPath = projectObj.sourcePath + "com/bedrock/";
 		projectObj.shellPath = projectObj.sourcePath + "shell.fla";
@@ -52,7 +55,7 @@
 		projectObj.rootPackagePath = projectObj.sourcePath + projectObj.rootPackage.toString().split(".").join( "/" ) + "/";
 		projectObj.viewPackage = projectObj.rootPackage + ".view";
 		projectObj.publishProfilePath = projectObj.sourcePath + "profile.bedrock";
-		projectObj.bedrockprojectObjPath = projectObj.sourcePath + "project.bedrock";
+		projectObj.bedrockProjectPath = projectObj.sourcePath + "project.bedrock";
 		
 		projectObj.selectedFrameworkPath = constants.versionsPath + "bedrock" + projectObj.frameworkVersion + "/";
 		projectObj.selectedFrameworkProjectPanelPath = projectObj.selectedFrameworkPath + "BedrockProjectPanel.swf";
@@ -75,11 +78,11 @@
 			templateObj[ item.name() ] = sanitize( item.toString() );
 		}
 		
-		templateObj.templateAssetsPath = templateObj.path + templateObj.assetsFolder;
+		templateObj.deployAssetsFolder = templateObj.deployFolder + templateObj.assetsFolder;
+		
 		templateObj.templateSourcePath = templateObj.path + templateObj.sourceFolder;
 		templateObj.templateDeployPath = templateObj.path + templateObj.deployFolder;
-		
-		fl.trace( templateObj.templateAssetsPath );
+		templateObj.templateAssetsPath = templateObj.templateDeployPath + templateObj.assetsFolder;
 		
 		return templateObj;
 	}
@@ -91,21 +94,21 @@
 		var project = convertProject( $projectXML );
 		var template = convertTemplate( $templateXML );
 		
-		FLfile.createFolder( project.assetsPath );
 		FLfile.createFolder( project.sourcePath );
 		FLfile.createFolder( project.deployPath );
+		FLfile.createFolder( project.assetsPath );
 		
-		copyFolder( template.templateAssetsPath, project.assetsPath );
 		copyFolder( template.templateSourcePath, project.sourcePath );
-		copyFolder( template.templateDeployPath, project.deployPath );
+		copyFiles( template.templateDeployPath, project.deployPath );
+		copyFolder( template.templateAssetsPath, project.assetsPath );
 		
 		moveFolder( project.tempClassPath, project.rootPackagePath );
 		
 		changeASPackagePaths( project.rootPackagePath, project.rootPackage );
 		copyFolder( project.selectedFrameworkSourcePath, project.sourcePath );
-		updateFLAs( $projectXML );
+		updateFLAs( $projectXML, $templateXML );
 		
-		fl.openDocument( project.shellPath ).testMovie();
+		//fl.openDocument( project.shellPath ).testMovie();
 	}
 	function updateProject( $projectXML, $switchFrameworkVersion )
 	{
@@ -115,12 +118,13 @@
 			copyFolder( project.selectedFrameworkBedrockPath, project.projectFrameworkPath );
 		}
 		updateFLAs( $projectXML );
-		if ( project.publishFiles ) fl.openDocument( project.shellPath ).testMovie();
+		//if ( project.publishFiles ) fl.openDocument( project.shellPath ).testMovie();
 	}
-	function updateFLAs( $projectXML )
+	function updateFLAs( $projectXML, $templateXML )
 	{
 		var constants = getConstants();
 		var project = convertProject( $projectXML );
+		var template = convertTemplate( $templateXML );
 		
 		var arrFiles = FLfile.listFolder( project.sourcePath + "*.fla", "files" );
 		var objDocument;
@@ -146,12 +150,14 @@
 				
 				
 				objDocument.exportPublishProfile( project.publishProfilePath );
-				replaceStringInFile( project.publishProfilePath, constants.projectDeployFolder, project.deployFolder );
+				replaceStringInFile( project.publishProfilePath, template.deployAssetsFolder, project.deployAssetsFolder );
 				objDocument.importPublishProfile( project.publishProfilePath );
 				
+				/*
 				if ( project.publishFiles && filename != "shell.fla" ) {
 					objDocument.exportSWF( getExportDestination( project.publishProfilePath, project.path ) );
 				}
+				*/
 				
 				FLfile.remove( project.publishProfilePath );
 				
@@ -249,7 +255,7 @@
 			FLfile.remove( project.sourcePath + detailsXML.@id.toString() + ".fla" );
 		}
 		if ( sanitizeBoolean( detailsXML.deleteSWF ) ) {
-			FLfile.remove( project.deployPath + "assets/swfs/" + detailsXML.@id.toString() + ".swf" );
+			FLfile.remove( project.swfsPath + detailsXML.@id.toString() + ".swf" );
 		}
 	}
 	
@@ -320,18 +326,29 @@
 	function generateSpecialAsset( $projectXML, $assetID )
 	{
 		var project = convertProject( $projectXML );
-		
+		// reminder : have to do this later
 		switch( $assetID ) {
 			case "library" :
+				FLfile.copy( project.selectedFrameworkSpecialAssetTemplatePath + "library.fla", project.sourcePath + "library.fla" );
+				// change publish settings
+				FLfile.copy( project.selectedFrameworkSpecialAssetTemplatePath + "LibraryBuilder.as", project.rootPackagePath + "LibraryBuilder.as" );
+				// change package path
 				break;
 			case "fonts" :
+				FLfile.copy( project.selectedFrameworkSpecialAssetTemplatePath + "fonts.fla", project.sourcePath + "fonts.fla" );
+				// change publish settings
+				FLfile.copy( project.selectedFrameworkSpecialAssetTemplatePath + "FontBuilder.as", project.rootPackagePath + "FontBuilder.as" );
+				// change package path
 				break;
 			case "resourceBundle" :
+				FLfile.copy( project.selectedFrameworkSpecialAssetTemplatePath + "resourceBundle.xml", project.assetsPath + "xml/resource_bundle.xml" );
 				break;
 			case "stylesheet" :
+				FLfile.copy( project.selectedFrameworkSpecialAssetTemplatePath + "flash_style.css", project.assetsPath + "stylesheet/flash_style.css" );
 				break;
 		}
 	}
+	
 	
 	
 	
@@ -601,14 +618,20 @@
 	{
 		FLfile.createFolder( $targetPath );
 		
-		var files = FLfile.listFolder( $sourcePath, "files" );
-		for each ( fileName in files ) {
-			FLfile.copy( $sourcePath + fileName, $targetPath + fileName );
-		}
+		copyFiles( $sourcePath, $targetPath );
 		
 		var folders = FLfile.listFolder( $sourcePath, "directories" );
 		for each ( folderName in folders ) {
 			copyFolder( $sourcePath + folderName + "/", $targetPath + folderName + "/" );
+		}
+	}
+	function copyFiles( $sourcePath, $targetPath )
+	{
+		FLfile.createFolder( $targetPath );
+		
+		var files = FLfile.listFolder( $sourcePath, "files" );
+		for each ( fileName in files ) {
+			FLfile.copy( $sourcePath + fileName, $targetPath + fileName );
 		}
 	}
 	function moveFolder($sourcePath, $targetPath)

@@ -15,14 +15,11 @@
   <sourceFolder>source/</sourceFolder>
   <deployFolder>wwwroot/</deployFolder>
   <flas>
-    <file name="content1" path="source/content1.fla" type=".fla" publish="true"/>
-    <file name="content2" path="source/content2.fla" type=".fla" publish="true"/>
-    <file name="fonts" path="source/fonts.fla" type=".fla" publish="false"/>
-    <file name="library" path="source/library.fla" type=".fla" publish="false"/>
-    <file name="navigation" path="source/navigation.fla" type=".fla" publish="true"/>
-    <file name="shell" path="source/shell.fla" type=".fla" publish="true"/>
+    <file name="fonts" path="source/fonts.fla" type=".fla" publish="true"/>
+    <file name="library" path="source/library.fla" type=".fla" publish="true"/>
     <file name="module1" path="source/module1.fla" type=".fla" publish="true"/>
     <file name="module2" path="source/module2.fla" type=".fla" publish="true"/>
-    <file name="module3" path="source/module3.fla" type=".fla" publish="true"/>
+    <file name="navigation" path="source/navigation.fla" type=".fla" publish="true"/>
+    <file name="shell" path="source/shell.fla" type=".fla" publish="true"/>
   </flas>
 </project>

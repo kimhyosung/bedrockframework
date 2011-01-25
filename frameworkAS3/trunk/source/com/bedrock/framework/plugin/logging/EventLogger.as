@@ -26,11 +26,11 @@ package com.bedrock.framework.plugin.logging
 		
 		public function EventLogger()
 		{
-			this.createCategoryLabels();
+			this._createCategoryLabels();
 			
 		}
 		
-		private function createCategoryLabels():void
+		private function _createCategoryLabels():void
 		{
 			this._categoryDictionary = new Dictionary;
 			this._categoryDictionary[LogLevel.DEBUG.toString()] = LogEvent.DEBUG;

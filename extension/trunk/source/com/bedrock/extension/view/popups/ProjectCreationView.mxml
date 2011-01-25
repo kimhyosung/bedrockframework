@@ -25,14 +25,10 @@
 				this.projectPathText.text = ExtensionController.getInstance().projectXML.path;
 				this.rootPackageText.text = ExtensionController.getInstance().projectXML.rootPackage;
 				this.templateCombo.selectedIndex = ArrayUtil.findIndex( ExtensionController.getInstance().templates, ExtensionController.getInstance().projectXML.template );
-				this.widthText.text = ExtensionController.getInstance().projectXML.width;
-				this.heightText.text = ExtensionController.getInstance().projectXML.height;
 				this.colorPicker.selectedColor = ExtensionController.getInstance().projectXML.stageColor;
-				this.publishFilesCheck.selected = VariableUtil.sanitize( ExtensionController.getInstance().projectXML.publishFiles );
+				this.publishProjectCheck.selected = VariableUtil.sanitize( ExtensionController.getInstance().projectXML.publishProject );
 				
-				this.assetsFolderText.text = ExtensionController.getInstance().projectXML.assetsFolder;
-				this.sourceFolderText.text = ExtensionController.getInstance().projectXML.sourceFolder;
-				this.deployFolderText.text = ExtensionController.getInstance().projectXML.deployFolder;
+				this._updateTemplate();
 				
 				this.templateCombo.selectedIndex = 0;
 			}
@@ -48,7 +44,7 @@
 				ExtensionController.getInstance().projectXML.frameworkVersion = this.frameworkVersionCombo.selectedLabel;
 				ExtensionController.getInstance().loadTemplates();
 				this.templateCombo.selectedIndex = 0;
-				this._updateProject();
+				this._updateTemplate();
 			}
 			private function _updateProject():void
 			{
@@ -60,16 +56,27 @@
 				ExtensionController.getInstance().projectXML.width = this.widthText.text;
 				ExtensionController.getInstance().projectXML.height = this.heightText.text;
 				ExtensionController.getInstance().projectXML.stageColor = this.colorPicker.selectedColor;
-				ExtensionController.getInstance().projectXML.publishFiles = this.publishFilesCheck.selected;
-				ExtensionController.getInstance().projectXML.assetsFolder = this._sanitizeFolder( this.assetsFolderText.text );
+				ExtensionController.getInstance().projectXML.publishProject = this.publishProjectCheck.selected;
 				ExtensionController.getInstance().projectXML.sourceFolder = this._sanitizeFolder( this.sourceFolderText.text );
 				ExtensionController.getInstance().projectXML.deployFolder = this._sanitizeFolder( this.deployFolderText.text );
-				
+				ExtensionController.getInstance().projectXML.assetsFolder = this._sanitizeFolder( this.assetsFolderText.text );
+			}
+			private function _updateTemplate():void
+			{
 				ExtensionController.getInstance().loadTemplate( this.templateCombo.selectedLabel );
+				
+				this.widthText.text = ExtensionController.getInstance().templateXML.width;
+				this.heightText.text = ExtensionController.getInstance().templateXML.height;
+				this.assetsFolderText.text = ExtensionController.getInstance().templateXML.assetsFolder;
+				this.sourceFolderText.text = ExtensionController.getInstance().templateXML.sourceFolder;
+				this.deployFolderText.text = ExtensionController.getInstance().templateXML.deployFolder;
+				
+				this._updateProject();
 			}
 			private function _sanitizeFolder( $text:String ):String
 			{
 				if ( $text.charAt( $text.length - 1 ) != "/" ) return ( $text + "/" );
+				if ( $text.indexOf( "//" ) != -1 ) $text.split( "//" ).join( "/" );
 				return $text;
 			}
 			
@@ -107,9 +114,7 @@
 					</mx:FormItem>
 				</mx:Form>
 			</mx:Panel>
-			
-			
-			<mx:Panel title="2. Flash" width="100%" height="100%" horizontalAlign="center">
+			<mx:Panel title="3. Flash" width="100%" height="100%" horizontalAlign="center">
 				<mx:Form >
 					<mx:FormItem label="Dimensions">
 						<mx:HBox horizontalGap="1">
@@ -124,20 +129,40 @@
 					<mx:FormItem label="Stage Color">
 						<mx:ColorPicker id="colorPicker" change="this._updateProject()"/>
 					</mx:FormItem>
-					<mx:FormItem label="Publish Files">
-						<mx:CheckBox id="publishFilesCheck" change="this._updateProject()" />
+					<mx:FormItem label="Publish Project">
+						<mx:CheckBox id="publishProjectCheck" change="this._updateProject()" />
 					</mx:FormItem>
 					
 				</mx:Form>
 			</mx:Panel>
+			
+			
+			
 		
 			
 		
 		</mx:VBox>
 		
 		<mx:VBox height="100%">
-			<mx:Panel title="3. Framework" width="100%" height="100%" id="frameworkPanel" horizontalAlign="center">
-				<mx:Form height="100%">
+			
+			<mx:Panel title="2. Folder Structure" width="325" height="100%" id="structurePanel">
+				<mx:Form width="100%" height="100%">
+					<mx:FormItem label="Source Folder" width="100%" >
+						<mx:TextInput width="100%" text="flash" restrict="a-zA-Z0-9 " id="sourceFolderText" change="this._updateProject()"/>
+					</mx:FormItem>
+					<mx:FormItem label="Deploy Folder" width="100%" >
+						<mx:TextInput width="100%" text="wwwroot" restrict="a-zA-Z0-9 " id="deployFolderText" change="this._updateProject()"/>
+					</mx:FormItem>
+					<mx:FormItem label="Assets Folder" width="100%" >
+						<mx:HBox width="100%" horizontalAlign="center">
+							<mx:Label text="{ this.deployFolderText.text }" fontWeight="normal"/>
+							<mx:TextInput width="100%" text="assets" restrict="a-zA-Z0-9 " id="assetsFolderText" change="this._updateProject()"/>
+						</mx:HBox>
+					</mx:FormItem>
+				</mx:Form>
+			</mx:Panel>
+			<mx:Panel title="4. Framework" width="100%" height="100%" id="frameworkPanel" horizontalAlign="center">
+				<mx:Form height="100%" width="100%">
 					<mx:FormItem label="Version" width="100%">
 						<mx:ComboBox id="frameworkVersionCombo" width="75" change="this._updateFrameworkVersion()" />
 					</mx:FormItem>
@@ -145,24 +170,16 @@
 						<mx:TextInput id="rootPackageText" width="100%" change="this._updateProject()"/>
 					</mx:FormItem>
 					<mx:FormItem label="Template">
-						<mx:ComboBox id="templateCombo" labelField="name" change="this._updateProject()" dataProvider="{ ExtensionController.getInstance().templates }"/>
+						<mx:ComboBox id="templateCombo" labelField="name" change="this._updateTemplate()" dataProvider="{ ExtensionController.getInstance().templates }"/>
+					</mx:FormItem>
+					<mx:FormItem label="Copy" enabled="false">
+						<mx:HBox width="100%" horizontalAlign="center">
+							<mx:RadioButton label="Source Code" selected="true"/>
+							<mx:RadioButton label="SWC"/>
+						</mx:HBox>
 					</mx:FormItem>
 				</mx:Form>
-			</mx:Panel>
-		
-			<mx:Panel title="4. Structure" width="100%" height="100%" id="structurePanel">
-				<mx:Form width="100%" height="100%">
-					<mx:FormItem label="Assets" width="100%" >
-						<mx:TextInput width="100%" text="assets" restrict="a-zA-Z0-9 " id="assetsFolderText" change="this._updateProject()"/>
-					</mx:FormItem>
-					<mx:FormItem label="Source" width="100%" >
-						<mx:TextInput width="100%" text="flash" restrict="a-zA-Z0-9 " id="sourceFolderText" change="this._updateProject()"/>
-					</mx:FormItem>
-					<mx:FormItem label="Deploy" width="100%" >
-						<mx:TextInput width="100%" text="wwwroot" restrict="a-zA-Z0-9 " id="deployFolderText" change="this._updateProject()"/>
-					</mx:FormItem>
-				</mx:Form>
-			</mx:Panel>
+			</mx:Panel>			
 		
 		</mx:VBox>
 		

@@ -9,6 +9,7 @@ package com.bedrock.extension.controller
 	import com.bedrock.framework.plugin.util.ArrayUtil;
 	import com.bedrock.framework.plugin.util.VariableUtil;
 	import com.bedrock.framework.plugin.util.XMLUtil2;
+	import com.greensock.TweenLite;
 	
 	import flash.system.ApplicationDomain;
 	
@@ -217,19 +218,16 @@ package com.bedrock.extension.controller
 				  <rootPackage/>
 				  <template>beginner</template>
 				  <frameworkVersion>{ this.versions[ 0 ] }</frameworkVersion>
-				  <width>900</width>
-				  <height>600</height>
 				  <fps>30</fps>
 				  <playerVersion>10</playerVersion>
 				  <autoDeclareStageInstances>false</autoDeclareStageInstances>
-				  <publishFiles>true</publishFiles>
+				  <publishProject>true</publishProject>
 				  <created>{ creationDate }</created>
 				  <stageColor>0x333333</stageColor>
-				  <assetsFolder>assets/</assetsFolder>
-				  <sourceFolder>source/</sourceFolder>
-				  <deployFolder>wwwroot/</deployFolder>
 				  <flas></flas>
 				</project> );
+			this.loadTemplates();
+			this.loadTemplate( this.projectXML.template.toString() );
 		}
 		public function loadTemplates():void
 		{
@@ -334,6 +332,11 @@ package com.bedrock.extension.controller
 			}
 			
 			this.delegate.updateProject( this.projectXML, $switchFrameworkVersion );
+			
+			if ( VariableUtil.sanitize( this.projectXML.publishProject ) ) {
+				ProjectController.getInstance().browser.publishProject();
+			}
+			
 			this.saveProject();
 		}
 		public function generateProject():Boolean
@@ -344,6 +347,11 @@ package com.bedrock.extension.controller
 				this.saveProject();
 				this.registerProject( this.projectXML );
 				this.loadProject( this.projectXML.path );
+				
+				if ( VariableUtil.sanitize( this.projectXML.publishProject ) ) {
+					TweenLite.delayedCall( 0.5, ProjectController.getInstance().browser.publishProject );
+				}
+				
 				Bedrock.dispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.PROJECT_GENERATED, this ) );
 				return true;
 			} else {
