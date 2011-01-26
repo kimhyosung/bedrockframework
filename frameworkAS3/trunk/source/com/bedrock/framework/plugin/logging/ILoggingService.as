@@ -9,16 +9,15 @@
  * By using the Bedrock Framework, you agree to keep the above contact information in the source code.
  *
 */
-package com.bedrock.framework.core.logging
+package com.bedrock.framework.plugin.logging
 {
-
-	public interface ILogable
+	import com.bedrock.framework.core.logging.LogData;
+	
+	public interface ILoggingService
 	{
-		function debug( $trace:*):void;
-		function error( $trace:*):void;
-		function fatal( $trace:*):void;
-		function status( $trace:*):void;
-		function warning( $trace:*):void;
+		function initialize( $logLevel:uint, $detailDepth:uint ):void;
+		function log( $trace:*, $data:LogData ):void;
+		function set level( $level:uint ):void;
+		function get level():uint;
 	}
-
 }

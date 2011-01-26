@@ -2,6 +2,7 @@
 {
 	import com.bedrock.framework.core.dispatcher.DispatcherBase;
 	import com.bedrock.framework.engine.*;
+	import com.bedrock.framework.engine.api.ITransitionController;
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.engine.data.BedrockModuleData;
@@ -17,7 +18,7 @@
 	/**
 	 * @private
 	 */
-	public class TransitionController extends DispatcherBase
+	public class TransitionController extends DispatcherBase implements ITransitionController
 	{
 		/*
 		Variable Declarations
@@ -206,7 +207,7 @@
 			var data:BedrockModuleData;
 			if ( $details.outgoing != null ) data = Bedrock.engine::moduleManager.getModule( $details.outgoing );
 			if ( data == null ) {
-				for each( var queue:Array in Bedrock.engine::history.current.incoming ) {
+				for each( var queue:Array in Bedrock.engine::historyModel.current.incoming ) {
 					this._appendIndexedModules( queue, "outgoing" );
 				}
 			} else {
@@ -234,7 +235,7 @@
 		
 		private function _isModuleInHistory( $id:String ):Boolean
 		{
-			for each ( var queue:Array in Bedrock.engine::history.current.incoming ) {
+			for each ( var queue:Array in Bedrock.engine::historyModel.current.incoming ) {
 				for each ( var data:BedrockModuleData in queue ) {
 					if ( data is BedrockModuleGroupData ) {
 						if ( data.id == $id ) return true;
@@ -275,7 +276,7 @@
 		}
 		public function runTransition():void
 		{
-			Bedrock.engine::history.appendItem( this._bedrockSequenceData );
+			Bedrock.engine::historyModel.appendItem( this._bedrockSequenceData );
 			
 			Bedrock.engine::deeplinkingManager.disableChangeHandler();
 			

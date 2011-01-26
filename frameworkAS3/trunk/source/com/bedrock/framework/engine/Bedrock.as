@@ -1,17 +1,14 @@
 ﻿package com.bedrock.framework.engine
 {
-	import com.bedrock.framework.core.controller.FrontController;
+	import com.bedrock.framework.core.controller.IFrontController;
 	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
 	import com.bedrock.framework.core.logging.BedrockLogger;
 	import com.bedrock.framework.engine.api.*;
-	import com.bedrock.framework.engine.controller.*;
 	import com.bedrock.framework.engine.data.BedrockAssetData;
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.engine.data.BedrockModuleData;
-	import com.bedrock.framework.engine.manager.*;
-	import com.bedrock.framework.engine.model.*;
-	import com.bedrock.framework.plugin.sound.GlobalSound;
+	import com.bedrock.framework.plugin.sound.IGlobalSound;
 	import com.bedrock.framework.plugin.tracking.ITrackingService;
 	
 	import flash.display.DisplayObjectContainer;
@@ -38,75 +35,75 @@
 		/**
 		 * @private
 		 */
-		engine static var globalSound:GlobalSound;
+		engine static var globalSound:IGlobalSound;
 		/**
 		 * @private
 		 */
-		engine static var transitionController:TransitionController;
+		engine static var transitionController:ITransitionController;
 		/**
 		 * @private
 		 */
-		engine static var specialAssetController:SpecialAssetController;
+		engine static var specialAssetController:ISpecialAssetController;
 		/**
 		 * @private
 		 */
-		engine static var frontController:FrontController;
+		engine static var frontController:IFrontController;
 		/**
 		 * @private
 		 */
-		engine static var loadController:LoadController;
+		engine static var loadController:ILoadController;
 		/**
 		 * @private
 		 */		
-		engine static var assetManager:AssetManager;
+		engine static var assetManager:IAssetManager;
 		/**
 		 * @private
 		 */
-		engine static var containerManager:ContainerManager;
+		engine static var containerManager:IContainerManager;
 		/**
 		 * @private
 		 */
-		engine static var moduleManager:ModuleManager;
+		engine static var moduleManager:IModuleManager;
 		/**
 		 * @private
 		 */
-		engine static var contextMenuManager:ContextMenuManager;
+		engine static var contextMenuManager:IContextMenuManager;
 		/**
 		 * @private
 		 */
-		engine static var resourceBundleManager:ResourceBundleManager;
+		engine static var resourceBundleManager:IResourceBundleManager;
 		/**
 		 * @private
 		 */
-		engine static var deeplinkingManager:DeeplinkingManager;
+		engine static var deeplinkingManager:IDeeplinkingManager;
 		/**
 		 * @private
 		 */
-		engine static var libraryManager:LibraryManager;
+		engine static var libraryManager:ILibraryManager;
 		/**
 		 * @private
 		 */
-		engine static var localeManager:LocaleManager;
+		engine static var localeManager:ILocaleManager;
 		/**
 		 * @private
 		 */
-		engine static var preloadManager:PreloadManager;
+		engine static var preloadManager:IPreloadManager;
 		/**
 		 * @private
 		 */		
-		engine static var stylesheetManager:StylesheetManager;
+		engine static var stylesheetManager:IStylesheetManager;
 		/**
 		 * @private
 		 */
-		engine static var trackingManager:TrackingManager;
+		engine static var trackingManager:ITrackingManager;
 		/**
 		 * @private
 		 */
-		engine static var config:Config;
+		engine static var configModel:IConfigModel;
 		/**
 		 * @private
 		 */
-		engine static var history:History;
+		engine static var historyModel:IHistoryModel;
 		
 		/*
 		Variable Declarations
@@ -123,30 +120,9 @@
 		{
 			Bedrock.__instance = new Bedrock( new SingletonEnforcer );
 			
-			Bedrock.engine::logger = BedrockLogger.instance;
 			Bedrock.engine::data = BedrockData.instance;
+			Bedrock.engine::logger = BedrockLogger.instance;
 			Bedrock.engine::dispatcher = BedrockDispatcher.instance;
-			Bedrock.engine::globalSound = new GlobalSound;
-			
-			Bedrock.engine::transitionController = new TransitionController;
-			Bedrock.engine::specialAssetController = new SpecialAssetController;
-			Bedrock.engine::frontController = new FrontController;
-			
-			Bedrock.engine::assetManager = new AssetManager;
-			Bedrock.engine::containerManager = new ContainerManager;
-			Bedrock.engine::moduleManager = new ModuleManager;
-			Bedrock.engine::contextMenuManager = new ContextMenuManager;
-			Bedrock.engine::resourceBundleManager = new ResourceBundleManager;
-			Bedrock.engine::deeplinkingManager = new DeeplinkingManager;
-			Bedrock.engine::libraryManager = new LibraryManager;
-			Bedrock.engine::loadController = new LoadController;
-			Bedrock.engine::localeManager = new LocaleManager;
-			Bedrock.engine::preloadManager = new PreloadManager;
-			Bedrock.engine::stylesheetManager = new StylesheetManager;
-			Bedrock.engine::trackingManager = new TrackingManager;
-			
-			Bedrock.engine::config = new Config;
-			Bedrock.engine::history = new History;
 		}
 	 	/*
 		Accessors
@@ -171,12 +147,12 @@
 			if ( !Bedrock.__instance ) Bedrock.__initialize();
 			return Bedrock.engine::dispatcher;
 		}
-		public static function get library():LibraryManager
+		public static function get library():ILibraryManager
 		{
 			if ( !Bedrock.__instance ) Bedrock.__initialize();
 			return Bedrock.engine::libraryManager;
 		}
-		public static function get deeplinking():DeeplinkingManager
+		public static function get deeplinking():IDeeplinkingManager
 		{
 			if ( !Bedrock.__instance ) Bedrock.__initialize();
 			return Bedrock.engine::deeplinkingManager;

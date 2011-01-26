@@ -3,13 +3,9 @@
 	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.engine.api.IBedrockBuilder;
 	import com.bedrock.framework.engine.builder.BedrockBuilder;
-	import com.bedrock.framework.engine.data.BedrockAssetData;
-	import com.bedrock.framework.engine.event.BedrockEvent;
 	import com.bedrock.framework.plugin.view.IView;
 	import com.greensock.TweenLite;
-	import com.greensock.events.LoaderEvent;
 	
-	import flash.events.Event;
 	import flash.text.TextField;
 	
 	public class ShellBuilder extends BedrockBuilder implements IView, IBedrockBuilder
@@ -29,6 +25,7 @@
 		
 		public function preinitialize():void
 		{
+			Bedrock
 		}
 		
 		public function initialize($data:Object=null):void

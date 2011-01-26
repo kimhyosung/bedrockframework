@@ -1,6 +1,7 @@
 ﻿package com.bedrock.framework.engine.manager
 {
 	import com.bedrock.framework.engine.*;
+	import com.bedrock.framework.engine.api.IContextMenuManager;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	
@@ -10,7 +11,7 @@
 	/**
 	 * @private
 	 */
-	public class ContextMenuManager
+	public class ContextMenuManager implements IContextMenuManager
 	{
 		private var _menu:ContextMenu;
 		private var _items:HashMap;
@@ -53,9 +54,7 @@
 		{
 			Bedrock.engine::transitionController.transition( this._items.getValue( $event.target.caption ) );
 		}
-		/*
-		Property Definitions
-		*/
+		
 		public function get menu():ContextMenu
 		{
 			return this._menu;

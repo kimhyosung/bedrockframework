@@ -3,18 +3,19 @@
 	/*
 	Imports
 	*/
+	import com.bedrock.framework.engine.api.ILibraryManager;
 	import com.bedrock.framework.engine.view.IPreloader;
 	import com.bedrock.framework.plugin.storage.HashMap;
+	import com.bedrock.framework.plugin.util.ArrayUtil;
 	
 	import flash.display.BitmapData;
 	import flash.media.Sound;
 	import flash.system.ApplicationDomain;
-	import com.bedrock.framework.plugin.util.ArrayUtil;
 
 	/*
 	Class Declaration
 	*/
-	public class LibraryManager
+	public class LibraryManager implements ILibraryManager
 	{
 		/*
 		* Variable Declarations

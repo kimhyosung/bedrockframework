@@ -2,6 +2,7 @@
 {
 	import com.bedrock.framework.core.dispatcher.DispatcherBase;
 	import com.bedrock.framework.engine.*;
+	import com.bedrock.framework.engine.api.ILoadController;
 	import com.bedrock.framework.engine.builder.BedrockBuilder;
 	import com.bedrock.framework.engine.data.BedrockAssetData;
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
@@ -20,7 +21,7 @@
 	/**
 	 * @private
 	 */
-	public class LoadController extends DispatcherBase
+	public class LoadController extends DispatcherBase implements ILoadController
 	{
 		/*
 		Variable Declarations

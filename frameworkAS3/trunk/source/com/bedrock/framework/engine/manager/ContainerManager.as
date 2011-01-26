@@ -1,15 +1,16 @@
 ﻿package com.bedrock.framework.engine.manager
 {
+	import com.bedrock.framework.engine.api.IContainerManager;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.plugin.storage.HashMap;
+	import com.bedrock.framework.plugin.util.XMLUtil2;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
-	import com.bedrock.framework.plugin.util.XMLUtil2;
 	/**
 	 * @private
 	 */
-	public class ContainerManager
+	public class ContainerManager implements IContainerManager
 	{
 		/*
 		Variable Declarations

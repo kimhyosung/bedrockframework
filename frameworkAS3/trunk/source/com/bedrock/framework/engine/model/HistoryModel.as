@@ -1,11 +1,12 @@
 ﻿package com.bedrock.framework.engine.model
 {
-	import com.bedrock.framework.plugin.storage.SuperArray;
+	import com.bedrock.framework.engine.api.IHistoryModel;
 	import com.bedrock.framework.engine.data.BedrockSequenceData;
+	import com.bedrock.framework.plugin.storage.SuperArray;
 	/**
 	 * @private
 	 */
-	public class History
+	public class HistoryModel implements IHistoryModel
 	{
 		/*
 		Variable Declarations
@@ -14,7 +15,7 @@
 		/*
 		Constructor
 		*/
-		public function History()
+		public function HistoryModel()
 		{
 			this._data = new SuperArray();
 			this._data.wrapIndex = false;

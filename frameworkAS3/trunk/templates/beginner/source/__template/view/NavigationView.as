@@ -1,6 +1,5 @@
 ﻿package __template.view
 {
-	import com.bedrock.extras.cloner.Cloner;
 	import com.bedrock.framework.engine.Bedrock;
 	import com.bedrock.framework.engine.data.BedrockModuleData;
 	import com.bedrock.framework.engine.view.BedrockModuleView;
@@ -15,7 +14,6 @@
 		/*
 		Variable Declarations
 		*/
-		private var _cloner:Cloner;
 		private var _itemCount:uint;
 		private var _itemSpacing:uint;
 		/*

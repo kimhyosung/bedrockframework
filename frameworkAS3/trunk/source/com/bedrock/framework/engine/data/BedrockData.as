@@ -94,9 +94,11 @@
 		flash_proxy override function getProperty( $name:* ):*
 		{
 			var name:String = $name.toString();
-			if ( Bedrock.engine::config.hasSettingValue( name ) ) return Bedrock.engine::config.getSettingValue( name );
-			if ( Bedrock.engine::config.hasPathValue( name ) ) return Bedrock.engine::config.getPathValue( name );
-			if ( Bedrock.engine::config.hasVariableValue( name ) ) return Bedrock.engine::config.getVariableValue( name );
+			if ( Bedrock.engine::configModel.available ) {
+				if ( Bedrock.engine::configModel.hasSettingValue( name ) ) return Bedrock.engine::configModel.getSettingValue( name );
+				if ( Bedrock.engine::configModel.hasPathValue( name ) ) return Bedrock.engine::configModel.getPathValue( name );
+				if ( Bedrock.engine::configModel.hasVariableValue( name ) ) return Bedrock.engine::configModel.getVariableValue( name );
+			}
 			return null;
 		}
 
@@ -104,10 +106,14 @@
 		flash_proxy override function setProperty( $name:*, $value:* ):void
 		{
 			var name:String = $name.toString();
-			if ( Bedrock.engine::config.hasSettingValue( name ) ) Bedrock.engine::config.saveSettingValue( name, $value );
-			if ( Bedrock.engine::config.hasPathValue( name ) ) Bedrock.engine::config.savePathValue( name, $value );
-			if ( Bedrock.engine::config.hasVariableValue( name ) || ( !Bedrock.engine::config.hasSettingValue( name ) && !Bedrock.engine::config.hasPathValue( name ) ) ) {
-				Bedrock.engine::config.saveVariableValue( name, $value );
+			if ( Bedrock.engine::configModel.available ) {
+				if ( Bedrock.engine::configModel.hasSettingValue( name ) ) Bedrock.engine::configModel.saveSettingValue( name, $value );
+				if ( Bedrock.engine::configModel.hasPathValue( name ) ) Bedrock.engine::configModel.savePathValue( name, $value );
+				if ( Bedrock.engine::configModel.hasVariableValue( name ) || ( !Bedrock.engine::configModel.hasSettingValue( name ) && !Bedrock.engine::configModel.hasPathValue( name ) ) ) {
+					Bedrock.engine::configModel.saveVariableValue( name, $value );
+				}
+			} else {
+				Bedrock.logger.warning( "Config is not available!" );
 			}
 		}
 

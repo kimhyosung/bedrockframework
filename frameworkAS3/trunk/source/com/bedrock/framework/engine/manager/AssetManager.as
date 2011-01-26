@@ -1,5 +1,6 @@
 ﻿package com.bedrock.framework.engine.manager
 {
+	import com.bedrock.framework.engine.api.IAssetManager;
 	import com.bedrock.framework.engine.data.BedrockAssetData;
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
 	import com.bedrock.framework.engine.data.BedrockData;
@@ -9,7 +10,7 @@
 	/**
 	 * @private
 	 */
-	public class AssetManager
+	public class AssetManager implements IAssetManager
 	{
 		/*
 		Variable Declarations

@@ -1,12 +1,13 @@
 ﻿package com.bedrock.framework.engine.manager
 {
+	import com.bedrock.framework.engine.api.IResourceBundleManager;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	import com.bedrock.framework.plugin.util.VariableUtil;
 	import com.bedrock.framework.plugin.util.XMLUtil2;
 	/**
 	 * @private
 	 */
-	public class ResourceBundleManager
+	public class ResourceBundleManager implements IResourceBundleManager
 	{
 		/*
 		Variable Declarations

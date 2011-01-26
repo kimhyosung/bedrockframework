@@ -1,6 +1,7 @@
 ﻿package com.bedrock.framework.engine.manager
 {
 	import com.bedrock.framework.engine.Bedrock;
+	import com.bedrock.framework.engine.api.ITrackingManager;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	import com.bedrock.framework.plugin.tracking.ITrackingService;
 	import com.bedrock.framework.plugin.trigger.Trigger;
@@ -8,7 +9,7 @@
 	/**
 	 * @private
 	 */
-	public class TrackingManager
+	public class TrackingManager implements ITrackingManager
 	{
 		/*
 		Variable Declarations

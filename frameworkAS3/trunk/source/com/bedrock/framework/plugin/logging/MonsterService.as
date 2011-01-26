@@ -1,17 +1,16 @@
 ﻿package com.bedrock.framework.plugin.logging
 {
-	import com.bedrock.framework.core.logging.ILogger;
 	import com.bedrock.framework.core.logging.LogData;
 	/**
 	 * @private
 	 */
 	import nl.demonsters.debugger.MonsterDebugger;
 
-	public class MonsterLogger implements ILogger
+	public class MonsterService implements ILoggingService
 	{
 		private var _level:uint;
 		
-		public function MonsterLogger()
+		public function MonsterService()
 		{
 		}
 		
