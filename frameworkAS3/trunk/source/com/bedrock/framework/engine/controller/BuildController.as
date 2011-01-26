@@ -1,7 +1,7 @@
 ﻿package com.bedrock.framework.engine.controller
 {
-	import com.bedrock.framework.core.dispatcher.DispatcherBase;
 	import com.bedrock.framework.core.controller.*;
+	import com.bedrock.framework.core.dispatcher.DispatcherBase;
 	import com.bedrock.framework.core.logging.*;
 	import com.bedrock.framework.engine.*;
 	import com.bedrock.framework.engine.api.IBedrockBuilder;
@@ -11,9 +11,8 @@
 	import com.bedrock.framework.engine.event.BedrockEvent;
 	import com.bedrock.framework.engine.manager.*;
 	import com.bedrock.framework.engine.model.*;
-	import com.bedrock.framework.plugin.logging.EventLogger;
-	import com.bedrock.framework.plugin.logging.MonsterLogger;
-	import com.bedrock.framework.plugin.logging.TraceLogger;
+	import com.bedrock.framework.plugin.logging.*;
+	import com.bedrock.framework.plugin.sound.GlobalSound;
 	import com.bedrock.framework.plugin.storage.SuperArray;
 	import com.bedrock.framework.plugin.view.Blocker;
 	
@@ -32,8 +31,8 @@
 		*/
 		public var builder:BedrockBuilder;
 		
-		public var _configURLIndex:uint;
-		public var _configURLs:SuperArray;
+		private var _configURLIndex:uint;
+		private var _configURLs:SuperArray;
 		private var _configLoader:URLLoader;
 		/*
 		Constructor
@@ -54,12 +53,38 @@
 			if ( $configURL != null ) this._configURLs.push( $configURL );
 			this._determineConfigURLs();
 			
+			this._createEngineClasses();
 			this._createConfigLoader();
 			
 			XML.ignoreComments = true;
 			XML.ignoreWhitespace = true;
 			
 			this._loadConfig( this._configURLs.getSelected() );
+		}
+		
+		private function _createEngineClasses():void
+		{
+			Bedrock.engine::globalSound = new GlobalSound;
+			
+			Bedrock.engine::transitionController = new TransitionController;
+			Bedrock.engine::specialAssetController = new SpecialAssetController;
+			Bedrock.engine::frontController = new FrontController;
+			
+			Bedrock.engine::assetManager = new AssetManager;
+			Bedrock.engine::containerManager = new ContainerManager;
+			Bedrock.engine::moduleManager = new ModuleManager;
+			Bedrock.engine::contextMenuManager = new ContextMenuManager;
+			Bedrock.engine::resourceBundleManager = new ResourceBundleManager;
+			Bedrock.engine::deeplinkingManager = new DeeplinkingManager;
+			Bedrock.engine::libraryManager = new LibraryManager;
+			Bedrock.engine::loadController = new LoadController;
+			Bedrock.engine::localeManager = new LocaleManager;
+			Bedrock.engine::preloadManager = new PreloadManager;
+			Bedrock.engine::stylesheetManager = new StylesheetManager;
+			Bedrock.engine::trackingManager = new TrackingManager;
+			
+			Bedrock.engine::configModel = new ConfigModel;
+			Bedrock.engine::historyModel = new HistoryModel;
 		}
 		/*
 		Config Functions
@@ -174,31 +199,30 @@
 		}
 		private function _parseParams():void
 		{
-			Bedrock.engine::config.parseParams( this.builder.loaderInfo.parameters );
+			Bedrock.engine::configModel.parseParams( this.builder.loaderInfo.parameters );
 		}
 		private function _setupLogger():void
 		{
 			Bedrock.logger.errorsEnabled = Bedrock.data.errorsEnabled;
 			
-			var logger:ILogger = new TraceLogger;
+			var logger:ILoggingService = Bedrock.logger.getService( "trace" );
 			logger.initialize( LogLevel[ Bedrock.data.traceLogLevel ], Bedrock.data.logDetailDepth );
-			Bedrock.logger.addTarget( logger );
 			
-			logger = new EventLogger;
+			logger = new EventService;
 			logger.initialize( LogLevel[ Bedrock.data.eventLogLevel ], Bedrock.data.logDetailDepth );
-			Bedrock.logger.addTarget( logger );
+			Bedrock.logger.addService( "event", logger );
 			
-			logger = new MonsterLogger;
+			logger = new MonsterService;
 			logger.initialize( LogLevel[ Bedrock.data.monsterLogLevel ], Bedrock.data.logDetailDepth );
-			Bedrock.logger.addTarget( logger );
+			Bedrock.logger.addService( "monster", logger );
 			
 		}
 		private function _initializeVitals():void
 		{
 			Bedrock.engine::transitionController.initialize( this.builder );
-			Bedrock.engine::containerManager.initialize( Bedrock.engine::config.containers, this.builder );
-			Bedrock.engine::moduleManager.initialize( Bedrock.engine::config.modules );
-			Bedrock.engine::assetManager.initialize( Bedrock.engine::config.assets );
+			Bedrock.engine::containerManager.initialize( Bedrock.engine::configModel.containers, this.builder );
+			Bedrock.engine::moduleManager.initialize( Bedrock.engine::configModel.modules );
+			Bedrock.engine::assetManager.initialize( Bedrock.engine::configModel.assets );
 			
 			Bedrock.engine::loadController.initialize( this.builder, this.builder.loaderInfo.applicationDomain );
 			
@@ -231,7 +255,7 @@
 		private function _setupLocales():void
 		{
 			if ( Bedrock.data.currentLocale == null ) Bedrock.data.defaultLocale;
-			Bedrock.engine::localeManager.initialize( Bedrock.engine::config.locales, Bedrock.data.defaultLocale, Bedrock.data.currentLocale );
+			Bedrock.engine::localeManager.initialize( Bedrock.engine::configModel.locales, Bedrock.data.defaultLocale, Bedrock.data.currentLocale );
 		}
 		/*
 		Load Completion Notice
@@ -255,12 +279,12 @@
 		*/
 		private function _onDeeplinkingInitialized( $event:Event ):void
 		{
-			Bedrock.engine::config.parseParams( Bedrock.engine::deeplinkingManager.getParametersAsObject() );
+			Bedrock.engine::configModel.parseParams( Bedrock.engine::deeplinkingManager.getParametersAsObject() );
 			this._initializeFeatureGroupB();
 		}
 		private function _onConfigLoaded( $event:Event ):void
 		{
-			Bedrock.engine::config.initialize( this._configLoader.data, ( this.builder.loaderInfo.parameters.environmentURL ||  this.builder.loaderInfo.url ) );
+			Bedrock.engine::configModel.initialize( this._configLoader.data, ( this.builder.loaderInfo.parameters.environmentURL ||  this.builder.loaderInfo.url ) );
 			
 			Bedrock.logger.status( this.builder.loaderInfo.url );
 			Bedrock.logger.status( Bedrock.data.environment );
@@ -275,7 +299,7 @@
 			if ( this._configURLs.hasNext() ) {
 				this._loadConfig( this._configURLs.selectNext() );
 			} else {
-				trace( "[Bedrock] [Fatal] : Could not load config!" );
+				Bedrock.logger.fatal( "Could not load config!" );
 			}
 		}
 	}

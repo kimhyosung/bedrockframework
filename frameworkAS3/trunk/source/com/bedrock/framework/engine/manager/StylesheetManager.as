@@ -1,11 +1,13 @@
 ﻿package com.bedrock.framework.engine.manager
 {
+	import com.bedrock.framework.engine.api.IStylesheetManager;
+	
 	import flash.text.StyleSheet;
 	import flash.text.TextFormat;
 	/**
 	 * @private
 	 */
-	public class StylesheetManager
+	public class StylesheetManager implements IStylesheetManager
 	{
 		/*
 		Variable Declarations

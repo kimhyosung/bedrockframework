@@ -45,8 +45,8 @@
   <containers>
     <container id="container1" x="0" y="0"/>
     <container id="preloader" x="0" y="0"/>
-    <container id="overlay" x="0" y="0"/>
     <container id="navigation" x="0" y="0"/>
+    <container id="overlay" x="0" y="0"/>
   </containers>
   <locales>
     <locale id="en_GB" label="English"/>

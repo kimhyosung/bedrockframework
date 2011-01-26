@@ -11,10 +11,9 @@
 */
 package com.bedrock.framework.plugin.logging
 {
-	import com.bedrock.framework.core.logging.ILogger;
 	import com.bedrock.framework.core.logging.LogData;
 	
-	public class TraceLogger implements ILogger
+	public class TraceService implements ILoggingService
 	{
 		/*
 		Variable Delcarations
@@ -24,7 +23,7 @@ package com.bedrock.framework.plugin.logging
 		/*
 		Constructor
 		*/
-		public function TraceLogger()
+		public function TraceService()
 		{
 			
 		}

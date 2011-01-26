@@ -11,6 +11,10 @@
 */
 package com.bedrock.framework.core.logging
 {
+	import com.bedrock.framework.plugin.logging.ILoggingService;
+	import com.bedrock.framework.plugin.logging.TraceService;
+	import com.bedrock.framework.plugin.storage.HashMap;
+	
 	public class BedrockLogger
 	{
 		/*
@@ -21,7 +25,8 @@ package com.bedrock.framework.core.logging
 		
 		private var _initialized:Boolean = false;
 		private var _available:Boolean;
-		private var _targets:Array;
+		private var _servicesHash:HashMap;
+		private var _servicesArray:Array;
 		/*
 		Constructor
 	 	*/
@@ -38,7 +43,12 @@ package com.bedrock.framework.core.logging
 		public function initialize():void
 		{
 			this._initialized = true;
-			this._targets = new Array;
+			this._servicesHash = new HashMap;
+			
+			var logger:ILoggingService = new TraceService;
+			logger.initialize( LogLevel.ALL, 5 );
+			this.addService( "trace", logger );
+			
 			this._available = this._getAvailability();
 		}
 		private function _getAvailability():Boolean
@@ -57,19 +67,30 @@ package com.bedrock.framework.core.logging
 			
 			if ( this.available ) {
 				var data:LogData = new LogData( new Error, $level );
+				var loggerService:ILoggingService;
 				
-				for each( var logger:ILogger in this._targets ) {
-					if ( $level >= logger.level ) {
-						logger.log( $trace, data );
+				for each( var item:Object in this._servicesHash ) {
+					loggerService = item.service;
+					if ( $level >= loggerService.level ) {
+						loggerService.log( $trace, data );
 					}
 				}
 			}
 		}
 		
-		public function addTarget( $target:ILogger ):void
+		public function addService( $id:String, $service:ILoggingService ):void
 		{
 			if ( !this._initialized ) this.initialize();
-			this._targets.push( $target );
+			this._servicesHash.saveValue( $id, $service );
+			this._servicesArray = this._servicesHash.getValues();
+		}
+		public function getService( $id:String ):ILoggingService
+		{
+			return this._servicesHash.getValue( $id );
+		}
+		public function hasService( $id:String ):Boolean
+		{
+			return this._servicesHash.containsKey( $id );
 		}
 		
 		public function status( $trace:*=null ):void

@@ -1,6 +1,7 @@
 ﻿package com.bedrock.framework.engine.manager
 {
 	import com.bedrock.framework.engine.*;
+	import com.bedrock.framework.engine.api.IModuleManager;
 	import com.bedrock.framework.engine.data.BedrockAssetData;
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
 	import com.bedrock.framework.engine.data.BedrockData;
@@ -11,7 +12,7 @@
 	/**
 	 * @private
 	 */
-	public class ModuleManager
+	public class ModuleManager implements IModuleManager
 	{
 		/*
 		Variable Declarations

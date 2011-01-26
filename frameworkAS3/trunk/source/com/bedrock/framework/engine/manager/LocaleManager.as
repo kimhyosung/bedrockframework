@@ -1,12 +1,12 @@
 ﻿package com.bedrock.framework.engine.manager
 {
-	import com.bedrock.framework.engine.Bedrock;
+	import com.bedrock.framework.engine.api.ILocaleManager;
 	import com.bedrock.framework.plugin.util.ArrayUtil;
 	import com.bedrock.framework.plugin.util.XMLUtil2;
 	/**
 	 * @private
 	 */
-	public class LocaleManager
+	public class LocaleManager implements ILocaleManager
 	{
 		/*
 		Variable Declarations

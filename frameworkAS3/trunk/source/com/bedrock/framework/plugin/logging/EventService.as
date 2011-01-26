@@ -12,19 +12,18 @@
 package com.bedrock.framework.plugin.logging
 {
 	import com.bedrock.framework.core.event.LogEvent;
-	import com.bedrock.framework.core.logging.ILogger;
 	import com.bedrock.framework.core.logging.LogData;
 	import com.bedrock.framework.core.logging.LogLevel;
 	import com.bedrock.framework.engine.Bedrock;
 	
 	import flash.utils.Dictionary;
 
-	public class EventLogger implements ILogger
+	public class EventService implements ILoggingService
 	{
 		private var _categoryDictionary:Dictionary;
 		private var _level:uint;
 		
-		public function EventLogger()
+		public function EventService()
 		{
 			this._createCategoryLabels();
 			

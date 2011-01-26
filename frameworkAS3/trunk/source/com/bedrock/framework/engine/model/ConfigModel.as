@@ -12,6 +12,7 @@
 package com.bedrock.framework.engine.model
 {
 	import com.bedrock.framework.engine.Bedrock;
+	import com.bedrock.framework.engine.api.IConfigModel;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.plugin.util.VariableUtil;
 	
@@ -19,7 +20,7 @@ package com.bedrock.framework.engine.model
 	/**
 	 * @private
 	 */
-	public class Config
+	public class ConfigModel implements IConfigModel
 	{
 		/*
 		Variable Declarations
@@ -38,7 +39,7 @@ package com.bedrock.framework.engine.model
 		/*
 		Constructor
 		*/
-		public function Config()
+		public function ConfigModel()
 		{
 			this._xmlParamValues = new XML( <data/> );
 		}
@@ -263,6 +264,11 @@ package com.bedrock.framework.engine.model
 		public function get assets():XML
 		{
 			return this._assetValues;
+		}
+		
+		public function get available():Boolean
+		{
+			return ( this._xmlConfig != null );
 		}
 	}
 }

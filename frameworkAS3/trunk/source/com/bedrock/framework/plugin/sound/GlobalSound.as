@@ -10,7 +10,7 @@
 	import flash.media.SoundMixer;
 	import flash.media.SoundTransform;
 
-	public class GlobalSound
+	public class GlobalSound implements IGlobalSound
 	{
 		/*
 		Variable Declarations
