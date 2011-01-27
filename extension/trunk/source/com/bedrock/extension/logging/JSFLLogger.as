@@ -1,11 +1,11 @@
 package com.bedrock.extension.logging
 {
 	import com.bedrock.extension.delegate.JSFLDelegate;
-	import com.bedrock.framework.core.logging.ILogger;
 	import com.bedrock.framework.core.logging.LogData;
+	import com.bedrock.framework.plugin.logging.ILoggingService;
 	import com.bedrock.framework.plugin.logging.LogFormatter;
 
-	public class JSFLLogger implements ILogger
+	public class JSFLLogger implements ILoggingService
 	{
 		private var _level:uint;
 		

@@ -2,6 +2,7 @@
 <GenericExtensionPopupView xmlns="com.bedrock.extension.view.popups.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:misc="com.bedrock.extension.view.misc.*">
 	<mx:Script>
 		<![CDATA[
+			import com.bedrock.extension.controller.ProjectController;
 			import com.bedrock.framework.plugin.util.VariableUtil;
 			import com.bedrock.extension.controller.ExtensionController;
 			import mx.managers.PopUpManager;
@@ -24,6 +25,8 @@
 				this.frameworkVersionCombo.dataProvider = ExtensionController.getInstance().versions;
 				var numIndex:int = ArrayUtil.findIndex( ExtensionController.getInstance().versions, ExtensionController.getInstance().projectXML.frameworkVersion );
 				this.frameworkVersionCombo.selectedIndex = ( numIndex > -1 ) ? numIndex : 0;
+				
+				this.frameworkVersionCombo.enabled = false;//( ExtensionController.getInstance().projectXML.frameworkCopy.toString() == "swc" );
 				
 				this.projectNameText.text = ExtensionController.getInstance().projectXML.@name;
 				this.widthText.text = ExtensionController.getInstance().projectXML.width;

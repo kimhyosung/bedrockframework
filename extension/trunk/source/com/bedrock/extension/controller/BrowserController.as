@@ -2,7 +2,7 @@ package com.bedrock.extension.controller
 {
 	import com.bedrock.extension.delegate.JSFLDelegate;
 	import com.bedrock.extension.event.ExtensionEvent;
-	import com.bedrock.framework.engine.Bedrock;
+	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.plugin.util.VariableUtil;
 	
 	import mx.collections.HierarchicalData;

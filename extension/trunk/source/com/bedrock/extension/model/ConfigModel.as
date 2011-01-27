@@ -3,13 +3,12 @@ package com.bedrock.extension.model
 	import com.bedrock.extension.data.OptionData;
 	import com.bedrock.extension.delegate.JSFLDelegate;
 	import com.bedrock.extension.event.ExtensionEvent;
-	import com.bedrock.framework.engine.Bedrock;
+	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.plugin.util.VariableUtil;
 	
 	import mx.collections.ArrayCollection;
 	import mx.collections.HierarchicalData;
-	import mx.controls.Alert;
 
 	public class ConfigModel
 	{

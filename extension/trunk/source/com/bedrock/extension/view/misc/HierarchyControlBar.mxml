@@ -2,7 +2,7 @@
 <mx:ControlBar xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="35" verticalAlign="middle">
 	<mx:Script>
 		<![CDATA[
-			import com.bedrock.framework.engine.Bedrock;
+			import com.bedrock.framework.Bedrock;
 			import com.bedrock.extension.controller.ProjectController;
 			import com.bedrock.extension.event.ExtensionEvent;
 			

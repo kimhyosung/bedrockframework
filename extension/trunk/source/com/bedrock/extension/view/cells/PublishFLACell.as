@@ -3,7 +3,7 @@ package com.bedrock.extension.view.cells
 	
 	import com.bedrock.extension.controller.ProjectController;
 	import com.bedrock.extension.event.ExtensionEvent;
-	import com.bedrock.framework.engine.Bedrock;
+	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.plugin.util.VariableUtil;
 	
 	import mx.controls.listClasses.IListItemRenderer;
