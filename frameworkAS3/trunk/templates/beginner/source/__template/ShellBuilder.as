@@ -1,6 +1,6 @@
 ﻿package __template
 {
-	import com.bedrock.framework.engine.Bedrock;
+	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.engine.api.IBedrockBuilder;
 	import com.bedrock.framework.engine.builder.BedrockBuilder;
 	import com.bedrock.framework.plugin.view.IView;
@@ -25,7 +25,6 @@
 		
 		public function preinitialize():void
 		{
-			Bedrock
 		}
 		
 		public function initialize($data:Object=null):void

@@ -1,6 +1,6 @@
 ﻿package __template
 {
-	import com.bedrock.framework.engine.Bedrock;
+	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.engine.api.ISharedLibraryBuilder;
 	import com.bedrock.framework.engine.builder.SharedLibraryBuilder;
 	import com.bedrock.framework.engine.data.BedrockData;

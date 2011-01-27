@@ -1,6 +1,7 @@
 ﻿package com.bedrock.framework.engine.manager
 {
 	import com.bedrock.framework.engine.*;
+	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.engine.api.IModuleManager;
 	import com.bedrock.framework.engine.data.BedrockAssetData;
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;

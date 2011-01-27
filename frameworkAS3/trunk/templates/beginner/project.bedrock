@@ -9,6 +9,7 @@
   <playerVersion>10</playerVersion>
   <autoDeclareStageInstances>false</autoDeclareStageInstances>
   <publishFiles>false</publishFiles>
+  <frameworkCopy>swc</frameworkCopy>
   <created>30.10.2010</created>
   <stageColor>3355443</stageColor>
   <assetsFolder>assets/</assetsFolder>

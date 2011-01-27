@@ -1,6 +1,6 @@
 ﻿package com.bedrock.framework.plugin.view
 {
-	import com.bedrock.framework.engine.Bedrock;
+	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	import com.bedrock.framework.plugin.util.ButtonUtil;
 	

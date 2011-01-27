@@ -2,6 +2,7 @@
 {
 	import com.bedrock.framework.core.dispatcher.DispatcherBase;
 	import com.bedrock.framework.engine.*;
+	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.engine.api.ITransitionController;
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
 	import com.bedrock.framework.engine.data.BedrockData;

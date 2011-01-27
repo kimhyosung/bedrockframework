@@ -1,6 +1,7 @@
 ﻿package com.bedrock.framework.engine.controller
 {
 	import com.bedrock.framework.engine.*;
+	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.engine.api.ISpecialAssetController;
 	import com.bedrock.framework.engine.data.BedrockAssetData;
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;

@@ -4,7 +4,7 @@
   <versions>*</versions>
   <width>900</width>
   <height>600</height>
-  <sourceFolder>source</sourceFolder>
-  <deployFolder>wwwroot</deployFolder>
-  <assetsFolder>assets</assetsFolder>
+  <sourceFolder>source/</sourceFolder>
+  <deployFolder>wwwroot/</deployFolder>
+  <assetsFolder>assets/</assetsFolder>
 </template>

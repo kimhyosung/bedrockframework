@@ -1,5 +1,6 @@
 ﻿package com.bedrock.framework.engine.data
 {
+	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.engine.*;
 	
 	import flash.utils.*;
