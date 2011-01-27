@@ -12,6 +12,7 @@
 package com.bedrock.framework.engine.builder
 {
 	import com.bedrock.framework.engine.*;
+	import com.bedrock.framework.*;
 	
 	import flash.display.MovieClip;
 

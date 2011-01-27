@@ -14,7 +14,7 @@ package com.bedrock.framework.plugin.logging
 	import com.bedrock.framework.core.event.LogEvent;
 	import com.bedrock.framework.core.logging.LogData;
 	import com.bedrock.framework.core.logging.LogLevel;
-	import com.bedrock.framework.engine.Bedrock;
+	import com.bedrock.framework.Bedrock;
 	
 	import flash.utils.Dictionary;
 

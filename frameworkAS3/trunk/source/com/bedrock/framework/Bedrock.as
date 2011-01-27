@@ -1,5 +1,6 @@
-﻿package com.bedrock.framework.engine
+﻿package com.bedrock.framework
 {
+	import com.bedrock.framework.engine.*;
 	import com.bedrock.framework.core.controller.IFrontController;
 	import com.bedrock.framework.core.dispatcher.BedrockDispatcher;
 	import com.bedrock.framework.core.logging.BedrockLogger;
@@ -20,18 +21,6 @@
 		/*
 		Variable Definitions
 	 	*/
-	 	/**
-		 * @private
-		 */
-		engine static var data:BedrockData;
-		/**
-		 * @private
-		 */
-		engine static var logger:BedrockLogger;
-		/**
-		 * @private
-		 */
-		engine static var dispatcher:BedrockDispatcher;
 		/**
 		 * @private
 		 */
@@ -119,10 +108,6 @@
 		private static function __initialize():void
 		{
 			Bedrock.__instance = new Bedrock( new SingletonEnforcer );
-			
-			Bedrock.engine::data = BedrockData.instance;
-			Bedrock.engine::logger = BedrockLogger.instance;
-			Bedrock.engine::dispatcher = BedrockDispatcher.instance;
 		}
 	 	/*
 		Accessors
@@ -135,17 +120,17 @@
 		public static function get data():BedrockData
 		{
 			if ( !Bedrock.__instance ) Bedrock.__initialize();
-			return Bedrock.engine::data;
+			return BedrockData.instance;
 		}
 		public static function get logger():BedrockLogger
 		{
 			if ( !Bedrock.__instance ) Bedrock.__initialize();
-			return Bedrock.engine::logger;
+			return BedrockLogger.instance;
 		}
 		public static function get dispatcher():BedrockDispatcher
 		{
 			if ( !Bedrock.__instance ) Bedrock.__initialize();
-			return Bedrock.engine::dispatcher;
+			return BedrockDispatcher.instance;
 		}
 		public static function get library():ILibraryManager
 		{

@@ -11,7 +11,7 @@
 */
 package com.bedrock.framework.engine.model
 {
-	import com.bedrock.framework.engine.Bedrock;
+	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.engine.api.IConfigModel;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.plugin.util.VariableUtil;

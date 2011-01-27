@@ -1,6 +1,6 @@
 ﻿package com.bedrock.framework.engine.data
 {
-	import com.bedrock.framework.engine.Bedrock;
+	import com.bedrock.framework.Bedrock;
 	
 	
 	public class BedrockSequenceData

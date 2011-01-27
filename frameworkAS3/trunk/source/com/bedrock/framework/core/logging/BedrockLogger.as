@@ -45,11 +45,15 @@ package com.bedrock.framework.core.logging
 			this._initialized = true;
 			this._servicesHash = new HashMap;
 			
+			this._createTraceLogger();
+			
+			this._available = this._getAvailability();
+		}
+		private function _createTraceLogger():void
+		{
 			var logger:ILoggingService = new TraceService;
 			logger.initialize( LogLevel.ALL, 5 );
 			this.addService( "trace", logger );
-			
-			this._available = this._getAvailability();
 		}
 		private function _getAvailability():Boolean
 		{
@@ -57,10 +61,6 @@ package com.bedrock.framework.core.logging
 			return ( error.getStackTrace() != null );
 		}
 		
-		public function log( $trace:*=null, $level:int = 0 ):void
-		{
-			this._internalLog( $trace, $level );
-		}
 		private function _internalLog( $trace:*=null, $level:int = 0 ):void
 		{
 			if ( !this._initialized ) this.initialize();
@@ -69,10 +69,9 @@ package com.bedrock.framework.core.logging
 				var data:LogData = new LogData( new Error, $level );
 				var loggerService:ILoggingService;
 				
-				for each( var item:Object in this._servicesHash ) {
-					loggerService = item.service;
-					if ( $level >= loggerService.level ) {
-						loggerService.log( $trace, data );
+				for each( var logger:ILoggingService in this._servicesArray ) {
+					if ( $level >= logger.level ) {
+						logger.log( $trace, data );
 					}
 				}
 			}
@@ -93,6 +92,10 @@ package com.bedrock.framework.core.logging
 			return this._servicesHash.containsKey( $id );
 		}
 		
+		public function log( $trace:*=null, $level:int = 0 ):void
+		{
+			this._internalLog( $trace, $level );
+		}
 		public function status( $trace:*=null ):void
 		{
 			this._internalLog( $trace, LogLevel.STATUS );

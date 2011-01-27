@@ -1,6 +1,7 @@
 ﻿package com.bedrock.framework.engine.manager
 {
 	import com.bedrock.framework.engine.*;
+	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.engine.api.IContextMenuManager;
 	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.plugin.storage.HashMap;

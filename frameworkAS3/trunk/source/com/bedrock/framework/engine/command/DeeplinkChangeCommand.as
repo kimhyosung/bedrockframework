@@ -1,8 +1,9 @@
-package com.bedrock.framework.engine.command
+﻿package com.bedrock.framework.engine.command
 {
 	import com.bedrock.framework.core.command.ICommand;
 	import com.bedrock.framework.core.event.GenericEvent;
 	import com.bedrock.framework.engine.*;
+	import com.bedrock.framework.Bedrock;
 
 	public class DeeplinkChangeCommand implements ICommand
 	{

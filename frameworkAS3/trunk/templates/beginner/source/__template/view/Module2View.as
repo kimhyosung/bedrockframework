@@ -1,6 +1,6 @@
 ﻿package __template.view
 {
-	import com.bedrock.framework.engine.Bedrock;
+	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.engine.view.BedrockModuleView;
 	import com.bedrock.framework.plugin.view.IView;
 	import com.greensock.TweenLite;

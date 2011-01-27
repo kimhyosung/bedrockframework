@@ -4,6 +4,7 @@
 	import com.bedrock.framework.core.dispatcher.DispatcherBase;
 	import com.bedrock.framework.core.logging.*;
 	import com.bedrock.framework.engine.*;
+	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.engine.api.IBedrockBuilder;
 	import com.bedrock.framework.engine.builder.BedrockBuilder;
 	import com.bedrock.framework.engine.command.*;
@@ -270,9 +271,13 @@
 		*/
 		private function _determineConfigURLs():void
 		{
-			this._configURLs.push( "../../" + BedrockData.CONFIG_FILENAME + ".xml" );
-			this._configURLs.push( "../" + BedrockData.CONFIG_FILENAME + ".xml" );
-			this._configURLs.push( BedrockData.CONFIG_FILENAME + ".xml" );
+			var length:int = 5;
+			var configURL:String = BedrockData.CONFIG_FILENAME + ".xml";
+			
+			for ( var i:int = 0; i < length; i++ ) {
+				this._configURLs.push( configURL );
+				configURL = "../" + configURL;
+			}
 		}
 		/*
 		Config Handlers
@@ -287,7 +292,7 @@
 			Bedrock.engine::configModel.initialize( this._configLoader.data, ( this.builder.loaderInfo.parameters.environmentURL ||  this.builder.loaderInfo.url ) );
 			
 			Bedrock.logger.status( this.builder.loaderInfo.url );
-			Bedrock.logger.status( Bedrock.data.environment );
+			Bedrock.logger.status( "Environment - " + Bedrock.data.environment );
 			
 			this.dispatchEvent( new BedrockEvent( BedrockEvent.CONFIG_LOADED, this ) );
 			this._clearConfigLoader();
