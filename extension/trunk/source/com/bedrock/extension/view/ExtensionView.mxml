@@ -2,7 +2,7 @@
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" creationComplete="this._initialize()" xmlns:view="com.bedrock.extension.view.*" xmlns:temp="com.bedrock.extension.project.view.temp.*" xmlns:extras="com.bedrock.extension.view.extras.*" xmlns:project="com.bedrock.extension.view.project.*" xmlns:misc="com.bedrock.extension.view.misc.*">
 	<mx:Script>
 		<![CDATA[
-			import com.bedrock.framework.engine.Bedrock;
+			import com.bedrock.framework.Bedrock;
 			import com.bedrock.framework.core.logging.LogLevel;
 			import com.greensock.easing.Circ;
 			import com.greensock.TweenLite;
@@ -28,7 +28,7 @@
 			{
 				var logger:JSFLLogger = new JSFLLogger;
 				logger.initialize( LogLevel.DEBUG, 10 );
-				Bedrock.logger.addTarget( logger );
+				Bedrock.logger.addService( "jsfl", logger );
 				
 				this._toggleButtons( false );
 				this._updateAutoHideMenu();

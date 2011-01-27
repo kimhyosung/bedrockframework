@@ -2,6 +2,8 @@
 <GenericExtensionPopupView xmlns="com.bedrock.extension.view.popups.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:misc="com.bedrock.extension.view.misc.*">
 	<mx:Script>
 		<![CDATA[
+			import com.bedrock.extension.controller.ProjectController;
+			import com.greensock.TweenLite;
 			import com.bedrock.framework.plugin.util.VariableUtil;
 			import com.bedrock.extension.event.ExtensionEvent;
 			import com.bedrock.extension.controller.ExtensionController;
@@ -56,6 +58,7 @@
 				ExtensionController.getInstance().projectXML.width = this.widthText.text;
 				ExtensionController.getInstance().projectXML.height = this.heightText.text;
 				ExtensionController.getInstance().projectXML.stageColor = this.colorPicker.selectedColor;
+				ExtensionController.getInstance().projectXML.frameworkCopy = this.frameworkCopyGroup.selectedValue;
 				ExtensionController.getInstance().projectXML.publishProject = this.publishProjectCheck.selected;
 				ExtensionController.getInstance().projectXML.sourceFolder = this._sanitizeFolder( this.sourceFolderText.text );
 				ExtensionController.getInstance().projectXML.deployFolder = this._sanitizeFolder( this.deployFolderText.text );
@@ -76,7 +79,7 @@
 			private function _sanitizeFolder( $text:String ):String
 			{
 				if ( $text.charAt( $text.length - 1 ) != "/" ) return ( $text + "/" );
-				if ( $text.indexOf( "//" ) != -1 ) $text.split( "//" ).join( "/" );
+				if ( $text.indexOf( "//" ) != -1 ) return $text.split( "//" ).join( "/" );
 				return $text;
 			}
 			
@@ -85,6 +88,10 @@
 				if ( ExtensionController.getInstance().generateProject() ) {
 					Alert.show( "Project creation complete!", "Attention!" );
 					this.closePopup();
+					
+					if ( VariableUtil.sanitize( ExtensionController.getInstance().projectXML.publishProject ) ) {
+						TweenLite.delayedCall( 0.5, ProjectController.getInstance().browser.publishProject );
+					}
 				} else {
 					Alert.show( "Project creation fail!\nMissing parameters!", "Error!" );
 				}
@@ -99,22 +106,71 @@
 		]]>
 	</mx:Script>
 	
-	<mx:Panel layout="horizontal" title="Create Project" styleName="parentPanel">
-		<mx:VBox height="100%">
-			<mx:Panel title="1. General" width="100%" height="100%">
-				<mx:Form width="100%" height="100%">
+	<mx:Panel layout="vertical" title="Create Project" styleName="parentPanel">
+		<mx:HBox width="100%">
+			<mx:Panel title="1. General" width="50%" height="100%">
+				<mx:Form>
 					<mx:FormItem label="Name" width="100%">
 						<mx:TextInput id="projectNameText" width="100%" change="this._updateProject()"/>
 					</mx:FormItem>
-					<mx:FormItem label="Location">
+					<mx:FormItem label="Location" >
 						<mx:HBox>
-							<mx:TextInput editable="false" id="projectPathText" width="200"/>
+							<mx:TextInput editable="false" id="projectPathText"/>
 							<mx:Button id="browseButton" click="this.selectLocation()" label="Browse"/>
+						</mx:HBox>
+					</mx:FormItem>
+					<mx:FormItem>
+						<mx:CheckBox id="publishProjectCheck" change="this._updateProject()" label="Publish project after creation" />
+					</mx:FormItem>
+				</mx:Form>
+			</mx:Panel>
+			
+			<mx:Panel title="2. Framework" width="50%" height="100%" id="frameworkPanel" horizontalAlign="center">
+				<mx:Form>
+					<mx:FormItem label="Version" width="100%">
+						<mx:ComboBox id="frameworkVersionCombo" width="75" change="this._updateFrameworkVersion()" />
+					</mx:FormItem>
+					<mx:FormItem label="Template">
+						<mx:ComboBox id="templateCombo" labelField="name" change="this._updateTemplate()" dataProvider="{ ExtensionController.getInstance().templates }"/>
+					</mx:FormItem>
+					<mx:FormItem label="Root Package" direction="vertical">
+						<mx:TextInput id="rootPackageText" width="100%" change="this._updateProject()"/>
+					</mx:FormItem>
+					<mx:FormItem label="Copy">
+						<mx:HBox width="100%" horizontalAlign="center">
+							<mx:RadioButtonGroup id="frameworkCopyGroup" itemClick="this._updateProject()" />
+							<mx:RadioButton label="SWC" value="swc" groupName="frameworkCopyGroup" selected="true"/>
+							<mx:RadioButton label="Source Code" value="source" groupName="frameworkCopyGroup"/>
 						</mx:HBox>
 					</mx:FormItem>
 				</mx:Form>
 			</mx:Panel>
-			<mx:Panel title="3. Flash" width="100%" height="100%" horizontalAlign="center">
+			
+			
+		
+		</mx:HBox>
+		
+		<mx:HBox width="100%">
+		
+			<mx:Panel title="3. Folder Structure" width="50%" id="structurePanel">
+				<mx:Form>
+					<mx:FormItem label="Source Folder" width="100%" >
+						<mx:TextInput width="100%" text="flash" restrict="a-zA-Z0-9 /" id="sourceFolderText" change="this._updateProject()"/>
+					</mx:FormItem>
+					<mx:FormItem label="Deploy Folder" width="100%" >
+						<mx:TextInput width="100%" text="wwwroot" restrict="a-zA-Z0-9 /" id="deployFolderText" change="this._updateProject()"/>
+					</mx:FormItem>
+					<mx:FormItem label="Assets Folder" width="100%" >
+						<mx:HBox width="100%" horizontalAlign="center">
+							<mx:Label text="{ this.deployFolderText.text }" fontWeight="normal"/>
+							<mx:TextInput width="100%" text="assets" restrict="a-zA-Z0-9 /" id="assetsFolderText" change="this._updateProject()"/>
+						</mx:HBox>
+					</mx:FormItem>
+				</mx:Form>
+			</mx:Panel>
+			
+			
+			<mx:Panel title="4. Flash" width="50%" height="100%" horizontalAlign="center">
 				<mx:Form >
 					<mx:FormItem label="Dimensions">
 						<mx:HBox horizontalGap="1">
@@ -129,59 +185,13 @@
 					<mx:FormItem label="Stage Color">
 						<mx:ColorPicker id="colorPicker" change="this._updateProject()"/>
 					</mx:FormItem>
-					<mx:FormItem label="Publish Project">
-						<mx:CheckBox id="publishProjectCheck" change="this._updateProject()" />
-					</mx:FormItem>
 					
 				</mx:Form>
 			</mx:Panel>
 			
-			
-			
+						
 		
-			
-		
-		</mx:VBox>
-		
-		<mx:VBox height="100%">
-			
-			<mx:Panel title="2. Folder Structure" width="325" height="100%" id="structurePanel">
-				<mx:Form width="100%" height="100%">
-					<mx:FormItem label="Source Folder" width="100%" >
-						<mx:TextInput width="100%" text="flash" restrict="a-zA-Z0-9 " id="sourceFolderText" change="this._updateProject()"/>
-					</mx:FormItem>
-					<mx:FormItem label="Deploy Folder" width="100%" >
-						<mx:TextInput width="100%" text="wwwroot" restrict="a-zA-Z0-9 " id="deployFolderText" change="this._updateProject()"/>
-					</mx:FormItem>
-					<mx:FormItem label="Assets Folder" width="100%" >
-						<mx:HBox width="100%" horizontalAlign="center">
-							<mx:Label text="{ this.deployFolderText.text }" fontWeight="normal"/>
-							<mx:TextInput width="100%" text="assets" restrict="a-zA-Z0-9 " id="assetsFolderText" change="this._updateProject()"/>
-						</mx:HBox>
-					</mx:FormItem>
-				</mx:Form>
-			</mx:Panel>
-			<mx:Panel title="4. Framework" width="100%" height="100%" id="frameworkPanel" horizontalAlign="center">
-				<mx:Form height="100%" width="100%">
-					<mx:FormItem label="Version" width="100%">
-						<mx:ComboBox id="frameworkVersionCombo" width="75" change="this._updateFrameworkVersion()" />
-					</mx:FormItem>
-					<mx:FormItem label="Root Package" direction="vertical">
-						<mx:TextInput id="rootPackageText" width="100%" change="this._updateProject()"/>
-					</mx:FormItem>
-					<mx:FormItem label="Template">
-						<mx:ComboBox id="templateCombo" labelField="name" change="this._updateTemplate()" dataProvider="{ ExtensionController.getInstance().templates }"/>
-					</mx:FormItem>
-					<mx:FormItem label="Copy" enabled="false">
-						<mx:HBox width="100%" horizontalAlign="center">
-							<mx:RadioButton label="Source Code" selected="true"/>
-							<mx:RadioButton label="SWC"/>
-						</mx:HBox>
-					</mx:FormItem>
-				</mx:Form>
-			</mx:Panel>			
-		
-		</mx:VBox>
+		</mx:HBox>
 		
 		<mx:ControlBar>
 			<mx:Button label="Cancel" id="cancelUpdateButton" click="this.closePopup()" height="30" />

@@ -5,7 +5,7 @@ package com.bedrock.extension.controller
 	import com.bedrock.extension.model.*;
 	import com.bedrock.extension.view.popups.ProjectUpdateView;
 	import com.bedrock.extras.util.StringUtil;
-	import com.bedrock.framework.engine.Bedrock;
+	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.plugin.util.ArrayUtil;
 	import com.bedrock.framework.plugin.util.VariableUtil;
 	import com.bedrock.framework.plugin.util.XMLUtil2;
@@ -221,7 +221,8 @@ package com.bedrock.extension.controller
 				  <fps>30</fps>
 				  <playerVersion>10</playerVersion>
 				  <autoDeclareStageInstances>false</autoDeclareStageInstances>
-				  <publishProject>true</publishProject>
+				  <publishProject>false</publishProject>
+				  <frameworkCopy>swc</frameworkCopy>
 				  <created>{ creationDate }</created>
 				  <stageColor>0x333333</stageColor>
 				  <flas></flas>
@@ -347,10 +348,6 @@ package com.bedrock.extension.controller
 				this.saveProject();
 				this.registerProject( this.projectXML );
 				this.loadProject( this.projectXML.path );
-				
-				if ( VariableUtil.sanitize( this.projectXML.publishProject ) ) {
-					TweenLite.delayedCall( 0.5, ProjectController.getInstance().browser.publishProject );
-				}
 				
 				Bedrock.dispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.PROJECT_GENERATED, this ) );
 				return true;

@@ -67,7 +67,7 @@
 		<mx:Button label="Create Project" width="100%" height="40" click="this._showCreateProject()" />
 		<mx:Button label="Load Project" width="100%" height="40" id="loadProjectButton" click="this._loadProject()" enabled="{ this.projectGrid.selectedIndex != -1 }"/>
 		<mx:Button label="Find Project" width="100%" height="40" click="this.findProject()"/>
-		<mx:Button label="Remove Project" width="100%" height="40" click="this._removeProject()"/>
+		<mx:Button label="Remove Project" width="100%" height="40" click="this._removeProject()" enabled="{ this.projectGrid.selectedIndex != -1 }"/>
 	</mx:HBox>
 	
 </mx:Panel>

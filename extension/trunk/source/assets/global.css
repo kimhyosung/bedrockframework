@@ -5,8 +5,15 @@ Application {
    themeColor: #666666;
    color: #333333;
 }
+Alert {
+	backgroundAlpha:0.5;
+    backgroundColor:#333333;
+    borderAlpha:0.5;
+    borderColor:#333333;
+    dropShadowEnabled:false;
+}
 TabNavigator {
-   paddingRight: 0;
+   paddingRight:0;
    backgroundAlpha: 1;
    
    tabStyleName: "myTabs";

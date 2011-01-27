@@ -2,7 +2,7 @@
 <mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" initialize="this.bootup()" styleName="padded5px" xmlns:view="com.bedrock.extension.base.view.*">
 	<mx:Script>
 		<![CDATA[
-			import com.bedrock.framework.engine.Bedrock;
+			import com.bedrock.framework.Bedrock;
 			import com.bedrock.framework.engine.data.BedrockData;
 			import com.bedrock.framework.plugin.util.VariableUtil;
 			import com.bedrock.extension.controller.ProjectController;

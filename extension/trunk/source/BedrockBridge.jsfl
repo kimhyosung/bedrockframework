@@ -1,7 +1,4 @@
-﻿	/*
-	Variable Declarations
-	*/
-	
+﻿	
 	function initializeBedrockPanel()
 	{
 		fl.outputPanel.clear();
@@ -47,6 +44,8 @@
 		projectObj.assetsPath = projectObj.deployPath + projectObj.assetsFolder;
 		projectObj.swfsPath = projectObj.assetsPath + "swfs/";
 		
+		projectObj.swcPath = projectObj.sourcePath + "BedrockFramework" + projectObj.frameworkVersion + ".swc"; 
+		
 		projectObj.projectFilePath = projectObj.path + "project.bedrock";
 		projectObj.projectFrameworkPath = projectObj.sourcePath + "com/bedrock/";
 		projectObj.shellPath = projectObj.sourcePath + "shell.fla";
@@ -61,6 +60,7 @@
 		projectObj.selectedFrameworkProjectPanelPath = projectObj.selectedFrameworkPath + "BedrockProjectPanel.swf";
 		projectObj.selectedFrameworkResourcePath = projectObj.selectedFrameworkPath + "resources.bedrock";
 		projectObj.selectedFrameworkSourcePath = projectObj.selectedFrameworkPath + "source/"; 
+		projectObj.selectedFrameworkSWCPath = projectObj.selectedFrameworkPath + "BedrockFramework" + projectObj.frameworkVersion + ".swc"; 
 		projectObj.selectedFrameworkBedrockPath = projectObj.selectedFrameworkSourcePath + "com/bedrock/"; 
 		projectObj.selectedFrameworkSamplesPath = projectObj.selectedFrameworkPath + "samples/";
 		projectObj.selectedFrameworkTemplatePath = projectObj.selectedFrameworkPath + "templates/";
@@ -80,9 +80,9 @@
 		
 		templateObj.deployAssetsFolder = templateObj.deployFolder + templateObj.assetsFolder;
 		
-		templateObj.templateSourcePath = templateObj.path + templateObj.sourceFolder;
-		templateObj.templateDeployPath = templateObj.path + templateObj.deployFolder;
-		templateObj.templateAssetsPath = templateObj.templateDeployPath + templateObj.assetsFolder;
+		templateObj.templateSourcePath = templateObj.path + templateObj.sourceFolder + "/";
+		templateObj.templateDeployPath = templateObj.path + templateObj.deployFolder + "/";
+		templateObj.templateAssetsPath = templateObj.templateDeployPath + templateObj.assetsFolder + "/";
 		
 		return templateObj;
 	}
@@ -98,6 +98,7 @@
 		FLfile.createFolder( project.deployPath );
 		FLfile.createFolder( project.assetsPath );
 		
+		
 		copyFolder( template.templateSourcePath, project.sourcePath );
 		copyFiles( template.templateDeployPath, project.deployPath );
 		copyFolder( template.templateAssetsPath, project.assetsPath );
@@ -105,17 +106,27 @@
 		moveFolder( project.tempClassPath, project.rootPackagePath );
 		
 		changeASPackagePaths( project.rootPackagePath, project.rootPackage );
-		copyFolder( project.selectedFrameworkSourcePath, project.sourcePath );
+		
+		switch (  project.frameworkCopy ) {
+			case "source" :
+				copyFolder( project.selectedFrameworkSourcePath, project.sourcePath );
+				break;
+			case "swc" :
+				FLfile.copy( project.selectedFrameworkSWCPath, project.swcPath );
+				break;
+		}
 		updateFLAs( $projectXML, $templateXML );
 		
+		fl.openDocument( project.shellPath );
 		//fl.openDocument( project.shellPath ).testMovie();
 	}
 	function updateProject( $projectXML, $switchFrameworkVersion )
 	{
 		var project = convertProject( $projectXML );
 		if ( sanitizeBoolean(  $switchFrameworkVersion ) ) {
-			FLfile.remove( project.projectFrameworkPath );
-			copyFolder( project.selectedFrameworkBedrockPath, project.projectFrameworkPath );
+			/*
+			Add some functionality here
+			*/
 		}
 		updateFLAs( $projectXML );
 		//if ( project.publishFiles ) fl.openDocument( project.shellPath ).testMovie();
@@ -147,19 +158,16 @@
 					if ( item.linkageExportForAS ) item.linkageBaseClass = item.linkageBaseClass.split( "__template" ).join( project.rootPackage );
 				}
 				objDocument.docClass = objDocument.docClass.split( "__template" ).join( project.rootPackage );
-				
-				
+								
 				objDocument.exportPublishProfile( project.publishProfilePath );
-				replaceStringInFile( project.publishProfilePath, template.deployAssetsFolder, project.deployAssetsFolder );
+				replaceStringInFile( project.publishProfilePath, getCurrentDestination( project.publishProfilePath ), getFinalDestnation( project.swfsPath, filename ) );
 				objDocument.importPublishProfile( project.publishProfilePath );
-				
+				FLfile.remove( project.publishProfilePath );
 				/*
 				if ( project.publishFiles && filename != "shell.fla" ) {
 					objDocument.exportSWF( getExportDestination( project.publishProfilePath, project.path ) );
 				}
 				*/
-				
-				FLfile.remove( project.publishProfilePath );
 				
 				objDocument.save();
 				if ( filename != "shell.fla" ) objDocument.close();
@@ -272,44 +280,60 @@
 		
 		var shellXML;
 		for each( var flaXML in publishXML..file ) {
-			if ( flaXML.@name == "shell" || flaXML.@name == "shell.fla" ) {
-				shellXML = flaXML;
-			} else {
+			if ( flaXML.@name != "shell" || flaXML.@name != "shell.fla" ) {
 				exportSWF( $projectXML, flaXML );
 			}
 		}
-		exportSWF( $projectXML, shellXML );
 	}
 	function exportSWF( $projectXML, $fla )
 	{
 		var project = convertProject( $projectXML );
 		
-		var xmlFLA;
+		var flaXML;
 		switch( typeof( $fla ) ) {
 			case "xml" :
-				xmlFLA = $fla;
+				flaXML = $fla;
 				break;
 			case "string" :
-				xmlFLA = new XML( unescape( $fla ) );
+				flaXML = new XML( unescape( $fla ) );
 				break;
 		}
 		
+		/*
+		var objShell = fl.openDocument( project.shellPath );
+		objShell.exportPublishProfile( project.publishProfilePath );
+		
 		var objDocument;
-		if ( FLfile.exists( project.path + xmlFLA.@path ) ) {
-				xmlFLA.@open = ( fl.findDocumentIndex( xmlFLA.@name + xmlFLA.@type ) != "" );
-				objDocument = fl.openDocument( project.path + xmlFLA.@path );
+		*/
+		
+		if ( FLfile.exists( project.path + flaXML.@path ) ) {
 				
+				
+				if ( flaXML.@name != "shell" && flaXML.@name != "shell.fla" ) {
+					fl.publishDocument( project.path + flaXML.@path, "Default" );
+				} else {
+					fl.openDocument( project.shellPath ).testMovie();
+				}
+				
+				
+				/*
+				flaXML.@open = ( fl.findDocumentIndex( flaXML.@name + flaXML.@type ) != "" );
+				
+				objDocument = fl.openDocument( project.path + flaXML.@path );
 				objDocument.exportPublishProfile( project.publishProfilePath );
 				
-				if ( xmlFLA.@name != "shell" ) {
+				if ( flaXML.@name != "shell" ) {
 					objDocument.exportSWF( getExportDestination( project.publishProfilePath, project.path ) );
 				} else {
 					objDocument.testMovie();
 				}
 				FLfile.remove( project.publishProfilePath );
 				
-				if ( !sanitizeBoolean( xmlFLA.@open ) && xmlFLA.@name != "shell" ) objDocument.close();
-			}
+				if ( !sanitizeBoolean( flaXML.@open ) && flaXML.@name != "shell" ) objDocument.close();
+				*/
+				
+				
+		}
 	}
 	function getExportDestination( $profilePath, $projectPath )
 	{
@@ -318,6 +342,23 @@
 		numFrom += new String( "<flashFileName>" ).length;
 		var strDestination = strProfile.substring( numFrom, strProfile.indexOf("</flashFileName>") );
 		strDestination = strDestination.replace( "../", $projectPath );
+		return strDestination;
+	}
+	
+	function getCurrentDestination( $profilePath )
+	{
+		var strProfile = openFile( $profilePath );
+		var numFrom = strProfile.indexOf( "<flashFileName>" );
+		numFrom += new String( "<flashFileName>" ).length;
+		return strProfile.substring( numFrom, strProfile.indexOf("</flashFileName>") );
+	}
+	function getFinalDestnation( $swfPath, $filename )
+	{
+		var strDestination = $swfPath + $filename;
+		strDestination = strDestination.split( ".fla" ).join( ".swf"  );
+		strDestination = strDestination.split( "file:///" ).join( "" );
+		strDestination = strDestination.split( "/" ).join( "\\"  );
+		strDestination = strDestination.split( "|" ).join( ":"  );
 		return strDestination;
 	}
 	
