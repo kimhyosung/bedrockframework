@@ -1,12 +1,12 @@
 ﻿package __template.view
 {
-	import com.bedrock.framework.engine.view.BedrockModuleView;
+	import com.bedrock.framework.plugin.view.MovieClipView;
 	import com.bedrock.framework.engine.view.IPreloader;
 	import com.greensock.TweenLite;
 	
 	import flash.text.TextField;
 	
-	public class DefaultPreloaderView extends BedrockModuleView implements IPreloader
+	public class SimplePreloaderView extends MovieClipView implements IPreloader
 	{
 		/*
 		Variable Declarations
@@ -15,7 +15,7 @@
 		/*
 		Constructor
 		*/
-		public function DefaultPreloaderView()
+		public function SimplePreloaderView()
 		{
 			this.alpha = 0;
 		}
@@ -38,7 +38,7 @@
 		}
 		public function displayProgress( $value:Number ):void
 		{
-			this.display.text= ( $value * 100 ) + " %";
+			this.display.text= int( $value * 100 ) + " %";
 		}
 		public function clear():void
 		{
