@@ -7,4 +7,5 @@
   <sourceFolder>source/</sourceFolder>
   <deployFolder>wwwroot/</deployFolder>
   <assetsFolder>assets/</assetsFolder>
+  <editableStructure>true</editableStructure>
 </template>

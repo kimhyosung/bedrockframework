@@ -8,4 +8,5 @@
   <deployFolder>wwwroot/</deployFolder>
   <assetsFolder>assets/</assetsFolder>
   <swfsFolder>swfs/</swfsFolder>
+  <editableStructure>true</editableStructure>
 </template>
