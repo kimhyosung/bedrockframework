@@ -1,20 +1,30 @@
-<project id="1291152131412" name="Beginner" generated="true">
+<project id="1296849674484" name="Beginner" generated="true">
   <path>file:///D|/Projects/Bedrock/project/frameworkAS3/trunk/templates/beginner/</path>
   <rootPackage>__template</rootPackage>
   <template>beginner</template>
   <frameworkVersion>0.0.0</frameworkVersion>
-  <width>900</width>
-  <height>550</height>
   <fps>30</fps>
   <playerVersion>10</playerVersion>
   <autoDeclareStageInstances>false</autoDeclareStageInstances>
-  <publishFiles>false</publishFiles>
+  <publishProject>false</publishProject>
   <frameworkCopy>swc</frameworkCopy>
-  <created>30.10.2010</created>
+  <created>4.2.2011</created>
   <stageColor>3355443</stageColor>
-  <assetsFolder>assets/</assetsFolder>
-  <sourceFolder>source/</sourceFolder>
-  <deployFolder>wwwroot/</deployFolder>
+  <structure>
+    <path id="sourcePath" parent="root" value="source/" folder="source/"/>
+    <path id="deployPath" parent="root" value="wwwroot/" folder="wwwroot/"/>
+    <path id="configPath" parent="deployPath" value="" folder="wwwroot/"/>
+    <path id="assetsPath" parent="deployPath" value="assets/" folder="wwwroot/assets/"/>
+    <path id="swfsPath" parent="assetsPath" value="swfs/" folder="wwwroot/assets/swfs/"/>
+    <path id="xmlPath" parent="assetsPath" value="xml/" folder="wwwroot/assets/xml/"/>
+    <path id="imagesPath" parent="assetsPath" value="images/" folder="wwwroot/assets/images/"/>
+    <path id="thumbsPath" parent="assetsPath" value="thumbs/" folder="wwwroot/assets/thumbs/"/>
+    <path id="videoPath" parent="assetsPath" value="video/" folder="wwwroot/assets/video/"/>
+    <path id="stylesheetPath" parent="assetsPath" value="stylesheet/" folder="wwwroot/assets/stylesheet/"/>
+    <path id="audioPath" parent="assetsPath" value="audio/" folder="wwwroot/assets/audio/"/>
+  </structure>
+  <width>900</width>
+  <height>600</height>
   <flas>
     <file name="fonts" path="source/fonts.fla" type=".fla" publish="true"/>
     <file name="library" path="source/library.fla" type=".fla" publish="true"/>
