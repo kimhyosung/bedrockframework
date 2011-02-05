@@ -1,10 +1,10 @@
 ﻿package com.bedrock.framework.engine.controller
 {
+	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.core.controller.*;
 	import com.bedrock.framework.core.dispatcher.DispatcherBase;
 	import com.bedrock.framework.core.logging.*;
 	import com.bedrock.framework.engine.*;
-	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.engine.api.IBedrockBuilder;
 	import com.bedrock.framework.engine.builder.BedrockBuilder;
 	import com.bedrock.framework.engine.command.*;
@@ -48,11 +48,7 @@
 		public function initialize( $builder:BedrockBuilder, $configURL:String = null ):void
 		{
 			this.builder = $builder;
-			
-			this._configURLs = new SuperArray;
-			if ( this.builder.loaderInfo.parameters[ BedrockData.CONFIG_URL ] != null ) this._configURLs.push( $configURL );
-			if ( $configURL != null ) this._configURLs.push( $configURL );
-			this._determineConfigURLs();
+			this._determineConfigURLs( $configURL );
 			
 			this._createEngineClasses();
 			this._createConfigLoader();
@@ -204,6 +200,7 @@
 		}
 		private function _setupLogger():void
 		{
+			Bedrock.logger.initialize( this.builder.loaderInfo );
 			Bedrock.logger.errorsEnabled = Bedrock.data.errorsEnabled;
 			
 			var logger:ILoggingService = Bedrock.logger.getService( "trace" );
@@ -255,7 +252,7 @@
 		}
 		private function _setupLocales():void
 		{
-			if ( Bedrock.data.currentLocale == null ) Bedrock.data.defaultLocale;
+			if ( Bedrock.data.currentLocale == null ) Bedrock.engine::configModel.saveSettingValue( "currentLocale", Bedrock.data.defaultLocale );
 			Bedrock.engine::localeManager.initialize( Bedrock.engine::configModel.locales, Bedrock.data.defaultLocale, Bedrock.data.currentLocale );
 		}
 		/*
@@ -269,11 +266,18 @@
 		/*
 		Config URLs
 		*/
-		private function _determineConfigURLs():void
+		private function _determineConfigURLs( $configURL:String = null ):void
 		{
-			var length:int = 5;
 			var configURL:String = BedrockData.CONFIG_FILENAME + ".xml";
 			
+			this._configURLs = new SuperArray;
+			this._configURLs.push( "xml/" + configURL );
+			this._configURLs.push( "../xml/" + configURL );
+			this._configURLs.push( "assets/xml/" + configURL );
+			if ( this.builder.loaderInfo.parameters[ BedrockData.CONFIG_URL ] != null ) this._configURLs.push( $configURL );
+			if ( $configURL != null ) this._configURLs.push( $configURL );
+			
+			var length:int = 5;
 			for ( var i:int = 0; i < length; i++ ) {
 				this._configURLs.push( configURL );
 				configURL = "../" + configURL;

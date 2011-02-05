@@ -3,6 +3,7 @@ package com.bedrock.framework.engine.manager
 {
 	import com.asual.swfaddress.SWFAddress;
 	import com.asual.swfaddress.SWFAddressEvent;
+	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.core.dispatcher.DispatcherBase;
 	import com.bedrock.framework.engine.api.IDeeplinkingManager;
 	import com.bedrock.framework.engine.event.BedrockEvent;
@@ -27,6 +28,8 @@ package com.bedrock.framework.engine.manager
 			this._changeEnabled = false;
 			SWFAddress.addEventListener(SWFAddressEvent.INIT, this._onDeeplinkingInitialized );
 			SWFAddress.initialize();
+			
+			if ( Bedrock.data.deeplinkingEnabled && !Bedrock.data.deeplinkModules ) SWFAddress.addEventListener(SWFAddressEvent.INTERNAL_CHANGE, this._onChangeNotification); 
 			SWFAddress.addEventListener(SWFAddressEvent.EXTERNAL_CHANGE, this._onChangeNotification);
 		}
 		

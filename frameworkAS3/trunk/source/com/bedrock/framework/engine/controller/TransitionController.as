@@ -1,11 +1,12 @@
 ﻿package com.bedrock.framework.engine.controller
 {
+	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.core.dispatcher.DispatcherBase;
 	import com.bedrock.framework.engine.*;
-	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.engine.api.ITransitionController;
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
 	import com.bedrock.framework.engine.data.BedrockData;
+	import com.bedrock.framework.engine.data.BedrockDeeplinkData;
 	import com.bedrock.framework.engine.data.BedrockModuleData;
 	import com.bedrock.framework.engine.data.BedrockModuleGroupData;
 	import com.bedrock.framework.engine.data.BedrockSequenceData;
@@ -60,13 +61,15 @@
 				
 				if ( $details is String ) {
 					if ( this._stringContains( $details, "/" ) ) {
-						this.prepareDeeplinkTransition( { path:$details } );
+						Bedrock.deeplinking.setAddress( $details );
+						//this.prepareDeeplinkTransition( { path:$details } );
 					} else {
 						this.prepareStandardTransition( { id:$details } );
 					}
 				} else {
 					if ( $details.path != null ) {
-						this.prepareDeeplinkTransition( $details );
+						Bedrock.deeplinking.setAddress( $details.path );
+						//this.prepareDeeplinkTransition( $details );
 					} else {
 						this.prepareStandardTransition( $details );
 					}
@@ -178,17 +181,26 @@
 		public function prepareDeeplinkTransition( $details:Object ):void
 		{
 			this._bedrockSequenceData = new BedrockSequenceData;
-			var module:BedrockModuleData = Bedrock.engine::moduleManager.filterModules( "deeplink", $details.path )[ 0 ];
-			if ( $details.style != null ) this._bedrockSequenceData.style = $details.style;
 			
-			if ( module != null ) {
-				return this.prepareStandardTransition( module );
-			} else if ( $details.path == this._bedrockSequenceData.deeplink ) {
-				var defaultModules:Array = Bedrock.engine::moduleManager.filterModules( BedrockData.INITIAL_TRANSITION, true );
-				this._appendIndexedModules( defaultModules, "incoming" );
-				this._appendOutgoingModules( $details );
+			var path:String = $details.path;
+			var startIndex:int = ( path.charAt(0) == "/" ) ? 1 : 0;
+			var endIndex:int = path.indexOf( "/", startIndex );
+			if ( endIndex == -1 ) endIndex = path.length;
+			var id:String = path.substring( startIndex, endIndex );
+			
+			if ( Bedrock.engine::moduleManager.hasModule( id ) ) {
+				var module:BedrockModuleData = Bedrock.engine::moduleManager.getModule( id );
+				if ( $details.style != null ) this._bedrockSequenceData.style = $details.style;
 				
-				this.runTransition();
+				if ( module != null ) {
+					return this.prepareStandardTransition( module );
+				} else if ( $details.path == this._bedrockSequenceData.deeplink ) {
+					var defaultModules:Array = Bedrock.engine::moduleManager.filterModules( BedrockData.INITIAL_TRANSITION, true );
+					this._appendIndexedModules( defaultModules, "incoming" );
+					this._appendOutgoingModules( $details );
+					
+					this.runTransition();
+				}
 			}
 		}
 		/*
@@ -457,6 +469,8 @@
 			
 			var moduleView:BedrockModuleDisplay = Bedrock.engine::loadController.getLoaderContent( $id );
 			moduleView.assets = Bedrock.engine::assetManager.getGroup( moduleData.assetGroup );
+			
+			if ( Bedrock.data.deeplinkingEnabled ) moduleView.deeplink = new BedrockDeeplinkData;
 			
 			moduleView.details = Bedrock.engine::moduleManager.getModule( $id );
 			if ( Bedrock.data.resourceBundleEnabled && Bedrock.engine::resourceBundleManager.hasBundle( $id ) ) {

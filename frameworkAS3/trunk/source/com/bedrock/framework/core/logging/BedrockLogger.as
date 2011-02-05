@@ -15,6 +15,9 @@ package com.bedrock.framework.core.logging
 	import com.bedrock.framework.plugin.logging.TraceService;
 	import com.bedrock.framework.plugin.storage.HashMap;
 	
+	import flash.display.LoaderInfo;
+	import flash.events.Event;
+	
 	public class BedrockLogger
 	{
 		/*
@@ -40,8 +43,11 @@ package com.bedrock.framework.core.logging
 			}
 			return BedrockLogger.__instance;
 		}
-		public function initialize():void
+		public function initialize( $loaderInfo:LoaderInfo = null ):void
 		{
+			if ( $loaderInfo != null && $loaderInfo.hasOwnProperty( "uncaughtErrorEvents" ) ) {
+				$loaderInfo[ "uncaughtErrorEvents" ].addEventListener( "uncaughtError", this._onUncaughtError );
+			}
 			this._initialized = true;
 			this._servicesHash = new HashMap;
 			
@@ -61,12 +67,12 @@ package com.bedrock.framework.core.logging
 			return ( error.getStackTrace() != null );
 		}
 		
-		private function _internalLog( $trace:*=null, $level:int = 0 ):void
+		private function _internalLog( $trace:*=null, $level:int = 0, $stackLine:uint = 3 ):void
 		{
 			if ( !this._initialized ) this.initialize();
 			
 			if ( this.available ) {
-				var data:LogData = new LogData( new Error, $level );
+				var data:LogData = new LogData( new Error, $level, $stackLine );
 				var loggerService:ILoggingService;
 				
 				for each( var logger:ILoggingService in this._servicesArray ) {
@@ -122,6 +128,10 @@ package com.bedrock.framework.core.logging
 			this._internalLog( $trace, LogLevel.FATAL );
 		}
 		
+		private function _onUncaughtError( $event:Event ):void
+		{
+			
+		}
 		
 		public function get available():Boolean
 		{
