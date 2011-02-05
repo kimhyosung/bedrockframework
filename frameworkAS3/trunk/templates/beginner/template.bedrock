@@ -4,9 +4,16 @@
   <versions>*</versions>
   <width>900</width>
   <height>600</height>
-  <sourceFolder>source/</sourceFolder>
-  <deployFolder>wwwroot/</deployFolder>
-  <assetsFolder>assets/</assetsFolder>
-  <swfsFolder>swfs/</swfsFolder>
   <editableStructure>true</editableStructure>
+  <structure>
+    <path id="sourceFolder" parentID="root" value="source/" />
+    <path id="deployFolder" parentID="root" value="wwwroot/" />
+    <path id="assetsFolder" parentID="deployFolder" value="assets/" />
+    <path id="swfsFolder" parentID="assetsFolder" value="swfs/" />
+    <path id="xmlFolder" parentID="assetsFolder" value="xml/" />
+    <path id="imagesFolder" parentID="assetsFolder" value="images/" />
+    <path id="videoFolder" parentID="assetsFolder" value="video/" />
+    <path id="stylesheetFolder" parentID="assetsFolder" value="stylesheet/" />
+    <path id="audioFolder" parentID="assetsFolder" value="audio/" />
+  </structure>
 </template>
