@@ -46,7 +46,6 @@
 				for each( var subModuleXML:XML in moduleGroupXML..module ) {
 					subModuleData = this.getModule( subModuleXML.@id );
 					subModuleData[ BedrockData.INITIAL_TRANSITION ] = false;
-					moduleGroupData.deeplink += subModuleData.id + "/"; 
 					moduleGroupData.modules.push ( subModuleData ); 
 				}
 				moduleGroupData.modules.sortOn( BedrockData.PRIORITY, Array.DESCENDING | Array.NUMERIC );

@@ -1,8 +1,8 @@
 ﻿package com.bedrock.framework.engine.view
 {
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
+	import com.bedrock.framework.engine.data.BedrockDeeplinkData;
 	import com.bedrock.framework.engine.data.BedrockModuleData;
-	import com.bedrock.framework.plugin.storage.HashMap;
 	import com.bedrock.framework.plugin.view.IView;
 	import com.greensock.loading.core.LoaderItem;
 	import com.greensock.loading.display.ContentDisplay;
@@ -63,6 +63,14 @@
 		public function get details():BedrockModuleData
 		{
 			return Object( this.rawContent ).details;
+		}
+		public function set deeplink( $details:BedrockDeeplinkData ):void
+		{
+			Object( this.rawContent ).deeplink = $details;
+		}
+		public function get deeplink():BedrockDeeplinkData
+		{
+			return Object( this.rawContent ).deeplink;
 		}
 		
 		public function set assets( $assets:BedrockAssetGroupData ):void

@@ -12,9 +12,9 @@
 package com.bedrock.framework.engine.view
 {
 	import com.bedrock.framework.engine.data.BedrockAssetGroupData;
+	import com.bedrock.framework.engine.data.BedrockDeeplinkData;
 	import com.bedrock.framework.engine.data.BedrockModuleData;
 	import com.bedrock.framework.plugin.view.MovieClipView;
-	import com.bedrock.framework.plugin.view.ViewEvent;
 
 	public class BedrockModuleView extends MovieClipView
 	{
@@ -23,6 +23,7 @@ package com.bedrock.framework.engine.view
 		*/
 		public var details:BedrockModuleData;
 		public var assets:BedrockAssetGroupData;
+		public var deeplink:BedrockDeeplinkData;
 		public var bundle:*;
 		/*
 		Constructor

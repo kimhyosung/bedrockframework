@@ -24,7 +24,7 @@
 		private static var __labels:Dictionary;
 		private static var __initialized:Boolean = false;
 		
-		public function LogData( $error:Error, $category:uint )
+		public function LogData( $error:Error, $category:uint, $stackLine:uint = 3 )
 		{
 			if ( !LogData.__initialized ) {
 				LogData.__createTrigger();
@@ -34,7 +34,7 @@
 			}
 			
 			this._applyTimeStamp();
-			this._parseStackTrace( $error );
+			this._parseStackTrace( $error, $stackLine );
 			
 			this.category = $category;
 			
@@ -42,12 +42,12 @@
 			this.categoryLabel ="[" +  LogData.__labels[ $category.toString() ] + "] ";
 		}
 		
-		private function _parseStackTrace( $error:Error ):void
+		private function _parseStackTrace( $error:Error, $stackLine:uint ):void
 		{
 			var stackTrace:String = $error.getStackTrace();
 			
 			var lines:Array = stackTrace.split("\n");
-			var relevantLine:String = lines[ LogData.__STACK_LINE ];
+			var relevantLine:String = lines[ $stackLine ];
 			var startIndex:int;
 			var endIndex:int;
 			var culledLine:String;

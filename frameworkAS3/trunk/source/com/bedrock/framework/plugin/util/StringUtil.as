@@ -1,4 +1,4 @@
-﻿package com.bedrock.extras.util
+﻿package com.bedrock.framework.plugin.util
 {
 	public class StringUtil
 	{
@@ -691,17 +691,6 @@
 			}
 		}
 
-		/**
-		*Remove's all < and > based tags from a string
-		*
-		*@param $string The source string.
-		*
-		*@returns String
-		*
-		* @langversion ActionScript 3.0
-		*@playerversion Flash 9.0
-		*@tiptext
-		*/
 		public static function stripTags($string:String):String
 		{
 			if ($string == null) {
