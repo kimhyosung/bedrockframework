@@ -43,11 +43,8 @@ package com.bedrock.framework.core.logging
 			}
 			return BedrockLogger.__instance;
 		}
-		public function initialize( $loaderInfo:LoaderInfo = null ):void
+		public function initialize():void
 		{
-			if ( $loaderInfo != null && $loaderInfo.hasOwnProperty( "uncaughtErrorEvents" ) ) {
-				$loaderInfo[ "uncaughtErrorEvents" ].addEventListener( "uncaughtError", this._onUncaughtError );
-			}
 			this._initialized = true;
 			this._servicesHash = new HashMap;
 			
@@ -55,6 +52,13 @@ package com.bedrock.framework.core.logging
 			
 			this._available = this._getAvailability();
 		}
+		public function setupUncaughtErrorHandling( $loaderInfo:LoaderInfo ):void
+		{
+			if ( $loaderInfo != null && $loaderInfo.hasOwnProperty( "uncaughtErrorEvents" ) ) {
+				$loaderInfo[ "uncaughtErrorEvents" ].addEventListener( "uncaughtError", this._onUncaughtError );
+			}
+		}
+		
 		private function _createTraceLogger():void
 		{
 			var logger:ILoggingService = new TraceService;
@@ -127,7 +131,6 @@ package com.bedrock.framework.core.logging
 		{
 			this._internalLog( $trace, LogLevel.FATAL );
 		}
-		
 		private function _onUncaughtError( $event:Event ):void
 		{
 			
