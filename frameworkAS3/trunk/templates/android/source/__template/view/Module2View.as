@@ -1,4 +1,4 @@
-package __template.view
+﻿package __template.view
 {
 	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.engine.view.BedrockModuleView;
@@ -7,6 +7,8 @@ package __template.view
 	import com.greensock.loading.display.ContentDisplay;
 	
 	import flash.text.TextField;
+	import flash.sensors.Accelerometer;
+	import flash.events.AccelerometerEvent;
 	
 	public class Module2View extends BedrockModuleView implements IView
 	{
@@ -14,6 +16,8 @@ package __template.view
 		Variable Declarations
 		*/
 		public var label:TextField;
+		public var output:TextField;
+		private var _accelerometer:Accelerometer;
 		/*
 		Constructor
 		*/
@@ -29,10 +33,8 @@ package __template.view
 			Bedrock.logger.status( "Initialize" );
 			this.label.text = this.details.label;
 			
-			var image:ContentDisplay = Bedrock.api.getAsset( "caged" ).content;
-			image.x = 250;
-			image.y = 50;
-			this.addChildAt( image, 0 );
+			this._accelerometer = new Accelerometer();
+			this._accelerometer.addEventListener( AccelerometerEvent.UPDATE, this._onAccelerometerUpdate );
 			
 			this.initializeComplete();
 		}
@@ -54,5 +56,13 @@ package __template.view
 		/*
 		Event Handlers
 		*/
+		private function _onAccelerometerUpdate( $event:AccelerometerEvent ):void
+		{
+			var feedback:String = "Feedback : \n";
+			feedback += "X : " + $event.accelerationX.toString() + "\n";
+            feedback += "Y : " + $event.accelerationY.toString() + "\n";
+            feedback += "Z : " + $event.accelerationZ.toString() + "\n";
+			this.output.text = feedback;
+		}
 	}
 }
