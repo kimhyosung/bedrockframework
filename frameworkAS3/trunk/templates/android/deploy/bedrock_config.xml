@@ -1,0 +1,76 @@
+<config>
+  <settings>
+    <setting id="stageAlignment" value="TOP_LEFT"/>
+    <setting id="stageScaleMode" value="NO_SCALE"/>
+    <setting id="defaultTransitionStyle" value="NORMAL"/>
+    <setting id="initialPreloaderTime" value="0"/>
+    <setting id="defaultPreloaderTime" value="0"/>
+    <setting id="blockerAlpha" value="0.1"/>
+    <setting id="blockerColor" value="16777215"/>
+    <setting id="autoPrepareInitialLoad" value="true"/>
+    <setting id="autoPrepareInitialTransition" value="true"/>
+    <setting id="showBlockerDuringTransitions" value="true"/>
+    <setting id="deeplinkingEnabled" value="false"/>
+    <setting id="autoDeeplinkToModules" value="false"/>
+    <setting id="trackingEnabled" value="true"/>
+    <setting id="showModulesInContextMenu" value="false"/>
+    <setting id="showAboutInContextMenu" value="false"/>
+    <setting id="localesEnabled" value="false"/>
+    <setting id="defaultLocale" value="en_GB"/>
+    <setting id="logDetailDepth" value="10"/>
+    <setting id="traceLogLevel" value="ALL"/>
+    <setting id="eventLogLevel" value="WARNING"/>
+    <setting id="monsterLogLevel" value="NONE"/>
+    <setting id="errorsEnabled" value="true"/>
+    <setting id="handleUncaughtErrors" value="false"/>
+  </settings>
+  <modules>
+    <module id="module1" container="container1" indexed="true" initialTransition="true" label="Module 1" priority="0" deeplink="" assetGroup="module1" initialLoad="true" autoDispose="false" autoDisposeAssets="false" estimatedBytes="82979"/>
+    <module id="module2" container="container1" indexed="true" initialTransition="false" label="Module 2" priority="0" deeplink="" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false" estimatedBytes="82627"/>
+    <module id="navigation" container="navigation" indexed="false" initialTransition="true" label="Navigation" priority="2" deeplink="" assetGroup="none" initialLoad="true" autoDispose="false" autoDisposeAssets="false" estimatedBytes="85053"/>
+  </modules>
+  <assets>
+    <assetGroup id="shell" initialLoad="true">
+      <asset id="resourceBundle" path="xmlPath" type="xml" defaultURL="resource_bundle.xml" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="4734"/>
+      <asset id="library" type="swf" path="swfPath" defaultURL="library.swf" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="76664"/>
+      <asset id="fonts" path="swfPath" type="swf" defaultURL="fonts.swf" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="70774"/>
+      <asset id="stylesheet" path="stylesheetPath" type="stylesheet" defaultURL="flash_style.css" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="179"/>
+    </assetGroup>
+    <assetGroup id="module1" initialLoad="false"/>
+    <assetGroup id="module2" initialLoad="false">
+      <asset id="caged" type="image" path="imagePath" defaultURL="caged.jpg" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="93485"/>
+    </assetGroup>
+  </assets>
+  <containers>
+    <container id="container1" x="0" y="0"/>
+    <container id="preloader" x="0" y="0"/>
+    <container id="navigation" x="0" y="0"/>
+    <container id="overlay" x="0" y="0"/>
+  </containers>
+  <locales>
+    <locale id="en_GB" label="English"/>
+    <locale id="sp_ES" label="Spanish"/>
+    <locale id="fr_FR" label="French"/>
+    <locale id="jp_JP" label="Japanese"/>
+  </locales>
+  <environments>
+    <environment id="default">
+      <path id="xmlPath" value="assets/xml/"/>
+      <path id="imagePath" value="assets/images/"/>
+      <path id="videoPath" value="assets/video/"/>
+      <path id="swfPath" value="assets/swfs/"/>
+      <path id="audioPath" value="assets/audio/"/>
+      <path id="stylesheetPath" value="assets/stylesheet/"/>
+    </environment>
+    <environment id="local">
+      <pattern value="file://"/>
+    </environment>
+    <environment id="development">
+      <pattern value="dev"/>
+    </environment>
+    <environment id="staging">
+      <pattern value="staging"/>
+    </environment>
+    <environment id="production"/>
+  </environments>
+</config>
