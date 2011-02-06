@@ -32,9 +32,12 @@
 			Bedrock.logger.status( "Initialize" );
 			this.label.text = this.details.label;
 			
+			
 			this.mobileCamera = Camera.getCamera();
-			this.mobileCamera.setMode( this.mobileVideo.width, this.mobileVideo.height, 15 );
-			this.mobileVideo.attachCamera( this.mobileCamera );
+			if( this,mobileCamera && !this.mobileCamera.muted ) {
+				this.mobileCamera.setMode( this.mobileVideo.width, this.mobileVideo.height, 15 );
+				this.mobileVideo.attachCamera( this.mobileCamera );
+			}
 			
 			this.initializeComplete();
 		}
