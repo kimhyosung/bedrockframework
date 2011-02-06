@@ -2,7 +2,7 @@
 	function initializeBedrockPanel()
 	{
 		fl.outputPanel.clear();
-		fl.outputPanel.trace( "Bedrock Panel | Version 2.1.0" );
+		fl.outputPanel.trace( "Bedrock Panel | Version 2.1.1" );
 		fl.outputPanel.trace( "" );
 	}
 	function getConstants()
@@ -36,20 +36,29 @@
 			if ( item.name() != "flas" ) projectObj[ item.name() ] = sanitize( item.toString() );
 			if ( item.name() == "frameworkVersion" ) projectObj[ item.name() ] = item.toString();
 		}
-		
-		projectObj.deployAssetsFolder = projectObj.deployFolder + projectObj.assetsFolder;
-		
-		projectObj.sourcePath = projectObj.path + projectObj.sourceFolder;
-		projectObj.deployPath = projectObj.path + projectObj.deployFolder;
-		projectObj.assetsPath = projectObj.deployPath + projectObj.assetsFolder;
-		projectObj.swfsPath = projectObj.assetsPath + "swfs/";
+
+		projectObj.structure = new Array();
+		var projectPathObj;
+		for each ( var pathXML in projectXML.structure..path ) {
+			projectPathObj = getAttributesAsObject( pathXML );
+			projectPathObj.path = projectObj.path + projectPathObj.folder;
+			projectObj.structure.push( projectPathObj );
+			if ( projectPathObj.id == "sourcePath" ) projectObj.sourcePath = projectPathObj.path;
+			if ( projectPathObj.id == "deployPath" ) projectObj.deployPath = projectPathObj.path;
+			if ( projectPathObj.id == "configPath" ) {
+				projectObj.configPath = projectPathObj.path + "bedrock_config.xml";
+			}
+			if ( projectPathObj.id == "swfsPath" ) {
+				projectObj.swfsPath = projectPathObj.path;
+				projectObj.swfsFolder = projectPathObj.folder;
+			}
+		}
 		
 		projectObj.swcPath = projectObj.sourcePath + "BedrockFramework" + projectObj.frameworkVersion + ".swc"; 
 		
 		projectObj.projectFilePath = projectObj.path + "project.bedrock";
 		projectObj.projectFrameworkPath = projectObj.sourcePath + "com/bedrock/";
 		projectObj.shellPath = projectObj.sourcePath + "shell.fla";
-		projectObj.configPath = projectObj.deployPath + "bedrock_config.xml";
 		projectObj.tempClassPath = projectObj.sourcePath + "__template/";
 		projectObj.rootPackagePath = projectObj.sourcePath + projectObj.rootPackage.toString().split(".").join( "/" ) + "/";
 		projectObj.viewPackage = projectObj.rootPackage + ".view";
@@ -71,20 +80,24 @@
 	}
 	function convertTemplate( $data )
 	{
-		var templateXML = new XML( unescape( $data ) );
+		var templateXML = new XML( unescape( $data ) )
+		var templateObj = getNodesAsObject( templateXML );
 		
-		var templateObj = new Object;
-		for each( var item in templateXML.children() ) {
-			templateObj[ item.name() ] = sanitize( item.toString() );
+		templateObj.structure = new Array();
+		var templatePathObj;
+		for each ( var pathXML in templateXML.structure..path ) {
+			templatePathObj = getAttributesAsObject( pathXML );
+			templatePathObj.path = templateObj.path + templatePathObj.folder;
+			templateObj.structure.push( templatePathObj );
+			if ( templatePathObj.id == "sourcePath" ) templateObj.sourcePath = templatePathObj.path;
+			if ( templatePathObj.id == "configPath" ) templateObj.configPath = templatePathObj.path + "bedrock_config.xml";
 		}
-		
-		templateObj.deployAssetsFolder = templateObj.deployFolder + templateObj.assetsFolder;
-		
-		templateObj.templateSourcePath = templateObj.path + templateObj.sourceFolder + "/";
-		templateObj.templateDeployPath = templateObj.path + templateObj.deployFolder + "/";
-		templateObj.templateAssetsPath = templateObj.templateDeployPath + templateObj.assetsFolder + "/";
-		
+				
 		return templateObj;
+	}
+	function convertAsset( $data )
+	{
+		return getAttributesAsObject( new XML( unescape( $data ) ) );
 	}
 	/*
 	Project Management
@@ -94,15 +107,26 @@
 		var project = convertProject( $projectXML );
 		var template = convertTemplate( $templateXML );
 		
-		FLfile.createFolder( project.sourcePath );
-		FLfile.createFolder( project.deployPath );
-		FLfile.createFolder( project.assetsPath );
+		for each ( var pathObj in project.structure ) {
+			FLfile.createFolder( pathObj.path );
+		}
 		
+		copyFolder( template.sourcePath, project.sourcePath );
 		
-		copyFolder( template.templateSourcePath, project.sourcePath );
-		copyFiles( template.templateDeployPath, project.deployPath );
-		copyFolder( template.templateAssetsPath, project.assetsPath );
+		var length = project.structure.length;
+		var projectPathObj;
+		var templatePathObj;
+		for ( var i = 0; i < length; i++ ) {
+			projectPathObj = project.structure[ i ];
+			templatePathObj = template.structure[ i ];
+			if ( projectPathObj.id != "sourcePath" && projectPathObj.id != "configPath" ) copyFiles( templatePathObj.path, projectPathObj.path );
+		}
 		
+		var configPaths = findFiles( project.path, "bedrock_config.xml" );
+		for each ( var path in configPaths ) {
+			FLfile.remove( path );
+		}
+		FLfile.copy( template.configPath, project.configPath );
 		moveFolder( project.tempClassPath, project.rootPackagePath );
 		
 		changeASPackagePaths( project.rootPackagePath, project.rootPackage );
@@ -115,7 +139,8 @@
 				FLfile.copy( project.selectedFrameworkSWCPath, project.swcPath );
 				break;
 		}
-		updateFLAs( $projectXML, $templateXML );
+		
+		generateFLAs( $projectXML, $templateXML );
 		
 		fl.openDocument( project.shellPath );
 		//fl.openDocument( project.shellPath ).testMovie();
@@ -128,10 +153,19 @@
 			Add some functionality here
 			*/
 		}
-		updateFLAs( $projectXML );
+		var arrFiles = FLfile.listFolder( project.sourcePath + "*.fla", "files" );
+		var objDocument;
+		var flaPath;
+		
+		for each( var filename in arrFiles ) {
+			objDocument = fl.openDocument( project.sourcePath + filename );
+			updateFLAProperties( objDocument, project );
+			objDocument.save();
+			objDocument.close();
+		}
 		//if ( project.publishFiles ) fl.openDocument( project.shellPath ).testMovie();
 	}
-	function updateFLAs( $projectXML, $templateXML )
+	function generateFLAs( $projectXML, $templateXML )
 	{
 		var constants = getConstants();
 		var project = convertProject( $projectXML );
@@ -145,29 +179,21 @@
 		
 			flaPath = project.sourcePath + filename;
 			if ( FLfile.exists( flaPath ) ) {
+				
 				objDocument = fl.openDocument( flaPath );
-				
-				// Property Update
-				objDocument.width = project.width;
-				objDocument.height = project.height;
-				objDocument.backgroundColor = project.stageColor;
-				objDocument.frameRate = project.fps;
-				
+				updateFLAProperties( objDocument, project );
 				// Linkage Update
 				for each ( var item in objDocument.library.items ) {
 					if ( item.linkageExportForAS ) item.linkageBaseClass = item.linkageBaseClass.split( "__template" ).join( project.rootPackage );
 				}
 				objDocument.docClass = objDocument.docClass.split( "__template" ).join( project.rootPackage );
-								
-				objDocument.exportPublishProfile( project.publishProfilePath );
-				replaceStringInFile( project.publishProfilePath, getCurrentDestination( project.publishProfilePath ), getFinalDestnation( project.swfsPath, filename ) );
-				objDocument.importPublishProfile( project.publishProfilePath );
-				FLfile.remove( project.publishProfilePath );
-				/*
-				if ( project.publishFiles && filename != "shell.fla" ) {
-					objDocument.exportSWF( getExportDestination( project.publishProfilePath, project.path ) );
+				
+				if ( template.editableStructure ) {
+					objDocument.exportPublishProfile( project.publishProfilePath );
+					replaceStringInFile( project.publishProfilePath, getNodeValueInFile( project.publishProfilePath, "flashFileName" ), getFinalDestnation( $projectXML, filename ) );
+					objDocument.importPublishProfile( project.publishProfilePath );
+					FLfile.remove( project.publishProfilePath );
 				}
-				*/
 				
 				objDocument.save();
 				if ( filename != "shell.fla" ) objDocument.close();
@@ -175,6 +201,14 @@
 			
 		}
 		fl.closeAll();
+	}
+	function updateFLAProperties( $document, $project )
+	{
+		// Property Update
+		$document.width = $project.width;
+		$document.height = $project.height;
+		$document.backgroundColor = $project.stageColor;
+		$document.frameRate = $project.fps;
 	}
 	function changeASPackagePaths($sourcePath, $packagePath)
 	{
@@ -190,14 +224,13 @@
 		
 	}
 	
-	function getSize( $path )
+	function findFileAndGetSize( $projectXML, $filename )
 	{
-		var location = unescape( $path );
-		if ( FLfile.exists( location ) ) {
-			return FLfile.getSize( location );
-		} else {
-			return 0;
-		}
+		var project = convertProject( $projectXML );
+		var files = findFiles( project.deployPath, $filename )
+		
+		if ( files.length > 0 ) return FLfile.getSize( files[ 0 ] );
+		return 0;
 	}
 	
 	/*
@@ -308,7 +341,7 @@
 		
 		if ( FLfile.exists( project.path + flaXML.@path ) ) {
 				
-				
+				fl.trace( flaXML.toXMLString() );
 				if ( flaXML.@name != "shell" && flaXML.@name != "shell.fla" ) {
 					fl.publishDocument( project.path + flaXML.@path, "Default" );
 				} else {
@@ -345,41 +378,60 @@
 		return strDestination;
 	}
 	
-	function getCurrentDestination( $profilePath )
+	function getNodeValueInFile( $profilePath, $tag )
 	{
 		var strProfile = openFile( $profilePath );
-		var numFrom = strProfile.indexOf( "<flashFileName>" );
-		numFrom += new String( "<flashFileName>" ).length;
-		return strProfile.substring( numFrom, strProfile.indexOf("</flashFileName>") );
+		var numFrom = strProfile.indexOf( "<" + $tag + ">" );
+		numFrom += new String( "<" + $tag + ">" ).length;
+		return strProfile.substring( numFrom, strProfile.indexOf("</" + $tag + ">") );
 	}
-	function getFinalDestnation( $swfPath, $filename )
-	{
-		var strDestination = $swfPath + $filename;
-		strDestination = strDestination.split( ".fla" ).join( ".swf"  );
-		strDestination = strDestination.split( "file:///" ).join( "" );
-		strDestination = strDestination.split( "/" ).join( "\\"  );
-		strDestination = strDestination.split( "|" ).join( ":"  );
-		return strDestination;
-	}
-	
-	
-	
-	function generateSpecialAsset( $projectXML, $assetID )
+	function getFinalDestnation( $projectXML, $filename )
 	{
 		var project = convertProject( $projectXML );
+		
+		var sourcePath = project.sourcePath.split( project.path ).join( "" );
+		var difference = sourcePath.split( "/" ).length;
+		difference -= 1;
+		
+		var path = "";
+		for ( var i = 0; i < difference; i++ ) {
+			path += "../";
+		}
+		return ( path + project.swfsFolder + $filename.split( ".fla" ).join( ".swf" ) );
+	}
+	
+	
+	
+	function generateSpecialAsset( $projectXML, $assetXML )
+	{
+		var project = convertProject( $projectXML );
+		var asset = convertAsset( $assetXML );
 		// reminder : have to do this later
-		switch( $assetID ) {
+		fl.trace( "WTF" );
+		fl.trace( asset.id );
+		var objDocument;
+		switch( asset.id ) {
 			case "library" :
+				
+				FLfile.copy( project.selectedFrameworkSpecialAssetTemplatePath + "LibraryBuilder.as", project.rootPackagePath + "LibraryBuilder.as" )
+				replaceStringInFile( project.rootPackagePath + "LibraryBuilder.as", "__template", project.rootPackage );
+				
 				FLfile.copy( project.selectedFrameworkSpecialAssetTemplatePath + "library.fla", project.sourcePath + "library.fla" );
-				// change publish settings
-				FLfile.copy( project.selectedFrameworkSpecialAssetTemplatePath + "LibraryBuilder.as", project.rootPackagePath + "LibraryBuilder.as" );
-				// change package path
+				objDocument = fl.openDocument( project.sourcePath + "library.fla" );
+				objDocument.docClass = objDocument.docClass.split( "__template" ).join( project.rootPackage );
+				objDocument.save();
+				objDocument.close();
 				break;
 			case "fonts" :
-				FLfile.copy( project.selectedFrameworkSpecialAssetTemplatePath + "fonts.fla", project.sourcePath + "fonts.fla" );
-				// change publish settings
+				
 				FLfile.copy( project.selectedFrameworkSpecialAssetTemplatePath + "FontBuilder.as", project.rootPackagePath + "FontBuilder.as" );
-				// change package path
+				replaceStringInFile( project.rootPackagePath + "FontBuilder.as", "__template", project.rootPackage );
+				
+				FLfile.copy( project.selectedFrameworkSpecialAssetTemplatePath + "fonts.fla", project.sourcePath + "fonts.fla" );
+				objDocument = fl.openDocument( project.sourcePath + "fonts.fla" );
+				objDocument.docClass = objDocument.docClass.split( "__template" ).join( project.rootPackage );
+				objDocument.save();
+				objDocument.close();
 				break;
 			case "resourceBundle" :
 				FLfile.copy( project.selectedFrameworkSpecialAssetTemplatePath + "resourceBundle.xml", project.assetsPath + "xml/resource_bundle.xml" );
@@ -675,11 +727,30 @@
 			FLfile.copy( $sourcePath + fileName, $targetPath + fileName );
 		}
 	}
-	function moveFolder($sourcePath, $targetPath)
+	function moveFolder( $sourcePath, $targetPath )
 	{
-		copyFolder( $sourcePath, $targetPath );
-		FLfile.remove($sourcePath);
+		if ( $sourcePath != $targetPath ) {
+			copyFolder( $sourcePath, $targetPath );
+			FLfile.remove($sourcePath);
+		}
 	}
+	function findFiles( $path, $filename, $results )
+	{
+		var resultsArr = $results || new Array;
+		
+		var files = FLfile.listFolder( $path, "files" );
+		for each ( var fileName in files ) {
+			if ( fileName == $filename ) resultsArr.push( $path + fileName );
+		}
+		
+		var folders = FLfile.listFolder( $path, "directories" );
+		for each ( var folderName in folders ) {
+			findFiles( $path + folderName + "/", $filename, resultsArr );
+		}
+		
+		return resultsArr;
+	}
+
 	/*
 	XML File Handling
 	*/
@@ -747,7 +818,7 @@
 	function getClassName( $text )
 	{
 		var strClassName = new String();
-		var arrWords = new String( $text ).split("_");
+		var arrWords = new String( $text ).split( "_" );
 		for each ( var strWord in arrWords ) {
 			strClassName += capitalize( strWord );
 		}
@@ -759,8 +830,35 @@
 			var strContent = FLfile.read($file);
 			if ( strContent ) {
 				var strEdited = strContent.split( $flag ).join( $text );
-				FLfile.remove($file);
+				FLfile.remove( $file );
 				FLfile.write( $file, strEdited );
 			}
 		}
+	}
+	function getNodesAsObject( $data )
+	{
+		var xmlData = $data;
+		var objConversion = new Object;
+		
+		if ( xmlData.hasComplexContent() ) {
+			var numLength = xmlData.children().length();
+			for (var i = 0; i  < numLength; i++) {
+				objConversion[ xmlData.child( i ).name() ] = sanitize( xmlData.child( i ).toString() );
+			}
+		}
+		return objConversion;
+	}
+	function getAttributesAsObject( $node )
+	{
+		var objResult = new Object();
+		
+		var xmlTemp = new XMLList( $node );
+		var xmlAttributes = xmlTemp.attributes();
+		
+		var numLength = xmlAttributes.length();
+		for (var i = 0; i < numLength; i ++) {
+			objResult[ xmlAttributes[ i ].name().toString() ] = sanitize( xmlAttributes[ i ].toString() );
+		}	
+			
+		return objResult;
 	}

@@ -15,7 +15,7 @@
 				this.showPopup();
 			}
 			
-			private function _deleteContent():void
+			private function _deleteModule():void
 			{
 				var detailsXML:XML = new XML( <details id={ this.selectedID }/> );
 				detailsXML.deleteFLA = this.deleteFLACheck.selected;
@@ -30,7 +30,7 @@
 			
 		]]>
 	</mx:Script>
-	<mx:Panel layout="vertical" title="Delete Content" styleName="parentPanel">
+	<mx:Panel layout="vertical" title="Delete Module" styleName="parentPanel">
 		<mx:Form>
 			<mx:FormItem label="Also delete">
 				<mx:CheckBox label="FLA Document" id="deleteFLACheck" selected="true"/>
@@ -41,7 +41,7 @@
 		<mx:ControlBar>
 			<mx:Button label="Cancel" height="30" click="this.closePopup( false )"/>
 			<mx:Spacer width="100%"/>
-			<mx:Button label="Delete" height="30" click="this._deleteContent()"/>
+			<mx:Button label="Delete" height="30" click="this._deleteModule()"/>
 		</mx:ControlBar>
 	</mx:Panel>
 	

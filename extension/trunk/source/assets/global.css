@@ -4,13 +4,19 @@ Application {
    backgroundGradientColors: #333333, #5d5d5d;
    themeColor: #666666;
    color: #333333;
+   font-size:10pt;
 }
 Alert {
-	backgroundAlpha:0.5;
+	backgroundAlpha:0.75;
     backgroundColor:#333333;
     borderAlpha:0.5;
     borderColor:#333333;
     dropShadowEnabled:false;
+}
+FormHeading
+{
+	indicatorGap:0px;
+	font-size:10pt;
 }
 TabNavigator {
    paddingRight:0;
@@ -196,5 +202,8 @@ Tree, List, DataGrid
    selectionColor: #ebebeb;
 }
 
-
-
+.warningArea
+{
+	border-style:none;
+	color:#990000;
+}

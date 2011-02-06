@@ -11,7 +11,7 @@
     <setting id="autoPrepareInitialTransition" label="Auto Prepare Initial Transition" />
     <setting id="showBlockerDuringTransitions" label="Show Blocker During Transitions" />
     <setting id="deeplinkingEnabled" label="Deeplinking Enabled" />
-    <setting id="deeplinkModules" label="Deeplink Modules" />
+    <setting id="autoDeeplinkToModules" label="Auto Deeplink to Modules" />
     <setting id="trackingEnabled" label="Tracking Enabled" />
     <setting id="showModulesInContextMenu" label="Show Indexed Modules in Context Menu" />
     <setting id="showAboutInContextMenu" label="Show About in Context Menu" />
@@ -75,5 +75,12 @@
     <type>video</type>
     <type>stylesheet</type>
     <type>data</type>
+  </bundle>
+  <bundle id="assetFolders" type="array">
+    <folder label="Images" value="images" />
+  </bundle>
+  <bundle id="creationGroups" type="array">
+    <value>Properties</value>
+    <value>Structure</value>
   </bundle>
 </bundles>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GenericExtensionPopupView xmlns="com.bedrock.extension.view.popups.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:misc="com.bedrock.extension.view.misc.*">
+<GenericPopupView xmlns="com.bedrock.extension.view.popups.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:misc="com.bedrock.extension.view.misc.*">
 	<mx:Script>
 		<![CDATA[
 			import com.bedrock.extension.controller.ProjectController;
@@ -12,9 +12,6 @@
 			import mx.collections.HierarchicalData;
 			import mx.events.CloseEvent;
 			import mx.controls.Alert;
-			
-		 	[Embed("assets/InfoIcon.png")]
-            private var InfoIcon:Class;
             
             private var _switchFrameworkVersion:Boolean;
             
@@ -22,28 +19,29 @@
 			{
 				this._switchFrameworkVersion = false;
 				
-				this.frameworkVersionCombo.dataProvider = ExtensionController.getInstance().versions;
-				var numIndex:int = ArrayUtil.findIndex( ExtensionController.getInstance().versions, ExtensionController.getInstance().projectXML.frameworkVersion );
+				this.frameworkVersionCombo.dataProvider = ExtensionController.instance().versions;
+				var numIndex:int = ArrayUtil.findIndex( ExtensionController.instance().versions, ExtensionController.instance().projectXML.frameworkVersion );
 				this.frameworkVersionCombo.selectedIndex = ( numIndex > -1 ) ? numIndex : 0;
 				
 				this.frameworkVersionCombo.enabled = false;//( ExtensionController.getInstance().projectXML.frameworkCopy.toString() == "swc" );
 				
-				this.projectNameText.text = ExtensionController.getInstance().projectXML.@name;
-				this.widthText.text = ExtensionController.getInstance().projectXML.width;
-				this.heightText.text = ExtensionController.getInstance().projectXML.height;
-				this.colorPicker.selectedColor = ExtensionController.getInstance().projectXML.stageColor;
-				this.publishProjectCheck.selected = VariableUtil.sanitize( ExtensionController.getInstance().projectXML.publishProject );
+				this.projectNameText.text = ExtensionController.instance().projectXML.@name;
+				this.widthText.text = ExtensionController.instance().projectXML.width;
+				this.heightText.text = ExtensionController.instance().projectXML.height;
+				this.colorPicker.selectedColor = ExtensionController.instance().projectXML.stageColor;
+				this.publishProjectCheck.selected = VariableUtil.sanitize( ExtensionController.instance().projectXML.publishProject );
+				
 			}
 			
 			
 			private function _updateProperties():void
 			{
-				ExtensionController.getInstance().projectXML.@name = this.projectNameText.text;
-				ExtensionController.getInstance().projectXML.frameworkVersion = this.frameworkVersionCombo.selectedLabel;
-				ExtensionController.getInstance().projectXML.width = this.widthText.text;
-				ExtensionController.getInstance().projectXML.height = this.heightText.text;
-				ExtensionController.getInstance().projectXML.stageColor = this.colorPicker.selectedColor;
-				ExtensionController.getInstance().projectXML.publishProject = this.publishProjectCheck.selected;
+				ExtensionController.instance().projectXML.@name = this.projectNameText.text;
+				ExtensionController.instance().projectXML.frameworkVersion = this.frameworkVersionCombo.selectedLabel;
+				ExtensionController.instance().projectXML.width = this.widthText.text;
+				ExtensionController.instance().projectXML.height = this.heightText.text;
+				ExtensionController.instance().projectXML.stageColor = this.colorPicker.selectedColor;
+				ExtensionController.instance().projectXML.publishProject = this.publishProjectCheck.selected;
 			}
 			private function _sanitizeFolder( $text:String ):String
 			{
@@ -53,12 +51,12 @@
 			
 			private function _updateProject():void
 			{
-				ExtensionController.getInstance().updateProject( this._switchFrameworkVersion );
+				ExtensionController.instance().updateProject( this._switchFrameworkVersion );
 				this.closePopup();
 			}
 			private function _updateFrameworkVersion():void
 			{
-				if ( VariableUtil.sanitizeBoolean( ExtensionController.getInstance().projectXML.@generated ) && !this._switchFrameworkVersion ) {
+				if ( VariableUtil.sanitizeBoolean( ExtensionController.instance().projectXML.@generated ) && !this._switchFrameworkVersion ) {
 					Alert.show("Switching framework versions can be... unpredictable.\nAre you sure you want to proceed?","Warning!", Alert.OK|Alert.CANCEL,this, this._onCloseAlert, null, Alert.OK);
 				} else {
 					this._updateProperties();
@@ -75,7 +73,7 @@
 						this._updateProperties();
 						break;
 					default :
-						var numIndex:int = ArrayUtil.findIndex( ExtensionController.getInstance().versions, ExtensionController.getInstance().projectXML.frameworkVersion );
+						var numIndex:int = ArrayUtil.findIndex( ExtensionController.instance().versions, ExtensionController.instance().projectXML.frameworkVersion );
 						this.frameworkVersionCombo.selectedIndex = ( numIndex > -1 ) ? numIndex : 0;
 						break;
 				}
@@ -123,4 +121,4 @@
 			</mx:ControlBar>
 		</mx:Panel>
 			
-</GenericExtensionPopupView>
+</GenericPopupView>

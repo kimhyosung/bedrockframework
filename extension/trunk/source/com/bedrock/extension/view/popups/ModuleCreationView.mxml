@@ -10,7 +10,9 @@
 			{
 				this.idText.text = "";
             	this.labelText.text = "";
+            	this.initialLoadCheck.enabled = true;
             	this.initialLoadCheck.selected = false;
+            	this.initialTransitionCheck.enabled = true;
             	this.initialTransitionCheck.selected = false;
             	
             	this.moduleGroupCombo.dataProvider = ProjectController.getInstance().config.moduleGroupsArray;

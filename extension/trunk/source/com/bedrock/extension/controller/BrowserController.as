@@ -44,7 +44,8 @@ package com.bedrock.extension.controller
 		public function refresh():void
 		{
 			if ( VariableUtil.sanitize( this.projectXML.@generated ) ) {
-				var path:String = this.projectXML.path.toString() + this.projectXML.sourceFolder.toString();
+				var pathXML:XML = this.projectXML.structure..path.( @id == "sourcePath" )[ 0 ];
+				var path:String = this.projectXML.path.toString() + pathXML.@folder.toString();
 				this.files = new XML( this.delegate.refreshProjectStructure( path, this.settingsXML.includeSubFoldersInProjectBrowser ) );
 				this.validateFLAs();
 				this.processFLAs( this.files );
@@ -62,16 +63,17 @@ package com.bedrock.extension.controller
 		}
 		public function addFLA( $data:XML ):void
 		{
-			var xmlFLA:XML = this.projectXML.flas..file.( @name == $data.@name )[ 0 ];
-			if ( xmlFLA == null ) {
-				xmlFLA = new XML( $data.toXMLString() );
-				xmlFLA.@publish = true;
+			var flaXML:XML = this.projectXML.flas..file.( @name == $data.@name )[ 0 ];
+			if ( flaXML == null ) {
+				var pathXML:XML = this.projectXML.structure..path.( @id == "sourcePath" )[ 0 ];
+				flaXML = new XML( $data.toXMLString() );
+				flaXML.@publish = true;
 				
-				var strLocation:String = xmlFLA.@path;
-				strLocation = strLocation.substring( strLocation.lastIndexOf( this.projectXML.sourceFolder.toString() ), strLocation.length );
-				xmlFLA.@path = strLocation;
+				var strLocation:String = flaXML.@path;
+				strLocation = strLocation.substring( strLocation.lastIndexOf( pathXML.@folder.toString() ), strLocation.length );
+				flaXML.@path = strLocation;
 				
-				this.projectXML.flas.appendChild( xmlFLA );
+				this.projectXML.flas.appendChild( flaXML );
 			}
 		}
 		private function validateFLAs():void

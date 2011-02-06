@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="16" height="16" initialize="this._initialize()">
+	<mx:Script>
+		<![CDATA[
+			
+			[Embed("assets/InfoIcon.png")]
+            private var InfoIcon:Class;
+			[Embed("assets/ErrorIcon.png")]
+            private var ErrorIcon:Class;
+			[Embed("assets/AttentionIcon.png")]
+            private var AttentionIcon:Class;
+            
+            private function _initialize():void
+			{
+				this.mouseChildren = false;
+			}
+			
+		]]>
+	</mx:Script>
+	<mx:Button id="infoIcon" skin="{InfoIcon}" width="16" height="16" />
+	<mx:Button id="errorIcon" skin="{ErrorIcon}" width="16" height="16" />
+	<mx:Button id="attentionIcon" skin="{AttentionIcon}" width="16" height="16" />
+</mx:Canvas>

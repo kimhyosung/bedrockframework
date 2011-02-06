@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Box xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.advancedDataGridClasses.AdvancedDataGridColumn;
+			import com.bedrock.extension.controller.ProjectController;
+			[Embed("assets/SettingIcon.png")]
+	        private var SettingIcon:Class;
+	        [Embed("assets/VariableIcon.png")]
+	        private var VariableIcon:Class;
+	        [Embed("assets/PathIcon.png")]
+	        private var PathIcon:Class;
+	        [Embed("assets/PatternIcon.png")]
+	        private var PatternIcon:Class;
+	        
+	        public function update():void
+	        {
+	        	this._applyIcons();
+	        	this.deselect();
+	        }
+	         public function deselect():void
+	        {
+	        	this.nodeTree.selectedItem = null;
+	        }
+	        private function _applyIcons():void
+	        {
+	        	var xmlItem:XML;
+				for each ( xmlItem in ProjectController.getInstance().config.environments..setting ) {
+					this.nodeTree.setItemIcon( xmlItem, SettingIcon, SettingIcon );
+				}
+				for each ( xmlItem in ProjectController.getInstance().config.environments..variable ) {
+					this.nodeTree.setItemIcon( xmlItem, VariableIcon, VariableIcon );
+				}
+				for each ( xmlItem in ProjectController.getInstance().config.environments..path ) {
+					this.nodeTree.setItemIcon( xmlItem, PathIcon, PathIcon );
+				}
+				for each ( xmlItem in ProjectController.getInstance().config.environments..pattern ) {
+					this.nodeTree.setItemIcon( xmlItem, PatternIcon, PatternIcon );
+				}
+	        }
+	        private function _getLabel( $item:Object, $column:AdvancedDataGridColumn):String
+			{
+				var strLabel:String = String( $item.@id );
+	        	if ( strLabel == null || strLabel == "" ) {
+	        		strLabel = $item.name();
+	        	}
+	        	return strLabel;
+			}
+		]]>
+	</mx:Script>
+	<mx:AdvancedDataGrid id="nodeTree" designViewDataType="tree" displayItemsExpanded="true"  sortExpertMode="true" width="100%" height="100%">
+		<mx:headerRenderer>
+			<mx:Component>
+				<mx:AdvancedDataGridHeaderRenderer horizontalAlign="left"/>
+			</mx:Component>
+	    </mx:headerRenderer>
+		<mx:columns>
+			<mx:AdvancedDataGridColumn headerText="ID" labelFunction="_getLabel" sortable="false" />
+			<mx:AdvancedDataGridColumn headerText="Value" dataField="@value" sortable="false" />
+		</mx:columns>
+	</mx:AdvancedDataGrid>
+</mx:Box>

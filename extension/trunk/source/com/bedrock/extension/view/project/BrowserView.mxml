@@ -19,6 +19,8 @@
             private var DeleteIcon:Class;
             [Embed("assets/SWFIcon.png")]
             private var SWFIcon:Class;
+            [Embed("assets/SWCIcon.png")]
+            private var SWCIcon:Class;
             [Embed("assets/FLAIcon.png")]
             private var FLAIcon:Class;
             [Embed("assets/DefaultFLAIcon.png")]
@@ -62,6 +64,9 @@
 				}
 				for each ( xmlItem in ProjectController.getInstance().browser.files..file.( @type == ".bedrock") ) {
 					this.fileTree.setItemIcon( xmlItem, BedrockIcon, BedrockIcon );
+				}
+				for each ( xmlItem in ProjectController.getInstance().browser.files..file.( @type == ".swc") ) {
+					this.fileTree.setItemIcon( xmlItem, SWCIcon, SWCIcon );
 				}
 				
             }

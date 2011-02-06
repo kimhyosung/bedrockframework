@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:FormItem xmlns:mx="http://www.adobe.com/2006/mxml" width="100%">
+	<mx:HBox width="100%" verticalAlign="middle" horizontalGap="1" id="box">
+		<mx:Label id="parentValueLabel" fontWeight="normal" />
+		<mx:TextInput id="valueText" width="100%" restrict="a-zA-Z0-9 /" />
+	</mx:HBox>
+</mx:FormItem>

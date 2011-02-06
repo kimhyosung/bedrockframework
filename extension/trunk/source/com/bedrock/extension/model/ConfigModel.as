@@ -1,5 +1,6 @@
 package com.bedrock.extension.model
 {
+	import com.bedrock.extension.controller.ProjectController;
 	import com.bedrock.extension.data.OptionData;
 	import com.bedrock.extension.delegate.JSFLDelegate;
 	import com.bedrock.extension.event.ExtensionEvent;
@@ -57,7 +58,7 @@ package com.bedrock.extension.model
 		[Bindable]
 		public var environments:XMLList;
 		[Bindable]
-		public var environmentsArray:ArrayCollection;
+		public var environmentIDs:ArrayCollection;
 		[Bindable]
 		public var pathArray:ArrayCollection;
 		
@@ -134,6 +135,7 @@ package com.bedrock.extension.model
 			
 			
 			this.saveConfig();
+			ProjectController.getInstance().browser.refresh();
 			
 			return true;
 		}
@@ -141,6 +143,7 @@ package com.bedrock.extension.model
 		{
 			delete this.modules..module.( @id == $details.@id )[ 0 ];
 			this.delegate.deleteModule( this.projectXML, $details );
+			ProjectController.getInstance().browser.refresh();
 		}
 		/*
 		Content
@@ -228,9 +231,9 @@ package com.bedrock.extension.model
 		*/
 		private function refreshEnvironmentsArray():void
 		{
-			this.environmentsArray = new ArrayCollection;
+			this.environmentIDs = new ArrayCollection;
 			for each( var environmentXML:XML in this.environments..environment ) {
-				this.environmentsArray.addItem( VariableUtil.sanitize( environmentXML.@id ) );
+				this.environmentIDs.addItem( VariableUtil.sanitize( environmentXML.@id ) );
 			}
 		}
 		/*
@@ -268,31 +271,20 @@ package com.bedrock.extension.model
 		
 		public function updateBytes( $target:XML ):void
 		{
-			var filePath:String;
+			var fileName:String;
 			var defaultEnvironment:XML = this.configXML.environments..environment.( @id == BedrockData.DEFAULT )[ 0 ];
 			var pathXML:XML;
 			
 			switch ( $target.name().toString() ) {
 				case "asset" :
-					if ( $target.@path != BedrockData.NONE ) {
-						pathXML = defaultEnvironment..path.( @id == $target.@path )[ 0 ];
-						filePath = pathXML.@value;
-						filePath +=  $target.@defaultURL;
-					} else {
-						filePath = VariableUtil.sanitize( $target.@defaultURL );
-					}
+					fileName = VariableUtil.sanitize( $target.@defaultURL );
 					break;
 				case "module" :
-					pathXML = defaultEnvironment..path.( @id == "swfPath" )[ 0 ];
-					filePath = pathXML.@value;
-					filePath +=  $target.@id + ".swf";
+					fileName = $target.@id + ".swf";
 					break;
 			} 
 			
-			filePath = VariableUtil.sanitize( projectXML.path ) + VariableUtil.sanitize( projectXML.deployFolder ) + filePath;
-			filePath = filePath.split( "../" ).join( "assets/" );
-			
-			$target.@estimatedBytes = this.delegate.getSize( filePath );
+			$target.@estimatedBytes = this.delegate.findFileAndGetSize( this.projectXML, fileName )
 		}
 		public function updateAssetBytes():void
 		{
@@ -307,6 +299,14 @@ package com.bedrock.extension.model
 				this.updateBytes( moduleXML );
 			}
 			this.autoSaveConfig();
+		}
+		
+		
+		public function generateSpecialAsset( $assetXML:XML, $copy:Boolean ):void
+		{
+			var groupXML:XML = this.assets..assetGroup.( @id == BedrockData.SHELL )[ 0 ];
+			groupXML.appendChild( $assetXML );
+			if ( $copy ) this.delegate.generateSpecialAsset( this.projectXML, $assetXML );
 		}
 		/*
 		Event Handlers
