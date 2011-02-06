@@ -26,15 +26,15 @@
     <setting id="handleUncaughtErrors" value="false" />
   </settings>
   <modules>
-    <module id="module1" container="container1" indexed="true" initialTransition="true" label="Module 1" priority="0" deeplink="" assetGroup="module1" initialLoad="true" autoDispose="false" autoDisposeAssets="false" estimatedBytes="82979" />
-    <module id="module2" container="container1" indexed="true" initialTransition="false" label="Module 2" priority="0" deeplink="" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false" estimatedBytes="82627" />
-    <module id="navigation" container="navigation" indexed="false" initialTransition="true" label="Navigation" priority="2" deeplink="" assetGroup="none" initialLoad="true" autoDispose="false" autoDisposeAssets="false" estimatedBytes="85053" />
+    <module id="module1" container="container1" indexed="true" initialTransition="true" label="Module 1" priority="0" deeplink="" assetGroup="module1" initialLoad="true" autoDispose="false" autoDisposeAssets="false" estimatedBytes="39744" />
+    <module id="module2" container="container1" indexed="true" initialTransition="false" label="Module 2" priority="0" deeplink="" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false" estimatedBytes="41476" />
+    <module id="navigation" container="navigation" indexed="false" initialTransition="true" label="Navigation" priority="2" deeplink="" assetGroup="none" initialLoad="true" autoDispose="false" autoDisposeAssets="false" estimatedBytes="40391" />
   </modules>
   <assets>
     <assetGroup id="shell" initialLoad="true">
       <asset id="resourceBundle" path="xmlPath" type="xml" defaultURL="resource_bundle.xml" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="4734" />
-      <asset id="library" type="swf" path="swfPath" defaultURL="library.swf" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="76664" />
-      <asset id="fonts" path="swfPath" type="swf" defaultURL="fonts.swf" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="70774" />
+      <asset id="library" type="swf" path="swfPath" defaultURL="library.swf" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="36284" />
+      <asset id="fonts" path="swfPath" type="swf" defaultURL="fonts.swf" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="25216" />
       <asset id="stylesheet" path="stylesheetPath" type="stylesheet" defaultURL="flash_style.css" alternateURL="" localeURL="" localeEnabled="false" estimatedBytes="179" />
     </assetGroup>
     <assetGroup id="module1" initialLoad="false">
