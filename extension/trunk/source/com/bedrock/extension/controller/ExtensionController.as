@@ -4,9 +4,10 @@ package com.bedrock.extension.controller
 	import com.bedrock.extension.event.ExtensionEvent;
 	import com.bedrock.extension.model.*;
 	import com.bedrock.extension.view.popups.ProjectUpdateView;
-	import com.bedrock.extras.util.StringUtil;
 	import com.bedrock.framework.Bedrock;
+	import com.bedrock.framework.engine.data.BedrockData;
 	import com.bedrock.framework.plugin.util.ArrayUtil;
+	import com.bedrock.framework.plugin.util.StringUtil;
 	import com.bedrock.framework.plugin.util.VariableUtil;
 	import com.bedrock.framework.plugin.util.XMLUtil2;
 	import com.greensock.TweenLite;
@@ -38,6 +39,8 @@ package com.bedrock.extension.controller
 		[Bindable]
 		public var configXML:XML;
 		[Bindable]
+		public var template:Object;
+		[Bindable]
 		public var templateXML:XML;
 		[Bindable]
 		public var templates:Array;
@@ -61,7 +64,7 @@ package com.bedrock.extension.controller
 		public function ExtensionController($singletonEnforcer:SingletonEnforcer)
 		{
 		}
-		public static function getInstance():ExtensionController
+		public static function instance():ExtensionController
 		{
 			if (ExtensionController.__objInstance == null) {
 				ExtensionController.__objInstance = new ExtensionController(new SingletonEnforcer);
@@ -206,7 +209,6 @@ package com.bedrock.extension.controller
 		public function createProject():void
 		{
 			this._createProjectXML();
-			this.loadTemplates();
 			Bedrock.dispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.PROJECT_CREATED, this ) );
 		}
 		private function _createProjectXML():void
@@ -225,7 +227,8 @@ package com.bedrock.extension.controller
 				  <frameworkCopy>swc</frameworkCopy>
 				  <created>{ creationDate }</created>
 				  <stageColor>0x333333</stageColor>
-				  <flas></flas>
+				  <flas/>
+				  <structure/>
 				</project> );
 			this.loadTemplates();
 			this.loadTemplate( this.projectXML.template.toString() );
@@ -243,7 +246,6 @@ package com.bedrock.extension.controller
 			var path:String;
 			for each ( var templateXML:XML in templatesXML..template ) {
 				templateSettingsXML = this._openTemplate( templateXML.@path );
-				
 				path = StringUtil.replace( VariableUtil.sanitize( templateXML.@path ), "template.bedrock", "" );
 				this.templates.push( { name:VariableUtil.sanitize( templateSettingsXML.name ), path:path } );
 			}
@@ -340,21 +342,15 @@ package com.bedrock.extension.controller
 			
 			this.saveProject();
 		}
-		public function generateProject():Boolean
+		public function generateProject():void
 		{
-			if ( this.projectXML.rootPackage != "" && this.projectXML.path != "" && this.projectXML.@name != "") {
-				this.projectXML.@generated = true;
-				this.delegate.generateProject( this.projectXML, this.templateXML );
-				this.saveProject();
-				this.registerProject( this.projectXML );
-				this.loadProject( this.projectXML.path );
-				
-				Bedrock.dispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.PROJECT_GENERATED, this ) );
-				return true;
-			} else {
-				return false;
-			}
+			this.projectXML.@generated = true;
+			this.delegate.generateProject( this.projectXML, this.templateXML );
+			this.saveProject();
+			this.registerProject( this.projectXML );
+			this.loadProject( this.projectXML.path );
 			
+			Bedrock.dispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.PROJECT_GENERATED, this ) );
 		}
 		
 		/*
@@ -384,6 +380,26 @@ package com.bedrock.extension.controller
 			if ( template != null ) {
 				this.templateXML = this._openTemplate( template.path + "template.bedrock" );
 				this.templateXML.path = template.path;
+				
+				this.template = XMLUtil2.getNodesAsObject( this.templateXML );
+				this.template.root = new Array;
+				this.template.other = new Array;
+				this.template.paths = new Array;
+				var pathObj:Object;
+				var folderPath:String;
+				var parentXML:XML;
+				for each( var pathXML:XML in this.templateXML.structure..path ) {
+					pathObj = XMLUtil2.getAttributesAsObject( pathXML );
+					if ( pathObj.parent == BedrockData.ROOT ) {
+						pathXML.@folder = pathObj.value;
+						this.template.root.push( pathObj );
+					} else {
+						parentXML = this.templateXML.structure..path.( @id == pathObj.parent )[ 0 ];
+						pathXML.@folder = VariableUtil.sanitize( parentXML.@folder ) + pathObj.value;
+						this.template.other.push( pathObj );
+					}
+					this.template.paths.push( pathObj );
+				}
 			}
 		}
 		public function removeTemplate( $name:String ):void

@@ -35,8 +35,7 @@
         		assetXML.@localeURL = this.localeURLText.text;
         		assetXML.@localeEnabled = this.localeEnabledCheck.selected;
         		
-            	var groupXML:XML = ProjectController.getInstance().config.assets..assetGroup.( @id == BedrockData.SHELL )[ 0 ];
-				groupXML.appendChild( assetXML );
+            	ProjectController.getInstance().config.generateSpecialAsset( assetXML, this.copyFromTemplateCheck.selected );
 				
             	this.closePopup( true );
             }
@@ -70,6 +69,11 @@
 				<mx:CheckBox id="localeEnabledCheck" label="Locale Enabled"/>
 			</mx:FormItem>
 			
+			<mx:HRule width="100%"/>
+			
+			<mx:FormItem width="100%" >
+				<mx:CheckBox label="Copy from template" id="copyFromTemplateCheck" enabled="false"/>
+			</mx:FormItem>
 		</mx:Form>
 		<misc:CreationControlBar cancel="this.closePopup( false )" create="this._create()"/>
 		

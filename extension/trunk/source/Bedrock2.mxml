@@ -3,17 +3,20 @@
 	<mx:Style source="assets/global.css"/>
 	<mx:Script>
 		<![CDATA[
+			import com.bedrock.framework.Bedrock;
 			import com.bedrock.extension.view.ExtensionView;
 			import com.bedrock.extension.controller.ExtensionController;
 			
 			private function _initialize():void
 			{
-				ExtensionController.getInstance().setup( this );
-				ExtensionController.getInstance().initialize();
+				Bedrock.logger.setupUncaughtErrorHandling( this.loaderInfo );
+				
+				ExtensionController.instance().setup( this );
+				ExtensionController.instance().initialize();
 				
 				this.addChild( new ExtensionView );
 				
-				ExtensionController.getInstance().loadMostRecentProject();
+				ExtensionController.instance().loadMostRecentProject();
 			}
 			
 		]]>

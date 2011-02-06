@@ -2,6 +2,8 @@
 <mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" layout="vertical" initialize="this.bootup()" title="Project Archive">
 	<mx:Script>
 		<![CDATA[
+			import com.greensock.TweenLite;
+			import com.bedrock.framework.Bedrock;
 			import com.bedrock.extension.view.popups.ProjectCreationView;
 			import mx.managers.PopUpManager;
 			import com.bedrock.extension.controller.ExtensionController;
@@ -18,23 +20,23 @@
 			
 			private function findProject():void
 			{
-				if ( !ExtensionController.getInstance().findProject() ) {
+				if ( !ExtensionController.instance().findProject() ) {
 					Alert.show( "Invalid project file!", "Warning!" );
 				}
 			}
 			public function _showCreateProject():void
 			{
 				this.projectGrid.selectedIndex = -1;
-				ExtensionController.getInstance().createProject();
+				ExtensionController.instance().createProject();
+				
+				PopUpManager.addPopUp( this._projectCreationView, ExtensionController.instance().root, true );
+				PopUpManager.centerPopUp( this._projectCreationView );
 				
 				this._projectCreationView.populate();
-				
-				PopUpManager.addPopUp( this._projectCreationView, this, true );
-				PopUpManager.centerPopUp( this._projectCreationView );
 			}
 			private function _loadProject():void
 			{
-				if ( !ExtensionController.getInstance().loadProject( this.projectGrid.selectedItem.path ) ) {
+				if ( !ExtensionController.instance().loadProject( this.projectGrid.selectedItem.path ) ) {
 					Alert.show( "Boo! Project \"" + this.projectGrid.selectedItem.name + "\" failed!", "Warning!" );
 				}
 			}
@@ -46,7 +48,7 @@
 			{
 				switch ( $event.detail ) {
 					case Alert.OK :
-						ExtensionController.getInstance().removeProject( this.projectGrid.selectedItem.id );
+						ExtensionController.instance().removeProject( this.projectGrid.selectedItem.id );
 						break;
 				}
 			}
@@ -55,7 +57,7 @@
 		]]>
 	</mx:Script>
 		
-	<mx:DataGrid width="100%" height="100%" sortableColumns="true" id="projectGrid" doubleClickEnabled="true" dataProvider="{ ExtensionController.getInstance().projects }" itemClick="{ this.loadProjectButton.enabled = true }" itemDoubleClick="this._loadProject()">
+	<mx:DataGrid width="100%" height="100%" sortableColumns="true" id="projectGrid" doubleClickEnabled="true" dataProvider="{ ExtensionController.instance().projects }" itemClick="{ this.loadProjectButton.enabled = true }" itemDoubleClick="this._loadProject()">
 		<mx:columns>
 			<mx:DataGridColumn headerText="Name" dataField="name" width="150"/>
 			<mx:DataGridColumn headerText="Path" dataField="path"/>

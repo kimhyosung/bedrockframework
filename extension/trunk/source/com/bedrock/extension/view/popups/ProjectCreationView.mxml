@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GenericExtensionPopupView xmlns="com.bedrock.extension.view.popups.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:misc="com.bedrock.extension.view.misc.*">
+<GenericPopupView xmlns="com.bedrock.extension.view.popups.*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" initialize="this._initialize()" xmlns:misc="com.bedrock.extension.view.misc.*">
 	<mx:Script>
 		<![CDATA[
+			import mx.controls.TextArea;
+			import com.bedrock.framework.engine.data.BedrockData;
+			import com.bedrock.framework.plugin.storage.HashMap;
+			import mx.binding.utils.BindingUtils;
+			import com.bedrock.framework.Bedrock;
+			import com.bedrock.extension.view.misc.PathFormItem;
+			import mx.controls.Label;
+			import mx.containers.FormItem;
 			import com.bedrock.extension.controller.ProjectController;
 			import com.greensock.TweenLite;
 			import com.bedrock.framework.plugin.util.VariableUtil;
@@ -19,82 +27,162 @@
 		 	[Embed("assets/InfoIcon.png")]
             private var InfoIcon:Class;
             
+            private var _inputFields:HashMap;
+            
+            public var warningArea:TextArea;
+            
+            public function _initialize():void
+            {
+            	this.creationTabNavigator.initialize();
+				this.creationTabNavigator.selectedIndex = 1;
+				this.creationTabNavigator.visible = false;
+            }
 			public function populate():void
 			{
-				this.frameworkVersionCombo.dataProvider = ExtensionController.getInstance().versions;
-				
-				this.projectNameText.text = ExtensionController.getInstance().projectXML.@name;
-				this.projectPathText.text = ExtensionController.getInstance().projectXML.path;
-				this.rootPackageText.text = ExtensionController.getInstance().projectXML.rootPackage;
-				this.templateCombo.selectedIndex = ArrayUtil.findIndex( ExtensionController.getInstance().templates, ExtensionController.getInstance().projectXML.template );
-				this.colorPicker.selectedColor = ExtensionController.getInstance().projectXML.stageColor;
-				this.publishProjectCheck.selected = VariableUtil.sanitize( ExtensionController.getInstance().projectXML.publishProject );
+				this.creationTabNavigator.selectedIndex = 0;
+				this.creationTabNavigator.visible = true;
+				this.projectNameText.text = ExtensionController.instance().projectXML.@name;
+				this.projectPathText.text = ExtensionController.instance().projectXML.path;
+				this.rootPackageText.text = ExtensionController.instance().projectXML.rootPackage;
+				this.frameworkVersionCombo.dataProvider = ExtensionController.instance().versions;
+				this.templateCombo.selectedIndex = ArrayUtil.findIndex( ExtensionController.instance().templates, ExtensionController.instance().projectXML.template );
+				this.colorPicker.selectedColor = ExtensionController.instance().projectXML.stageColor;
+				this.publishProjectCheck.selected = VariableUtil.sanitize( ExtensionController.instance().projectXML.publishProject );
 				
 				this._updateTemplate();
-				
+
 				this.templateCombo.selectedIndex = 0;
 			}
 			
-			private function selectLocation():void
+			private function _buildPathForm( $paths:Array, $form:Form ):void
 			{
-				this.projectPathText.text = ExtensionController.getInstance().selectProjectFolder();
+				$form.removeAllChildren();
+				var formItem:PathFormItem;
+				for each ( var pathObj:Object in $paths ) {
+					formItem = new PathFormItem;
+					$form.addChild( formItem );
+					formItem.label = pathObj.label;
+					if ( pathObj.parent == BedrockData.ROOT ) {
+						formItem.box.removeChild( formItem.parentValueLabel );
+					} else {
+						BindingUtils.bindProperty( formItem.parentValueLabel, "text", this._getInput( pathObj.parent ), [ "text" ] );
+					}
+					formItem.valueText.id = pathObj.id + "Text";
+					formItem.valueText.text = pathObj.value;
+					formItem.valueText.addEventListener( Event.CHANGE, this._onPathChange );
+					this._inputFields.saveValue( pathObj.id, formItem.valueText );
+				}
+			}
+			
+			private function _selectLocation():void
+			{
+				this.projectPathText.text = ExtensionController.instance().selectProjectFolder();
 				this._updateProject();
 			}
 			
 			private function _updateFrameworkVersion():void
 			{
-				ExtensionController.getInstance().projectXML.frameworkVersion = this.frameworkVersionCombo.selectedLabel;
-				ExtensionController.getInstance().loadTemplates();
+				ExtensionController.instance().projectXML.frameworkVersion = this.frameworkVersionCombo.selectedLabel;
+				ExtensionController.instance().loadTemplates();
 				this.templateCombo.selectedIndex = 0;
-				this._updateTemplate();
 			}
 			private function _updateProject():void
 			{
-				ExtensionController.getInstance().projectXML.@name = this.projectNameText.text;
-				ExtensionController.getInstance().projectXML.path = this.projectPathText.text;
-				ExtensionController.getInstance().projectXML.rootPackage = this.rootPackageText.text;
-				ExtensionController.getInstance().projectXML.template = this.templateCombo.selectedLabel;
-				ExtensionController.getInstance().projectXML.frameworkVersion = this.frameworkVersionCombo.selectedLabel;
-				ExtensionController.getInstance().projectXML.width = this.widthText.text;
-				ExtensionController.getInstance().projectXML.height = this.heightText.text;
-				ExtensionController.getInstance().projectXML.stageColor = this.colorPicker.selectedColor;
-				ExtensionController.getInstance().projectXML.frameworkCopy = this.frameworkCopyGroup.selectedValue;
-				ExtensionController.getInstance().projectXML.publishProject = this.publishProjectCheck.selected;
-				ExtensionController.getInstance().projectXML.sourceFolder = this._sanitizeFolder( this.sourceFolderText.text );
-				ExtensionController.getInstance().projectXML.deployFolder = this._sanitizeFolder( this.deployFolderText.text );
-				ExtensionController.getInstance().projectXML.assetsFolder = this._sanitizeFolder( this.assetsFolderText.text );
+				ExtensionController.instance().projectXML.@name = this.projectNameText.text;
+				ExtensionController.instance().projectXML.path = this.projectPathText.text;
+				ExtensionController.instance().projectXML.rootPackage = this.rootPackageText.text;
+				ExtensionController.instance().projectXML.template = this.templateCombo.selectedLabel;
+				ExtensionController.instance().projectXML.frameworkVersion = this.frameworkVersionCombo.selectedLabel;
+				ExtensionController.instance().projectXML.width = this.widthText.text;
+				ExtensionController.instance().projectXML.height = this.heightText.text;
+				ExtensionController.instance().projectXML.stageColor = this.colorPicker.selectedColor;
+				ExtensionController.instance().projectXML.frameworkCopy = this.frameworkCopyGroup.selectedValue;
+				ExtensionController.instance().projectXML.publishProject = this.publishProjectCheck.selected;
+				
+				this._buildStructureXML();
+				
+				this.generateProjectButton.enabled = ( this.projectNameText.text != "" && this.rootPackageText.text != "" && this.projectPathText.text != "" && this._validRootPaths() );
+			}
+			private function _buildStructureXML():void
+			{
+				var structureXML:XML = new XML( <structure/> );
+				var pathXML:XML;
+				var parentObj:Object
+				for each ( var pathObj:Object in ExtensionController.instance().template.paths ) {
+					pathXML = new XML( <path/> );
+					pathXML.@id = pathObj.id;
+					pathXML.@parent = pathObj.parent;
+					pathXML.@value = this._getInput( pathObj.id ).text;
+					if ( pathObj.parent == BedrockData.ROOT ) {
+						pathObj.folder = this._sanitizeFolder( this._getInput( pathObj.id ).text );
+						pathXML.@folder = this._sanitizeFolder( this._getInput( pathObj.id ).text );
+					} else {
+						parentObj = ArrayUtil.findItem( ExtensionController.instance().template.paths, pathObj.parent, "id" );
+						pathObj.folder = parentObj.folder + this._sanitizeFolder( this._getInput( pathObj.id ).text );
+						pathXML.@folder = parentObj.folder + this._sanitizeFolder( this._getInput( pathObj.id ).text );
+					}
+					structureXML.appendChild( pathXML );
+				}
+				ExtensionController.instance().projectXML.structure = structureXML;
+			}
+			private function _validRootPaths():Boolean
+			{
+				var valid:Boolean = true;
+				for each ( var pathObj:Object in ExtensionController.instance().template.root ) {
+					if ( this._getInput( pathObj.id ).text == "" && this._getInput( pathObj.id ).text != null ) {
+						valid = false;
+					}
+				}
+				return valid;
 			}
 			private function _updateTemplate():void
 			{
-				ExtensionController.getInstance().loadTemplate( this.templateCombo.selectedLabel );
+				ExtensionController.instance().loadTemplate( this.templateCombo.selectedLabel );
 				
-				this.widthText.text = ExtensionController.getInstance().templateXML.width;
-				this.heightText.text = ExtensionController.getInstance().templateXML.height;
-				this.assetsFolderText.text = ExtensionController.getInstance().templateXML.assetsFolder;
-				this.sourceFolderText.text = ExtensionController.getInstance().templateXML.sourceFolder;
-				this.deployFolderText.text = ExtensionController.getInstance().templateXML.deployFolder;
+				this.widthText.text = ExtensionController.instance().templateXML.width;
+				this.heightText.text = ExtensionController.instance().templateXML.height;
 				
-				this._updateProject();
+				this._inputFields = new HashMap;
+				this._buildPathForm( ExtensionController.instance().template.root, this.rootPathForm );
+				this._buildPathForm( ExtensionController.instance().template.other, this.otherPathForm );
+				
+				this.structurePanel.enabled = VariableUtil.sanitize( ExtensionController.instance().templateXML.editableStructure );
+			}
+			private function _getInput( $id:String ):TextInput
+			{
+				return this._inputFields.getValue( $id );
 			}
 			private function _sanitizeFolder( $text:String ):String
 			{
-				if ( $text.charAt( $text.length - 1 ) != "/" ) return ( $text + "/" );
-				if ( $text.indexOf( "//" ) != -1 ) return $text.split( "//" ).join( "/" );
-				return $text;
+				var folder:String = $text;
+				if ( folder.charAt( $text.length - 1 ) != "/" ) folder = ( folder + "/" );
+				if ( folder.charAt( 0 ) == "/" ) folder = folder.substring( 1, folder.length );
+				if ( folder.indexOf( "//" ) != -1 ) folder = folder.split( "//" ).join( "/" );
+				return folder;
 			}
 			
 			private function _generateProject():void
 			{
-				if ( ExtensionController.getInstance().generateProject() ) {
-					Alert.show( "Project creation complete!", "Attention!" );
-					this.closePopup();
-					
-					if ( VariableUtil.sanitize( ExtensionController.getInstance().projectXML.publishProject ) ) {
-						TweenLite.delayedCall( 0.5, ProjectController.getInstance().browser.publishProject );
-					}
-				} else {
-					Alert.show( "Project creation fail!\nMissing parameters!", "Error!" );
+				ExtensionController.instance().generateProject()
+				Alert.show( "Project creation complete!", "Attention!" );
+				this.closePopup();
+				
+				if ( VariableUtil.sanitize( ExtensionController.instance().projectXML.publishProject ) ) {
+					TweenLite.delayedCall( 0.5, ProjectController.getInstance().browser.publishProject );
 				}
+			}
+			
+			private function _showWarningArea():void
+			{
+				if ( this.warningArea == null ) {
+					this.warningArea = new TextArea;
+					this.warningArea.percentWidth = 100;
+					this.warningArea.percentHeight = 100;
+					this.warningArea.styleName = "warningArea";
+					this.rootPathForm.addChild( this.warningArea );
+					this.warningArea.text = "Warning! \nYou may have to alter the path settings in the default environment of the config to accomodate for structure changes.";
+				}
+				this.rootPathForm.addChild( this.warningArea );
 			}
 			/*
 			Event Handlers
@@ -103,38 +191,32 @@
 			{
 				this.populate();
 			}
+            private function _onPathChange( $event:Event ):void
+			{
+				this._showWarningArea();
+				this._updateProject();
+			}
+            private function _updateAll():void
+			{
+				this._updateFrameworkVersion();
+				this._updateTemplate();
+				this._updateProject();
+			}
 		]]>
 	</mx:Script>
-	
-	<mx:Panel layout="vertical" title="Create Project" styleName="parentPanel">
-		<mx:HBox width="100%">
-			<mx:Panel title="1. General" width="50%" height="100%">
+	<mx:Panel layout="vertical" title="Create Project" styleName="parentPanel" width="625" height="280">
+		<mx:TabNavigator id="creationTabNavigator" width="100%" height="100%">
+			<mx:HBox width="600" label="Properties" styleName="padded5px">
 				<mx:Form>
-					<mx:FormItem label="Name" width="100%">
-						<mx:TextInput id="projectNameText" width="100%" change="this._updateProject()"/>
-					</mx:FormItem>
-					<mx:FormItem label="Location" >
-						<mx:HBox>
-							<mx:TextInput editable="false" id="projectPathText"/>
-							<mx:Button id="browseButton" click="this.selectLocation()" label="Browse"/>
-						</mx:HBox>
-					</mx:FormItem>
-					<mx:FormItem>
-						<mx:CheckBox id="publishProjectCheck" change="this._updateProject()" label="Publish project after creation" />
-					</mx:FormItem>
-				</mx:Form>
-			</mx:Panel>
-			
-			<mx:Panel title="2. Framework" width="50%" height="100%" id="frameworkPanel" horizontalAlign="center">
-				<mx:Form>
+					<mx:FormHeading label="Framework"/>
 					<mx:FormItem label="Version" width="100%">
-						<mx:ComboBox id="frameworkVersionCombo" width="75" change="this._updateFrameworkVersion()" />
+						<mx:ComboBox id="frameworkVersionCombo" width="75" change="this._updateAll()" />
 					</mx:FormItem>
 					<mx:FormItem label="Template">
-						<mx:ComboBox id="templateCombo" labelField="name" change="this._updateTemplate()" dataProvider="{ ExtensionController.getInstance().templates }"/>
+						<mx:ComboBox id="templateCombo" labelField="name" change="this._updateTemplate()" dataProvider="{ ExtensionController.instance().templates }"/>
 					</mx:FormItem>
-					<mx:FormItem label="Root Package" direction="vertical">
-						<mx:TextInput id="rootPackageText" width="100%" change="this._updateProject()"/>
+					<mx:FormItem label="Root Package" direction="vertical" width="100%">
+						<mx:TextInput id="rootPackageText" width="200" change="this._updateProject()"/>
 					</mx:FormItem>
 					<mx:FormItem label="Copy">
 						<mx:HBox width="100%" horizontalAlign="center">
@@ -144,60 +226,59 @@
 						</mx:HBox>
 					</mx:FormItem>
 				</mx:Form>
-			</mx:Panel>
-			
-			
-		
-		</mx:HBox>
-		
-		<mx:HBox width="100%">
-		
-			<mx:Panel title="3. Folder Structure" width="50%" id="structurePanel">
-				<mx:Form>
-					<mx:FormItem label="Source Folder" width="100%" >
-						<mx:TextInput width="100%" text="flash" restrict="a-zA-Z0-9 /" id="sourceFolderText" change="this._updateProject()"/>
-					</mx:FormItem>
-					<mx:FormItem label="Deploy Folder" width="100%" >
-						<mx:TextInput width="100%" text="wwwroot" restrict="a-zA-Z0-9 /" id="deployFolderText" change="this._updateProject()"/>
-					</mx:FormItem>
-					<mx:FormItem label="Assets Folder" width="100%" >
-						<mx:HBox width="100%" horizontalAlign="center">
-							<mx:Label text="{ this.deployFolderText.text }" fontWeight="normal"/>
-							<mx:TextInput width="100%" text="assets" restrict="a-zA-Z0-9 /" id="assetsFolderText" change="this._updateProject()"/>
-						</mx:HBox>
-					</mx:FormItem>
-				</mx:Form>
-			</mx:Panel>
-			
-			
-			<mx:Panel title="4. Flash" width="50%" height="100%" horizontalAlign="center">
-				<mx:Form >
-					<mx:FormItem label="Dimensions">
+				<mx:VRule height="100%" />
+				<mx:Form  width="100%">
+					<mx:FormHeading label="Flash"/>
+					<mx:FormItem label="Dimensions"  width="100%">
 						<mx:HBox horizontalGap="1">
 							<mx:TextInput width="40" id="widthText" change="this._updateProject()"/>
 							<mx:Label text="x" textAlign="center"/>
 							<mx:TextInput width="40" id="heightText" change="this._updateProject()"/>
 						</mx:HBox>
 					</mx:FormItem>
-					<mx:FormItem label="FPS">
+					<mx:FormItem label="FPS"  width="100%">
 						<mx:TextInput text="30" id="fpsText" width="30" maxChars="2" change="this._updateProject()"/>
 					</mx:FormItem>
-					<mx:FormItem label="Stage Color">
+					<mx:FormItem label="Stage Color"  width="100%">
 						<mx:ColorPicker id="colorPicker" change="this._updateProject()"/>
 					</mx:FormItem>
 					
 				</mx:Form>
-			</mx:Panel>
 			
-						
+			</mx:HBox>
+			
+			<mx:HBox label="Structure" id="structurePanel" verticalAlign="top" height="200" styleName="padded5px">
+				<mx:VBox height="135" paddingRight="5">
+					<mx:Form width="225" id="rootPathForm" height="135" paddingRight="5" />
+				</mx:VBox>
+				<mx:VRule height="100%" />
+				<mx:VBox width="100%" height="135" paddingRight="5">
+					<mx:Form width="100%"  id="otherPathForm"/>
+				</mx:VBox>
+				
+			</mx:HBox>
+			
+			
+		</mx:TabNavigator>
 		
+		<mx:HBox width="100%">
+			<mx:FormItem label="Name" width="50%">
+				<mx:TextInput id="projectNameText" width="100%" change="this._updateProject()"/>
+			</mx:FormItem>
+			<mx:FormItem label="Location" width="50%">
+				<mx:HBox width="100%">
+					<mx:TextInput editable="false" id="projectPathText" width="100%" enabled="false"/>
+					<mx:Button id="browseButton" click="this._selectLocation()" label="Browse"/>
+				</mx:HBox>
+			</mx:FormItem>
 		</mx:HBox>
 		
 		<mx:ControlBar>
 			<mx:Button label="Cancel" id="cancelUpdateButton" click="this.closePopup()" height="30" />
 			<mx:Spacer width="100%"/>
+			<mx:CheckBox id="publishProjectCheck" change="this._updateProject()" label="Publish project" />
 			<mx:Button label="Generate Project" id="generateProjectButton" click="this._generateProject()" height="30"/>
 		</mx:ControlBar>
 	</mx:Panel>
 		
-</GenericExtensionPopupView>
+</GenericPopupView>

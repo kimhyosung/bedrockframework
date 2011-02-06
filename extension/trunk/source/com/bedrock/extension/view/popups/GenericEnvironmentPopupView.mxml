@@ -7,13 +7,9 @@
 		
 			public var selectedEnvironment:int;
 			
-			public function populate( $selectedNode:XML ):void
+			public function populate( $environmentID:String ):void
 			{
-				if ( $selectedNode != null && $selectedNode.name() == "environment" ) {
-					this.selectedEnvironment = ArrayUtil.findIndex( ProjectController.getInstance().config.environmentsArray.source, $selectedNode.@id.toString() );
-				} else {
-					this.selectedEnvironment = 0;
-				}
+				this.selectedEnvironment = ArrayUtil.findIndex( ProjectController.getInstance().config.environmentIDs.source, $environmentID );
 			}
 			
 		]]>

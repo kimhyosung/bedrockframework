@@ -17,7 +17,6 @@
 			Variable Delcarations
 			*/
 			private var _behaviorCheckBoxes:ArrayCollection;
-			private var _resourceCheckBoxes:ArrayCollection;
 			private var _settingsProxy:ConfigSettingsProxy;
 			/*
 			Constructor
@@ -67,6 +66,7 @@
 				
 				this.logDetailDepthStepper.value = this._settingsProxy.logDetailDepth;
 				this.errorsEnabledCheck.selected = this._settingsProxy.errorsEnabled;
+				this.handleUncaughtErrorsCheck.selected = this._settingsProxy.handleUncaughtErrors;
 				
 				var arrLogLevels:Array = ProjectController.getInstance().resources.getBundle( "logOptions" );
 				this.traceLogLevelCombo.dataProvider = arrLogLevels;
@@ -82,7 +82,6 @@
 				this.applyGeneralSettings();
 				this.applyLocaleSettings();
 				this.applyBehaviorSettings();
-				this.applyResourceSettings();
 				this.applyLoggerSettings();
 				ProjectController.getInstance().config.autoSaveConfig();
 			}
@@ -103,12 +102,6 @@
 					ProjectController.getInstance().config.setSettingValue( objOption.id, objOption.check.selected );
 				}
 			}
-			private function applyResourceSettings():void
-			{
-				for each( var objOption:Object in this._resourceCheckBoxes.source ) {
-					ProjectController.getInstance().config.setSettingValue( objOption.id, objOption.check.selected );
-				}
-			}
 			private function applyLocaleSettings():void
 			{
 				this._settingsProxy.localesEnabled = this.localesEnabledCheck.selected;
@@ -118,6 +111,7 @@
 			{
 				this._settingsProxy.logDetailDepth = this.logDetailDepthStepper.value;
 				this._settingsProxy.errorsEnabled = this.errorsEnabledCheck.selected;
+				this._settingsProxy.handleUncaughtErrors = this.handleUncaughtErrorsCheck.selected;
 				
 				this._settingsProxy.traceLogLevel = this.traceLogLevelCombo.selectedLabel;
 				this._settingsProxy.eventLogLevel = this.eventLogLevelCombo.selectedLabel;
@@ -204,6 +198,9 @@
 					</mx:FormItem>
 					<mx:FormItem label="Errors Enabled">
 						<mx:CheckBox id="errorsEnabledCheck" selected="true" change="this._onChange( event )" />
+					</mx:FormItem>
+					<mx:FormItem label="Handle Uncaught Errors">
+						<mx:CheckBox id="handleUncaughtErrorsCheck" selected="false" change="this._onChange( event )" />
 					</mx:FormItem>
 					<mx:HRule width="100%" />
 					<mx:FormItem label="Trace Log Level">

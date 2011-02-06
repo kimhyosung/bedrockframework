@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:HDividedBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"  creationComplete="this.bootup()" xmlns:view="com.bedrock.project.extension.view.*" styleName="padded5px" xmlns:misc="com.bedrock.extension.view.misc.*">
+<mx:HDividedBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"  creationComplete="this._initialize()" xmlns:view="com.bedrock.project.extension.view.*" styleName="padded5px" xmlns:misc="com.bedrock.extension.view.misc.*">
 	<mx:Script>
 		<![CDATA[
+			import com.bedrock.framework.engine.data.BedrockData;
+			import com.bedrock.framework.plugin.storage.HashMap;
+			import mx.controls.advancedDataGridClasses.AdvancedDataGridColumn;
+			import mx.events.ListEvent;
 			import com.bedrock.framework.Bedrock;
 			import com.bedrock.extension.event.ExtensionEvent;
 			import mx.managers.PopUpManager;
@@ -17,26 +21,17 @@
 			/*
 			Variable Delcarations
 			*/
-            [Embed("assets/SettingIcon.png")]
-            private var SettingIcon:Class;
-            [Embed("assets/VariableIcon.png")]
-            private var VariableIcon:Class;
-            [Embed("assets/PathIcon.png")]
-            private var PathIcon:Class;
-            [Embed("assets/PatternIcon.png")]
-            private var PatternIcon:Class;
-            [Embed("assets/EnvironmentIcon.png")]
-            private var EnvironmentIcon:Class;
-            
 			private var _environmentCreationView:EnvironmentCreationView;
 			private var _patternCreationView:PatternCreationView;
 			private var _pathCreationView:PathCreationView;
 			private var _settingCreationView:SettingCreationView;
 			private var _variableCreationView:VariableCreationView;
+			
+			private var _environmentSlides:HashMap;
             
-			public function bootup():void
+			private function _initialize():void
 			{
-				this._applyIcons();
+				this._createEnvironmentSlides();
 				
 				this._environmentCreationView = new EnvironmentCreationView;
 				this._environmentCreationView.initialize();
@@ -51,7 +46,26 @@
 				
 				Bedrock.dispatcher.addEventListener( ExtensionEvent.CONFIG_LOADED, this._onConfigLoaded );
 			}
-			
+			private function _createEnvironmentSlides():void
+			{
+				this._environmentSlides = new HashMap;
+				var environmentView:SingleEnvironmentView;
+				this.environmentAccordion.removeAllChildren();
+				var environmentXML:XML;
+				
+				for each ( var id:String in ProjectController.getInstance().config.environmentIDs.source ) {
+					environmentXML = ProjectController.getInstance().config.environments..environment.( @id == id )[ 0 ];
+					environmentView = new SingleEnvironmentView;
+					environmentView.initialize();
+					environmentView.label = id;
+					environmentView.id = id;
+					this._environmentSlides.saveValue( id, environmentView );
+					environmentView.nodeTree.addEventListener( ListEvent.ITEM_CLICK, this._onTreeSelect );
+					environmentAccordion.addChild( environmentView );
+				}
+				
+				this._update();
+			}
 			/*
 			Creation Functions
 			*/
@@ -62,41 +76,45 @@
             			this._environmentCreationView.populate();
             			break;
             		case "pattern" :
-            			this._patternCreationView.populate( this.nodeTree.selectedItem as XML );
+            			this._patternCreationView.populate( SingleEnvironmentView( this.environmentAccordion.selectedChild ).id  );
             			break;
             		case "setting" :
-            			this._settingCreationView.populate( this.nodeTree.selectedItem as XML );
+            			this._settingCreationView.populate( SingleEnvironmentView( this.environmentAccordion.selectedChild ).id );
             			break;
             		case "path" :
-            			this._pathCreationView.populate( this.nodeTree.selectedItem as XML );
+            			this._pathCreationView.populate( SingleEnvironmentView( this.environmentAccordion.selectedChild ).id );
             			break;
             		case "variable" :
-            			this._variableCreationView.populate( this.nodeTree.selectedItem as XML );
+            			this._variableCreationView.populate( SingleEnvironmentView( this.environmentAccordion.selectedChild ).id );
             			break;
             	}
             }
             private function deleteNode():void
             {
-            	if ( this.nodeTree.selectedIndex != -1 ) {
-            		switch( String( this.nodeTree.selectedItem.name() ) ) {
-            			case "environment" :
-            			this.deleteEnvironment();
-            			break;
-            		case "pattern" :
-            			this.deletePattern();
-            			break;
-            		case "setting" :
-            			this.deleteSetting();
-            			break;
-            		case "path" :
-            			this.deletePath();
-            			break;
-            		case "variable" :
-            			this.deleteVariable();
-            			break;
+            	if ( SingleEnvironmentView( this.environmentAccordion.selectedChild ).nodeTree.selectedIndex != -1 ) {
+            		switch( String( SingleEnvironmentView( this.environmentAccordion.selectedChild ).nodeTree.selectedItem.name() ) ) {
+	            		case "pattern" :
+	            			this.deletePattern();
+	            			break;
+	            		case "setting" :
+	            			this.deleteSetting();
+	            			break;
+	            		case "path" :
+	            			this.deletePath();
+	            			break;
+	            		case "variable" :
+	            			this.deleteVariable();
+	            			break;
             		}
 	            	ProjectController.getInstance().config.autoSaveConfig();
 	            	this.attributeEditor.clearForm();
+            	} else {
+	            	var id:String = SingleEnvironmentView( this.environmentAccordion.selectedChild ).id;
+	            	if ( id != BedrockData.DEFAULT && id != BedrockData.PRODUCTION ) {
+	        			this.deleteEnvironment();
+		            	this.attributeEditor.clearForm();
+		            	ProjectController.getInstance().config.autoSaveConfig();
+	            	}
             	}
             }
             /*
@@ -104,85 +122,68 @@
             */
             private function deleteEnvironment():void
             {
-            	delete ProjectController.getInstance().config.environments..environment.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
+            	delete ProjectController.getInstance().config.environments..environment.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).id )[ 0 ];
             }
             private function deletePattern():void
             {
-            	delete ProjectController.getInstance().config.environments..pattern.( @value == this.nodeTree.selectedItem.@value )[ 0 ];
+            	var environmentXML:XML = ProjectController.getInstance().config.environments..environment.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).id )[ 0 ];
+            	delete environmentXML..pattern.( @value == SingleEnvironmentView( this.environmentAccordion.selectedChild ).nodeTree.selectedItem.@value )[ 0 ];
             }
             private function deleteSetting():void
             {
-            	delete ProjectController.getInstance().config.environments..setting.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
+            	var environmentXML:XML = ProjectController.getInstance().config.environments..environment.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).id )[ 0 ];
+            	delete environmentXML..setting.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).nodeTree.selectedItem.@id )[ 0 ];
             }
             private function deletePath():void
             {
-            	delete ProjectController.getInstance().config.environments..path.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
+            	var environmentXML:XML = ProjectController.getInstance().config.environments..environment.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).id )[ 0 ];
+            	delete environmentXML..path.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).nodeTree.selectedItem.@id )[ 0 ];
             }
             private function deleteVariable():void
             {
-            	delete ProjectController.getInstance().config.environments..variable.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
+            	var environmentXML:XML = ProjectController.getInstance().config.environments..environment.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).id )[ 0 ];
+            	delete environmentXML..variable.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).nodeTree.selectedItem.@id )[ 0 ];
             }
             /*
             Interface Functions
             */
 			private function _deselect():void
 			{
-				this.nodeTree.selectedItem = null;
+				 SingleEnvironmentView( this.environmentAccordion.selectedChild ).deselect(); 
 				this.attributeEditor.clearForm();
             }
-            private function _applyIcons():void
-            {
-            	var xmlItem:XML;
-				for each ( xmlItem in ProjectController.getInstance().config.environments..setting ) {
-					this.nodeTree.setItemIcon( xmlItem, SettingIcon, SettingIcon );
-				}
-				for each ( xmlItem in ProjectController.getInstance().config.environments..variable ) {
-					this.nodeTree.setItemIcon( xmlItem, VariableIcon, VariableIcon );
-				}
-				for each ( xmlItem in ProjectController.getInstance().config.environments..path ) {
-					this.nodeTree.setItemIcon( xmlItem, PathIcon, PathIcon );
-				}
-				for each ( xmlItem in ProjectController.getInstance().config.environments..pattern ) {
-					this.nodeTree.setItemIcon( xmlItem, PatternIcon, PatternIcon );
-				}
+			private function _update():void
+			{
+				 var environmentXML:XML;
+				var slides:Array = this._environmentSlides.getValues();
+				for each ( var slide:SingleEnvironmentView in slides ) {
+					environmentXML = ProjectController.getInstance().config.environments..environment.( @id == slide.id )[ 0 ];
+					slide.nodeTree.dataProvider = new HierarchicalData( environmentXML.children() );
+					slide.update();
+				} 
             }
             
-            private function _getLabel( $item:Object, $column:AdvancedDataGridColumn):String
-			{
-				var strLabel:String = String( $item.@id );
-            	if ( strLabel == null || strLabel == "" ) {
-            		strLabel = $item.name();
-            	}
-            	return strLabel;
-			}
             /*
 			Event Handlers
 			*/
 			private function _onConfigLoaded( $event:ExtensionEvent ):void
 			{
-                this._applyIcons();
+				if ( ProjectController.getInstance().config.environmentIDs.length != this._environmentSlides.size ) {
+					this._createEnvironmentSlides();
+				}
+				this._update();
             }
             private function _onTreeSelect( $event:Event ):void
 			{
-				this.attributeEditor.populateForm( this.nodeTree.selectedItem as XML );
+				this.attributeEditor.populateForm( SingleEnvironmentView( this.environmentAccordion.selectedChild ).nodeTree.selectedItem as XML );
             }
 		]]>
 	</mx:Script>
 	<mx:Panel width="100%" height="100%" layout="vertical" title="Hierarchy" >
-		<mx:AdvancedDataGrid id="nodeTree" designViewDataType="tree" displayItemsExpanded="true" sortExpertMode="true" width="100%" height="100%" dataProvider="{ new HierarchicalData( ProjectController.getInstance().config.environments..environment ) }" defaultLeafIcon="{ EnvironmentIcon }" folderOpenIcon="{ EnvironmentIcon }" folderClosedIcon="{ EnvironmentIcon }" itemClick="this._onTreeSelect( event )">
-			<mx:headerRenderer>
-				<mx:Component>
-					<mx:AdvancedDataGridHeaderRenderer horizontalAlign="left"/>
-				</mx:Component>
-	        </mx:headerRenderer>
-			<mx:columns>
-				<mx:AdvancedDataGridColumn headerText="ID" labelFunction="_getLabel" sortable="false" />
-				<mx:AdvancedDataGridColumn headerText="Value" dataField="@value" sortable="false" />
-			</mx:columns>
-		</mx:AdvancedDataGrid>
+		<mx:Accordion width="100%" height="100%" id="environmentAccordion"/>
 		<misc:HierarchyControlBar id="hierarchyControlBar" creationOptions="{ ProjectController.getInstance().resources.getBundle( 'environmentCreationOptions' ) }" createNode="this.createNode()" deleteNode="this.deleteNode()" deselectNode="this._deselect()" />
 	</mx:Panel>		
 	
-	<misc:AttributeEditor id="attributeEditor" title="Editing : { this.nodeTree.selectedItem.@id }" />
+	<misc:AttributeEditor id="attributeEditor" title="Attribute Editor" />
 		
 </mx:HDividedBox>

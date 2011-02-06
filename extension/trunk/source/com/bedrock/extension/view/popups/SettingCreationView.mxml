@@ -4,10 +4,10 @@
 		<![CDATA[
 			import com.bedrock.extension.controller.ProjectController;
 			
-			override public function populate( $selectedNode:XML ):void
+			override public function populate( $environmentID:String ):void
 			{
-				super.populate( $selectedNode );
-				this.environmentCombo.dataProvider = ProjectController.getInstance().config.environmentsArray;
+				super.populate( $environmentID );
+				this.environmentCombo.dataProvider = ProjectController.getInstance().config.environmentIDs;
 				this.environmentCombo.selectedIndex = this.selectedEnvironment;
 				this.showPopup();
 			}
