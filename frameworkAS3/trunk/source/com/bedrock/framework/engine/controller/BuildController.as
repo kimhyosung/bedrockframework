@@ -200,7 +200,7 @@
 		}
 		private function _setupLogger():void
 		{
-			Bedrock.logger.initialize( this.builder.loaderInfo );
+			if ( Bedrock.data.handleUncaughtErrors ) Bedrock.logger.setupUncaughtErrorHandling( this.builder.loaderInfo );
 			Bedrock.logger.errorsEnabled = Bedrock.data.errorsEnabled;
 			
 			var logger:ILoggingService = Bedrock.logger.getService( "trace" );
