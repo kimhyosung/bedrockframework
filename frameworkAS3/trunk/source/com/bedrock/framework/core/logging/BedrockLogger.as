@@ -71,12 +71,13 @@ package com.bedrock.framework.core.logging
 			return ( error.getStackTrace() != null );
 		}
 		
-		private function _internalLog( $trace:*=null, $level:int = 0, $stackLine:uint = 3 ):void
+		private function _internalLog( $trace:*=null, $level:int = 0, $error:Error = null, $stackLine:uint = 3 ):void
 		{
+			var errorObj:Error = $error || new Error;
 			if ( !this._initialized ) this.initialize();
 			
 			if ( this.available ) {
-				var data:LogData = new LogData( new Error, $level, $stackLine );
+				var data:LogData = new LogData( errorObj, $level, $stackLine );
 				var loggerService:ILoggingService;
 				
 				for each( var logger:ILoggingService in this._servicesArray ) {
@@ -133,7 +134,10 @@ package com.bedrock.framework.core.logging
 		}
 		private function _onUncaughtError( $event:Event ):void
 		{
-			
+			$event[ "preventDefault" ]();
+			if ( $event.hasOwnProperty( "error" ) ) {
+				this._internalLog( $event[ "error" ].message, LogLevel.ERROR, $event[ "error" ], 2 );
+			}
 		}
 		
 		public function get available():Boolean
