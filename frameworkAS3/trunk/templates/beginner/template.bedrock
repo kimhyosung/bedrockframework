@@ -1,19 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <template>
-  <name>beginner</name>
+  <id>beginner</id>
+  <label>Beginner</label>
+  <priority>20</priority>
   <versions>*</versions>
   <width>900</width>
   <height>600</height>
   <editableStructure>true</editableStructure>
   <structure>
-    <path id="sourceFolder" parent="root" value="source/" />
-    <path id="deployFolder" parent="root" value="wwwroot/" />
-    <path id="assetsFolder" parent="deployFolder" value="assets/" />
-    <path id="swfsFolder" parent="assetsFolder" value="swfs/" />
-    <path id="xmlFolder" parent="assetsFolder" value="xml/" />
-    <path id="imagesFolder" parent="assetsFolder" value="images/" />
-    <path id="videoFolder" parent="assetsFolder" value="video/" />
-    <path id="stylesheetFolder" parent="assetsFolder" value="stylesheet/" />
-    <path id="audioFolder" parent="assetsFolder" value="audio/" />
+    <path id="sourcePath" parent="root" value="source/" />
+    <path id="deployPath" parent="root" value="wwwroot/" />
+    <path id="configPath" parent="deployPath" value="" />
+    <path id="assetsPath" parent="deployPath" value="assets/" />
+    <path id="swfsPath" parent="assetsPath" value="swfs/" />
+    <path id="xmlPath" parent="assetsPath" value="xml/" />
+    <path id="imagesPath" parent="assetsPath" value="images/" />
+    <path id="videoPath" parent="assetsPath" value="video/" />
+    <path id="stylesheetPath" parent="assetsPath" value="stylesheet/" />
+    <path id="audioPath" parent="assetsPath" value="audio/" />
   </structure>
 </template>
