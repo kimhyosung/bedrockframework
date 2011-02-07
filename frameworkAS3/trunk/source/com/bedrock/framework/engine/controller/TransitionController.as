@@ -61,15 +61,21 @@
 				
 				if ( $details is String ) {
 					if ( this._stringContains( $details, "/" ) ) {
-						Bedrock.deeplinking.setAddress( $details );
-						//this.prepareDeeplinkTransition( { path:$details } );
+						if ( Bedrock.data.deeplinkingEnabled && !Bedrock.data.autoDeeplinkToModules ) {
+							Bedrock.deeplinking.setAddress( $details );
+						} else {
+							this.prepareDeeplinkTransition( { path:$details } );
+						}
 					} else {
 						this.prepareStandardTransition( { id:$details } );
 					}
 				} else {
 					if ( $details.path != null ) {
-						Bedrock.deeplinking.setAddress( $details.path );
-						//this.prepareDeeplinkTransition( $details );
+						if ( Bedrock.data.deeplinkingEnabled && !Bedrock.data.autoDeeplinkToModules ) {
+							Bedrock.deeplinking.setAddress( $details.path );
+						} else {
+							this.prepareDeeplinkTransition( $details );
+						}
 					} else {
 						this.prepareStandardTransition( $details );
 					}
@@ -122,7 +128,7 @@
 		{
 			this._bedrockSequenceData = new BedrockSequenceData;
 			var deeplinkPath:String;
-			var deeplinkEnabled:Boolean = ( Bedrock.data.deeplinkingEnabled && Bedrock.data.deeplinkModules );
+			var deeplinkEnabled:Boolean = ( Bedrock.data.deeplinkingEnabled && Bedrock.data.autoDeeplinkToModules );
 			if ( deeplinkEnabled ) deeplinkPath = Bedrock.engine::deeplinkingManager.getPath();
 			deeplinkEnabled = ( deeplinkEnabled && deeplinkPath != this._bedrockSequenceData.deeplink && deeplinkPath != "/" && deeplinkPath != null );
 			
@@ -489,7 +495,6 @@
 		private function _onPreloaderClearComplete( $event:ViewEvent ):void
 		{
 			this._disposePreloader();
-			if ( Bedrock.data.deeplinkModules ) this._updateDeeplinking();
 		}
 		
 		private function _onLoadComplete($event:BedrockEvent):void
@@ -503,6 +508,8 @@
 		}
 		private function _onSequenceComplete($event:Event):void
 		{
+			if ( Bedrock.data.autoDeeplinkToModules ) this._updateDeeplinking();
+			
 			if ( !this._initialTransitionComplete ) {
 				this._initialTransitionComplete = true;
 			}
