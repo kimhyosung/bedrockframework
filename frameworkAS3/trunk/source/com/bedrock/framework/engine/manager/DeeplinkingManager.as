@@ -29,7 +29,7 @@ package com.bedrock.framework.engine.manager
 			SWFAddress.addEventListener(SWFAddressEvent.INIT, this._onDeeplinkingInitialized );
 			SWFAddress.initialize();
 			
-			if ( Bedrock.data.deeplinkingEnabled && !Bedrock.data.deeplinkModules ) SWFAddress.addEventListener(SWFAddressEvent.INTERNAL_CHANGE, this._onChangeNotification); 
+			if ( Bedrock.data.deeplinkingEnabled && !Bedrock.data.autoDeeplinkToModules ) SWFAddress.addEventListener(SWFAddressEvent.INTERNAL_CHANGE, this._onChangeNotification); 
 			SWFAddress.addEventListener(SWFAddressEvent.EXTERNAL_CHANGE, this._onChangeNotification);
 		}
 		

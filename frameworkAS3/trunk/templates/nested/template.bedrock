@@ -18,5 +18,6 @@
     <path id="videoPath" parent="assetsPath" value="video/" label="Video Path" />
     <path id="stylesheetPath" parent="assetsPath" value="stylesheet/" label="Stylesheet Path" />
     <path id="audioPath" parent="assetsPath" value="audio/" label="Audio Path" />
+    <path id="scriptsPath" parent="assetsPath" value="scripts/" label="Scripts Path" />
   </structure>
 </template>
