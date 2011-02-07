@@ -1,7 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <project id="1297008046013" name="Android" generated="true">
   <path>file:///D|/Projects/Bedrock/project/frameworkAS3/trunk/templates/android/</path>
   <rootPackage>__template</rootPackage>
-  <template>beginner</template>
+  <template>android</template>
   <frameworkVersion>0.0.0</frameworkVersion>
   <fps>30</fps>
   <playerVersion>10</playerVersion>
@@ -11,26 +12,26 @@
   <created>6.2.2011</created>
   <stageColor>3355443</stageColor>
   <structure>
-    <path id="sourcePath" parent="root" value="source/" folder="source/"/>
-    <path id="deployPath" parent="root" value="deploy/" folder="deploy/"/>
-    <path id="configPath" parent="deployPath" value="" folder="deploy/"/>
-    <path id="assetsPath" parent="deployPath" value="assets/" folder="deploy/"/>
-    <path id="swfsPath" parent="deployPath" value="deploy/assets/swfs/" folder="deploy/"/>
-    <path id="xmlPath" parent="assetsPath" value="xml/" folder="deploy/assets/xml/"/>
-    <path id="imagesPath" parent="assetsPath" value="images/" folder="deploy/assets/images/"/>
-    <path id="videoPath" parent="assetsPath" value="video/" folder="deploy/assets/video/"/>
-    <path id="stylesheetPath" parent="assetsPath" value="stylesheet/" folder="deploy/assets/stylesheet/"/>
-    <path id="audioPath" parent="assetsPath" value="audio/" folder="deploy/assets/audio/"/>
+    <path id="sourcePath" parent="root" value="source/" folder="source/" />
+    <path id="deployPath" parent="root" value="deploy/" folder="deploy/" />
+    <path id="configPath" parent="deployPath" value="" folder="deploy/" />
+    <path id="assetsPath" parent="deployPath" value="assets/" folder="deploy/" />
+    <path id="swfsPath" parent="deployPath" value="deploy/assets/swfs/" folder="deploy/" />
+    <path id="xmlPath" parent="assetsPath" value="xml/" folder="deploy/assets/xml/" />
+    <path id="imagesPath" parent="assetsPath" value="images/" folder="deploy/assets/images/" />
+    <path id="videoPath" parent="assetsPath" value="video/" folder="deploy/assets/video/" />
+    <path id="stylesheetPath" parent="assetsPath" value="stylesheet/" folder="deploy/assets/stylesheet/" />
+    <path id="audioPath" parent="assetsPath" value="audio/" folder="deploy/assets/audio/" />
   </structure>
   <width>800</width>
   <height>480</height>
   <flas>
-    <file name="fonts" path="source/fonts.fla" type=".fla" publish="true"/>
-    <file name="library" path="source/library.fla" type=".fla" publish="true"/>
-    <file name="module1" path="source/module1.fla" type=".fla" publish="true"/>
-    <file name="module2" path="source/module2.fla" type=".fla" publish="true"/>
-    <file name="navigation" path="source/navigation.fla" type=".fla" publish="true"/>
-    <file name="shell" path="source/shell.fla" type=".fla" publish="true"/>
-    <file name="module3" path="source/module3.fla" type=".fla" publish="true"/>
+    <file name="fonts" path="source/fonts.fla" type=".fla" publish="true" />
+    <file name="library" path="source/library.fla" type=".fla" publish="true" />
+    <file name="module1" path="source/module1.fla" type=".fla" publish="true" />
+    <file name="module2" path="source/module2.fla" type=".fla" publish="true" />
+    <file name="navigation" path="source/navigation.fla" type=".fla" publish="true" />
+    <file name="shell" path="source/shell.fla" type=".fla" publish="true" />
+    <file name="module3" path="source/module3.fla" type=".fla" publish="true" />
   </flas>
 </project>
