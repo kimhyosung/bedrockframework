@@ -43,7 +43,7 @@ package com.bedrock.extension.controller
 		[Bindable]
 		public var templateXML:XML;
 		[Bindable]
-		public var templates:Array;
+		public var templateArray:Array;
 		[Bindable]
 		public var versions:Array;
 		[Bindable]
@@ -64,7 +64,7 @@ package com.bedrock.extension.controller
 		public function ExtensionController($singletonEnforcer:SingletonEnforcer)
 		{
 		}
-		public static function instance():ExtensionController
+		public static function get instance():ExtensionController
 		{
 			if (ExtensionController.__objInstance == null) {
 				ExtensionController.__objInstance = new ExtensionController(new SingletonEnforcer);
@@ -235,9 +235,10 @@ package com.bedrock.extension.controller
 		}
 		public function loadTemplates():void
 		{
-			this.templates = new Array;
+			this.templateArray = new Array;
 			this._loadVersionTemplates();
 			this._loadCustomTemplates();
+			this.templateArray.sortOn( BedrockData.PRIORITY, Array.DESCENDING | Array.NUMERIC );
 		}
 		private function _loadVersionTemplates():void
 		{
@@ -247,17 +248,17 @@ package com.bedrock.extension.controller
 			for each ( var templateXML:XML in templatesXML..template ) {
 				templateSettingsXML = this._openTemplate( templateXML.@path );
 				path = StringUtil.replace( VariableUtil.sanitize( templateXML.@path ), "template.bedrock", "" );
-				this.templates.push( { name:VariableUtil.sanitize( templateSettingsXML.name ), path:path } );
+				this.templateArray.push( { name:VariableUtil.sanitize( templateSettingsXML.name ), path:path } );
 			}
 		}
 		private function _loadCustomTemplates():void
 		{
 			for each ( var templateObj:Object in this._customTemplates ) {
 				if ( templateObj.versions.length == 0 ) {
-					this.templates.push( templateObj );
+					this.templateArray.push( templateObj );
 				} else {
 					if ( ArrayUtil.containsItem( templateObj.versions, this.projectXML.frameworkVersion ) ) {
-						this.templates.push( templateObj );
+						this.templateArray.push( templateObj );
 					}
 				}
 			}
@@ -293,8 +294,8 @@ package com.bedrock.extension.controller
 				this.moduleLoader.unloadModule();
 				this.moduleLoader.loadModule( this.delegate.getSelectedProjectPanelPath( this.projectXML ) );
 				
-				ProjectController.getInstance().initialize( this.resourceXML, this.settingsXML, this.projectXML, this.configXML );
-				ExtrasController.getInstance().initialize( this.projectXML, this.delegate );
+				ProjectController.instance.initialize( this.resourceXML, this.settingsXML, this.projectXML, this.configXML );
+				ExtrasController.instance.initialize( this.projectXML, this.delegate );
 				
 				Bedrock.dispatcher.dispatchEvent( new ExtensionEvent( ExtensionEvent.PROJECT_LOADED, this ) );
 				return true;
@@ -337,7 +338,7 @@ package com.bedrock.extension.controller
 			this.delegate.updateProject( this.projectXML, $switchFrameworkVersion );
 			
 			if ( VariableUtil.sanitize( this.projectXML.publishProject ) ) {
-				TweenLite.delayedCall( 0.5, ProjectController.getInstance().browser.publishProject );
+				TweenLite.delayedCall( 0.5, ProjectController.instance.browser.publishProject );
 			}
 			
 			this.saveProject();
@@ -376,7 +377,7 @@ package com.bedrock.extension.controller
 		}
 		public function loadTemplate( $name:String ):void
 		{
-			var template:Object = ArrayUtil.findItem( this.templates, $name, "name" );
+			var template:Object = ArrayUtil.findItem( this.templateArray, $name, "name" );
 			if ( template != null ) {
 				this.templateXML = this._openTemplate( template.path + "template.bedrock" );
 				this.templateXML.path = template.path;
@@ -455,7 +456,7 @@ package com.bedrock.extension.controller
 		private function _onReloadConfig( $event:ExtensionEvent ):void
 		{
 			this.configXML = new XML( this.delegate.openConfig( this.projectXML ) );
-			ProjectController.getInstance().update( this.resourceXML, this.settingsXML, this.projectXML, this.configXML );
+			ProjectController.instance.update( this.resourceXML, this.settingsXML, this.projectXML, this.configXML );
 		}
 		/*
 		Property Definitions

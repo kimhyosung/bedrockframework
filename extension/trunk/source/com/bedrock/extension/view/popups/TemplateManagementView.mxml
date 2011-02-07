@@ -11,17 +11,17 @@
 			
 			private function _findTemplate():void
 			{
-				ExtensionController.instance().findTemplate();
+				ExtensionController.instance.findTemplate();
 			}
 			private function _removeTemplate():void
 			{
-				ExtensionController.instance().removeTemplate( this.templateGrid.selectedItem.@name );
+				ExtensionController.instance.removeTemplate( this.templateGrid.selectedItem.@name );
 			}
 			
 		]]>
 	</mx:Script>
 	<mx:Panel title="Templates" styleName="parentPanel" height="100%">
-		<mx:DataGrid height="100%" width="400" id="templateGrid" dataProvider="{ ExtensionController.instance().settingsXML.templates..template }">
+		<mx:DataGrid height="100%" width="400" id="templateGrid" dataProvider="{ ExtensionController.instance.settingsXML.templates..template }">
 			<mx:columns>
 				<mx:DataGridColumn headerText="Name" dataField="@name"/>
 				<mx:DataGridColumn headerText="Path" dataField="@path"/>

@@ -28,6 +28,8 @@ package com.bedrock.extension.model
 		[Bindable]
 		public var locales:XMLList;
 		[Bindable]
+		public var localesArray:ArrayCollection;
+		[Bindable]
 		public var localeHierarchy:HierarchicalData;
 		[Bindable]
 		public var containers:XMLList;
@@ -85,6 +87,7 @@ package com.bedrock.extension.model
 			
 			this.settings = this.configXML.settings;
 			this.locales = this.configXML.locales;
+			this.refreshLocaleArrays();
 			this.localeHierarchy = new HierarchicalData( this.configXML.locales.children() );
 			this.containers = this.configXML.containers;
 			this.refreshContainerArray();
@@ -135,7 +138,7 @@ package com.bedrock.extension.model
 			
 			
 			this.saveConfig();
-			ProjectController.getInstance().browser.refresh();
+			ProjectController.instance.browser.refresh();
 			
 			return true;
 		}
@@ -143,7 +146,7 @@ package com.bedrock.extension.model
 		{
 			delete this.modules..module.( @id == $details.@id )[ 0 ];
 			this.delegate.deleteModule( this.projectXML, $details );
-			ProjectController.getInstance().browser.refresh();
+			ProjectController.instance.browser.refresh();
 		}
 		/*
 		Content
@@ -177,6 +180,15 @@ package com.bedrock.extension.model
 		public function refreshModuleHierarchy():void
 		{
 			this.moduleHierarchy = new HierarchicalData( this.modules.children() );
+		}
+		
+		public function refreshLocaleArrays():void
+		{
+			this.localesArray = new ArrayCollection;
+			
+			for each( var localeXML:XML in this.locales.children() ) {
+				this.localesArray.addItem( VariableUtil.sanitize( localeXML.@id ) );
+			}
 		}
 		/*
 		Assets

@@ -34,7 +34,7 @@ package com.bedrock.extension.view.cells
 		
 		public function populate( $data:Object ):void
 		{
-			this._xmlData = ProjectController.getInstance().projectXML..file.( @name == $data.@name )[ 0 ];
+			this._xmlData = ProjectController.instance.projectXML..file.( @name == $data.@name )[ 0 ];
 			if ( this._xmlData != null ) {
 				this.checkBox.enabled = true;
 				this.checkBox.visible = true;

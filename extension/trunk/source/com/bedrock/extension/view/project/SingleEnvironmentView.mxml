@@ -25,16 +25,16 @@
 	        private function _applyIcons():void
 	        {
 	        	var xmlItem:XML;
-				for each ( xmlItem in ProjectController.getInstance().config.environments..setting ) {
+				for each ( xmlItem in ProjectController.instance.config.environments..setting ) {
 					this.nodeTree.setItemIcon( xmlItem, SettingIcon, SettingIcon );
 				}
-				for each ( xmlItem in ProjectController.getInstance().config.environments..variable ) {
+				for each ( xmlItem in ProjectController.instance.config.environments..variable ) {
 					this.nodeTree.setItemIcon( xmlItem, VariableIcon, VariableIcon );
 				}
-				for each ( xmlItem in ProjectController.getInstance().config.environments..path ) {
+				for each ( xmlItem in ProjectController.instance.config.environments..path ) {
 					this.nodeTree.setItemIcon( xmlItem, PathIcon, PathIcon );
 				}
-				for each ( xmlItem in ProjectController.getInstance().config.environments..pattern ) {
+				for each ( xmlItem in ProjectController.instance.config.environments..pattern ) {
 					this.nodeTree.setItemIcon( xmlItem, PatternIcon, PatternIcon );
 				}
 	        }

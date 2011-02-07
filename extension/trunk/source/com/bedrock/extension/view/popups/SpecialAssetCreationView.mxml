@@ -35,7 +35,7 @@
         		assetXML.@localeURL = this.localeURLText.text;
         		assetXML.@localeEnabled = this.localeEnabledCheck.selected;
         		
-            	ProjectController.getInstance().config.generateSpecialAsset( assetXML, this.copyFromTemplateCheck.selected );
+            	ProjectController.instance.config.generateSpecialAsset( assetXML, this.copyFromTemplateCheck.selected );
 				
             	this.closePopup( true );
             }
@@ -48,10 +48,10 @@
 	
 		<mx:Form width="100%" >
 			<mx:FormItem label="ID" width="100%" >
-				<mx:ComboBox id="idCombo" dataProvider="{ ProjectController.getInstance().resources.getBundle( 'specialAssetIDs' ) }" />
+				<mx:ComboBox id="idCombo" dataProvider="{ ProjectController.instance.resources.getBundle( 'specialAssetIDs' ) }" />
 			</mx:FormItem>
 			<mx:FormItem label="Path" width="100%" >
-				<mx:ComboBox id="pathCombo" dataProvider="{ ProjectController.getInstance().config.pathArray }" />
+				<mx:ComboBox id="pathCombo" dataProvider="{ ProjectController.instance.config.pathArray }" />
 			</mx:FormItem>
 			<mx:FormItem label="Default URL" width="100%" >
 				<mx:TextInput id="defaultURLText" />

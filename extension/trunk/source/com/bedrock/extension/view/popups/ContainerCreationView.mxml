@@ -12,9 +12,9 @@
 				this.idText.text = "";
 				this.parentCombo.selectedIndex = 0;
 				
-				this.parentCombo.dataProvider = ProjectController.getInstance().config.containerParentArray;
+				this.parentCombo.dataProvider = ProjectController.instance.config.containerParentArray;
 				if ( $selectedNode != null ) {
-					this.parentCombo.selectedIndex = ArrayUtil.findIndex( ProjectController.getInstance().config.containerParentArray.source, $selectedNode.@id.toString() );
+					this.parentCombo.selectedIndex = ArrayUtil.findIndex( ProjectController.instance.config.containerParentArray.source, $selectedNode.@id.toString() );
 				} else {
 					this.parentCombo.selectedIndex = 0;
 				}
@@ -27,9 +27,9 @@
             	var containerXML:XML = new XML( <container id={ this.idText.text } x={ this.xText.text } y={ this.yText.text }/> );
             	if ( this.idText.text != "" ) {
             		if ( this.parentCombo.selectedItem == OptionData.ROOT ) {
-	            		ProjectController.getInstance().config.containers.appendChild( containerXML );
+	            		ProjectController.instance.config.containers.appendChild( containerXML );
             		} else {
-	            		var xmlParent:XML = ProjectController.getInstance().config.containers..container.( @id == this.parentCombo.selectedLabel )[ 0 ];
+	            		var xmlParent:XML = ProjectController.instance.config.containers..container.( @id == this.parentCombo.selectedLabel )[ 0 ];
 	            		xmlParent.appendChild( containerXML );
             		}
             		this.closePopup( true );

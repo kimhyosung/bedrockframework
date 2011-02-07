@@ -7,7 +7,7 @@
 			
 			public function showPopup():void
 			{
-				PopUpManager.addPopUp( this, ExtensionController.instance().root, true );
+				PopUpManager.addPopUp( this, ExtensionController.instance.root, true );
 				PopUpManager.centerPopUp( this );
 			}
 			

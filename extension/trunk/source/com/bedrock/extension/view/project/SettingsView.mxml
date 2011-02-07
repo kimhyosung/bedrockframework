@@ -23,7 +23,7 @@
 			*/
 			private function bootup():void
 			{
-				this._settingsProxy = new ConfigSettingsProxy( ProjectController.getInstance().config );
+				this._settingsProxy = new ConfigSettingsProxy( ProjectController.instance.config );
 				
 				this.populate();
 				this._behaviorCheckBoxes = new ArrayCollection( this._createOptions( "behaviorSettings", this.behaviorSettingsForm ) );
@@ -34,12 +34,12 @@
 			private function _createOptions( $bundleID:String, $form:Form ):Array
 			{
 				var objCheckBox:CheckBox;
-				var arrResult:Array = ProjectController.getInstance().resources.getBundle( $bundleID );
+				var arrResult:Array = ProjectController.instance.resources.getBundle( $bundleID );
 				for each( var objOption:Object in arrResult ) {
 					objCheckBox = new CheckBox;
 					objCheckBox.id = objOption.id + "Check";
 					objCheckBox.label = objOption.label;
-					objCheckBox.selected = ProjectController.getInstance().config.getSettingValue( objOption.id );
+					objCheckBox.selected = ProjectController.instance.config.getSettingValue( objOption.id );
 					objCheckBox.addEventListener( Event.CHANGE, this._onChange );
 					
 					objOption.check = objCheckBox;
@@ -49,11 +49,11 @@
 			}
 			private function populate():void
 			{
-				this.stageAlignmentCombo.dataProvider = ProjectController.getInstance().resources.getBundle( "stageAlignmentOptions" );
+				this.stageAlignmentCombo.dataProvider = ProjectController.instance.resources.getBundle( "stageAlignmentOptions" );
 				this.stageAlignmentCombo.selectedIndex = this._findIndexInBundle( "stageAlignmentOptions", this._settingsProxy.stageAlignment );
-				this.stageScaleModeCombo.dataProvider = ProjectController.getInstance().resources.getBundle( "stageScaleModeOptions" );
+				this.stageScaleModeCombo.dataProvider = ProjectController.instance.resources.getBundle( "stageScaleModeOptions" );
 				this.stageScaleModeCombo.selectedIndex = this._findIndexInBundle( "stageScaleModeOptions", this._settingsProxy.stageScaleMode );
-				this.defaultTransitionStyleCombo.dataProvider = ProjectController.getInstance().resources.getBundle( "defaultTransitionStyleOptions" );
+				this.defaultTransitionStyleCombo.dataProvider = ProjectController.instance.resources.getBundle( "defaultTransitionStyleOptions" );
 				this.defaultTransitionStyleCombo.selectedIndex = this._findIndexInBundle( "defaultTransitionStyleOptions", this._settingsProxy.defaultTransitionStyle );
 				
 				this.initialPreloaderTimeStepper.value = this._settingsProxy.initialPreloaderTime;
@@ -62,13 +62,13 @@
 				this.blockerColorPicker.selectedColor = this._settingsProxy.blockerColor;
 				
 				this.localesEnabledCheck.selected = this._settingsProxy.localesEnabled;
-				this.defaultLocaleCombo.selectedIndex = this._findIndexInXML( this._settingsProxy.defaultLocale, ProjectController.getInstance().config.locales..locale );
+				this.defaultLocaleCombo.selectedIndex = this._findIndexInXML( this._settingsProxy.defaultLocale, ProjectController.instance.config.locales..locale );
 				
 				this.logDetailDepthStepper.value = this._settingsProxy.logDetailDepth;
 				this.errorsEnabledCheck.selected = this._settingsProxy.errorsEnabled;
 				this.handleUncaughtErrorsCheck.selected = this._settingsProxy.handleUncaughtErrors;
 				
-				var arrLogLevels:Array = ProjectController.getInstance().resources.getBundle( "logOptions" );
+				var arrLogLevels:Array = ProjectController.instance.resources.getBundle( "logOptions" );
 				this.traceLogLevelCombo.dataProvider = arrLogLevels;
 				this.traceLogLevelCombo.selectedIndex = this._findIndexInArray( arrLogLevels, this._settingsProxy.traceLogLevel );
 				this.eventLogLevelCombo.dataProvider = arrLogLevels;
@@ -83,7 +83,7 @@
 				this.applyLocaleSettings();
 				this.applyBehaviorSettings();
 				this.applyLoggerSettings();
-				ProjectController.getInstance().config.autoSaveConfig();
+				ProjectController.instance.config.autoSaveConfig();
 			}
 			
 			private function applyGeneralSettings():void
@@ -99,7 +99,7 @@
 			private function applyBehaviorSettings():void
 			{
 				for each( var objOption:Object in this._behaviorCheckBoxes.source ) {
-					ProjectController.getInstance().config.setSettingValue( objOption.id, objOption.check.selected );
+					ProjectController.instance.config.setSettingValue( objOption.id, objOption.check.selected );
 				}
 			}
 			private function applyLocaleSettings():void
@@ -129,7 +129,7 @@
 			
 			private function _findIndexInBundle( $bundle:String, $id:String ):int
 			{
-				return this._findIndexInArray( ProjectController.getInstance().resources.getBundle( $bundle ), $id );
+				return this._findIndexInArray( ProjectController.instance.resources.getBundle( $bundle ), $id );
 			}
 			private function _findIndexInArray( $array:Array, $id:String ):int
 			{
@@ -221,7 +221,7 @@
 						<mx:CheckBox id="localesEnabledCheck" selected="false" change="this._onChange( event )" />
 					</mx:FormItem>
 					<mx:FormItem label="Default Locale">
-						<mx:ComboBox id="defaultLocaleCombo" dataProvider="{ ProjectController.getInstance().config.locales..locale }" labelField="@id"  change="this._onChange( event )"/>
+						<mx:ComboBox id="defaultLocaleCombo" dataProvider="{ ProjectController.instance.config.localesArray }" labelField="@id"  change="this._onChange( event )"/>
 					</mx:FormItem>
 				</mx:Form>
 			</mx:Panel>

@@ -9,7 +9,7 @@
 			private function _onChange( $event:Event ):void
 			{
 				this[ "update" ]();
-				ProjectController.getInstance().config.autoSaveConfig();
+				ProjectController.instance.config.autoSaveConfig();
 			}
 			
 			override public function set data( $data:Object ):void

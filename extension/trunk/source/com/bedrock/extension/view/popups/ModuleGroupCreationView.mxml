@@ -17,7 +17,7 @@
 	            	xmlContent.@initialLoad = this.initialLoadCheck.selected;
 	            	xmlContent.@initialTransition = this.initialTransitionCheck.selected;
 	            	
-	            	ProjectController.getInstance().config.modules.appendChild( xmlContent );
+	            	ProjectController.instance.config.modules.appendChild( xmlContent );
 	            	this.closePopup( true );
             	}
             }

@@ -6,16 +6,16 @@
 			
 			private function bootup():void
 			{
-				ProjectController.getInstance().setup( this );
+				ProjectController.instance.setup( this );
 			}
 			
 			private function publishShell():void
 			{
-				ProjectController.getInstance().browser.publishShell();
+				ProjectController.instance.browser.publishShell();
 			}
 			private function publishProject():void
 			{
-				ProjectController.getInstance().browser.publishProject();
+				ProjectController.instance.browser.publishProject();
 			}
 			
 			

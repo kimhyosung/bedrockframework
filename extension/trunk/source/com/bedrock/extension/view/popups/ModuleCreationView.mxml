@@ -15,9 +15,9 @@
             	this.initialTransitionCheck.enabled = true;
             	this.initialTransitionCheck.selected = false;
             	
-            	this.moduleGroupCombo.dataProvider = ProjectController.getInstance().config.moduleGroupsArray;
+            	this.moduleGroupCombo.dataProvider = ProjectController.instance.config.moduleGroupsArray;
 				if ( $selectedNode != null && $selectedNode.name() == "moduleGroup" ) {
-					this.moduleGroupCombo.selectedIndex = ArrayUtil.findIndex( ProjectController.getInstance().config.moduleGroupsArray.source, $selectedNode.@id.toString() );
+					this.moduleGroupCombo.selectedIndex = ArrayUtil.findIndex( ProjectController.instance.config.moduleGroupsArray.source, $selectedNode.@id.toString() );
 				} else {
 					this.moduleGroupCombo.selectedIndex = 0;
 				}
@@ -35,7 +35,7 @@
 	            	xmlModule.@autoDispose = this.autoDisposeCheck.selected;
 	            	xmlModule.@autoDisposeAssets = this.autoDisposeAssetsCheck.selected;
 	            	xmlModule.@container = this.containerCombo.selectedLabel;
-	            	ProjectController.getInstance().config.createModule( xmlModule, this.moduleGroupCombo.selectedLabel, this.templateCombo.selectedLabel );
+	            	ProjectController.instance.config.createModule( xmlModule, this.moduleGroupCombo.selectedLabel, this.templateCombo.selectedLabel );
 	            	
 	            	this.closePopup( true );
             	}
@@ -76,13 +76,13 @@
 				<mx:TextInput id="labelText"/>
 			</mx:FormItem>
 			<mx:FormItem label="Template">
-				<mx:ComboBox id="templateCombo" dataProvider="{ ProjectController.getInstance().config.moduleTemplateArray }" />
+				<mx:ComboBox id="templateCombo" dataProvider="{ ProjectController.instance.config.moduleTemplateArray }" />
 			</mx:FormItem>
 			
 			<mx:HRule width="100%"/>
 			
 			<mx:FormItem label="Container" width="100%">
-				<mx:ComboBox id="containerCombo" dataProvider="{ ProjectController.getInstance().config.containerArray }" />
+				<mx:ComboBox id="containerCombo" dataProvider="{ ProjectController.instance.config.containerArray }" />
 			</mx:FormItem>
 			<mx:FormItem label="Priority"  height="100%" horizontalAlign="center">
 				<mx:NumericStepper id="priorityStepper"  minimum="0" maximum="10" stepSize="1" value="0"/>
@@ -95,7 +95,7 @@
 			</mx:FormItem>
 			
 			<mx:FormItem label="Asset Group" width="100%">
-				<mx:ComboBox id="assetGroupCombo" dataProvider="{ ProjectController.getInstance().config.moduleAssetGroupsArray }" />
+				<mx:ComboBox id="assetGroupCombo" dataProvider="{ ProjectController.instance.config.moduleAssetGroupsArray }" />
 			</mx:FormItem>
 			
 		</mx:Form>

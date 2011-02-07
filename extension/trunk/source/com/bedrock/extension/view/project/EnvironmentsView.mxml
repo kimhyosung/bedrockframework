@@ -53,8 +53,8 @@
 				this.environmentAccordion.removeAllChildren();
 				var environmentXML:XML;
 				
-				for each ( var id:String in ProjectController.getInstance().config.environmentIDs.source ) {
-					environmentXML = ProjectController.getInstance().config.environments..environment.( @id == id )[ 0 ];
+				for each ( var id:String in ProjectController.instance.config.environmentIDs.source ) {
+					environmentXML = ProjectController.instance.config.environments..environment.( @id == id )[ 0 ];
 					environmentView = new SingleEnvironmentView;
 					environmentView.initialize();
 					environmentView.label = id;
@@ -106,14 +106,14 @@
 	            			this.deleteVariable();
 	            			break;
             		}
-	            	ProjectController.getInstance().config.autoSaveConfig();
+	            	ProjectController.instance.config.autoSaveConfig();
 	            	this.attributeEditor.clearForm();
             	} else {
 	            	var id:String = SingleEnvironmentView( this.environmentAccordion.selectedChild ).id;
 	            	if ( id != BedrockData.DEFAULT && id != BedrockData.PRODUCTION ) {
 	        			this.deleteEnvironment();
 		            	this.attributeEditor.clearForm();
-		            	ProjectController.getInstance().config.autoSaveConfig();
+		            	ProjectController.instance.config.autoSaveConfig();
 	            	}
             	}
             }
@@ -122,26 +122,26 @@
             */
             private function deleteEnvironment():void
             {
-            	delete ProjectController.getInstance().config.environments..environment.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).id )[ 0 ];
+            	delete ProjectController.instance.config.environments..environment.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).id )[ 0 ];
             }
             private function deletePattern():void
             {
-            	var environmentXML:XML = ProjectController.getInstance().config.environments..environment.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).id )[ 0 ];
+            	var environmentXML:XML = ProjectController.instance.config.environments..environment.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).id )[ 0 ];
             	delete environmentXML..pattern.( @value == SingleEnvironmentView( this.environmentAccordion.selectedChild ).nodeTree.selectedItem.@value )[ 0 ];
             }
             private function deleteSetting():void
             {
-            	var environmentXML:XML = ProjectController.getInstance().config.environments..environment.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).id )[ 0 ];
+            	var environmentXML:XML = ProjectController.instance.config.environments..environment.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).id )[ 0 ];
             	delete environmentXML..setting.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).nodeTree.selectedItem.@id )[ 0 ];
             }
             private function deletePath():void
             {
-            	var environmentXML:XML = ProjectController.getInstance().config.environments..environment.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).id )[ 0 ];
+            	var environmentXML:XML = ProjectController.instance.config.environments..environment.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).id )[ 0 ];
             	delete environmentXML..path.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).nodeTree.selectedItem.@id )[ 0 ];
             }
             private function deleteVariable():void
             {
-            	var environmentXML:XML = ProjectController.getInstance().config.environments..environment.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).id )[ 0 ];
+            	var environmentXML:XML = ProjectController.instance.config.environments..environment.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).id )[ 0 ];
             	delete environmentXML..variable.( @id == SingleEnvironmentView( this.environmentAccordion.selectedChild ).nodeTree.selectedItem.@id )[ 0 ];
             }
             /*
@@ -157,7 +157,7 @@
 				 var environmentXML:XML;
 				var slides:Array = this._environmentSlides.getValues();
 				for each ( var slide:SingleEnvironmentView in slides ) {
-					environmentXML = ProjectController.getInstance().config.environments..environment.( @id == slide.id )[ 0 ];
+					environmentXML = ProjectController.instance.config.environments..environment.( @id == slide.id )[ 0 ];
 					slide.nodeTree.dataProvider = new HierarchicalData( environmentXML.children() );
 					slide.update();
 				} 
@@ -168,7 +168,7 @@
 			*/
 			private function _onConfigLoaded( $event:ExtensionEvent ):void
 			{
-				if ( ProjectController.getInstance().config.environmentIDs.length != this._environmentSlides.size ) {
+				if ( ProjectController.instance.config.environmentIDs.length != this._environmentSlides.size ) {
 					this._createEnvironmentSlides();
 				}
 				this._update();
@@ -181,7 +181,7 @@
 	</mx:Script>
 	<mx:Panel width="100%" height="100%" layout="vertical" title="Hierarchy" >
 		<mx:Accordion width="100%" height="100%" id="environmentAccordion"/>
-		<misc:HierarchyControlBar id="hierarchyControlBar" creationOptions="{ ProjectController.getInstance().resources.getBundle( 'environmentCreationOptions' ) }" createNode="this.createNode()" deleteNode="this.deleteNode()" deselectNode="this._deselect()" />
+		<misc:HierarchyControlBar id="hierarchyControlBar" creationOptions="{ ProjectController.instance.resources.getBundle( 'environmentCreationOptions' ) }" createNode="this.createNode()" deleteNode="this.deleteNode()" deselectNode="this._deselect()" />
 	</mx:Panel>		
 	
 	<misc:AttributeEditor id="attributeEditor" title="Attribute Editor" />

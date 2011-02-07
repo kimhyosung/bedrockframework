@@ -76,19 +76,19 @@
             {
                 this.selectedNode.@[this.nameText.text ] = this.valueText.text;
 				this.populateForm();
-				ProjectController.getInstance().config.autoSaveConfig();
+				ProjectController.instance.config.autoSaveConfig();
             }
             public function _updateAttribute():void
             {
 				this.selectedNode.@[ this.attributeGrid.selectedItem.name ] = this.valueText.text;
                this.populateForm();
-               ProjectController.getInstance().config.autoSaveConfig();
+               ProjectController.instance.config.autoSaveConfig();
             }
             public function _deleteAttribute():void
             {
             	delete this.selectedNode.@[ this.attributeGrid.selectedItem.name ];
             	this.populateForm();
-            	ProjectController.getInstance().config.autoSaveConfig();
+            	ProjectController.instance.config.autoSaveConfig();
             }
 			
 			private function onGridSelect( $event:Event ):void

@@ -24,8 +24,8 @@
 			
 			private function _onCalculateBytes( $event:MouseEvent ):void
 			{
-				ProjectController.getInstance().config.updateBytes( this.rawData );
-				ProjectController.getInstance().config.autoSaveConfig();
+				ProjectController.instance.config.updateBytes( this.rawData );
+				ProjectController.instance.config.autoSaveConfig();
 			}
 			
 			private function _onMouseOver( $event:MouseEvent ):void

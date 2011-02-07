@@ -13,7 +13,7 @@
 				
 				columns.push( this._getFirstColumn() );
 				var column:DataGridColumn;
-				for each( var option:Object in ExtensionController.instance().namingConventions.options ) {
+				for each( var option:Object in ExtensionController.instance.namingConventions.options ) {
 					column = new DataGridColumn();
 					column.headerText = option.label;
 					column.dataField = option.id;

@@ -54,7 +54,7 @@
 							this._deleteModuleGroup();
             				break;
             		}
-	            	ProjectController.getInstance().config.autoSaveConfig();
+	            	ProjectController.instance.config.autoSaveConfig();
 	            	this.attributeEditor.clearForm();
             	}
             }
@@ -64,14 +64,14 @@
             */
             private function _deleteModuleGroup():void
             {
-            	delete ProjectController.getInstance().config.modules..moduleGroup.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
+            	delete ProjectController.instance.config.modules..moduleGroup.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
             }
             /*
             Insterface Functions
             */
             private function _calculateBytes():void
 			{
-				ProjectController.getInstance().config.updateModuleBytes();
+				ProjectController.instance.config.updateModuleBytes();
 				this.attributeEditor.clearForm();
 			}
             private function _deselect():void
@@ -89,7 +89,7 @@
             
             private function _onDragStop( $event:DragEvent ):void
 			{
-                ProjectController.getInstance().config.reorderModules( ProjectController.getInstance().config.moduleHierarchy.source.toString() );
+                ProjectController.instance.config.reorderModules( ProjectController.instance.config.moduleHierarchy.source.toString() );
             }
             
 		]]>
@@ -101,7 +101,7 @@
 	
 	
 	<mx:Panel  title="Hierarchy" width="100%" height="100%">
-		<mx:AdvancedDataGrid id="nodeTree" designViewDataType="tree" displayItemsExpanded="true" sortExpertMode="true" width="100%" height="100%" dataProvider="{ ProjectController.getInstance().config.moduleHierarchy }" defaultLeafIcon="{ ModuleIcon }" folderOpenIcon="{ ModuleGroupIcon }" folderClosedIcon="{ ModuleGroupIcon }" itemClick="this._onTreeSelect( event )">
+		<mx:AdvancedDataGrid id="nodeTree" designViewDataType="tree" displayItemsExpanded="true" sortExpertMode="true" width="100%" height="100%" dataProvider="{ ProjectController.instance.config.moduleHierarchy }" defaultLeafIcon="{ ModuleIcon }" folderOpenIcon="{ ModuleGroupIcon }" folderClosedIcon="{ ModuleGroupIcon }" itemClick="this._onTreeSelect( event )">
 			<mx:headerRenderer>
 				<mx:Component>
 					<mx:AdvancedDataGridHeaderRenderer horizontalAlign="left"/>
@@ -119,7 +119,7 @@
 				<mx:AdvancedDataGridColumn resizable="false" sortable="false" width="25" itemRenderer="com.bedrock.extension.view.cells.CalculateSizeCell" />
 			</mx:columns>
 		</mx:AdvancedDataGrid>
-		<misc:HierarchyControlBar creationOptions="{ ProjectController.getInstance().resources.getBundle( 'contentCreationOptions' ) }" id="hierarchyControlBar" createNode="this._createNode()" deleteNode="this._deleteNode()" deselectNode="this._deselect()" showCalculateBytesButton="true" calculateBytes="this._calculateBytes()" />
+		<misc:HierarchyControlBar creationOptions="{ ProjectController.instance.resources.getBundle( 'contentCreationOptions' ) }" id="hierarchyControlBar" createNode="this._createNode()" deleteNode="this._deleteNode()" deselectNode="this._deselect()" showCalculateBytesButton="true" calculateBytes="this._calculateBytes()" />
 	</mx:Panel>
 	
 	<misc:AttributeEditor id="attributeEditor" title="Editing : { this.nodeTree.selectedItem.@id }" />

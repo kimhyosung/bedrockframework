@@ -23,7 +23,7 @@
 			
 			private function _onExportFLA( $event:MouseEvent ):void
 			{
-				ProjectController.getInstance().browser.exportSWF( this.rawData );
+				ProjectController.instance.browser.exportSWF( this.rawData );
 			}
 			
 			private function _onMouseOver( $event:MouseEvent ):void
@@ -39,7 +39,7 @@
 			
 			override public function set data( $data:Object ):void
 			{
-				this.rawData = ProjectController.getInstance().projectXML.flas.children().( @name == $data.@name )[ 0 ];
+				this.rawData = ProjectController.instance.projectXML.flas.children().( @name == $data.@name )[ 0 ];
 				if ( this.rawData != null ) {
 					this.buttonContainer.visible = true;
 				} else {

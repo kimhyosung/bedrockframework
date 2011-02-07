@@ -8,13 +8,13 @@
 			
 			public function showPopup():void
 			{
-				PopUpManager.addPopUp( this, ProjectController.getInstance().root, true );
+				PopUpManager.addPopUp( this, ProjectController.instance.root, true );
 				PopUpManager.centerPopUp( this );
 			}
 			
 			public function closePopup( $save:Boolean ):void
 			{
-				if ( $save ) ProjectController.getInstance().config.autoSaveConfig();
+				if ( $save ) ProjectController.instance.config.autoSaveConfig();
 				PopUpManager.removePopUp( this );
 				
 				this.dispatchEvent( new ExtensionEvent( ExtensionEvent.CLOSE, this ) );

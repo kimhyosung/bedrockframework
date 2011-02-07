@@ -11,9 +11,9 @@
 			public function populate( $selectedNode:XML ):void
 			{
 				this.idText.text = "";
-				this.assetGroupCombo.dataProvider = ProjectController.getInstance().config.assetGroupsArray;
+				this.assetGroupCombo.dataProvider = ProjectController.instance.config.assetGroupsArray;
 				if ( $selectedNode != null && $selectedNode.name() == "assetGroup" ) {
-					this.assetGroupCombo.selectedIndex = ArrayUtil.findIndex( ProjectController.getInstance().config.assetGroupsArray.source, $selectedNode.@id.toString() );
+					this.assetGroupCombo.selectedIndex = ArrayUtil.findIndex( ProjectController.instance.config.assetGroupsArray.source, $selectedNode.@id.toString() );
 				} else {
 					this.assetGroupCombo.selectedIndex = 0;
 				}
@@ -31,9 +31,9 @@
             		assetXML.@localeEnabled = this.localeEnabledCheck.selected;
             		assetXML.@priority = this.priorityStepper.value;
             		
-            		ProjectController.getInstance().config.updateBytes( assetXML );
+            		ProjectController.instance.config.updateBytes( assetXML );
             		
-	            	var groupXML:XML = ProjectController.getInstance().config.assets..assetGroup.( @id == this.assetGroupCombo.selectedLabel )[ 0 ];
+	            	var groupXML:XML = ProjectController.instance.config.assets..assetGroup.( @id == this.assetGroupCombo.selectedLabel )[ 0 ];
 					groupXML.appendChild( assetXML );
 					
 	            	this.closePopup( true );
@@ -50,10 +50,10 @@
 				<mx:TextInput id="idText" restrict="a-zA-Z0-9_"/>
 			</mx:FormItem>
 			<mx:FormItem label="Type" width="100%" >
-				<mx:ComboBox id="typeCombo" dataProvider="{ ProjectController.getInstance().resources.getBundle( 'assetTypeOptions' ) }" />
+				<mx:ComboBox id="typeCombo" dataProvider="{ ProjectController.instance.resources.getBundle( 'assetTypeOptions' ) }" />
 			</mx:FormItem>
 			<mx:FormItem label="Path" width="100%" >
-				<mx:ComboBox id="pathCombo" dataProvider="{ ProjectController.getInstance().config.pathArray }" />
+				<mx:ComboBox id="pathCombo" dataProvider="{ ProjectController.instance.config.pathArray }" />
 			</mx:FormItem>
 			<mx:FormItem label="Default URL" width="100%" >
 				<mx:TextInput id="defaultURLText" />
