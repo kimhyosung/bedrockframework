@@ -25,8 +25,8 @@
     <setting id="handleUncaughtErrors" value="false"/>
   </settings>
   <modules>
-    <module id="module1" container="container1" indexed="true" initialTransition="true" label="Module 1" priority="0" deeplink="" assetGroup="module1" initialLoad="true" autoDispose="false" autoDisposeAssets="false" estimatedBytes="82979"/>
-    <module id="module2" container="container1" indexed="true" initialTransition="false" label="Module 2" priority="0" deeplink="" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false" estimatedBytes="82627"/>
+    <module id="module1" container="container1" indexed="true" initialTransition="true" label="Module 1" priority="2" deeplink="" assetGroup="module1" initialLoad="true" autoDispose="false" autoDisposeAssets="false" estimatedBytes="82979"/>
+    <module id="module2" container="container1" indexed="true" initialTransition="false" label="Module 2" priority="1" deeplink="" assetGroup="none" initialLoad="false" autoDispose="false" autoDisposeAssets="false" estimatedBytes="82627"/>
     <module id="navigation" container="navigation" indexed="false" initialTransition="true" label="Navigation" priority="2" deeplink="" assetGroup="none" initialLoad="true" autoDispose="false" autoDisposeAssets="false" estimatedBytes="85053"/>
     <module id="module3" label="Module 3" indexed="true" priority="0" assetGroup="none" initialLoad="false" initialTransition="false" autoDispose="false" autoDisposeAssets="false" container="container1" estimatedBytes="0"/>
   </modules>
