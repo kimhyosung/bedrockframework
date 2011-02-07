@@ -231,38 +231,8 @@ package com.bedrock.extension.controller
 				  <structure/>
 				</project> );
 			this.loadTemplates();
-			this.loadTemplate( this.projectXML.template.toString() );
 		}
-		public function loadTemplates():void
-		{
-			this.templateArray = new Array;
-			this._loadVersionTemplates();
-			this._loadCustomTemplates();
-			this.templateArray.sortOn( BedrockData.PRIORITY, Array.DESCENDING | Array.NUMERIC );
-		}
-		private function _loadVersionTemplates():void
-		{
-			var templatesXML:XML = new XML( this.delegate.getVersionTemplates( this.projectXML ) );
-			var templateSettingsXML:XML;
-			var path:String;
-			for each ( var templateXML:XML in templatesXML..template ) {
-				templateSettingsXML = this._openTemplate( templateXML.@path );
-				path = StringUtil.replace( VariableUtil.sanitize( templateXML.@path ), "template.bedrock", "" );
-				this.templateArray.push( { name:VariableUtil.sanitize( templateSettingsXML.name ), path:path } );
-			}
-		}
-		private function _loadCustomTemplates():void
-		{
-			for each ( var templateObj:Object in this._customTemplates ) {
-				if ( templateObj.versions.length == 0 ) {
-					this.templateArray.push( templateObj );
-				} else {
-					if ( ArrayUtil.containsItem( templateObj.versions, this.projectXML.frameworkVersion ) ) {
-						this.templateArray.push( templateObj );
-					}
-				}
-			}
-		}
+		
 		public function findProject():Boolean
 		{
 			var strLocation:String = this.delegate.selectProjectFile();
@@ -357,6 +327,40 @@ package com.bedrock.extension.controller
 		/*
 		Templates
 		*/
+		public function loadTemplates():void
+		{
+			this.templateArray = new Array;
+			this._loadVersionTemplates();
+			this._loadCustomTemplates();
+			this.templateArray.sortOn( BedrockData.PRIORITY, Array.DESCENDING | Array.NUMERIC );
+			
+			this.projectXML.template = this.templateArray[ 0 ].id;
+			this.loadTemplate( this.projectXML.template.toString() );
+		}
+		private function _loadVersionTemplates():void
+		{
+			var templatesXML:XML = new XML( this.delegate.getVersionTemplates( this.projectXML ) );
+			var templateSettingsXML:XML;
+			var path:String;
+			for each ( var templateXML:XML in templatesXML..template ) {
+				templateSettingsXML = this._openTemplate( templateXML.@path );
+				path = StringUtil.replace( VariableUtil.sanitize( templateXML.@path ), "template.bedrock", "" );
+				this.templateArray.push( { id:VariableUtil.sanitize( templateSettingsXML.id ), label:templateSettingsXML.label, path:path } );
+			}
+		}
+		private function _loadCustomTemplates():void
+		{
+			for each ( var templateObj:Object in this._customTemplates ) {
+				if ( templateObj.versions.length == 0 ) {
+					this.templateArray.push( templateObj );
+				} else {
+					if ( ArrayUtil.containsItem( templateObj.versions, this.projectXML.frameworkVersion ) ) {
+						this.templateArray.push( templateObj );
+					}
+				}
+			}
+		}
+		
 		public function findTemplate():Boolean
 		{
 			var strLocation:String = this.delegate.selectTemplateFile();
@@ -371,13 +375,13 @@ package com.bedrock.extension.controller
 		{
 			var templateXML:XML = this._openTemplate( $path );
 			if ( templateXML != null ) {
-				this.settingsXML.templates.appendChild( <template name={ templateXML.name } path={ StringUtil.replace( $path, "template.bedrock", "" ) } versions={ templateXML.versions } /> );
+				this.settingsXML.templates.appendChild( <template id={ templateXML.id } label={ templateXML.label } path={ StringUtil.replace( $path, "template.bedrock", "" ) } versions={ templateXML.versions } /> );
 			}
 			this.saveSettings();
 		}
-		public function loadTemplate( $name:String ):void
+		public function loadTemplate( $id:String ):void
 		{
-			var template:Object = ArrayUtil.findItem( this.templateArray, $name, "name" );
+			var template:Object = ArrayUtil.findItem( this.templateArray, $id, "id" );
 			if ( template != null ) {
 				this.templateXML = this._openTemplate( template.path + "template.bedrock" );
 				this.templateXML.path = template.path;
@@ -403,9 +407,9 @@ package com.bedrock.extension.controller
 				}
 			}
 		}
-		public function removeTemplate( $name:String ):void
+		public function removeTemplate( $id:String ):void
 		{
-			delete this.settingsXML.templates..template.( @name == $name )[ 0 ];
+			delete this.settingsXML.templates..template.( @id == $id )[ 0 ];
 			this.saveSettings();
 		}
 		
