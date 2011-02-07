@@ -50,6 +50,9 @@
 				this.colorPicker.selectedColor = ExtensionController.instance.projectXML.stageColor;
 				this.publishProjectCheck.selected = VariableUtil.sanitize( ExtensionController.instance.projectXML.publishProject );
 				
+				this.templateCombo.dataProvider = ExtensionController.instance.templateArray;
+				this.templateCombo.selectedIndex = 0;
+				
 				this._updateTemplate();
 
 				this.templateCombo.selectedIndex = 0;
@@ -85,6 +88,8 @@
 			{
 				ExtensionController.instance.projectXML.frameworkVersion = this.frameworkVersionCombo.selectedLabel;
 				ExtensionController.instance.loadTemplates();
+				
+				this.templateCombo.dataProvider = ExtensionController.instance.templateArray;
 				this.templateCombo.selectedIndex = 0;
 			}
 			private function _updateProject():void
@@ -138,7 +143,7 @@
 			}
 			private function _updateTemplate():void
 			{
-				ExtensionController.instance.loadTemplate( this.templateCombo.selectedLabel );
+				ExtensionController.instance.loadTemplate( this.templateCombo.selectedItem.id );
 				
 				this.widthText.text = ExtensionController.instance.templateXML.width;
 				this.heightText.text = ExtensionController.instance.templateXML.height;
@@ -147,7 +152,8 @@
 				this._buildPathForm( ExtensionController.instance.template.root, this.rootPathForm );
 				this._buildPathForm( ExtensionController.instance.template.other, this.otherPathForm );
 				
-				//this.structurePanel.enabled = VariableUtil.sanitize( ExtensionController.instance.templateXML.editableStructure );
+				this.rootPathForm.enabled = VariableUtil.sanitize( ExtensionController.instance.templateXML.editableStructure );
+				this.otherPathForm.enabled = VariableUtil.sanitize( ExtensionController.instance.templateXML.editableStructure );
 			}
 			private function _getInput( $id:String ):TextInput
 			{
@@ -214,7 +220,7 @@
 						<mx:ComboBox id="frameworkVersionCombo" width="75" change="this._updateAll()" />
 					</mx:FormItem>
 					<mx:FormItem label="Template">
-						<mx:ComboBox id="templateCombo" labelField="id" change="this._updateTemplate()" dataProvider="{ ExtensionController.instance.templateArray }"/>
+						<mx:ComboBox id="templateCombo" labelField="label" change="this._updateTemplate()"/>
 					</mx:FormItem>
 					<mx:FormItem label="Root Package" direction="vertical" width="100%">
 						<mx:TextInput id="rootPackageText" width="200" change="this._updateProject()"/>

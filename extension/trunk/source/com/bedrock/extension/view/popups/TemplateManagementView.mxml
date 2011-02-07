@@ -15,7 +15,7 @@
 			}
 			private function _removeTemplate():void
 			{
-				ExtensionController.instance.removeTemplate( this.templateGrid.selectedItem.@name );
+				ExtensionController.instance.removeTemplate( this.templateGrid.selectedItem.@id );
 			}
 			
 		]]>
@@ -23,7 +23,8 @@
 	<mx:Panel title="Templates" styleName="parentPanel" height="100%">
 		<mx:DataGrid height="100%" width="400" id="templateGrid" dataProvider="{ ExtensionController.instance.settingsXML.templates..template }">
 			<mx:columns>
-				<mx:DataGridColumn headerText="Name" dataField="@name"/>
+				<mx:DataGridColumn headerText="ID" dataField="@id"/>
+				<mx:DataGridColumn headerText="Label" dataField="@label"/>
 				<mx:DataGridColumn headerText="Path" dataField="@path"/>
 				<mx:DataGridColumn headerText="Versions" dataField="@versions"/>
 			</mx:columns>

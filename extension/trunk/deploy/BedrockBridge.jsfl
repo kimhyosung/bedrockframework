@@ -2,7 +2,7 @@
 	function initializeBedrockPanel()
 	{
 		fl.outputPanel.clear();
-		fl.outputPanel.trace( "Bedrock Panel | Version 2.1.1" );
+		fl.outputPanel.trace( "Bedrock Panel | Version 2.1.2" );
 		fl.outputPanel.trace( "" );
 	}
 	function getConstants()
@@ -176,7 +176,6 @@
 		var flaPath;
 		
 		for each( var filename in arrFiles ) {
-		
 			flaPath = project.sourcePath + filename;
 			if ( FLfile.exists( flaPath ) ) {
 				
@@ -341,7 +340,6 @@
 		
 		if ( FLfile.exists( project.path + flaXML.@path ) ) {
 				
-				fl.trace( flaXML.toXMLString() );
 				if ( flaXML.@name != "shell" && flaXML.@name != "shell.fla" ) {
 					fl.publishDocument( project.path + flaXML.@path, "Default" );
 				} else {
