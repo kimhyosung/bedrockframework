@@ -183,7 +183,7 @@
 				Bedrock.engine::frontController.addCommand( BedrockEvent.TRANSITION_PREPARED, ShowBlockerCommand );
 				Bedrock.engine::frontController.addCommand( BedrockEvent.TRANSITION_COMPLETE, HideBlockerCommand );
 			}
-			if ( Bedrock.data.deeplinkingEnabled && Bedrock.data.autoDeeplinkToModules ) {
+			if ( Bedrock.data.deeplinkingEnabled ) {
 				Bedrock.engine::frontController.addCommand( BedrockEvent.DEEPLINK_CHANGE, DeeplinkChangeCommand );
 			}
 		}
