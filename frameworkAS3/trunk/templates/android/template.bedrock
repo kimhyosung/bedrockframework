@@ -2,18 +2,18 @@
 <template>
   <name>android</name>
   <versions>*</versions>
-  <width>900</width>
-  <height>600</height>
+  <width>800</width>
+  <height>480</height>
   <editableStructure>false</editableStructure>
   <structure>
-    <path id="sourceFolder" parentID="root" value="source/" />
-    <path id="deployFolder" parentID="root" value="wwwroot/" />
-    <path id="assetsFolder" parentID="deployFolder" value="assets/" />
-    <path id="swfsFolder" parentID="assetsFolder" value="swfs/" />
-    <path id="xmlFolder" parentID="assetsFolder" value="xml/" />
-    <path id="imagesFolder" parentID="assetsFolder" value="images/" />
-    <path id="videoFolder" parentID="assetsFolder" value="video/" />
-    <path id="stylesheetFolder" parentID="assetsFolder" value="stylesheet/" />
-    <path id="audioFolder" parentID="assetsFolder" value="audio/" />
+    <path id="sourceFolder" parent="root" value="source/" />
+    <path id="deployFolder" parent="root" value="deploy/" />
+    <path id="assetsFolder" parent="deployFolder" value="assets/" />
+    <path id="swfsFolder" parent="assetsFolder" value="swfs/" />
+    <path id="xmlFolder" parent="assetsFolder" value="xml/" />
+    <path id="imagesFolder" parent="assetsFolder" value="images/" />
+    <path id="videoFolder" parent="assetsFolder" value="video/" />
+    <path id="stylesheetFolder" parent="assetsFolder" value="stylesheet/" />
+    <path id="audioFolder" parent="assetsFolder" value="audio/" />
   </structure>
 </template>
