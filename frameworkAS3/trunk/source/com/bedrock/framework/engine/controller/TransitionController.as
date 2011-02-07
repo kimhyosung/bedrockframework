@@ -128,7 +128,7 @@
 		{
 			this._bedrockSequenceData = new BedrockSequenceData;
 			var deeplinkPath:String;
-			var deeplinkEnabled:Boolean = ( Bedrock.data.deeplinkingEnabled && Bedrock.data.autoDeeplinkToModules );
+			var deeplinkEnabled:Boolean = Bedrock.data.deeplinkingEnabled;
 			if ( deeplinkEnabled ) deeplinkPath = Bedrock.engine::deeplinkingManager.getPath();
 			deeplinkEnabled = ( deeplinkEnabled && deeplinkPath != this._bedrockSequenceData.deeplink && deeplinkPath != "/" && deeplinkPath != null );
 			
@@ -144,7 +144,7 @@
 			if ( !deeplinkEnabled && !idEnabled ) {
 				this._appendIndexedModules( defaultModules, "incoming" );
 			} else if ( deeplinkEnabled ) {
-				module = Bedrock.engine::moduleManager.filterModules( "deeplink", deeplinkPath )[ 0 ];
+				module = Bedrock.engine::moduleManager.getModule( this._getModuleIDFromDeeplink( deeplinkPath ) );
 				if ( module != null ) {
 					this._bedrockSequenceData.deeplink = module.deeplink;
 					this._bedrockSequenceData.appendIncoming( [ module ] );
@@ -188,11 +188,7 @@
 		{
 			this._bedrockSequenceData = new BedrockSequenceData;
 			
-			var path:String = $details.path;
-			var startIndex:int = ( path.charAt(0) == "/" ) ? 1 : 0;
-			var endIndex:int = path.indexOf( "/", startIndex );
-			if ( endIndex == -1 ) endIndex = path.length;
-			var id:String = path.substring( startIndex, endIndex );
+			var id:String = this._getModuleIDFromDeeplink( $details.path );
 			
 			if ( Bedrock.engine::moduleManager.hasModule( id ) ) {
 				var module:BedrockModuleData = Bedrock.engine::moduleManager.getModule( id );
@@ -208,6 +204,13 @@
 					this.runTransition();
 				}
 			}
+		}
+		private function _getModuleIDFromDeeplink( $deeplink:String ):String
+		{
+			var startIndex:int = ( $deeplink.charAt(0) == "/" ) ? 1 : 0;
+			var endIndex:int = $deeplink.indexOf( "/", startIndex );
+			if ( endIndex == -1 ) endIndex = $deeplink.length;
+			return $deeplink.substring( startIndex, endIndex );
 		}
 		/*
 		Appends
