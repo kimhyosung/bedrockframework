@@ -8,15 +8,15 @@
   <height>480</height>
   <editableStructure>false</editableStructure>
   <structure>
-    <path id="sourcePath" parent="root" value="source/" />
-    <path id="deployPath" parent="root" value="deploy/" />
-    <path id="configPath" parent="deployPath" value="" />
-    <path id="assetsPath" parent="deployPath" value="assets/" />
-    <path id="swfsPath" parent="assetsPath" value="swfs/" />
-    <path id="xmlPath" parent="assetsPath" value="xml/" />
-    <path id="imagesPath" parent="assetsPath" value="images/" />
-    <path id="videoPath" parent="assetsPath" value="video/" />
-    <path id="stylesheetPath" parent="assetsPath" value="stylesheet/" />
-    <path id="audioPath" parent="assetsPath" value="audio/" />
+    <path id="sourcePath" parent="root" value="source/" label="Source Path" />
+    <path id="deployPath" parent="root" value="deploy/" label="Deploy Path" />
+    <path id="configPath" parent="deployPath" value="" label="Config Path" />
+    <path id="assetsPath" parent="deployPath" value="assets/" label="Assets Path" />
+    <path id="swfsPath" parent="assetsPath" value="swfs/" label="SWFs Path" />
+    <path id="xmlPath" parent="assetsPath" value="xml/" label="XML Path" />
+    <path id="imagesPath" parent="assetsPath" value="images/" label="Images Path" />
+    <path id="videoPath" parent="assetsPath" value="video/" label="Video Path" />
+    <path id="stylesheetPath" parent="assetsPath" value="stylesheet/" label="Stylesheet Path" />
+    <path id="audioPath" parent="assetsPath" value="audio/" label="Audio Path" />
   </structure>
 </template>
