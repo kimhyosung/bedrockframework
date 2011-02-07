@@ -7,7 +7,7 @@
 			override public function populate( $environmentID:String ):void
 			{
 				super.populate( $environmentID );
-				this.environmentCombo.dataProvider = ProjectController.getInstance().config.environmentIDs;
+				this.environmentCombo.dataProvider = ProjectController.instance.config.environmentIDs;
 				this.environmentCombo.selectedIndex = this.selectedEnvironment;
 				this.showPopup();
 			}
@@ -15,7 +15,7 @@
 			private function _create():void
             {
             	if ( this.idText.text != "" && this.valueText.text != "" ) {
-	            	var xmlNode:XML = ProjectController.getInstance().config.environments..environment.( @id == this.environmentCombo.selectedLabel )[ 0 ];
+	            	var xmlNode:XML = ProjectController.instance.config.environments..environment.( @id == this.environmentCombo.selectedLabel )[ 0 ];
 	            	xmlNode.appendChild( <variable id={ this.idText.text } value={ this.valueText.text } /> );
 	            	
 	            	this.closePopup( true );

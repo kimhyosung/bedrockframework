@@ -18,7 +18,7 @@ package com.bedrock.extension.controller
 		public function ExtrasController($singletonEnforcer:SingletonEnforcer)
 		{
 		}
-		public static function getInstance():ExtrasController
+		public static function get instance():ExtrasController
 		{
 			if (ExtrasController.__objInstance == null) {
 				ExtrasController.__objInstance = new ExtrasController(new SingletonEnforcer);

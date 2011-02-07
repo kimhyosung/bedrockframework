@@ -38,7 +38,7 @@ package com.bedrock.extension.controller
 		public function ProjectController($singletonEnforcer:SingletonEnforcer)
 		{
 		}
-		public static function getInstance():ProjectController
+		public static function get instance():ProjectController
 		{
 			if (ProjectController.__objInstance == null) {
 				ProjectController.__objInstance = new ProjectController(new SingletonEnforcer);

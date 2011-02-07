@@ -18,13 +18,13 @@
 			
 			public function populate():void
 			{
-				this.addBedrockClassPathsCheck.selected = VariableUtil.sanitize( ExtensionController.instance().settingsXML.addBedrockToClassPaths );
-				this.autoLoadMostRecentProjectCheck.selected = VariableUtil.sanitize( ExtensionController.instance().settingsXML.autoLoadMostRecentProject );
-				this.autoSaveConfigChangesCheck.selected = VariableUtil.sanitize( ExtensionController.instance().settingsXML.autoSaveConfigChanges );
-				this.includeSubFoldersInProjectBrowserCheck.selected = VariableUtil.sanitize( ExtensionController.instance().settingsXML.includeSubFoldersInProjectBrowser );
-				this.autoHideMenuCheck.selected = VariableUtil.sanitize( ExtensionController.instance().settingsXML.autoHideMenu );
+				this.addBedrockClassPathsCheck.selected = VariableUtil.sanitize( ExtensionController.instance.settingsXML.addBedrockToClassPaths );
+				this.autoLoadMostRecentProjectCheck.selected = VariableUtil.sanitize( ExtensionController.instance.settingsXML.autoLoadMostRecentProject );
+				this.autoSaveConfigChangesCheck.selected = VariableUtil.sanitize( ExtensionController.instance.settingsXML.autoSaveConfigChanges );
+				this.includeSubFoldersInProjectBrowserCheck.selected = VariableUtil.sanitize( ExtensionController.instance.settingsXML.includeSubFoldersInProjectBrowser );
+				this.autoHideMenuCheck.selected = VariableUtil.sanitize( ExtensionController.instance.settingsXML.autoHideMenu );
 				
-				this.frameworkVersionCombo.dataProvider = ExtensionController.instance().versions;
+				this.frameworkVersionCombo.dataProvider = ExtensionController.instance.versions;
 				this.frameworkVersionCombo.enabled = this.addBedrockClassPathsCheck.selected;
 			}
 			
@@ -32,40 +32,40 @@
 			{
 				this.closePopup();
 				
-				PopUpManager.addPopUp( this._templateManagementView, ExtensionController.instance().root, true );
+				PopUpManager.addPopUp( this._templateManagementView, ExtensionController.instance.root, true );
 				PopUpManager.centerPopUp( this._templateManagementView );
 			}
 			
 			private function _toggleBedrockClassPath():void
 			{
 				if ( this.addBedrockClassPathsCheck.selected ) {
-					ExtensionController.instance().createClassPath( this.frameworkVersionCombo.selectedLabel );
+					ExtensionController.instance.createClassPath( this.frameworkVersionCombo.selectedLabel );
 				} else {
-					ExtensionController.instance().deleteClassPath();
+					ExtensionController.instance.deleteClassPath();
 				}
-				ExtensionController.instance().settingsXML.addBedrockToClassPaths = this.addBedrockClassPathsCheck.selected;
+				ExtensionController.instance.settingsXML.addBedrockToClassPaths = this.addBedrockClassPathsCheck.selected;
 				this.frameworkVersionCombo.enabled = this.addBedrockClassPathsCheck.selected;
-				ExtensionController.instance().saveSettings();
+				ExtensionController.instance.saveSettings();
 			}
 			private function _toggleAutoLoadMostRecentProject():void
 			{
-				ExtensionController.instance().settingsXML.autoLoadMostRecentProject = this.autoLoadMostRecentProjectCheck.selected;
-				ExtensionController.instance().saveSettings();
+				ExtensionController.instance.settingsXML.autoLoadMostRecentProject = this.autoLoadMostRecentProjectCheck.selected;
+				ExtensionController.instance.saveSettings();
 			}
 			private function _toggleAutoSaveConfigChanges():void
 			{
-				ExtensionController.instance().settingsXML.autoSaveConfigChanges = this.autoSaveConfigChangesCheck.selected;
-				ExtensionController.instance().saveSettings();
+				ExtensionController.instance.settingsXML.autoSaveConfigChanges = this.autoSaveConfigChangesCheck.selected;
+				ExtensionController.instance.saveSettings();
 			}
 			private function _toggleIncludeSubFoldersInProjectBrowser():void
 			{
-				ExtensionController.instance().settingsXML.includeSubFoldersInProjectBrowser = this.includeSubFoldersInProjectBrowserCheck.selected;
-				ExtensionController.instance().saveSettings();
+				ExtensionController.instance.settingsXML.includeSubFoldersInProjectBrowser = this.includeSubFoldersInProjectBrowserCheck.selected;
+				ExtensionController.instance.saveSettings();
 			}
 			private function _toggleAutoHideMenu():void
 			{
-				ExtensionController.instance().settingsXML.autoHideMenu = this.autoHideMenuCheck.selected;
-				ExtensionController.instance().saveSettings();
+				ExtensionController.instance.settingsXML.autoHideMenu = this.autoHideMenuCheck.selected;
+				ExtensionController.instance.saveSettings();
 			}
 			private function _clearSettings():void
 			{
@@ -75,7 +75,7 @@
 			{
 				switch ( $event.detail ) {
 					case Alert.OK :
-						ExtensionController.instance().createSettings();
+						ExtensionController.instance.createSettings();
 						this.closePopup();
 						break;
 				}

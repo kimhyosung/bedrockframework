@@ -15,8 +15,8 @@
 			private function _create():void
             {
             	if ( this.idText.text != "" && this.labelText.text != "" ) {
-	               ProjectController.getInstance().config.locales.appendChild( <locale id={ this.idText.text } label={ this.labelText.text } /> );
-	               ProjectController.getInstance().config.autoSaveConfig();
+	               ProjectController.instance.config.locales.appendChild( <locale id={ this.idText.text } label={ this.labelText.text } /> );
+	               ProjectController.instance.config.autoSaveConfig();
 	            }
 	            this.closePopup( true );
             }

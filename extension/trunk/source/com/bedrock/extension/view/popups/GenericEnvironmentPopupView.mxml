@@ -9,7 +9,7 @@
 			
 			public function populate( $environmentID:String ):void
 			{
-				this.selectedEnvironment = ArrayUtil.findIndex( ProjectController.getInstance().config.environmentIDs.source, $environmentID );
+				this.selectedEnvironment = ArrayUtil.findIndex( ProjectController.instance.config.environmentIDs.source, $environmentID );
 			}
 			
 		]]>

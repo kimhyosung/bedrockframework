@@ -15,7 +15,7 @@
 	            	var environmentXML:XML = new XML( <environment id={ this.idText.text } /> );
 	            	environmentXML.appendChild( <pattern value={ this.patternText.text } /> );
 	            	
-	            	ProjectController.getInstance().config.environments.appendChild( environmentXML );
+	            	ProjectController.instance.config.environments.appendChild( environmentXML );
 	            	
 	            	this.closePopup( true );
             	}

@@ -35,7 +35,7 @@
 		    public function set listData( $value:BaseListData):void
 		    {
 				this._dataField = Object( $value ).dataField;
-				this.checkButton.toolTip = ExtensionController.instance().namingConventions.getOptionByID( this._dataField ).detail;
+				this.checkButton.toolTip = ExtensionController.instance.namingConventions.getOptionByID( this._dataField ).detail;
 		    }
 			
 		]]>

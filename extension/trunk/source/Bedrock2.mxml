@@ -11,12 +11,12 @@
 			{
 				Bedrock.logger.setupUncaughtErrorHandling( this.loaderInfo );
 				
-				ExtensionController.instance().setup( this );
-				ExtensionController.instance().initialize();
+				ExtensionController.instance.setup( this );
+				ExtensionController.instance.initialize();
 				
 				this.addChild( new ExtensionView );
 				
-				ExtensionController.instance().loadMostRecentProject();
+				ExtensionController.instance.loadMostRecentProject();
 			}
 			
 		]]>

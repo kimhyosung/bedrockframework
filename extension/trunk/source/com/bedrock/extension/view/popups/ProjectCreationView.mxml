@@ -41,13 +41,14 @@
 			{
 				this.creationTabNavigator.selectedIndex = 0;
 				this.creationTabNavigator.visible = true;
-				this.projectNameText.text = ExtensionController.instance().projectXML.@name;
-				this.projectPathText.text = ExtensionController.instance().projectXML.path;
-				this.rootPackageText.text = ExtensionController.instance().projectXML.rootPackage;
-				this.frameworkVersionCombo.dataProvider = ExtensionController.instance().versions;
-				this.templateCombo.selectedIndex = ArrayUtil.findIndex( ExtensionController.instance().templates, ExtensionController.instance().projectXML.template );
-				this.colorPicker.selectedColor = ExtensionController.instance().projectXML.stageColor;
-				this.publishProjectCheck.selected = VariableUtil.sanitize( ExtensionController.instance().projectXML.publishProject );
+				
+				this.projectNameText.text = ExtensionController.instance.projectXML.@name;
+				this.projectPathText.text = ExtensionController.instance.projectXML.path;
+				this.rootPackageText.text = ExtensionController.instance.projectXML.rootPackage;
+				this.frameworkVersionCombo.dataProvider = ExtensionController.instance.versions;
+				this.templateCombo.selectedIndex = ArrayUtil.findIndex( ExtensionController.instance.templateArray, ExtensionController.instance.projectXML.template );
+				this.colorPicker.selectedColor = ExtensionController.instance.projectXML.stageColor;
+				this.publishProjectCheck.selected = VariableUtil.sanitize( ExtensionController.instance.projectXML.publishProject );
 				
 				this._updateTemplate();
 
@@ -76,28 +77,28 @@
 			
 			private function _selectLocation():void
 			{
-				this.projectPathText.text = ExtensionController.instance().selectProjectFolder();
+				this.projectPathText.text = ExtensionController.instance.selectProjectFolder();
 				this._updateProject();
 			}
 			
 			private function _updateFrameworkVersion():void
 			{
-				ExtensionController.instance().projectXML.frameworkVersion = this.frameworkVersionCombo.selectedLabel;
-				ExtensionController.instance().loadTemplates();
+				ExtensionController.instance.projectXML.frameworkVersion = this.frameworkVersionCombo.selectedLabel;
+				ExtensionController.instance.loadTemplates();
 				this.templateCombo.selectedIndex = 0;
 			}
 			private function _updateProject():void
 			{
-				ExtensionController.instance().projectXML.@name = this.projectNameText.text;
-				ExtensionController.instance().projectXML.path = this.projectPathText.text;
-				ExtensionController.instance().projectXML.rootPackage = this.rootPackageText.text;
-				ExtensionController.instance().projectXML.template = this.templateCombo.selectedLabel;
-				ExtensionController.instance().projectXML.frameworkVersion = this.frameworkVersionCombo.selectedLabel;
-				ExtensionController.instance().projectXML.width = this.widthText.text;
-				ExtensionController.instance().projectXML.height = this.heightText.text;
-				ExtensionController.instance().projectXML.stageColor = this.colorPicker.selectedColor;
-				ExtensionController.instance().projectXML.frameworkCopy = this.frameworkCopyGroup.selectedValue;
-				ExtensionController.instance().projectXML.publishProject = this.publishProjectCheck.selected;
+				ExtensionController.instance.projectXML.@name = this.projectNameText.text;
+				ExtensionController.instance.projectXML.path = this.projectPathText.text;
+				ExtensionController.instance.projectXML.rootPackage = this.rootPackageText.text;
+				ExtensionController.instance.projectXML.template = this.templateCombo.selectedItem.id;
+				ExtensionController.instance.projectXML.frameworkVersion = this.frameworkVersionCombo.selectedLabel;
+				ExtensionController.instance.projectXML.width = this.widthText.text;
+				ExtensionController.instance.projectXML.height = this.heightText.text;
+				ExtensionController.instance.projectXML.stageColor = this.colorPicker.selectedColor;
+				ExtensionController.instance.projectXML.frameworkCopy = this.frameworkCopyGroup.selectedValue;
+				ExtensionController.instance.projectXML.publishProject = this.publishProjectCheck.selected;
 				
 				this._buildStructureXML();
 				
@@ -108,7 +109,7 @@
 				var structureXML:XML = new XML( <structure/> );
 				var pathXML:XML;
 				var parentObj:Object
-				for each ( var pathObj:Object in ExtensionController.instance().template.paths ) {
+				for each ( var pathObj:Object in ExtensionController.instance.template.paths ) {
 					pathXML = new XML( <path/> );
 					pathXML.@id = pathObj.id;
 					pathXML.@parent = pathObj.parent;
@@ -117,18 +118,18 @@
 						pathObj.folder = this._sanitizeFolder( this._getInput( pathObj.id ).text );
 						pathXML.@folder = this._sanitizeFolder( this._getInput( pathObj.id ).text );
 					} else {
-						parentObj = ArrayUtil.findItem( ExtensionController.instance().template.paths, pathObj.parent, "id" );
+						parentObj = ArrayUtil.findItem( ExtensionController.instance.template.paths, pathObj.parent, "id" );
 						pathObj.folder = parentObj.folder + this._sanitizeFolder( this._getInput( pathObj.id ).text );
 						pathXML.@folder = parentObj.folder + this._sanitizeFolder( this._getInput( pathObj.id ).text );
 					}
 					structureXML.appendChild( pathXML );
 				}
-				ExtensionController.instance().projectXML.structure = structureXML;
+				ExtensionController.instance.projectXML.structure = structureXML;
 			}
 			private function _validRootPaths():Boolean
 			{
 				var valid:Boolean = true;
-				for each ( var pathObj:Object in ExtensionController.instance().template.root ) {
+				for each ( var pathObj:Object in ExtensionController.instance.template.root ) {
 					if ( this._getInput( pathObj.id ).text == "" && this._getInput( pathObj.id ).text != null ) {
 						valid = false;
 					}
@@ -137,16 +138,16 @@
 			}
 			private function _updateTemplate():void
 			{
-				ExtensionController.instance().loadTemplate( this.templateCombo.selectedLabel );
+				ExtensionController.instance.loadTemplate( this.templateCombo.selectedLabel );
 				
-				this.widthText.text = ExtensionController.instance().templateXML.width;
-				this.heightText.text = ExtensionController.instance().templateXML.height;
+				this.widthText.text = ExtensionController.instance.templateXML.width;
+				this.heightText.text = ExtensionController.instance.templateXML.height;
 				
 				this._inputFields = new HashMap;
-				this._buildPathForm( ExtensionController.instance().template.root, this.rootPathForm );
-				this._buildPathForm( ExtensionController.instance().template.other, this.otherPathForm );
+				this._buildPathForm( ExtensionController.instance.template.root, this.rootPathForm );
+				this._buildPathForm( ExtensionController.instance.template.other, this.otherPathForm );
 				
-				this.structurePanel.enabled = VariableUtil.sanitize( ExtensionController.instance().templateXML.editableStructure );
+				//this.structurePanel.enabled = VariableUtil.sanitize( ExtensionController.instance.templateXML.editableStructure );
 			}
 			private function _getInput( $id:String ):TextInput
 			{
@@ -163,12 +164,12 @@
 			
 			private function _generateProject():void
 			{
-				ExtensionController.instance().generateProject()
+				ExtensionController.instance.generateProject()
 				Alert.show( "Project creation complete!", "Attention!" );
 				this.closePopup();
 				
-				if ( VariableUtil.sanitize( ExtensionController.instance().projectXML.publishProject ) ) {
-					TweenLite.delayedCall( 0.5, ProjectController.getInstance().browser.publishProject );
+				if ( VariableUtil.sanitize( ExtensionController.instance.projectXML.publishProject ) ) {
+					TweenLite.delayedCall( 0.5, ProjectController.instance.browser.publishProject );
 				}
 			}
 			
@@ -213,7 +214,7 @@
 						<mx:ComboBox id="frameworkVersionCombo" width="75" change="this._updateAll()" />
 					</mx:FormItem>
 					<mx:FormItem label="Template">
-						<mx:ComboBox id="templateCombo" labelField="name" change="this._updateTemplate()" dataProvider="{ ExtensionController.instance().templates }"/>
+						<mx:ComboBox id="templateCombo" labelField="id" change="this._updateTemplate()" dataProvider="{ ExtensionController.instance.templateArray }"/>
 					</mx:FormItem>
 					<mx:FormItem label="Root Package" direction="vertical" width="100%">
 						<mx:TextInput id="rootPackageText" width="200" change="this._updateProject()"/>

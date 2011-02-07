@@ -8,7 +8,7 @@
 			private function _bootup():void
 			{
 				var groupView:NamingConventionsGroupView;
-				for each( var group:Object in ExtensionController.instance().namingConventions.groups ) {
+				for each( var group:Object in ExtensionController.instance.namingConventions.groups ) {
 					groupView = new NamingConventionsGroupView();
 					groupView.title = group.label;
 					groupView.types = group.types;

@@ -47,7 +47,7 @@ package com.bedrock.extension.view.cells
 		
 		private function _isNested( $id:String ):Boolean
 		{
-			return ( XMLUtil2.filterByAttribute( ProjectController.getInstance().config.modules.children(), "id", $id )[ 0 ] == null );
+			return ( XMLUtil2.filterByAttribute( ProjectController.instance.config.modules.children(), "id", $id )[ 0 ] == null );
 		}
 	}
 }

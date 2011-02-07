@@ -79,7 +79,7 @@
 							this._deleteAssetGroup();
             				break;
             		}
-	            	ProjectController.getInstance().config.autoSaveConfig();
+	            	ProjectController.instance.config.autoSaveConfig();
 	            	this.attributeEditor.clearForm();
             	}
             }
@@ -90,14 +90,14 @@
             
             private function _deleteAssetGroup():void
             {
-            	delete ProjectController.getInstance().config.assets..assetGroup.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
+            	delete ProjectController.instance.config.assets..assetGroup.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
             }
             /*
             Asset
             */
             private function _deleteAsset():void
             {
-            	delete ProjectController.getInstance().config.assets..asset.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
+            	delete ProjectController.instance.config.assets..asset.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
             }
             /*
             Interface Functions
@@ -110,18 +110,18 @@
             private function _duplicate():void
 			{
 				if ( this.nodeTree.selectedItem != null ) {
-					ProjectController.getInstance().config.assets.appendChild( new XML( this.nodeTree.selectedItem ) );
-					ProjectController.getInstance().config.autoSaveConfig();
+					ProjectController.instance.config.assets.appendChild( new XML( this.nodeTree.selectedItem ) );
+					ProjectController.instance.config.autoSaveConfig();
 				}
             }
             private function _calculateBytes():void
 			{
-				ProjectController.getInstance().config.updateAssetBytes();
+				ProjectController.instance.config.updateAssetBytes();
 				this.attributeEditor.clearForm();
 			}
 			private function _applyIcons():void
 			{
-				for each( var xmlNode:XML in ProjectController.getInstance().config.assets..asset ) {
+				for each( var xmlNode:XML in ProjectController.instance.config.assets..asset ) {
 					switch( String( xmlNode.@type ) ) {
 						case BedrockAssetData.STYLESHEET :
 							this.nodeTree.setItemIcon( xmlNode, StylesheetIcon, StylesheetIcon );
@@ -163,7 +163,7 @@
             }
             private function _onDragStop( $event:DragEvent ):void
 			{
-                ProjectController.getInstance().config.reorderModules( ProjectController.getInstance().config.moduleHierarchy.source.toString() );
+                ProjectController.instance.config.reorderModules( ProjectController.instance.config.moduleHierarchy.source.toString() );
                 this._applyIcons();
             }
             
@@ -176,7 +176,7 @@
 	
 	
 	<mx:Panel  title="Hierarchy" width="100%" height="100%">
-		<mx:AdvancedDataGrid id="nodeTree" designViewDataType="tree" displayItemsExpanded="true" sortExpertMode="true" width="100%" height="100%" dataProvider="{ ProjectController.getInstance().config.assetHierarchy }" defaultLeafIcon="{ AssetGroupIcon }" folderOpenIcon="{ AssetGroupIcon }" folderClosedIcon="{ AssetGroupIcon }" itemClick="this._onTreeSelect( event )">
+		<mx:AdvancedDataGrid id="nodeTree" designViewDataType="tree" displayItemsExpanded="true" sortExpertMode="true" width="100%" height="100%" dataProvider="{ ProjectController.instance.config.assetHierarchy }" defaultLeafIcon="{ AssetGroupIcon }" folderOpenIcon="{ AssetGroupIcon }" folderClosedIcon="{ AssetGroupIcon }" itemClick="this._onTreeSelect( event )">
 			<mx:headerRenderer>
 				<mx:Component>
 					<mx:AdvancedDataGridHeaderRenderer horizontalAlign="left"/>
@@ -193,7 +193,7 @@
 				<mx:AdvancedDataGridColumn resizable="false" sortable="false" width="25" itemRenderer="com.bedrock.extension.view.cells.CalculateSizeCell" />
 			</mx:columns>
 		</mx:AdvancedDataGrid>
-		<misc:HierarchyControlBar id="hierarchyControlBar" creationOptions="{ ProjectController.getInstance().resources.getBundle( 'assetCreationOptions' ) }" createNode="this.createNode()" deleteNode="this.deleteNode()" deselectNode="this._deselect()" duplicateNode="this._duplicate()" showCalculateBytesButton="true" calculateBytes="this._calculateBytes()" />
+		<misc:HierarchyControlBar id="hierarchyControlBar" creationOptions="{ ProjectController.instance.resources.getBundle( 'assetCreationOptions' ) }" createNode="this.createNode()" deleteNode="this.deleteNode()" deselectNode="this._deselect()" duplicateNode="this._duplicate()" showCalculateBytesButton="true" calculateBytes="this._calculateBytes()" />
 	</mx:Panel>
 	
 	<misc:AttributeEditor id="attributeEditor" title="Editing : { this.nodeTree.selectedItem.@id }" />

@@ -43,7 +43,7 @@
             {
             	if ( this.nodeTree.selectedIndex != -1 ) {
 	            	this._deleteContainer();
-	            	ProjectController.getInstance().config.autoSaveConfig();
+	            	ProjectController.instance.config.autoSaveConfig();
 	            	this.attributeEditor.clearForm();
             	}
             }
@@ -53,8 +53,8 @@
            
             private function _deleteContainer():void
             {
-            	delete ProjectController.getInstance().config.containers..container.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
-            	ProjectController.getInstance().config.refreshContainerHierarchy();
+            	delete ProjectController.instance.config.containers..container.( @id == this.nodeTree.selectedItem.@id )[ 0 ];
+            	ProjectController.instance.config.refreshContainerHierarchy();
             }
             /*
             Interface Functions
@@ -73,14 +73,14 @@
             }
             private function onDragStop( $event:DragEvent ):void
 			{
-                ProjectController.getInstance().config.reorderContainers( ProjectController.getInstance().config.containerHierarchy.source.toString() );
+                ProjectController.instance.config.reorderContainers( ProjectController.instance.config.containerHierarchy.source.toString() );
             }
 		]]>
 	</mx:Script>
 	
 	
 	<mx:Panel  title="Hierarchy" width="100%" height="100%">
-		<mx:AdvancedDataGrid id="nodeTree" designViewDataType="tree" dragComplete="this.onDragStop( event )" dragEnabled="true" dropEnabled="true" dragMoveEnabled="true"  displayItemsExpanded="true" sortExpertMode="true" width="100%" height="100%" dataProvider="{ ProjectController.getInstance().config.containerHierarchy }" defaultLeafIcon="{ SingleContainerIcon }" folderOpenIcon="{ MultiContainerIcon }" folderClosedIcon="{ MultiContainerIcon }" itemClick="this.onTreeSelect( event )">
+		<mx:AdvancedDataGrid id="nodeTree" designViewDataType="tree" dragComplete="this.onDragStop( event )" dragEnabled="true" dropEnabled="true" dragMoveEnabled="true"  displayItemsExpanded="true" sortExpertMode="true" width="100%" height="100%" dataProvider="{ ProjectController.instance.config.containerHierarchy }" defaultLeafIcon="{ SingleContainerIcon }" folderOpenIcon="{ MultiContainerIcon }" folderClosedIcon="{ MultiContainerIcon }" itemClick="this.onTreeSelect( event )">
 			<mx:headerRenderer>
 				<mx:Component>
 					<mx:AdvancedDataGridHeaderRenderer horizontalAlign="left"/>
@@ -92,7 +92,7 @@
 				<mx:AdvancedDataGridColumn headerText="Y" dataField="@y" sortable="false" />
 			</mx:columns>
 		</mx:AdvancedDataGrid>
-		<misc:HierarchyControlBar id="hierarchyControlBar" creationOptions="{ ProjectController.getInstance().resources.getBundle( 'containerCreationOptions' ) }" createNode="this.createNode()" deleteNode="this.deleteNode()" deselectNode="this._deselect()" />
+		<misc:HierarchyControlBar id="hierarchyControlBar" creationOptions="{ ProjectController.instance.resources.getBundle( 'containerCreationOptions' ) }" createNode="this.createNode()" deleteNode="this.deleteNode()" deselectNode="this._deselect()" />
 	</mx:Panel>
 	
 	<misc:AttributeEditor id="attributeEditor" title="Editing : { this.nodeTree.selectedItem.@id }" />
