@@ -68,9 +68,6 @@
     <environment id="local">
       <pattern value="file://" />
     </environment>
-    <environment id="development">
-      <pattern value="dev" />
-    </environment>
     <environment id="staging">
       <pattern value="staging" />
     </environment>
