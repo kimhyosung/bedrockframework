@@ -7,46 +7,46 @@
 
 	public class ButtonUtil
 	{
-		public static function addListeners( $clip:DisplayObject, $handlers:Object, $buttonMode:Boolean=true, $mouseChildren:Boolean=false):void
+		public static function addListeners( $target:DisplayObject, $handlers:Object, $buttonMode:Boolean=true, $mouseChildren:Boolean=false):void
 		{
-			Sprite($clip).buttonMode=$buttonMode;
-			Sprite($clip).mouseChildren = $mouseChildren;
+			Sprite($target).buttonMode=$buttonMode;
+			Sprite($target).mouseChildren = $mouseChildren;
 			if ($handlers) {
-				ButtonUtil.__addEvent($clip,MouseEvent.MOUSE_DOWN,$handlers.down);
-				ButtonUtil.__addEvent($clip,MouseEvent.MOUSE_UP,$handlers.up);
+				ButtonUtil.__addEvent($target,MouseEvent.MOUSE_DOWN,$handlers.down);
+				ButtonUtil.__addEvent($target,MouseEvent.MOUSE_UP,$handlers.up);
 				if ($handlers.doubleclick) {
-					Sprite($clip).doubleClickEnabled=true;
-					ButtonUtil.__addEvent($clip,MouseEvent.DOUBLE_CLICK,$handlers.doubleclick);
+					Sprite($target).doubleClickEnabled=true;
+					ButtonUtil.__addEvent($target,MouseEvent.DOUBLE_CLICK,$handlers.doubleclick);
 				}
-				ButtonUtil.__addEvent($clip,MouseEvent.MOUSE_OVER,$handlers.over);
-				ButtonUtil.__addEvent($clip,MouseEvent.MOUSE_OUT,$handlers.out);
+				ButtonUtil.__addEvent($target,MouseEvent.MOUSE_OVER,$handlers.over);
+				ButtonUtil.__addEvent($target,MouseEvent.MOUSE_OUT,$handlers.out);
 			}
 		}
-		public static function removeListeners( $clip:DisplayObject, $handlers:Object, $buttonMode:Boolean=false, $mouseChildren:Boolean=true):void
+		public static function removeListeners( $target:DisplayObject, $handlers:Object, $buttonMode:Boolean=false, $mouseChildren:Boolean=true):void
 		{
-			Sprite($clip).buttonMode=$buttonMode;
-			Sprite($clip).mouseChildren = $mouseChildren;
+			Sprite($target).buttonMode=$buttonMode;
+			Sprite($target).mouseChildren = $mouseChildren;
 			if ($handlers) {
-				ButtonUtil.__removeEvent($clip,MouseEvent.MOUSE_DOWN,$handlers.down);
-				ButtonUtil.__removeEvent($clip,MouseEvent.MOUSE_UP,$handlers.up);
+				ButtonUtil.__removeEvent($target,MouseEvent.MOUSE_DOWN,$handlers.down);
+				ButtonUtil.__removeEvent($target,MouseEvent.MOUSE_UP,$handlers.up);
 				if ($handlers.doubleclick) {
-					Sprite($clip).doubleClickEnabled=false;
-					ButtonUtil.__removeEvent($clip,MouseEvent.DOUBLE_CLICK,$handlers.doubleclick);
+					Sprite($target).doubleClickEnabled=false;
+					ButtonUtil.__removeEvent($target,MouseEvent.DOUBLE_CLICK,$handlers.doubleclick);
 				}
-				ButtonUtil.__removeEvent($clip,MouseEvent.MOUSE_OVER,$handlers.over);
-				ButtonUtil.__removeEvent($clip,MouseEvent.MOUSE_OUT,$handlers.out);
+				ButtonUtil.__removeEvent($target,MouseEvent.MOUSE_OVER,$handlers.over);
+				ButtonUtil.__removeEvent($target,MouseEvent.MOUSE_OUT,$handlers.out);
 			}
 		}
-		private static function __addEvent( $clip:DisplayObject,$event:String,$function:Function=null, $capture:Boolean = false, $priority:int = 0, $weak:Boolean = true):void
+		private static function __addEvent( $target:DisplayObject,$event:String,$function:Function=null, $capture:Boolean = false, $priority:int = 0, $weak:Boolean = true):void
 		{
 			if ($function != null) {
-				$clip.addEventListener($event,$function, $capture, $priority, $weak);
+				$target.addEventListener($event,$function, $capture, $priority, $weak);
 			}
 		}
-		private static function __removeEvent( $clip:DisplayObject,$event:String,$function:Function=null, $capture:Boolean = false):void
+		private static function __removeEvent( $target:DisplayObject,$event:String,$function:Function=null, $capture:Boolean = false):void
 		{
 			if ($function != null) {
-				$clip.removeEventListener($event,$function,$capture);
+				$target.removeEventListener($event,$function,$capture);
 			}
 		}
 		

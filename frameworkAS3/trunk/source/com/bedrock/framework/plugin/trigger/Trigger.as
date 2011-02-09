@@ -28,7 +28,7 @@
 	 	*/
 	 	public function Trigger()
 		{
-			this.silenceLogging = false;
+			this.silenceLogging = true;
 			this._timerID = -1;
 			this._intervalID = -1;
 			this._stopwatchID = -1;
@@ -56,8 +56,8 @@
 		}
 		private function _timerTrigger():void
 		{
-			this.dispatchEvent( new TriggerEvent( TriggerEvent.TIMER_TRIGGER, this));
 			this.stopTimer();
+			this.dispatchEvent( new TriggerEvent( TriggerEvent.TIMER_TRIGGER, this));
 		}
 		/*
 		Interval
@@ -87,7 +87,7 @@
 			this.dispatchEvent( new TriggerEvent( TriggerEvent.INTERVAL_TRIGGER, this, { index:this._intervalCount, repetitions:this._intervalRepetitions } ) );
 			this._intervalCount++;
 			if (this._intervalRepetitions > 0) {
-				if (this._intervalCount >= this._intervalRepetitions) {
+				if ( this._intervalCount >= this._intervalRepetitions ) {
 					this.stopInterval();
 				}
 			}
