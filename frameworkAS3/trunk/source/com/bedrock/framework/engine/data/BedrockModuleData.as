@@ -19,7 +19,7 @@
 			this.name = this.id;
 			if ( this.assetGroup == BedrockData.NONE ) this.assetGroup = this.id;
 			
-			this.deeplink = "/" + this.id + "/";
+			this.deeplink = "/" + this.id;
 			
 			if ( this.initialTransition ) this.initialLoad = true;
 		}

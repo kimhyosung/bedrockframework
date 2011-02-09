@@ -458,7 +458,11 @@
 		}
 		private function _updateDeeplinking():void
 		{
-			Bedrock.engine::deeplinkingManager.setPath( this._bedrockSequenceData.deeplink );
+			var address:String = Bedrock.engine::deeplinkingManager.getAddress();
+			var id:String = this._getModuleIDFromDeeplink( address );
+			var path:String = address.split( id ).join( this._bedrockSequenceData.deeplink );
+			if ( address.indexOf( "?" ) != -1 ) address = address.split( "?" )[ 0 ];
+			Bedrock.engine::deeplinkingManager.setPath( path );
 		}
 		
 		
