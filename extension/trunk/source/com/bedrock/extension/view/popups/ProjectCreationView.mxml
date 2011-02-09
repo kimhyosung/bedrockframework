@@ -56,6 +56,7 @@
 				this._updateTemplate();
 
 				this.templateCombo.selectedIndex = 0;
+				this._updateGenerateProjectButton();
 			}
 			
 			private function _buildPathForm( $paths:Array, $form:Form ):void
@@ -107,7 +108,11 @@
 				
 				this._buildStructureXML();
 				
-				this.generateProjectButton.enabled = ( this.projectNameText.text != "" && this.rootPackageText.text != "" && this.projectPathText.text != "" && this._validRootPaths() );
+				this._updateGenerateProjectButton();
+			}
+			private function _updateGenerateProjectButton():void
+			{
+				this.generateProjectButton.enabled = ( this.projectNameText.text != "" && this.rootPackageText.text != "" && this.projectPathText.text != "" && this._validRootPaths() );	
 			}
 			private function _buildStructureXML():void
 			{

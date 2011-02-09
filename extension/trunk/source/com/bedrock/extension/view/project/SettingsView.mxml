@@ -2,6 +2,7 @@
 <mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" styleName="padded5px" creationComplete="this.bootup()" horizontalAlign="center">
 	<mx:Script>
 		<![CDATA[
+			import com.bedrock.framework.Bedrock;
 			import com.bedrock.extension.model.ConfigModel;
 			import com.bedrock.extension.model.ConfigSettingsProxy;
 			import com.bedrock.framework.plugin.util.ArrayUtil;
@@ -221,7 +222,7 @@
 						<mx:CheckBox id="localesEnabledCheck" selected="false" change="this._onChange( event )" />
 					</mx:FormItem>
 					<mx:FormItem label="Default Locale">
-						<mx:ComboBox id="defaultLocaleCombo" dataProvider="{ ProjectController.instance.config.localesArray }" labelField="@id"  change="this._onChange( event )"/>
+						<mx:ComboBox id="defaultLocaleCombo" dataProvider="{ ProjectController.instance.config.locales..locale }" labelField="@id"  change="this._onChange( event )"/>
 					</mx:FormItem>
 				</mx:Form>
 			</mx:Panel>
