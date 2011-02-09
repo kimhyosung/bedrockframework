@@ -113,8 +113,13 @@ package com.bedrock.framework.engine.manager
 		}
 		public function setPath($path:String):void
 		{
-			SWFAddress.setValue( $path);
+			var address:String = this.getAddress();
+			var query:String = new String;
+			var startIndex:int = address.indexOf( "?" );
+			if ( startIndex > -1 ) query = address.substring( startIndex, address.length );
+			SWFAddress.setValue( $path + query );
 		}
+		
 		public function clearPath():void
 		{
 			SWFAddress.setValue("");
@@ -135,7 +140,7 @@ package com.bedrock.framework.engine.manager
 				var strBeginning:String=strAddress.substr(0,strAddress.indexOf('?'));
 				this.setAddress(strBeginning + $query);
 			} else {
-				this.setAddress(strAddress + "?" + $query);
+				this.setAddress( strAddress + "?" + $query);
 			}
 		}
 		public function getQueryString():String
@@ -192,7 +197,6 @@ package com.bedrock.framework.engine.manager
 			var tmpPreviousResult:*;
 			for (var i:* in arrValuePairs) {
 				var arrPair:Array=arrValuePairs[i].split("=");
-
 
 				var tmpValueName:String = arrPair[0];
 				var tmpValueClean:* = VariableUtil.sanitize(arrPair[1]);

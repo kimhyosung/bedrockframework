@@ -62,7 +62,7 @@
 				if ( $details is String ) {
 					if ( this._stringContains( $details, "/" ) ) {
 						if ( Bedrock.data.deeplinkingEnabled && !Bedrock.data.autoDeeplinkToModules ) {
-							Bedrock.deeplinking.setAddress( $details );
+							Bedrock.engine::deeplinkingManager.setAddress( $details );
 						} else {
 							this.prepareDeeplinkTransition( { path:$details } );
 						}
@@ -72,7 +72,7 @@
 				} else {
 					if ( $details.path != null ) {
 						if ( Bedrock.data.deeplinkingEnabled && !Bedrock.data.autoDeeplinkToModules ) {
-							Bedrock.deeplinking.setAddress( $details.path );
+							Bedrock.engine::deeplinkingManager.setAddress( $details.path );
 						} else {
 							this.prepareDeeplinkTransition( $details );
 						}
