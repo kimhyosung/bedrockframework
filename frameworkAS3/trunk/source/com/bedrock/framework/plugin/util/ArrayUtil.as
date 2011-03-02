@@ -279,5 +279,24 @@
 				$handler( i, $array[ i ] );
 			}
 		}
+		
+		/**
+		 * Moves elements in an array forward or backwards a specified number of times (supports matrices).
+		 * [1,2,3,4,5,6,7] moved 2 steps clockwise, would look like :: [6,7,1,2,3,4,5]
+		 * 
+		 * @param $array The iterator you'd like to alter.
+		 * @param $clockwise If true the elements will be moved from the end of the array to the front, if false the elements will be moved from the front to the back.
+		 * @param $multidimensional If true each item in the array must be another array, and the transformation will happen to each subarray.
+		 * @param $count The number of iterations to perform the transformation.
+		 * 
+		 */
+		public static function slide( $array:Array, $clockwise:Boolean=false, $multidimensional:Boolean=false, $count:int=1 ):void
+		{
+			while($count > 0){
+				if ($multidimensional) for each(var subarray:Array in $array) slide(subarray, $clockwise, false, $count);
+				else $clockwise ? $array.unshift($array.pop()) : $array.push($array.shift());
+				$count--;
+			}
+		}
 	}
 }
