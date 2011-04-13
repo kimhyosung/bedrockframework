@@ -1,8 +1,8 @@
 ﻿package com.bedrock.extras.cloner
 {
-	import com.bedrock.extras.util.MathUtil;
-	import com.bedrock.framework.engine.Bedrock;
+	import com.bedrock.framework.Bedrock;
 	import com.bedrock.framework.plugin.storage.HashMap;
+	import com.bedrock.framework.plugin.util.MathUtil;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
@@ -243,12 +243,12 @@
 		}
 		private function _calculateMaxSpacing():void
 		{
-			var objClone:DisplayObjectContainer;
+			var clone:DisplayObjectContainer;
 			var numLength:int = this._arrClones.length;
 			for (var i:int =0; i <numLength; i++) {
-				objClone = this._arrClones[ i ];
-				if ( objClone.width > this._numMaxSpacingX ) this._numMaxSpacingX = objClone.width;
-				if ( objClone.height > this._numMaxSpacingY ) this._numMaxSpacingY = objClone.height;
+				clone = this._arrClones[ i ];
+				if ( clone.width > this._numMaxSpacingX ) this._numMaxSpacingX = clone.width;
+				if ( clone.height > this._numMaxSpacingY ) this._numMaxSpacingY = clone.height;
 			}
 		}
 		

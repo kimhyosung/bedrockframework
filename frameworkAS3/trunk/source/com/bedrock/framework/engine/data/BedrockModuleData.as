@@ -41,5 +41,9 @@
 		{
 			return Bedrock.engine::loadController.getRawLoaderContent( this.id );
 		}
+		public function get status():uint
+		{
+			return this.loader.status;
+		}
 	}
 }

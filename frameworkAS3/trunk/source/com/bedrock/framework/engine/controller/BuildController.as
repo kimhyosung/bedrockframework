@@ -271,10 +271,10 @@
 			var configURL:String = BedrockData.CONFIG_FILENAME + ".xml";
 			
 			this._configURLs = new SuperArray;
+			if ( this.builder.loaderInfo.parameters[ BedrockData.CONFIG_URL ] != null ) this._configURLs.push( $configURL );
 			this._configURLs.push( "xml/" + configURL );
 			this._configURLs.push( "../xml/" + configURL );
 			this._configURLs.push( "assets/xml/" + configURL );
-			if ( this.builder.loaderInfo.parameters[ BedrockData.CONFIG_URL ] != null ) this._configURLs.push( $configURL );
 			if ( $configURL != null ) this._configURLs.push( $configURL );
 			
 			var length:int = 5;
