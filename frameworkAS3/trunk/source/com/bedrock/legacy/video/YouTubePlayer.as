@@ -1,21 +1,12 @@
 ﻿package com.bedrock.extras.video
 {
-	import com.bedrock.framework.core.base.SpriteBase;
-	import com.bedrock.framework.plugin.audio.AudioMixer;
-	import com.bedrock.framework.plugin.data.YouTubePlayerData;
-	import com.bedrock.framework.plugin.event.LoaderEvent;
-	import com.bedrock.framework.plugin.event.TriggerEvent;
-	import com.bedrock.framework.plugin.event.VideoEvent;
-	import com.bedrock.framework.plugin.event.YouTubePlayerEvent;
-	import com.bedrock.framework.plugin.loader.VisualLoader;
-	import com.bedrock.framework.plugin.timer.IntervalTrigger;
-	import com.bedrock.framework.plugin.timer.TimeoutTrigger;
 	import com.bedrock.framework.plugin.util.MathUtil;
 	
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.system.Security;
 
-	public class YouTubePlayer extends SpriteBase implements IVideoPlayer
+	public class YouTubePlayer extends Sprite implements IVideoPlayer
 	{
 		/*
 		Variable Declarations
