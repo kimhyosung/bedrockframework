@@ -1,6 +1,6 @@
 package com.bedrock.extras.keyCapture
 {
-	import com.bedrock.framework.core.base.DispatcherBase;
+	import com.bedrock.framework.core.dispatcher.DispatcherBase;
 	
 	import flash.display.Stage;
 	import flash.events.KeyboardEvent;

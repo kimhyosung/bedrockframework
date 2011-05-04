@@ -1,12 +1,10 @@
 package com.bedrock.extras.util
 {
-	import com.bedrock.framework.core.base.StaticWidget;
-	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.geom.Rectangle;
 
-	public class DisplayObjectUtil extends StaticWidget
+	public class DisplayObjectUtil
 	{
 		/**
 	     * duplicateDisplayObject

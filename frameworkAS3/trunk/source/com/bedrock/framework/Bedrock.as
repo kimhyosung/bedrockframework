@@ -377,7 +377,17 @@
 		{
 			Bedrock.engine::transitionController.transition( $detail );
 		}
-		
+		/*
+		Blocker
+		*/
+		public function showBlocker():void
+		{
+			this.getContainer( BedrockData.OVERLAY ).getChildByName( BedrockData.BLOCKER ).show();
+		}
+		public function hideBlocker():void
+		{
+			this.getContainer( BedrockData.OVERLAY ).getChildByName( BedrockData.BLOCKER ).hide();
+		}
 	}
 }
 /*
