@@ -115,18 +115,6 @@ package com.bedrock.extras.util
 			return false;
 		}
 		
-		public static function isEmail($email:String):Boolean
-		{
-			if (typeof($email) == "string") {
-				if ($email.length < 6 || $email.indexOf(".") <= 0 || $email.indexOf(",") >= 0 || $email.indexOf(";") >= 0 || $email.indexOf(":") >= 0 || $email.indexOf("/") >= 0 || $email.indexOf(" ") >= 0 || $email.indexOf("@") <= 0 || $email.indexOf("@") != $email.lastIndexOf("@") || $email.lastIndexOf(".") < $email.indexOf("@") || $email.lastIndexOf(".") + 3 > $email.length) {
-					return false;
-				} else {
-					return true;
-				}
-			} else {
-				return false;
-			}
-		}
 		/*
 		Validate Number
 		*/

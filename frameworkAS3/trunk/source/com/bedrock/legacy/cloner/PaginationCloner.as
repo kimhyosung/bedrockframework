@@ -4,8 +4,10 @@
 	import com.bedrock.framework.plugin.pagination.PaginationEvent;
 	import com.bedrock.framework.plugin.storage.SuperArray;
 	import com.bedrock.framework.plugin.util.ArrayUtil;
+	
+	import flash.display.Sprite;
 
-	public class PaginationCloner extends Cloner implements IPageable
+	public class PaginationCloner extends Sprite implements IPageable
 	{
 		/*
 		Variable Declarations
