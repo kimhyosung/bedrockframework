@@ -121,6 +121,7 @@ package com.bedrock.framework.engine.model
 		private function parseParamObject( $data:Object ):void
 		{
 			for (var d:String in $data){
+				trace( d, VariableUtil.sanitize( $data[ d ] ) )
 				this.saveParamValue( d, VariableUtil.sanitize( $data[ d ] ) ); 
 			}
 		}
@@ -138,7 +139,7 @@ package com.bedrock.framework.engine.model
 		{
 			var xmlList:XMLList = new XMLList( <param id={ $id } value={ $value } /> );
 			this._settingValues = this.mergeXMLList( this._settingValues, xmlList, true );
-			this._variableValues = this.mergeXMLList( this._variableValues, xmlList, true );
+			this._variableValues = this.mergeXMLList( this._variableValues, xmlList, false );
 		}
 		/*
 		Save Functions
@@ -178,7 +179,7 @@ package com.bedrock.framework.engine.model
 			try {
 				return VariableUtil.sanitize( this._settingValues.children().( @id == $id )[ 0 ].@value );
 			} catch ( $error:Error ) {
-				this.warning( "Setting \"" + $id + "\" not found!" );
+				Bedrock.logger.warning( "Setting \"" + $id + "\" not found!" );
 				return null;
 			}
 		}
@@ -187,7 +188,7 @@ package com.bedrock.framework.engine.model
 			try {
 				return VariableUtil.sanitize( this._pathValues.children().( @id == $id )[ 0 ].@value )
 			} catch ( $error:Error ) {
-				this.warning( "Path \"" + $id + "\" not found!" );
+				Bedrock.logger.warning( "Path \"" + $id + "\" not found!" );
 				return null;
 			}
 		}
@@ -196,7 +197,7 @@ package com.bedrock.framework.engine.model
 			try {
 				return VariableUtil.sanitize( this._variableValues.children().( @id == $id )[ 0 ].@value );
 			} catch ( $error:Error ) {
-				this.warning( "Variable \"" + $id + "\" not found!" );
+				Bedrock.logger.warning( "Variable \"" + $id + "\" not found!" );
 				return null;
 			}
 		}
