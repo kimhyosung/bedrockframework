@@ -13,7 +13,7 @@
 
 		public static const INITIAL_LOAD:String = "initialLoad";
 		public static const INITIAL_TRANSITION:String = "initialTransition";
-		public static const STANDARD_TRANSITION:String = "initialTransition";
+		public static const STANDARD_TRANSITION:String = "standardTransition";
 		
 		public var style:String;
 		public var preloader:String;

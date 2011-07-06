@@ -32,7 +32,6 @@
 		*/
 		public var builder:BedrockBuilder;
 		
-		private var _configURLIndex:uint;
 		private var _configURLs:SuperArray;
 		private var _configLoader:URLLoader;
 		/*
@@ -102,6 +101,7 @@
 		}
 		private function _loadConfig( $path:String ):void
 		{
+			Bedrock.logger.debug( $path );
 			this._configLoader.load( new URLRequest( $path ) );
 		}
 		
@@ -268,20 +268,24 @@
 		*/
 		private function _determineConfigURLs( $configURL:String = null ):void
 		{
-			var configURL:String = BedrockData.CONFIG_FILENAME + ".xml";
+			var configFilename:String = BedrockData.CONFIG_FILENAME + ".xml";
 			
 			this._configURLs = new SuperArray;
-			if ( this.builder.loaderInfo.parameters[ BedrockData.CONFIG_URL ] != null ) this._configURLs.push( $configURL );
-			this._configURLs.push( "xml/" + configURL );
-			this._configURLs.push( "../xml/" + configURL );
-			this._configURLs.push( "assets/xml/" + configURL );
+			if ( this.builder.loaderInfo.parameters[ BedrockData.CONFIG_URL ] != null ) this._configURLs.push( this.builder.loaderInfo.parameters[ BedrockData.CONFIG_URL ] );
 			if ( $configURL != null ) this._configURLs.push( $configURL );
+			this._configURLs.push( "../../" + configFilename );
 			
-			var length:int = 5;
-			for ( var i:int = 0; i < length; i++ ) {
-				this._configURLs.push( configURL );
-				configURL = "../" + configURL;
+			var configURL:String = configFilename;
+			for ( var i:int = 0; i < 5; i++ ) {
+				if ( i != 2 ) this._configURLs.push( configURL );
+				configFilename = "../" + configURL;
 			}
+			
+			this._configURLs.push( "xml/" + configFilename );
+			this._configURLs.push( "../xml/" + configFilename );
+			this._configURLs.push( "assets/xml/" + configFilename );
+			
+			this._configURLs.setSelected( 0 );
 		}
 		/*
 		Config Handlers
