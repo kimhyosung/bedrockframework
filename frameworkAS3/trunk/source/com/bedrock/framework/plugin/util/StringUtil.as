@@ -287,10 +287,10 @@
 		*@tiptext
 		*/
 
-		public static function capitalize2($string:String, ...args):String
+		public static function capitalize2($string:String, $all:Boolean = false):String
 		{
 			var str:String = trimLeft($string);
-			if (args[0] === true) {
+			if ( $all === true) {
 				return str.replace(/^.|\b./g,_upperCase);
 			} else {
 				return str.replace(/(^\w)/,_upperCase);
